@@ -32,6 +32,26 @@ Prototipo navegable, sin servidor, con los datos y las capas embebidos.
 
 ### Fase 2 · Contrato de datos y servicios
 
+> **Antes de abrir esta fase: cambiar el entorno de trabajo a Claude Code.**
+> Hasta aquí el trabajo ha sido un archivo y unos documentos, y la app de escritorio basta.
+> De la fase 2 en adelante hay muchos archivos que correr y probar, migraciones, y trabajo
+> continuo con el repositorio: eso pertenece a una herramienta que vive en la máquina, con
+> la red y las credenciales de git de quien dirige el proyecto.
+>
+> **Qué se gana:** el `push` deja de depender de otra aplicación; se puede verificar
+> cualquier servicio externo contra la red real; se prueba el archivo en su lugar, sin
+> subirlo y bajarlo; y desaparecen los permisos de borrado que git necesita para operar.
+>
+> **Qué hay que prever:** se instala con una sola línea en PowerShell y no requiere
+> Node.js, pero es una ventana de comandos. Las skills guardadas en la cuenta de claude.ai
+> siguen funcionando ahí; la memoria del entorno actual no viaja, y por eso todo lo que
+> importa vive en estos documentos y en el repositorio.
+>
+> **Qué se queda aquí:** el artefacto de validación con su historial de versiones, los
+> documentos visibles desde el navegador y el teléfono, y la tarea programada de revisión
+> de la Gaceta Oficial. No es una mudanza: es trabajar el código allá y la validación aquí,
+> sobre el mismo repositorio.
+
 Se congela lo validado y se traduce a especificación técnica, **antes de escribir código de servidor**.
 
 **Productos**
