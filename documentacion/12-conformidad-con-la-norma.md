@@ -1,0 +1,122 @@
+# Formulario web de Denuncia Ambiental · Conformidad con la norma de construcción
+
+**Versión:** 1.0 · 18 de septiembre de 2026
+**Para qué sirve este documento.** Sitúa el proyecto frente a la norma de construcción de sistemas: qué cumple, qué falta y qué hay que decidir antes de avanzar de etapa. No sustituye a `11-ruta-de-trabajo.md`, que es el documento del proyecto y manda; éste lo contrasta con la norma general y anota las brechas.
+
+---
+
+## Etapa actual
+
+**Etapa 1 · El cascarón público, avanzada.** Prototipo navegable con identidad gráfica, publicado y abierto desde el teléfono, sin base, sin servidor y sin autenticación. Es donde la norma dice que debe estar.
+
+**No se ha entrado a la etapa 2.** El módulo de administración está diferido de manera expresa (DEC-19, AD-01) y no se abre antes del acta de validación (DEC-32).
+
+---
+
+## 1. Lo que ya cumple
+
+Verificado contra el prototipo y los documentos del proyecto:
+
+| Norma | Estado |
+|---|---|
+| §2 · Orden de etapas | Se respeta. Cascarón público primero, administración diferida por decisión expresa |
+| §2 · Criterio de salida | Declarado en `11-ruta-de-trabajo.md`, con seis requisitos verificables |
+| §6.2 · Coordenadas | Las tres capas en grados decimales, orden longitud–latitud, rangos correctos para la Ciudad |
+| §6.2 · Precisión | Cinco y seis decimales. Conforme: no hay precisión falsa |
+| §6.6 · Precedencia de traslapes | Declarada como RN-04 y RN-06, no dejada al orden de evaluación |
+| §6.9 · Qué se dibuja | Sólo el polígono que resultó del cruce (DEC-16), y el resultado se enuncia en texto (DEC-18) |
+| §6.8 · Ámbito acotado | Mapa base recortado a la Ciudad (DEC-17) y envío impedido fuera de ella (DEC-20) |
+| §6.10 · El mapa no es el único camino | Hay búsqueda por dirección y captura manual |
+| §8.3 · Hojas de estilo | Auditadas y consolidadas: un selector, una declaración |
+| §8.4 · Color | Auditado y medido sobre cada fondo real |
+| §9 · Comentarios | Explican el porqué y citan el fundamento normativo |
+| §10 · Fuente única de verdad | `OBLIG`, `MATERIAS`, `LIMITES`, `BIFURCACIONES` gobiernan pantalla, validación y documentación |
+| §10.4 · Código muerto | Auditado: cero funciones sin uso, cero claves de estado sin lectura, cero duplicados |
+| §12.10 · Bloques cerrados | En operación, con bitácora |
+| §14 · Citas normativas | Ninguna sin verificar contra texto vigente; los huecos quedan visibles |
+
+**Nota favorable sobre la capa principal.** `geometrias.geojson` **sí cumple §6.1**: declara fuente, proyección, versión, fecha de consolidación y notas sobre duplicidades conocidas. Es el modelo a replicar en las otras dos.
+
+---
+
+## 2. Brechas que impiden cerrar la etapa 1
+
+Cinco. Ninguna es de código.
+
+**B-01 · No hay repositorio ni control de versiones** *(§1.7, §12.8, auditoría 2)*
+Verificado: la carpeta del proyecto no está bajo control de versiones. Existe `prototipo/historial/` con una copia fechada, creada hoy, que es un paliativo. No hay historia comparable, no hay respaldo fuera del equipo y la auditoría de repositorio no puede correrse.
+**Acción:** decidir en qué cuenta institucional vive el repositorio y crearlo. Es lo que más tarda en gestionarse, así que se empieza ya.
+
+**B-02 · Titularidad sin definir** *(§1.7)*
+De quién es el código, en qué cuenta vive el repositorio y en qué cuenta vivirá la infraestructura. Hoy todo está en un equipo personal.
+**Acción:** resolverlo con la Dirección General y con la unidad de informática antes de la etapa 2. *En otro proyecto, éste fue el bloqueo que detuvo despliegue, carga de datos y cierre, y no era técnico.*
+
+**B-03 · Acta de validación de la DGIVA** *(§2, criterio de salida)*
+Sigue siendo el requisito 5 del criterio de salida y no depende de nosotros.
+
+**B-04 · P-01 y P-02 sin resolver** *(criterio de salida)*
+Naturaleza jurídica del canal y aviso de privacidad. Sin ellos no hay publicación posible.
+
+**B-05 · Minimización de datos no declarada** *(§1.8)*
+`09-mapeo-campos-obligatorios.md` declara **obligatoriedad**, que es otra cosa. Falta, campo por campo, **quién usa el dato y para qué**. Es además el insumo que la Unidad de Transparencia necesitará para el aviso de privacidad (P-02), de modo que resolverlo destraba B-04.
+**Acción:** añadir al documento 09 una columna de uso declarado, y retirar del formulario todo campo que no la pueda llenar.
+
+---
+
+## 3. Brechas que hay que cerrar antes de la etapa 2
+
+**B-06 · Falta el tercer identificador** *(§1.2, relacionado con P-13)*
+El proyecto contempla el folio interno y el folio público. **No contempla el folio del sistema de origen:** las denuncias que sigan llegando por Oficialía de Partes o por correo traen su propio número, y sin una columna donde guardarlo, el sistema nuevo y el expediente en papel no se podrán empatar. *En otro proyecto, no tener dónde guardar ese tercer identificador hizo fallar la ficha pública en 68 de 70 registros.*
+**Acción:** decidir los tres identificadores antes de definir el modelo de datos.
+
+**B-07 · Catálogos no cerrados** *(§1.4)*
+`TIPOS_ESTAB` está declarado como provisional en el propio código, a la espera del catálogo de giros de la Dirección General. Los valores admitidos deben quedar fijos **antes** de que existan datos reales.
+**Acción:** solicitar el catálogo de giros o padrón de fuentes fijas; ya está listado en `08-normativa-por-integrar.md`.
+
+**B-08 · Datos ficticios sin conjunto formal** *(§3)*
+Existen doce escenarios de prueba, que sirven para recorrer variantes, pero **no** un conjunto de 25 a 40 registros con todos los valores de cada catálogo representados, ni campo `es_ficticio`. Verificado: la marca no existe en el prototipo.
+Y hay un problema de fondo en los que sí existen: nombres como «Hojalatería El Volante» o «Servicios Automotrices del Centro S.A. de C.V.» **parecen negocios reales**. La norma lo prohíbe: un nombre creíble en una base de pruebas termina en una captura de pantalla o en un oficio, y ya no se distingue.
+**Acción:** al construir el conjunto formal, usar denominaciones inequívocamente falsas y legibles, y marcarlas.
+
+**B-09 · Valores fijos en el código** *(§1.6, auditoría 3)*
+Verificado en el prototipo: `cdnjs.cloudflare.com` (biblioteca del mapa), `fonts.googleapis.com` (tipografías), `nominatim.openstreetmap.org` (geocodificación), `tile.openstreetmap.org` (mosaicos) y el correo `denuncias@sedema.cdmx.gob.mx`, todos escritos en el archivo.
+En una maqueta es aceptable. **En la versión funcional no:** deben salir a configuración. **La prueba de la norma:** si al cambiar de dominio o de proveedor hay que tocar el código, el diseño está mal.
+
+**B-10 · Proveedores externos sin condiciones de uso revisadas** *(§6.8)*
+El prototipo consume los mosaicos y el servicio de geocodificación de OpenStreetMap directamente. **La atribución sí se muestra**, que es lo que exige la licencia de los datos. Lo que **no** se ha verificado es la política de uso de esos servidores, que restringe el uso intensivo y de producción: un portal público del Gobierno de la Ciudad geocodificando cada denuncia no es el caso de uso para el que están abiertos.
+**Acción:** verificar las políticas vigentes antes de publicar y resolver P-12 y P-16 —servicio propio de cruce y catálogo de colonias de la ADIP—, que es la salida correcta a los dos.
+
+---
+
+## 4. Auditorías del catálogo que nunca se han corrido
+
+| # | Auditoría | Por qué falta |
+|---|---|---|
+| 2 | Repositorio | No hay repositorio *(B-01)* |
+| 3 | Portabilidad | Nunca corrida; sus hallazgos están anticipados en B-09 |
+| 6 | Capas geoespaciales | **Nunca corrida.** Ver abajo |
+| 7 | Cruce espacial | Se probó con puntos representativos, pero no de forma sistemática por capa, traslape y borde, ni contra una capa completa |
+| 12 | Rendimiento | Nunca corrida. El prototipo pesa cerca de 660 KB con las capas y el logotipo incrustados; la norma exige medirlo con red limitada |
+| 16 | Datos personales | Nunca corrida. Debe correrse **antes del primer dato real** |
+
+**Lo que ya se ve sin correr la auditoría 6**, sólo con leer las capas:
+
+1. `alcaldias.geojson` **no declara proyección**. Las coordenadas son correctas, pero el archivo no lo dice: la norma pide que no se adivine.
+2. `suelo_conservacion.geojson` **conserva los atributos crudos del shapefile de origen** —`OBJECTID`, `AREA`, `PERIMETER`, `DESCRIP`, `SUECON0009`—, con los nombres truncados a diez caracteres que impone ese formato. No están normalizados y **no hay clave estable declarada** para la unión.
+3. **Ninguna de las tres tiene verificada la validez topológica.** Es la comprobación que más importa, porque una geometría inválida no falla: responde mal en silencio, y de este cruce depende a qué dirección general se turna el expediente.
+4. **Sólo existe la capa simplificada.** No está documentado dónde vive la capa completa contra la que deberá resolverse el cruce en la versión funcional *(§6.4, P-12)*.
+5. `geometrias.geojson` **sí** trae fuente, proyección, versión y fecha de consolidación. Las otras dos deben igualarlo.
+
+---
+
+## 5. Orden propuesto
+
+1. **B-01 y B-02** —repositorio y titularidad—, porque son gestión y tardan.
+2. **B-05** —uso declarado por campo—, que además destraba el aviso de privacidad.
+3. **Auditoría 6** sobre las tres capas, y normalización de `suelo_conservacion`.
+4. **B-06 y B-07** —identificadores y catálogos— antes de tocar el modelo de datos.
+5. **Auditorías 12 y 16** —rendimiento y datos personales— antes de publicar.
+6. **B-08** —conjunto formal de datos ficticios— al abrir la etapa 2.
+7. **B-09 y B-10** —configuración y proveedores— al construir la versión funcional.
+
+**B-03 y B-04 no dependen de nosotros** y son los que cierran la etapa 1.

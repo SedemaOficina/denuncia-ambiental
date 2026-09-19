@@ -1,0 +1,27 @@
+# ---------------------------------------------------------------
+# Qué NO se versiona en este repositorio, y por qué.
+# Cada exclusión es una decisión, no un descuido.
+# ---------------------------------------------------------------
+
+# Normativa de referencia: documentos públicos, re-descargables del
+# portal de la Consejería Jurídica, y 26 MB que cargarían cada copia
+# del repositorio. Qué debe estar aquí y con qué fecha de reforma se
+# documenta en insumos/normativa/LEEME - qué falta aquí.md
+insumos/normativa/*.pdf
+
+# Copias fechadas previas al control de versiones. A partir de ahora
+# la historia la lleva git: mantener dos historias a mano es peor que
+# tener una sola. La carpeta se conserva en disco; no se borra.
+prototipo/historial/
+
+# Carpeta de retiro manual: lo que hay que eliminar se mueve aquí y
+# lo borra la persona usuaria. No forma parte del proyecto.
+_to_delete/
+**/_to_delete/
+
+# Ruido del sistema operativo y de OneDrive
+Thumbs.db
+desktop.ini
+.DS_Store
+~$*
+*.tmp
