@@ -25,3 +25,8 @@ desktop.ini
 .DS_Store
 ~$*
 *.tmp
+
+# Documento de trabajo de la Dirección General de Inspección y Vigilancia
+# Ambiental, entregado como insumo. No es un documento propio ni publicado:
+# se conserva en la carpeta y no viaja al repositorio.
+insumos/Propuesta DGIVA*.docx
