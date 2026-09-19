@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Conformidad con la norma de construcción
 
-**Versión:** 1.0 · 18 de septiembre de 2026
+**Versión:** 1.1 · 18 de septiembre de 2026
 **Para qué sirve este documento.** Sitúa el proyecto frente a la norma de construcción de sistemas: qué cumple, qué falta y qué hay que decidir antes de avanzar de etapa. No sustituye a `11-ruta-de-trabajo.md`, que es el documento del proyecto y manda; éste lo contrasta con la norma general y anota las brechas.
 
 ---
@@ -41,15 +41,18 @@ Verificado contra el prototipo y los documentos del proyecto:
 
 ## 2. Brechas que impiden cerrar la etapa 1
 
-Cinco. Ninguna es de código.
+Eran cinco. Dos quedaron resueltas el 18 de septiembre; las tres restantes no dependen de nosotros o esperan una decisión de área.
 
-**B-01 · No hay repositorio ni control de versiones** *(§1.7, §12.8, auditoría 2)*
-Verificado: la carpeta del proyecto no está bajo control de versiones. Existe `prototipo/historial/` con una copia fechada, creada hoy, que es un paliativo. No hay historia comparable, no hay respaldo fuera del equipo y la auditoría de repositorio no puede correrse.
-**Acción:** decidir en qué cuenta institucional vive el repositorio y crearlo. Es lo que más tarda en gestionarse, así que se empieza ya.
+**B-01 · Repositorio — RESUELTA el 18 de septiembre de 2026** *(§1.7, §12.8, auditoría 2)*
+El proyecto quedó bajo control de versiones con git en su propia carpeta (DEC-34). Primer registro: 21 archivos, 690 KiB empaquetados.
+**Qué se versiona:** documentación, prototipo, capas del Sistema de Información Ambiental e insumos fundacionales —formato público vigente y propuesta de la Dirección General—.
+**Qué se excluye, y por qué** —razonado en el propio `.gitignore`—: la normativa de referencia, 26 MB de documentos públicos re-descargables que cargarían cada copia; `prototipo/historial/`, porque a partir de ahora la historia la lleva git y mantener dos a mano es peor que una sola (§9.7); y las carpetas `_to_delete/`.
+**Auditoría 2 corrida en el mismo acto:** sin secretos —las coincidencias de «token» son referencias a *tokens de color*, y las de «contrase» son la palabra «contraste»—, sin archivos sueltos y sin nada versionado que no deba estarlo.
+**Lo que sigue:** decidir la cuenta institucional donde vivirá el repositorio remoto y publicarlo ahí. Mientras tanto, la historia existe pero **sólo en el equipo**, de modo que el respaldo sigue dependiendo de la sincronización de la carpeta.
 
-**B-02 · Titularidad sin definir** *(§1.7)*
-De quién es el código, en qué cuenta vive el repositorio y en qué cuenta vivirá la infraestructura. Hoy todo está en un equipo personal.
-**Acción:** resolverlo con la Dirección General y con la unidad de informática antes de la etapa 2. *En otro proyecto, éste fue el bloqueo que detuvo despliegue, carga de datos y cierre, y no era técnico.*
+**B-02 · Titularidad — RESUELTA el 18 de septiembre de 2026** *(§1.7)*
+El desarrollo es del **Sistema de Información Ambiental de la Secretaría del Medio Ambiente de la Ciudad de México** (DEC-33). Queda asentado en la ficha del proyecto.
+**Lo que sigue:** con la titularidad definida, corresponde resolver en qué **cuentas institucionales** viven el repositorio remoto y, en su momento, la infraestructura, el dominio y el correo del sistema. Es lo que la norma exige en la entrega (§13) y lo que tarda en gestionarse.
 
 **B-03 · Acta de validación de la DGIVA** *(§2, criterio de salida)*
 Sigue siendo el requisito 5 del criterio de salida y no depende de nosotros.
@@ -92,7 +95,7 @@ El prototipo consume los mosaicos y el servicio de geocodificación de OpenStree
 
 | # | Auditoría | Por qué falta |
 |---|---|---|
-| 2 | Repositorio | No hay repositorio *(B-01)* |
+| 2 | Repositorio | **Corrida el 18 sep 2026**, en el acto de crear el repositorio. Sin hallazgos |
 | 3 | Portabilidad | Nunca corrida; sus hallazgos están anticipados en B-09 |
 | 6 | Capas geoespaciales | **Nunca corrida.** Ver abajo |
 | 7 | Cruce espacial | Se probó con puntos representativos, pero no de forma sistemática por capa, traslape y borde, ni contra una capa completa |
@@ -111,7 +114,7 @@ El prototipo consume los mosaicos y el servicio de geocodificación de OpenStree
 
 ## 5. Orden propuesto
 
-1. **B-01 y B-02** —repositorio y titularidad—, porque son gestión y tardan.
+1. ~~**B-01 y B-02** — repositorio y titularidad~~ **hechas el 18 sep 2026.** Queda la gestión de la cuenta institucional para el repositorio remoto.
 2. **B-05** —uso declarado por campo—, que además destraba el aviso de privacidad.
 3. **Auditoría 6** sobre las tres capas, y normalización de `suelo_conservacion`.
 4. **B-06 y B-07** —identificadores y catálogos— antes de tocar el modelo de datos.

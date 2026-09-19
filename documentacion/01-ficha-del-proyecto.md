@@ -1,6 +1,8 @@
 # Formulario web de Denuncia Ambiental · Ficha del proyecto
 
 **Área responsable:** Secretaría del Medio Ambiente de la Ciudad de México · Dirección General de Inspección y Vigilancia Ambiental
+**Titularidad del desarrollo:** Sistema de Información Ambiental, Secretaría del Medio Ambiente de la Ciudad de México
+**Control de versiones:** repositorio git en la carpeta del proyecto, desde el 18 de septiembre de 2026
 **Estado:** prototipo navegable en validación interna
 **Última actualización:** 18 de septiembre de 2026
 
