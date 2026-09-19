@@ -320,3 +320,20 @@ Si algo de eso no se entrega, el bloque no está cerrado.
 | `table.comp td.uso-campo` | Clase nueva | Columna de texto largo y secundario; declarada en el bloque de componentes, no al final del archivo |
 
 **Verificación de cierre.** Sintaxis correcta. Cero funciones duplicadas, cero funciones sin uso, cero claves de estado sin lectura, cero clases de estilo huérfanas, cero `!important` indebidos. Un selector declarado dos veces: `textarea`, que es la excepción deliberada al alto mínimo, anotada como tal. Seis pasos y doce escenarios recorridos sin error en consola. Prueba específica: el comparativo muestra 47 campos con su uso, 20 marcados como dato personal, y totales 19 / 25 / 20, coincidentes con el documento 09. Auditoría de repositorio corrida antes del primer registro: sin secretos.
+
+### 18 de septiembre de 2026 · bloque «dirección primero en el paso 2»
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| Orden del paso 2 | Reordenado | La dirección va primero —calle, número, alcaldía, colonia, código postal— y el mapa debajo. Es como la gente piensa el lugar. **Invierte la dependencia declarada antes**, pero no la regla: el cruce que determina la competencia se sigue resolviendo sobre la coordenada (DEC-04) |
+| `buscaDireccion()` → `ubicaPorDireccion()` | Sustituida | El buscador de texto libre desapareció: los campos de dirección **son** la búsqueda. La consulta se arma con calle, número, colonia y alcaldía |
+| `.buscador` | Clase retirada | Quedó sin uso al retirar el buscador libre |
+| `geocodificaInverso()` | Acotada | Sólo rellena campos vacíos: mover el punto ya no sobrescribe la dirección que la persona escribió |
+| `alcaldia_difiere` | Clave nueva | El punto manda sobre la alcaldía —de ella depende el turnado— y cuando difiere de la elegida **se avisa en vez de cambiarla en silencio** |
+| `resp_domicilio` en el bloque de empresa | Retirado | La razón social más el lugar de los hechos bastan para el emplazamiento, y es un dato que quien denuncia rara vez conoce. Se conserva en el bloque de persona física, donde puede ser el único modo de ubicarla |
+| `sabe_permisos`, `reporto_antes` | Preguntas filtro nuevas | Dos campos de texto largos que la mayoría dejaba vacíos quedaron tras una pregunta de sí o no. La respuesta misma informa: saber que alguien ya reportó ante otra autoridad distingue el caso |
+| Construcción del artefacto | Ajustada | El artefacto no tiene servicio de búsqueda: se retira el botón de ubicar y se corrige el texto del estado vacío, que nombraba un botón inexistente |
+
+**Verificación de cierre.** Sintaxis correcta. Cero funciones duplicadas o sin uso, cero claves de estado sin lectura, cero clases de estilo huérfanas, cero `!important` indebidos; el único selector declarado dos veces es `textarea`, la excepción anotada. Orden del paso 2 comprobado por lectura del DOM: calle → número → alcaldía → colonia → código postal. Las dos preguntas filtro muestran y ocultan su campo según la respuesta. El bloque de empresa ya no pide domicilio; el de persona sí. El aviso de alcaldía discrepante persiste y desaparece cuando el punto llega a la alcaldía indicada. Seis pasos y doce escenarios sin error en consola.
+
+**Nota sobre el método.** Durante la verificación se dio por defectuoso el aviso de alcaldía con base en una prueba cuyo patrón de búsqueda estaba mal escrito y nunca podía coincidir. El código estaba bien. Es el caso de «el método de verificación también se verifica»: la corrección aplicada —comparar contra la alcaldía que eligió la persona y no contra la última calculada— se conserva porque es más robusta, pero **no corrigó un defecto que estuviera ocurriendo**.

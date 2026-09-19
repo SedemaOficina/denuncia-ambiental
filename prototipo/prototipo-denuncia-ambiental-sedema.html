@@ -239,8 +239,6 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .mapa-barra .btn{display:inline-flex;align-items:center;gap:7px;color:var(--gris)}
 .coords{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--t-sm);background:var(--guinda-cl);padding:9px 12px;border-radius:var(--r-ctrl);color:var(--guinda);font-weight:500;display:inline-flex;align-items:center;gap:6px}
 .mapa-sin{display:none;padding:18px;background:var(--alerta-bg);border:1px dashed var(--dorado);border-radius:var(--r-caja);font-size:var(--t-md);color:#5A4220;margin-bottom:12px}
-.buscador{display:flex;gap:9px;margin-bottom:12px}
-.buscador input{flex:1}
 .res-lista{border:1px solid var(--linea);border-radius:var(--r-ctrl);margin-bottom:12px;overflow:hidden;background:#fff}
 .res-lista div,.res-lista button{display:block;width:100%;text-align:left;padding:12px 14px;font:inherit;font-size:var(--t-md);color:inherit;background:none;border:none;border-bottom:1px solid var(--linea);cursor:pointer}
 .res-lista div:last-child,.res-lista button:last-child{border-bottom:none}
@@ -751,8 +749,12 @@ var OBLIG = {
      uso:'Razón social del probable infractor para el emplazamiento y el cruce con licencias.'},
   responsables:     {p:3, dgiva:false, vigente:true,  etq:'Personas señaladas como responsables', dp:true, fin:'Responsable',
      uso:'Personas señaladas como responsables, en el esquema del formato vigente.'},
+  sabe_permisos:    {p:3, dgiva:false, vigente:false, etq:'¿Sabes algo sobre los permisos?', dp:false, fin:'Expediente',
+   uso:'Filtra la pregunta larga: sólo se pide el detalle a quien tiene algo que aportar.'},
   permisos:         {p:3, dgiva:false, vigente:true,  etq:'Permisos o autorizaciones', dp:false, fin:'Expediente',
      uso:'Orienta la verificación documental: si existe autorización y si la obra se ajusta a sus términos.'},
+  reporto_antes:    {p:3, dgiva:false, vigente:false, etq:'¿Ya reportaste ante otra autoridad?', dp:false, fin:'Expediente',
+   uso:'Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga.'},
   gestiones:        {p:3, dgiva:false, vigente:false, etq:'Gestiones previas', dp:false, fin:'Expediente',
      uso:'Evita duplicar expedientes con otras autoridades y gradúa la gravedad por reincidencia.'},
   /* Paso 4 */
@@ -1234,52 +1236,57 @@ function renderMaterias(){
 }
 
 function pUbicacion(){
-  return '<div class="tarjeta"><h2><span class="num">2</span>¿Dónde ocurre?</h2>'+
-  '<p class="sub">Coloca el punto en el mapa. La alcaldía, la colonia y el código postal se completan solos, y el sistema identifica el tipo de suelo para turnar la denuncia al área que corresponde.</p>'+
-  '<div class="buscador">'+
-    '<input type="text" id="qDir" placeholder="Escribe la dirección o el nombre del lugar que quieres denunciar" '+
-      'onkeydown="if(event.key===\'Enter\'){event.preventDefault();buscaDireccion();}">'+
-    '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="buscaDireccion()">Buscar</button>'+
+  /* La direcci\u00f3n va primero porque es como la gente piensa el lugar, y de ella
+     se propone el punto. Pero el punto manda: el cruce espacial que determina la
+     competencia se resuelve sobre la coordenada, no sobre lo escrito (DEC-04). */
+  return '<div class="tarjeta"><h2><span class="num">2</span>\u00bfD\u00f3nde ocurre?</h2>'+
+  '<p class="sub">Escribe la direcci\u00f3n del lugar de los hechos y col\u00f3cala en el mapa. '+
+    'El punto es lo que determina qu\u00e9 \u00e1rea de la Secretar\u00eda atiende la denuncia, as\u00ed que verif\u00edcalo y mu\u00e9velo si hace falta.</p>'+
+
+  '<h3 class="sub-seccion">Direcci\u00f3n del lugar de los hechos</h3>'+
+  '<div class="fila-2-1">'+
+    campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'Por ejemplo: Avenida R\u00edo Churubusco')+
+    campo('num_ext','N\u00famero exterior','texto',false,'Si no tiene, escribe \u00absin n\u00famero\u00bb','autocomplete="off"')+
+  '</div>'+
+  campoSelect('alcaldia','Alcald\u00eda',ALCALDIAS,esObligatorio('alcaldia'),'Al colocar el punto se confirma con la capa oficial')+
+  '<div class="fila">'+
+    campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
+    campo('cp','C\u00f3digo postal','texto',esObligatorio('cp'),'Cinco d\u00edgitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
+  '</div>'+
+  '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px">'+
+    '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="ubicaPorDireccion()">'+
+      svgIcono('pin',16)+' Ubicar en el mapa</button>'+
   '</div>'+
   '<div id="resBusqueda"></div>'+
+
   '<div class="mapa-barra">'+
     '<span class="coords" id="coords">'+(val('lat')?svgIcono('pin',15)+' '+esc(val('lat'))+', '+esc(val('lon')):'Sin punto seleccionado')+'</span>'+
     (val('lat')?'<button type="button" class="btn btn-secundario" style="padding:9px 16px;font-size:13.5px" onclick="quitaPunto()">Quitar el punto</button>':'')+
   '</div>'+
-  '<div class="mapa-sin" id="mapaSin"><strong>No fue posible cargar el mapa.</strong> Captura la dirección en los campos siguientes; el personal de la Secretaría georreferenciará el sitio al recibir la denuncia.</div>'+
+  '<div class="mapa-sin" id="mapaSin"><strong>No fue posible cargar el mapa.</strong> La direcci\u00f3n que capturaste se conserva; el personal de la Secretar\u00eda georreferenciar\u00e1 el sitio al recibir la denuncia.</div>'+
   '<div id="mapa"></div>'+
-  '<p class="ayuda"><strong>El lugar de los hechos no tiene que ser donde tú estás.</strong> Búscalo por dirección o da un clic sobre el mapa para colocar el punto. Para moverlo, arrastra el marcador o da un clic en otro sitio; puedes hacerlo cuantas veces quieras hasta que quede exacto.</p>'+
+  '<p class="ayuda"><strong>El lugar de los hechos no tiene que ser donde t\u00fa est\u00e1s.</strong> Si el punto no qued\u00f3 exactamente donde ocurre, arr\u00e1stralo, o da un clic sobre el mapa para colocarlo en otro lugar.</p>'+
 
   '<div id="panelCapas">'+cajaCapas()+'</div>'+
 
-  campoSelect('alcaldia','Alcaldía',ALCALDIAS,cfg.validar)+
-  '<div class="fila">'+
-    campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
-    campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
-  '</div>'+
-  '<div class="fila-2-1">'+
-    campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'Por ejemplo: Avenida Río Churubusco')+
-    campo('num_ext','Número exterior','texto',false,'Si no tiene, escribe «sin número»','autocomplete="off"')+
-  '</div>'+
-
   '<h3 class="sub-seccion">Referencias adicionales <span class="opc">opcional</span></h3>'+
-  '<p class="ayuda" style="margin-bottom:16px">Cualquier dato que ayude al personal de inspección a localizar el sitio.</p>'+
+  '<p class="ayuda" style="margin-bottom:16px">Cualquier dato que ayude al personal de inspecci\u00f3n a localizar el sitio.</p>'+
   '<div class="fila">'+
     campo('entre_calle1','Entre calle 1','texto',false,'')+
     campo('entre_calle2','Entre calle 2','texto',false,'')+
   '</div>'+
-  campoArea('fachada','Color o características del sitio',false,'Describe cómo se reconoce desde la calle: color de la fachada, barda, portón, anuncios, vegetación, maquinaria.',2)+
+  campoArea('fachada','Color o caracter\u00edsticas del sitio',false,'Describe c\u00f3mo se reconoce desde la calle: color de la fachada, barda, port\u00f3n, anuncios, vegetaci\u00f3n, maquinaria.',2)+
 
-  '<h3 class="sub-seccion">Identificación del sitio</h3>'+
-  campoSiNo('es_estab','¿Los hechos ocurren dentro de un establecimiento?','Un negocio, fábrica, taller, obra en construcción, local o bodega. Sirve para que el personal de inspección reconozca el sitio en campo; más adelante se pregunta quién es el responsable. Responde «No» si ocurren en la vía pública, en un predio baldío, en el campo o en una barranca.','heredaEstablecimiento();render()')+
+  '<h3 class="sub-seccion">Identificaci\u00f3n del sitio</h3>'+
+  campoSiNo('es_estab','\u00bfLos hechos ocurren dentro de un establecimiento?','Un negocio, f\u00e1brica, taller, obra en construcci\u00f3n, local o bodega. Sirve para que el personal de inspecci\u00f3n reconozca el sitio en campo; m\u00e1s adelante se pregunta qui\u00e9n es el responsable. Responde \u00abNo\u00bb si ocurren en la v\u00eda p\u00fablica, en un predio bald\u00edo, en el campo o en una barranca.','heredaEstablecimiento();render()')+
   (val('es_estab')==='si' ?
     '<div class="fila">'+
-      campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,false,'Elige el que más se parezca','actualizaOtroEstab()')+
+      campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,false,'Elige el que m\u00e1s se parezca','actualizaOtroEstab()')+
       campo('nombre_estab','Nombre comercial','texto',false,'Como aparece en el anuncio o la fachada')+
     '</div>'+
     '<div id="otroEstab">'+campoOtroEstab()+'</div>' : '')+
 
-  campoArea('referencias','Otras referencias',false,'Puntos de interés cercanos, número de predio, descripción del acceso.',2)+
+  campoArea('referencias','Otras referencias',false,'Puntos de inter\u00e9s cercanos, n\u00famero de predio, descripci\u00f3n del acceso.',2)+
 
   '<div class="acciones"><button class="btn btn-secundario" onclick="irA(1)">Regresar</button>'+
   '<button type="button" class="btn btn-primario" '+(val('fuera')==='si'?'disabled title="Coloca el punto dentro de la Ciudad de México para continuar"':'')+
@@ -1289,7 +1296,7 @@ function pUbicacion(){
 /* ---------- Resultado del cruce con las capas ---------- */
 function cajaCapas(){
   if(!val('lat')){
-    return '<div class="aviso" style="margin-bottom:22px">Coloca el punto en el mapa para identificar la alcaldía y el tipo de suelo.</div>';
+    return '<div class="aviso" style="margin-bottom:22px">Captura la dirección y pulsa <strong>Ubicar en el mapa</strong>, o coloca el punto directamente sobre el mapa. De esa ubicación dependen la alcaldía, el tipo de suelo y el área que atiende la denuncia.</div>';
   }
   var t = val('capa_tipo'), n = val('capa_nombre'), dg = val('dg');
   if(val('fuera')==='si'){
@@ -1299,7 +1306,14 @@ function cajaCapas(){
     '</div>';
   }
   var claseCaja = dg==='DGCORENADR' ? 'capas capas-corena' : (dg==='FEDERAL' ? 'capas capas-federal' : 'capas');
-  var h = '<div class="'+claseCaja+'">'+
+  var h = '';
+  /* La alcaldía del punto es la que vale; si la persona había elegido otra, se le dice. */
+  if(val('alcaldia_difiere')){
+    h += '<div class="aviso" role="status" style="margin-bottom:12px">Habías indicado <strong>'+esc(val('alcaldia_difiere'))+'</strong>, '+
+      'pero el punto cae en <strong>'+esc(val('alcaldia'))+'</strong>. Se tomó la del punto, que es la que determina qué área atiende la denuncia. '+
+      'Si el punto no está donde ocurre, arrástralo.</div>';
+  }
+  h += '<div class="'+claseCaja+'">'+
     '<div class="capas-fila"><span class="capas-etq">Alcaldía</span><span class="capas-val">'+esc(val('alcaldia')||'No determinada')+'</span></div>'+
     '<div class="capas-fila"><span class="capas-etq">Tipo de zona</span><span class="capas-val">'+esc(val('capa_clase')||t||'No determinado')+'</span></div>';
   if(val('capa_categoria')) h += '<div class="capas-fila"><span class="capas-etq">Categoría</span><span class="capas-val">'+esc(val('capa_categoria'))+'</span></div>';
@@ -1467,7 +1481,17 @@ function consultaCapas(la,lo){
 
 function analizaCapas(la,lo){
   var c = consultaCapas(+la,+lo);
+  /* La alcald\u00eda se resuelve contra la capa oficial, no contra lo capturado: de
+     ella depende el turnado. Si difiere de lo que la persona eligi\u00f3, se avisa en
+     lugar de cambiarlo en silencio. */
+  /* La referencia es lo que eligi\u00f3 la persona, no la \u00faltima alcald\u00eda calculada: el
+     punto se reanaliza varias veces al colocarse, y comparar contra el valor ya
+     corregido borraba el aviso antes de que alcanzara a leerse. El aviso s\u00f3lo
+     desaparece cuando el punto llega a la alcald\u00eda que la persona hab\u00eda indicado. */
+  var alcPrevia = val('alcaldia_difiere') || val('alcaldia');
   guarda('alcaldia', c.alcaldia);
+  guarda('alcaldia_difiere', (alcPrevia && c.alcaldia && alcPrevia !== c.alcaldia) ? alcPrevia : '');
+  var fa = $('f_alcaldia'); if(fa && c.alcaldia) fa.value = c.alcaldia;
   guarda('capa_tipo', c.tipo);
   guarda('capa_clase', c.clase);
   guarda('capa_categoria', c.categoria);
@@ -1517,10 +1541,13 @@ function geocodificaInverso(la,lo){
         var cp  = a.postcode || '';
         var via = a.road||'', num = a.house_number||'';
         var e;
-        if(col){ guarda('colonia',col); e=$('f_colonia'); if(e) e.value=col; }
-        if(cp ){ guarda('cp',cp);       e=$('f_cp');      if(e) e.value=cp;  }
-        if(via){ guarda('calle',via); e=$('f_calle'); if(e) e.value=via; }
-        if(num){ guarda('num_ext',num); e=$('f_num_ext'); if(e) e.value=num; }
+        /* S\u00f3lo se rellena lo que est\u00e1 vac\u00edo: la direcci\u00f3n la escribi\u00f3 la persona y no
+           se sobrescribe por mover el punto. La alcald\u00eda no viene de aqu\u00ed: la
+           resuelve analizaCapas contra la capa oficial. */
+        if(col && !val('colonia')){ guarda('colonia',col); e=$('f_colonia'); if(e) e.value=col; }
+        if(cp  && !val('cp')     ){ guarda('cp',cp);       e=$('f_cp');      if(e) e.value=cp;  }
+        if(via && !val('calle')  ){ guarda('calle',via);   e=$('f_calle');   if(e) e.value=via; }
+        if(num && !val('num_ext')){ guarda('num_ext',num); e=$('f_num_ext'); if(e) e.value=num; }
       })
       .catch(function(){});
   }catch(e){}
@@ -1554,11 +1581,17 @@ function pHechos(){
     'Aquí interesa quién responde por la obra o la actividad, no el lugar: el lugar ya lo señalaste en el paso anterior. Si no lo sabes, elige «No lo sé»: no impide presentar la denuncia.')+
   bloqueDenunciado()+
 
-  '<h3 class="sub-seccion">Permisos o autorizaciones <span class="opc">opcional</span></h3>'+
-  campoArea('permisos','Información sobre permisos, licencias o autorizaciones',esObligatorio('permisos'),'Si sabes que existe una autorización, o que la obra se realiza sin ella, indícalo aquí.',2)+
+  '<h3 class="sub-seccion">Permisos o autorizaciones</h3>'+
+  campoSiNo('sabe_permisos','¿Sabes algo sobre los permisos de esa obra o actividad?','Por ejemplo, que tiene una autorización, que se amparó en un permiso vencido, o que se realiza sin ninguno. Si no lo sabes, responde «No»: no hace falta para denunciar.')+
+  (val('sabe_permisos')==='si'
+    ? campoArea('permisos','¿Qué sabes al respecto?',esObligatorio('permisos'),'Indica si existe autorización, de quién, o si la obra se realiza sin ella.',2)
+    : '')+
 
-  '<h3 class="sub-seccion">Gestiones previas <span class="opc">opcional</span></h3>'+
-  campoArea('gestiones','¿Ya reportaste estos hechos ante otra autoridad?',false,'Indica ante quién acudiste, cuándo y qué respuesta recibiste. Si no has reportado antes, deja el campo vacío.',2)+
+  '<h3 class="sub-seccion">Gestiones previas</h3>'+
+  campoSiNo('reporto_antes','¿Ya reportaste estos hechos ante otra autoridad?','A la alcaldía, a la Procuraduría Ambiental, a la policía o a cualquier otra instancia.')+
+  (val('reporto_antes')==='si'
+    ? campoArea('gestiones','¿Ante quién, cuándo y qué respuesta recibiste?',false,'Este dato distingue el caso de quien ya acudió y no obtuvo respuesta.',2)
+    : '')+
 
   '<div class="acciones"><button class="btn btn-secundario" onclick="irA(2)">Regresar</button>'+
   '<button type="button" class="btn btn-primario" onclick="valida(3)&&irA(4)">Continuar</button></div></div>';
@@ -1629,8 +1662,7 @@ function bloqueDenunciado(){
           ? 'Como aparece en su licencia o su comprobante fiscal. Si sólo conoces el nombre comercial, deja este campo vacío: ya lo capturaste en el paso anterior.'
           : 'Como aparece en su licencia o su comprobante fiscal, si la conoces')+
       (val('es_estab')!=='si' ? campo('resp_nombre','Nombre comercial del negocio','texto',false,'El que aparece en el anuncio o la fachada') : '')+
-      campo('resp_encargado','Persona encargada o representante','texto',false,'Quién atiende o dirige, si lo sabes')+
-      campo('resp_domicilio','Domicilio de la empresa','texto',false,'Sólo si es distinto del lugar de los hechos');
+      campo('resp_encargado','Persona encargada o representante','texto',false,'Quién atiende o dirige, si lo sabes');
   }
 
   if(t==='gobierno'){
@@ -1981,6 +2013,8 @@ function valida(n){
     if(!esObligatorio(k)) return;
     if(anon && SOLO_IDENTIFICADO.indexOf(k) >= 0) return;
     if(k==='es_estab' || k==='temporalidad'){ if(!val(k)) faltan.push(k); return; }
+    if(k==='permisos' ){ if(val('sabe_permisos')!=='si') return; }
+    if(k==='gestiones'){ if(val('reporto_antes')!=='si') return; }
     if(k==='tipo_estab' || k==='nombre_estab'){ if(val('es_estab')!=='si') return; }
     if(k==='establecimiento'){ if(val('tipo_denunciado')!=='empresa') return; }
     if(k==='lat'){ if(!val('lat')) faltan.push(k); return; }
@@ -2156,23 +2190,38 @@ function resaltaPoligono(rasgo, grupo){
    denunciante, de modo que la búsqueda por dirección es la vía principal
    para situar el punto. En la versión funcional debe apuntar al
    geocodificador del SIA y no a un servicio externo. */
-function buscaDireccion(){
-  var q = ($('qDir')||{}).value || '';
-  if(q.trim().length < 3) return;
-  var cont = $('resBusqueda');
-  cont.innerHTML = '<div class="res-lista"><div class="vacio">Buscando…</div></div>';
+/* Propone el punto a partir de la direcci\u00f3n capturada. El servicio es externo y
+   puede no responder: si falla, se dice con esas palabras y la persona coloca el
+   punto a mano. Nada de lo capturado se pierde. Sustituirlo por un servicio propio
+   de la Ciudad es P-12; el cat\u00e1logo de colonias y c\u00f3digos postales, P-16. */
+function ubicaPorDireccion(){
+  var cont = $('resBusqueda'); if(!cont) return;
+  var partes = [val('calle'), val('num_ext'), val('colonia'), val('alcaldia')].filter(function(x){ return String(x||'').trim(); });
+  if(!String(val('calle')||'').trim()){
+    cont.innerHTML = '<div class="res-lista"><div class="vacio">Escribe al menos la calle para poder ubicarla. Tambi\u00e9n puedes colocar el punto directamente sobre el mapa.</div></div>';
+    return;
+  }
+  var q = partes.join(', ') + ', Ciudad de M\u00e9xico';
+  cont.innerHTML = '<div class="res-lista"><div class="vacio" role="status">Buscando la direcci\u00f3n\u2026</div></div>';
   var url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=6&countrycodes=mx'+
             '&viewbox='+CDMX_BBOX[0]+','+CDMX_BBOX[3]+','+CDMX_BBOX[2]+','+CDMX_BBOX[1]+'&bounded=1&q='+encodeURIComponent(q);
-  fetch(url).then(function(r){return r.json();}).then(function(d){
+  var reloj = setTimeout(function(){
+    cont.innerHTML = '<div class="res-lista"><div class="vacio">El servicio de b\u00fasqueda est\u00e1 tardando. Coloca el punto directamente sobre el mapa.</div></div>';
+  }, 12000);
+  fetch(url).then(function(r){ return r.json(); }).then(function(d){
+    clearTimeout(reloj);
     if(!d || !d.length){
-      cont.innerHTML = '<div class="res-lista"><div class="vacio">Sin resultados en la Ciudad de México. Coloca el punto directamente sobre el mapa.</div></div>';
+      cont.innerHTML = '<div class="res-lista"><div class="vacio">No se encontr\u00f3 esa direcci\u00f3n en la Ciudad de M\u00e9xico. Rev\u00edsala o coloca el punto directamente sobre el mapa.</div></div>';
       return;
     }
-    cont.innerHTML = '<div class="res-lista" role="listbox" aria-label="Resultados de la búsqueda">'+d.map(function(o){
-      return '<button type="button" role="option" onclick="vaA('+o.lat+','+o.lon+')">'+esc(o.display_name)+'</button>';
-    }).join('')+'</div>';
+    if(d.length === 1){ vaA(+d[0].lat, +d[0].lon); return; }
+    cont.innerHTML = '<div class="res-lista" role="listbox" aria-label="Direcciones encontradas">'+
+      '<div class="vacio">Elige cu\u00e1l corresponde:</div>'+
+      d.map(function(o){ return '<button type="button" role="option" onclick="vaA('+o.lat+','+o.lon+')">'+esc(o.display_name)+'</button>'; }).join('')+
+      '</div>';
   }).catch(function(){
-    cont.innerHTML = '<div class="res-lista"><div class="vacio">No fue posible consultar el servicio de búsqueda. Coloca el punto directamente sobre el mapa.</div></div>';
+    clearTimeout(reloj);
+    cont.innerHTML = '<div class="res-lista"><div class="vacio">No fue posible consultar el servicio de b\u00fasqueda. Coloca el punto directamente sobre el mapa: la direcci\u00f3n que capturaste se conserva.</div></div>';
   });
 }
 function vaA(la,lo){
@@ -2181,7 +2230,7 @@ function vaA(la,lo){
   var c=$('resBusqueda'); if(c) c.innerHTML='';
 }
 function quitaPunto(){
-  ['lat','lon','capa_tipo','capa_nombre','dg','dg_nombre','dg_razon','fuera','concurrencia','coadmin'].forEach(function(k){ guarda(k,''); });
+  ['lat','lon','capa_tipo','capa_nombre','dg','dg_nombre','dg_razon','fuera','concurrencia','coadmin','alcaldia_difiere'].forEach(function(k){ guarda(k,''); });
   limpiaResaltado();
   if(marcador && mapa){ mapa.removeLayer(marcador); marcador=null; }
   render();

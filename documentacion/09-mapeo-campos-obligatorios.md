@@ -7,10 +7,10 @@
 
 | | |
 |---|---|
-| Campos del formulario | **47** |
-| Datos personales | **20** (43 %) |
-| Obligatorios · esquema DGIVA | 19 de 47 |
-| Obligatorios · formato vigente | 25 de 47 |
+| Campos del formulario | **49** |
+| Datos personales | **20** (41 %) |
+| Obligatorios · esquema DGIVA | 19 de 49 |
+| Obligatorios · formato vigente | 25 de 49 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -23,7 +23,7 @@ Todo dato recabado sirve a una de estas seis finalidades. Ninguna otra.
 |---|---|---|
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 3 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 11 |
-| **Expediente** | Integrar el expediente y motivar el acto de inspección | 8 |
+| **Expediente** | Integrar el expediente y motivar el acto de inspección | 10 |
 | **Responsable** | Identificar y emplazar al probable infractor | 10 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 12 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 3 |
@@ -76,7 +76,9 @@ Todo dato recabado sirve a una de estas seis finalidades. Ninguna otra.
 | Número de obra, contrato o permiso | Opcional | Opcional | No | Permite requerir el expediente de la obra pública señalada. |
 | Razón social del establecimiento | Opcional | Obligatorio | No | Razón social del probable infractor para el emplazamiento y el cruce con licencias. |
 | Personas señaladas como responsables | Opcional | Obligatorio | **Sí** | Personas señaladas como responsables, en el esquema del formato vigente. |
+| ¿Sabes algo sobre los permisos? | Opcional | Opcional | No | Filtra la pregunta larga: sólo se pide el detalle a quien tiene algo que aportar. |
 | Permisos o autorizaciones | Opcional | Obligatorio | No | Orienta la verificación documental: si existe autorización y si la obra se ajusta a sus términos. |
+| ¿Ya reportaste ante otra autoridad? | Opcional | Opcional | No | Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga. |
 | Gestiones previas | Opcional | Opcional | No | Evita duplicar expedientes con otras autoridades y gradúa la gravedad por reincidencia. |
 
 ### Paso 4 · Pruebas
@@ -122,6 +124,12 @@ Nombre, señas, domicilio y persona encargada del presunto responsable, el área
 
 **H-03 · La coordenada del sitio es un dato personal cuando los hechos ocurren en un domicilio.**
 Está marcada como tal en el catálogo. Obliga a definir —antes del primer dato real— quién ve la coordenada exacta y qué se publica: agregado por colonia, centroide, o nada. Un mapa público de puntos de denuncia puede identificar tanto a quien denuncia como a quien es denunciado.
+
+**H-04 · Retirado: el domicilio de la empresa denunciada.**
+Aplicando el criterio de esta misma revisión, se eliminó el campo de domicilio en el bloque de empresa: la razón social más el lugar de los hechos bastan para el emplazamiento, y es un dato que quien denuncia rara vez conoce. Se conserva en el bloque de persona física —«dónde se le localiza»—, donde sí aporta: ahí puede ser el único modo de ubicar al responsable.
+
+**H-05 · Dos preguntas largas quedaron tras una pregunta filtro.**
+Permisos y gestiones previas eran campos de texto abiertos que la mayoría de las personas deja vacíos, y que ocupaban espacio y atención en la pantalla. Ahora van precedidos de una pregunta de sí o no, y el campo sólo aparece a quien tiene algo que aportar. La respuesta misma es información: saber que alguien **ya reportó ante otra autoridad** distingue el caso, aunque no detalle cuál.
 
 ---
 
