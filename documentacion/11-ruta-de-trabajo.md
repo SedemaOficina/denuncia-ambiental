@@ -308,3 +308,15 @@ Si algo de eso no se entrega, el bloque no está cerrado.
 
 **Verificación posterior:** cero selectores duplicados fuera de `@media` y `@supports` salvo la excepción anotada de `textarea`; `!important` únicamente en el bloque de movimiento reducido; alineación por subgrid comprobada por medición —los controles de un mismo renglón comparten el mismo borde superior al píxel—; seis pasos y doce escenarios sin error en consola.
 
+
+### 18 de septiembre de 2026 · bloque «titularidad, repositorio y minimización»
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| `LEEME.md` → `README.md` | Renombrado | Es el archivo que muestra la plataforma al abrir el repositorio; mantener los dos habría duplicado el mismo contenido |
+| `.gitignore` | Añadido | Excluye la normativa de referencia (26 MB públicos y re-descargables), `prototipo/historial/` —la historia la lleva git— y `_to_delete/`. Cada exclusión razonada en el propio archivo |
+| `OBLIG` | Ampliado | Cada campo declara `uso`, `dp` y `fin`. No se eliminó nada |
+| `abreMapeo()` | Ampliado | Dos columnas nuevas en el comparativo: dato personal y uso declarado |
+| `table.comp td.uso-campo` | Clase nueva | Columna de texto largo y secundario; declarada en el bloque de componentes, no al final del archivo |
+
+**Verificación de cierre.** Sintaxis correcta. Cero funciones duplicadas, cero funciones sin uso, cero claves de estado sin lectura, cero clases de estilo huérfanas, cero `!important` indebidos. Un selector declarado dos veces: `textarea`, que es la excepción deliberada al alto mínimo, anotada como tal. Seis pasos y doce escenarios recorridos sin error en consola. Prueba específica: el comparativo muestra 47 campos con su uso, 20 marcados como dato personal, y totales 19 / 25 / 20, coincidentes con el documento 09. Auditoría de repositorio corrida antes del primer registro: sin secretos.

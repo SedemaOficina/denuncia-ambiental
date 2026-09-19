@@ -207,6 +207,8 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .sub-seccion-sm{font-size:var(--t-md);margin:18px 0 8px}
 /* Texto secundario en gris, al tamaño de apoyo. */
 .nota-gris{font-size:var(--t-md);color:var(--gris)}
+/* Columna de uso declarado en el comparativo de campos: texto largo y secundario. */
+table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .enlace{background:none;border:none;color:var(--guinda);text-decoration:underline;cursor:pointer;
   font-family:inherit;font-size:var(--t-sm);font-weight:600;padding:8px 0;min-height:36px}
 .lin-detalle{margin:0 0 14px}
@@ -1035,19 +1037,24 @@ function abrePrivacidad(){ $('modalPriv').classList.add('abierto'); }
 
 function abreMapeo(){
   var pasos = {1:'1 · Qué denuncias',2:'2 · Dónde ocurrió',3:'3 · Qué ocurrió',4:'4 · Pruebas',5:'5 · Tus datos'};
-  var h = '<table class="comp"><thead><tr><th style="width:44%">Campo</th><th style="width:28%">Esquema DGIVA</th><th style="width:28%">Formato vigente</th></tr></thead><tbody>';
+  var h = '<table class="comp"><thead><tr><th style="width:24%">Campo</th><th style="width:14%">Esquema DGIVA</th><th style="width:14%">Formato vigente</th>'+
+    '<th style="width:10%">Dato personal</th><th style="width:38%">Uso declarado</th></tr></thead><tbody>';
   [1,2,3,4,5].forEach(function(n){
-    h += '<tr><td colspan="3" style="background:var(--guinda-cl);font-weight:600;color:var(--guinda)">Paso '+pasos[n]+'</td></tr>';
+    h += '<tr><td colspan="5" style="background:var(--guinda-cl);font-weight:600;color:var(--guinda)">Paso '+pasos[n]+'</td></tr>';
     camposDelPaso(n).forEach(function(k){
       var o = OBLIG[k];
       h += '<tr><td>'+esc(o.etq)+'</td>'+
         '<td class="'+(o.dgiva?'si':'no')+'">'+(o.dgiva?'Obligatorio':'Opcional')+'</td>'+
-        '<td class="'+(o.vigente?'si':'no')+'">'+(o.vigente?'Obligatorio':'Opcional')+'</td></tr>';
+        '<td class="'+(o.vigente?'si':'no')+'">'+(o.vigente?'Obligatorio':'Opcional')+'</td>'+
+        '<td class="'+(o.dp?'si':'no')+'">'+(o.dp?'Sí':'No')+'</td>'+
+        '<td class="uso-campo">'+esc(o.uso||'')+'</td></tr>';
     });
   });
   var td = Object.keys(OBLIG).filter(function(k){return OBLIG[k].dgiva;}).length;
   var tv = Object.keys(OBLIG).filter(function(k){return OBLIG[k].vigente;}).length;
-  h += '<tr><td><strong>Total de obligatorios</strong></td><td><strong>'+td+'</strong></td><td><strong>'+tv+'</strong></td></tr>';
+  var tp = Object.keys(OBLIG).filter(function(k){return OBLIG[k].dp;}).length;
+  h += '<tr><td><strong>Totales</strong></td><td><strong>'+td+'</strong></td><td><strong>'+tv+'</strong></td>'+
+    '<td><strong>'+tp+'</strong></td><td class="uso-campo">Ningún campo sin uso declarado</td></tr>';
   h += '</tbody></table>';
   $('tablaMapeo').innerHTML = h;
   $('modalMapeo').classList.add('abierto');

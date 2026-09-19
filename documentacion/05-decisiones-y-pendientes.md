@@ -45,6 +45,7 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 | DEC-32 | No abrir ningún módulo complementario antes del acta de validación del formulario ciudadano por la Dirección General | 18 sep 2026 | Un cambio de campo después de programar base de datos, bandeja e indicadores cuesta entre diez y veinte veces lo que cuesta en la maqueta. El orden de fases y sus criterios de salida quedan en `11-ruta-de-trabajo.md` |
 | DEC-33 | Titularidad del desarrollo: **Sistema de Información Ambiental de la Secretaría del Medio Ambiente de la Ciudad de México** | 18 sep 2026 | Resuelve la brecha B-02 de la norma de construcción. Define de quién es el código y en qué área vive el proyecto, condición previa para decidir la cuenta institucional del repositorio y de la infraestructura |
 | DEC-34 | Poner el proyecto bajo control de versiones con git, en la propia carpeta del proyecto | 18 sep 2026 | Resuelve la brecha B-01. Antes no había historia comparable ni respaldo fuera del equipo, y la auditoría de repositorio no podía correrse. Se versiona el trabajo propio —documentación, prototipo, capas e insumos fundacionales— y se excluyen la normativa de referencia (26 MB de documentos públicos re-descargables), las copias de `prototipo/historial/` —porque la historia ahora la lleva git— y las carpetas `_to_delete/`. Cada exclusión queda razonada en el propio `.gitignore` |
+| DEC-35 | Declarar en el catálogo de campos, para cada uno, su **uso**, si es **dato personal** y a qué **finalidad** sirve | 18 sep 2026 | Resuelve la brecha B-05. La obligatoriedad y el uso son cosas distintas y sólo estaba declarada la primera. El uso vive en la misma estructura `OBLIG` que gobierna pantalla y validación, de modo que no puede quedar desactualizado, y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad (P-02). Resultado: 47 campos, 20 datos personales, seis finalidades, **cero campos sin uso** |
 
 ---
 
@@ -255,6 +256,20 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 
 ---
 
+**P-17. ¿El teléfono debe seguir siendo obligatorio?**
+
+*Por qué importa.* En los dos esquemas el teléfono es obligatorio, pero **no es vía de notificación**: la notificación se practica por correo electrónico o por domicilio. Su uso real es operativo —aclarar un dato, coordinar el acceso al sitio durante la visita—. La revisión de minimización (DEC-35) lo hizo visible: un dato personal que no sostiene ninguna actuación formal está condicionando la presentación de la denuncia.
+
+*Opciones.* A. Dejarlo obligatorio. B. Volverlo opcional, con la ayuda «agiliza la visita si el personal necesita confirmar algo contigo».
+
+*Recomendación.* **Opción B.** Quien quiera darlo lo dará; exigirlo sólo aparta a quien no quiere dejar su teléfono, y esa persona hoy no tiene alternativa salvo la denuncia anónima, que renuncia al seguimiento.
+
+*A quién corresponde.* Dirección General de Inspección y Vigilancia Ambiental.
+
+*Bloquea:* el cierre del esquema de obligatoriedad.
+
+---
+
 ## Parte III. Riesgos
 
 | Riesgo | Efecto | Mitigación |
@@ -366,3 +381,4 @@ AD-01 resuelve el seguimiento **interno** —la bandeja con la que el personal a
 | P-14 | | | |
 | P-15 | | | |
 | P-16 | | | |
+| P-17 | | | |

@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Conformidad con la norma de construcción
 
-**Versión:** 1.1 · 18 de septiembre de 2026
+**Versión:** 1.2 · 18 de septiembre de 2026
 **Para qué sirve este documento.** Sitúa el proyecto frente a la norma de construcción de sistemas: qué cumple, qué falta y qué hay que decidir antes de avanzar de etapa. No sustituye a `11-ruta-de-trabajo.md`, que es el documento del proyecto y manda; éste lo contrasta con la norma general y anota las brechas.
 
 ---
@@ -41,7 +41,7 @@ Verificado contra el prototipo y los documentos del proyecto:
 
 ## 2. Brechas que impiden cerrar la etapa 1
 
-Eran cinco. Dos quedaron resueltas el 18 de septiembre; las tres restantes no dependen de nosotros o esperan una decisión de área.
+Eran cinco. **Tres quedaron resueltas el 18 de septiembre.** Las dos restantes —el acta de validación y los pendientes jurídicos P-01 y P-02— no dependen de nosotros.
 
 **B-01 · Repositorio — RESUELTA el 18 de septiembre de 2026** *(§1.7, §12.8, auditoría 2)*
 El proyecto quedó bajo control de versiones con git en su propia carpeta (DEC-34). Primer registro: 21 archivos, 690 KiB empaquetados.
@@ -60,9 +60,18 @@ Sigue siendo el requisito 5 del criterio de salida y no depende de nosotros.
 **B-04 · P-01 y P-02 sin resolver** *(criterio de salida)*
 Naturaleza jurídica del canal y aviso de privacidad. Sin ellos no hay publicación posible.
 
-**B-05 · Minimización de datos no declarada** *(§1.8)*
-`09-mapeo-campos-obligatorios.md` declara **obligatoriedad**, que es otra cosa. Falta, campo por campo, **quién usa el dato y para qué**. Es además el insumo que la Unidad de Transparencia necesitará para el aviso de privacidad (P-02), de modo que resolverlo destraba B-04.
-**Acción:** añadir al documento 09 una columna de uso declarado, y retirar del formulario todo campo que no la pueda llenar.
+**B-05 · Minimización — RESUELTA el 18 de septiembre de 2026** *(§1.8)*
+Cada uno de los 47 campos declara ahora su **uso**, si es **dato personal** y a qué **finalidad** sirve, dentro del mismo catálogo `OBLIG` que gobierna la pantalla y la validación (DEC-35). El documento 09 se genera de ahí y el comparativo del panel de validación lo muestra en pantalla.
+
+**Resultado:** 20 datos personales de 47 campos, seis finalidades y **cero campos sin uso declarado**. No hubo campos que retirar.
+
+**Tres hallazgos que sí salieron:**
+
+1. **El teléfono es obligatorio y no es vía de notificación** —abierto como P-17, con recomendación de volverlo opcional—.
+2. **Seis campos contienen datos personales de terceros**, sobre los que se formula un señalamiento no acreditado y que no dieron su consentimiento. El aviso de privacidad debe mencionarlos expresamente y no se publican nunca.
+3. **La coordenada del sitio es dato personal** cuando los hechos ocurren en un domicilio.
+
+**Lo que destraba:** es el insumo que la Unidad de Transparencia necesita para reexpedir el aviso de privacidad, de modo que reduce el trabajo de P-02 —que sigue siendo B-04—.
 
 ---
 
@@ -115,7 +124,7 @@ El prototipo consume los mosaicos y el servicio de geocodificación de OpenStree
 ## 5. Orden propuesto
 
 1. ~~**B-01 y B-02** — repositorio y titularidad~~ **hechas el 18 sep 2026.** Queda la gestión de la cuenta institucional para el repositorio remoto.
-2. **B-05** —uso declarado por campo—, que además destraba el aviso de privacidad.
+2. ~~**B-05** — uso declarado por campo~~ **hecha el 18 sep 2026.**
 3. **Auditoría 6** sobre las tres capas, y normalización de `suelo_conservacion`.
 4. **B-06 y B-07** —identificadores y catálogos— antes de tocar el modelo de datos.
 5. **Auditorías 12 y 16** —rendimiento y datos personales— antes de publicar.
