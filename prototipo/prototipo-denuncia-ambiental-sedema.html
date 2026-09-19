@@ -434,8 +434,6 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
     <h4>Variantes a decidir</h4>
     <div class="grupo">
       <strong style="font-size:13px;display:block;margin-bottom:8px">Identificación del denunciante</strong>
-      <label><input type="radio" name="vIdent" value="A" onchange="cfg.ident=this.value;render()">
-        <span><b>A — Identificación obligatoria.</b> Criterio de la propuesta DGIVA: nombre y datos de contacto obligatorios.</span></label>
       <label><input type="radio" name="vIdent" value="B" checked onchange="cfg.ident=this.value;render()">
         <span><b>B — Admite denuncia anónima (decidida)</b> con aviso de efectos sobre el seguimiento.</span></label>
       <label><input type="radio" name="vIdent" value="C" onchange="cfg.ident=this.value;render()">
@@ -1701,9 +1699,6 @@ function pDenunciante(){
   var anon = val('anonima')==='si';
   var h = '<div class="tarjeta"><h2><span class="num">5</span>Tus datos</h2>';
 
-  if(cfg.ident==='A'){
-    h += '<p class="sub">La Secretaría necesita tus datos para notificarte el seguimiento y, en su caso, solicitarte información adicional. Tus datos no se dan a conocer al denunciado.</p>';
-  }
   if(cfg.ident==='B'){
     h += '<p class="sub">Puedes presentar tu denuncia con o sin identificarte.</p>'+
       '<div class="campo"><div class="opciones">'+

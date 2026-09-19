@@ -17,7 +17,7 @@ El formulario no es un camino único: hay **trece puntos donde cambia de forma**
 | 2 | **Tipo de establecimiento** | 19 giros · Otro | «Otro» abre un campo de texto para especificarlo. |
 | 3 | **¿Quién es responsable de los hechos?** | Persona · Empresa · Autoridad · No lo sé | Cambia por completo el bloque de responsables. «Autoridad» además advierte la ruta del artículo 331 y la refleja en el acuse. |
 | 3 | **Desde cuándo ocurre y fecha** | Único · Recurrente · Permanente, con fecha anterior o posterior a un año | Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único. |
-| 5 | **Variante de identificación (decisión institucional)** | A obligatoria · B admite anónima · C obligatoria sin anonimato | B agrega la elección entre identificarse y denunciar de forma anónima. |
+| 5 | **Variante de identificación** | B admite anónima *(decidida)* · C obligatoria sin anonimato | La opción A —identificación obligatoria según la propuesta de la Dirección General— se retiró el 19 de septiembre de 2026 (DEC-40). B agrega la elección entre identificarse y denunciar anónimamente. |
 | 5 | **¿Denuncia anónima?** | Sí · No | «Sí» oculta todos los datos de identificación y cambia el acuse: sin notificación. |
 | 5 | **¿Notificación por correo?** | Sí · No | «No» despliega los siete campos del domicilio. «Sí» los suprime. |
 | 5 | **¿Datos confidenciales?** | Sí · No | Se registra en el resumen; no cambia los campos. |
