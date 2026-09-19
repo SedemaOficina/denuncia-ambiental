@@ -19,6 +19,28 @@ Esta carpeta está vinculada al proyecto **Denuncias Ambientales** en Claude: lo
 2. El botón **Panel de validación**, en la esquina inferior derecha, permite comparar las variantes de identificación, activar la obligatoridad de campos, abrir el comparativo de campos y cargar un caso de ejemplo.
 3. Mientras el formulario está en prueba, **ningún campo es obligatorio**: se puede recorrer completo sin llenar nada. La única regla que sí bloquea es la de competencia territorial.
 
+## Configuración local
+
+El prototipo lee la dirección del proveedor de mapa base y su clave de
+`prototipo/configuracion-local.js`, que **no forma parte del repositorio**: una
+clave escrita en un repositorio público queda indexada en horas.
+
+Quien clone este repositorio no tendrá ese archivo y el mapa funcionará con el
+proveedor por omisión, sin clave. Para usar el proveedor con clave, se crea el
+archivo con esta forma y se pide la clave a quien administra el proyecto:
+
+```js
+var CFG_LOCAL = {
+  mapa: {
+    url: '<dirección de los mosaicos, con la clave>',
+    atribucion: '&copy; CARTO, &copy; OpenStreetMap'
+  }
+};
+```
+
+La atribución al proveedor y a OpenStreetMap es **obligación de la licencia**,
+no cortesía: debe quedar visible en el mapa.
+
 ## Documento de referencia
 
 `documentacion/05-decisiones-y-pendientes.md` concentra las decisiones tomadas, las preguntas abiertas con sus opciones y recomendaciones, y el alcance diferido del módulo de administración. Es el documento que conviene llevar a la sesión con la Dirección General.

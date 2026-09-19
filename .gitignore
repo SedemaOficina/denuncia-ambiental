@@ -30,3 +30,7 @@ desktop.ini
 # Ambiental, entregado como insumo. No es un documento propio ni publicado:
 # se conserva en la carpeta y no viaja al repositorio.
 insumos/Propuesta DGIVA*.docx
+
+# Configuración local: direcciones de servicios y claves de proveedores.
+# Una clave escrita en un repositorio público queda indexada en horas.
+prototipo/configuracion-local.js

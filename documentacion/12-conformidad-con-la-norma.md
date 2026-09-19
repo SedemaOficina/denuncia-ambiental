@@ -90,15 +90,13 @@ Existen doce escenarios de prueba, que sirven para recorrer variantes, pero **no
 Y hay un problema de fondo en los que sí existen: nombres como «Hojalatería El Volante» o «Servicios Automotrices del Centro S.A. de C.V.» **parecen negocios reales**. La norma lo prohíbe: un nombre creíble en una base de pruebas termina en una captura de pantalla o en un oficio, y ya no se distingue.
 **Acción:** al construir el conjunto formal, usar denominaciones inequívocamente falsas y legibles, y marcarlas.
 
-**B-09 · Valores fijos en el código** *(§1.6, auditoría 3)*
-Verificado en el prototipo: `cdnjs.cloudflare.com` (biblioteca del mapa), `fonts.googleapis.com` (tipografías), `nominatim.openstreetmap.org` (geocodificación), `tile.openstreetmap.org` (mosaicos) y el correo `denuncias@sedema.cdmx.gob.mx`, todos escritos en el archivo.
-En una maqueta es aceptable. **En la versión funcional no:** deben salir a configuración. **La prueba de la norma:** si al cambiar de dominio o de proveedor hay que tocar el código, el diseño está mal.
+**B-09 · Valores fijos en el código — parcialmente resuelta** *(§1.6, auditoría 3)*
+El proveedor de mosaicos y su clave salieron del código a `prototipo/configuracion-local.js`, no versionado (DEC-36). **Siguen escritos en el archivo:** `cdnjs.cloudflare.com` (biblioteca del mapa), `fonts.googleapis.com` (tipografías), `nominatim.openstreetmap.org` (geocodificación) y el correo `denuncias@sedema.cdmx.gob.mx`. En una maqueta es aceptable; en la versión funcional no. **La prueba de la norma:** si al cambiar de dominio o de proveedor hay que tocar el código, el diseño está mal.
 
-**B-10 · Proveedores externos sin condiciones de uso revisadas** *(§6.8)*
-El prototipo consume los mosaicos y el servicio de geocodificación de OpenStreetMap directamente. **La atribución sí se muestra**, que es lo que exige la licencia de los datos. Lo que **no** se ha verificado es la política de uso de esos servidores, que restringe el uso intensivo y de producción: un portal público del Gobierno de la Ciudad geocodificando cada denuncia no es el caso de uso para el que están abiertos.
-**Acción:** verificar las políticas vigentes antes de publicar y resolver P-12 y P-16 —servicio propio de cruce y catálogo de colonias de la ADIP—, que es la salida correcta a los dos.
-
----
+**B-10 · Proveedores externos — mitad resuelta** *(§6.8)*
+**Mapa base: resuelto.** Se adoptó CARTO con clave propia (DEC-36). Su capa gratuita admite cinco millones de peticiones de mosaico al mes, lo que sí cubre el uso de un portal público, y la atribución a CARTO y a OpenStreetMap —obligatoria por licencia— quedó en el mapa.
+**Geocodificación: sigue abierta.** El prototipo consulta `nominatim.openstreetmap.org`, cuyo servicio no está abierto al uso sistemático de producción. La salida es P-12 y P-16 —servicio propio y catálogo de colonias de la ADIP—.
+**Pendiente de verificación:** el formato del parámetro de la clave no pudo comprobarse desde el entorno de trabajo, porque la política de salida de red no alcanza al proveedor. Si el mapa aparece con la marca de agua «API key required», hay que sustituir la dirección por la que CARTO entregó al emitir la clave.
 
 ## 4. Auditorías del catálogo que nunca se han corrido
 
