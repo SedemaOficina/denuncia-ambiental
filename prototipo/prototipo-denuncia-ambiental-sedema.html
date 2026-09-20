@@ -328,10 +328,24 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .despues b{display:block;font-family:'Cabin',sans-serif;font-size:var(--t-md);
   color:var(--texto);font-weight:600;line-height:1.3}
 .despues span{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.45;margin-top:3px}
-/* Estrecho: dos por renglón y sin línea, que no tendría a dónde ir. */
+/* En el teléfono, en columna. Dos por renglón dejaba cuatro cajas centradas
+   en tiras de 150 px, con el texto partido y la secuencia perdida: ya no se
+   leía 1-2-3-4, se leían cuatro tarjetas. En vertical, el número va a la
+   izquierda, el texto ocupa el ancho completo y la línea que une los
+   círculos sigue diciendo que es una secuencia (DEC-96). */
 @media (max-width:620px){
-  .despues{grid-template-columns:repeat(2,1fr);gap:18px 4px}
-  .despues li::after{display:none}
+  .despues{grid-template-columns:1fr;gap:0}
+  /* Rejilla de dos columnas: el numero en la primera, el titulo y el detalle
+     apilados en la segunda. En fila quedaban los tres al lado, y el titulo se
+     partía en dos renglones mientras el detalle se apretaba a su derecha. */
+  .despues li{display:grid;grid-template-columns:26px 1fr;column-gap:13px;row-gap:2px;
+    align-items:start;text-align:left;padding:0 0 18px 0}
+  .despues li:last-child{padding-bottom:0}
+  .despues li::before{grid-column:1;grid-row:1;margin-bottom:0}
+  .despues b{grid-column:2;grid-row:1;text-align:left}
+  .despues span{grid-column:2;grid-row:2;text-align:left;margin-top:0}
+  .despues li::after{display:block;top:26px;left:12px;width:2px;height:100%}
+  .despues li:last-child::after{display:none}
 }
 
 /* Ten a la mano: etiquetas, no vinetas con frases. */

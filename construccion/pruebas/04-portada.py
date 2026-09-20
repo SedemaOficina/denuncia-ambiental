@@ -94,8 +94,20 @@ with sync_playwright() as pw:
           const li=[...document.querySelectorAll('.despues li')];
           return [...new Set(li.map(e=>Math.round(e.getBoundingClientRect().top)))].length;
         }""")
-        esperado = 1 if ancho >= 620 else 2
+        # En el telefono la secuencia va en columna: dos por renglon dejaba el
+        # titulo partido y el detalle apretado, y se perdia el 1-2-3-4 (DEC-96).
+        esperado = 1 if ancho >= 620 else 4
         afirma(filas == esperado, '%s: los cuatro momentos van en %d fila(s), como corresponde al ancho' % (nom, filas))
+        alineado = pg.evaluate("""() => {
+          const b = document.querySelector('.despues b');
+          const li = document.querySelector('.despues li');
+          return {texto: getComputedStyle(b).textAlign,
+                  sangria: Math.round(b.getBoundingClientRect().left - li.getBoundingClientRect().left)};
+        }""")
+        if ancho < 620:
+            afirma(alineado['texto'] == 'left', 'telefono: el texto de cada momento va alineado a la izquierda')
+            afirma(alineado['sangria'] > 30,
+                   'y sangrado a la derecha del numero, no debajo (%d px)' % alineado['sangria'])
 
         # El aviso de denuncia sin terminar puede acortarse, pero NUNCA puede
         # perder que aun no se ha presentado: sin esa frase alguien cierra el
