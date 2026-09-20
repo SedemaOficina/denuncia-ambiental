@@ -29,16 +29,16 @@ s = s.replace('<title>Denuncia Ambiental en línea — Prototipo SEDEMA</title>'
 # 4. Estilos del mapa vectorial
 estilos = """
 /* ---- Mapa vectorial (artefacto) ---- */
-#mapa{position:relative;background:#EDEFF1;overflow:hidden;touch-action:none;height:440px}
+#mapa{position:relative;background:var(--mapa-bg);overflow:hidden;touch-action:none;height:440px}
 #svgmapa{width:100%;height:100%;display:block;cursor:crosshair}
-#contorno{fill:#FFFFFF;stroke:#9D2148}
-#alcaldias .alc{fill:transparent;stroke:#B9BDC0}
-#etiquetas text{fill:#9AA0A4;font-family:'Roboto',Arial,sans-serif;pointer-events:none;letter-spacing:.0002px}
+#contorno{fill:var(--blanco);stroke:var(--guinda)}
+#alcaldias .alc{fill:transparent;stroke:var(--linea)}
+#etiquetas text{fill:var(--gris-cl);font-family:'Roboto',Arial,sans-serif;pointer-events:none;letter-spacing:.0002px}
 #zona path{pointer-events:none}
 #punto .pin{cursor:grab}
 .traza{stroke-linejoin:round}
 .mapa-ctrl{position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:6px}
-.mapa-ctrl button{background:#fff;border:1px solid var(--linea);border-radius:6px;padding:5px 9px;font-size:14px;font-family:'Cabin',sans-serif;font-weight:600;color:var(--guinda);cursor:pointer;line-height:1.2}
+.mapa-ctrl button{background:var(--blanco);border:1px solid var(--linea);border-radius:6px;padding:5px 9px;font-size:14px;font-family:'Cabin',sans-serif;font-weight:600;color:var(--guinda);cursor:pointer;line-height:1.2}
 .mapa-ctrl button:hover{background:var(--guinda-cl)}
 .mapa-ctrl button:last-child{font-size:11px;padding:5px 8px}
 """

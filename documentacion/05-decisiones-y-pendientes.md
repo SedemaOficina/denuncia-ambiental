@@ -100,6 +100,7 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 | DEC-87 | Las categorías de las capas se normalizan en el dato, no en la pantalla | 20 sep 2026 | El origen trae la misma categoría escrita de dos formas —«Zona Ecologica y Cultural» y «Zona Ecológica y Cultural»—: **catorce categorías distintas que en realidad son diez**, de modo que agrupar por ese texto cuenta dos veces lo mismo. La pantalla lo tapaba con una tabla de equivalencias al vuelo, que arregla lo que se ve y no lo que se agrupa —y obliga a mantener dos catálogos—. Ahora la normalización ocurre **al ingresar la capa**: se añaden `categoria` —el nombre correcto— y `categoria_clave` —la clave estable con la que se agrupa—, y `categoria_origen` **queda intacta** como rastro de auditoría frente al decreto. Se normalizaron también las alcaldías, que estaban peor: sin acentos, con formas cortas, con listas en distinto orden y con una errata («Cujimalpa»). El guion **se detiene** ante un valor no catalogado, para que una errata nueva se vea en vez de colarse como categoría propia. Se retiró la tabla de equivalencias y su función, que quedaron sin uso |
 | DEC-88 | El enlace de Google Maps lo resuelve el servidor (P-18, opción B) | 20 sep 2026 | Decidido: el servidor sigue la redirección del enlace corto y devuelve **sólo la coordenada**. Para la persona es un paso menos justo en el caso más difícil —el sitio sin domicilio, donde el punto del mapa es lo único que tiene—. Tiene además un efecto que conviene decir en voz alta: **el navegador de quien denuncia nunca habla con Google**; quien consulta es el servidor, de modo que Google no obtiene su dirección de red ni sabe que alguien está presentando una denuncia. Se construye con las condiciones ya escritas en P-18 —lista blanca de tres dominios, petición que no sigue la redirección, lectura sólo del encabezado, tres segundos de espera y salida limitada a la coordenada—, que son las que evitan la falsificación de petición del lado del servidor. El prototipo no cambia de comportamiento —no hay servidor—, pero sus textos dejan de decir «pendiente» y dicen «por construir» |
 | DEC-89 | **Provisional, a consulta de las áreas.** Mientras se resuelve, toda Área Natural Protegida federal se turna a la PROFEPA | 20 sep 2026 | **Lo que se leyó.** La cláusula SEGUNDA del Convenio Marco de Coordinación CONANP-CDMX —firmado el 10 de marzo de 2025 y vigente hasta el 30 de septiembre de 2030— define la coadyuvancia en la administración *«sin perjuicio de las facultades que en materia de inspección y vigilancia otorga el Título Sexto de la Ley General del Equilibrio Ecológico»*, cuyo artículo 161 atribuye esos actos a la autoridad federal. Leído así, el convenio reparte administración y manejo, no inspección. **Lo que no se decide aquí.** Interpretar un convenio frente al Reglamento Interior y al Manual Administrativo **corresponde a las áreas y a la unidad jurídica**, no al prototipo. Por eso la decisión es provisional y queda a consulta en **P-22**. **Qué hace el formulario mientras tanto.** Asume la competencia federal, que es la lectura que **no produce un acto viciado** si resulta la correcta, y lo advierte en pantalla con su marca de pendiente. Si las áreas resuelven lo contrario, el cambio es de una línea. **Lo que sí queda firme**, porque no depende de interpretación: las ocho áreas coadministradas que enumera la cláusula PRIMERA, y la corrección de tres datos del catálogo contra el convenio —fecha de decreto de Cumbres del Ajusco, superficies de Cerro de la Estrella y de Insurgente Miguel Hidalgo y Costilla— |
+| DEC-95 | Un color, un trabajo: de siete familias a cinco, y ninguna fuera de la paleta | 20 sep 2026 | Había **treinta y dos valores de color en siete familias, once escritos sueltos** fuera de la paleta. Peor que la cantidad era el reparto. **El ámbar hacía dos trabajos** —advertir a la persona y marcar un pendiente de la Secretaría— y con valores distintos, de modo que se parecían sin serlo: ahora el aviso al ciudadano va en neutro con filete y el ámbar queda sólo para lo pendiente. **El verde estaba en la barra de pasos, en los avisos y en el acuse**: sale de la barra —que un paso esté hecho lo dicen la palomita y el número, y la barra está en todas las pantallas— y queda reservado a una sola: la que dice que la denuncia se recibió. **El morado existía para una pantalla**, la del área federal: la ficha del cruce pasa a un solo panel neutro, porque quién atiende ya lo dice con letras; el rojo se queda sólo donde el punto cae fuera de la Ciudad, que es lo único que impide continuar. **La prueba de humanidad marcada pasa a azul**, que es el color de lo elegido en todo el formulario. Los once valores sueltos entraron a la paleta, que ahora declara en un comentario qué trabajo hace cada familia. La batería 12 no comprueba el gusto, comprueba el reparto: que ningún color viva fuera de la paleta, que el verde no aparezca en ninguno de los siete pasos y sí en el acuse, y que el ámbar sólo lo use la marca de pendiente |
 
 ---
 
@@ -274,6 +275,16 @@ Son días hábiles, y el propio Manual advierte que pueden variar si otra depend
 
 *Detalle.* Existen inconsistencias de acentuación —"Zona Ecologica y Cultural" frente a "Zona Ecológica y Cultural"; "Zona Sujeta a Conservacion Ecologica" frente a su forma acentuada— y la Sierra de Santa Catarina aparece duplicada como Zona de Conservación Ecológica y como Zona Sujeta a Conservación Ecológica. Impide agrupar por categoría sin limpieza previa.
 
+**Respondido el 20 de septiembre de 2026. Lo hizo el proyecto, no hacía falta esperar a nadie.**
+
+*La normalización.* Se hace **al ingresar la capa**, con un guion propio —`construccion/normalizar_capas.py`— y no en la pantalla: `categoria` es el nombre correcto, `categoria_clave` la clave estable con la que se agrupa, y `categoria_origen` queda intacta como rastro de auditoría frente al decreto. Catorce categorías del origen resultaron ser diez. Se normalizaron también las alcaldías, que estaban peor —sin acentos, con formas cortas, con listas en distinto orden y con la errata «Cujimalpa»—. El guion **se detiene ante un valor no catalogado**, de modo que una errata nueva se ve en lugar de colarse como categoría propia, y la batería 10 comprueba que ninguna categoría se repita con otra acentuación (DEC-87).
+
+*El supuesto duplicado no lo era.* La Sierra de Santa Catarina aparece dos veces porque **son dos áreas distintas y colindantes**, no una capturada dos veces: la Zona de Conservación Ecológica, de 528 ha, y la Zona Sujeta a Conservación Ecológica, de 220.55 ha. Se comprobó con una rejilla de 180 × 180 puntos sobre la envolvente común de los dos polígonos: **12 603 puntos caen dentro de alguno de los dos y ninguno dentro de los dos a la vez**. No se traslapan ni un metro, de modo que el cruce espacial nunca queda ambiguo y no hay precedencia que resolver.
+
+*Lo único que queda, y es del área.* Confirmar contra los decretos que efectivamente son dos figuras jurídicas distintas sobre la misma sierra —y no un desdoblamiento administrativo antiguo—, y si los nombres deben conservar las siglas «(ZCE)» y «(ZSCE)» o llevar el nombre completo de cada declaratoria. Ninguna de las dos cosas impide operar.
+
+*A quién corresponde.* Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, para la confirmación documental.
+
 ---
 
 **P-12. ¿Con qué servicio se resolverán la geocodificación y el cruce espacial en la versión funcional?**
@@ -286,6 +297,30 @@ Son días hábiles, y el propio Manual advierte que pueden variar si otra depend
 
 *Bloquea:* la fase 2 y la calidad del paso 2 desde ahora.
 
+
+**Respondido el 20 de septiembre de 2026, con una distinción que cambia la pregunta.**
+
+*El cruce espacial no necesita servicio.* Es lo primero, y lo que más ahorra: el cruce corre contra **nuestras propias capas**, no contra las de nadie. Hoy lo hace el navegador con la geometría incrustada; en la versión funcional lo hará el servidor, con PostGIS o con el mismo algoritmo de punto en polígono. **Cero costo, cero dependencia y cero terceros.** Y así debe ser, porque de ese cruce depende a qué autoridad se turna un expediente: una regla de competencia no puede quedar sujeta a que un servicio externo responda.
+
+*Sólo la geocodificación necesita servicio*, y **sólo como comodidad**: convierte la dirección escrita en un punto, pero el punto puede colocarse siempre con un clic en el mapa o pegando la ubicación. Si el servicio no responde, el formulario sigue sirviendo —así está previsto ya, y así debe quedar—.
+
+*Lo que no sirve.* El **servicio público de Nominatim** no es una opción para producción, y conviene decirlo antes de que alguien lo proponga: su política de uso permite **una petición por segundo**, **prohíbe el autocompletado**, prohíbe las consultas sistemáticas, exige identificar la aplicación, y establece que las aplicaciones cuya función principal sea geocodificar **deben operar su propia instancia**. Un formulario público de gobierno lo incumpliría el primer día de operación.
+
+*Opciones reales.*
+
+| Opción | Qué implica | A favor | En contra |
+|---|---|---|---|
+| **A. Nominatim propio**, con un extracto de la Ciudad de México | Un servidor con la base de OpenStreetMap del área metropolitana | Sin límites ni costo por consulta; **la dirección de quien denuncia no sale de la Secretaría** | Hay que alojarlo y actualizarlo |
+| **B. Photon propio** | Igual, pero pensado para buscar mientras se escribe | Responde a cada tecla, que es lo que la gente espera; ligero | Menos preciso en direcciones exactas que Nominatim |
+| **C. Pelias propio** | Motor que **mezcla OpenStreetMap con catálogos locales** de direcciones | Puede ingerir el padrón de direcciones de la Ciudad y mejorar lo que OSM no tiene | El más complejo de operar de los tres |
+| **D. Servicio del propio Gobierno de la Ciudad** | Usar lo que exponga el Sistema Abierto de Información Geográfica de la Ciudad de México, operado por la Agencia Digital de Innovación Pública | Es dato oficial, sin terceros y sin costo | **Falta verificar si expone geocodificación y con qué condiciones** |
+| **E. Proveedor comercial** (Google, Mapbox y similares) | Consumo por consulta | Cero operación | Costo recurrente, y **la dirección del domicilio de quien denuncia viaja a un tercero extranjero**, con lo que eso implica en el aviso de privacidad |
+
+*Recomendación.* **Preguntar primero por la opción D** —si la Ciudad ya opera un geocodificador, usarlo es más barato, más defendible y más congruente que montar otro— y, si no lo hay o no está disponible, **la opción B para buscar mientras se escribe, respaldada por A para la resolución exacta**, las dos autoalojadas. La opción E se descarta salvo que las anteriores resulten inviables, y en ese caso debe declararse la transferencia en el aviso de privacidad.
+
+*Condición que vale para cualquiera.* El geocodificador **propone** el punto; nunca lo fija por su cuenta. La persona lo ve en el mapa antes de continuar, y el cruce que decide la competencia se hace contra nuestras capas, sobre el punto que quedó.
+
+*A quién corresponde.* Sistema de Información Ambiental, con la Agencia Digital de Innovación Pública para la opción D.
 ---
 
 **P-13. ¿Cuál es la estructura definitiva del folio y cómo se administra el consecutivo?**
@@ -558,7 +593,7 @@ AD-01 resuelve el seguimiento **interno** —la bandeja con la que el personal a
 | P-08 | | | |
 | P-09 | | | |
 | P-10 | **En parte** · nombres y atribuciones de las dos coordinaciones; la DGSANPAVA no recibe denuncias. Falta el fundamento en ANP federales con coadministración | Manual Administrativo | 20 sep 2026 |
-| P-11 | | | |
+| P-11 | **Resuelto en el proyecto** · normalización al ingresar la capa; el duplicado de Santa Catarina no lo era | Sistema de Información Ambiental | 20 sep 2026 |
 | P-12 | | | |
 | P-13 | | | |
 | P-14 | | | |

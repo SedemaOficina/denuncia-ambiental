@@ -896,3 +896,20 @@ También se corrigieron los conteos de campos, escenarios y peso del documento 1
 **Las tres auditorías fechadas —06, 07 y 14— no se actualizaron.** Se les antepuso una nota de vigencia: son fotografía de una fecha y reescribirlas destruiría el registro de que el hallazgo existió. La nota dice además cuándo se tiene por cerrado un hallazgo: cuando una decisión lo declara cerrado **y** una comprobación automática lo sujeta.
 
 **Verificación.** **299 comprobaciones en verde en once baterías**, con una nueva: el turnado de las Áreas Naturales Protegidas federales. Documento 09 regenerado con 56 campos y 22 datos personales.
+
+### Los colores: de siete familias a cinco
+
+La pregunta fue cuántos colores hay. La respuesta era peor de lo que parecía: **treinta y dos valores en siete familias, once escritos sueltos fuera de la paleta** —lo que explicaba que nadie supiera cuántos había—.
+
+Pero la cantidad no era el problema. El problema era el reparto:
+
+- **El ámbar hacía dos trabajos**: advertir a la persona que denuncia y marcar un pendiente de la Secretaría. Dos cosas que no se parecen en nada, con dos amarillos distintos que sí se parecían. Ahora el aviso al ciudadano va en **neutro con filete** —un aviso es algo que hay que leer, no una alarma— y el ámbar queda para una sola cosa.
+- **El verde estaba en tres lugares**: la barra de pasos, los avisos de confirmación y el acuse. Sale de la barra, que es donde más pesaba porque aparece en todas las pantallas, y donde además no aportaba nada: que un paso esté hecho lo dicen la palomita y el número. Queda reservado a la pantalla que dice que la denuncia se recibió.
+- **El morado existía para una sola pantalla.** La ficha del cruce usaba cuatro colores —guinda, verde, morado y rojo— para decir qué área atiende, que es justo lo que la ficha ya dice con letras. Pasa a un solo panel neutro; el rojo se queda donde el punto cae fuera de la Ciudad, que es lo único que impide continuar.
+- **La prueba de humanidad marcada pasa a azul**, que es el color de lo elegido en todo el formulario. Estaba en verde por inercia.
+
+Quedan **cinco familias con un trabajo cada una** —rojo: error; ámbar: pendiente; verde: recibida; azul: tocable y elegido; neutro: todo lo demás— más la identidad institucional donde ya se había decidido que importa: encabezado, pie y acción principal. La paleta declara ahora, en un comentario, qué hace cada una.
+
+**La batería 12 no comprueba el gusto, comprueba el reparto**: que ningún color viva fuera de la paleta, que el verde no aparezca en ninguno de los siete pasos y sí en el acuse, que el ámbar sólo lo use la marca de pendiente, y que el paso hecho se distinga sin color (DEC-95).
+
+**Verificación.** 317 comprobaciones en verde en doce baterías.
