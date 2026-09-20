@@ -44,6 +44,53 @@ Ley Orgánica de la Procuraduría Ambiental y del Ordenamiento Territorial de la
 
 **Gestiones previas ante otras autoridades.** El artículo 22 BIS 1, fracción II, pide incluir información sobre las gestiones llevadas a cabo ante otras autoridades y su resultado. Conviene incorporar ese campo al formulario: distingue al ciudadano que ya acudió a la alcaldía y no obtuvo respuesta, lo que suele indicar mayor gravedad o reincidencia.
 
+## 3 bis. Lo que aporta el Manual Administrativo de la Secretaría
+
+Fuente: `insumos/normativa/Manual Administartivo SEDEMA.pdf`. Resuelve tres cuestiones que el Reglamento Interior dejaba abiertas.
+
+### Las dos unidades que atienden denuncias, con su nombre exacto
+
+| Dirección general | Unidad que atiende | Materia |
+|---|---|---|
+| Dirección General de Inspección y Vigilancia Ambiental | **Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano** | Suelo urbano y Áreas de Valor Ambiental |
+| Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural | **Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas** | Suelo de conservación y Áreas Naturales Protegidas |
+
+La DGIVA cuenta además con una **Jefatura de Unidad Departamental de Seguimiento a Denuncias**, cuya función es dar seguimiento a las denuncias después del acto de inspección, **atender a las personas denunciantes que preguntan por el avance** y elaborarles informes. Es la unidad que el acuse debe nombrar para el seguimiento.
+
+### El reparto de competencias, confirmado
+
+La atribución de recibir y tramitar denuncias está redactada en paralelo para las dos direcciones generales, y la diferencia es exactamente el tipo de suelo:
+
+- **DGIVA, fracción XXX:** «Recibir, tramitar, atender, denuncias ciudadanas y en su caso, formular ante la autoridad que corresponda, las denuncias en materia ambiental, relacionadas con **suelo urbano y áreas de valor ambiental**, así como por actos u omisiones que pudieran constituir infracciones, delitos y/o ecocidios, competencia de la Ciudad de México».
+- **DGCORENADR, fracción XXXVIII:** idéntica, sustituyendo por «**suelo de conservación y áreas naturales protegidas**».
+
+Es la misma regla que el formulario aplica al cruzar el punto con las capas. Deja de sostenerse sólo en la interpretación de la Ley.
+
+La DGIVA tiene además una atribución que conviene tener presente (fracción XXII): recibir y tramitar las **solicitudes de inspección de la Procuraduría** cuando se trate de denuncias ciudadanas contra fuentes fijas y móviles. Es la vía por la que una denuncia presentada ante la PAOT termina en la Secretaría.
+
+### Los plazos de los dos procedimientos
+
+Ambos procedimientos empiezan igual y cierran con la resolución notificada. Los días son hábiles y el propio Manual advierte que pueden variar si otra dependencia tarda en responder o si la persona inspeccionada interpone un medio de defensa.
+
+| | Suelo urbano y AVA (DGIVA) | Suelo de conservación y ANP (DGCORENADR) |
+|---|---|---|
+| La dirección general recibe la denuncia y la turna | 3 días | 3 días |
+| La coordinación analiza el caso | 10 días | 10 días |
+| Si no es competencia, se turna o se rechaza | 5 días | 5 días |
+| **Procedimiento completo, hasta la resolución notificada** | **93 días hábiles** | **90 días hábiles (aproximado)** |
+
+**Qué se hace con esto.** Los avisos de «plazo por confirmar» de la portada, la pantalla de revisión y el acuse se sustituyen por estas cifras. Es la primera respuesta verificada a P-07.
+
+### Si la denuncia no es competencia de la Secretaría
+
+La regla 11 del procedimiento de la DGIVA nombra a los destinatarios: **Instituto de Verificación Administrativa, Alcaldías, Procuraduría Ambiental y del Ordenamiento Territorial, o cualquier otra institución gubernamental**, según la materia. Es la lista que el paso 1 del formulario debe poder ofrecer.
+
+### Lo que el Manual no resuelve
+
+La **Dirección General del Sistema de Áreas Naturales Protegidas y Áreas de Valor Ambiental no recibe denuncias**: el Manual no le asigna función alguna de recepción, trámite o seguimiento. Su única mención al tema —«coordinar con las instancias correspondientes en la atención de la denuncia ciudadana en materia de delitos ambientales»— está en una subdirección de proyectos. **Esto contradice el artículo 190, fracción XXII, del Reglamento Interior**, que le atribuye operar el sistema de inspección y vigilancia en Áreas Naturales Protegidas y Áreas de Valor Ambiental. Es una incongruencia entre el Reglamento y el Manual que conviene aclarar antes de operar; entretanto, el formulario no la nombra como área que atiende.
+
+---
+
 ## 3. Fundamento por materia
 
 | Materia | Fundamento en la Ley Ambiental de la Ciudad de México |
@@ -123,6 +170,8 @@ Verificado contra el **Reglamento Interior del Poder Ejecutivo y de la Administr
 **Matiz que debe conservarse.** El artículo 191, fracciones I y II, mantiene en la Dirección General de Inspección y Vigilancia Ambiental la **coordinación** de las estrategias y de los sistemas de videovigilancia en los cuatro ámbitos, incluidos suelo de conservación y Áreas Naturales Protegidas. Coordinar no es ordenar ni sancionar, de modo que el turnado no se altera, pero el diseño debe prever que esa dirección general conozca la estadística completa.
 
 **Traslape detectado — Dirección General del Sistema de Áreas Naturales Protegidas y Áreas de Valor Ambiental, artículo 190, fracción XXII.** Le corresponde «establecer y operar el sistema de inspección, seguridad y vigilancia de las áreas naturales protegidas, áreas de valor ambiental y de las áreas verdes urbanas». Es una tercera unidad con función de vigilancia sobre los mismos polígonos en los que el formulario turna a otras dos. No desplaza la facultad sancionadora, que sigue acotada por los artículos 188 y 191, pero obliga a definir si esa dirección general debe recibir copia de las denuncias que caen en Áreas Naturales Protegidas y Áreas de Valor Ambiental. Se registra en P-10.
+
+**Resuelto con el Manual Administrativo (20 de septiembre de 2026).** Lo que sigue se conserva porque explica de dónde venía la duda; la respuesta está en el apartado 3 bis.
 
 **Lo que no está en el Reglamento Interior.** La **Coordinación de Inspección y Vigilancia** de la DGCORENADR no aparece en él: el Reglamento sólo adscribe a esa dirección general la Dirección Ejecutiva de la Zona Patrimonio Mundial, Natural y Cultural de la Humanidad Xochimilco, Tláhuac y Milpa Alta. La Coordinación es una unidad de nivel inferior, de modo que sus atribuciones y su capacidad para ordenar visitas por sí misma deben constar en el **Manual Administrativo** de la Secretaría. Mientras no se verifique, la autoridad competente que el formulario debe nombrar es la **dirección general**, no la coordinación.
 

@@ -582,9 +582,9 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
       <h2>Quién atiende la denuncia</h2>
       <p>Según dónde ocurran los hechos, la denuncia la atiende una de dos áreas:</p>
       <p><strong>Dirección General de Inspección y Vigilancia Ambiental</strong><br>
-        <span>Suelo urbano y Áreas de Valor Ambiental</span></p>
+        <span>Suelo urbano y Áreas de Valor Ambiental. Atiende a través de su Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano</span></p>
       <p><strong>Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural</strong><br>
-        <span>Suelo de conservación y Áreas Naturales Protegidas. Atiende a través de su Coordinación de Inspección y Vigilancia Ambiental</span></p>
+        <span>Suelo de conservación y Áreas Naturales Protegidas. Atiende a través de su Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas</span></p>
       <p><span class="pendiente">Domicilios y horarios de las dos unidades, por confirmar</span></p>
       <p class="pie-enlaces">
         <button type="button" class="enlace" onclick="abrePrivacidad()">Aviso de privacidad</button>
@@ -1395,7 +1395,7 @@ function pInicio(){
       '<li><b>Visita de inspección</b><span>Si el caso procede.</span></li>'+
       '<li><b>Te informan el resultado</b><span>Si dejaste un medio de contacto.</span></li>'+
     '</ol>'+
-    '<p class="portada-pie" style="text-align:left;margin-top:12px"><span class="pendiente">Plazos de atención por confirmar con la DGIVA</span></p>'+
+    '<p class="portada-pie" style="text-align:left;margin-top:12px">La Secretaría la turna al área que corresponde en <strong>tres días hábiles</strong>, y esa área analiza el caso en <strong>diez</strong>.</p>'+
 
     '<h3 class="sub-seccion">Ten a la mano</h3>'+
     '<div class="tener">'+
@@ -1849,14 +1849,14 @@ function analizaCapas(la,lo){
     guarda('dg_nombre','Procuraduría Federal de Protección al Ambiente (PROFEPA)');
     guarda('dg_razon','El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría no tiene convenio de coadministración, por lo que la denuncia corresponde a la autoridad federal.');
   } else if(c.dg==='DGCORENADR'){
-    guarda('dg_nombre','Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección y Vigilancia');
+    guarda('dg_nombre','Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas');
     if(c.coadmin){
       guarda('dg_razon','El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría cuenta con convenio de coadministración, por lo que la denuncia sí puede ser atendida en el ámbito local.');
     } else {
       guarda('dg_razon','El punto se ubica en '+(c.tipo.indexOf('Natural')>=0?'un Área Natural Protegida local':'suelo de conservación')+', materia que corresponde a esta dirección general.');
     }
   } else {
-    guarda('dg_nombre','Dirección General de Inspección y Vigilancia Ambiental');
+    guarda('dg_nombre','Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano');
     guarda('dg_razon','El punto se ubica en '+(c.nombre?'un Área de Valor Ambiental':'suelo urbano')+', materia que corresponde a esta dirección general.');
   }
 
@@ -2222,7 +2222,7 @@ function pRevision(){
       })(), 5)+
   '</dl></div>'+
   '<div class="aviso aviso-guinda" style="margin-top:20px">Al enviar, la denuncia se registra con un folio y se turna a '+
-    esc(val('dg_nombre') || 'el área competente de la Secretaría')+'. <span class="pendiente">Plazos de atención por confirmar</span></div>'+
+    esc(val('dg_nombre') || 'el área competente de la Secretaría')+', que la recibe en tres días hábiles y analiza el caso en diez.</div>'+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(5)"><span class="fl" aria-hidden="true">\u2039</span>Corregir</button>'+
   '<button type="button" class="btn btn-primario" onclick="enviar()">Enviar denuncia</button></div></div>';
   return h;
@@ -2243,8 +2243,9 @@ function pAcuse(){
       '<li>La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.</li>'+
       '<li>Si procede, se integra el expediente y se programa la visita de inspección.</li>'+
       '<li>El inspector ambiental, autorizado por la Secretaría, practica la visita y levanta el acta correspondiente.</li>'+
-      '<li>Se te informa el resultado por el medio de contacto que registraste. <span class="pendiente">Plazo por confirmar</span></li>'+
+      '<li>Se te informa el resultado por el medio de contacto que registraste.</li>'+
     '</ol>'+
+    '<p class="nota-gris" style="margin-top:10px">Los primeros dos pasos tienen plazo: <strong>tres días hábiles</strong> para turnar la denuncia al área que corresponde y <strong>diez</strong> para que esa área analice el caso. El procedimiento completo, hasta la resolución notificada, está previsto en <strong>noventa y tres días hábiles</strong> en suelo urbano y <strong>noventa</strong> en suelo de conservación. Son días hábiles y pueden variar si otra dependencia tarda en responder o si la persona denunciada interpone un medio de defensa.</p>'+
     (val('tipo_denunciado')==='gobierno' ?
       '<div class="aviso" style="text-align:left">Señalaste a una autoridad. La Secretaría valorará los hechos y, de resultar procedente, emitirá las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección. <span class="pendiente">Plazo y vía de respuesta por confirmar</span></div>' : '')+
     '<h3 class="sub-seccion sub-seccion-sm">No tienes que ratificar nada</h3>'+
@@ -2254,7 +2255,8 @@ function pAcuse(){
     '<h3 class="sub-seccion sub-seccion-sm">Dónde dar seguimiento</h3>'+
     '<p class="nota-gris">Tu denuncia la atiende '+
       '<strong>'+esc(val('dg_nombre')||'la Secretaría del Medio Ambiente')+'</strong>. '+
-      'Puedes acudir con tu folio a la Oficialía de Partes señalada al pie de esta página. '+
+      'Si tu denuncia es de suelo urbano o de un Área de Valor Ambiental, quién responde a tus preguntas sobre el avance es la <strong>Jefatura de Unidad Departamental de Seguimiento a Denuncias</strong> de esa dirección general. '+
+      'También puedes acudir con tu folio a la Oficialía de Partes señalada al pie de esta página. '+
       '<span class="pendiente">Domicilio, horario y teléfono de esta unidad, por confirmar</span></p>'+
     '<ol style="display:none">'+
     '</ol></div>'+

@@ -48,11 +48,13 @@ with sync_playwright() as pw:
           };
         }""")
 
-        # El tope subio a 340 al rehacer la portada: ahora enuncia el derecho,
+        # El tope subio a 350: a 340 por rehacer la portada y diez palabras mas
+        # al sustituir el aviso de «plazos por confirmar» por los plazos reales
+        # del Manual Administrativo, que es dato y no relleno (DEC-84). Rehacer la portada: ahora enuncia el derecho,
         # lo que la ley reconoce y por que sirve denunciar, que es contenido
         # pedido y no relleno (DEC-76). Sigue habiendo tope, y sigue valiendo
         # lo que lo motivo: el boton de empezar tiene que verse sin desplazar.
-        afirma(r['palabras'] <= 340, '%s: la portada cabe en %d palabras (tope 340)' % (nom, r['palabras']))
+        afirma(r['palabras'] <= 350, '%s: la portada cabe en %d palabras (tope 350)' % (nom, r['palabras']))
         afirma(r['derechos'] == 4, '%s: los cuatro enunciados de lo que la ley reconoce' % nom)
         afirma('tu derecho' in r['tarjeta'], '%s: la portada enuncia la denuncia como un derecho' % nom)
         afirma('Secretar\u00eda del Medio Ambiente' in r['tarjeta'], '%s: la portada nombra a la Secretar\u00eda' % nom)

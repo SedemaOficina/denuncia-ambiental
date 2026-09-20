@@ -764,3 +764,35 @@ De modo que el código plus quedó donde le corresponde —como alternativa que 
 Tiene además un efecto favorable que conviene decir en voz alta: resolviéndolo en el servidor, **el navegador de la persona nunca habla con Google**, de modo que Google no sabe que alguien está presentando una denuncia (DEC-83).
 
 **Verificación.** **237 comprobaciones en verde** en siete baterías. Dos comprobaciones de la batería 01 y 07 buscaban el texto anterior del aviso; se verificó que no eran regresiones y se actualizaron para fijar lo que no puede perderse: que el enlace no trae la coordenada, que se dice quién lo resolverá, y que la demostración se advierte.
+
+---
+
+## Bloque: el Manual Administrativo entra como fuente
+
+**20 de septiembre de 2026.** El Manual Administrativo de la Secretaría se incorporó a `insumos/normativa`. Resuelve tres cosas que estaban abiertas desde el principio, y corrige una que teníamos mal.
+
+### Lo que teníamos mal
+
+La unidad de la DGCORENADR **no se llama** «Coordinación de Inspección y Vigilancia Ambiental». Se llama **Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas**. Y la de la DGIVA es **Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano**, con el complemento que la distingue. Ambos nombres estaban mal en el turnado y en el pie de página; quedaron corregidos.
+
+### El reparto de competencias deja de ser interpretación
+
+Las dos atribuciones están redactadas en paralelo y la única diferencia es el tipo de suelo: la DGIVA recibe las denuncias «relacionadas con suelo urbano y áreas de valor ambiental» (fracción XXX) y la DGCORENADR las de «suelo de conservación y áreas naturales protegidas» (fracción XXXVIII). **Es exactamente la regla que el formulario aplica al cruzar el punto con las capas.** Hasta hoy se sostenía en la lectura de la Ley; ahora la sostiene también el Manual.
+
+### Los plazos dejan de estar por confirmar
+
+| | Suelo urbano (DGIVA) | Suelo de conservación (DGCORENADR) |
+|---|---|---|
+| Recibir y turnar | 3 días hábiles | 3 días hábiles |
+| Analizar el caso | 10 días hábiles | 10 días hábiles |
+| **Procedimiento completo** | **93 días hábiles** | **90 días hábiles** |
+
+Los tres avisos de «plazo por confirmar» —portada, revisión y acuse— se sustituyeron por estas cifras, con la advertencia del propio Manual: son días hábiles y pueden variar si otra dependencia tarda en responder o si la persona denunciada interpone un medio de defensa.
+
+### Dos hallazgos que conviene que la Secretaría vea
+
+**La DGIVA tiene una Jefatura de Unidad Departamental de Seguimiento a Denuncias** cuya función expresa es atender a las personas denunciantes que preguntan por el avance y elaborarles informes. Es la unidad que faltaba nombrar en el acuse, y ya aparece ahí.
+
+**La DGSANPAVA no recibe denuncias.** El Manual no le asigna ninguna función de recepción, trámite o seguimiento. Pero el artículo 190, fracción XXII, del Reglamento Interior **sí le atribuye operar el sistema de inspección y vigilancia en Áreas Naturales Protegidas y Áreas de Valor Ambiental**. Es una incongruencia entre el Reglamento y el Manual, no del formulario. Hasta que se aclare, el formulario no la nombra como área que atiende, y así queda registrado en P-10.
+
+**Verificación.** 237 comprobaciones en verde. La portada creció diez palabras al sustituir el aviso por las cifras, de modo que el tope subió de 340 a 350 —es dato, no relleno— y sigue comprobándose que el botón de empezar se ve sin desplazar a 390 px (DEC-84).
