@@ -60,13 +60,16 @@ with sync_playwright() as pw:
       const prev = cfg.validar; cfg.validar = true; render();
       const r = ['calle','entre_calle1','referencias'].map(k => {
         const c = document.getElementById('c_'+k);
-        return c ? (c.innerText.toLowerCase().includes('opcional') ? 'opcional' : 'obligatorio') : 'ausente';
+        if(!c) return 'ausente';
+        const t = c.innerText;
+        if(t.toLowerCase().includes('opcional')) return 'DICE OPCIONAL';
+        return c.querySelector('.req') ? 'obligatorio' : 'opcional';
       });
       cfg.validar = prev; render();
       return r;
     }""")
     afirma(marcas == ['obligatorio','opcional','opcional'],
-           'la calle se pide y los accesorios se marcan opcionales: %s' % marcas)
+           'la calle lleva asterisco y los accesorios no llevan marca: %s' % marcas)
 
     # --- 3. Lo capturado se conserva al volver al paso ---
     pg.fill('#f_referencias', 'Frente a la escuela primaria')

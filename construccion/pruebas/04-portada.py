@@ -75,7 +75,13 @@ with sync_playwright() as pw:
         # El texto de cada paso ocupa su propia celda: una linea, no una palabra por linea.
         anchos = pg.evaluate("""() => [...document.querySelectorAll('.despues span')]
             .map(e => Math.round(e.getBoundingClientRect().width))""")
-        afirma(min(anchos) > 150, '%s: el texto de los pasos no se parte por palabra (mínimo %d px)' % (nom, min(anchos)))
+        afirma(min(anchos) > 80, '%s: el texto de los pasos no cae en la columna del número (mínimo %d px)' % (nom, min(anchos)))
+        filas = pg.evaluate("""() => {
+          const li=[...document.querySelectorAll('.despues li')];
+          return [...new Set(li.map(e=>Math.round(e.getBoundingClientRect().top)))].length;
+        }""")
+        esperado = 1 if ancho >= 620 else 2
+        afirma(filas == esperado, '%s: los cuatro momentos van en %d fila(s), como corresponde al ancho' % (nom, filas))
 
         # El aviso de denuncia sin terminar puede acortarse, pero NUNCA puede
         # perder que aun no se ha presentado: sin esa frase alguien cierra el
@@ -84,7 +90,7 @@ with sync_playwright() as pw:
           localStorage.setItem(CLAVE_BORRADOR, JSON.stringify(
             {estado:{materia:'ava', hechos:'x'.repeat(60)}, paso:3, t:Date.now()}));
           irA(0);
-          const a = document.querySelector('.borrador');
+          const a = document.querySelector('.franja');
           const r = a ? {t: a.innerText.replace(/\\s+/g,' ').trim(),
                          botones: [...a.querySelectorAll('button')].length} : null;
           localStorage.removeItem(CLAVE_BORRADOR);
@@ -95,20 +101,35 @@ with sync_playwright() as pw:
             afirma('no se ha presentado' in av['t'],
                    '%s: el aviso conserva que la denuncia aún no se ha presentado' % nom)
             afirma(av['botones'] == 2, '%s: el aviso ofrece continuar y descartar' % nom)
+            fuera = pg.evaluate("""() => {
+              localStorage.setItem(CLAVE_BORRADOR, JSON.stringify({estado:{materia:'ava'}, paso:3, t:Date.now()}));
+              irA(0);
+              const f = document.querySelector('.franja'), app = document.getElementById('app');
+              const r = {dentro: !!(f && app.contains(f)),
+                         antes: !!(f && f.getBoundingClientRect().top < app.getBoundingClientRect().top)};
+              irA(1);
+              r.enElPaso1 = !!document.querySelector('.franja');
+              irA(0);
+              localStorage.removeItem(CLAVE_BORRADOR);
+              return r;
+            }""")
+            afirma(not fuera['dentro'], '%s: el aviso vive fuera del formulario' % nom)
+            afirma(fuera['antes'], '%s: y encima de la tarjeta, como franja de sistema' % nom)
+            afirma(not fuera['enElPaso1'], '%s: dentro del formulario ya no aparece' % nom)
             peso = pg.evaluate("""() => {
               localStorage.setItem(CLAVE_BORRADOR, JSON.stringify({estado:{materia:'ava'}, paso:3, t:Date.now()}));
               irA(0);
-              const bs = [...document.querySelectorAll('#app button')];
-              const ini = bs.find(b => b.textContent.includes('Iniciar'));
-              const con = bs.find(b => b.textContent.includes('Continuar donde'));
+              const ini = [...document.querySelectorAll('#app button')].find(b => b.textContent.includes('Iniciar'));
+              const con = [...document.querySelectorAll('button')].find(b => b.textContent.includes('Continuar donde'));
+              if(!ini || !con) return null;
               const r = {iniRelleno: getComputedStyle(ini).backgroundColor,
                          conRelleno: getComputedStyle(con).backgroundColor};
               localStorage.removeItem(CLAVE_BORRADOR);
               return r;
             }""")
-            afirma(peso['iniRelleno'] != peso['conRelleno'] and 'rgb(255, 255, 255)' in peso['conRelleno'],
+            afirma(peso is not None and peso['iniRelleno'] != peso['conRelleno'] and 'rgb(255, 255, 255)' in peso['conRelleno'],
                    '%s: continuar es secundario y no compite con iniciar (%s vs %s)'
-                   % (nom, peso['conRelleno'], peso['iniRelleno']))
+                   % (nom, peso and peso['conRelleno'], peso and peso['iniRelleno']))
             afirma(len(av['t'].split(' ')) <= 26,
                    '%s: el aviso se mantiene breve (%d palabras, tope 26)' % (nom, len(av['t'].split(' '))))
         pg.evaluate("irA(0)"); pg.wait_for_timeout(200)

@@ -121,7 +121,7 @@ html{scroll-padding-top:150px}
 .campo{margin-bottom:18px}
 .campo label{display:block;font-weight:500;font-size:var(--t-md);margin-bottom:5px;color:var(--texto);cursor:pointer}
 .campo .ayuda{font-size:var(--t-sm);color:var(--gris-cl);margin-bottom:6px;line-height:1.45}
-.opc{color:var(--gris-cl);font-weight:400;font-size:var(--t-sm);font-style:italic}
+.req{color:var(--guinda);font-weight:700;margin-left:1px}
 input[type=text],input[type=tel],input[type=email],input[type=date],input[type=time],input[type=number],select,textarea{
   width:100%;padding:12px 13px;border:1px solid var(--borde);border-radius:var(--r-ctrl);
   font-family:inherit;font-size:var(--t-base);background:#fff;color:var(--texto);transition:border-color .15s,box-shadow .15s;min-height:46px;
@@ -1810,7 +1810,7 @@ function pHechos(){
   ejemploHechos()+
   '<div class="aviso" style="margin-top:-6px;font-size:13.5px">Una descripción útil responde: qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce (humo, olor, ruido, derrame, tala, tiro de material).</div>'+
 
-  '<h3 style="font-size:var(--t-lg);color:var(--guinda);margin:26px 0 14px">¿Desde cuándo ocurre?'+(esObligatorio('temporalidad')?'':' <span class="opc">opcional</span>')+'</h3>'+
+  '<h3 style="font-size:var(--t-lg);color:var(--guinda);margin:26px 0 14px">¿Desde cuándo ocurre?'+marca_opc(esObligatorio('temporalidad'))+'</h3>'+
   '<div class="campo"><div class="opciones">'+
     ['unico|Ocurrió una sola vez','recurrente|Ocurre de forma repetida','permanente|Es permanente o continuo'].map(function(o){
       var p=o.split('|');
@@ -1932,7 +1932,7 @@ function bloqueDenunciado(){
 }
 
 function pEvidencia(){
-  var h = '<div class="tarjeta"><h2><span class="num" aria-hidden="true">4</span>Fotos, videos o documentos <span class="opc">opcional</span></h2>'+
+  var h = '<div class="tarjeta"><h2><span class="num" aria-hidden="true">4</span>Fotos, videos o documentos'+marca_opc(esObligatorio('archivos'))+'</h2>'+
   '<p class="sub">Las fotografías y videos son el insumo más útil para programar una inspección.</p>'+
   '<div class="aviso aviso-ok"><strong>Si no tienes las pruebas ahora, no esperes.</strong> Presenta tu denuncia hoy y después podrás seguir aportando fotografías, videos o documentos con tu número de folio.</div>'+
   '<button type="button" class="zona-carga" onclick="$(\'inputArch\').click()">'+
@@ -2162,7 +2162,9 @@ function pAcuse(){
    control y error—, aunque alguna vaya vacía. Así los campos que
    comparten renglón alinean sus controles con subgrid y no se
    desfasan cuando uno tiene ayuda y el otro no. */
-function marca_opc(oblig){ return oblig ? '' : ' <span class="opc">opcional</span>'; }
+function marca_opc(oblig){
+  return oblig ? ' <span class="req" aria-hidden="true">*</span><span class="solo-lector"> (obligatorio)</span>' : '';
+}
 
 function campo(k,etq,tipo,oblig,ayuda,extra){
   var t = tipo==='fecha'?'date':(tipo==='tel'?'tel':(tipo==='email'?'email':(tipo==='hora'?'time':(tipo==='numero'?'text':'text'))));
@@ -2212,7 +2214,7 @@ function actualizaOtroEstab(){
 /* Pregunta de opción única, en botones. */
 function campoOpciones(k,etq,ops,ayuda,accion){
   var v = val(k);
-  return '<div class="campo" id="c_'+k+'"><span class="etq">'+esc(etq)+(esObligatorio(k)?'':' <span class="opc">opcional</span>')+'</span>'+
+  return '<div class="campo" id="c_'+k+'"><span class="etq">'+esc(etq)+marca_opc(esObligatorio(k))+'</span>'+
     '<div class="ayuda">'+(ayuda?esc(ayuda):'')+'</div>'+
     '<div class="si-no envolver" role="group" aria-label="'+esc(etq)+'">'+
       ops.map(function(o){
@@ -2245,7 +2247,7 @@ function campoHora(etq,ayuda){
   var hs=[], ms=[];
   for(var i=0;i<24;i++){ var h=String(i).padStart(2,'0'); hs.push({v:h,t:h+' h'}); }
   for(var j=0;j<60;j+=5){ var m=String(j).padStart(2,'0'); ms.push({v:m,t:m+' min'}); }
-  return '<div class="campo campo-hora"><span class="etq">'+esc(etq)+'<span class="opc"> opcional</span></span>'+
+  return '<div class="campo campo-hora"><span class="etq">'+esc(etq)+'</span>'+
     (ayuda?'<div class="ayuda">'+esc(ayuda)+'</div>':'<div class="ayuda"></div>')+
     '<div class="par-hora">'+
       '<label class="solo-lector" for="f_hora_h">Hora</label>'+
@@ -2677,7 +2679,7 @@ function render(){
   else if(paso===6) h=pRevision();
   else if(paso===7) h=pAcuse();
   $('app').innerHTML = (cfg.validar && paso>=2 && paso<=5
-    ? '<p class="leyenda-oblig">Los campos que no dicen «opcional» son obligatorios en el esquema '+
+    ? '<p class="leyenda-oblig">Los campos marcados con <span class="req" aria-hidden="true">*</span> son obligatorios en el esquema '+
       (cfg.esquema==='vigente'?'del formato vigente':'de la DGIVA')+'.</p>' : '') + h;
   if(paso===2) iniciaMapa();
   if(paso===4) pintaArchivos();
