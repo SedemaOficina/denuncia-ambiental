@@ -73,7 +73,20 @@ main{max-width:980px;margin:0 auto;padding:24px 20px 96px}
 .sub{color:var(--gris);font-size:var(--t-md);margin-bottom:20px;max-width:70ch}
 
 /* ---------- Progreso ---------- */
-.progreso{margin-bottom:20px}
+/* Con la barra fija arriba, todo desplazamiento automático —el foco al abrir un
+   paso, el salto al resumen de errores— debe detenerse por debajo de ella. Se
+   declara una vez en el contenedor de desplazamiento y cubre cualquier elemento,
+   en lugar de repartir scroll-margin por cada selector. */
+html{scroll-padding-top:150px}
+
+/* La barra de avance y el recordatorio de qué se denuncia acompañan a la persona
+   durante todo el recorrido: el formulario es largo y sin ellos se pierde de vista
+   en qué paso va y qué supuesto eligió. Al quedar fija, todo lo que reciba el foco
+   necesita `scroll-margin-top` para no quedar tapado. */
+.barra-fija{position:sticky;top:0;z-index:40;background:var(--fondo);
+  padding:12px 0 10px;margin-bottom:18px;border-bottom:1px solid var(--linea)}
+.barra-fija .chip-materia{margin:10px 0 0}
+.progreso{margin-bottom:0}
 .progreso .pista{height:6px;background:var(--linea);border-radius:var(--r-pill);overflow:hidden}
 .progreso .avance{height:100%;background:var(--guinda);width:0;transition:width .35s ease}
 .progreso .paso-txt{display:none;font-size:var(--t-sm);color:var(--guinda);font-weight:700;margin-top:8px}
@@ -363,7 +376,14 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
   .tarjeta{padding:20px}
   header.titulo h1{font-size:var(--t-xl)}
   .progreso .etapas{display:none}
-  .progreso .paso-txt{display:block}
+  .progreso .paso-txt{display:block;margin-top:6px}
+  /* En pantalla estrecha la barra fija no puede comerse la pantalla: el
+     recordatorio se reduce a una línea, sin la etiqueta de encabezado. */
+  .barra-fija{padding:8px 0 8px}
+  .barra-fija .chip-materia{margin-top:7px;padding:8px 11px;gap:8px}
+  .barra-fija .chip-materia .cm-etq{display:none}
+  .barra-fija .chip-materia > span{font-size:var(--t-md)}
+  html{scroll-padding-top:120px}
   .acciones{flex-direction:column-reverse}
   .btn{width:100%}
   #panel .cuerpo{width:calc(100vw - 32px)}
@@ -390,10 +410,13 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
 </header>
 
 <main>
-  <div class="progreso" id="progreso" role="group" aria-label="Avance del formulario">
-    <div class="pista"><div class="avance" id="avance"></div></div>
-    <div class="paso-txt" id="pasoTxt"></div>
-    <div class="etapas" id="etapas"></div>
+  <div class="barra-fija" id="barraFija">
+    <div class="progreso" id="progreso" role="group" aria-label="Avance del formulario">
+      <div class="pista"><div class="avance" id="avance"></div></div>
+      <div class="paso-txt" id="pasoTxt"></div>
+      <div class="etapas" id="etapas"></div>
+    </div>
+    <div id="chipFijo"></div>
   </div>
   <div id="anuncio" class="solo-lector" aria-live="polite" role="status"></div>
   <p id="guardado" class="guardado" aria-live="polite"></p>
@@ -1112,8 +1135,9 @@ function chipMateria(){
 
 function barra(){
   var vis = (paso>=1 && paso<=6);
+  $('barraFija').style.display = vis ? 'block' : 'none';
   $('progreso').style.display = vis ? 'block' : 'none';
-  if(!vis) return;
+  if(!vis){ $('chipFijo').innerHTML = ''; return; }
   $('avance').style.width = Math.round((paso/6)*100)+'%';
   $('pasoTxt').textContent = 'Paso '+paso+' de 6 · '+ETAPAS[paso-1];
   if($('anuncio')) $('anuncio').textContent = 'Paso '+paso+' de 6: '+ETAPAS[paso-1];
@@ -1121,6 +1145,7 @@ function barra(){
   /* Las etapas son botones: se puede navegar entre pasos ya recorridos sin volver
      a pasar por todos. Retroceder nunca exige nada; avanzar exige que los pasos
      intermedios pasen su validación, que en modo de prueba no pide nada. */
+  $('chipFijo').innerHTML = chipMateria();
   $('etapas').innerHTML = ETAPAS.map(function(e,i){
     var n=i+1, c = n===paso?'activa' : (n<paso?'hecha':'');
     var titulo = n===paso ? 'Estás en este paso'
@@ -2330,7 +2355,7 @@ function render(){
   else if(paso===7) h=pAcuse();
   $('app').innerHTML = (cfg.validar && paso>=2 && paso<=5
     ? '<p class="leyenda-oblig">Los campos que no dicen «opcional» son obligatorios en el esquema '+
-      (cfg.esquema==='vigente'?'del formato vigente':'de la DGIVA')+'.</p>' : '') + chipMateria() + h;
+      (cfg.esquema==='vigente'?'del formato vigente':'de la DGIVA')+'.</p>' : '') + h;
   if(paso===2) iniciaMapa();
   if(paso===4) pintaArchivos();
   guardaBorrador();

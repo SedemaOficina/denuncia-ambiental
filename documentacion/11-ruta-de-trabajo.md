@@ -371,3 +371,15 @@ Si algo de eso no se entrega, el bloque no está cerrado.
 | 79 secuencias `\uXXXX` | Convertidas a caracteres reales | **Defecto propio.** En las cadenas funcionaban, pero en los comentarios quedaban como basura ilegible. Se verificó que el texto renderizado de los seis pasos es idéntico antes y después |
 
 **Verificación de cierre.** Sintaxis correcta. Cero funciones duplicadas o sin uso, cero claves de estado sin lectura, cero clases huérfanas, cero escapes literales; el único selector declarado dos veces es `textarea`, la excepción anotada. Comprobado que al colocar el punto en otra alcaldía **ninguno de los cinco campos de dirección cambia**, que la ficha muestra la alcaldía del punto y que la corrección sólo ocurre al pulsar el botón. En la barra: retroceder con un clic funciona; avanzar en modo de prueba funciona; con obligatoriedad activada y campos vacíos **no avanza y muestra el resumen de errores**; y con el punto fuera de la Ciudad **no avanza ni siquiera en modo de prueba**. Seis pasos y doce escenarios sin error en consola.
+
+### 19 de septiembre de 2026 · bloque «barra fija»
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| `.barra-fija` | Contenedor nuevo | Agrupa la barra de avance y el recordatorio de materia, y los fija arriba (DEC-43) |
+| `chipMateria()` | Reubicado | Deja de pintarse dentro del contenido, que se reconstruye en cada paso, y se pinta una sola vez en la barra |
+| `html{scroll-padding-top}` | Declaración nueva | Con la barra fija, todo desplazamiento automático debe detenerse por debajo de ella |
+
+**Corrección durante el propio cierre.** La primera versión repartía `scroll-margin-top` entre `.campo`, `.tarjeta h2`, `.sub-seccion` y `.resumen-errores`, **cuatro selectores que ya estaban declarados en otro sitio**. La auditoría de hojas de estilo lo detectó: es exactamente la regla «un selector, una declaración». Se sustituyó por una sola declaración de `scroll-padding-top` en el contenedor de desplazamiento, que además cubre cualquier elemento y no sólo esos cuatro.
+
+**Verificación de cierre.** Sintaxis correcta. Cero funciones duplicadas o sin uso, cero claves de estado sin lectura, cero clases huérfanas; el único selector declarado dos veces vuelve a ser `textarea`, la excepción anotada. Comprobado por medición que el recordatorio sigue visible tras desplazar 1 200 y 3 000 px, en pantalla de 1 100 y de 390 px; que no queda duplicado dentro del contenido; que no aparece en el paso 1 ni en el acuse; y que la barra ocupa 110 px en un teléfono de 760 px de alto. Seis pasos y doce escenarios sin error en consola.
