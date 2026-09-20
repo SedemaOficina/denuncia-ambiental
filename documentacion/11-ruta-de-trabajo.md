@@ -472,3 +472,24 @@ El generador del documento 09 **no estaba en ninguna parte**: se había escrito 
 **Verificación de cierre.** **101 comprobaciones automatizadas, todas en verde**, incluidas las dos baterías anteriores, que se conservan: una prueba vieja en verde es lo que avisa cuando un cambio nuevo rompe algo viejo. Sintaxis correcta. Cero funciones sin uso, cero duplicadas, cero claves de estado escritas y nunca leídas, cero clases de estilo huérfanas; los cuatro `!important` están todos dentro de `prefers-reduced-motion`, que es su uso legítimo, y el único selector declarado dos veces sigue siendo `textarea`, la excepción anotada. Documento 09 regenerado: **50 campos, 20 datos personales, 17 con obligatoriedad condicionada, ninguno sin uso declarado**. Comprobado que la denuncia en el Bosque de Tlalpan ya puede presentarse, que sin domicilio no se piden calle ni colonia ni código postal y sí el nombre y el acceso, que con domicilio todo sigue igual que ayer, que las tres rutas de identificación piden lo suyo y sólo lo suyo, y que el resumen final distingue la identidad acreditada de la que no lo está.
 
 **Nota sobre el método.** Dos de las comprobaciones antiguas fallaron al correrlas de nuevo. Ninguna era una regresión: una nombraba un campo que hoy está fundido en otro, y la otra forzaba la obligatoriedad de un campo que ahora tiene condición propia, de modo que medía la condición y no la red que pretendía probar. Se corrigieron las pruebas, no el código —y se anota, porque es la tercera vez en el proyecto que lo defectuoso resulta ser el método de verificación, y la única defensa contra eso es comprobar siempre qué falló antes de tocar nada.
+
+### 19 de septiembre de 2026 · los datos accesorios del lugar, arriba del mapa y sin plegar
+
+Cambio pedido por el usuario, con una razón que no se había visto al plegarlos: **el mapa partía en dos el bloque de dirección**. Calle, número, alcaldía, colonia y código postal arriba; el mapa y el panel de capas en medio; y luego, abajo, entre calles y cómo se reconoce el sitio —que son dirección también—. Puestos donde corresponden, el paso se lee de corrido: la dirección completa, y después el mapa que la confirma.
+
+Sobre el plegado, **lo que cambió es el tamaño del bloque**. Cuando se plegó (DEC-44) tenía siete campos; hoy tiene tres, porque el propio usuario detectó que dos de ellos preguntaban lo mismo (DEC-47). A tres campos, esconderlos cuesta más de lo que ahorra: quien tiene el dato no encuentra dónde ponerlo.
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| Posición del bloque | Movido | De debajo del panel de capas a justo después del código postal, cerrando la dirección (DEC-51) |
+| `.enc-opcional` | `button` → `h3` | Ya no despliega nada; es el encabezado de una sección |
+| `mas_lugar` | Clave retirada | Sin plegado no hay estado de plegado que guardar |
+| `ENVUELTOS_LUGAR` en `valida()` | Red retirada | Existía para desplegar el bloque antes de mostrar un error dentro. Sin nada plegado sería código muerto |
+
+**Lo que se conserva de DEC-44** es lo que sigue valiendo: «opcional» se dice **una vez, en el encabezado**, y no campo por campo. La regla `.cuerpo-opcional .opc{display:none}` sigue en pie y el paso mantiene seis apariciones de la palabra en lugar de las nueve que tendría.
+
+**Medición.** El paso 2 pasa de 2 163 a 2 864 px: de 2.8 a 3.8 pantallas de teléfono. **Cuesta una pantalla**, y conviene decirlo sin adornos. Sigue por debajo de los 3 609 px con que empezó el día anterior, y la contrapartida es que ya no hay tres campos escondidos tras un clic que la mayoría no daba.
+
+**Verificación de cierre.** 94 comprobaciones en verde. Sintaxis correcta. Cero funciones sin uso, cero claves escritas y nunca leídas, cero clases de estilo huérfanas. Comprobado por medición del árbol que el bloque queda **después del código postal y antes del mapa**, que no queda ningún plegable, que los tres campos se ven de entrada, que lo capturado sobrevive a salir y volver al paso, y que dentro del bloque no se repite la palabra «opcional».
+
+**Nota sobre las pruebas.** La batería que comprobaba el plegado se reescribió para comprobar lo contrario, y se renombró: se llamaba `01-plegado-y-ubicacion.py` y describía un comportamiento que ya no existe. **No se borró.** Su encabezado ahora cuenta las dos decisiones —por qué se plegó y por qué se dejó de plegar—, que es justo lo que alguien necesita saber dentro de seis meses antes de proponer plegarlo otra vez.

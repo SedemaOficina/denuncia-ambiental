@@ -1,6 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Pruebas del bloque B: plegado de campos accesorios, geolocalización
-   con encuadre propio, y recorrido completo sin errores de consola."""
+"""Datos accesorios del lugar, geolocalización con encuadre propio y recorrido
+   completo sin errores de consola.
+
+   El bloque nació plegado (DEC-44) y dejó de estarlo (DEC-51): al fundirse los
+   dos campos de referencias en uno, bajó de siete campos a tres, y a ese tamaño
+   esconderlos costaba más de lo que ahorraba. Lo que se conserva de aquella
+   decisión es que «opcional» se dice una vez en el encabezado y no campo por
+   campo. Estas comprobaciones siguen el cambio; no se borran."""
 import os, pathlib
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
 RAIZ = AQUI.parent
@@ -34,61 +40,41 @@ with sync_playwright() as pw:
     pg.wait_for_timeout(400)
     afirma(pg.locator('#app').inner_text().find('Dónde') >= 0 or pg.locator('h2').first.inner_text() != '', 'paso 2 renderiza')
 
-    # --- 1. El bloque nace plegado ---
-    enc = pg.locator('.enc-opcional')
-    afirma(enc.count() == 1, 'existe un solo encabezado plegable')
-    afirma(enc.get_attribute('aria-expanded') == 'false', 'el bloque nace plegado (aria-expanded=false)')
-    afirma(pg.locator('.cuerpo-opcional').count() == 0, 'plegado: el cuerpo no está en el DOM')
-    afirma(pg.locator('#entre_calle1').count() == 0, 'plegado: los campos accesorios no están en el DOM')
-
-    # --- 2. Abre y cierra ---
-    enc.click(); pg.wait_for_timeout(300)
-    afirma(pg.locator('.enc-opcional').get_attribute('aria-expanded') == 'true', 'abierto: aria-expanded=true')
-    afirma(pg.locator('.cuerpo-opcional').count() == 1, 'abierto: el cuerpo aparece')
-    for c in ['entre_calle1','entre_calle2','referencias']:
-        afirma(pg.locator('#f_'+c).count() == 1, 'abierto: aparece '+c)
-    afirma(pg.locator('.cuerpo-opcional .opc:visible').count() == 0, 'dentro del bloque no se repite la palabra «opcional»')
-
-    # la etiqueta del encabezado lo dice una sola vez
-    afirma('opcional' in pg.locator('.enc-opcional').inner_text().lower(), 'el encabezado declara que todo es opcional')
-
-    pg.locator('.enc-opcional').click(); pg.wait_for_timeout(300)
-    afirma(pg.locator('.cuerpo-opcional').count() == 0, 'vuelve a plegarse')
-
-    # --- 3. Lo plegado conserva su valor ---
-    pg.locator('.enc-opcional').click(); pg.wait_for_timeout(250)
-    pg.fill('#f_referencias', 'Frente a la escuela primaria')
-    pg.locator('.enc-opcional').click(); pg.wait_for_timeout(250)
-    pg.locator('.enc-opcional').click(); pg.wait_for_timeout(250)
-    afirma(pg.input_value('#f_referencias') == 'Frente a la escuela primaria', 'el dato capturado sobrevive al plegado')
-    pg.locator('.enc-opcional').click(); pg.wait_for_timeout(200)
-
-    # --- 4. Ningún campo obligatorio quedó dentro del bloque ---
-    envueltos = ['entre_calle1','entre_calle2','fachada','referencias','es_estab','tipo_estab','nombre_estab']
-    oblig = pg.evaluate("ks => ks.filter(k => OBLIG[k] && esObligatorio(k))", envueltos)
-    afirma(oblig == [], 'ningún campo plegado es obligatorio (obligatorios dentro: %s)' % oblig)
-
-    # --- 4 bis. La red de seguridad: si alguno llegara a ser obligatorio, el bloque se abre ---
-    tiene_red = pg.evaluate("() => valida.toString().indexOf('ENVUELTOS_LUGAR') >= 0")
-    afirma(tiene_red, 'valida() conserva la red que despliega el bloque si falta un campo de dentro')
-    # La obligatoriedad depende del esquema activo (vigente / dgiva): se marcan
-    # las dos banderas para que la prueba no dependa de cuál esté seleccionado.
-    # Se usa entre_calle1, que vive dentro del bloque y no tiene condicion propia,
-    # para que la prueba mida la red y no la condicion de otro campo.
-    forzado = pg.evaluate("""() => {
-        guarda('tiene_direccion','si'); guarda('mas_lugar','');
-        const prev = {v: OBLIG.entre_calle1.vigente, d: OBLIG.entre_calle1.dgiva, validar: cfg.validar};
-        OBLIG.entre_calle1.vigente = true; OBLIG.entre_calle1.dgiva = true;
-        cfg.validar = true;
-        guarda('entre_calle1','');
-        const paso = valida(2);
-        const abierto = val('mas_lugar');
-        OBLIG.entre_calle1.vigente = prev.v; OBLIG.entre_calle1.dgiva = prev.d; cfg.validar = prev.validar;
-        return {paso: paso, abierto: abierto, esquema: cfg.esquema};
+    # --- 1. El bloque va ARRIBA del mapa y siempre visible ---
+    pos = pg.evaluate("""() => {
+      const b=document.querySelector('.bloque-opcional'), m=document.getElementById('mapa');
+      const cp=document.getElementById('f_cp');
+      const yy = e => e ? Math.round(e.getBoundingClientRect().top + window.scrollY) : null;
+      return {bloque: yy(b), mapa: yy(m), cp: yy(cp),
+              plegables: document.querySelectorAll('button.enc-opcional').length,
+              campos: ['entre_calle1','entre_calle2','referencias'].map(k=>!!document.getElementById('f_'+k))};
     }""")
-    afirma(forzado['paso'] is False and forzado['abierto'] == 'si',
-           'si un campo de dentro fuera obligatorio y faltara, valida() frena y despliega el bloque (%s)' % json.dumps(forzado))
-    pg.evaluate("guarda('mas_lugar',''); render()"); pg.wait_for_timeout(200)
+    afirma(pos['bloque'] is not None and pos['mapa'] is not None and pos['bloque'] < pos['mapa'],
+           'los datos accesorios van ARRIBA del mapa (bloque %s, mapa %s)' % (pos['bloque'], pos['mapa']))
+    afirma(pos['cp'] is not None and pos['cp'] < pos['bloque'],
+           'y despues de la direccion, cerrando ese bloque sin que el mapa lo parta')
+    afirma(pos['plegables'] == 0, 'no queda ningun plegable: el bloque esta siempre desplegado')
+    afirma(all(pos['campos']), 'los tres campos accesorios se ven de entrada: %s' % pos['campos'])
+
+    # --- 2. «Opcional» se dice una vez, no campo por campo (DEC-46) ---
+    afirma(pg.locator('.cuerpo-opcional .opc:visible').count() == 0,
+           'dentro del bloque no se repite la palabra «opcional»')
+    afirma('opcional' in pg.locator('.enc-opcional').inner_text().lower(),
+           'el encabezado lo declara una sola vez')
+
+    # --- 3. Lo capturado se conserva al volver al paso ---
+    pg.fill('#f_referencias', 'Frente a la escuela primaria')
+    pg.evaluate("irA(1)"); pg.wait_for_timeout(250)
+    pg.evaluate("irA(2)"); pg.wait_for_timeout(300)
+    afirma(pg.input_value('#f_referencias') == 'Frente a la escuela primaria',
+           'el dato capturado sobrevive a salir y volver al paso')
+
+    # --- 4. Ningun campo accesorio es obligatorio con direccion ---
+    envueltos = ['entre_calle1','entre_calle2','referencias']
+    oblig = pg.evaluate("ks => ks.filter(k => OBLIG[k] && esObligatorio(k))", envueltos)
+    afirma(oblig == [], 'con direccion, ningun campo accesorio es obligatorio (lo son: %s)' % oblig)
+    afirma(pg.evaluate("() => valida.toString().indexOf('ENVUELTOS_LUGAR') < 0"),
+           'la red que desplegaba el bloque se retiro: ya no hay nada que desplegar')
 
     # --- 5. «Los hechos ocurren donde estoy ahora» ---
     enlace = pg.locator('button.enlace', has_text='donde estoy ahora')

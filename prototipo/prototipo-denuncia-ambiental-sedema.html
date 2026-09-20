@@ -225,14 +225,13 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .sub-seccion-sm{font-size:var(--t-md);margin:18px 0 8px}
 /* Texto secundario en gris, al tamaño de apoyo. */
 .nota-gris{font-size:var(--t-md);color:var(--gris)}
-/* Bloque plegable de campos accesorios. Dentro no se marca «opcional» campo por
-   campo: lo dice el encabezado una sola vez, y así la palabra conserva su valor. */
+/* Bloque de campos accesorios del lugar. Dentro no se marca «opcional» campo
+   por campo: lo dice el encabezado una sola vez, y así la palabra conserva su
+   valor donde sí distingue. */
 .bloque-opcional{border:1px solid var(--linea);border-radius:var(--r-ctrl);margin:4px 0 22px;background:#fff}
-.enc-opcional{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
-  background:none;border:none;padding:14px 16px;min-height:48px;cursor:pointer;
-  font-family:'Cabin',sans-serif;font-size:var(--t-base);font-weight:600;color:var(--guinda);text-align:left}
+.enc-opcional{margin:0;padding:13px 16px 0;font-family:'Cabin',sans-serif;font-size:var(--t-base);
+  font-weight:600;color:var(--guinda);text-align:left}
 .enc-opcional em{font-style:normal;font-weight:400;color:var(--gris);font-size:var(--t-sm)}
-.enc-opcional:hover{background:var(--guinda-cl)}
 .cuerpo-opcional{padding:2px 16px 16px}
 .cuerpo-opcional .opc{display:none}
 
@@ -1408,6 +1407,17 @@ function pUbicacion(){
       campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
       campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
     '</div>'+
+    '<div class="bloque-opcional">'+
+      '<h3 class="enc-opcional"><span>Más datos del lugar <em>— todo esto es opcional</em></span></h3>'+
+      '<div class="cuerpo-opcional">'+
+        '<p class="ayuda" style="margin-bottom:14px">Cualquier dato que ayude al personal de inspección a localizar el sitio.</p>'+
+        '<div class="fila">'+
+          campo('entre_calle1','Entre calle 1','texto',false,'')+
+          campo('entre_calle2','Entre calle 2','texto',false,'')+
+        '</div>'+
+        campoArea('referencias','Cómo se reconoce el sitio',false,'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos, número de predio, cómo se entra.',3)+
+      '</div>'+
+    '</div>'+
     '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px;flex-wrap:wrap">'+
       '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="ubicaPorDireccion()">'+
         svgIcono('pin',16)+' Ubicar en el mapa</button>'+
@@ -1453,23 +1463,6 @@ function pUbicacion(){
   /* Todo lo accesorio del paso queda plegado: quien tiene algo que aportar lo abre.
      Dentro no se marca nada como «opcional» —lo dice el encabezado del bloque— para
      que la palabra conserve su significado donde sí importa. */
-  (sinDir ? '' :
-  '<div class="bloque-opcional">'+
-    '<button type="button" class="enc-opcional" aria-expanded="'+(val('mas_lugar')==='si'?'true':'false')+'" '+
-      'onclick="guarda(\'mas_lugar\',val(\'mas_lugar\')===\'si\'?\'\':\'si\');render()">'+
-      '<span>Añadir más datos del lugar <em>— todo esto es opcional</em></span>'+
-      '<span class="fo-flecha" aria-hidden="true">'+(val('mas_lugar')==='si'?'⌃':'⌄')+'</span>'+
-    '</button>'+
-    (val('mas_lugar')==='si' ?
-      '<div class="cuerpo-opcional">'+
-        '<p class="ayuda" style="margin-bottom:14px">Cualquier dato que ayude al personal de inspección a localizar el sitio.</p>'+
-        '<div class="fila">'+
-          campo('entre_calle1','Entre calle 1','texto',false,'')+
-          campo('entre_calle2','Entre calle 2','texto',false,'')+
-        '</div>'+
-        campoArea('referencias','Cómo se reconoce el sitio',false,'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos, número de predio, cómo se entra.',3)+
-      '</div>' : '')+
-  '</div>')+
 
 
   '<div class="acciones"><button class="btn btn-secundario" onclick="irA(1)">Regresar</button>'+
@@ -2255,12 +2248,6 @@ function valida(n){
     if(val('telefono') && val('telefono').replace(/\D/g,'').length<10) empuja(faltan,'telefono');
     if(val('dom_cp') && !/^\d{5}$/.test(val('dom_cp').trim())) empuja(faltan,'dom_cp');
   }
-
-  /* Un campo obligatorio no puede quedar escondido tras un bloque plegado: el
-     resumen de errores enlazaría a algo que no está en la pantalla. Si alguno de
-     los que faltan vive ahí dentro, el bloque se abre antes de mostrar el error. */
-  var ENVUELTOS_LUGAR = ['entre_calle1','entre_calle2','referencias'];
-  if(!sinDireccion() && faltan.some(function(k){ return ENVUELTOS_LUGAR.indexOf(k) >= 0; })) guarda('mas_lugar','si');
 
   if(!faltan.length) return true;
 
