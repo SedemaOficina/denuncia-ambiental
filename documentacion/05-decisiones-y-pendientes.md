@@ -96,6 +96,8 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 | DEC-83 | El enlace de compartir es la vía principal, y el formulario lo dice así | 20 sep 2026 | El código plus resuelve el problema técnico pero **no el humano: nadie sabe qué es**, y quien no sabe sacar una coordenada tampoco va a buscar un código de ocho caracteres. Lo que la gente sí sabe hacer es **compartir la ubicación desde Google Maps**, y eso produce el enlace corto. El campo se reordenó en torno a ese gesto —«Pegar la ubicación de Google Maps o las coordenadas»—, el aviso dejó de explicar una imposibilidad y ahora dice **quién lo va a resolver y cuándo**, y se añadió un «Ver cómo funcionará» que coloca un punto de demostración **sólo a petición y advirtiéndolo**, como la cuenta simulada de Llave CDMX. El código plus y las coordenadas siguen aceptándose, pero como alternativas, no como la instrucción |
 | DEC-84 | El Manual Administrativo entra como fuente: nombres correctos y plazos reales | 20 sep 2026 | El Manual resuelve tres cosas que estaban abiertas. **Los nombres**: la unidad de la DGCORENADR no se llama «Coordinación de Inspección y Vigilancia» sino **Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas**, y la de la DGIVA es **Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano**; ambas quedan corregidas en el turnado y en el pie. **El reparto de competencias**: las fracciones XXX de la DGIVA y XXXVIII de la DGCORENADR dicen exactamente lo que el formulario ya hacía —suelo urbano y Áreas de Valor Ambiental a una, suelo de conservación y Áreas Naturales Protegidas a la otra—, de modo que la regla de turnado deja de sostenerse sólo en la Ley. **Los plazos**: tres días hábiles para turnar, diez para analizar el caso, y noventa y tres días hábiles el procedimiento completo en suelo urbano —noventa en suelo de conservación—. Los avisos de «plazo por confirmar» de la portada, la revisión y el acuse se sustituyen por esas cifras |
 | DEC-85 | En la revisión, todos los renglones se corrigen, y el botón aterriza en el campo | 20 sep 2026 | De veinticuatro renglones sólo siete tenían «Editar», sin regla visible: lo que la persona lee ahí es que **el resto no se puede cambiar**, y lo que hace es enviar algo que sabe incorrecto o abandonar. Ahora cada renglón lleva su botón, y **corregir aterriza en el campo**, no al principio del paso —el paso 3 es largo y llegar arriba obliga a buscar—; el foco queda puesto en el control. Los dos únicos renglones sin botón son los que **calcula el punto** —tipo de suelo y área que atiende—, y en vez de callar lo dicen: «Lo determina el punto del mapa». La comprobación que lo fija no cuenta botones: exige que **ningún renglón se quede sin decir cómo se corrige** |
+| DEC-86 | Se adoptan los dos primeros controles contra el envío masivo | 20 sep 2026 | **Prueba de humanidad** junto al botón de enviar, exigida siempre —también en la ruta anónima, que es la que no tiene ninguna otra barrera, y también con la validación de campos apagada— y **límite por origen y ventana de tiempo**, con su pantalla. En el prototipo lo que existe es **el lugar y el texto**, que es lo que el servidor no puede inventar; la comprobación y el conteo se construyen del lado del servidor. Dos reglas de diseño que quedan fijadas: **el límite no rechaza, endurece** —el primer umbral sube el costo, sólo el último corta—, y si el servicio de verificación no responde **el envío no se bloquea**: se acepta y se marca, porque perder una denuncia real es peor que recibir una falsa. Se descarta el acertijo visual: excluye a personas con baja visión y es el que más denuncias legítimas pierde. Especificación completa y cifras propuestas en el documento 15 |
+| DEC-87 | Las categorías de las capas se normalizan en el dato, no en la pantalla | 20 sep 2026 | El origen trae la misma categoría escrita de dos formas —«Zona Ecologica y Cultural» y «Zona Ecológica y Cultural»—: **catorce categorías distintas que en realidad son diez**, de modo que agrupar por ese texto cuenta dos veces lo mismo. La pantalla lo tapaba con una tabla de equivalencias al vuelo, que arregla lo que se ve y no lo que se agrupa —y obliga a mantener dos catálogos—. Ahora la normalización ocurre **al ingresar la capa**: se añaden `categoria` —el nombre correcto— y `categoria_clave` —la clave estable con la que se agrupa—, y `categoria_origen` **queda intacta** como rastro de auditoría frente al decreto. Se normalizaron también las alcaldías, que estaban peor: sin acentos, con formas cortas, con listas en distinto orden y con una errata («Cujimalpa»). El guion **se detiene** ante un valor no catalogado, para que una errata nueva se vea en vez de colarse como categoría propia. Se retiró la tabla de equivalencias y su función, que quedaron sin uso |
 
 ---
 
@@ -141,7 +143,11 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 
 *Opciones.* A. Confirmar que efectivamente no está cubierta. B. Incorporarla al catálogo si la omisión fue involuntaria.
 
-*Bloquea:* regla RN-05.
+**Respondido el 20 de septiembre de 2026 · Opción A.** El Histórico Coyoacán **no forma parte del convenio de coadministración**: al no estar en el convenio, la totalidad del polígono es competencia federal. El formulario ya se comportaba así —se verificó colocando un punto dentro del polígono: deriva a la PROFEPA con la razón «no tiene convenio de coadministración»—, de modo que no hubo cambio de código, sino confirmación de la regla.
+
+*Sobre el polígono, que también se preguntó.* **Sí existe.** Viene de la CONANP, se enlazó por alias («El Historico de Coyoacan»), está clasificado como Parque Nacional en Coyoacán y ocupa aproximadamente un kilómetro por seiscientos metros al sur del centro de la alcaldía. **Dos reservas que conviene anotar:** tiene sólo veintitrés vértices, que es un trazo grueso para un parque —suficiente para decidir competencia, insuficiente para un plano—; y la superficie decretada llega en cero, es decir, el origen no la trajo. Ninguna de las dos impide operar; las dos deberían corregirse cuando se actualice la capa federal.
+
+*Bloquea:* nada. Regla RN-05 confirmada.
 
 ---
 
@@ -185,7 +191,20 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 
 *Por qué importa.* El acuse afirma que se informará el resultado. Si no existe plazo comprometido, el texto debe redactarse sin generar expectativa incumplible.
 
-*Bloquea:* regla RN-29 y los textos del acuse.
+**Respondido en parte el 20 de septiembre de 2026, con el Manual Administrativo.** Los plazos existen y están escritos:
+
+| | Suelo urbano y AVA (DGIVA) | Suelo de conservación y ANP (DGCORENADR) |
+|---|---|---|
+| Recibir la denuncia y turnarla | 3 días hábiles | 3 días hábiles |
+| Analizar el caso | 10 días hábiles | 10 días hábiles |
+| Si no es competencia, turnar o rechazar | 5 días hábiles | 5 días hábiles |
+| **Procedimiento completo, hasta la resolución notificada** | **93 días hábiles** | **90 días hábiles (aproximado)** |
+
+Son días hábiles, y el propio Manual advierte que pueden variar si otra dependencia tarda en responder o si la persona inspeccionada interpone un medio de defensa. Los tres avisos de «plazo por confirmar» —portada, revisión y acuse— ya se sustituyeron por estas cifras (DEC-84).
+
+**Lo que sigue abierto:** el Manual fija el plazo del **procedimiento**, no el de **informar a la persona denunciante**. La Jefatura de Unidad Departamental de Seguimiento a Denuncias tiene la función de elaborar esos informes, pero sin plazo escrito. Falta que la DGIVA diga en cuántos días se responde a quien pregunta por su folio, que es lo que el acuse promete.
+
+*Bloquea:* la parte de RN-29 relativa al aviso de resultado.
 
 ---
 
@@ -401,7 +420,9 @@ Esas condiciones son las que evitan la falsificación de petición del lado del 
 
 *Lo que no debe hacerse.* Rechazar denuncias por sospecha. La autoridad no puede negarse a recibir; **lo que sí puede es ordenar la cola**. La defensa correcta no es el rechazo, es la priorización y la acumulación.
 
-*A quién corresponde.* Sistema de Información Ambiental, con la Dirección General de Inspección y Vigilancia Ambiental para el criterio de acumulación.
+*Respondido en parte el 20 de septiembre.* Los controles **1 y 2 quedan adoptados** (DEC-86), con su especificación y sus cifras propuestas en el documento 15; el prototipo ya trae el lugar y el texto de ambos. Siguen abiertos los controles 3 a 6 —verificación del correo, detección de duplicados, umbral de ráfaga y puntaje de completitud— y falta elegir la tecnología de la prueba de humanidad entre las tres familias del documento 15.
+
+*A quién corresponde.* Sistema de Información Ambiental, con la Dirección General de Inspección y Vigilancia Ambiental para el criterio de acumulación, y con la Unidad de Transparencia si se elige un servicio gestionado de terceros.
 
 *Bloquea:* la puesta en operación, no el prototipo.
 

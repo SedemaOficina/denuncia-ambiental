@@ -808,3 +808,39 @@ Los dos únicos renglones sin botón son los que **calcula el cruce del punto co
 La comprobación que fija esto no cuenta botones: exige que **ningún renglón se quede sin decir cómo se corrige**, de modo que un campo nuevo que se olvide de declararlo hace fallar la batería (DEC-85).
 
 **Verificación.** 251 comprobaciones en verde en ocho baterías.
+
+---
+
+## Bloque: defensas del envío, categorías normalizadas y dos pendientes respondidos
+
+**20 de septiembre de 2026.**
+
+### Los dos primeros controles contra el envío masivo
+
+**Prueba de humanidad**, pegada al botón de enviar y exigida siempre —también en la ruta anónima, que es la que no tiene ninguna otra barrera, y también con la validación de campos apagada, porque lo que protege no es la calidad del dato sino el canal—. Y **límite por origen y ventana de tiempo**, con su pantalla.
+
+En el prototipo existe **el lugar y el texto**, que es justamente lo que el servidor no puede inventar; la comprobación y el conteo se construyen del otro lado. Dos reglas de diseño quedaron fijadas: **el límite no rechaza, endurece** —el primer umbral sube el costo, sólo el último corta— y **si el servicio de verificación no responde, el envío no se bloquea**: se acepta la denuncia y se marca para revisión, porque perder una denuncia real es peor que recibir una falsa.
+
+Se descartó el acertijo visual: excluye a personas con baja visión y es el que más denuncias legítimas pierde. Las tres familias de prueba de humanidad, con su comparación y la recomendación, están en el documento 15 (DEC-86).
+
+### Las categorías de las capas, normalizadas en el dato
+
+El origen traía la misma categoría escrita de dos formas —«Zona Ecologica y Cultural» y «Zona Ecológica y Cultural»—: **catorce categorías distintas que en realidad son diez**. Agrupar por ese texto cuenta dos veces lo mismo.
+
+La pantalla lo tapaba con una tabla de equivalencias al vuelo, que arregla lo que se ve y no lo que se agrupa, y obliga a mantener dos catálogos. Ahora la normalización ocurre **al ingresar la capa**, con un guion propio: `categoria` es el nombre correcto, `categoria_clave` la clave estable con la que se agrupa, y **`categoria_origen` queda intacta** como rastro de auditoría frente al decreto. La tabla de equivalencias y su función se retiraron.
+
+Las alcaldías estaban peor y se normalizaron igual: sin acentos, con formas cortas, con listas en distinto orden —«Tláhuac, Iztapalapa» frente a «Iztapalapa, Tláhuac», que son el mismo conjunto— y con una errata, «Cujimalpa». Ahora cada rasgo trae los nombres correctos ordenados y sus claves de INEGI.
+
+**El guion se detiene ante un valor que no esté catalogado.** Es lo que hace que una errata nueva se vea, en lugar de colarse como categoría propia (DEC-87).
+
+### El Histórico Coyoacán (P-03)
+
+**No está en el convenio de coadministración**, de modo que la totalidad del polígono es competencia federal. El formulario ya se comportaba así: se verificó colocando un punto dentro y deriva a la PROFEPA. No hubo cambio de código, hubo confirmación de la regla.
+
+**El polígono sí existe**, viene de la CONANP y se enlazó por alias. Dos reservas anotadas: veintitrés vértices —trazo grueso, suficiente para decidir competencia e insuficiente para un plano— y superficie decretada en cero, que el origen no trajo.
+
+### Los plazos (P-07)
+
+Respondido en parte con el Manual. Queda abierto lo que el Manual no dice: **en cuántos días se responde a quien pregunta por su folio**, que es lo que el acuse promete. El plazo del procedimiento está escrito; el de informar a la persona denunciante, no.
+
+**Verificación.** **279 comprobaciones en verde** en diez baterías, con dos nuevas: las defensas del envío y la normalización de las categorías.

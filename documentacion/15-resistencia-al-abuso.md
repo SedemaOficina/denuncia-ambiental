@@ -41,9 +41,9 @@ La prueba de texto legible se diseñó con un criterio explícito: **no castigar
 
 Seis controles, ordenados por relación entre lo que cuestan y lo que evitan.
 
-**1. Prueba de humanidad en el envío.** Un desafío al pulsar «Enviar denuncia». Detiene el envío automatizado, que es el único modo de producir miles de denuncias. Costo para la persona: un segundo. Conviene la variante que no exige resolver acertijos visuales, por accesibilidad. *Es el control de mayor efecto por unidad de molestia.*
+**1. Prueba de humanidad en el envío. ADOPTADO el 20 de septiembre de 2026 (DEC-86).** Un desafío al pulsar «Enviar denuncia». Detiene el envío automatizado, que es el único modo de producir miles de denuncias. Costo para la persona: un segundo. *Es el control de mayor efecto por unidad de molestia.* Su especificación está en la sección 4 bis.
 
-**2. Límite por origen y por ventana de tiempo.** Un número máximo de denuncias por dirección de red y por sesión en una hora y en un día. No impide la denuncia legítima —nadie presenta veinte denuncias distintas en una hora— y convierte el ataque masivo en un ataque lento. Debe contemplar la excepción de la red compartida: una oficina o un café con muchos usuarios salen por la misma dirección.
+**2. Límite por origen y por ventana de tiempo. ADOPTADO el 20 de septiembre de 2026 (DEC-86).** Un número máximo de denuncias por dirección de red y por sesión en una hora y en un día. No impide la denuncia legítima —nadie presenta veinte denuncias distintas en una hora— y convierte el ataque masivo en un ataque lento. Su especificación está en la sección 4 bis.
 
 **3. Verificación del correo antes de emitir el folio.** En la ruta identificada, el folio se entrega cuando la persona confirma el correo. Encarece el envío masivo porque exige un buzón real por denuncia. **No aplica a la ruta anónima**, y ahí está el límite del control: el anonimato es un valor del canal y no puede sacrificarse a la comodidad de la defensa.
 
@@ -52,6 +52,45 @@ Seis controles, ordenados por relación entre lo que cuestan y lo que evitan.
 **5. Umbral de ráfaga.** Cuando el número de denuncias sobre un mismo punto o un mismo establecimiento supera lo ordinario en poco tiempo, el sistema no rechaza: **marca**. Una campaña organizada contra un negocio y una verdadera indignación vecinal se ven igual en los datos, y sólo una persona puede distinguirlas.
 
 **6. Puntaje de completitud.** Cada denuncia recibe un valor según lo que trae: relato sustantivo, fotografías, punto confiable, datos del responsable, persona identificada. **No sirve para rechazar, sirve para ordenar la cola.** Es lo que permite que la denuncia bien hecha se atienda antes, que es el incentivo correcto.
+
+## 4 bis. Los dos controles adoptados, con su especificación
+
+Lo que el prototipo ya trae es **el lugar y el texto**: la prueba de humanidad va pegada al botón de enviar, y existe la pantalla que ve quien alcanza el límite. Lo que sigue es lo que tiene que construirse del lado del servidor.
+
+### Control 1 · Prueba de humanidad
+
+**Dónde.** En la pantalla de envío, inmediatamente antes del botón, y en ningún paso anterior: lo que protege no es la calidad del dato, es el canal. **Se exige siempre**, también en la ruta anónima —que es justamente la que no tiene ninguna otra barrera— y también cuando la validación de campos está apagada.
+
+**Qué tecnología.** Tres familias, y la elección no es sólo técnica:
+
+| Opción | A favor | En contra |
+|---|---|---|
+| **Prueba de trabajo autoalojada** (tipo Altcha, mCaptcha) | Ningún dato de la persona sale de la Ciudad; sin dependencia de terceros; accesible por diseño, sin acertijos | Hay que alojarla y mantenerla; protege menos contra un atacante con recursos |
+| **Servicio gestionado no intrusivo** (tipo Cloudflare Turnstile) | Muy eficaz, sin acertijos en la mayoría de los casos, sin costo | El navegador de quien denuncia habla con un tercero extranjero; hay que declararlo en el aviso de privacidad |
+| **Acertijo visual clásico** (tipo reCAPTCHA v2) | Conocido | **Descartado.** Excluye a personas con baja visión y a quien no entiende las imágenes; es el que más denuncias legítimas pierde |
+
+**Recomendación.** La **prueba de trabajo autoalojada**, por ser la única que no manda nada de la persona denunciante a un tercero. Si la operación prefiere un servicio gestionado, entonces la variante no intrusiva, **declarada en el aviso de privacidad**, nunca la de acertijos. La decisión corresponde al Sistema de Información Ambiental con la Unidad de Transparencia.
+
+**Reglas que no dependen de la tecnología elegida.** El token se verifica **en el servidor** —una comprobación que sólo ocurre en el navegador no es una comprobación—; si el servicio no responde, el envío **no se bloquea**: se acepta la denuncia y se marca para revisión, porque perder una denuncia real es peor que recibir una falsa; y el control nunca se convierte en el único registro de que alguien intentó denunciar.
+
+### Control 2 · Límite por origen y ventana de tiempo
+
+**Cifras propuestas**, a confirmar con la DGIVA a la luz del volumen real:
+
+| Alcance | Ventana | Límite | Al alcanzarlo |
+|---|---|---|---|
+| Por dirección de red | 1 hora | 5 envíos | Se endurece la prueba de humanidad |
+| Por dirección de red | 24 horas | 20 envíos | Pantalla de límite, con las otras vías |
+| Por navegador | 1 hora | 3 envíos | Se endurece la prueba de humanidad |
+| Por dirección de red | 24 horas | 50 envíos | Corte duro y aviso al área |
+
+**El límite no rechaza, endurece.** Ésa es la regla de diseño: el primer umbral no cierra la puerta, sube el costo. Sólo el último corta, y aun así la denuncia puede presentarse por correo o en persona. **La ventana es deslizante**, no de reloj de pared: si no, todo el mundo reintenta al dar la hora.
+
+**La red compartida es el caso que hay que cuidar.** Una oficina, una escuela o un café salen por la misma dirección: el límite por origen golpea a quien no hizo nada. Por eso el umbral por navegador es más bajo que el de red, por eso el primer umbral endurece en vez de cerrar, y por eso la pantalla de límite lo dice con todas sus letras.
+
+**Lo que la pantalla del límite tiene que hacer, y ya hace:** decir primero que **la denuncia no se perdió**; no emitir folio, porque no se presentó; ofrecer las dos vías sin límite —correo y Oficialía de Partes—; explicar el caso de la conexión compartida; permitir volver a la denuncia sin recapturarla; y **no publicar las cifras**, que es lo que convierte un umbral en un obstáculo bordeable.
+
+---
 
 ## 5. Lo que no debe hacerse
 
