@@ -112,8 +112,12 @@ with sync_playwright() as pw:
     afirma(conDir['calle'] and not conDir['nombre'], 'con dirección se ve la calle y no el nombre del lugar')
     afirma(sinDir['nombre'] and not sinDir['calle'], 'sin dirección se ve el nombre del lugar y no la calle')
     afirma(sinDir['refs'], 'sin dirección, el campo de acceso está a la vista (no plegado)')
-    afirma(conDir['plegable'] == 1 and sinDir['plegable'] == 0,
-           'el bloque plegable existe con dirección y no sin ella (%s / %s)' % (conDir['plegable'], sinDir['plegable']))
+    # El bloque plegable se disolvio (DEC-56): los campos accesorios son parte
+    # de la direccion, y por eso no existen en la ruta sin domicilio.
+    afirma(conDir['plegable'] == 0 and sinDir['plegable'] == 0,
+           'no queda ningun bloque plegable en ninguna ruta (%s / %s)' % (conDir['plegable'], sinDir['plegable']))
+    afirma(pg.evaluate("() => !!document.getElementById('f_entre_calle1')") is False,
+           'sin direccion no se piden entre-calles')
 
     # ---------- 6. Fusion de los dos campos ----------
     f = pg.evaluate("""() => ({fachada: typeof OBLIG.fachada, comoLlegar: typeof OBLIG.como_llegar,

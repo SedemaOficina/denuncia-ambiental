@@ -66,6 +66,28 @@ with sync_playwright() as pw:
             .map(e => Math.round(e.getBoundingClientRect().width))""")
         afirma(min(anchos) > 150, '%s: el texto de los pasos no se parte por palabra (mínimo %d px)' % (nom, min(anchos)))
 
+        # El aviso de denuncia sin terminar puede acortarse, pero NUNCA puede
+        # perder que aun no se ha presentado: sin esa frase alguien cierra el
+        # navegador creyendo que ya denuncio (DEC-54).
+        av = pg.evaluate("""() => {
+          localStorage.setItem(CLAVE_BORRADOR, JSON.stringify(
+            {estado:{materia:'ava', hechos:'x'.repeat(60)}, paso:3, t:Date.now()}));
+          irA(0);
+          const a = document.querySelector('.aviso.aviso-guinda');
+          const r = a ? {t: a.innerText.replace(/\\s+/g,' ').trim(),
+                         botones: [...a.querySelectorAll('button')].length} : null;
+          localStorage.removeItem(CLAVE_BORRADOR);
+          return r;
+        }""")
+        afirma(av is not None, '%s: con un borrador guardado aparece el aviso' % nom)
+        if av:
+            afirma('no se ha presentado' in av['t'],
+                   '%s: el aviso conserva que la denuncia aún no se ha presentado' % nom)
+            afirma(av['botones'] == 2, '%s: el aviso ofrece continuar y descartar' % nom)
+            afirma(len(av['t'].split(' ')) <= 26,
+                   '%s: el aviso se mantiene breve (%d palabras, tope 26)' % (nom, len(av['t'].split(' '))))
+        pg.evaluate("irA(0)"); pg.wait_for_timeout(200)
+
         afirma(err == [], '%s: sin errores propios en consola: %s' % (nom, err[:2]))
         pg.close()
     nav.close()

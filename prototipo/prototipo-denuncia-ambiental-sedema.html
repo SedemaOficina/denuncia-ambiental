@@ -28,6 +28,9 @@
   --borde:#8E9295;         /* bordes de control, 3.14:1 */
   --fondo:#F4F5F6; --blanco:#FFFFFF;
 
+  /* Interacción: lo que se puede tocar y lo que quedó elegido. */
+  --azul:#1A56A8; --azul-cl:#EEF3FA;
+
   /* Función */
   --error:#B3261E; --error-bg:#FDF3F2;
   --alerta:#8A5200; --alerta-bg:#FDF6E8;
@@ -87,18 +90,32 @@ html{scroll-padding-top:150px}
   padding:12px 0 10px;margin-bottom:18px;border-bottom:1px solid var(--linea)}
 .barra-fija .chip-materia{margin:10px 0 0}
 .progreso{margin-bottom:0}
-.progreso .pista{height:6px;background:var(--linea);border-radius:var(--r-pill);overflow:hidden}
-.progreso .avance{height:100%;background:var(--guinda);width:0;transition:width .35s ease}
-.progreso .paso-txt{display:none;font-size:var(--t-sm);color:var(--guinda);font-weight:700;margin-top:8px}
-.progreso .etapas{display:flex;justify-content:space-between;margin-top:9px;gap:4px}
-.progreso .etapa{font-size:var(--t-xs);color:var(--gris-cl);text-align:center;flex:1;letter-spacing:.02em;
-  background:none;border:none;padding:6px 2px;font-family:inherit;cursor:pointer;border-radius:var(--r-ctrl);
-  min-height:32px;line-height:1.25}
-.progreso .etapa:hover{color:var(--guinda);background:var(--guinda-cl)}
+/* Barra de pasos: un círculo por paso, enlazados por una línea que se pinta de
+   verde conforme se avanza. El estado nunca se confía sólo al color —la
+   palomita y el número lo dicen igual—, y cada círculo es un botón que navega
+   al paso, con las mismas reglas que el botón Continuar (DEC-42, DEC-55). */
+.progreso .etapas{display:flex;align-items:flex-start;gap:0}
+.progreso .etapa{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;
+  background:none;border:none;padding:4px 2px 2px;font-family:inherit;cursor:pointer;min-height:44px}
+.progreso .etapa::before{content:'';position:absolute;top:17px;left:-50%;width:100%;height:2px;
+  background:var(--linea);z-index:0}
+.progreso .etapa:first-child::before{display:none}
+.progreso .etapa.hecha::before,.progreso .etapa.activa::before{background:var(--ok)}
+.progreso .bolita{position:relative;z-index:1;display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:var(--r-pill);background:var(--blanco);
+  border:2px solid var(--linea);color:var(--gris-cl);
+  font-family:'Cabin',sans-serif;font-weight:700;font-size:var(--t-sm);line-height:1}
+.progreso .etapa.hecha .bolita{border-color:var(--ok);color:var(--ok)}
+.progreso .etapa.activa .bolita{background:var(--texto);border-color:var(--texto);color:var(--blanco)}
+.progreso .etq{font-size:var(--t-xs);color:var(--gris-cl);text-align:center;line-height:1.25;letter-spacing:.01em}
+.progreso .etapa.hecha .etq{color:var(--ok)}
+.progreso .etapa.activa .etq{color:var(--texto);font-weight:700}
+.progreso .etapa:hover .bolita{border-color:var(--azul)}
+.progreso .etapa:hover .etq{color:var(--azul)}
 .progreso .etapa[aria-current="step"]{cursor:default}
-.progreso .etapa[aria-current="step"]:hover{background:none}
-.progreso .etapa.activa{color:var(--guinda);font-weight:700}
-.progreso .etapa.hecha{color:var(--ok)}
+.progreso .etapa[aria-current="step"]:hover .bolita{border-color:var(--texto)}
+.progreso .etapa[aria-current="step"]:hover .etq{color:var(--texto)}
+.progreso .paso-txt{display:none;font-size:var(--t-sm);color:var(--texto);font-weight:700;margin-top:8px;text-align:center}
 
 /* ---------- Campos ---------- */
 .campo{margin-bottom:18px}
@@ -146,8 +163,8 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .btn-sn{flex:0 0 auto;min-width:96px;min-height:48px;padding:12px 22px;
   background:#fff;border:1px solid var(--borde);border-radius:var(--r-ctrl);
   font-family:'Cabin',sans-serif;font-size:var(--t-base);font-weight:600;color:var(--gris);cursor:pointer}
-.btn-sn:hover{border-color:var(--guinda);color:var(--guinda)}
-.btn-sn[aria-pressed="true"]{border-color:var(--guinda);border-width:2px;background:var(--guinda-cl);color:var(--guinda);padding:11px 21px}
+.btn-sn:hover{border-color:var(--azul);color:var(--azul)}
+.btn-sn[aria-pressed="true"]{border-color:var(--azul);border-width:2px;background:var(--azul-cl);color:var(--azul);padding:11px 21px}
 
 /* ---------- Hora en dos controles ---------- */
 .par-hora{display:flex;align-items:center;gap:8px}
@@ -164,23 +181,23 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .guardado.visible{opacity:1;height:auto;padding-bottom:8px}
 .confirma{border:1px solid var(--error);background:#fff;border-radius:var(--r-ctrl);padding:14px 16px;margin-top:14px;color:#6B1A14;font-size:var(--t-md)}
 .confirma strong{color:var(--error)}
-.chip-materia{display:flex;align-items:center;gap:10px;background:var(--guinda-cl);border:1px solid var(--linea);border-left:4px solid var(--guinda);border-radius:var(--r-ctrl);padding:10px 14px;margin-bottom:16px;font-size:var(--t-md);color:var(--guinda);line-height:0}
+.chip-materia{display:flex;align-items:center;gap:10px;background:var(--blanco);border:1px solid var(--linea);border-left:4px solid var(--dorado);border-radius:var(--r-ctrl);padding:10px 14px;margin-bottom:16px;font-size:var(--t-md);color:var(--texto);line-height:0}
 .chip-materia > span{flex:1;line-height:1.35;color:var(--texto)}
 .chip-materia .cm-etq{display:block;font-size:var(--t-xs);color:var(--gris);text-transform:uppercase;letter-spacing:.05em}
 .chip-materia .enlace{flex-shrink:0;line-height:1.2}
-.editar{background:none;border:none;color:var(--guinda);font-size:var(--t-xs);text-decoration:underline;cursor:pointer;padding:2px 4px;font-family:inherit;font-weight:400;float:right}
+.editar{background:none;border:none;color:var(--azul);font-size:var(--t-xs);text-decoration:underline;cursor:pointer;padding:2px 4px;font-family:inherit;font-weight:400;float:right}
 
 .leyenda-oblig{font-size:var(--t-sm);color:var(--gris);background:var(--guinda-cl);border-radius:var(--r-ctrl);padding:9px 14px;margin-bottom:14px}
 
 /* ---------- Opciones ---------- */
 .opciones{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
 .opcion{border:1px solid var(--linea);border-radius:var(--r-caja);padding:15px;cursor:pointer;background:#fff;transition:border-color .15s,background .15s;position:relative;text-align:left;font:inherit;color:inherit;width:100%;display:block}
-.opcion:hover{border-color:var(--guinda);background:var(--guinda-cl)}
-.opcion[aria-pressed="true"],.opcion.sel{border-color:var(--guinda);border-width:2px;background:var(--guinda-cl);padding:14px}
-.opcion[aria-pressed="true"]::after{content:"✓";position:absolute;top:10px;right:12px;color:var(--guinda);font-weight:700;font-size:var(--t-base);line-height:1}
-.opcion .icono{display:block;margin-bottom:8px;line-height:0;color:var(--guinda)}
+.opcion:hover{border-color:var(--azul);background:var(--azul-cl)}
+.opcion[aria-pressed="true"],.opcion.sel{border-color:var(--azul);border-width:2px;background:var(--azul-cl);padding:14px}
+.opcion[aria-pressed="true"]::after{content:"✓";position:absolute;top:10px;right:12px;color:var(--azul);font-weight:700;font-size:var(--t-base);line-height:1}
+.opcion .icono{display:block;margin-bottom:8px;line-height:0;color:var(--azul)}
 .opcion .icono svg{display:block}
-.opcion .nombre{font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-base);color:var(--guinda);margin-bottom:4px;display:block;line-height:1.3}
+.opcion .nombre{font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-base);color:var(--azul);margin-bottom:4px;display:block;line-height:1.3}
 .opcion .desc{font-size:var(--t-sm);color:var(--gris);line-height:1.45;display:block}
 .opcion .norma{font-size:var(--t-xs);color:var(--gris-cl);margin-top:8px;font-style:italic;display:none;border-top:1px dotted var(--linea);padding-top:6px}
 .opcion.fundamento .norma{display:block}
@@ -200,15 +217,15 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
   background:#fff;border:1px solid var(--linea);border-radius:var(--r-ctrl);
   padding:12px 14px;min-height:58px;cursor:pointer;font:inherit;color:inherit;
   transition:border-color .12s,background .12s,box-shadow .12s}
-.fila-op:hover{border-color:var(--guinda);background:var(--guinda-cl);box-shadow:0 1px 4px rgba(157,33,72,.12)}
-.fila-op[aria-pressed="true"]{border-color:var(--guinda);border-width:2px;background:var(--guinda-cl);padding:11px 13px}
-.fila-op .fo-ico{flex-shrink:0;line-height:0;color:var(--guinda)}
+.fila-op:hover{border-color:var(--azul);background:var(--azul-cl);box-shadow:0 1px 4px rgba(157,33,72,.12)}
+.fila-op[aria-pressed="true"]{border-color:var(--azul);border-width:2px;background:var(--azul-cl);padding:11px 13px}
+.fila-op .fo-ico{flex-shrink:0;line-height:0;color:var(--azul)}
 .fila-op .fo-txt{flex:1;min-width:0;display:block}
-.fila-op .fo-nom{display:block;font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-base);color:var(--guinda);line-height:1.25;overflow-wrap:anywhere}
+.fila-op .fo-nom{display:block;font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-base);color:var(--azul);line-height:1.25;overflow-wrap:anywhere}
 .fila-op .fo-desc{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.35;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fila-op .fo-det{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.45;margin-top:7px;padding-top:7px;border-top:1px dotted var(--linea)}
 .fila-op .fo-norma{display:block;font-size:var(--t-xs);color:var(--gris-cl);font-style:italic;margin-top:5px}
-.fila-op .fo-flecha{flex-shrink:0;color:var(--guinda);font-size:var(--t-lg);line-height:1;opacity:.55}
+.fila-op .fo-flecha{flex-shrink:0;color:var(--azul);font-size:var(--t-lg);line-height:1;opacity:.55}
 .fila-op:hover .fo-flecha{opacity:1}
 .fila-op.otra .fo-nom{color:var(--gris);font-weight:500}
 .fila-op.otra .fo-ico{color:var(--gris-cl)}
@@ -221,7 +238,7 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .enc-otras:hover{border-color:var(--gris);color:var(--texto)}
 
 /* Subtítulo de bloque dentro de un paso. Sustituye seis estilos en línea idénticos. */
-.sub-seccion{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-lg);color:var(--guinda);margin:26px 0 4px}
+.sub-seccion{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-lg);color:var(--texto);margin:26px 0 4px}
 .sub-seccion-sm{font-size:var(--t-md);margin:18px 0 8px}
 /* Texto secundario en gris, al tamaño de apoyo. */
 .nota-gris{font-size:var(--t-md);color:var(--gris)}
@@ -233,7 +250,7 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .portada{text-align:center;padding:2px 0 4px}
 .portada-datos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;text-align:left}
 .dato{border:1px solid var(--linea);border-radius:var(--r-caja);padding:12px 12px 13px;background:var(--blanco)}
-.dato b{display:block;font-family:'Cabin',sans-serif;font-size:var(--t-md);color:var(--guinda);
+.dato b{display:block;font-family:'Cabin',sans-serif;font-size:var(--t-md);color:var(--texto);
   font-weight:700;line-height:1.25;margin-bottom:3px}
 .dato span{display:block;font-size:var(--t-xs);color:var(--gris);line-height:1.35}
 .portada-pie{font-size:var(--t-sm);color:var(--gris);margin-top:14px;line-height:1.5}
@@ -244,8 +261,8 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
   align-items:start;padding:11px 0;border-top:1px solid var(--linea)}
 .despues li:first-child{border-top:none}
 .despues li::before{content:counter(d);display:flex;align-items:center;justify-content:center;
-  width:26px;height:26px;border-radius:var(--r-pill);background:var(--guinda-cl);
-  color:var(--guinda);font-family:'Cabin',sans-serif;font-weight:700;font-size:var(--t-sm)}
+  width:26px;height:26px;border-radius:var(--r-pill);background:var(--fondo);
+  color:var(--texto);font-family:'Cabin',sans-serif;font-weight:700;font-size:var(--t-sm)}
 .despues li>div{min-width:0}
 .despues b{display:block;font-family:'Cabin',sans-serif;font-size:var(--t-md);
   color:var(--texto);font-weight:600;line-height:1.3}
@@ -262,15 +279,6 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
   .dato b{margin-bottom:0}
 }
 
-/* Bloque de campos accesorios del lugar. Dentro no se marca «opcional» campo
-   por campo: lo dice el encabezado una sola vez, y así la palabra conserva su
-   valor donde sí distingue. */
-.bloque-opcional{border:1px solid var(--linea);border-radius:var(--r-ctrl);margin:4px 0 22px;background:#fff}
-.enc-opcional{margin:0;padding:13px 16px 0;font-family:'Cabin',sans-serif;font-size:var(--t-base);
-  font-weight:600;color:var(--guinda);text-align:left}
-.enc-opcional em{font-style:normal;font-weight:400;color:var(--gris);font-size:var(--t-sm)}
-.cuerpo-opcional{padding:2px 16px 16px}
-.cuerpo-opcional .opc{display:none}
 
 /* Ejemplo de descripción bajo el campo de hechos: guía, no instrucción. */
 .ejemplo-hechos{margin:-10px 0 18px;font-size:var(--t-md);color:var(--gris);line-height:1.5;
@@ -279,7 +287,7 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 
 /* Columna de uso declarado en el comparativo de campos: texto largo y secundario. */
 table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
-.enlace{background:none;border:none;color:var(--guinda);text-decoration:underline;cursor:pointer;
+.enlace{background:none;border:none;color:var(--azul);text-decoration:underline;cursor:pointer;
   font-family:inherit;font-size:var(--t-sm);font-weight:600;padding:8px 0;min-height:36px}
 .lin-detalle{margin:0 0 14px}
 
@@ -307,12 +315,12 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 #mapa{height:330px;border:1px solid var(--linea);border-radius:var(--r-caja);margin-bottom:10px;background:#E8EAEC}
 .mapa-barra{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 .mapa-barra .btn{display:inline-flex;align-items:center;gap:7px;color:var(--gris)}
-.coords{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--t-sm);background:var(--guinda-cl);padding:9px 12px;border-radius:var(--r-ctrl);color:var(--guinda);font-weight:500;display:inline-flex;align-items:center;gap:6px}
+.coords{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--t-sm);background:var(--fondo);padding:9px 12px;border-radius:var(--r-ctrl);color:var(--texto);font-weight:500;display:inline-flex;align-items:center;gap:6px}
 .mapa-sin{display:none;padding:18px;background:var(--alerta-bg);border:1px dashed var(--dorado);border-radius:var(--r-caja);font-size:var(--t-md);color:#5A4220;margin-bottom:12px}
 .res-lista{border:1px solid var(--linea);border-radius:var(--r-ctrl);margin-bottom:12px;overflow:hidden;background:#fff}
 .res-lista div,.res-lista button{display:block;width:100%;text-align:left;padding:12px 14px;font:inherit;font-size:var(--t-md);color:inherit;background:none;border:none;border-bottom:1px solid var(--linea);cursor:pointer}
 .res-lista div:last-child,.res-lista button:last-child{border-bottom:none}
-.res-lista button:hover{background:var(--guinda-cl)}
+.res-lista button:hover{background:var(--azul-cl)}
 .res-lista .vacio{cursor:default;color:var(--gris-cl)}
 
 /* ---------- Zona del cruce ---------- */
@@ -328,10 +336,10 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 
 /* ---------- Evidencia ---------- */
 .zona-carga{border:2px dashed var(--borde);border-radius:var(--r-caja);padding:34px 20px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s;background:#FCFCFD;width:100%;display:block;font:inherit;color:inherit}
-.zona-carga:hover{border-color:var(--guinda);background:var(--guinda-cl)}
-.zona-carga .ico{display:block;margin-bottom:10px;line-height:0;color:var(--guinda)}
+.zona-carga:hover{border-color:var(--azul);background:var(--azul-cl)}
+.zona-carga .ico{display:block;margin-bottom:10px;line-height:0;color:var(--azul)}
 .zona-carga .ico svg{margin:0 auto;display:block}
-.zona-carga .txt{font-family:'Cabin',sans-serif;font-weight:600;color:var(--guinda);font-size:var(--t-base);display:block}
+.zona-carga .txt{font-family:'Cabin',sans-serif;font-weight:600;color:var(--azul);font-size:var(--t-base);display:block}
 .zona-carga .lim{font-size:var(--t-sm);color:var(--gris-cl);margin-top:6px;display:block}
 .lista-arch{margin-top:14px;display:flex;flex-direction:column;gap:8px}
 .arch{display:flex;align-items:center;gap:11px;padding:8px 8px 8px 13px;background:#fff;border:1px solid var(--linea);border-radius:var(--r-ctrl);font-size:var(--t-md)}
@@ -342,7 +350,7 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 
 /* ---------- Resumen ---------- */
 .resumen dl{display:grid;grid-template-columns:200px 1fr;gap:1px;background:var(--linea);border:1px solid var(--linea);border-radius:var(--r-ctrl);overflow:hidden;font-size:var(--t-md)}
-.resumen dt{background:var(--guinda-cl);padding:11px 14px;font-weight:600;color:var(--guinda);font-size:var(--t-sm)}
+.resumen dt{background:var(--fondo);padding:11px 14px;font-weight:600;color:var(--texto);font-size:var(--t-sm)}
 .resumen dd{background:#fff;padding:11px 14px;white-space:pre-wrap;word-break:break-word}
 .resumen dd em{color:var(--gris-cl)}
 
@@ -359,7 +367,7 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 
 /* ---------- Derivación ---------- */
 .redir{border:1px solid var(--dorado);border-radius:var(--r-caja);padding:22px;background:#FFFDF9}
-.redir h3{color:var(--guinda);font-size:var(--t-lg);margin-bottom:10px}
+.redir h3{color:var(--texto);font-size:var(--t-lg);margin-bottom:10px}
 .redir .inst{background:#fff;border:1px solid var(--linea);border-radius:var(--r-ctrl);padding:15px;margin-top:14px}
 .redir .inst .nom{font-family:'Cabin',sans-serif;font-weight:700;color:var(--guinda);font-size:var(--t-base);display:block;margin-bottom:5px}
 .redir .inst .dato{font-size:var(--t-md);color:var(--gris);margin-top:3px}
@@ -370,18 +378,18 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 #panel .toggle{background:var(--gris);color:#fff;border:none;border-radius:var(--r-pill);padding:12px 18px;min-height:44px;font-size:var(--t-sm);font-weight:600;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2)}
 #panel .cuerpo{display:none;position:absolute;right:0;bottom:56px;width:320px;background:#fff;border:1px solid var(--linea);border-radius:var(--r-caja);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:18px;max-height:78vh;overflow:auto}
 #panel.abierto .cuerpo{display:block}
-#panel h4{font-size:var(--t-md);color:var(--guinda);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em}
+#panel h4{font-size:var(--t-md);color:var(--texto);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em}
 #panel .grupo{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--linea)}
 #panel .grupo:last-child{border:none;margin-bottom:0;padding-bottom:0}
 #panel label{display:flex;gap:8px;align-items:flex-start;font-size:var(--t-sm);margin-bottom:10px;cursor:pointer;color:var(--gris)}
 #panel label input{margin-top:3px;flex-shrink:0;width:auto;min-height:0}
 #panel .nota{font-size:var(--t-xs);color:var(--gris-cl);line-height:1.45}
-#panel .btn-link{background:none;border:none;color:var(--guinda);font-size:var(--t-sm);font-weight:600;cursor:pointer;text-decoration:underline;padding:6px 0;text-align:left;min-height:34px}
+#panel .btn-link{background:none;border:none;color:var(--azul);font-size:var(--t-sm);font-weight:600;cursor:pointer;text-decoration:underline;padding:6px 0;text-align:left;min-height:34px}
 
 .btn-esc{display:block;width:100%;text-align:left;background:#fff;border:1px solid var(--linea);
   border-radius:var(--r-ctrl);padding:9px 11px;margin-bottom:6px;cursor:pointer;font:inherit;min-height:44px}
-.btn-esc:hover{border-color:var(--guinda);background:var(--guinda-cl)}
-.btn-esc .be-nom{display:block;font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-sm);color:var(--guinda);line-height:1.25}
+.btn-esc:hover{border-color:var(--azul);background:var(--azul-cl)}
+.btn-esc .be-nom{display:block;font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-sm);color:var(--azul);line-height:1.25}
 .btn-esc .be-d{display:block;font-size:var(--t-xs);color:var(--gris);line-height:1.35;margin-top:2px}
 
 /* ---------- Modal ---------- */
@@ -390,7 +398,7 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .modal .caja{max-width:900px;margin:30px auto;background:#fff;border-radius:var(--r-caja);padding:30px;position:relative}
 .modal .cerrar{position:absolute;top:10px;right:12px;background:none;border:none;font-size:var(--t-xl);color:var(--gris);cursor:pointer;line-height:1;width:44px;height:44px;border-radius:var(--r-ctrl)}
 .modal .cerrar:hover{background:var(--fondo)}
-.modal h3{color:var(--guinda);font-size:var(--t-xl);margin-bottom:6px}
+.modal h3{color:var(--texto);font-size:var(--t-xl);margin-bottom:6px}
 table.comp{width:100%;border-collapse:collapse;font-size:var(--t-sm);margin-top:16px}
 table.comp th{background:var(--guinda);color:#fff;padding:9px 11px;text-align:left;font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-sm)}
 table.comp td{padding:9px 11px;border-bottom:1px solid var(--linea);vertical-align:top}
@@ -427,8 +435,8 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
   .resumen dt{border-radius:0}
   .tarjeta{padding:20px}
   header.titulo h1{font-size:var(--t-xl)}
-  .progreso .etapas{display:none}
-  .progreso .paso-txt{display:block;margin-top:6px}
+  .progreso .etq{display:none}
+  .progreso .paso-txt{display:block;margin-top:7px}
   /* En pantalla estrecha la barra fija no puede comerse la pantalla: el
      recordatorio se reduce a una línea, sin la etiqueta de encabezado. */
   .barra-fija{padding:8px 0 8px}
@@ -464,9 +472,8 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
 <main>
   <div class="barra-fija" id="barraFija">
     <div class="progreso" id="progreso" role="group" aria-label="Avance del formulario">
-      <div class="pista"><div class="avance" id="avance"></div></div>
-      <div class="paso-txt" id="pasoTxt"></div>
       <div class="etapas" id="etapas"></div>
+      <div class="paso-txt" id="pasoTxt"></div>
     </div>
     <div id="chipFijo"></div>
   </div>
@@ -1253,7 +1260,6 @@ function barra(){
   $('barraFija').style.display = vis ? 'block' : 'none';
   $('progreso').style.display = vis ? 'block' : 'none';
   if(!vis){ $('chipFijo').innerHTML = ''; return; }
-  $('avance').style.width = Math.round((paso/6)*100)+'%';
   $('pasoTxt').textContent = 'Paso '+paso+' de 6 · '+ETAPAS[paso-1];
   if($('anuncio')) $('anuncio').textContent = 'Paso '+paso+' de 6: '+ETAPAS[paso-1];
   $('progreso').setAttribute('aria-label','Paso '+paso+' de 6: '+ETAPAS[paso-1]);
@@ -1266,9 +1272,11 @@ function barra(){
     var titulo = n===paso ? 'Estás en este paso'
                : (n<paso ? 'Volver al paso '+n+': '+e
                          : 'Ir al paso '+n+': '+e+'. Requiere completar los pasos anteriores.');
+    /* El estado no se confía al color: lo dicen la palomita y el número. */
     return '<button type="button" class="etapa '+c+'" onclick="vaAlPaso('+n+')"'+
       (n===paso?' aria-current="step"':'')+' title="'+esc(titulo)+'">'+
-      (n<paso?'✓ ':'')+esc(e)+'</button>';
+      '<span class="bolita" aria-hidden="true">'+(n<paso?'✓':n)+'</span>'+
+      '<span class="etq">'+esc(e)+'</span></button>';
   }).join('');
 }
 
@@ -1458,17 +1466,11 @@ function pUbicacion(){
       campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
       campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
     '</div>'+
-    '<div class="bloque-opcional">'+
-      '<h3 class="enc-opcional"><span>Más datos del lugar <em>— todo esto es opcional</em></span></h3>'+
-      '<div class="cuerpo-opcional">'+
-        '<p class="ayuda" style="margin-bottom:14px">Cualquier dato que ayude al personal de inspección a localizar el sitio.</p>'+
-        '<div class="fila">'+
-          campo('entre_calle1','Entre calle 1','texto',false,'')+
-          campo('entre_calle2','Entre calle 2','texto',false,'')+
-        '</div>'+
-        campoArea('referencias','Cómo se reconoce el sitio',false,'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos, número de predio, cómo se entra.',3)+
-      '</div>'+
+    '<div class="fila">'+
+      campo('entre_calle1','Entre calle 1','texto',false,'')+
+      campo('entre_calle2','Entre calle 2','texto',false,'')+
     '</div>'+
+    campoArea('referencias','Cómo se reconoce el sitio',false,'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos, número de predio, cómo se entra.',3)+
     '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px;flex-wrap:wrap">'+
       '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="ubicaPorDireccion()">'+
         svgIcono('pin',16)+' Ubicar en el mapa</button>'+
@@ -2606,11 +2608,14 @@ function pideBorrar(){
   d.scrollIntoView({block:'center',behavior:'smooth'});
 }
 
+/* De lo que decía este aviso sólo se conserva una cosa además del hecho de que
+   hay algo sin terminar: que **no se ha presentado**. El nombre del supuesto y
+   dónde se guardó eran ruido; esa frase no, porque sin ella alguien puede
+   cerrar el navegador creyendo que ya denunció (DEC-54). */
 function avisoBorrador(){
   var b = leeBorrador(); if(!b) return '';
-  var m = MATERIAS.filter(function(x){return x.id===b.estado.materia;})[0];
   return '<div class="aviso aviso-guinda"><strong>Tienes una denuncia sin terminar.</strong> '+
-    (m?'Sobre «'+esc(m.nom)+'». ':'')+'Se guardó en este navegador; no se ha presentado ante la Secretaría.<br><br>'+
+    'Aún no se ha presentado ante la Secretaría.<br><br>'+
     '<button type="button" class="btn btn-primario" style="padding:10px 18px;min-height:44px" onclick="retomaBorrador()">Continuar donde me quedé</button> '+
     '<button type="button" class="btn btn-secundario" style="padding:10px 18px;min-height:44px" onclick="pideBorrar()">Descartar y empezar de nuevo</button></div>';
 }

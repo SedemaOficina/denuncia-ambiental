@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Datos accesorios del lugar, geolocalización con encuadre propio y recorrido
+"""Datos accesorios del lugar, geolocalizacion con encuadre propio y recorrido
    completo sin errores de consola.
 
    El bloque nació plegado (DEC-44) y dejó de estarlo (DEC-51): al fundirse los
@@ -40,27 +40,33 @@ with sync_playwright() as pw:
     pg.wait_for_timeout(400)
     afirma(pg.locator('#app').inner_text().find('Dónde') >= 0 or pg.locator('h2').first.inner_text() != '', 'paso 2 renderiza')
 
-    # --- 1. El bloque va ARRIBA del mapa y siempre visible ---
+    # --- 1. Los campos accesorios son parte de la direccion ---
     pos = pg.evaluate("""() => {
-      const b=document.querySelector('.bloque-opcional'), m=document.getElementById('mapa');
-      const cp=document.getElementById('f_cp');
-      const yy = e => e ? Math.round(e.getBoundingClientRect().top + window.scrollY) : null;
-      return {bloque: yy(b), mapa: yy(m), cp: yy(cp),
-              plegables: document.querySelectorAll('button.enc-opcional').length,
+      const yy = id => { const e=document.getElementById(id); return e? Math.round(e.getBoundingClientRect().top+window.scrollY):null; };
+      const m = document.getElementById('mapa');
+      return {cp: yy('f_cp'), e1: yy('f_entre_calle1'), refs: yy('f_referencias'),
+              mapa: m ? Math.round(m.getBoundingClientRect().top+window.scrollY) : null,
+              cajas: document.querySelectorAll('.bloque-opcional, .enc-opcional, .cuerpo-opcional').length,
               campos: ['entre_calle1','entre_calle2','referencias'].map(k=>!!document.getElementById('f_'+k))};
     }""")
-    afirma(pos['bloque'] is not None and pos['mapa'] is not None and pos['bloque'] < pos['mapa'],
-           'los datos accesorios van ARRIBA del mapa (bloque %s, mapa %s)' % (pos['bloque'], pos['mapa']))
-    afirma(pos['cp'] is not None and pos['cp'] < pos['bloque'],
-           'y despues de la direccion, cerrando ese bloque sin que el mapa lo parta')
-    afirma(pos['plegables'] == 0, 'no queda ningun plegable: el bloque esta siempre desplegado')
-    afirma(all(pos['campos']), 'los tres campos accesorios se ven de entrada: %s' % pos['campos'])
+    afirma(all(pos['campos']), 'los tres campos accesorios estan a la vista: %s' % pos['campos'])
+    afirma(pos['cajas'] == 0, 'no quedan cajas ni encabezados de bloque plegable (%d)' % pos['cajas'])
+    afirma(pos['cp'] < pos['e1'] < pos['refs'] < pos['mapa'],
+           'van despues del codigo postal y antes del mapa: CP %s < entre calles %s < como se reconoce %s < mapa %s'
+           % (pos['cp'], pos['e1'], pos['refs'], pos['mapa']))
 
-    # --- 2. «Opcional» se dice una vez, no campo por campo (DEC-46) ---
-    afirma(pg.locator('.cuerpo-opcional .opc:visible').count() == 0,
-           'dentro del bloque no se repite la palabra «opcional»')
-    afirma('opcional' in pg.locator('.enc-opcional').inner_text().lower(),
-           'el encabezado lo declara una sola vez')
+    # --- 2. Aqui «opcional» si distingue, y por eso se marca ---
+    marcas = pg.evaluate("""() => {
+      const prev = cfg.validar; cfg.validar = true; render();
+      const r = ['calle','entre_calle1','referencias'].map(k => {
+        const c = document.getElementById('c_'+k);
+        return c ? (c.innerText.toLowerCase().includes('opcional') ? 'opcional' : 'obligatorio') : 'ausente';
+      });
+      cfg.validar = prev; render();
+      return r;
+    }""")
+    afirma(marcas == ['obligatorio','opcional','opcional'],
+           'la calle se pide y los accesorios se marcan opcionales: %s' % marcas)
 
     # --- 3. Lo capturado se conserva al volver al paso ---
     pg.fill('#f_referencias', 'Frente a la escuela primaria')
@@ -69,12 +75,10 @@ with sync_playwright() as pw:
     afirma(pg.input_value('#f_referencias') == 'Frente a la escuela primaria',
            'el dato capturado sobrevive a salir y volver al paso')
 
-    # --- 4. Ningun campo accesorio es obligatorio con direccion ---
-    envueltos = ['entre_calle1','entre_calle2','referencias']
-    oblig = pg.evaluate("ks => ks.filter(k => OBLIG[k] && esObligatorio(k))", envueltos)
-    afirma(oblig == [], 'con direccion, ningun campo accesorio es obligatorio (lo son: %s)' % oblig)
-    afirma(pg.evaluate("() => valida.toString().indexOf('ENVUELTOS_LUGAR') < 0"),
-           'la red que desplegaba el bloque se retiro: ya no hay nada que desplegar')
+    # --- 4. Ninguno es obligatorio cuando hay direccion ---
+    oblig = pg.evaluate("ks => ks.filter(k => OBLIG[k] && esObligatorio(k))",
+                        ['entre_calle1','entre_calle2','referencias'])
+    afirma(oblig == [], 'con direccion, ninguno es obligatorio (lo son: %s)' % oblig)
 
     # --- 5. «Los hechos ocurren donde estoy ahora» ---
     enlace = pg.locator('button.enlace', has_text='donde estoy ahora')

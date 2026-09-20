@@ -512,3 +512,29 @@ Observación del usuario: «mucho texto y poco atractiva». Medida antes de toca
 **Un defecto propio, encontrado al mirar la captura y no al medir.** La primera versión ponía el título y el detalle de cada paso como dos celdas sueltas de la misma rejilla, de modo que el detalle caía en la columna de 28 píxeles del número y **se partía una palabra por renglón**. Ninguna comprobación automática lo habría visto: el texto estaba, era correcto y no había error en consola. **Hay una clase de defecto que sólo aparece mirando**, y por eso el cierre incluye siempre una captura. Se corrigió envolviendo cada paso en su propia celda, y la prueba nueva mide el ancho del texto para que no vuelva a pasar inadvertido.
 
 **Verificación de cierre.** 112 comprobaciones en verde, incluidas dieciocho nuevas sobre la portada, en teléfono y en escritorio: tope de palabras, botón visible sin desplazar, cero cajas apiladas, que la tarjeta no repita el título ni la bajada del encabezado, que el texto de los pasos no se parta, y sin desbordamiento horizontal. Cero funciones sin uso y cero clases de estilo huérfanas.
+
+### 20 de septiembre de 2026 · barra de pasos, paleta y datos del lugar
+
+Tres cambios pedidos por el usuario en la misma sesión, todos de forma más que de fondo.
+
+**El aviso de denuncia sin terminar (DEC-54).** Se pidió borrar la parte que nombraba el supuesto y decía que el borrador se guardó en el navegador. Se acortó, pero **se conservó una frase que no se había pedido conservar**: que la denuncia aún no se ha presentado. Sin ella alguien puede cerrar el navegador creyendo que ya denunció. De 36 a 22 palabras, y una prueba automatizada fija que esa frase no se pierda en una limpieza futura.
+
+**La barra de pasos y la paleta (DEC-55).** La barra era un filete de avance con seis etiquetas debajo. Ahora es un círculo por paso: palomita verde en los recorridos, círculo oscuro relleno con el número en el actual, número gris en los pendientes, unidos por una línea que se pinta de verde conforme se avanza. **El estado no se confía al color** —la palomita y el número lo dicen igual—, de modo que sirve también a quien no distingue verde de gris. En pantalla estrecha se ocultan las seis etiquetas y queda el renglón que nombra el paso actual: los círculos caben, seis etiquetas no.
+
+Sobre la paleta, la observación fue «está saturadísimo todo de guinda». Medido: **cincuenta reglas de estilo lo usaban**. El efecto de eso es que nada destaca, porque todo destaca. Quedan diecinueve.
+
+| Uso | Color | Por qué |
+|---|---|---|
+| Barra de gobierno, encabezado, pie | **Guinda** | Identidad institucional. No se toca, por indicación expresa |
+| Título de cada paso y botón de acción principal | **Guinda** | Uno por pantalla: eso es lo que la hace reconocible sin saturarla |
+| Lo que se toca y lo que quedó elegido | **Azul `#1A56A8`** | Opciones, enlaces, tarjetas seleccionadas, zonas de carga. Es donde más se repetía |
+| Avance | **Verde `#1B6B43`** | Ya estaba declarado como color de «hecho»; la barra de pasos lo usa |
+| Estructura y jerarquía | **Neutros** | Subtítulos, encabezados de resumen, etiquetas: se resuelven con tipografía, no repitiendo el color de la institución |
+
+El recordatorio de materia, que va fijo en todas las pantallas, pierde el fondo guinda y conserva un **filete dorado** —que es el uso para el que ese color está declarado en la paleta: «sólo filetes y rellenos, nunca texto»—.
+
+**Los datos accesorios del lugar (DEC-56).** Se pidió eliminar el encabezado «Más datos del lugar — todo esto es opcional» y la línea que lo explicaba, dejando los campos como parte de la dirección. Hecho: los tres siguen a la colonia y el código postal sin caja que los envuelva. **Con eso, «opcional» vuelve a marcarse campo por campo, y es correcto**: entre campos visibles de un mismo bloque la palabra sí distingue —la calle se pide, las entre calles no—, que es exactamente el caso que DEC-46 reservaba para ella. Las tres clases de estilo del bloque se retiraron al quedar sin uso.
+
+**Verificación de cierre.** 118 comprobaciones en verde. Sintaxis correcta. Cero funciones sin uso, cero claves de estado escritas y nunca leídas, cero clases de estilo huérfanas. Revisión visual en capturas a 900 y a 390 px: la barra de pasos se lee en ambas, las etiquetas se ocultan en la estrecha y queda el renglón del paso actual, y no hay desbordamiento.
+
+**Nota sobre las pruebas.** Dos comprobaciones fallaron al correrlas de nuevo y ninguna era regresión. Una fijaba la existencia del bloque plegable, que acaba de disolverse; se reescribió para comprobar lo contrario. La otra miraba la marca de «opcional» **sin activar la obligatoriedad**, de modo que en modo de prueba veía todos los campos marcados y daba por defectuoso lo que era correcto. Es el mismo error de método de la vez anterior: la prueba medía una cosa creyendo medir otra.
