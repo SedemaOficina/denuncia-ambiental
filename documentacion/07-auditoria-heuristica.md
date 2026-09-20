@@ -125,11 +125,19 @@ La protesta de decir verdad no se puede simplificar sin riesgo jurídico, pero s
 | II | **Desbordamiento a 320 px corregido** en las siete pantallas: la lista de supuestos y el folio del acuse ya no fuerzan desplazamiento lateral | Aplicado |
 | 7 y 5 | **`autocomplete` en doce campos** —nombre, apellidos, teléfono, correo y las seis partes del domicilio— e **`inputmode` numérico** con longitud máxima en código postal y teléfono | Aplicado |
 | 5 y 1 | **«Descartar y empezar de nuevo» pide confirmación** antes de borrar el borrador, y cada guardado muestra «Avance guardado en este navegador» | Aplicado |
-| 6 y 3 | **Recordatorio permanente de la materia elegida** a partir del paso 2, con enlace para cambiarla, y **enlaces «Editar»** en la pantalla de revisión que llevan al paso correspondiente | Aplicado |
+| 6 y 3 | **Recordatorio permanente de la materia elegida** a partir del paso 2, con enlace para cambiarla, y **enlaces «Editar»** en la pantalla de revisión que llevan al paso correspondiente | **Aplicado a medias — cerrado de verdad el 20 sep 2026** |
 | 10 | **Pie institucional** con el logotipo, la dependencia, el domicilio y el horario de Oficialía de Partes, el correo de denuncias y el aviso de privacidad | Aplicado |
 | 1 | **Anuncio del cambio de paso** en una región `aria-live` y **enlace para saltar al formulario** | Aplicado |
 | 2 | **«Terráceos» dejó de ser el nombre principal**: la opción se llama ahora «Remoción de tierra o vegetación» y el término técnico se conserva como denominación formal | Aplicado |
 | II | El **logotipo institucional quedó incrustado** en el propio archivo, de modo que aparece aunque no haya red o el entorno bloquee recursos externos | Aplicado |
+
+### Sobre el renglón «Aplicado a medias»
+
+El hallazgo del apartado 3 decía, con estas palabras, que **desde la revisión no se puede saltar al dato que se quiere corregir**. Lo que se aplicó fueron enlaces que llevan **al paso**, que es justo lo que el hallazgo señalaba como insuficiente, y sólo en siete de los veinticuatro renglones. El renglón se marcó «Aplicado» y nadie volvió a leer el hallazgo.
+
+Quedó cerrado el 20 de septiembre (DEC-85): cada renglón lleva su botón, el botón aterriza en el campo con el foco puesto, y los dos datos que calcula el punto dicen por qué no se editan. **Lo que sostiene el cierre no es esta tabla, es una comprobación** que exige que ningún renglón se quede sin decir cómo se corrige.
+
+**Lección de método, más útil que la corrección:** un hallazgo no se cierra porque se haya hecho algo que se le parece. Se cierra cuando una comprobación automática lo sujeta, o cuando se relee el texto del hallazgo y se confirma palabra por palabra que ya no aplica.
 
 **Pendiente de decisión, no de trabajo:** el teléfono de atención ciudadana, que es la pieza que falta para cerrar la heurística 10, y la evaluación de si el domicilio completo es indispensable cuando ya se pidió correo y teléfono (heurística 8).
 
