@@ -71,7 +71,7 @@ header.titulo p{color:var(--gris);font-size:var(--t-md);margin-top:6px;max-width
 .contenedor{max-width:980px;margin:0 auto}
 main{max-width:980px;margin:0 auto;padding:24px 20px 96px}
 .tarjeta{background:#fff;border:1px solid var(--linea);border-radius:var(--r-caja);padding:26px;margin-bottom:18px}
-.tarjeta h2{font-size:var(--t-lg);color:var(--guinda);margin-bottom:6px}
+.tarjeta h2{font-size:var(--t-xl);font-weight:700;color:var(--guinda);margin-bottom:6px;letter-spacing:-.2px}
 .tarjeta h2 .num{display:inline-block;background:var(--guinda);color:#fff;font-size:var(--t-sm);width:26px;height:26px;line-height:26px;text-align:center;border-radius:var(--r-pill);margin-right:8px;vertical-align:2px;font-family:'Roboto',sans-serif;font-weight:700}
 .sub{color:var(--gris);font-size:var(--t-md);margin-bottom:20px;max-width:70ch}
 
@@ -119,7 +119,7 @@ html{scroll-padding-top:150px}
 
 /* ---------- Campos ---------- */
 .campo{margin-bottom:18px}
-.campo label{display:block;font-weight:500;font-size:var(--t-md);margin-bottom:5px;color:var(--texto);cursor:pointer}
+.campo label{display:block;font-weight:600;font-size:var(--t-base);line-height:1.35;margin-bottom:4px;color:var(--texto);cursor:pointer}
 .campo .ayuda{font-size:var(--t-sm);color:var(--gris-cl);margin-bottom:6px;line-height:1.45}
 .req{color:var(--guinda);font-weight:700;margin-left:1px}
 input[type=text],input[type=tel],input[type=email],input[type=date],input[type=time],input[type=number],select,textarea{
@@ -154,7 +154,7 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
     display:grid;grid-template-rows:subgrid;grid-row:span 4;gap:0;align-content:start}
 }
 .campo .ayuda:empty{margin:0}
-.campo .etq{display:block;font-weight:500;font-size:var(--t-md);margin-bottom:5px;color:var(--texto)}
+.campo .etq{display:block;font-weight:600;font-size:var(--t-base);line-height:1.35;margin-bottom:4px;color:var(--texto)}
 
 /* ---------- Sí / No ---------- */
 .si-no{display:flex;gap:10px}
@@ -238,8 +238,14 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .enc-otras:hover{border-color:var(--gris);color:var(--texto)}
 
 /* Subtítulo de bloque dentro de un paso. Sustituye seis estilos en línea idénticos. */
-.sub-seccion{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-lg);color:var(--guinda);margin:26px 0 4px}
-.sub-seccion-sm{font-size:var(--t-md);margin:18px 0 8px}
+.sub-seccion{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-lg);font-weight:600;
+  color:var(--guinda);margin:30px 0 6px;padding-top:14px;border-top:2px solid var(--dorado)}
+.tarjeta > .sub-seccion:first-of-type{margin-top:22px}
+/* Subsección: no compite con la pregunta porque no es del mismo tipo de letra
+   ni del mismo tamaño; se lee como rótulo de grupo, igual que en el paso 1. */
+.sub-seccion-sm{font-family:'Roboto',Arial,sans-serif;font-size:var(--t-sm);font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--gris);
+  margin:24px 0 10px;padding:0 0 6px;border-top:none;border-bottom:1px solid var(--linea)}
 /* Texto secundario en gris, al tamaño de apoyo. */
 .nota-gris{font-size:var(--t-md);color:var(--gris)}
 .portada-intro{font-size:var(--t-lg);line-height:1.5;color:var(--texto);text-align:left;
@@ -828,7 +834,7 @@ var OBLIG = {
   tipo_estab:       {p:3, dgiva:false, vigente:false, etq:'Tipo de establecimiento', dp:false, fin:'Localización',
      cond:function(){ return val('es_estab')==='si'; } , cond_txt:'Sólo cuando los hechos ocurren dentro de un establecimiento',
      uso:'Prepara la visita —qué se va a inspeccionar— y alimenta la estadística por tipo de fuente.'},
-  nombre_estab:     {p:3, dgiva:false, vigente:false, etq:'Nombre comercial', dp:false, fin:'Localización',
+  nombre_estab:     {p:3, dgiva:false, vigente:false, etq:'Nombre del establecimiento', dp:false, fin:'Localización',
      cond:function(){ return val('es_estab')==='si'; } , cond_txt:'Sólo cuando los hechos ocurren dentro de un establecimiento',
      uso:'Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas.'},
   nombre_lugar:     {p:2, dgiva:true,  vigente:true,  etq:'Nombre del lugar', dp:false, fin:'Localización',
@@ -1786,7 +1792,7 @@ function pHechos(){
   campoArea('hechos','Cuenta qué pasó o qué está pasando',esObligatorio('hechos'),'',6,
     'Qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce: humo, olor, ruido, derrame, tala, tiro de material.')+
 
-  '<h3 style="font-size:var(--t-lg);color:var(--guinda);margin:26px 0 14px">¿Desde cuándo ocurre?'+marca_opc(esObligatorio('temporalidad'))+'</h3>'+
+  '<h3 class="sub-seccion">¿Desde cuándo ocurre?'+marca_opc(esObligatorio('temporalidad'))+'</h3>'+
   '<div class="campo"><div class="opciones">'+
     ['unico|Ocurrió una sola vez','recurrente|Ocurre de forma repetida','permanente|Es permanente o continuo'].map(function(o){
       var p=o.split('|');
@@ -1811,7 +1817,7 @@ function pHechos(){
   (val('es_estab')==='si' ?
     '<div class="fila">'+
       campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,esObligatorio('tipo_estab'),'','actualizaOtroEstab()')+
-      campo('nombre_estab','Nombre comercial','texto',esObligatorio('nombre_estab'),'Como aparece en el anuncio o la fachada')+
+      campo('nombre_estab','Nombre del establecimiento','texto',esObligatorio('nombre_estab'),'Por ejemplo: Taller Automotriz Hernández, Escuela Primaria Benito Juárez, Bodega La Central')+
     '</div>'+
     '<div id="otroEstab">'+campoOtroEstab()+'</div>' : '')+
   campoOpciones('tipo_denunciado','¿Quién es responsable de los hechos?', TIPOS_DENUNCIADO,
@@ -1887,7 +1893,7 @@ function bloqueDenunciado(){
         val('es_estab')==='si'
           ? 'Como aparece en su licencia o su comprobante fiscal. Si sólo conoces el nombre comercial, deja este campo vacío: ya lo capturaste en el paso anterior.'
           : 'Como aparece en su licencia o su comprobante fiscal, si la conoces')+
-      (val('es_estab')!=='si' ? campo('resp_nombre','Nombre comercial del negocio','texto',false,'El que aparece en el anuncio o la fachada') : '')+
+      (val('es_estab')!=='si' ? campo('resp_nombre','Nombre del negocio o del lugar','texto',false,'Por ejemplo: Taller Automotriz Hernández, Bodega La Central') : '')+
       campo('resp_encargado','Persona encargada o representante','texto',false,'Quién atiende o dirige, si lo sabes');
   }
 

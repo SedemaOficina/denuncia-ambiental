@@ -601,3 +601,27 @@ Lo que de verdad orienta —qué se hace, quién lo hace, en qué horario, con q
 **Corrección desde un comentario en el artefacto.** La ayuda de la pregunta del domicilio pasa a los términos con que la Secretaría nombra esos sitios: área natural protegida, barranca, bosque urbano, terreno forestal o de cultivo, camino o canal.
 
 **Verificación de cierre.** 132 comprobaciones en verde. Sintaxis correcta, cero funciones sin uso, cero clases de estilo huérfanas. Comprobado por lectura del árbol que la calle y la alcaldía ya no llevan ayuda, que el número exterior dice «escribe S/N», y que el campo de descripción tiene el marcador dentro y ninguna ayuda ni ejemplo alrededor.
+
+### 20 de septiembre de 2026 · jerarquía visual de los seis niveles
+
+Petición: que se distingan bien el paso, el título de sección, la subsección, las preguntas y las respuestas. **Medido antes de tocar nada, había dos defectos, no una impresión:**
+
+1. **El título del paso y el de sección eran idénticos**: 20 px, Cabin 600, guinda los dos. Lo único que los separaba era el círculo con el número.
+2. **La respuesta se veía más grande que la pregunta**: el control a 16 px y su etiqueta a 14. La jerarquía al revés, en todos los campos del formulario.
+
+| Nivel | Antes | Ahora |
+|---|---|---|
+| **Paso** | 20 px Cabin 600 guinda | **24 px Cabin 700 guinda**, con el número en círculo |
+| **Sección** | 20 px Cabin 600 guinda | 20 px Cabin 600 guinda, **con filete dorado encima** |
+| **Subsección** | 14 px | **13 px en mayúsculas espaciadas, gris, con filete inferior** |
+| **Pregunta** | 14 px Roboto 500 | **16 px Roboto 600** |
+| **Respuesta** | 16 px Roboto 400 | igual, dentro de un control con borde |
+| **Ayuda** | 13 px gris | igual |
+
+De paso, el encabezado «¿Desde cuándo ocurre?» dejó de ser un estilo escrito en línea que repetía a mano el tamaño del título de sección, y pasa a usar la clase.
+
+**Lo que se comprueba es la regla, no la tabla.** La batería nueva mide los seis niveles y exige dos cosas: que cada nivel se separe del contiguo por **al menos dos rasgos** —tamaño, peso, familia, color, mayúsculas o el hecho de ir dentro de un control con borde— y que **ninguna respuesta se vea mayor que su pregunta**. Fijar la tabla de tamaños congelaría el diseño; fijar la regla deja rediseñar sin volver a caer en lo mismo. Pregunta y respuesta comparten tamaño, y se separan por peso y por el borde del control: dos rasgos, que es el mínimo exigido.
+
+**Nombres de establecimiento (DEC-63).** «Como aparece en el anuncio o la fachada» **supone que el sitio tiene anuncio**, y muchos no lo tienen —una escuela, una bodega, un predio en obra—. Y «nombre comercial» excluye a lo que no es comercio. Pasa a «Nombre del establecimiento», con ejemplos que cubren los dos casos.
+
+**Verificación de cierre.** **147 comprobaciones en verde**, quince de ellas nuevas. Sintaxis correcta, cero funciones sin uso, cero clases de estilo huérfanas. Documento 09 regenerado. Revisión visual en captura a 1 000 px.

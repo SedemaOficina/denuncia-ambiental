@@ -64,7 +64,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 |---|---|---|---|---|---|
 | ¿Los hechos ocurren dentro de un establecimiento? | Opcional | Opcional | No | Siempre | Caracteriza el sitio como fuente fija y propone al establecimiento como responsable. Se pregunta junto a la identificación del responsable, que es lo que determina. |
 | Tipo de establecimiento | Opcional | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Prepara la visita —qué se va a inspeccionar— y alimenta la estadística por tipo de fuente. |
-| Nombre comercial | Opcional | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas. |
+| Nombre del establecimiento | Opcional | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas. |
 | Descripción de lo que ocurre | Obligatorio | Obligatorio | No | Siempre | Objeto y alcance de la visita de inspección; es la base de la motivación del acto. |
 | Desde cuándo ocurre | Opcional | Obligatorio | No | Siempre | Determina si la conducta es continua o aislada, lo que define la urgencia y el cómputo del plazo. |
 | Fecha en que ocurrió o inició | Opcional | Obligatorio | No | Siempre | Cómputo del plazo de presentación y ubicación temporal de los hechos en el expediente. |
