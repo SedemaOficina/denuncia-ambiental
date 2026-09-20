@@ -69,6 +69,29 @@ with sync_playwright() as pw:
            % (paso['px'], seccion['px'], pregunta['px']))
     afirma(ayuda['px'] < pregunta['px'], 'la ayuda es menor que la pregunta')
 
+    # --- Peso de las acciones: avanzar, retroceder y responder ---
+    # El acuse no tiene ninguno de los tres: se mide en un paso del formulario.
+    pg.evaluate("irA(3)"); pg.wait_for_timeout(350)
+    acc = pg.evaluate("""() => {
+      const NEUTRO = ['rgba(0, 0, 0, 0)', 'transparent', 'rgb(255, 255, 255)'];
+      const g = e => { if(!e) return null; const c = getComputedStyle(e);
+        return {borde: c.borderTopWidth !== '0px',
+                relleno: NEUTRO.indexOf(c.backgroundColor) < 0, fondo: c.backgroundColor}; };
+      return {atras: g(document.querySelector('.btn-atras')),
+              continuar: g([...document.querySelectorAll('.btn-primario')].pop()),
+              sino: g(document.querySelector('.btn-sn'))};
+    }""")
+    afirma(acc['atras'] is not None, 'el control de retroceso existe')
+    afirma(acc['atras'] and not acc['atras']['borde'] and not acc['atras']['relleno'],
+           'retroceder no lleva borde ni relleno: es navegación, no una respuesta')
+    afirma(acc['sino'] and acc['sino']['borde'] and not acc['sino']['relleno'],
+           'responder lleva borde y fondo neutro (%s)' % (acc['sino'] and acc['sino']['fondo']))
+    afirma(acc['continuar'] and acc['continuar']['relleno'],
+           'avanzar es lo único con relleno de color: una acción principal por pantalla (%s)'
+           % (acc['continuar'] and acc['continuar']['fondo']))
+    alto = pg.evaluate("() => Math.round(document.querySelector('.btn-atras').getBoundingClientRect().height)")
+    afirma(alto >= 44, 'retroceder conserva el blanco táctil de 44 px (%d)' % alto)
+
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])
     nav.close()
 

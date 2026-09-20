@@ -648,3 +648,23 @@ Bloque largo de revisión en pantalla. Lo sustantivo son tres cosas.
 | Botones de sí y no | 40 px con ratón, 48 con el dedo: la regla del blanco táctil se condiciona al tipo de puntero, que es lo que mide, y no al ancho de pantalla (DEC-68) |
 
 **Verificación de cierre.** **166 comprobaciones en verde.** Sintaxis correcta en las dos piezas, cero funciones sin uso, cero claves escritas y nunca leídas, cero clases huérfanas. Documento 09 regenerado: 52 campos, 18 con obligatoriedad condicionada. Comprobado que sin punto no se pide confirmarlo, que al colocarlo aparece sin marcar, que sin confirmar el paso no avanza, y que **mover el punto borra la confirmación, destilda la casilla y vuelve a frenar el paso**.
+
+### 20 de septiembre de 2026 · el peso de las tres acciones
+
+«Regresar» tenía borde y pesaba lo mismo que los botones de sí y no, justo en la pantalla donde lo único que hay que hacer es leer una pregunta y contestarla. **Retroceder es navegación, no una respuesta**, y no debía parecerlo. Pasa a «‹ Regresar», sin borde ni relleno, en los siete lugares donde aparece.
+
+| Acción | Cómo se ve |
+|---|---|
+| Avanzar | Relleno guinda. **Una por pantalla** |
+| Responder | Borde y fondo neutro |
+| Retroceder | Ni borde ni relleno: flecha y texto |
+
+El blanco táctil de 44 px se conserva por relleno interior y no por caja visible, que es lo que la norma pide: superficie para el dedo, no un recuadro dibujado.
+
+**Lo que se comprueba es la regla.** La batería de jerarquía gana cuatro comprobaciones: que retroceder no lleve borde ni relleno, que responder lleve borde y fondo neutro, que avanzar sea lo único con relleno de color, y que retroceder conserve los 44 px.
+
+**Una prueba mal escrita, corregida.** La primera versión daba por «relleno» cualquier fondo no transparente, de modo que consideraba rellenos los botones de sí y no, que son blancos sobre blanco. Blanco sobre blanco no distingue nada: lo que la regla quiere decir es **relleno de color**, y así se escribió.
+
+**Pregunta abierta que quedó registrada como P-18.** Si el sistema debe resolver los enlaces cortos de Google Maps para sacar la coordenada. No se puede hacer desde el navegador —la política de origen cruzado lo impide—, así que exige servidor; y aceptar que el servidor pida una dirección web escrita por el público es una vulnerabilidad conocida, admisible sólo con lista blanca estricta. La recomendación es hacerlo en la versión funcional, con esas condiciones, porque el beneficio recae en el caso más difícil: el sitio sin domicilio, donde el pin del mapa es lo único que la persona tiene.
+
+**Verificación de cierre.** 171 comprobaciones en verde. Cero clases de estilo huérfanas.

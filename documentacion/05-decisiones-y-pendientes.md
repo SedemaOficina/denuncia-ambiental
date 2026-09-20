@@ -81,6 +81,7 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 | DEC-68 | El tamaño de los botones de sí y no depende del tipo de puntero, no del ancho de pantalla | 20 sep 2026 | Medían 48 px de alto en todas partes porque ésa es la regla del **blanco táctil**: un pulgar necesita esa superficie, un ratón no. Aplicada por ancho de pantalla, la regla agrandaba los controles en escritorio sin motivo. Se condiciona a `pointer: coarse`, que es lo que la regla mide de verdad: 40 px con ratón, 48 con el dedo |
 | DEC-69 | Se admiten coordenadas y enlaces de Google Maps, leídos en el navegador | 20 sep 2026 | Sustituye a la detección de ubicación. La persona pega lo que ya tiene —las coordenadas, o el enlace del mapa donde dejó el pin— y el punto se coloca. **El enlace se lee aquí, con una expresión regular sobre el texto: el sistema no lo abre ni consulta nada fuera**, comprobado por prueba que vigila que no se genere ninguna petición de red. Se reconocen las tres formas en que ese servicio escribe la coordenada en la dirección web. Los enlaces cortos no la llevan dentro, así que no hay nada que leer: se pide el enlace completo en vez de resolverlo por fuera, que es justo lo que se quiso evitar |
 | DEC-70 | El punto del mapa debe confirmarse, y cualquier movimiento borra la confirmación | 20 sep 2026 | El punto se arrastra, y **un roce basta para moverlo unas calles**; de esa coordenada depende el área que atiende la denuncia y el tipo de suelo que se invoca. Se pide confirmarlo con una casilla que aparece bajo el resultado del cruce —justo debajo de lo que ese punto determinó— y **cualquier colocación o arrastre posterior la borra**: si sobreviviera al movimiento, pedirla no serviría de nada. La regla hubo que escribirla **dos veces**, porque el mapa vectorial del artefacto sobrescribe `ponMarcador`; es la segunda regla del LEEME de la carpeta de construcción, y esta vez se aplicó antes de que fallara |
+| DEC-71 | Retroceder deja de ser un botón con borde y pasa a enlace con flecha | 20 sep 2026 | **Retroceder es navegación, no una respuesta.** Con borde pesaba lo mismo que los botones de sí y no, y competía con ellos por la atención justo donde había que leer una pregunta. Pasa a «‹ Regresar», sin borde ni relleno. Queda así una sola acción con relleno de color por pantalla —continuar—, una con borde —responder— y una sin nada —retroceder—. El blanco táctil de 44 px se conserva por relleno interior, no por caja visible. Se comprueba la regla: una prueba mide que retroceder no lleve borde ni relleno, que responder lleve borde y fondo neutro, y que avanzar sea lo único con color |
 
 ---
 
@@ -304,6 +305,26 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 *A quién corresponde.* Dirección General de Inspección y Vigilancia Ambiental.
 
 *Bloquea:* el cierre del esquema de obligatoriedad.
+
+---
+
+**P-18. ¿Debe el sistema resolver los enlaces cortos de Google Maps para extraer la coordenada?**
+
+*Por qué importa.* Cuando alguien comparte un lugar desde la aplicación de mapas, lo que obtiene es un enlace corto —`maps.app.goo.gl/…`— que **no lleva la coordenada dentro**: es sólo un identificador que hay que canjear. El formulario lee los enlaces largos con una expresión regular, en el navegador y sin salir a la red (DEC-69), pero con los cortos no hay nada que leer, y hoy pide el enlace completo.
+
+*Lo que no se puede.* Resolverlo desde el navegador es **imposible**, no difícil: la política de origen cruzado impide leer la redirección. Cualquier solución exige que lo haga el servidor.
+
+*Opciones.*
+- **A. Dejarlo como está.** El formulario explica cómo obtener el enlace completo. Cero dependencias, cero superficie de ataque.
+- **B. Resolverlo en el servidor.** El servidor sigue la redirección y devuelve sólo la coordenada. Para la persona es un paso menos, y **su navegador no habla con Google**: quien consulta es el servidor, de modo que Google no obtiene su dirección de red.
+
+*Condiciones si se elige B.* Aceptar que el servidor pida una dirección web que escribe el público es una vulnerabilidad conocida —falsificación de petición del lado del servidor— y sólo es admisible con: **lista blanca estricta** de los dominios de enlaces cortos, ninguna redirección fuera de ellos, tiempo de espera corto, y uso exclusivo del encabezado de redirección sin leer el contenido de la respuesta. Añade además una dependencia de un servicio externo en un trámite de gobierno, con su modo de fallo.
+
+*Recomendación.* **Opción B, en la versión funcional y con esas condiciones**, porque el beneficio recae justo en el caso más difícil —el sitio sin domicilio, donde el pin del mapa es lo único que la persona tiene—. En el prototipo no cabe: no hay servidor.
+
+*A quién corresponde.* Sistema de Información Ambiental, junto con P-12.
+
+*Bloquea:* nada. Es una mejora de la versión funcional.
 
 ---
 

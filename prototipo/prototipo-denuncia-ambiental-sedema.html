@@ -332,6 +332,11 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .btn-primario{background:var(--guinda);color:#fff}
 .btn-primario:hover{background:var(--guinda-osc)}
 .btn-secundario{background:#fff;color:var(--gris);border:1px solid var(--borde)}
+.btn-atras{display:inline-flex;align-items:center;gap:7px;background:none;border:none;
+  padding:11px 4px;min-height:44px;font-family:'Cabin',sans-serif;font-size:var(--t-base);
+  font-weight:600;color:var(--gris);cursor:pointer;border-radius:var(--r-ctrl)}
+.btn-atras:hover{color:var(--azul)}
+.btn-atras .fl{font-size:var(--t-lg);line-height:1;margin-top:-2px}
 .btn-secundario:hover{border-color:var(--gris);color:var(--texto)}
 .btn-ancho{width:100%}
 .btn:disabled{opacity:.45;cursor:not-allowed}
@@ -472,6 +477,7 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
   html{scroll-padding-top:120px}
   .acciones{flex-direction:column-reverse}
   .btn{width:100%}
+  .btn-atras{align-self:center}
   #panel .cuerpo{width:calc(100vw - 32px)}
   .capas-fila{flex-direction:column;gap:2px}
   .capas-etq{width:auto}
@@ -1429,7 +1435,7 @@ function pMateria(){
   }
 
   h += '<div class="acciones" style="justify-content:flex-start">'+
-       '<button type="button" class="btn btn-secundario" onclick="irA(0)">Regresar</button></div></div>';
+       '<button type="button" class="btn-atras" onclick="irA(0)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button></div></div>';
   return h;
 }
 
@@ -1479,7 +1485,7 @@ function pUbicacion(){
     'render()')+
 
   (!contestada
-    ? '<div class="acciones"><button class="btn btn-secundario" onclick="irA(1)">Regresar</button></div></div>'
+    ? '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(1)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button></div></div>'
     :
 
   (sinDir ? '' :
@@ -1547,7 +1553,7 @@ function pUbicacion(){
     : '')+
 
 
-  '<div class="acciones"><button class="btn btn-secundario" onclick="irA(1)">Regresar</button>'+
+  '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(1)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
   '<button type="button" class="btn btn-primario" '+(val('fuera')==='si'?'disabled title="Coloca el punto dentro de la Ciudad de México para continuar"':'')+
     ' onclick="valida(2)&&irA(3)">Continuar</button></div></div>');
 }
@@ -1859,7 +1865,7 @@ function pHechos(){
     ? campoArea('gestiones','¿Ante quién, cuándo y qué respuesta recibiste?',false,'Este dato distingue el caso de quien ya acudió y no obtuvo respuesta.',2)
     : '')+
 
-  '<div class="acciones"><button class="btn btn-secundario" onclick="irA(2)">Regresar</button>'+
+  '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(2)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
   '<button type="button" class="btn btn-primario" onclick="valida(3)&&irA(4)">Continuar</button></div></div>';
 }
 
@@ -1947,7 +1953,7 @@ function pEvidencia(){
   '<input type="file" id="inputArch" multiple class="oculto" accept="'+ARCHIVOS.exts.map(function(e){return '.'+e;}).join(',')+'" onchange="agregaArchivos(this.files)">'+
   '<div class="lista-arch" id="listaArch"></div>'+
   campoArea('otras_pruebas','Describe otras pruebas que no puedas adjuntar',false,'Por ejemplo, documentos en original o testimonios.',2)+
-  '<div class="acciones"><button class="btn btn-secundario" onclick="irA(3)">Regresar</button>'+
+  '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(3)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
   '<button type="button" class="btn btn-primario" onclick="irA(5)">Continuar</button></div></div>';
   return h;
 }
@@ -2062,7 +2068,7 @@ function pDenunciante(){
     '<div class="err">Debes aceptar para poder enviar la denuncia.</div></div>'+
     '<div class="aviso"><span class="pendiente">Pendiente</span> El aviso de privacidad del formato vigente se sustenta en normativa abrogada. Requiere reexpedición antes de publicar el formulario.</div>'+
 
-  '<div class="acciones"><button class="btn btn-secundario" onclick="irA(4)">Regresar</button>'+
+  '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(4)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
   '<button type="button" class="btn btn-primario" onclick="valida(5)&&irA(6)">Revisar mi denuncia</button></div></div>';
   return h;
 }
@@ -2123,7 +2129,7 @@ function pRevision(){
   '</dl></div>'+
   '<div class="aviso aviso-guinda" style="margin-top:20px">Al enviar, la denuncia se registra con un folio y se turna a '+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+'. <span class="pendiente">Plazos de atención por confirmar</span></div>'+
-  '<div class="acciones"><button class="btn btn-secundario" onclick="irA(5)">Corregir</button>'+
+  '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(5)"><span class="fl" aria-hidden="true">\u2039</span>Corregir</button>'+
   '<button type="button" class="btn btn-primario" onclick="enviar()">Enviar denuncia</button></div></div>';
   return h;
 }
