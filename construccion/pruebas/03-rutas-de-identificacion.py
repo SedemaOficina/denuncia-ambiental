@@ -22,7 +22,7 @@ with sync_playwright() as pw:
     pg.on('pageerror', lambda e: err.append('pageerror: '+str(e)))
     pg.goto(TMP.as_uri()); pg.wait_for_timeout(700)
 
-    pg.evaluate("cfg.validar=true; cfg.ident='B'; irA(5)"); pg.wait_for_timeout(400)
+    pg.evaluate("cfg.validar=true; irA(5)"); pg.wait_for_timeout(400)
 
     # 1. Tres opciones, y ninguna elegida de entrada
     o = pg.evaluate("""() => {
@@ -81,15 +81,21 @@ with sync_playwright() as pw:
     afirma(an['aviso'], 'y se advierte qué se pierde')
     afirma(an['pasa'] is True, 'la denuncia anónima puede enviarse')
 
-    # 6. Variante C: sin anonimato, pero con las dos formas de identificarse
-    pg.evaluate("cfg.ident='C'; guarda('identificacion',''); render()"); pg.wait_for_timeout(300)
+    # 6. La denuncia anónima no depende de ninguna configuración (DEC-97)
+    #    La variante C —identificación obligatoria— se retiró: quedó decidido
+    #    que la denuncia puede ser anónima o identificada, y la bandera que
+    #    permitía ocultar la ruta anónima desapareció con ella. Esta
+    #    comprobación cuida que no vuelva por la puerta de atrás.
     c = pg.evaluate("""() => {
+      guarda('identificacion',''); render();
       const b=[...document.querySelectorAll('.opcion')];
-      return {n:b.length, nombres:b.map(x=>x.querySelector('.nombre').textContent.trim())};
-    }""")
-    afirma(c['n']==2 and not any('anónima' in x.lower() for x in c['nombres']),
-           'variante C: quedan las dos rutas identificadas y desaparece la anónima (%s)' % c['nombres'])
-    pg.evaluate("cfg.ident='B'")
+      return {n:b.length, nombres:b.map(x=>x.querySelector('.nombre').textContent.trim()),
+              cfg: Object.keys(cfg)};
+    }"""); pg.wait_for_timeout(300)
+    afirma(c['n']==3 and any('anónima' in x.lower() for x in c['nombres']),
+           'las tres rutas se ofrecen siempre, sin configuración que las cambie (%s)' % c['nombres'])
+    afirma('ident' not in c['cfg'],
+           'el panel ya no lleva la variante de identificación: %s' % c['cfg'])
 
     # 7. El resumen dice si la identidad esta acreditada
     pg.evaluate("""() => { guarda('identificacion','llave'); guarda('sesion_llave','si');

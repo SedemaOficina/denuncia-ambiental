@@ -913,3 +913,23 @@ Quedan **cinco familias con un trabajo cada una** —rojo: error; ámbar: pendie
 **La batería 12 no comprueba el gusto, comprueba el reparto**: que ningún color viva fuera de la paleta, que el verde no aparezca en ninguno de los siete pasos y sí en el acuse, que el ámbar sólo lo use la marca de pendiente, y que el paso hecho se distinga sin color (DEC-95).
 
 **Verificación.** 317 comprobaciones en verde en doce baterías.
+
+### El panel de validación: de seis grupos a tres interruptores
+
+El panel había dejado de ser una herramienta y se había vuelto un archivo. Guardaba dos decisiones ya tomadas y las presentaba como si siguieran abiertas.
+
+La **variante C —identificación obligatoria, sin anonimato—** contradecía a DEC-03, que admitió la denuncia anónima desde el primer día. No era un adorno: quien abría el panel podía apagar la ruta anónima sin saber que estaba revirtiendo una decisión. Se retira, y una comprobación cuida que las tres rutas se ofrezcan siempre, sin configuración capaz de cambiarlas.
+
+El **conmutador entre «esquema DGIVA» y «formato vigente»** es de cuando el formulario se presentaba a una sola Dirección General y había que comparar dos propuestas de obligatoriedad. El formulario es de la Secretaría y tiene una sola lista de campos obligatorios. Con el conmutador se va `cfg.esquema`, y la bandera `dgiva` del catálogo pasa a llamarse **`oblig`**: el nombre viejo decía de quién era la propuesta, no qué gobierna.
+
+**`vigente` se conserva, pero cambia de naturaleza**: deja de ser una bandera de comportamiento y queda como dato documental. Sigue registrando, campo por campo, qué pedía la Ficha de Denuncia de 2016, que es la única manera de responder con precisión qué dato se dejó de exigir y cuál se agregó. Una comprobación verifica que forzar la bandera vieja no cambie absolutamente nada de lo que el formulario exige.
+
+Con eso, el panel pasa de seis grupos y siete controles a una nota, tres interruptores, los escenarios y tres enlaces. La nota que lo explica va ahora **al principio** —antes cerraba el panel, donde no la leía nadie— y está escrita a nombre de la Secretaría.
+
+### Dos defectos que aparecieron al hacerlo
+
+**El documento 10 decía estar generado y no lo estaba.** Sus tablas se mantenían a mano: por eso seguía documentando la variante C y los dos esquemas, y prometía competencia local en las Áreas Naturales Protegidas federales después de que el criterio cambió a PROFEPA. Es el mismo defecto que ya había mordido al documento 09, y es peor que la desactualización simple: **un documento que afirma estar generado miente con más autoridad que uno que no lo afirma.** Se cierra igual, con `generar_doc10.py`, que lee las estructuras del prototipo y conserva la parte redactada a mano, deteniéndose si no la encuentra (DEC-98).
+
+**La variable `--error-txt` se definía a sí misma.** Quedó como `--error-txt: var(--error-txt)` en el trabajo de color (DEC-95): una definición circular que el navegador descarta en silencio, de modo que el resumen de errores, la caja de confirmación y el aviso de bloqueo se pintaban con el color heredado y no con el rojo oscuro previsto. No rompía nada visible a simple vista, que es por lo que sobrevivió a la batería de color: esa batería comprueba **dónde** se usa cada familia, no que cada valor esté bien escrito. Corregido a `#8C1D18`, 9.1:1 sobre blanco.
+
+**Verificación.** **343 comprobaciones en verde en trece baterías**, con una nueva sobre el propio panel: que no reaparezcan las variantes retiradas, que una sola bandera gobierne la obligatoriedad, que el dato de 2016 no mande, y que los doce escenarios carguen sin romperse. Documentos 09 y 10 regenerados.

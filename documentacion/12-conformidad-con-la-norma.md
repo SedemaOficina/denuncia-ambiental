@@ -61,7 +61,7 @@ Sigue siendo el requisito 5 del criterio de salida y no depende de nosotros.
 Naturaleza jurídica del canal y aviso de privacidad. Sin ellos no hay publicación posible.
 
 **B-05 · Minimización — RESUELTA el 18 de septiembre de 2026** *(§1.8)*
-Cada uno de los 56 campos declara ahora su **uso**, si es **dato personal** y a qué **finalidad** sirve, dentro del mismo catálogo `OBLIG` que gobierna la pantalla y la validación (DEC-35). El documento 09 se genera de ahí y el comparativo del panel de validación lo muestra en pantalla.
+Cada uno de los 54 campos declara ahora su **uso**, si es **dato personal** y a qué **finalidad** sirve, dentro del mismo catálogo `OBLIG` que gobierna la pantalla y la validación (DEC-35). El documento 09 se genera de ahí y el mapeo del panel de validación lo muestra en pantalla.
 
 **Resultado:** 22 datos personales de 56 campos, ocho finalidades y **cero campos sin uso declarado**. No hubo campos que retirar.
 

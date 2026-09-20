@@ -9,8 +9,8 @@
 |---|---|
 | Campos del formulario | **54** |
 | Datos personales | **22** (41 %) |
-| Obligatorios · esquema DGIVA | 24 de 54 |
-| Obligatorios · formato vigente | 30 de 54 |
+| Obligatorios en este formulario | 24 de 54 |
+| Obligatorios en el formato de 2016 | 30 de 54 · referencia documental |
 | Campos con obligatoriedad condicionada | 18 |
 | Campos sin uso declarado | **0** |
 
@@ -39,13 +39,13 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 ### Paso 1 · Qué denuncias
 
-| Campo | DGIVA | Vigente | Dato personal | Se pide | Uso declarado |
+| Campo | Obligatorio | Formato 2016 | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|---|
 | Materia de la denuncia | Obligatorio | Obligatorio | No | Siempre | Determina la competencia de la Secretaría y el fundamento que se invoca; alimenta la estadística por materia. |
 
 ### Paso 2 · Dónde ocurre
 
-| Campo | DGIVA | Vigente | Dato personal | Se pide | Uso declarado |
+| Campo | Obligatorio | Formato 2016 | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|---|
 | ¿El lugar tiene calle y número? | Obligatorio | Obligatorio | No | Siempre | Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia. |
 | Ubicación pegada: enlace, coordenadas o código de lugar | Opcional | Opcional | No | Siempre | Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró. |
@@ -61,7 +61,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 ### Paso 3 · Qué ocurre
 
-| Campo | DGIVA | Vigente | Dato personal | Se pide | Uso declarado |
+| Campo | Obligatorio | Formato 2016 | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|---|
 | ¿Los hechos ocurren dentro de un establecimiento? | Opcional | Opcional | No | Siempre | Caracteriza el sitio como fuente fija y propone al establecimiento como responsable. Se pregunta junto a la identificación del responsable, que es lo que determina. |
 | Tipo de establecimiento | Opcional | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Prepara la visita —qué se va a inspeccionar— y alimenta la estadística por tipo de fuente. |
@@ -79,7 +79,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Área o persona servidora pública | Opcional | Opcional | **Sí** | Siempre | Precisa el área a la que se dirige la recomendación. |
 | Número de obra, contrato o permiso | Opcional | Opcional | No | Siempre | Permite requerir el expediente de la obra pública señalada. |
 | Razón social del establecimiento | Opcional | Obligatorio *(condicionado)* | No | Sólo cuando se denuncia a una empresa o establecimiento | Razón social del probable infractor para el emplazamiento y el cruce con licencias. |
-| Personas señaladas como responsables | Opcional | Obligatorio | **Sí** | Siempre | Personas señaladas como responsables, en el esquema del formato vigente. |
+| Personas señaladas como responsables | Opcional | Obligatorio | **Sí** | Siempre | Nombres o señas de quienes se señala como responsables, para identificar al probable infractor en la diligencia. Lo pedía el formato de 2016 y se conserva como campo opcional. |
 | ¿Sabes algo sobre los permisos? | Opcional | Opcional | No | Siempre | Filtra la pregunta larga: sólo se pide el detalle a quien tiene algo que aportar. |
 | Permisos o autorizaciones | Opcional | Obligatorio *(condicionado)* | No | Sólo cuando la persona dice saber algo sobre los permisos | Orienta la verificación documental: si existe autorización y si la obra se ajusta a sus términos. |
 | ¿Ya reportaste ante otra autoridad? | Opcional | Opcional | No | Siempre | Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga. |
@@ -87,14 +87,14 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 ### Paso 4 · Pruebas
 
-| Campo | DGIVA | Vigente | Dato personal | Se pide | Uso declarado |
+| Campo | Obligatorio | Formato 2016 | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|---|
 | Fotos, videos o documentos | Opcional | Obligatorio | **Sí** | Siempre | Elementos probatorios que sustentan la presunción fundada del art. 280. |
 | Otras pruebas que puedas ofrecer | Opcional | Opcional | No | Siempre | Describe pruebas que la persona no puede adjuntar pero puede ofrecer. |
 
 ### Paso 5 · Tus datos
 
-| Campo | DGIVA | Vigente | Dato personal | Se pide | Uso declarado |
+| Campo | Obligatorio | Formato 2016 | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|---|
 | Cómo se presenta la denuncia | Obligatorio | Obligatorio | No | Siempre | Determina qué datos se piden y qué seguimiento es posible. Con cuenta Llave CDMX la identidad queda acreditada, que es lo que da sentido a la reserva de identidad frente a la persona denunciada; con datos escritos hay contacto pero no acreditación; anónima no admite notificación ni aclaraciones. |
 | Nombre(s) | Obligatorio | Obligatorio | **Sí** | Siempre | Identificación de la persona denunciante en el expediente y en el acuse. |
@@ -117,7 +117,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 ### Paso 6 · Revisión
 
-| Campo | DGIVA | Vigente | Dato personal | Se pide | Uso declarado |
+| Campo | Obligatorio | Formato 2016 | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|---|
 | Prueba de humanidad | Obligatorio | Obligatorio | No | Siempre | Impide el envío automatizado masivo. La comprobación la resuelve el servidor; no identifica a la persona ni se incorpora al expediente. |
 
@@ -155,4 +155,6 @@ Permisos y gestiones previas eran campos de texto abiertos que la mayoría de la
 
 ## 5. Interruptor de obligatoriedad
 
-Mientras el formulario está en validación, **ningún campo es obligatorio**: se puede recorrer completo y enviarlo vacío. La obligatoriedad se activa desde el panel de validación, y permite alternar entre el esquema de la Dirección General y el del formato vigente para comparar la carga que impone cada uno. **Debe quedar activa antes de la publicación.**
+Mientras el formulario está en revisión, **ningún campo es obligatorio**: se puede recorrer completo y enviarlo vacío. La obligatoriedad se activa desde el panel de validación. **Debe quedar activa antes de la publicación.**
+
+Hay una sola lista de campos obligatorios, la de la columna «Obligatorio» (DEC-97). La columna «Formato 2016» registra qué pedía la Ficha de Denuncia en papel y no gobierna nada: se conserva para poder responder, ante quien lo pregunte, qué dato se dejó de exigir y cuál se agregó.

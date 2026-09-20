@@ -55,7 +55,7 @@ def lee_oblig(html):
         campos.append({
             'clave': clave,
             'p': int(val('p')),
-            'dgiva': val('dgiva') == 'true',
+            'oblig': val('oblig') == 'true',
             'vigente': val('vigente') == 'true',
             'dp': val('dp') == 'true',
             'etq': txt('etq'),
@@ -89,7 +89,7 @@ if previo and not cola.strip():
 
 n      = len(campos)
 ndp    = sum(1 for c in campos if c['dp'])
-ndg    = sum(1 for c in campos if c['dgiva'])
+ndg    = sum(1 for c in campos if c['oblig'])
 nvig   = sum(1 for c in campos if c['vigente'])
 ncond  = sum(1 for c in campos if c['cond_txt'])
 sin_uso= [c['clave'] for c in campos if not c['uso']]
@@ -109,8 +109,8 @@ o.append('**Para qué sirve.** Declara, campo por campo, **quién usa el dato y 
 o.append('| | |\n|---|---|')
 o.append('| Campos del formulario | **%d** |' % n)
 o.append('| Datos personales | **%d** (%d %%) |' % (ndp, round(100.0*ndp/n)))
-o.append('| Obligatorios · esquema DGIVA | %d de %d |' % (ndg, n))
-o.append('| Obligatorios · formato vigente | %d de %d |' % (nvig, n))
+o.append('| Obligatorios en este formulario | %d de %d |' % (ndg, n))
+o.append('| Obligatorios en el formato de 2016 | %d de %d · referencia documental |' % (nvig, n))
 o.append('| Campos con obligatoriedad condicionada | %d |' % ncond)
 o.append('| Campos sin uso declarado | **%d** |' % len(sin_uso))
 o.append('\n---\n')
@@ -135,10 +135,10 @@ for p in sorted(PASOS):
     if not delPaso:
         continue
     o.append('### Paso %d · %s\n' % (p, PASOS[p]))
-    o.append('| Campo | DGIVA | Vigente | Dato personal | Se pide | Uso declarado |\n|---|---|---|---|---|---|')
+    o.append('| Campo | Obligatorio | Formato 2016 | Dato personal | Se pide | Uso declarado |\n|---|---|---|---|---|---|')
     for c in delPaso:
         o.append('| %s | %s | %s | %s | %s | %s |' % (
-            c['etq'], marca(c['dgiva'], c['cond_txt']), marca(c['vigente'], c['cond_txt']),
+            c['etq'], marca(c['oblig'], c['cond_txt']), marca(c['vigente'], c['cond_txt']),
             '**Sí**' if c['dp'] else 'No',
             c['cond_txt'] or 'Siempre', c['uso']))
     o.append('')

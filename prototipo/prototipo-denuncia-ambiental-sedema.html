@@ -38,7 +38,7 @@
        verde  → recibida: sólo la pantalla del acuse
        azul   → vive arriba, en Interacción: lo tocable y lo elegido
        neutro → aviso: lo que hay que leer sin alarmarse */
-  --error:#B3261E; --error-bg:#FDF3F2; --error-txt:var(--error-txt);
+  --error:#B3261E; --error-bg:#FDF3F2; --error-txt:#8C1D18;
   --pend:#8A5200;  --pend-bg:#FFF3CD;  --pend-txt:#6B4A00;
   --ok:#1B6B43;    --ok-bg:#F1F8F4;    --ok-txt:#145032;
   --aviso-bg:#F7F8F9;
@@ -494,13 +494,13 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 #panel .toggle{background:var(--gris);color:var(--blanco);border:none;border-radius:var(--r-pill);padding:12px 18px;min-height:44px;font-size:var(--t-sm);font-weight:600;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2)}
 #panel .cuerpo{display:none;position:absolute;right:0;bottom:56px;width:320px;background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:18px;max-height:78vh;overflow:auto}
 #panel.abierto .cuerpo{display:block}
-#panel h4{font-size:var(--t-md);color:var(--texto);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em}
 #panel .grupo{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--linea)}
 #panel .grupo:last-child{border:none;margin-bottom:0;padding-bottom:0}
 #panel label{display:flex;gap:8px;align-items:flex-start;font-size:var(--t-sm);margin-bottom:10px;cursor:pointer;color:var(--gris)}
 #panel label input{margin-top:3px;flex-shrink:0;width:auto;min-height:0}
 #panel .nota{font-size:var(--t-xs);color:var(--gris-cl);line-height:1.45}
-#panel .btn-link{background:none;border:none;color:var(--azul);font-size:var(--t-sm);font-weight:600;cursor:pointer;text-decoration:underline;padding:6px 0;text-align:left;min-height:34px}
+#panel .nota-cabeza{font-size:var(--t-xs);color:var(--gris);line-height:1.5;background:var(--aviso-bg);border-radius:var(--r-ctrl);padding:10px 12px;margin-bottom:16px}
+#panel .btn-link{display:block;width:100%;background:none;border:none;color:var(--azul);font-size:var(--t-sm);font-weight:600;cursor:pointer;text-decoration:underline;padding:6px 0;text-align:left;min-height:34px}
 
 .btn-esc{display:block;width:100%;text-align:left;background:var(--blanco);border:1px solid var(--linea);
   border-radius:var(--r-ctrl);padding:9px 11px;margin-bottom:6px;cursor:pointer;font:inherit;min-height:44px}
@@ -645,45 +645,24 @@ footer{border-top:3px solid var(--dorado);background:var(--blanco);padding:32px 
 <div id="panel">
   <button class="toggle" onclick="document.getElementById('panel').classList.toggle('abierto')">⚙ Panel de validación</button>
   <div class="cuerpo">
-    <h4>Variantes a decidir</h4>
+    <p class="nota-cabeza">Este panel es una herramienta de trabajo de la Secretaría: no forma parte del formulario y no se publica. Sirve para revisar en una misma sesión cómo se comporta el formulario ante distintos casos.</p>
     <div class="grupo">
-      <strong style="font-size:13px;display:block;margin-bottom:8px">Identificación del denunciante</strong>
-      <label><input type="radio" name="vIdent" value="B" checked onchange="cfg.ident=this.value;render()">
-        <span><b>B — Admite denuncia anónima (decidida)</b> con aviso de efectos sobre el seguimiento.</span></label>
-      <label><input type="radio" name="vIdent" value="C" onchange="cfg.ident=this.value;render()">
-        <span><b>C — Identificación obligatoria</b>, sin opción de anonimato: quedan la cuenta Llave CDMX y los datos escritos. La confidencialidad de los datos se pregunta siempre, en las dos variantes.</span></label>
-    </div>
-    <div class="grupo">
-      <strong style="font-size:13px;display:block;margin-bottom:8px">Campos obligatorios</strong>
       <label><input type="checkbox" id="cfgVal" onchange="cfg.validar=this.checked;render()">
         <span><b>Exigir los campos obligatorios.</b> Apagado, el formulario se recorre y se envía vacío; encendido, cada paso valida antes de continuar.</span></label>
-      <label><input type="radio" name="cfgEsq" value="dgiva" checked onchange="cfg.esquema=this.value;render()">
-        <span><b>Esquema DGIVA</b> — mínimo: ubicación, hechos e identificación.</span></label>
-      <label><input type="radio" name="cfgEsq" value="vigente" onchange="cfg.esquema=this.value;render()">
-        <span><b>Formato vigente</b> — ampliado: añade momento, responsables, permisos y pruebas.</span></label>
-      <button class="btn-link" onclick="abreMapeo()">Ver el mapeo de campos obligatorios</button>
-    </div>
-    <div class="grupo">
       <label><input type="checkbox" id="cfgTriage" onchange="cfg.triage=this.checked;irA(0)" checked>
-        <span>Incluir el filtro previo de competencia.</span></label>
-    </div>
-    <div class="grupo">
-      <strong style="font-size:13px;display:block;margin-bottom:8px">Defensas contra el envío masivo</strong>
+        <span><b>Incluir el filtro previo de competencia.</b> Apagado, el paso 1 no muestra los supuestos de otra autoridad.</span></label>
       <label><input type="checkbox" id="cfgLimite" onchange="cfg.limite=this.checked">
-        <span><b>Simular el límite de envíos alcanzado.</b> Al enviar, muestra lo que ve quien agotó el número de denuncias permitido desde una misma conexión. El límite real lo cuenta el servidor.</span></label>
-      <p class="nota">La prueba de humanidad aparece siempre, junto al botón de enviar. En el prototipo se marca a mano; en la versión funcional la resuelve el servidor (P-21).</p>
+        <span><b>Simular el límite de envíos alcanzado.</b> Muestra lo que ve quien agotó el número de denuncias permitido desde una misma conexión. El límite real lo cuenta el servidor (P-21).</span></label>
     </div>
     <div class="grupo">
       <strong style="font-size:13px;display:block;margin-bottom:4px">Escenarios de prueba</strong>
-      <p class="nota" style="margin-bottom:10px">Cada botón carga una combinación completa de respuestas y abre el formulario en el paso donde se aprecia el cambio.</p>
+      <p class="nota" style="margin-bottom:10px">Cada botón carga un caso completo y abre el formulario en el paso donde se aprecia.</p>
       <div id="listaEscenarios"></div>
-      <button class="btn-link" onclick="abreVariantes()" style="margin-top:8px">Ver todas las variantes del formulario</button>
     </div>
     <div class="grupo">
-      <button class="btn-link" onclick="irA(0);estado={};archivos=[];render()" style="margin-top:6px">Reiniciar el recorrido</button>
-    </div>
-    <div class="grupo">
-      <p class="nota">Este panel no forma parte del formulario. Existe únicamente para que la DGIVA compare variantes en la misma sesión.</p>
+      <button class="btn-link" onclick="abreMapeo()">Ver el mapeo de campos</button>
+      <button class="btn-link" onclick="abreVariantes()">Ver las ramas del formulario</button>
+      <button class="btn-link" onclick="irA(0);estado={};archivos=[];render()">Reiniciar el recorrido</button>
     </div>
   </div>
 </div>
@@ -692,20 +671,20 @@ footer{border-top:3px solid var(--dorado);background:var(--blanco);padding:32px 
 <div class="modal" id="modalVariantes" role="dialog" aria-modal="true" aria-labelledby="tVar">
   <div class="caja">
     <button class="cerrar" onclick="document.getElementById('modalVariantes').classList.remove('abierto')" aria-label="Cerrar">&times;</button>
-    <h3 id="tVar">Variantes del formulario</h3>
-    <p class="nota-gris">Cada renglón es un punto donde el formulario cambia de forma según lo que se responde. Los escenarios del panel cargan combinaciones completas de estas ramas.</p>
+    <h3 id="tVar">Ramas del formulario</h3>
+    <p class="nota-gris">Cada renglón es un punto donde el formulario cambia de forma según lo que se responde. Los escenarios del panel cargan casos completos que recorren estas ramas.</p>
     <div id="tablaVariantes"></div>
-    <p class="fuente">Las tres primeras ramas y la del paso 5 sobre identificación son decisiones institucionales pendientes; el resto son comportamientos ya definidos.</p>
+    <p class="fuente">Cada renglón es un comportamiento ya definido del formulario.</p>
   </div>
 </div>
 
 <div class="modal" id="modalMapeo" role="dialog" aria-modal="true" aria-labelledby="tMapeo">
   <div class="caja">
     <button class="cerrar" onclick="document.getElementById('modalMapeo').classList.remove('abierto')" aria-label="Cerrar">&times;</button>
-    <h3 id="tMapeo">Mapeo de campos obligatorios</h3>
-    <p class="nota-gris">Los dos esquemas que el formulario puede aplicar. Se cambia de uno a otro desde el panel de validación, sin recargar.</p>
+    <h3 id="tMapeo">Mapeo de campos</h3>
+    <p class="nota-gris">Qué exige este formulario y, como referencia, qué pedía la Ficha de Denuncia de 2016. La columna de 2016 es informativa: no cambia el comportamiento del formulario.</p>
     <div id="tablaMapeo"></div>
-    <p class="fuente">Esquema DGIVA: propuesta de la Dirección General de Inspección y Vigilancia Ambiental. Formato vigente: Ficha de Denuncia publicada en el portal. En la denuncia anónima no se exige ninguno de los datos de identificación.</p>
+    <p class="fuente">Formato de 2016: Ficha de Denuncia publicada en el portal de la Secretaría. En la denuncia anónima no se exige ninguno de los datos de identificación.</p>
   </div>
 </div>
 
@@ -747,7 +726,7 @@ var CAPAS_SUELO=[{"t":"F","p":{"DESCRIP":"Suelo de Conservación-Decretado en el
    Sin backend. Toda la información se conserva en memoria.
    ========================================================= */
 
-var cfg = { ident:'B', esquema:'dgiva', triage:true, validar:false, limite:false };
+var cfg = { triage:true, validar:false, limite:false };
 var estado = {};
 var archivos = [];
 var paso = 0;
@@ -863,11 +842,13 @@ var DERIVA = [
    MAPEO DE CAMPOS OBLIGATORIOS
    Una sola tabla gobierna tres cosas: la marca «opcional» en
    pantalla, la validación al continuar y el documento de mapeo.
-   Cada campo declara en qué paso vive y si es obligatorio en
-   cada uno de los dos esquemas:
-     · dgiva   — propuesta de la Dirección General (mínimo)
-     · vigente — Ficha de Denuncia del formato público (ampliado)
-   Cambiar aquí cambia el formulario completo.
+   Cada campo declara en qué paso vive y dos cosas distintas:
+     · oblig   — si este formulario lo exige. Es la única bandera
+                 que cambia el comportamiento (DEC-97).
+     · vigente — si lo pedía la Ficha de Denuncia de 2016. No
+                 cambia nada en pantalla: se conserva como dato
+                 documental para poder responder qué se pedía antes.
+   Cambiar «oblig» aquí cambia el formulario completo.
    ========================================================= */
 /* Catálogo único de campos. Además de la obligatoriedad, cada campo declara
    su USO —quién lo ocupa y para qué—, si es DATO PERSONAL y a qué FINALIDAD
@@ -876,147 +857,147 @@ var DERIVA = [
    el aviso de privacidad. De aquí se genera 09-mapeo-campos-obligatorios.md. */
 var OBLIG = {
   /* Paso 1 */
-  materia:          {p:1, dgiva:true,  vigente:true,  etq:'Materia de la denuncia', dp:false, fin:'Competencia',
+  materia:          {p:1, oblig:true,  vigente:true,  etq:'Materia de la denuncia', dp:false, fin:'Competencia',
      uso:'Determina la competencia de la Secretaría y el fundamento que se invoca; alimenta la estadística por materia.'},
   /* Paso 2 */
-  tiene_direccion:  {p:2, dgiva:true,  vigente:true,  etq:'¿El lugar tiene calle y número?', dp:false, fin:'Localización',
+  tiene_direccion:  {p:2, oblig:true,  vigente:true,  etq:'¿El lugar tiene calle y número?', dp:false, fin:'Localización',
      uso:'Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia.'},
-  coord_pegar:      {p:2, dgiva:false, vigente:false, etq:'Ubicación pegada: enlace, coordenadas o código de lugar', dp:false, fin:'Localización',
+  coord_pegar:      {p:2, oblig:false, vigente:false, etq:'Ubicación pegada: enlace, coordenadas o código de lugar', dp:false, fin:'Localización',
      uso:'Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró.'},
-  lat:              {p:2, dgiva:true,  vigente:true,  etq:'Punto en el mapa', dp:true, fin:'Competencia',
+  lat:              {p:2, oblig:true,  vigente:true,  etq:'Punto en el mapa', dp:true, fin:'Competencia',
      uso:'Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas.'},
-  alcaldia:         {p:2, dgiva:true,  vigente:true,  etq:'Alcaldía', dp:false, fin:'Competencia',
+  alcaldia:         {p:2, oblig:true,  vigente:true,  etq:'Alcaldía', dp:false, fin:'Competencia',
      cond:function(){ return !!val('lat'); } , cond_txt:'No se pregunta: la determina el punto del mapa',
      uso:'Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse.'},
-  colonia:          {p:2, dgiva:true,  vigente:true,  etq:'Colonia', dp:false, fin:'Localización',
+  colonia:          {p:2, oblig:true,  vigente:true,  etq:'Colonia', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Localización del sitio y estadística territorial.'},
-  cp:               {p:2, dgiva:true,  vigente:true,  etq:'Código postal', dp:false, fin:'Localización',
+  cp:               {p:2, oblig:true,  vigente:true,  etq:'Código postal', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Localización del sitio; verifica la congruencia de la dirección capturada.'},
-  calle:            {p:2, dgiva:true,  vigente:true,  etq:'Calle o vialidad', dp:false, fin:'Localización',
+  calle:            {p:2, oblig:true,  vigente:true,  etq:'Calle o vialidad', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Domicilio del lugar de los hechos en la orden de visita (art. 281).'},
-  num_ext:          {p:2, dgiva:false, vigente:false, etq:'Número exterior', dp:false, fin:'Localización',
+  num_ext:          {p:2, oblig:false, vigente:false, etq:'Número exterior', dp:false, fin:'Localización',
      uso:'Precisa el predio en la orden de visita.'},
   /* Un solo campo. Eran dos porque el formato de papel tenia dos renglones,
      pero nadie dice «entre calle 1»: se dice «entre Morelos y Juarez», de
      corrido. Dos campos obligaban a repartir una frase que la persona ya
      tiene armada, y a la orden de visita le llega igual (DEC-90). */
-  entre_calles:     {p:2, dgiva:false, vigente:false, etq:'Entre qué calles', dp:false, fin:'Localización',
+  entre_calles:     {p:2, oblig:false, vigente:false, etq:'Entre qué calles', dp:false, fin:'Localización',
      uso:'Permite ubicar el predio cuando no hay número visible.'},
-  es_estab:         {p:3, dgiva:false, vigente:false, etq:'¿Los hechos ocurren dentro de un establecimiento?', dp:false, fin:'Localización',
+  es_estab:         {p:3, oblig:false, vigente:false, etq:'¿Los hechos ocurren dentro de un establecimiento?', dp:false, fin:'Localización',
      uso:'Caracteriza el sitio como fuente fija y propone al establecimiento como responsable. Se pregunta junto a la identificación del responsable, que es lo que determina.'},
-  tipo_estab:       {p:3, dgiva:false, vigente:false, etq:'Tipo de establecimiento', dp:false, fin:'Localización',
+  tipo_estab:       {p:3, oblig:false, vigente:false, etq:'Tipo de establecimiento', dp:false, fin:'Localización',
      cond:function(){ return val('es_estab')==='si'; } , cond_txt:'Sólo cuando los hechos ocurren dentro de un establecimiento',
      uso:'Prepara la visita —qué se va a inspeccionar— y alimenta la estadística por tipo de fuente.'},
-  nombre_estab:     {p:3, dgiva:false, vigente:false, etq:'Nombre del establecimiento', dp:false, fin:'Localización',
+  nombre_estab:     {p:3, oblig:false, vigente:false, etq:'Nombre del establecimiento', dp:false, fin:'Localización',
      cond:function(){ return val('es_estab')==='si'; } , cond_txt:'Sólo cuando los hechos ocurren dentro de un establecimiento',
      uso:'Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas.'},
-  nombre_lugar:     {p:2, dgiva:true,  vigente:true,  etq:'Nombre del lugar', dp:false, fin:'Localización',
+  nombre_lugar:     {p:2, oblig:true,  vigente:true,  etq:'Nombre del lugar', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')==='no'; } , cond_txt:'Sólo cuando el lugar no tiene calle ni número',
      uso:'Sustituye al domicilio en la orden de visita cuando el sitio no lo tiene. Se propone desde la capa oficial que contiene el punto.'},
-  referencias:      {p:2, dgiva:true,  vigente:true,  etq:'Cómo se reconoce y cómo se llega al sitio', dp:false, fin:'Localización',
+  referencias:      {p:2, oblig:true,  vigente:true,  etq:'Cómo se reconoce y cómo se llega al sitio', dp:false, fin:'Localización',
      cond:function(){ return sinDireccion(); } , cond_txt:'Obligatorio sólo cuando el lugar no tiene calle ni número; en los demás casos se pide como dato opcional',
      uso:'Reúne en un solo campo lo que antes se preguntaba dos veces —cómo se ve el sitio y cómo se accede a él—. Sin domicilio es lo único que permite al personal de inspección llegar, y por eso ahí se exige.'},
   /* Paso 3 */
-  hechos:           {p:3, dgiva:true,  vigente:true,  etq:'Descripción de lo que ocurre', dp:false, fin:'Expediente',
+  hechos:           {p:3, oblig:true,  vigente:true,  etq:'Descripción de lo que ocurre', dp:false, fin:'Expediente',
      uso:'Objeto y alcance de la visita de inspección; es la base de la motivación del acto.'},
-  temporalidad:     {p:3, dgiva:false, vigente:true,  etq:'Desde cuándo ocurre', dp:false, fin:'Expediente',
+  temporalidad:     {p:3, oblig:false, vigente:true,  etq:'Desde cuándo ocurre', dp:false, fin:'Expediente',
      uso:'Determina si la conducta es continua o aislada, lo que define la urgencia y el cómputo del plazo.'},
-  fecha_hecho:      {p:3, dgiva:false, vigente:true,  etq:'Fecha en que ocurrió o inició', dp:false, fin:'Expediente',
+  fecha_hecho:      {p:3, oblig:false, vigente:true,  etq:'Fecha en que ocurrió o inició', dp:false, fin:'Expediente',
      uso:'Cómputo del plazo de presentación y ubicación temporal de los hechos en el expediente.'},
-  hora_h:           {p:3, dgiva:false, vigente:false, etq:'Hora aproximada', dp:false, fin:'Expediente',
+  hora_h:           {p:3, oblig:false, vigente:false, etq:'Hora aproximada', dp:false, fin:'Expediente',
      uso:'Programar la visita en el horario en que la conducta ocurre; sin este dato la visita puede no encontrar nada.'},
-  tipo_denunciado:  {p:3, dgiva:false, vigente:false, etq:'¿Quién es responsable de los hechos?', dp:false, fin:'Responsable',
+  tipo_denunciado:  {p:3, oblig:false, vigente:false, etq:'¿Quién es responsable de los hechos?', dp:false, fin:'Responsable',
      uso:'Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar.'},
-  autoridad_denunciada: {p:3, dgiva:false, vigente:false, etq:'Dependencia, alcaldía u organismo señalado', dp:false, fin:'Responsable',
+  autoridad_denunciada: {p:3, oblig:false, vigente:false, etq:'Dependencia, alcaldía u organismo señalado', dp:false, fin:'Responsable',
      uso:'Destinataria de la recomendación del art. 331.'},
-  resp_nombre:      {p:3, dgiva:false, vigente:false, etq:'Nombre de la persona o del negocio', dp:true, fin:'Responsable',
+  resp_nombre:      {p:3, oblig:false, vigente:false, etq:'Nombre de la persona o del negocio', dp:true, fin:'Responsable',
      uso:'Emplazamiento del probable infractor (art. 289).'},
-  resp_senas:       {p:3, dgiva:false, vigente:false, etq:'Cómo se identifica al responsable', dp:true, fin:'Responsable',
+  resp_senas:       {p:3, oblig:false, vigente:false, etq:'Cómo se identifica al responsable', dp:true, fin:'Responsable',
      uso:'Identificación del responsable en campo cuando no se conoce su nombre.'},
-  resp_domicilio:   {p:3, dgiva:false, vigente:false, etq:'Dónde se localiza al responsable', dp:true, fin:'Responsable',
+  resp_domicilio:   {p:3, oblig:false, vigente:false, etq:'Dónde se localiza al responsable', dp:true, fin:'Responsable',
      uso:'Domicilio para el emplazamiento cuando es distinto del lugar de los hechos.'},
-  resp_encargado:   {p:3, dgiva:false, vigente:false, etq:'Persona encargada o representante', dp:true, fin:'Responsable',
+  resp_encargado:   {p:3, oblig:false, vigente:false, etq:'Persona encargada o representante', dp:true, fin:'Responsable',
      uso:'Persona con quien se entiende la diligencia (art. 283).'},
-  resp_area:        {p:3, dgiva:false, vigente:false, etq:'Área o persona servidora pública', dp:true, fin:'Responsable',
+  resp_area:        {p:3, oblig:false, vigente:false, etq:'Área o persona servidora pública', dp:true, fin:'Responsable',
      uso:'Precisa el área a la que se dirige la recomendación.'},
-  resp_obra:        {p:3, dgiva:false, vigente:false, etq:'Número de obra, contrato o permiso', dp:false, fin:'Responsable',
+  resp_obra:        {p:3, oblig:false, vigente:false, etq:'Número de obra, contrato o permiso', dp:false, fin:'Responsable',
      uso:'Permite requerir el expediente de la obra pública señalada.'},
-  establecimiento:  {p:3, dgiva:false, vigente:true,  etq:'Razón social del establecimiento', dp:false, fin:'Responsable',
+  establecimiento:  {p:3, oblig:false, vigente:true,  etq:'Razón social del establecimiento', dp:false, fin:'Responsable',
      cond:function(){ return val('tipo_denunciado')==='empresa'; } , cond_txt:'Sólo cuando se denuncia a una empresa o establecimiento',
      uso:'Razón social del probable infractor para el emplazamiento y el cruce con licencias.'},
-  responsables:     {p:3, dgiva:false, vigente:true,  etq:'Personas señaladas como responsables', dp:true, fin:'Responsable',
-     uso:'Personas señaladas como responsables, en el esquema del formato vigente.'},
-  sabe_permisos:    {p:3, dgiva:false, vigente:false, etq:'¿Sabes algo sobre los permisos?', dp:false, fin:'Expediente',
+  responsables:     {p:3, oblig:false, vigente:true,  etq:'Personas señaladas como responsables', dp:true, fin:'Responsable',
+     uso:'Nombres o señas de quienes se señala como responsables, para identificar al probable infractor en la diligencia. Lo pedía el formato de 2016 y se conserva como campo opcional.'},
+  sabe_permisos:    {p:3, oblig:false, vigente:false, etq:'¿Sabes algo sobre los permisos?', dp:false, fin:'Expediente',
    uso:'Filtra la pregunta larga: sólo se pide el detalle a quien tiene algo que aportar.'},
-  permisos:         {p:3, dgiva:false, vigente:true,  etq:'Permisos o autorizaciones', dp:false, fin:'Expediente',
+  permisos:         {p:3, oblig:false, vigente:true,  etq:'Permisos o autorizaciones', dp:false, fin:'Expediente',
      cond:function(){ return val('sabe_permisos')==='si'; } , cond_txt:'Sólo cuando la persona dice saber algo sobre los permisos',
      uso:'Orienta la verificación documental: si existe autorización y si la obra se ajusta a sus términos.'},
-  reporto_antes:    {p:3, dgiva:false, vigente:false, etq:'¿Ya reportaste ante otra autoridad?', dp:false, fin:'Expediente',
+  reporto_antes:    {p:3, oblig:false, vigente:false, etq:'¿Ya reportaste ante otra autoridad?', dp:false, fin:'Expediente',
    uso:'Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga.'},
-  gestiones:        {p:3, dgiva:false, vigente:false, etq:'Gestiones previas', dp:false, fin:'Expediente',
+  gestiones:        {p:3, oblig:false, vigente:false, etq:'Gestiones previas', dp:false, fin:'Expediente',
      cond:function(){ return val('reporto_antes')==='si'; } , cond_txt:'Sólo cuando la persona dice haberlo reportado antes',
      uso:'Evita duplicar expedientes con otras autoridades y gradúa la gravedad por reincidencia.'},
   /* Paso 4 */
-  archivos:         {p:4, dgiva:false, vigente:true,  etq:'Fotos, videos o documentos', dp:true, fin:'Expediente',
+  archivos:         {p:4, oblig:false, vigente:true,  etq:'Fotos, videos o documentos', dp:true, fin:'Expediente',
      uso:'Elementos probatorios que sustentan la presunción fundada del art. 280.'},
-  otras_pruebas:    {p:4, dgiva:false, vigente:false, etq:'Otras pruebas que puedas ofrecer', dp:false, fin:'Expediente',
+  otras_pruebas:    {p:4, oblig:false, vigente:false, etq:'Otras pruebas que puedas ofrecer', dp:false, fin:'Expediente',
      uso:'Describe pruebas que la persona no puede adjuntar pero puede ofrecer.'},
   /* Paso 5 */
-  identificacion:   {p:5, dgiva:true,  vigente:true,  etq:'Cómo se presenta la denuncia', dp:false, fin:'Identificación',
+  identificacion:   {p:5, oblig:true,  vigente:true,  etq:'Cómo se presenta la denuncia', dp:false, fin:'Identificación',
      uso:'Determina qué datos se piden y qué seguimiento es posible. Con cuenta Llave CDMX la identidad queda acreditada, que es lo que da sentido a la reserva de identidad frente a la persona denunciada; con datos escritos hay contacto pero no acreditación; anónima no admite notificación ni aclaraciones.'},
-  nombre:           {p:5, dgiva:true,  vigente:true,  etq:'Nombre(s)', dp:true, fin:'Contacto',
+  nombre:           {p:5, oblig:true,  vigente:true,  etq:'Nombre(s)', dp:true, fin:'Contacto',
      uso:'Identificación de la persona denunciante en el expediente y en el acuse.'},
-  apellido_paterno: {p:5, dgiva:true,  vigente:true,  etq:'Apellido paterno', dp:true, fin:'Contacto',
+  apellido_paterno: {p:5, oblig:true,  vigente:true,  etq:'Apellido paterno', dp:true, fin:'Contacto',
      uso:'Identificación de la persona denunciante en el expediente y en el acuse.'},
-  apellido_materno: {p:5, dgiva:false, vigente:false, etq:'Apellido materno', dp:true, fin:'Contacto',
+  apellido_materno: {p:5, oblig:false, vigente:false, etq:'Apellido materno', dp:true, fin:'Contacto',
      uso:'Completa la identificación en el registro administrativo.'},
-  telefono:         {p:5, dgiva:true,  vigente:true,  etq:'Teléfono', dp:true, fin:'Contacto',
+  telefono:         {p:5, oblig:true,  vigente:true,  etq:'Teléfono', dp:true, fin:'Contacto',
      uso:'Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación.'},
-  correo:           {p:5, dgiva:true,  vigente:true,  etq:'Correo electrónico', dp:true, fin:'Contacto',
+  correo:           {p:5, oblig:true,  vigente:true,  etq:'Correo electrónico', dp:true, fin:'Contacto',
      uso:'Envío del acuse, notificación del avance y consulta del estatus.'},
-  dom_calle:        {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · calle', dp:true, fin:'Contacto',
+  dom_calle:        {p:5, oblig:true,  vigente:true,  etq:'Domicilio · calle', dp:true, fin:'Contacto',
      cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
-  dom_num_ext:      {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · número exterior', dp:true, fin:'Contacto',
+  dom_num_ext:      {p:5, oblig:true,  vigente:true,  etq:'Domicilio · número exterior', dp:true, fin:'Contacto',
      cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
-  dom_num_int:      {p:5, dgiva:false, vigente:false, etq:'Domicilio · número interior', dp:true, fin:'Contacto',
+  dom_num_int:      {p:5, oblig:false, vigente:false, etq:'Domicilio · número interior', dp:true, fin:'Contacto',
      cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
-  dom_colonia:      {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · colonia', dp:true, fin:'Contacto',
+  dom_colonia:      {p:5, oblig:true,  vigente:true,  etq:'Domicilio · colonia', dp:true, fin:'Contacto',
      cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
-  dom_cp:           {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · código postal', dp:true, fin:'Contacto',
+  dom_cp:           {p:5, oblig:true,  vigente:true,  etq:'Domicilio · código postal', dp:true, fin:'Contacto',
      cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
-  dom_alcaldia:     {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · alcaldía o municipio', dp:true, fin:'Contacto',
+  dom_alcaldia:     {p:5, oblig:true,  vigente:true,  etq:'Domicilio · alcaldía o municipio', dp:true, fin:'Contacto',
      cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
-  dom_entidad:      {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · entidad federativa', dp:true, fin:'Contacto',
+  dom_entidad:      {p:5, oblig:true,  vigente:true,  etq:'Domicilio · entidad federativa', dp:true, fin:'Contacto',
      cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
-  notif_correo:     {p:5, dgiva:true,  vigente:true,  etq:'Consentimiento de notificación por correo', dp:false, fin:'Cumplimiento',
+  notif_correo:     {p:5, oblig:true,  vigente:true,  etq:'Consentimiento de notificación por correo', dp:false, fin:'Cumplimiento',
      uso:'Registra la vía de notificación elegida; de ella depende que se pida o no el domicilio.'},
-  reserva:          {p:5, dgiva:false, vigente:false, etq:'Confidencialidad de los datos', dp:false, fin:'Cumplimiento',
+  reserva:          {p:5, oblig:false, vigente:false, etq:'Confidencialidad de los datos', dp:false, fin:'Cumplimiento',
      uso:'Registra si la persona solicita que sus datos no se hagan del conocimiento del denunciado.'},
   /* Estadistica. Son opcionales en las dos rutas —tambien en la anonima— porque
      no identifican a nadie: un genero y un rango de edad no son datos de
      contacto. Se declaran aqui, y no sueltos en la pantalla, para que el
      documento 09 diga que se pide, con que fin y con que caracter (DEC-78). */
-  sexo_genero:      {p:5, dgiva:false, vigente:false, etq:'Género', dp:true, fin:'Estadística',
+  sexo_genero:      {p:5, oblig:false, vigente:false, etq:'Género', dp:true, fin:'Estadística',
      uso:'Desagregación estadística de quién denuncia en la Ciudad. Opcional; no condiciona el trámite ni se incorpora al expediente. La identidad de género es dato sensible: sólo puede tratarse con consentimiento expreso, y por eso la pregunta admite no responder.'},
-  edad_rango:       {p:5, dgiva:false, vigente:false, etq:'Rango de edad', dp:true, fin:'Estadística',
+  edad_rango:       {p:5, oblig:false, vigente:false, etq:'Rango de edad', dp:true, fin:'Estadística',
      uso:'Desagregación estadística por edad. Opcional; no condiciona el trámite ni se incorpora al expediente.'},
   /* Paso 6. No es un dato de la denuncia: es la prueba de que quien envia es
      una persona. Se declara aqui de todos modos, porque gobierna si el envio
      procede y porque el documento 09 tiene que poder decir que se procesa y
      para que (DEC-86). */
-  verificacion:     {p:6, dgiva:true,  vigente:true,  etq:'Prueba de humanidad', dp:false, fin:'Cumplimiento',
+  verificacion:     {p:6, oblig:true,  vigente:true,  etq:'Prueba de humanidad', dp:false, fin:'Cumplimiento',
      uso:'Impide el envío automatizado masivo. La comprobación la resuelve el servidor; no identifica a la persona ni se incorpora al expediente.'},
-  privacidad:       {p:5, dgiva:true,  vigente:true,  etq:'Protesta de decir verdad y aviso de privacidad', dp:false, fin:'Cumplimiento',
+  privacidad:       {p:5, oblig:true,  vigente:true,  etq:'Protesta de decir verdad y aviso de privacidad', dp:false, fin:'Cumplimiento',
      uso:'Constancia del consentimiento informado y de la protesta de decir verdad.'}
 };
 
@@ -1032,8 +1013,7 @@ function esObligatorio(k){
      es obligatorio aunque el esquema lo marque. Vive en OBLIG y no suelta en
      valida() para que el documento 09 diga la verdad sobre cada campo. */
   if(o.cond && !o.cond()) return false;
-  if(cfg.esquema === 'vigente') return !!o.vigente;
-  return !!o.dgiva;
+  return !!o.oblig;
 }
 
 /* Si el campo APLICA lo responde OBLIG; COMO se comprueba que esta lleno lo
@@ -1068,16 +1048,14 @@ var BIFURCACIONES = [
    efecto:'Cambia por completo el bloque de responsables. «Autoridad» además advierte la ruta del artículo 331 y la refleja en el acuse.'},
   {paso:'3', pregunta:'Desde cuándo ocurre y fecha', opciones:'Único · Recurrente · Permanente, con fecha anterior o posterior a un año',
    efecto:'Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único.'},
-  {paso:'5', pregunta:'Variante de identificación (decisión institucional)', opciones:'B admite anónima · C obligatoria sin anonimato. En las dos, identificarse puede ser con cuenta Llave CDMX o escribiendo los datos',
-   efecto:'B agrega la elección entre identificarse y denunciar de forma anónima.'},
-  {paso:'5', pregunta:'¿Denuncia anónima?', opciones:'Sí · No',
-   efecto:'«Sí» oculta todos los datos de identificación y cambia el acuse: sin notificación.'},
+  {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Cuenta Llave CDMX · Escribir los datos · Denuncia anónima',
+   efecto:'Llave CDMX llena los datos y liga el folio a la cuenta. La anónima oculta todos los datos de identificación y cambia el acuse: sin notificación.'},
   {paso:'5', pregunta:'¿Notificación por correo?', opciones:'Sí · No',
    efecto:'«No» despliega los siete campos del domicilio. «Sí» los suprime.'},
   {paso:'5', pregunta:'¿Datos confidenciales?', opciones:'Sí · No',
    efecto:'Se registra en el resumen; no cambia los campos.'},
-  {paso:'Todos', pregunta:'Obligatoriedad', opciones:'Desactivada · Esquema DGIVA · Formato vigente',
-   efecto:'Cambia qué campos se marcan como opcionales y qué exige cada paso al continuar.'},
+  {paso:'Todos', pregunta:'Obligatoriedad', opciones:'Desactivada · Activa',
+   efecto:'Activa, cada paso exige sus campos obligatorios antes de continuar y los demás se marcan como opcionales.'},
   {paso:'Todos', pregunta:'Filtro de competencia', opciones:'Activo · Inactivo',
    efecto:'Inactivo retira del paso 1 los supuestos de otra autoridad.'},
   {paso:'Portada', pregunta:'Borrador guardado', opciones:'Existe · No existe',
@@ -1087,7 +1065,7 @@ var BIFURCACIONES = [
 var ESCENARIOS = [
   {id:'sin_calle', nom:'Sitio sin domicilio, con cuenta Llave CDMX',
    d:'Tala en el Bosque de Tlalpan · sin calle ni colonia · identidad acreditada · DGCORENADR',
-   paso:6, cfg:{ident:'B',validar:true},
+   paso:6, cfg:{validar:true},
    e:{tiene_direccion:'no', materia:'tala', lat:'19.293800', lon:'-99.193000',
       nombre_lugar:'Bosque de Tlalpan', alcaldia:'Tlalpan',
       referencias:'Se entra por la puerta 3, sobre Camino a Santa Teresa. A unos 200 metros del estacionamiento, subiendo por la vereda de la derecha, junto a los tanques de agua.',
@@ -1100,7 +1078,7 @@ var ESCENARIOS = [
       notif_correo:'si', reserva:'si', privacidad:'si'}},
   {id:'urbano', nom:'Comercio en suelo urbano',
    d:'Emisiones de un taller · identificado · notificación por correo · DGIVA',
-   paso:6, cfg:{ident:'B',validar:false},
+   paso:6, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'emisiones', lat:'19.432600', lon:'-99.133200',
       calle:'Avenida Chapultepec', num_ext:'440', colonia:'Centro', cp:'06010',
       es_estab:'si', tipo_estab:'Taller mecánico, hojalatería o pintura', nombre_estab:'Hojalatería El Volante',
@@ -1114,7 +1092,7 @@ var ESCENARIOS = [
 
   {id:'conservacion', nom:'Tala en suelo de conservación, anónima',
    d:'Tala · anónima · responsable desconocido · DGCORENADR',
-   paso:6, cfg:{ident:'B',validar:false},
+   paso:6, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'tala', lat:'19.210000', lon:'-98.995000',
       calle:'Camino a San Antonio Tecómitl', colonia:'San Antonio Tecómitl', cp:'12100',
       es_estab:'no',
@@ -1126,7 +1104,7 @@ var ESCENARIOS = [
 
   {id:'gobierno', nom:'Obra de una alcaldía',
    d:'Se señala a una autoridad · ruta del artículo 331 · notificación por domicilio',
-   paso:6, cfg:{ident:'B',validar:false},
+   paso:6, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'arbolado', lat:'19.355000', lon:'-99.070000',
       calle:'Avenida Ermita Iztapalapa', num_ext:'1200', colonia:'Constitución de 1917', cp:'09260',
       es_estab:'no',
@@ -1142,53 +1120,48 @@ var ESCENARIOS = [
 
   {id:'ava', nom:'Afectación en Área de Valor Ambiental',
    d:'Bosque urbano · DGIVA · persona física señalada',
-   paso:2, cfg:{ident:'B',validar:false},
+   paso:2, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'ava', lat:'19.296390', lon:'-99.183480', es_estab:'no', tipo_denunciado:'particular',
       resp_nombre:'No se conoce el nombre',
       resp_senas:'Un hombre de unos cincuenta años que cerca con malla una parte del bosque y cobra el acceso.'}},
 
   {id:'anp_coadmin', nom:'ANP federal con coadministración',
-   d:'Desierto de los Leones · la Secretaría atiende en el ámbito local',
-   paso:2, cfg:{ident:'B',validar:false},
+   d:'Desierto de los Leones · con convenio, pero la inspección es federal (P-22)',
+   paso:2, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'asentamiento', lat:'19.306780', lon:'-99.310970', es_estab:'no'}},
 
   {id:'anp_federal', nom:'ANP federal sin convenio',
    d:'El Histórico Coyoacán · se deriva a la PROFEPA',
-   paso:2, cfg:{ident:'B',validar:false},
+   paso:2, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'ava', lat:'19.354350', lon:'-99.171610', es_estab:'no'}},
 
   {id:'fuera', nom:'Punto fuera de la Ciudad',
    d:'Naucalpan · el formulario impide continuar',
-   paso:2, cfg:{ident:'B',validar:false},
+   paso:2, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'emisiones', lat:'19.478000', lon:'-99.240000', es_estab:'no'}},
 
   {id:'derivado', nom:'Caso de otra autoridad',
    d:'Ruido de vecinos · se detiene el flujo y se orienta',
-   paso:1, cfg:{ident:'B',validar:false,triage:true},
+   paso:1, cfg:{validar:false,triage:true},
    e:{tiene_direccion:'si', deriva:'d_ruido'}},
 
   {id:'viejo', nom:'Hechos de hace más de un año',
    d:'Permanente · aviso del plazo del artículo 22 BIS 2',
-   paso:3, cfg:{ident:'B',validar:false},
+   paso:3, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'cascajo', lat:'19.240000', lon:'-99.105000', es_estab:'no',
       hechos:'Desde hace más de dos años tiran cascajo en el borde del canal. El montón ya ganó varios metros de agua.',
       temporalidad:'permanente', fecha_hecho:'2024-03-15', tipo_denunciado:'nose'}},
 
   {id:'otro_giro', nom:'Establecimiento de giro no listado',
    d:'«Otro» abre el campo de texto',
-   paso:2, cfg:{ident:'B',validar:false},
+   paso:2, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'descargas', lat:'19.390000', lon:'-99.060000',
       calle:'Calle 5', num_ext:'27', colonia:'Agrícola Pantitlán', cp:'08100',
       es_estab:'si', tipo_estab:'Otro', tipo_estab_otro:'Planta de lavado de garrafones'}},
 
-  {id:'vigente_vacio', nom:'Formato vigente con validación activa',
-   d:'Formulario vacío · muestra todo lo que el esquema ampliado exige',
-   paso:3, cfg:{ident:'B',validar:true,esquema:'vigente'},
-   e:{tiene_direccion:'si', materia:'impacto'}},
-
-  {id:'dgiva_vacio', nom:'Esquema DGIVA con validación activa',
-   d:'Formulario vacío · muestra el mínimo exigible',
-   paso:2, cfg:{ident:'B',validar:true,esquema:'dgiva'},
+  {id:'vacio', nom:'Formulario vacío con validación activa',
+   d:'Muestra qué exige cada paso antes de dejar continuar',
+   paso:2, cfg:{validar:true},
    e:{tiene_direccion:'si', materia:'impacto'}}
 ];
 
@@ -1199,7 +1172,6 @@ function cargaEscenario(id){
   Object.keys(esc.e).forEach(function(k){ estado[k] = esc.e[k]; });
   Object.keys(esc.cfg||{}).forEach(function(k){ cfg[k] = esc.cfg[k]; });
   heredaEstablecimiento();
-  if(cfg.esquema===undefined) cfg.esquema = 'dgiva';
   sincronizaPanel();
   if(estado.lat) analizaCapas(estado.lat, estado.lon);
   if(esc.paso===6 || esc.paso===7){ archivos = [{name:'evidencia-01.jpg',size:2411724},{name:'evidencia-02.jpg',size:1874509}]; }
@@ -1210,8 +1182,7 @@ function cargaEscenario(id){
 function sincronizaPanel(){
   var v = $('cfgVal'); if(v) v.checked = !!cfg.validar;
   var t = $('cfgTriage'); if(t) t.checked = cfg.triage !== false;
-  document.querySelectorAll('input[name=cfgEsq]').forEach(function(r){ r.checked = (r.value===cfg.esquema); });
-  document.querySelectorAll('input[name=vIdent]').forEach(function(r){ r.checked = (r.value===cfg.ident); });
+  var l = $('cfgLimite'); if(l) l.checked = !!cfg.limite;
 }
 
 function abreVariantes(){
@@ -1322,20 +1293,20 @@ function abrePrivacidad(){ $('modalPriv').classList.add('abierto'); }
 
 function abreMapeo(){
   var pasos = {1:'1 · Qué denuncias',2:'2 · Dónde ocurrió',3:'3 · Qué ocurrió',4:'4 · Pruebas',5:'5 · Tus datos'};
-  var h = '<table class="comp"><thead><tr><th style="width:24%">Campo</th><th style="width:14%">Esquema DGIVA</th><th style="width:14%">Formato vigente</th>'+
+  var h = '<table class="comp"><thead><tr><th style="width:24%">Campo</th><th style="width:14%">En este formulario</th><th style="width:14%">Formato de 2016</th>'+
     '<th style="width:10%">Dato personal</th><th style="width:38%">Uso declarado</th></tr></thead><tbody>';
   [1,2,3,4,5].forEach(function(n){
     h += '<tr><td colspan="5" style="background:var(--guinda-cl);font-weight:600;color:var(--guinda)">Paso '+pasos[n]+'</td></tr>';
     camposDelPaso(n).forEach(function(k){
       var o = OBLIG[k];
       h += '<tr><td>'+esc(o.etq)+'</td>'+
-        '<td class="'+(o.dgiva?'si':'no')+'">'+(o.dgiva?'Obligatorio':'Opcional')+'</td>'+
+        '<td class="'+(o.oblig?'si':'no')+'">'+(o.oblig?'Obligatorio':'Opcional')+'</td>'+
         '<td class="'+(o.vigente?'si':'no')+'">'+(o.vigente?'Obligatorio':'Opcional')+'</td>'+
         '<td class="'+(o.dp?'si':'no')+'">'+(o.dp?'Sí':'No')+'</td>'+
         '<td class="uso-campo">'+esc(o.uso||'')+'</td></tr>';
     });
   });
-  var td = Object.keys(OBLIG).filter(function(k){return OBLIG[k].dgiva;}).length;
+  var td = Object.keys(OBLIG).filter(function(k){return OBLIG[k].oblig;}).length;
   var tv = Object.keys(OBLIG).filter(function(k){return OBLIG[k].vigente;}).length;
   var tp = Object.keys(OBLIG).filter(function(k){return OBLIG[k].dp;}).length;
   h += '<tr><td><strong>Totales</strong></td><td><strong>'+td+'</strong></td><td><strong>'+tv+'</strong></td>'+
@@ -2038,7 +2009,7 @@ function pEvidencia(){
    antes de saber qué se le va a preguntar, nadie puede decidir con criterio
    cuánto quiere exponerse, y un muro de autenticación en la primera pantalla
    pierde la denuncia entera, porque todavía no hay nada capturado. */
-function esAnonima(){ return cfg.ident==='B' && val('identificacion')==='anonima'; }
+function esAnonima(){ return val('identificacion')==='anonima'; }
 function conLlave(){ return val('identificacion')==='llave'; }
 function haySesion(){ return conLlave() && val('sesion_llave')==='si'; }
 
@@ -2077,8 +2048,8 @@ function pDenunciante(){
         'Tus datos se llenan solos y después puedes consultar el estado de tu denuncia entrando con tu cuenta, sin recordar el folio.')+
       opcion('nombre','Escribo mis datos',
         'Recibes folio y acuse, y la Secretaría puede pedirte información adicional. Para consultar el estado necesitarás el folio.')+
-      (cfg.ident==='B' ? opcion('anonima','Denuncia anónima',
-        'No proporcionas datos. La Secretaría valora los hechos, pero no puede notificarte ni pedirte aclaraciones.') : '')+
+      opcion('anonima','Denuncia anónima',
+        'No proporcionas datos. La Secretaría valora los hechos, pero no puede notificarte ni pedirte aclaraciones.')+
     '</div></div>';
 
   if(anon){
@@ -3058,8 +3029,7 @@ function render(){
   else if(paso===7) h=pAcuse();
   else if(paso===8) h=pLimite();
   $('app').innerHTML = (cfg.validar && paso>=2 && paso<=5
-    ? '<p class="leyenda-oblig">Los campos marcados con <span class="req" aria-hidden="true">*</span> son obligatorios en el esquema '+
-      (cfg.esquema==='vigente'?'del formato vigente':'de la DGIVA')+'.</p>' : '') + h;
+    ? '<p class="leyenda-oblig">Los campos marcados con <span class="req" aria-hidden="true">*</span> son obligatorios.</p>' : '') + h;
   if(paso===2) iniciaMapa();
   if(paso===4) pintaArchivos();
   guardaBorrador();

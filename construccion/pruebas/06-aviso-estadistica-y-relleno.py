@@ -36,7 +36,7 @@ with sync_playwright() as pw:
     # ---- 1. Las dos preguntas estadisticas, en las dos rutas ----
     for ruta, nom in [('anonima','anónima'), ('nombre','con datos')]:
         r = pg.evaluate("""(ruta) => {
-          cfg.validar = true; cfg.ident = 'B';
+          cfg.validar = true;
           guarda('identificacion', ruta); irA(5);
           const g = document.getElementById('f_sexo_genero'), e = document.getElementById('f_edad_rango');
           const et = k => { const l = document.querySelector('label[for="f_'+k+'"]');
@@ -55,7 +55,7 @@ with sync_playwright() as pw:
 
     # Sin responderlas, el paso 5 se completa.
     pasa = pg.evaluate("""() => {
-      cfg.validar = true; cfg.ident = 'B'; guarda('identificacion','anonima');
+      cfg.validar = true; guarda('identificacion','anonima');
       guarda('sexo_genero',''); guarda('edad_rango',''); guarda('privacidad','si');
       irA(5); return valida(5);
     }""")

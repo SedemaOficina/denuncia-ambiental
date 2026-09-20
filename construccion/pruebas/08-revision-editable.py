@@ -20,7 +20,7 @@ fallos, notas = [], []
 def afirma(c, m): (notas if c else fallos).append(('OK  ' if c else 'FALLA ') + m)
 
 PREPARA = """() => {
-  cfg.validar = true; cfg.ident = 'B';
+  cfg.validar = true;
   guarda('materia','rsu'); guarda('tiene_direccion','si');
   guarda('calle','Avenida Rio Churubusco'); guarda('num_ext','100');
   guarda('colonia','Del Carmen'); guarda('cp','04100');
