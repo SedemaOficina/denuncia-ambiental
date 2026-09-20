@@ -44,10 +44,10 @@ with sync_playwright() as pw:
     pos = pg.evaluate("""() => {
       const yy = id => { const e=document.getElementById(id); return e? Math.round(e.getBoundingClientRect().top+window.scrollY):null; };
       const m = document.getElementById('mapa');
-      return {cp: yy('f_cp'), e1: yy('f_entre_calle1'), refs: yy('f_referencias'),
+      return {cp: yy('f_cp'), e1: yy('f_entre_calles'), refs: yy('f_referencias'),
               mapa: m ? Math.round(m.getBoundingClientRect().top+window.scrollY) : null,
               cajas: document.querySelectorAll('.bloque-opcional, .enc-opcional, .cuerpo-opcional').length,
-              campos: ['entre_calle1','entre_calle2','referencias'].map(k=>!!document.getElementById('f_'+k))};
+              campos: ['entre_calles','referencias'].map(k=>!!document.getElementById('f_'+k))};
     }""")
     afirma(all(pos['campos']), 'los tres campos accesorios estan a la vista: %s' % pos['campos'])
     afirma(pos['cajas'] == 0, 'no quedan cajas ni encabezados de bloque plegable (%d)' % pos['cajas'])
@@ -58,7 +58,7 @@ with sync_playwright() as pw:
     # --- 2. Aqui «opcional» si distingue, y por eso se marca ---
     marcas = pg.evaluate("""() => {
       const prev = cfg.validar; cfg.validar = true; render();
-      const r = ['calle','entre_calle1','referencias'].map(k => {
+      const r = ['calle','entre_calles','referencias'].map(k => {
         const c = document.getElementById('c_'+k);
         if(!c) return 'ausente';
         const t = c.innerText;
@@ -80,7 +80,7 @@ with sync_playwright() as pw:
 
     # --- 4. Ninguno es obligatorio cuando hay direccion ---
     oblig = pg.evaluate("ks => ks.filter(k => OBLIG[k] && esObligatorio(k))",
-                        ['entre_calle1','entre_calle2','referencias'])
+                        ['entre_calles','referencias'])
     afirma(oblig == [], 'con direccion, ninguno es obligatorio (lo son: %s)' % oblig)
 
     # --- 5. Coordenadas o enlace de mapa pegados (DEC-67, DEC-69) ---
@@ -125,9 +125,9 @@ with sync_playwright() as pw:
     coherente = pg.evaluate("""() => {
       guarda('calle','Av. Mexico'); guarda('num_ext','10');
       guarda('colonia','Del Carmen'); guarda('cp','04100');
-      guarda('tiene_direccion','si'); guarda('punto_confirmado','si');
+      guarda('tiene_direccion','si');
       ponMarcador(19.2938, -99.1930);
-      guarda('punto_confirmado','si'); irA(6);
+      irA(6);
       const dts = [...document.querySelectorAll('.resumen dt')].map(e => e.textContent.replace('Editar','').trim());
       const dds = [...document.querySelectorAll('.resumen dd')].map(e => e.textContent.trim());
       const o = {}; dts.forEach((k,i) => o[k] = dds[i]);
@@ -150,63 +150,49 @@ with sync_playwright() as pw:
     afirma('servidor de la Secretar\u00eda' in aviso,
            'y dice qui\u00e9n lo resolver\u00e1, en vez de dejar ah\u00ed a la persona')
     afirma(peticiones == [], 'leer el enlace no genera ninguna peticion de red: %s' % peticiones[:2])
-    pg.evaluate("guarda('coord_pegar',''); quitaPunto()")
+    pg.evaluate("guarda('coord_pegar',''); guarda('lat',''); guarda('lon',''); render()")
 
-    # --- 5 bis. Confirmacion del punto (DEC-70) ---
-    # El punto se arrastra, y un roce basta para moverlo. Se pide confirmarlo, y
-    # cualquier movimiento posterior borra la confirmacion: si sobreviviera al
-    # movimiento, pedirla no serviria de nada.
+    # --- 5 bis. Pegar la ubicacion coloca el punto (DEC-92) ---
+    # Habia un boton «Colocar ese punto»: pegar ya es el gesto de «coloca
+    # esto», y pedir despues un clic era pedir dos veces lo mismo.
     r = pg.evaluate("""() => {
-      cfg.validar = true; guarda('tiene_direccion','no'); quitaPunto(); irA(2);
-      const sinPunto = !!document.getElementById('f_punto_confirmado');
+      cfg.validar = true; guarda('tiene_direccion','no'); guarda('lat',''); guarda('lon',''); irA(2);
+      const boton = [...document.querySelectorAll('#app button')]
+                      .some(b => b.textContent.indexOf('Colocar ese punto') >= 0);
       guarda('coord_pegar','19.2938, -99.1930'); colocaPorTexto();
-      return {sinPunto, conPunto: !!document.getElementById('f_punto_confirmado'),
-              marcada: (document.getElementById('f_punto_confirmado')||{}).checked};
+      return {boton, lat: val('lat'), lon: val('lon'), alcaldia: val('alcaldia')};
     }""")
     pg.wait_for_timeout(400)
-    afirma(r['sinPunto'] is False, 'sin punto no se pide confirmarlo')
-    afirma(r['conPunto'] is True and r['marcada'] is False,
-           'al colocar el punto aparece la casilla, sin marcar')
+    afirma(r['boton'] is False, 'ya no hay boton de colocar el punto')
+    afirma(r['lat'] != '' and r['lon'] != '', 'pegar la ubicacion coloca el punto')
+    afirma('Tlalpan' in (r['alcaldia'] or ''), 'y el cruce responde solo: %s' % r['alcaldia'])
 
-    r2 = pg.evaluate("""() => {
-      guarda('nombre_lugar','Bosque de Tlalpan'); guarda('referencias','Puerta 3');
-      const sinConfirmar = valida(2);
-      guarda('punto_confirmado','si');
-      const confirmado = valida(2);
-      ponMarcador(19.31, -99.20);
-      const tras = val('punto_confirmado');
-      const casilla = (document.getElementById('f_punto_confirmado')||{}).checked;
-      const bloquea = valida(2);
-      return {sinConfirmar, confirmado, tras, casilla, bloquea};
+    # Lo que no se reconoce no se reprocha: el aviso desaparece (DEC-93).
+    r = pg.evaluate("""() => {
+      guarda('coord_pegar','no se que poner aqui'); colocaPorTexto();
+      const c = document.getElementById('resBusqueda');
+      return {texto: c ? c.innerText.trim() : null};
     }""")
-    afirma(r2['sinConfirmar'] is False, 'sin confirmar el punto, el paso no avanza')
-    afirma(r2['confirmado'] is True, 'confirmado, el paso avanza')
-    afirma(r2['tras'] == '' and r2['casilla'] is False,
-           'mover el punto borra la confirmacion y destilda la casilla')
-    afirma(r2['bloquea'] is False, 'y vuelve a frenar el paso hasta confirmar de nuevo')
+    afirma(r['texto'] == '', 'lo que no se reconoce no deja aviso: %r' % r['texto'])
 
-    # La casilla estuvo duplicada -una dentro del panel de capas y otra encima
-    # de las acciones, con el mismo identificador-. Una sola, y con el detalle
-    # de lo que se confirma al dia (DEC-75).
+    # La casilla de confirmacion se retiro por ruido (DEC-93). Lo que no puede
+    # perderse es lo que ella decia: que al mover el punto la persona vea, sin
+    # hacer nada, a que alcaldia y a que area acaba de mandar su denuncia.
     r3 = pg.evaluate("""() => {
       guarda('tiene_direccion','si'); irA(2); ponMarcador(19.2938, -99.1930);
-      const n = document.querySelectorAll('#c_punto_confirmado');
-      const det1 = document.querySelector('.cp-det');
-      const acc = [...document.querySelectorAll('#app .acciones')].pop();
-      const antes = n[0] && acc ? n[0].getBoundingClientRect().top < acc.getBoundingClientRect().top : null;
-      ponMarcador(19.31, -99.20);
-      return {n: n.length, det1: det1 ? det1.textContent : null,
-              det2: (document.querySelector('.cp-det')||{}).textContent, antes};
+      const uno = (document.getElementById('panelCapas')||{}).innerText || '';
+      ponMarcador(19.4326, -99.1332);
+      const dos = (document.getElementById('panelCapas')||{}).innerText || '';
+      return {uno: uno.replace(/\\s+/g,' '), dos: dos.replace(/\\s+/g,' '),
+              casilla: !!document.getElementById('c_punto_confirmado')};
     }""")
     pg.wait_for_timeout(400)
-    afirma(r3['n'] == 1, 'hay una sola casilla de confirmacion (%s)' % r3['n'])
-    afirma(r3['antes'] is True, 'y va inmediatamente antes de los botones')
-    afirma(r3['det1'] and 'Tlalpan' in r3['det1'],
-           'la casilla dice que se esta confirmando: «%s»' % r3['det1'])
-    afirma(r3['det2'] and r3['det2'] != r3['det1'],
-           'y se actualiza al mover el punto: «%s» -> «%s»' % (r3['det1'], r3['det2']))
-
-    pg.evaluate("quitaPunto(); guarda('tiene_direccion','si'); guarda('coord_pegar',''); render()")
+    afirma(not r3['casilla'], 'ya no se pide confirmar el punto con una casilla')
+    afirma('Tlalpan' in r3['uno'], 'la ficha del cruce dice donde cayo el punto: «%s»' % r3['uno'][:70])
+    afirma(r3['dos'] != r3['uno'], 'y se actualiza sola al mover el punto')
+    afirma('Cuauht' in r3['dos'] or 'Cuauhtémoc' in r3['dos'],
+           'con la alcaldia nueva: «%s»' % r3['dos'][:70])
+    pg.evaluate("guarda('lat',''); guarda('lon',''); guarda('tiene_direccion','si'); guarda('coord_pegar',''); render()")
     pg.wait_for_timeout(250)
 
     # --- 6. Recorrido completo de los 6 pasos ---

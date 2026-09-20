@@ -347,8 +347,6 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .vias li:first-child{border-top:none}
 .vias li .campo{margin-bottom:10px}
 .vias .via-mapa{font-size:var(--t-md);color:var(--gris)}
-.confirma-punto{border-top:1px solid var(--linea);padding-top:18px;margin-top:4px}
-.confirma-punto .cp-det{display:block;font-weight:400;font-size:var(--t-sm);color:var(--gris);margin-top:2px}
 
 /* Aviso de privacidad simplificado: se lee en pantalla antes de enviar, no
    detras de un enlace que nadie abre. Tipografia menor que la del formulario,
@@ -649,7 +647,6 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
       <button class="btn-link" onclick="abreVariantes()" style="margin-top:8px">Ver todas las variantes del formulario</button>
     </div>
     <div class="grupo">
-      <button class="btn-link" onclick="abrirModal()">Ver comparativo de campos</button><br>
       <button class="btn-link" onclick="irA(0);estado={};archivos=[];render()" style="margin-top:6px">Reiniciar el recorrido</button>
     </div>
     <div class="grupo">
@@ -689,37 +686,6 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
   </div>
 </div>
 
-<div class="modal" id="modal">
-  <div class="caja">
-    <button class="cerrar" onclick="document.getElementById('modal').classList.remove('abierto')">&times;</button>
-    <h3>Comparativo de campos</h3>
-    <p style="color:var(--gris);font-size:14px">Ficha de Denuncia vigente (formato público, 2016) · Propuesta DGIVA · Formulario web propuesto.</p>
-    <div class="aviso" style="margin-top:14px"><strong>Los campos obligatorios están desactivados</strong> mientras el formulario está en prueba: hoy es posible avanzar y enviar sin llenar nada. El interruptor para reactivarlos está en el panel de validación.</div>
-    <table class="comp">
-      <thead><tr><th style="width:26%">Campo</th><th style="width:18%">Formato vigente</th><th style="width:18%">Propuesta DGIVA</th><th style="width:38%">Formulario web</th></tr></thead>
-      <tbody>
-        <tr><td>Nombre del denunciante</td><td class="si">Obligatorio</td><td class="si">Obligatorio</td><td class="nuevo">Separado en nombre, apellido paterno y apellido materno</td></tr>
-        <tr><td>Teléfono y correo</td><td class="si">Obligatorio</td><td class="si">Obligatorio</td><td>Validación de formato en captura; al menos uno de los dos</td></tr>
-        <tr><td>Domicilio del denunciante</td><td class="si">Campo único</td><td class="si">Campo único</td><td class="nuevo">Desagregado en calle, número exterior e interior, colonia, código postal, alcaldía o municipio y entidad federativa</td></tr>
-        <tr><td>Calle, número, colonia, CP, alcaldía del hecho</td><td class="si">Obligatorio</td><td class="si">Obligatorio</td><td>Alcaldía en catálogo cerrado; CP validado a 5 dígitos</td></tr>
-        <tr><td>Coordenadas / mapa</td><td class="no">No previsto</td><td class="nuevo">Opcional (liga de Google Maps)</td><td class="nuevo">Selección en mapa; la coordenada sustituye a la liga de Google Maps</td></tr>
-        <tr><td>Alcaldía, colonia y código postal</td><td class="si">Captura manual</td><td class="si">Captura manual</td><td class="nuevo">Se derivan de la coordenada mediante cruce con la capa de alcaldías del SIA</td></tr>
-        <tr><td>Área de Valor Ambiental</td><td class="no">No previsto</td><td class="nuevo">Pregunta opcional al ciudadano</td><td class="nuevo">Ya no se pregunta: se resuelve por cruce con las capas de AVA, barrancas, ANP y suelo de conservación</td></tr>
-        <tr><td>Área que atiende la denuncia</td><td class="no">No previsto</td><td class="no">No previsto</td><td class="nuevo">Determinación automática: DGIVA en suelo urbano y AVA; DGCORENADR en suelo de conservación, ANP local y ANP federal con convenio de coadministración; PROFEPA en ANP federal sin convenio</td></tr>
-        <tr><td>Referencias del sitio</td><td class="no">No previsto</td><td class="nuevo">Opcional (entre calles, color de fachada)</td><td class="nuevo">Entre calle 1 y calle 2 en campos separados, más un campo abierto de cómo se reconoce y cómo se llega al sitio</td></tr>
-        <tr><td>Tipo de establecimiento</td><td class="no">No previsto</td><td class="no">No previsto</td><td class="nuevo">Pregunta previa sobre si hay establecimiento y, en su caso, catálogo de giros; permite estadística por tipo de fuente</td></tr>
-        <tr><td>Hechos denunciados</td><td class="si">Obligatorio</td><td class="si">Obligatorio</td><td>Mínimo de caracteres y guía de redacción en pantalla</td></tr>
-        <tr><td>Materia de la denuncia</td><td class="no">No previsto</td><td class="no">No previsto</td><td class="nuevo">Clasificación en catorce materias de competencia local, agrupadas en cuatro bloques temáticos; permite turnar sin lectura previa</td></tr>
-        <tr><td>Momento de los hechos</td><td class="si">Obligatorio</td><td class="no">Opcional</td><td>Tipificado: hecho único, recurrente o permanente</td></tr>
-        <tr><td>Presuntos responsables</td><td class="si">Obligatorio</td><td class="no">Opcional (dentro de pruebas)</td><td>Campo propio, separado de los elementos probatorios</td></tr>
-        <tr><td>Permisos o autorizaciones conocidos</td><td class="si">Obligatorio</td><td class="no">Opcional (dentro de pruebas)</td><td>Campo propio</td></tr>
-        <tr><td>Elementos probatorios</td><td class="si">Obligatorio (anexo físico)</td><td class="no">Opcional</td><td class="nuevo">Carga de archivos vinculada al folio</td></tr>
-        <tr><td>Filtro de competencia</td><td class="no">Texto informativo en el portal</td><td class="no">No previsto</td><td class="nuevo">Filtro previo obligatorio con redirección a la instancia competente</td></tr>
-        <tr><td>Acuse y folio</td><td class="no">Sello de Oficialía de Partes</td><td class="no">No previsto</td><td class="nuevo">Folio automático y acuse en PDF enviado por correo</td></tr>
-      </tbody>
-    </table>
-    <p class="fuente">Fuente: Ficha de Denuncia publicada en el portal de la Secretaría del Medio Ambiente y documento «Información básica obligatoria para presentar una denuncia» de la Dirección General de Inspección y Vigilancia Ambiental. Nota: la columna «Formulario web» corresponde a la propuesta contenida en este prototipo y está sujeta a validación.</p>
-  </div>
 </div>
 
 <script id="iconos-cdmx">
@@ -884,9 +850,6 @@ var OBLIG = {
      uso:'Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia.'},
   coord_pegar:      {p:2, dgiva:false, vigente:false, etq:'Ubicación pegada: enlace, coordenadas o código de lugar', dp:false, fin:'Localización',
      uso:'Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró.'},
-  punto_confirmado: {p:2, dgiva:true,  vigente:true,  etq:'Confirmación del punto', dp:false, fin:'Competencia',
-     cond:function(){ return !!val('lat'); } , cond_txt:'Sólo cuando ya hay un punto colocado',
-     uso:'El punto se arrastra, y un roce basta para moverlo. Como de esa coordenada depende el área que atiende la denuncia, se pide confirmarla; cualquier movimiento posterior borra la confirmación.'},
   lat:              {p:2, dgiva:true,  vigente:true,  etq:'Punto en el mapa', dp:true, fin:'Competencia',
      uso:'Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas.'},
   alcaldia:         {p:2, dgiva:true,  vigente:true,  etq:'Alcaldía', dp:false, fin:'Competencia',
@@ -903,9 +866,11 @@ var OBLIG = {
      uso:'Domicilio del lugar de los hechos en la orden de visita (art. 281).'},
   num_ext:          {p:2, dgiva:false, vigente:false, etq:'Número exterior', dp:false, fin:'Localización',
      uso:'Precisa el predio en la orden de visita.'},
-  entre_calle1:     {p:2, dgiva:false, vigente:false, etq:'Entre calle 1', dp:false, fin:'Localización',
-     uso:'Permite ubicar el predio cuando no hay número visible.'},
-  entre_calle2:     {p:2, dgiva:false, vigente:false, etq:'Entre calle 2', dp:false, fin:'Localización',
+  /* Un solo campo. Eran dos porque el formato de papel tenia dos renglones,
+     pero nadie dice «entre calle 1»: se dice «entre Morelos y Juarez», de
+     corrido. Dos campos obligaban a repartir una frase que la persona ya
+     tiene armada, y a la orden de visita le llega igual (DEC-90). */
+  entre_calles:     {p:2, dgiva:false, vigente:false, etq:'Entre qué calles', dp:false, fin:'Localización',
      uso:'Permite ubicar el predio cuando no hay número visible.'},
   es_estab:         {p:3, dgiva:false, vigente:false, etq:'¿Los hechos ocurren dentro de un establecimiento?', dp:false, fin:'Localización',
      uso:'Caracteriza el sitio como fuente fija y propone al establecimiento como responsable. Se pregunta junto a la identificación del responsable, que es lo que determina.'},
@@ -1043,7 +1008,6 @@ function esObligatorio(k){
 function presente(k){
   if(k === 'archivos')   return archivos.length > 0;
   if(k === 'privacidad')       return val('privacidad') === 'si';
-  if(k === 'punto_confirmado') return val('punto_confirmado') === 'si';
   return String(val(k) || '').trim() !== '';
 }
 
@@ -1321,7 +1285,6 @@ function vaAlPaso(n){
 }
 
 function irA(n){ paso=n; render(); window.scrollTo({top:0,behavior:'smooth'}); }
-function abrirModal(){ $('modal').classList.add('abierto'); }
 function abrePrivacidad(){ $('modalPriv').classList.add('abierto'); }
 
 function abreMapeo(){
@@ -1594,10 +1557,8 @@ function pUbicacion(){
         campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
         campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
       '</div>'+
-      '<div class="fila">'+
-        campo('entre_calle1','Entre calle 1','texto',false,'')+
-        campo('entre_calle2','Entre calle 2','texto',false,'')+
-      '</div>'+
+      campo('entre_calles','Entre qué calles','texto',false,'',
+        'placeholder="Entre Morelos y Juárez"')+
       campoArea('referencias','Cómo se reconoce el sitio',false,
         'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3);
   }
@@ -1613,9 +1574,9 @@ function pUbicacion(){
           svgIcono('pin',16)+' Buscar la dirección que escribiste</button></li>')+
       '<li>'+
         campo('coord_pegar','Pegar la ubicación de Google Maps o las coordenadas','texto',false,
-          'Sirve el enlace que te da Google Maps al compartir, la dirección completa de la barra del navegador, las coordenadas escritas, o el código del lugar parecido a WQGR+9V.',
-          'placeholder="Pega aquí lo que copiaste de Google Maps"')+
-        '<button type="button" class="btn btn-secundario" onclick="colocaPorTexto()">Colocar ese punto</button>'+
+          'Al pegarla, el punto se coloca solo.',
+          'placeholder="Pega aquí lo que copiaste de Google Maps" '+
+          'onpaste="setTimeout(colocaPorTexto,0)" onblur="colocaPorTexto()"')+
       '</li>'+
       '<li class="via-mapa">Dar un clic sobre el mapa, y arrastrar el punto para ajustarlo.</li>'+
     '</ul>'+
@@ -1641,8 +1602,6 @@ function pUbicacion(){
         'Por dónde se entra, desde qué punto conocido y a qué distancia; y qué hay alrededor que permita reconocerlo.',3);
   }
 
-  h += '<div id="zonaConfirma">'+cajaConfirma()+'</div>';
-
 
   h += '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(1)">'+
     '<span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
@@ -1651,21 +1610,6 @@ function pUbicacion(){
   return h;
 }
 
-/* La confirmación, inmediatamente antes de actuar: si un arrastre la borra, el
-   error aparece donde la persona está mirando y no dos pantallas arriba. Vive
-   en su propio contenedor porque el punto puede cambiar sin rehacer la
-   pantalla —rehacerla reiniciaría el mapa y perdería el encuadre—. */
-function cajaConfirma(){
-  if(!val('lat') || val('fuera')==='si') return '';
-  var det = [val('alcaldia'), val('capa_nombre')].filter(Boolean).join(' \u00b7 ');
-  return '<div class="campo confirma-punto" id="c_punto_confirmado">'+
-    '<label style="display:flex;gap:10px;align-items:flex-start;font-weight:600">'+
-      '<input type="checkbox" id="f_punto_confirmado" style="width:auto;margin-top:3px" '+(val('punto_confirmado')==='si'?'checked':'')+
-        ' onchange="guarda(\'punto_confirmado\',this.checked?\'si\':\'\');limpiaError(\'punto_confirmado\')">'+
-      '<span>Confirmo que el punto marca el lugar de los hechos'+marca_opc(esObligatorio('punto_confirmado'))+
-        (det ? '<span class="cp-det">'+esc(det)+'</span>' : '')+'</span></label>'+
-    '<div class="err">Confirma el punto para continuar: de esa ubicación depende el área que atiende la denuncia.</div></div>';
-}
 
 /* ---------- Resultado del cruce con las capas ---------- */
 function cajaCapas(){
@@ -1895,7 +1839,6 @@ function analizaCapas(la,lo){
 
   resaltaPoligono(c.rasgo, c.grupo);
   var pc = $('panelCapas'); if(pc) pc.innerHTML = cajaCapas();
-  var zc = $('zonaConfirma'); if(zc) zc.innerHTML = cajaConfirma();
   var btn = document.querySelector('.acciones .btn-primario');
   if(btn){
     if(c.fuera){ btn.setAttribute('disabled',''); btn.title='Coloca el punto dentro de la Ciudad de México para continuar'; }
@@ -2111,7 +2054,7 @@ function pDenunciante(){
   if(conLlave() && !haySesion()){
     h += '<div class="aviso"><strong>Llave CDMX</strong> es la cuenta con la que la Ciudad opera sus trámites en línea. Con ella no escribes tus datos y el folio queda ligado a tu cuenta.<br><br>'+
       '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="entraConLlave()">Entrar con Llave CDMX</button></div>'+
-      '<div class="aviso" style="border-left-color:var(--dorado)"><strong>En este prototipo la cuenta se simula.</strong> La integración real está pendiente de resolverse con la Agencia Digital de Innovación Pública (P-15), incluido qué datos entrega la cuenta. Los que aparecen al entrar son ficticios.</div>';
+      '<p class="nota-gris" style="margin:10px 0 0"><span class="pendiente">Cuenta simulada: la integración con Llave CDMX está pendiente, incluido qué datos entrega (P-15)</span></p>';
   }
   if(haySesion()){
     h += '<div class="aviso aviso-ok">Entraste como <strong>'+esc([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '))+'</strong> · '+esc(val('correo'))+'. '+
@@ -2229,7 +2172,7 @@ function pRevision(){
   var ubic = sinDireccion()
     ? [val('nombre_lugar'),val('alcaldia')].filter(Boolean).join(', ')
     : [[val('calle'),val('num_ext')].filter(Boolean).join(' '),val('colonia'),val('cp')?'C.P. '+val('cp'):'',val('alcaldia')].filter(Boolean).join(', ');
-  var refs = [(val('entre_calle1')||val('entre_calle2'))?'Entre '+[val('entre_calle1'),val('entre_calle2')].filter(Boolean).join(' y '):'',
+  var refs = [val('entre_calles')?'Entre '+val('entre_calles'):'',
               val('referencias')].filter(Boolean).join('\n');
   var estab = val('es_estab')==='si'
     ? ([val('tipo_estab')==='Otro'?('Otro: '+(val('tipo_estab_otro')||'sin especificar')):val('tipo_estab'),val('nombre_estab')].filter(Boolean).join(' · ')||'Sí, sin más datos')
@@ -2319,7 +2262,8 @@ function pAcuse(){
     '<ol style="display:none">'+
     '</ol></div>'+
     '<div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'+
-      '<button type="button" class="btn btn-secundario" onclick="alert(\'En la versión funcional, esta acción descarga el acuse en PDF.\')">Descargar acuse</button>'+
+      '<button type="button" class="btn btn-secundario">Descargar acuse</button>'+
+      '<p class="nota-gris" style="flex-basis:100%;text-align:center;margin:0"><span class="pendiente">La descarga del acuse en PDF se construye en la versión funcional</span></p>'+
     '</div></div></div>';
 }
 
@@ -2335,6 +2279,9 @@ function marca_opc(oblig){
 function campo(k,etq,tipo,oblig,ayuda,extra){
   var t = tipo==='fecha'?'date':(tipo==='tel'?'tel':(tipo==='email'?'email':(tipo==='hora'?'time':(tipo==='numero'?'text':'text'))));
   var id='f_'+k, idA='a_'+k, idE='e_'+k;
+  /* El aviso al salir del campo no se pide campo por campo: lo pone aqui
+     quien sepa que ese campo tiene forma declarada (DEC-91). */
+  if(FORMATO[k]) extra = (extra||'') + ' onblur="avisaFormato(\''+k+'\')"';
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
     '<input type="'+t+'" id="'+id+'" name="'+k+'" '+(extra||'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" value="'+esc(val(k))+'" '+
@@ -2500,6 +2447,32 @@ function pareceTexto(x){
    puede ser «este dato es necesario». */
 var MOTIVO = {};
 
+/* Los campos que tienen forma, y cual. Una sola tabla: la usan el aviso al
+   salir del campo y la validacion al continuar, de modo que no puedan decir
+   cosas distintas. Antes las reglas estaban sueltas dentro de valida() y solo
+   avisaban al pulsar Continuar, cuando el campo ya quedo arriba (DEC-91). */
+var FORMATO = {
+  cp:       {re:/^\d{5}$/, msg:'El código postal va a cinco dígitos.'},
+  dom_cp:   {re:/^\d{5}$/, msg:'El código postal va a cinco dígitos.'},
+  telefono: {re:/^\d{10}$/, limpia:function(v){ return v.replace(/\D/g,''); },
+             msg:'El teléfono va a diez dígitos, con la clave de la Ciudad.'},
+  correo:   {re:/^[^\s@]+@[^\s@]+\.[^\s@]+$/, msg:'Revisa el correo: le falta la arroba o el dominio.'}
+};
+
+/* Vacio no es mal formato: eso lo ve la obligatoriedad, que es otra cosa. */
+function formatoMal(k){
+  var f = FORMATO[k]; if(!f) return false;
+  var v = String(val(k) || '').trim(); if(!v) return false;
+  return !f.re.test(f.limpia ? f.limpia(v) : v);
+}
+
+/* Al salir del campo. Avisar aqui es lo que evita que la persona descubra el
+   error al final, con el campo ya fuera de la pantalla. */
+function avisaFormato(k){
+  if(formatoMal(k)){ MOTIVO[k] = FORMATO[k].msg; marca(k); }
+  else { delete MOTIVO[k]; limpiaError(k); }
+}
+
 function valida(n){
   limpiaResumenErrores();
   MOTIVO = {};
@@ -2520,17 +2493,16 @@ function valida(n){
     if(!presente(k)) faltan.push(k);
   });
 
-  // Validaciones de formato, además de la presencia del dato.
-  if(n===2 && val('cp') && !/^\d{5}$/.test(val('cp').trim())) empuja(faltan,'cp');
+  /* Formato, además de la presencia del dato: la misma tabla que usa el aviso
+     al salir del campo, para que no puedan separarse (DEC-91). */
+  camposDelPaso(n).forEach(function(k){
+    if(anon && SOLO_IDENTIFICADO.indexOf(k) >= 0) return;
+    if(formatoMal(k)){ MOTIVO[k] = FORMATO[k].msg; empuja(faltan,k); }
+  });
   if(n===3 && val('hechos').trim().length>0 && val('hechos').trim().length<40) empuja(faltan,'hechos');
   if(n===3 && val('hechos').trim().length>=40 && !pareceTexto(val('hechos'))){
     MOTIVO.hechos = 'El texto no se entiende. Describe con tus palabras qué está ocurriendo.';
     empuja(faltan,'hechos');
-  }
-  if(n===5 && !anon){
-    if(val('correo') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('correo'))) empuja(faltan,'correo');
-    if(val('telefono') && val('telefono').replace(/\D/g,'').length<10) empuja(faltan,'telefono');
-    if(val('dom_cp') && !/^\d{5}$/.test(val('dom_cp').trim())) empuja(faltan,'dom_cp');
   }
 
   if(!faltan.length) return true;
@@ -2640,7 +2612,6 @@ function iniciaMapa(){
 /* Cualquier colocación o arrastre deja el punto sin confirmar: si la
    confirmación sobreviviera al movimiento, no serviría para nada. */
 function ponMarcador(lat,lon){
-  guarda('punto_confirmado','');
   lat = (+lat).toFixed(6); lon = (+lon).toFixed(6);
   guarda('lat',lat); guarda('lon',lon);
   if(marcador) mapa.removeLayer(marcador);
@@ -2819,9 +2790,13 @@ function leeCoordenadas(t){
   return null;
 }
 
+/* Se dispara al pegar y al salir del campo, no con un boton: pegar ya es el
+   gesto de «coloca esto», y pedir despues un clic era pedir dos veces lo
+   mismo. Con el campo vacio no dice nada, porque no ha pasado nada (DEC-92). */
 function colocaPorTexto(){
   var cont = $('resBusqueda'); if(!cont) return;
   var t = val('coord_pegar');
+  if(!String(t || '').trim()){ cont.innerHTML = ''; return; }
   var c = leeCoordenadas(t);
   if(c){ cont.innerHTML = ''; vaA(c.lat, c.lon); return; }
 
@@ -2841,7 +2816,7 @@ function colocaPorTexto(){
       '<p style="margin:11px 0 6px">Mientras tanto, en dos pasos:</p>'+
       '<ol style="margin:0 0 12px 18px;line-height:1.55">'+
         '<li>Abre el enlace.</li>'+
-        '<li>Copía de vuelta lo que veas: en computadora, la dirección completa de la barra del navegador; en el teléfono, el código que aparece en la ficha del lugar, parecido a <code>WQGR+9V</code>.</li>'+
+        '<li>Copía de vuelta la dirección completa que aparezca arriba.</li>'+
       '</ol>'+
       '<div style="display:flex;gap:10px;flex-wrap:wrap">'+
         '<a class="btn btn-secundario" style="text-decoration:none" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'">Abrir el enlace en otra pestaña</a>'+
@@ -2850,9 +2825,10 @@ function colocaPorTexto(){
       '</div></div>';
     return;
   }
-  cont.innerHTML = '<div class="res-lista"><div class="vacio">'+
-    'No se reconoció nada. Puedes pegar el enlace que te da Google Maps al compartir, las coordenadas escritas como 19.3579, -99.1610, o el código del lugar parecido a WQGR+9V.'+
-    '</div></div>';
+  /* No se reconocio nada: no se reprocha. Quien pego algo que no era una
+     ubicacion lo sabe, y el punto sigue pudiendo colocarse con un clic en el
+     mapa. Un aviso aqui solo es ruido (DEC-93). */
+  cont.innerHTML = '';
 }
 
 /* Demostracion de la experiencia final, a peticion expresa: coloca un punto
@@ -2868,10 +2844,13 @@ function demoEnlace(){
     '<span class="pendiente">P-18</span></div>';
 }
 
+/* Colocar el punto sin enseñarlo no sirve de nada: el mapa se acerca al
+   punto y se trae a la vista, que es lo que la persona quiere comprobar. */
 function vaA(la,lo){
   if(mapa){ mapa.setView([la,lo],17); }
   ponMarcador(la,lo);
   var c=$('resBusqueda'); if(c) c.innerHTML='';
+  var m=$('mapa'); if(m && m.scrollIntoView) m.scrollIntoView({block:'center', behavior:'smooth'});
 }
 
 /* El nombre del sitio se propone desde la capa; esto lo acepta a petición. */

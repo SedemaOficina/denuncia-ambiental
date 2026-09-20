@@ -7,11 +7,11 @@
 
 | | |
 |---|---|
-| Campos del formulario | **56** |
-| Datos personales | **22** (39 %) |
-| Obligatorios · esquema DGIVA | 25 de 56 |
-| Obligatorios · formato vigente | 31 de 56 |
-| Campos con obligatoriedad condicionada | 19 |
+| Campos del formulario | **54** |
+| Datos personales | **22** (41 %) |
+| Obligatorios · esquema DGIVA | 24 de 54 |
+| Obligatorios · formato vigente | 30 de 54 |
+| Campos con obligatoriedad condicionada | 18 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -22,8 +22,8 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 | Finalidad | Para qué | Campos |
 |---|---|---|
-| **Competencia** | Determinar la competencia y turnar al área que atiende | 4 |
-| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 13 |
+| **Competencia** | Determinar la competencia y turnar al área que atiende | 3 |
+| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 12 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 10 |
 | **Responsable** | Identificar y emplazar al probable infractor | 10 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
@@ -49,15 +49,13 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 |---|---|---|---|---|---|
 | ¿El lugar tiene calle y número? | Obligatorio | Obligatorio | No | Siempre | Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia. |
 | Ubicación pegada: enlace, coordenadas o código de lugar | Opcional | Opcional | No | Siempre | Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró. |
-| Confirmación del punto | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando ya hay un punto colocado | El punto se arrastra, y un roce basta para moverlo. Como de esa coordenada depende el área que atiende la denuncia, se pide confirmarla; cualquier movimiento posterior borra la confirmación. |
 | Punto en el mapa | Obligatorio | Obligatorio | **Sí** | Siempre | Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas. |
 | Alcaldía | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | No se pregunta: la determina el punto del mapa | Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse. |
 | Colonia | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio y estadística territorial. |
 | Código postal | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio; verifica la congruencia de la dirección capturada. |
 | Calle o vialidad | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |
 | Número exterior | Opcional | Opcional | No | Siempre | Precisa el predio en la orden de visita. |
-| Entre calle 1 | Opcional | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |
-| Entre calle 2 | Opcional | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |
+| Entre qué calles | Opcional | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |
 | Nombre del lugar | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando el lugar no tiene calle ni número | Sustituye al domicilio en la orden de visita cuando el sitio no lo tiene. Se propone desde la capa oficial que contiene el punto. |
 | Cómo se reconoce y cómo se llega al sitio | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Obligatorio sólo cuando el lugar no tiene calle ni número; en los demás casos se pide como dato opcional | Reúne en un solo campo lo que antes se preguntaba dos veces —cómo se ve el sitio y cómo se accede a él—. Sin domicilio es lo único que permite al personal de inspección llegar, y por eso ahí se exige. |
 

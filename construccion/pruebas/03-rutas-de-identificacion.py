@@ -49,10 +49,12 @@ with sync_playwright() as pw:
     pg.wait_for_timeout(300)
     antes = pg.evaluate("""() => ({campos: document.querySelectorAll('#f_nombre').length,
       boton: [...document.querySelectorAll('button')].some(b=>b.textContent.includes('Entrar con Llave CDMX')),
-      simulada: document.getElementById('app').innerText.includes('se simula')})""")
+      simulada: document.getElementById('app').innerText.includes('Cuenta simulada'),
+      chip: [...document.querySelectorAll('#app .pendiente')].some(e=>e.textContent.includes('Llave CDMX'))})""")
     afirma(antes['campos']==0, 'ruta de cuenta: antes de entrar no se piden datos')
     afirma(antes['boton'], 'se ofrece el botón de entrar con Llave CDMX')
-    afirma(antes['simulada'], 'la pantalla advierte que en el prototipo la cuenta se simula')
+    afirma(antes['simulada'], 'la pantalla advierte que la cuenta es simulada')
+    afirma(antes['chip'], 'y lo dice con la marca de pendiente, como el resto de lo que falta (DEC-94)')
 
     pg.locator('button', has_text='Entrar con Llave CDMX').click(); pg.wait_for_timeout(400)
     dsp = pg.evaluate("""() => ({sesion: val('sesion_llave'), nombre: val('nombre'), correo: val('correo'),

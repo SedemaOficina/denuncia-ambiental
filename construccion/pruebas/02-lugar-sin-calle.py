@@ -119,7 +119,7 @@ with sync_playwright() as pw:
     # de la direccion, y por eso no existen en la ruta sin domicilio.
     afirma(conDir['plegable'] == 0 and sinDir['plegable'] == 0,
            'no queda ningun bloque plegable en ninguna ruta (%s / %s)' % (conDir['plegable'], sinDir['plegable']))
-    afirma(pg.evaluate("() => !!document.getElementById('f_entre_calle1')") is False,
+    afirma(pg.evaluate("() => !!document.getElementById('f_entre_calles')") is False,
            'sin direccion no se piden entre-calles')
 
     # ---------- 6. Fusion de los dos campos ----------

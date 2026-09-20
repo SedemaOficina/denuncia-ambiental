@@ -61,7 +61,7 @@ s = s.replace(':root{\n  --guinda:#9D2148;', ':root{\n  color-scheme: light;\n  
 #    conserva: «Los hechos ocurren donde estoy ahora» sigue escribiendo ahí.
 s = s.replace(
  """  '<div id="resBusqueda"></div>'+""",
- """  '<div class="aviso" style="margin-bottom:14px">Esta versión en línea dibuja la Ciudad con las capas del Sistema de Información Ambiental, sin mapa de calles de fondo y sin el servicio que ubica la dirección a partir del texto. Da un clic para colocar el punto, arrástralo para ajustarlo y usa los controles del mapa para acercar. La versión completa está en el archivo del proyecto.</div>'+
+ """  '<p class="nota-gris" style="margin:0 0 12px"><span class="pendiente">Versión en línea: dibuja la Ciudad con las capas del Sistema de Información Ambiental, sin mapa de calles de fondo y sin el servicio que ubica la dirección a partir del texto</span></p>'+
   '<div id="resBusqueda"></div>'+""")
 
 # 5 bis. En el artefacto no hay servicio de geocodificación: se retira el botón
