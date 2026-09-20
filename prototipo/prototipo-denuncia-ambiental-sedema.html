@@ -246,13 +246,14 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
   max-width:56ch;margin:2px 0 18px;font-weight:400}
 .portada-intro strong{font-weight:600;color:var(--guinda)}
 
-/* El aviso de borrador acompaña, no compite: sin relleno y con el botón
-   secundario, para que el único elemento con peso siga siendo empezar. */
-.borrador{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
-  border:1px solid var(--linea);border-left:3px solid var(--dorado);border-radius:var(--r-ctrl);
-  padding:12px 15px;margin:18px 0 4px;text-align:left}
-.borrador p{flex:1 1 220px;font-size:var(--t-md);color:var(--texto);line-height:1.45;margin:0}
-.borrador .btn{padding:8px 15px;font-size:var(--t-md);min-height:38px}
+/* Franja de sistema: va fuera del formulario, entre el encabezado y la
+   tarjeta. Acompaña, no compite —sin relleno y con el botón secundario—, para
+   que el único elemento con peso siga siendo empezar. */
+.franja{background:var(--blanco);border-bottom:1px solid var(--linea);
+  box-shadow:inset 0 3px 0 var(--dorado)}
+.franja-int{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:11px 0 12px}
+.franja p{flex:1 1 240px;font-size:var(--t-md);color:var(--texto);line-height:1.45;margin:0}
+.franja .btn{padding:8px 15px;font-size:var(--t-md);min-height:38px}
 
 /* ---- Portada ----
    La pantalla de inicio tenia 232 palabras en cuatro cajas identicas y el boton
@@ -267,18 +268,29 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .dato span{display:block;font-size:var(--t-xs);color:var(--gris);line-height:1.35}
 .portada-pie{font-size:var(--t-sm);color:var(--gris);margin-top:14px;line-height:1.5}
 
-/* Que pasa despues: cuatro pasos, no cuatro frases. */
-.despues{list-style:none;counter-reset:d;margin:2px 0 4px}
-.despues li{counter-increment:d;display:grid;grid-template-columns:28px 1fr;gap:12px;
-  align-items:start;padding:11px 0;border-top:1px solid var(--linea)}
-.despues li:first-child{border-top:none}
-.despues li::before{content:counter(d);display:flex;align-items:center;justify-content:center;
-  width:26px;height:26px;border-radius:var(--r-pill);background:var(--fondo);
-  color:var(--texto);font-family:'Cabin',sans-serif;font-weight:700;font-size:var(--t-sm)}
-.despues li>div{min-width:0}
+/* Qué pasa después: cuatro momentos en horizontal, con la misma gramática
+   visual que la barra de pasos —círculo numerado unido por una línea—, para
+   que se lean como una secuencia y no como una lista (DEC-58). */
+.despues{list-style:none;counter-reset:d;margin:6px 0 4px;display:grid;
+  grid-template-columns:repeat(4,1fr);gap:0}
+.despues li{position:relative;counter-increment:d;display:flex;flex-direction:column;
+  align-items:center;text-align:center;padding:0 8px;min-width:0}
+.despues li::before{content:counter(d);position:relative;z-index:1;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  width:26px;height:26px;border-radius:var(--r-pill);background:var(--blanco);
+  border:2px solid var(--linea);color:var(--texto);
+  font-family:'Cabin',sans-serif;font-weight:700;font-size:var(--t-sm);margin-bottom:9px}
+.despues li::after{content:'';position:absolute;top:13px;left:50%;width:100%;height:2px;
+  background:var(--linea);z-index:0}
+.despues li:last-child::after{display:none}
 .despues b{display:block;font-family:'Cabin',sans-serif;font-size:var(--t-md);
   color:var(--texto);font-weight:600;line-height:1.3}
-.despues span{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.45;margin-top:1px}
+.despues span{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.45;margin-top:3px}
+/* Estrecho: dos por renglón y sin línea, que no tendría a dónde ir. */
+@media (max-width:620px){
+  .despues{grid-template-columns:repeat(2,1fr);gap:18px 4px}
+  .despues li::after{display:none}
+}
 
 /* Ten a la mano: etiquetas, no vinetas con frases. */
 .tener{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 6px}
@@ -481,6 +493,8 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
     <p>Secretaría del Medio Ambiente. Reporta obras, actividades o establecimientos que dañan el ambiente en la Ciudad de México.</p>
   </div>
 </header>
+
+<div id="franjaBorrador"></div>
 
 <main>
   <div class="barra-fija" id="barraFija">
@@ -1314,16 +1328,16 @@ function pInicio(){
       '</div>'+
       '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
       '<p class="portada-pie">También en persona o por correo electrónico: los datos están al pie de la página.</p>'+
-      avisoBorrador()+
     '</div>'+
 
     '<h3 class="sub-seccion">Qué pasa después</h3>'+
     '<ol class="despues">'+
-      '<li><div><b>Recibes un folio</b><span>En pantalla, y por correo si dejaste uno.</span></div></li>'+
-      '<li><div><b>Se turna al área que corresponde</b><span>Según dónde ocurran los hechos.</span></div></li>'+
-      '<li><div><b>Visita de inspección</b><span>Si el caso procede.</span></div></li>'+
-      '<li><div><b>Te informan el resultado</b><span>Si dejaste un medio de contacto. <span class="pendiente">Plazos por confirmar con la DGIVA</span></span></div></li>'+
+      '<li><b>Recibes un folio</b><span>En pantalla, y por correo si dejaste uno.</span></li>'+
+      '<li><b>Se turna al área que corresponde</b><span>Según dónde ocurran los hechos.</span></li>'+
+      '<li><b>Visita de inspección</b><span>Si el caso procede.</span></li>'+
+      '<li><b>Te informan el resultado</b><span>Si dejaste un medio de contacto.</span></li>'+
     '</ol>'+
+    '<p class="portada-pie" style="text-align:left;margin-top:12px"><span class="pendiente">Plazos de atención por confirmar con la DGIVA</span></p>'+
 
     '<h3 class="sub-seccion">Ten a la mano</h3>'+
     '<div class="tener">'+
@@ -1461,14 +1475,21 @@ function pUbicacion(){
      espacial que determina la competencia se resuelve sobre la coordenada
      (DEC-04), y nunca escribe de vuelta en lo que la persona capturó (DEC-41). */
   var sinDir = sinDireccion();
+  var contestada = !!val('tiene_direccion');
   return '<div class="tarjeta"><h2><span class="num">2</span>¿Dónde ocurre?</h2>'+
-  '<p class="sub">'+(sinDir
-    ? 'Marca el sitio en el mapa y dinos cómo se llega. El punto es lo que determina qué área de la Secretaría atiende la denuncia.'
-    : 'Escribe la dirección del lugar de los hechos y colócala en el mapa. El punto es lo que determina qué área de la Secretaría atiende la denuncia, así que verifícalo y muévelo si hace falta.')+'</p>'+
+  '<p class="sub">'+(!contestada
+    ? 'Primero dinos si el lugar de los hechos tiene domicilio: de eso depende lo que se te pregunte enseguida.'
+    : (sinDir
+      ? 'Marca el sitio en el mapa y dinos cómo se llega. El punto es lo que determina qué área de la Secretaría atiende la denuncia.'
+      : 'Escribe la dirección del lugar de los hechos y colócala en el mapa. El punto es lo que determina qué área de la Secretaría atiende la denuncia, así que verifícalo y muévelo si hace falta.'))+'</p>'+
 
   campoSiNo('tiene_direccion','¿El lugar tiene calle y número?',
-    'Responde «No» si ocurre en un bosque, un área natural, una barranca, un camino, un canal, un predio en el campo o cualquier sitio sin domicilio.',
+    'Responde «No» si ocurre en un área natural protegida, una barranca, un bosque urbano, un terreno forestal o de cultivo, un camino o un canal.',
     'render()')+
+
+  (!contestada
+    ? '<div class="acciones"><button class="btn btn-secundario" onclick="irA(1)">Regresar</button></div></div>'
+    :
 
   (sinDir ? '' :
     '<h3 class="sub-seccion">Dirección del lugar de los hechos</h3>'+
@@ -1528,14 +1549,10 @@ function pUbicacion(){
       'Por dónde se entra, desde qué punto conocido y a qué distancia; y qué hay alrededor que permita reconocerlo. Sin domicilio, esto es lo que permite al personal de inspección llegar.',3)
     : '')+
 
-  /* Todo lo accesorio del paso queda plegado: quien tiene algo que aportar lo abre.
-     Dentro no se marca nada como «opcional» —lo dice el encabezado del bloque— para
-     que la palabra conserve su significado donde sí importa. */
-
 
   '<div class="acciones"><button class="btn btn-secundario" onclick="irA(1)">Regresar</button>'+
   '<button type="button" class="btn btn-primario" '+(val('fuera')==='si'?'disabled title="Coloca el punto dentro de la Ciudad de México para continuar"':'')+
-    ' onclick="valida(2)&&irA(3)">Continuar</button></div></div>';
+    ' onclick="valida(2)&&irA(3)">Continuar</button></div></div>');
 }
 
 /* ---------- Resultado del cruce con las capas ---------- */
@@ -2627,17 +2644,29 @@ function pideBorrar(){
    hay algo sin terminar: que **no se ha presentado**. El nombre del supuesto y
    dónde se guardó eran ruido; esa frase no, porque sin ella alguien puede
    cerrar el navegador creyendo que ya denunció (DEC-54). */
+/* El aviso vive FUERA del formulario, en una franja de sistema entre el
+   encabezado y la tarjeta. Es información sobre el sitio —hay algo guardado en
+   este navegador—, no una pregunta del cuestionario, y mezclarlo con el
+   formulario le daba un peso que no le toca. Se descartó la ventana nativa del
+   navegador: bloquea la página, no admite formato, se lee como ventana
+   sospechosa y algunos navegadores la suprimen al cargar, en cuyo caso el
+   borrador quedaría irrecuperable sin aviso (DEC-59). */
 function avisoBorrador(){
-  var b = leeBorrador(); if(!b) return '';
-  return '<div class="borrador">'+
-    '<p><strong>Tienes una denuncia sin terminar.</strong> Aún no se ha presentado ante la Secretaría.</p>'+
-    '<button type="button" class="btn btn-secundario" onclick="retomaBorrador()">Continuar donde me quedé</button>'+
-    '<button type="button" class="enlace" onclick="pideBorrar()">Descartar</button></div>';
+  var c = $('franjaBorrador'); if(!c) return '';
+  var b = (paso===0) ? leeBorrador() : null;
+  c.innerHTML = !b ? '' :
+    '<div class="franja"><div class="contenedor franja-int">'+
+      '<p><strong>Tienes una denuncia sin terminar.</strong> Aún no se ha presentado ante la Secretaría.</p>'+
+      '<button type="button" class="btn btn-secundario" onclick="retomaBorrador()">Continuar donde me quedé</button>'+
+      '<button type="button" class="enlace" onclick="pideBorrar()">Descartar</button>'+
+    '</div></div>';
+  return '';
 }
 
 /* ================= Render ================= */
 function render(){
   barra();
+  avisoBorrador();
   var h='';
   if(paso===0) h=pInicio();
   else if(paso===1) h=pMateria();
