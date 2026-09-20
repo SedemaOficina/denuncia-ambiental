@@ -493,3 +493,22 @@ Sobre el plegado, **lo que cambió es el tamaño del bloque**. Cuando se plegó 
 **Verificación de cierre.** 94 comprobaciones en verde. Sintaxis correcta. Cero funciones sin uso, cero claves escritas y nunca leídas, cero clases de estilo huérfanas. Comprobado por medición del árbol que el bloque queda **después del código postal y antes del mapa**, que no queda ningún plegable, que los tres campos se ven de entrada, que lo capturado sobrevive a salir y volver al paso, y que dentro del bloque no se repite la palabra «opcional».
 
 **Nota sobre las pruebas.** La batería que comprobaba el plegado se reescribió para comprobar lo contrario, y se renombró: se llamaba `01-plegado-y-ubicacion.py` y describía un comportamiento que ya no existe. **No se borró.** Su encabezado ahora cuenta las dos decisiones —por qué se plegó y por qué se dejó de plegar—, que es justo lo que alguien necesita saber dentro de seis meses antes de proponer plegarlo otra vez.
+
+### 20 de septiembre de 2026 · la pantalla de inicio
+
+Observación del usuario: «mucho texto y poco atractiva». Medida antes de tocar nada, le sobraba razón: **232 palabras repartidas en cuatro cajas de aviso visualmente idénticas**, donde nada distinguía lo importante de lo accesorio, y el botón de empezar a **1 268 px** —casi dos pantallas de teléfono de desplazamiento antes de poder hacer nada—.
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| Título y bajada de la tarjeta | **Eliminados** | Repetían casi literalmente el encabezado institucional que está justo arriba. Era la mitad de la sensación de exceso: lo mismo dicho dos veces seguidas |
+| Tres datos de entrada | Bloque nuevo | Sin tu nombre · 10 minutos · Con folio. Es lo que alguien necesita saber antes de decidir si empieza |
+| Botón de iniciar | Subido | De después de 232 palabras a inmediatamente después de los tres datos |
+| «Qué pasa después» | Cuatro frases → cuatro pasos | Numerados, con título corto y una línea de detalle. Se lee de un vistazo en vez de leerse |
+| «Ten a la mano» | Cuatro viñetas → tres etiquetas | «Dónde ocurre», «Qué ocurre y desde cuándo», «Fotos o videos, si tienes» |
+| Cajas `.aviso` en la portada | De cuatro a cero | Lo que las justificaba era la advertencia, no la enumeración |
+
+**Medición.** De **232 a 123 palabras**, de **1 162 a 880 px** de alto, y el botón de iniciar de **1 268 a 411 px**: visible sin desplazar tanto en teléfono como en escritorio.
+
+**Un defecto propio, encontrado al mirar la captura y no al medir.** La primera versión ponía el título y el detalle de cada paso como dos celdas sueltas de la misma rejilla, de modo que el detalle caía en la columna de 28 píxeles del número y **se partía una palabra por renglón**. Ninguna comprobación automática lo habría visto: el texto estaba, era correcto y no había error en consola. **Hay una clase de defecto que sólo aparece mirando**, y por eso el cierre incluye siempre una captura. Se corrigió envolviendo cada paso en su propia celda, y la prueba nueva mide el ancho del texto para que no vuelva a pasar inadvertido.
+
+**Verificación de cierre.** 112 comprobaciones en verde, incluidas dieciocho nuevas sobre la portada, en teléfono y en escritorio: tope de palabras, botón visible sin desplazar, cero cajas apiladas, que la tarjeta no repita el título ni la bajada del encabezado, que el texto de los pasos no se parta, y sin desbordamiento horizontal. Cero funciones sin uso y cero clases de estilo huérfanas.

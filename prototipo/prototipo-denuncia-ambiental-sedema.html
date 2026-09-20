@@ -225,6 +225,43 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .sub-seccion-sm{font-size:var(--t-md);margin:18px 0 8px}
 /* Texto secundario en gris, al tamaño de apoyo. */
 .nota-gris{font-size:var(--t-md);color:var(--gris)}
+/* ---- Portada ----
+   La pantalla de inicio tenia 232 palabras en cuatro cajas identicas y el boton
+   de empezar a 1 268 px: casi dos pantallas de desplazamiento antes de poder
+   hacer nada. Aqui la promesa va arriba, el boton enseguida, y lo que explica
+   debajo, para quien lo necesite (DEC-53). */
+.portada{text-align:center;padding:2px 0 4px}
+.portada-datos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;text-align:left}
+.dato{border:1px solid var(--linea);border-radius:var(--r-caja);padding:12px 12px 13px;background:var(--blanco)}
+.dato b{display:block;font-family:'Cabin',sans-serif;font-size:var(--t-md);color:var(--guinda);
+  font-weight:700;line-height:1.25;margin-bottom:3px}
+.dato span{display:block;font-size:var(--t-xs);color:var(--gris);line-height:1.35}
+.portada-pie{font-size:var(--t-sm);color:var(--gris);margin-top:14px;line-height:1.5}
+
+/* Que pasa despues: cuatro pasos, no cuatro frases. */
+.despues{list-style:none;counter-reset:d;margin:2px 0 4px}
+.despues li{counter-increment:d;display:grid;grid-template-columns:28px 1fr;gap:12px;
+  align-items:start;padding:11px 0;border-top:1px solid var(--linea)}
+.despues li:first-child{border-top:none}
+.despues li::before{content:counter(d);display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:var(--r-pill);background:var(--guinda-cl);
+  color:var(--guinda);font-family:'Cabin',sans-serif;font-weight:700;font-size:var(--t-sm)}
+.despues li>div{min-width:0}
+.despues b{display:block;font-family:'Cabin',sans-serif;font-size:var(--t-md);
+  color:var(--texto);font-weight:600;line-height:1.3}
+.despues span{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.45;margin-top:1px}
+
+/* Ten a la mano: etiquetas, no vinetas con frases. */
+.tener{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 6px}
+.tener span{border:1px solid var(--linea);border-radius:var(--r-pill);padding:7px 13px;
+  font-size:var(--t-sm);color:var(--gris);background:var(--blanco)}
+
+@media (max-width:420px){
+  .portada-datos{grid-template-columns:1fr;gap:8px}
+  .dato{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:baseline;padding:10px 13px}
+  .dato b{margin-bottom:0}
+}
+
 /* Bloque de campos accesorios del lugar. Dentro no se marca «opcional» campo
    por campo: lo dice el encabezado una sola vez, y así la palabra conserva su
    valor donde sí distingue. */
@@ -1237,27 +1274,41 @@ function barra(){
 
 /* ================= Pantallas ================= */
 
+/* Lo primero que ve alguien parado en la calle con el telefono en la mano. La
+   version anterior ponia 232 palabras en cuatro cajas identicas y dejaba el
+   boton de empezar a 1 268 px: casi dos pantallas de desplazamiento antes de
+   poder hacer nada, y nada que distinguiera lo importante de lo accesorio.
+   Aqui va primero la promesa, enseguida el boton, y debajo lo que explica,
+   para quien lo necesite (DEC-53). */
 function pInicio(){
   return '<div class="tarjeta">'+
-    '<h2>Presenta tu denuncia ambiental</h2>'+
-    '<p class="sub">La Secretaría del Medio Ambiente atiende las denuncias sobre establecimientos, obras y actividades que dañan el ambiente en la Ciudad de México. El formulario toma alrededor de diez minutos.</p>'+
-    '<div class="aviso aviso-ok"><strong>Puedes presentar tu denuncia sin dar tu nombre.</strong> '+
-      'Si prefieres identificarte, recibirás un acuse con folio y podrás conocer el avance de tu caso. Tú eliges, más adelante en el formulario.</div>'+
+    '<div class="portada">'+
+      '<div class="portada-datos">'+
+        '<div class="dato"><b>Sin tu nombre</b><span>si así lo prefieres</span></div>'+
+        '<div class="dato"><b>10 minutos</b><span>puedes pausar y seguir</span></div>'+
+        '<div class="dato"><b>Con folio</b><span>para dar seguimiento</span></div>'+
+      '</div>'+
+      '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
+      '<p class="portada-pie">También en persona o por correo electrónico: los datos están al pie de la página.</p>'+
+    '</div>'+
+
     avisoBorrador()+
-    '<div class="aviso aviso-guinda"><strong>Antes de comenzar, ten a la mano:</strong><br>'+
-      '• La dirección exacta o la ubicación del lugar de los hechos.<br>'+
-      '• Una descripción de lo que ocurre y desde cuándo.<br>'+
-      '• Fotografías, videos o documentos, si cuentas con ellos.<br>'+
-      '• Tus datos de contacto para dar seguimiento.</div>'+
-    '<div class="aviso aviso-guinda"><strong>Qué pasa después de que la envías:</strong><br>'+
-      '1. Recibes un número de folio en pantalla, y por correo si lo proporcionaste.<br>'+
-      '2. La Secretaría revisa la denuncia y determina el área que la atiende, según el lugar de los hechos.<br>'+
-      '3. Si procede, se programa una visita de inspección al sitio.<br>'+
-      '4. Se te informa el resultado, si dejaste un medio de contacto. '+
-      '<span class="pendiente">Plazos por confirmar con la DGIVA</span></div>'+
-    '<div class="aviso"><strong>No todas las denuncias corresponden a esta Secretaría.</strong> El primer paso te indicará la instancia competente cuando el hecho deba atenderlo otra autoridad. Así evitas presentar una denuncia que no podrá ser atendida.</div>'+
-    '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
-    '<p style="text-align:center;margin-top:18px;font-size:var(--t-sm);color:var(--gris)">También puedes presentarla en persona o por correo electrónico: los datos están al pie de esta página.</p>'+
+
+    '<h3 class="sub-seccion">Qué pasa después</h3>'+
+    '<ol class="despues">'+
+      '<li><div><b>Recibes un folio</b><span>En pantalla, y por correo si dejaste uno.</span></div></li>'+
+      '<li><div><b>Se turna al área que corresponde</b><span>Según dónde ocurran los hechos.</span></div></li>'+
+      '<li><div><b>Visita de inspección</b><span>Si el caso procede.</span></div></li>'+
+      '<li><div><b>Te informan el resultado</b><span>Si dejaste un medio de contacto. <span class="pendiente">Plazos por confirmar con la DGIVA</span></span></div></li>'+
+    '</ol>'+
+
+    '<h3 class="sub-seccion">Ten a la mano</h3>'+
+    '<div class="tener">'+
+      '<span>Dónde ocurre</span>'+
+      '<span>Qué ocurre y desde cuándo</span>'+
+      '<span>Fotos o videos, si tienes</span>'+
+    '</div>'+
+    '<p class="portada-pie" style="text-align:left;margin-top:16px">Si el caso corresponde a otra autoridad, el primer paso te dice a cuál: así no presentas una denuncia que no podrá atenderse.</p>'+
   '</div>';
 }
 
