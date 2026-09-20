@@ -844,3 +844,13 @@ Las alcaldías estaban peor y se normalizaron igual: sin acentos, con formas cor
 Respondido en parte con el Manual. Queda abierto lo que el Manual no dice: **en cuántos días se responde a quien pregunta por su folio**, que es lo que el acuse promete. El plazo del procedimiento está escrito; el de informar a la persona denunciante, no.
 
 **Verificación.** **279 comprobaciones en verde** en diez baterías, con dos nuevas: las defensas del envío y la normalización de las categorías.
+
+### Decidido: el enlace de Google Maps lo resuelve el servidor (P-18, opción B)
+
+Queda decidido. El servidor sigue la redirección del enlace corto y devuelve **sólo la coordenada**. Para la persona es un paso menos justo en el caso más difícil —el sitio sin domicilio, donde el punto es lo único que tiene—.
+
+Y tiene un efecto que conviene decir en voz alta, porque no es evidente: **el navegador de quien denuncia nunca habla con Google**. Quien consulta es el servidor, de modo que Google no obtiene su dirección de red ni sabe que alguien está presentando una denuncia ambiental. Resolverlo del lado del servidor no sólo es más cómodo: es más privado que la alternativa de mandar a la persona a abrir el enlace.
+
+Se construye con las condiciones ya escritas: lista blanca de tres dominios, petición que **no sigue** la redirección, lectura únicamente del encabezado, tres segundos de espera y salida limitada a la coordenada. Son las que evitan la falsificación de petición del lado del servidor.
+
+El prototipo no cambia de comportamiento —no hay servidor— pero sus textos dejan de decir «pendiente» y dicen «por construir», y ahora explican también el efecto sobre la privacidad (DEC-88).

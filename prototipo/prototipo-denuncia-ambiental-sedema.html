@@ -2818,7 +2818,7 @@ function colocaPorTexto(){
   if(/goo\.gl|maps\.app|g\.co\/kgs/.test(t)){
     var url = (t.match(/https?:\/\/\S+/) || [t])[0];
     cont.innerHTML = '<div class="res-lista"><div class="vacio">'+
-      '<strong>Ese enlace todavía no se puede resolver aquí.</strong> No lleva la coordenada dentro: es un identificador que hay que canjear, y eso lo hará el servidor de la Secretaría, no tu navegador. <span class="pendiente">Resolución de enlaces en el servidor, pendiente P-18</span>'+
+      '<strong>Ese enlace todavía no se puede resolver aquí.</strong> No lleva la coordenada dentro: es un identificador que hay que canjear. En el formulario definitivo lo canjea el servidor de la Secretaría y el punto aparece solo, sin que tu navegador hable con Google. <span class="pendiente">Resolución del enlace en el servidor: decidida, por construir (P-18)</span>'+
       '<p style="margin:11px 0 6px">Mientras tanto, en dos pasos:</p>'+
       '<ol style="margin:0 0 12px 18px;line-height:1.55">'+
         '<li>Abre el enlace.</li>'+

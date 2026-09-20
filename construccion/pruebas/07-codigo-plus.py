@@ -84,6 +84,8 @@ with sync_playwright() as pw:
            'el aviso explica por qué ese enlace no sirve todavía')
     afirma('servidor de la Secretaría' in r['texto'],
            'y dice quién lo va a resolver, en vez de culpar a la persona')
+    afirma('sin que tu navegador hable con Google' in r['texto'],
+           'y que resolverlo ahí evita que Google sepa que alguien denuncia (DEC-88)')
     afirma(r['abre'] and r['destino'].startswith('https://maps.app.goo.gl/'),
            'ofrece abrir el propio enlace que se pegó')
     afirma('noopener' in r['rel'], 'la pestaña nueva se abre sin dar control sobre la nuestra')

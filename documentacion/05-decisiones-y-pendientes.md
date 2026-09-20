@@ -98,6 +98,7 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 | DEC-85 | En la revisión, todos los renglones se corrigen, y el botón aterriza en el campo | 20 sep 2026 | De veinticuatro renglones sólo siete tenían «Editar», sin regla visible: lo que la persona lee ahí es que **el resto no se puede cambiar**, y lo que hace es enviar algo que sabe incorrecto o abandonar. Ahora cada renglón lleva su botón, y **corregir aterriza en el campo**, no al principio del paso —el paso 3 es largo y llegar arriba obliga a buscar—; el foco queda puesto en el control. Los dos únicos renglones sin botón son los que **calcula el punto** —tipo de suelo y área que atiende—, y en vez de callar lo dicen: «Lo determina el punto del mapa». La comprobación que lo fija no cuenta botones: exige que **ningún renglón se quede sin decir cómo se corrige** |
 | DEC-86 | Se adoptan los dos primeros controles contra el envío masivo | 20 sep 2026 | **Prueba de humanidad** junto al botón de enviar, exigida siempre —también en la ruta anónima, que es la que no tiene ninguna otra barrera, y también con la validación de campos apagada— y **límite por origen y ventana de tiempo**, con su pantalla. En el prototipo lo que existe es **el lugar y el texto**, que es lo que el servidor no puede inventar; la comprobación y el conteo se construyen del lado del servidor. Dos reglas de diseño que quedan fijadas: **el límite no rechaza, endurece** —el primer umbral sube el costo, sólo el último corta—, y si el servicio de verificación no responde **el envío no se bloquea**: se acepta y se marca, porque perder una denuncia real es peor que recibir una falsa. Se descarta el acertijo visual: excluye a personas con baja visión y es el que más denuncias legítimas pierde. Especificación completa y cifras propuestas en el documento 15 |
 | DEC-87 | Las categorías de las capas se normalizan en el dato, no en la pantalla | 20 sep 2026 | El origen trae la misma categoría escrita de dos formas —«Zona Ecologica y Cultural» y «Zona Ecológica y Cultural»—: **catorce categorías distintas que en realidad son diez**, de modo que agrupar por ese texto cuenta dos veces lo mismo. La pantalla lo tapaba con una tabla de equivalencias al vuelo, que arregla lo que se ve y no lo que se agrupa —y obliga a mantener dos catálogos—. Ahora la normalización ocurre **al ingresar la capa**: se añaden `categoria` —el nombre correcto— y `categoria_clave` —la clave estable con la que se agrupa—, y `categoria_origen` **queda intacta** como rastro de auditoría frente al decreto. Se normalizaron también las alcaldías, que estaban peor: sin acentos, con formas cortas, con listas en distinto orden y con una errata («Cujimalpa»). El guion **se detiene** ante un valor no catalogado, para que una errata nueva se vea en vez de colarse como categoría propia. Se retiró la tabla de equivalencias y su función, que quedaron sin uso |
+| DEC-88 | El enlace de Google Maps lo resuelve el servidor (P-18, opción B) | 20 sep 2026 | Decidido: el servidor sigue la redirección del enlace corto y devuelve **sólo la coordenada**. Para la persona es un paso menos justo en el caso más difícil —el sitio sin domicilio, donde el punto del mapa es lo único que tiene—. Tiene además un efecto que conviene decir en voz alta: **el navegador de quien denuncia nunca habla con Google**; quien consulta es el servidor, de modo que Google no obtiene su dirección de red ni sabe que alguien está presentando una denuncia. Se construye con las condiciones ya escritas en P-18 —lista blanca de tres dominios, petición que no sigue la redirección, lectura sólo del encabezado, tres segundos de espera y salida limitada a la coordenada—, que son las que evitan la falsificación de petición del lado del servidor. El prototipo no cambia de comportamiento —no hay servidor—, pero sus textos dejan de decir «pendiente» y dicen «por construir» |
 
 ---
 
@@ -361,7 +362,9 @@ Son días hábiles, y el propio Manual advierte que pueden variar si otra depend
 
 *Condiciones si se elige B.* Aceptar que el servidor pida una dirección web que escribe el público es una vulnerabilidad conocida —falsificación de petición del lado del servidor— y sólo es admisible con: **lista blanca estricta** de los dominios de enlaces cortos, ninguna redirección fuera de ellos, tiempo de espera corto, y uso exclusivo del encabezado de redirección sin leer el contenido de la respuesta. Añade además una dependencia de un servicio externo en un trámite de gobierno, con su modo de fallo.
 
-*Recomendación.* **Opción B, en la versión funcional y con esas condiciones**, porque el beneficio recae justo en el caso más difícil —el sitio sin domicilio, donde el pin del mapa es lo único que la persona tiene—. En el prototipo no cabe: no hay servidor.
+**Respondido el 20 de septiembre de 2026 · Opción B** (DEC-88). Queda decidido: lo resuelve el servidor, con las condiciones de esta ficha. Falta construirlo, no decidirlo.
+
+*Recomendación original, que la decisión confirma.* **Opción B, en la versión funcional y con esas condiciones**, porque el beneficio recae justo en el caso más difícil —el sitio sin domicilio, donde el pin del mapa es lo único que la persona tiene—. En el prototipo no cabe: no hay servidor.
 
 *Lo que cambió el 20 de septiembre, y por qué P-18 subió de prioridad.* Primero se añadió el código plus, que sí lleva la coordenada dentro y se lee sin red (DEC-82). Después quedó claro que eso resuelve el problema técnico y no el humano: **nadie sabe qué es un código plus**, y quien no sabe sacar una coordenada menos va a buscar un código. El gesto que la gente conoce es compartir la ubicación, y ese gesto produce exactamente el enlace que no podemos leer.
 
@@ -525,14 +528,14 @@ AD-01 resuelve el seguimiento **interno** —la bandeja con la que el personal a
 |---|---|---|---|
 | P-01 | | | |
 | P-02 | | | |
-| P-03 | | | |
+| P-03 | **A** · El Histórico Coyoacán no está en el convenio: todo el polígono es federal | Liber Saltijeral | 20 sep 2026 |
 | P-04 | | | |
 | P-05 | | | |
 | P-06 | | | |
-| P-07 | | | |
+| P-07 | **En parte** · plazos del procedimiento, del Manual Administrativo; falta el plazo para informar a quien pregunta por su folio | Manual Administrativo | 20 sep 2026 |
 | P-08 | | | |
 | P-09 | | | |
-| P-10 | | | |
+| P-10 | **En parte** · nombres y atribuciones de las dos coordinaciones; la DGSANPAVA no recibe denuncias. Falta el fundamento en ANP federales con coadministración | Manual Administrativo | 20 sep 2026 |
 | P-11 | | | |
 | P-12 | | | |
 | P-13 | | | |
@@ -540,7 +543,7 @@ AD-01 resuelve el seguimiento **interno** —la bandeja con la que el personal a
 | P-15 | | | |
 | P-16 | | | |
 | P-17 | | | |
-| P-18 | | | |
+| P-18 | **B** · lo resuelve el servidor, con lista blanca y sin seguir la redirección | Liber Saltijeral | 20 sep 2026 |
 | P-19 | | | |
 | P-20 | | | |
-| P-21 | | | |
+| P-21 | **En parte** · adoptados los controles 1 y 2: prueba de humanidad y límite por origen. Faltan los controles 3 a 6 | Liber Saltijeral | 20 sep 2026 |
