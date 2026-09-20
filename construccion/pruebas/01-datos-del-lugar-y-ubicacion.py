@@ -209,6 +209,70 @@ with sync_playwright() as pw:
     afirma(pg.locator('#progreso [aria-current="step"]').count() == 1, 'la barra marca un solo paso vigente')
     afirma(pg.locator('.barra-fija').count() == 1, 'la barra fija sigue presente')
 
+    # ---- La dirección coloca el punto sola, con sus tres cautelas ----
+    #    Sin botón: quien escribe una dirección ya dijo dónde es, y pedirle
+    #    además que pulse algo para que el formulario lo use es pedirle que
+    #    haga dos veces el mismo trabajo (DEC-101). Aquí no hay servicio de
+    #    geocodificación, de modo que se comprueba el disparo y las cautelas,
+    #    no el resultado de la búsqueda.
+    d = pg.evaluate("""() => {
+      estado = {}; archivos = []; cfg.validar = false;
+      guarda('materia','tala'); guarda('tiene_direccion','si'); irA(2);
+      const conBlur = ['calle','num_ext','colonia','cp'].filter(k => {
+        const e = document.getElementById('f_' + k);
+        return e && (e.getAttribute('onblur') || '').indexOf('buscaDireccionSola') >= 0;
+      });
+      const cpTambien = (document.getElementById('f_cp').getAttribute('onblur') || '');
+      const boton = [...document.querySelectorAll('#app button')]
+        .some(b => /Buscar la direcci/i.test(b.textContent));
+      return {conBlur, boton,
+              cpHaceLasDos: cpTambien.indexOf('avisaFormato') >= 0 && cpTambien.indexOf('buscaDireccionSola') >= 0};
+    }"""); pg.wait_for_timeout(250)
+    afirma(sorted(d['conBlur']) == ['calle','colonia','cp','num_ext'],
+           'los cuatro campos del domicilio buscan al salir: %s' % sorted(d['conBlur']))
+    afirma(not d['boton'], 'y ya no hay boton de buscar la direccion')
+    afirma(d['cpHaceLasDos'],
+           'el codigo postal conserva ademas su aviso de formato: las dos cosas conviven')
+
+    caut = pg.evaluate("""() => {
+      const out = {}; let llamo = false;
+      const real = window.ubicaPorDireccion;
+      window.ubicaPorDireccion = () => { llamo = true; };
+      /* 1. Con la calle sola no busca: en esta Ciudad seria una moneda al aire. */
+      estado = {}; guarda('materia','tala'); guarda('tiene_direccion','si');
+      guarda('calle','Avenida Chapultepec'); olvidaBusqueda();
+      llamo = false; buscaDireccionSola(); out.soloCalle = llamo;
+      /* 2. Con calle y colonia, si. */
+      llamo = false; guarda('colonia','Centro'); buscaDireccionSola(); out.calleYColonia = llamo;
+      /* 3. No repite la misma consulta al salir del campo siguiente. */
+      llamo = false; buscaDireccionSola(); out.repite = llamo;
+      /* 4. Si ya hay punto, la direccion no lo mueve. */
+      llamo = false; olvidaBusqueda(); guarda('lat','19.4326'); guarda('lon','-99.1332');
+      guarda('colonia','Roma Norte'); buscaDireccionSola(); out.conPunto = llamo;
+      /* 5. Sin domicilio no hay nada que buscar. */
+      llamo = false; guarda('lat',''); guarda('tiene_direccion','no'); olvidaBusqueda();
+      buscaDireccionSola(); out.sinDomicilio = llamo;
+      window.ubicaPorDireccion = real;
+      return out;
+    }"""); pg.wait_for_timeout(200)
+    afirma(not caut['soloCalle'], 'con la calle sola no busca')
+    afirma(caut['calleYColonia'], 'con calle y colonia, si busca')
+    afirma(not caut['repite'], 'y no repite la misma consulta en cada campo')
+    afirma(not caut['conPunto'],
+           'si la persona ya coloco el punto, la direccion no se lo mueve')
+    afirma(not caut['sinDomicilio'], 'en la ruta sin domicilio no busca nada')
+
+    # En la ruta sin domicilio, el texto no promete lo que ahi no ocurre.
+    txt = pg.evaluate("""() => { estado = {}; guarda('materia','tala');
+      guarda('tiene_direccion','no'); irA(2);
+      return document.getElementById('c_lat').innerText; }"""); pg.wait_for_timeout(250)
+    # Ojo: «Al pegarla, el punto se coloca solo» es de la via de Google Maps y
+    # ahi si aplica. Lo que no debe aparecer es la promesa sobre la direccion.
+    afirma('Con la direcci' not in txt and 'no tiene domicilio' in txt,
+           'sin domicilio, no se promete que la direccion coloque el punto')
+    afirma('clic sobre el mapa' in txt and 'Google Maps' in txt,
+           'y se ofrecen las dos vias que si funcionan ahi')
+
     afirma(errores == [], 'sin errores de consola en el recorrido principal: %s' % errores[:3])
     nav.close()
 

@@ -202,8 +202,12 @@ function ponMarcador(lat,lon){
   dibujaPunto();
   analizaCapas(lat,lon);
 }
-/* Sin servicio de geocodificación: la dirección no ubica el punto aquí. */
-function ubicaPorDireccion(){
+/* Sin servicio de geocodificación: la dirección no ubica el punto aquí. Si la
+   búsqueda fue automática —al salir de un campo del domicilio— no se dice
+   nada: el aviso del mapa ya advierte que esta versión no tiene el servicio,
+   y repetirlo cuatro veces por dirección sería ruido. */
+function ubicaPorDireccion(sola){
+  if(sola) return;
   var c = $('resBusqueda');
   if(c) c.innerHTML = '<div class="res-lista"><div class="vacio">Esta versión en línea no tiene el servicio que ubica la dirección. Da un clic sobre el mapa para colocar el punto.</div></div>';
 }

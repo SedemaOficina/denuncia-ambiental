@@ -1564,12 +1564,11 @@ function pUbicacion(){
   h += '<div class="campo" id="c_lat">'+
     '<h3 class="sub-seccion">El punto en el mapa'+marca_opc(esObligatorio('lat'))+'</h3>'+
     '<p class="ayuda" style="margin-bottom:14px">De esta ubicación dependen la alcaldía, el tipo de suelo y el área que atiende la denuncia. '+
-      (sinDir ? 'Márcalo de cualquiera de estas maneras:' : 'Puedes marcarlo de cualquiera de estas maneras:')+'</p>'+
+      (sinDir
+        ? 'Este sitio no tiene domicilio, así que el punto se marca directamente:'
+        : '<strong>Con la dirección que escribiste, el punto se coloca solo.</strong> Si quedó fuera de lugar, arrástralo o da un clic donde corresponda. También puedes:')+'</p>'+
 
     '<ul class="vias">'+
-      (sinDir ? '' :
-        '<li><button type="button" class="btn btn-secundario" onclick="ubicaPorDireccion()">'+
-          svgIcono('pin',16)+' Buscar la dirección que escribiste</button></li>')+
       '<li>'+
         campo('coord_pegar','Pegar la ubicación de Google Maps o las coordenadas','texto',false,
           'Al pegarla, el punto se coloca solo.',
@@ -2335,9 +2334,14 @@ function marca_opc(oblig){
 function campo(k,etq,tipo,oblig,ayuda,extra){
   var t = tipo==='fecha' ? 'date' : (tipo==='tel' ? 'tel' : (tipo==='email' ? 'email' : 'text'));
   var id='f_'+k, idA='a_'+k, idE='e_'+k;
-  /* El aviso al salir del campo no se pide campo por campo: lo pone aqui
-     quien sepa que ese campo tiene forma declarada (DEC-91). */
-  if(FORMATO[k]) extra = (extra||'') + ' onblur="avisaFormato(\''+k+'\')"';
+  /* Lo que ocurre al salir del campo no se pide campo por campo: lo pone
+     aqui quien sabe que ese campo tiene forma declarada (DEC-91) o que
+     pertenece al domicilio del lugar (DEC-101). Se acumulan, porque el
+     codigo postal es las dos cosas. */
+  var alSalir = [];
+  if(FORMATO[k]) alSalir.push('avisaFormato(\''+k+'\')');
+  if(CAMPOS_DIRECCION.indexOf(k) >= 0) alSalir.push('buscaDireccionSola()');
+  if(alSalir.length) extra = (extra||'') + ' onblur="'+alSalir.join(';')+'"';
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
     '<input type="'+t+'" id="'+id+'" name="'+k+'" '+(extra||'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" value="'+esc(val(k))+'" '+
@@ -2529,6 +2533,11 @@ var MOTIVO = {};
    salir del campo y la validacion al continuar, de modo que no puedan decir
    cosas distintas. Antes las reglas estaban sueltas dentro de valida() y solo
    avisaban al pulsar Continuar, cuando el campo ya quedo arriba (DEC-91). */
+/* Los cuatro campos del domicilio del lugar. Al salir de cualquiera de
+   ellos, el formulario intenta colocar el punto solo (DEC-101). No incluye
+   los «dom_», que son el domicilio de notificación de la persona. */
+var CAMPOS_DIRECCION = ['calle','num_ext','colonia','cp'];
+
 var FORMATO = {
   cp:       {re:/^\d{5}$/, msg:'El código postal va a cinco dígitos.'},
   dom_cp:   {re:/^\d{5}$/, msg:'El código postal va a cinco dígitos.'},
@@ -2773,10 +2782,37 @@ function resaltaPoligono(rasgo, grupo){
    puede no responder: si falla, se dice con esas palabras y la persona coloca el
    punto a mano. Nada de lo capturado se pierde. Sustituirlo por un servicio propio
    de la Ciudad es P-12; el catálogo de colonias y códigos postales, P-16. */
-function ubicaPorDireccion(){
+/* La direccion coloca el punto sin que nadie pulse nada. Tres cautelas:
+   · Solo si NO hay punto todavia. Si la persona ya lo coloco o lo arrastro,
+     la direccion no se lo mueve: corregir la colonia no puede deshacer el
+     ajuste fino que acaba de hacer en el mapa.
+   · Solo si hay calle y algo mas —colonia o codigo postal—: con la calle
+     sola, en esta Ciudad, el resultado seria una moneda al aire.
+   · No repite la misma consulta dos veces, porque se dispara al salir de
+     cada uno de los cuatro campos del domicilio. */
+var ULTIMA_BUSQUEDA = '';
+function olvidaBusqueda(){ ULTIMA_BUSQUEDA = ''; }
+
+function buscaDireccionSola(){
+  if(sinDireccion()) return;                       /* no hay domicilio que buscar */
+  if(val('lat')) return;                           /* ya hay punto: no se toca */
+  if(!String(val('calle')||'').trim()) return;
+  if(!String(val('colonia')||'').trim() && !String(val('cp')||'').trim()) return;
+  var firma = [val('calle'),val('num_ext'),val('colonia'),val('cp')].join('|');
+  if(firma === ULTIMA_BUSQUEDA) return;
+  ULTIMA_BUSQUEDA = firma;
+  ubicaPorDireccion(true);
+}
+
+function ubicaPorDireccion(sola){
   var cont = $('resBusqueda'); if(!cont) return;
-  var partes = [val('calle'), val('num_ext'), val('colonia'), val('alcaldia')].filter(function(x){ return String(x||'').trim(); });
+  /* La alcaldia NO entra en la consulta: la escribe el cruce a partir del
+     punto, de modo que usarla aqui seria alimentar la busqueda de la
+     direccion con el punto anterior —y contradecir la direccion recien
+     escrita— (DEC-100). */
+  var partes = [val('calle'), val('num_ext'), val('colonia'), val('cp')].filter(function(x){ return String(x||'').trim(); });
   if(!String(val('calle')||'').trim()){
+    if(sola) return;
     cont.innerHTML = '<div class="res-lista"><div class="vacio">Escribe al menos la calle para poder ubicarla. También puedes colocar el punto directamente sobre el mapa.</div></div>';
     return;
   }
@@ -2790,12 +2826,14 @@ function ubicaPorDireccion(){
   fetch(url).then(function(r){ return r.json(); }).then(function(d){
     clearTimeout(reloj);
     if(!d || !d.length){
-      cont.innerHTML = '<div class="res-lista"><div class="vacio">No se encontró esa dirección en la Ciudad de México. Revísala o coloca el punto directamente sobre el mapa.</div></div>';
+      cont.innerHTML = '<div class="res-lista"><div class="vacio">'+
+        (sola ? 'No fue posible ubicar esa dirección automáticamente. Da un clic sobre el mapa para colocar el punto: la dirección que escribiste se conserva.'
+              : 'No se encontró esa dirección en la Ciudad de México. Revísala o coloca el punto directamente sobre el mapa.')+'</div></div>';
       return;
     }
     if(d.length === 1){ vaA(+d[0].lat, +d[0].lon); return; }
     cont.innerHTML = '<div class="res-lista" role="listbox" aria-label="Direcciones encontradas">'+
-      '<div class="vacio">Elige cuál corresponde:</div>'+
+      '<div class="vacio">Hay más de una dirección con ese nombre. Elige cuál corresponde:</div>'+
       d.map(function(o){ return '<button type="button" role="option" onclick="vaA('+o.lat+','+o.lon+')">'+esc(o.display_name)+'</button>'; }).join('')+
       '</div>';
   }).catch(function(){

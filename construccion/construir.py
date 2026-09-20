@@ -67,13 +67,17 @@ s = s.replace(
 # 5 bis. En el artefacto no hay servicio de geocodificación: se retira el botón
 #        que ubica por dirección. El de «estoy en el lugar» sí funciona —sólo
 #        necesita el navegador— y se conserva.
+# 5 bis. La via que requiere el servicio de geocodificacion ya no es un boton:
+#        la direccion coloca el punto sola al salir del campo (DEC-101). Aqui
+#        no hay servicio, de modo que se deja la funcion en su lugar —el
+#        sustituto de mapa_svg.js la atiende— y solo se corrige la promesa que
+#        el texto hace, porque en esta version no se cumple.
 _antes = s
-s = re.sub(
-    r"\s*\(sinDir \? '' :\n\s*'<li><button type=\"button\" class=\"btn btn-secundario\" onclick=\"ubicaPorDireccion\(\)\">'\+"
-    r"\n\s*svgIcono\('pin',16\)\+' Buscar la direcci\u00f3n que escribiste</button></li>'\)\+",
-    "\n      ''+", s, count=1)
+s = s.replace(
+ '<strong>Con la dirección que escribiste, el punto se coloca solo.</strong> Si quedó fuera de lugar, arrástralo o da un clic donde corresponda. También puedes:',
+ 'Esta versión en línea no ubica la dirección por ti. Marca el punto directamente:')
 if s == _antes:
-    sys.exit('ERROR: no se retiró la vía que requiere el servicio de geocodificación; revisa el marcado.')
+    sys.exit('ERROR: no se corrigió la promesa de que la dirección coloca el punto; revisa el texto.')
 
 # 5 ter. El estado vacío no puede nombrar un botón que aquí no existe.
 _antes = s
