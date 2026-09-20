@@ -44,7 +44,9 @@ La ruta mínima —anónima, sin establecimiento, responsable desconocido— baj
 
 ### M-01 · Decir en la primera pantalla que se puede denunciar sin dar el nombre
 
-> **Implementada.** La pantalla de inicio abre con que se puede denunciar sin dar el nombre, y enumera en cuatro pasos qué ocurre después.
+> **Implementada, perdida y recuperada.** La pantalla de inicio abre con el derecho a denunciar y enumera en cuatro pasos qué ocurre después.
+> Al rediseñarla en DEC-53 se retiraron las tarjetas de datos y **con ellas desapareció la única mención del anonimato en la primera pantalla**, sin que ninguna comprobación lo advirtiera: se detectó revisando el cierre del bloque, no probando.
+> Regresó en DEC-77 como uno de los cuatro enunciados de «Lo que la ley te reconoce», con su consecuencia en la misma línea: sin datos no hay aviso del resultado ni aclaración posible. La batería 04 comprueba ahora que los cuatro enunciados existen.
 **Coste: una línea de texto. Es la propuesta con mejor relación entre esfuerzo y efecto.**
 
 Quien teme a su vecino, al dueño del taller de la esquina o a quien ordenó la obra, **abandona antes de empezar**. Hoy la posibilidad de denunciar de forma anónima aparece hasta el paso 5, después de dieciséis pantallas de inversión. Quien tenía miedo nunca llegó ahí.

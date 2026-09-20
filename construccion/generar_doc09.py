@@ -28,6 +28,7 @@ FINALIDADES = [
  ('Identificación','Determinar cómo se identifica quien denuncia y qué seguimiento admite'),
  ('Contacto',    'Identificar, notificar y dar seguimiento con la persona denunciante'),
  ('Cumplimiento','Dejar constancia del consentimiento y de la vía elegida'),
+ ('Estadística','Conocer quién denuncia, sin formar parte del expediente'),
 ]
 
 def lee_oblig(html):

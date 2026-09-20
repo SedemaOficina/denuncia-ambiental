@@ -86,6 +86,12 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 | DEC-73 | Cada bloque del paso 2 declara para qué sirve | 20 sep 2026 | El paso pedía dos trabajos distintos —describir el lugar con palabras y señalarlo en un mapa— sin decir cuál servía para qué, de modo que mover el punto parecía corregir la dirección y escribirla parecía mover el punto. Ahora lo dice una vez arriba y una vez en cada bloque: **la dirección es para que el personal de inspección llegue; el punto decide qué área atiende la denuncia** |
 | DEC-74 | Las tres vías de marcar el sitio van juntas, y «Quitar el punto» desaparece | 20 sep 2026 | Había cuatro maneras de colocar el punto repartidas por la pantalla, y el subtítulo describía sólo una. Las tres que dependen de la persona —buscar la dirección escrita, pegar coordenadas o un enlace, o dar clic en el mapa— se enuncian juntas y con el mismo peso, en una lista. «Ubicar en el mapa» pasa a secundario: **una sola acción con relleno de color por pantalla** (DEC-71). Y se retira «Quitar el punto»: el punto es obligatorio, de modo que **su único destino era un mensaje de error**; para moverlo se arrastra o se da otro clic |
 | DEC-75 | La confirmación del punto vive en su propio contenedor, junto a los botones | 20 sep 2026 | Estaba dentro de la ficha del cruce, arriba: si un arrastre la borraba —que es justo el descuido que previene—, se destildaba fuera del campo de visión y el error aparecía al pulsar Continuar, abajo. Ahora va inmediatamente antes de los botones y **dice qué se está confirmando** —alcaldía y área identificada—, que se actualiza al mover el punto. Tiene contenedor propio porque el punto cambia sin rehacer la pantalla: rehacerla reiniciaría el mapa y perdería el encuadre. **Defecto propio detectado al probar:** la primera versión dejó dos casillas con el mismo identificador, la vieja dentro de la ficha y la nueva arriba de los botones |
+| DEC-76 | La portada enuncia un derecho, no un trámite | 20 sep 2026 | Decía, en tres renglones, lo que la Secretaría puede hacer. Ahora empieza por lo que **la persona** puede hacer, y responde en orden las tres preguntas de quien nunca ha denunciado: qué me reconoce la ley, para qué sirve denunciar, qué pasa después. Cuatro enunciados con palomita sustituyen a las cuatro cajas idénticas que se retiraron en DEC-53, y el párrafo de «por qué importa» dice lo que ninguna otra pantalla dice: que la Ciudad no tiene personal en cada calle y que buena parte del daño ambiental sólo se conoce porque alguien lo reportó. El tope de palabras sube de 180 a 340 y **sigue habiendo tope**: el botón de empezar tiene que verse sin desplazar, y se comprueba a 390 px |
+| DEC-77 | Vuelve a la portada la promesa de denunciar sin dar el nombre (M-01) | 20 sep 2026 | Al retirar las tarjetas de datos en DEC-53 se fue con ellas la única mención del anonimato en la primera pantalla, que era justo el motivo de la mejora aprobada. Regresa como uno de los cuatro enunciados de lo que la ley reconoce, con su consecuencia dicha en la misma línea: sin datos no hay aviso del resultado ni aclaración posible |
+| DEC-78 | Se preguntan género y rango de edad, con fines estadísticos y en las dos rutas | 20 sep 2026 | Van al final del paso 5, fuera del bloque de contacto, porque **no identifican a nadie y no entran al expediente**: por eso se piden también en la ruta anónima, que es donde se perdería la mitad del universo. En desplegable y no en botones, para que se lean como lo que son. Ambas admiten «Prefiero no decirlo», que no es cortesía: **la identidad de género es dato sensible** y sólo puede tratarse con consentimiento expreso. Quedan declaradas en OBLIG con finalidad «Estadística», de modo que el documento 09 dice qué se pide, para qué y con qué carácter |
+| DEC-79 | El aviso de privacidad se lee en pantalla antes de enviar | 20 sep 2026 | Estaba detrás de un enlace que abría una ventana del navegador con un texto provisional. Ahora es un bloque de seis rótulos —quién trata tus datos, para qué, con qué fundamento, cuánto se conservan, a quién se transfieren, cómo ejerces tus derechos— colocado inmediatamente antes de la casilla con la que se consiente, como lo hace la PAOT en su formulario. **Lo que no está verificado queda a la vista como hueco**: el nombre del sistema de datos personales, el ciclo de vida, el catálogo de transferencias y los datos de la Unidad de Transparencia (P-19) |
+| DEC-80 | El relato tiene que parecer un texto escrito por una persona | 20 sep 2026 | En el formulario de la PAOT se puede enviar una denuncia con todos los campos llenos de letras al azar; se comprobó. El formulario mide tres señales del relato —cuántas palabras tiene, qué proporción de vocales y si hay caracteres repetidos— y no deja avanzar cuando ninguna se cumple. **No juzga el contenido ni castiga a quien escribe mal**: un relato con faltas de ortografía pasa, y así está probado. El mensaje deja de ser «este dato es necesario» y dice cuál es el problema. Esto ayuda a quien escribe de buena fe; **a quien no la tiene lo detiene el servidor, no el navegador** (documento 15) |
+| DEC-81 | El acuse explica la ratificación que aquí no hace falta | 20 sep 2026 | Ante la Procuraduría, la denuncia electrónica debe ratificarse en tres días hábiles o se tiene por no presentada. Quien ha denunciado antes lo espera, y su ausencia se lee como omisión. El acuse lo dice y lo contrasta con esta vía, que no lo exige, y ofrece la remisión a la Procuraduría para quien quiera la denuncia formal con respuesta obligada. Se toma también del acuse de la PAOT el aviso de revisar la carpeta de correo no deseado |
 
 ---
 
@@ -332,6 +338,44 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 
 ---
 
+**P-19. Los seis datos que el aviso de privacidad simplificado necesita para poder publicarse**
+
+*Por qué importa.* El aviso ya se lee en pantalla antes de enviar (DEC-79), que es como debe ser. Pero cuatro de sus seis rótulos están incompletos, y ninguno puede inventarse: **el nombre del sistema de datos personales** en que se protegen los datos de la denuncia, y su inscripción; **el ciclo de vida del dato**, conforme al catálogo de disposición documental de la Secretaría; **el catálogo de transferencias** y su fundamento; y el **domicilio, teléfono y correo de la Unidad de Transparencia**. Falta además el artículo del Reglamento Interior que atribuye la función a la unidad responsable.
+
+*Qué se hizo mientras tanto.* Los huecos quedan visibles en la propia pantalla, con el mismo tratamiento que el resto de los pendientes del prototipo. Ninguno se rellenó con una aproximación.
+
+*A quién corresponde.* Unidad de Transparencia de la Secretaría, junto con la Dirección General de Inspección y Vigilancia Ambiental.
+
+*Bloquea:* la publicación del formulario. Va junto con P-02.
+
+---
+
+**P-20. ¿Se preguntan género y edad, y con qué respaldo?**
+
+*Por qué importa.* El formulario ya las pregunta, opcionales y en las dos rutas (DEC-78). Dos cosas faltan por resolver antes de operar: **el género es dato sensible** —la identidad de género lo es, conforme al criterio del órgano garante—, de modo que su tratamiento exige consentimiento expreso y no puede ampararse en el ejercicio de atribuciones, como sí ocurre con los datos de la denuncia; y **el uso real del dato**, porque un dato que nadie explota no se pide: si no hay quien produzca la estadística y la publique, la pregunta es carga sin beneficio.
+
+*Opciones.* A. Conservarlas como están, con consentimiento expreso separado del resto. B. Conservarlas sin el género y sólo con el rango de edad, que no es dato sensible. C. Retirarlas.
+
+*Recomendación.* **Opción A**, con dos condiciones: que el aviso de privacidad diga expresamente que son opcionales y para qué se usan —ya lo dice—, y que el Sistema de Información Ambiental asuma la publicación periódica de la desagregación. Sin lo segundo, la opción B.
+
+*A quién corresponde.* Unidad de Transparencia y Sistema de Información Ambiental.
+
+*Bloquea:* nada en el prototipo; sí la operación.
+
+---
+
+**P-21. Qué controles del lado del servidor se adoptan contra el envío masivo o de mala fe**
+
+*Por qué importa.* Se comprobó en el formulario de la PAOT que puede enviarse una denuncia con todos los campos llenos de letras al azar, sin validación alguna. El formulario ya no lo permite del lado del navegador (DEC-80), pero **eso no detiene a nadie que quiera hacer daño**: cualquiera puede saltarse el navegador. Las defensas que sirven viven en el servidor y son decisiones, no código: prueba de humanidad en el envío, límite de denuncias por origen y por ventana de tiempo, verificación del correo antes de emitir el folio, detección de duplicados por punto y materia, y umbral de ráfaga que marca una campaña para revisión. El documento 15 las desarrolla con su costo y su efecto.
+
+*Lo que no debe hacerse.* Rechazar denuncias por sospecha. La autoridad no puede negarse a recibir; **lo que sí puede es ordenar la cola**. La defensa correcta no es el rechazo, es la priorización y la acumulación.
+
+*A quién corresponde.* Sistema de Información Ambiental, con la Dirección General de Inspección y Vigilancia Ambiental para el criterio de acumulación.
+
+*Bloquea:* la puesta en operación, no el prototipo.
+
+---
+
 ## Parte III. Riesgos
 
 | Riesgo | Efecto | Mitigación |
@@ -444,3 +488,7 @@ AD-01 resuelve el seguimiento **interno** —la bandeja con la que el personal a
 | P-15 | | | |
 | P-16 | | | |
 | P-17 | | | |
+| P-18 | | | |
+| P-19 | | | |
+| P-20 | | | |
+| P-21 | | | |

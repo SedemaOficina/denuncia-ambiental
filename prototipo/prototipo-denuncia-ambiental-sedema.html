@@ -271,8 +271,31 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
    de empezar a 1 268 px: casi dos pantallas de desplazamiento antes de poder
    hacer nada. Aqui la promesa va arriba, el boton enseguida, y lo que explica
    debajo, para quien lo necesite (DEC-53). */
-.portada{text-align:center;padding:2px 0 4px}
+.portada{text-align:left;background:var(--guinda-cl);border-radius:var(--r-caja);
+  box-shadow:inset 0 3px 0 var(--dorado);padding:24px 22px 20px;margin:2px 0 4px}
+.portada-titulo{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-2xl);
+  font-weight:700;line-height:1.18;color:var(--guinda);letter-spacing:-.4px;margin:0 0 12px}
 .portada-pie{font-size:var(--t-sm);color:var(--gris);margin-top:14px;line-height:1.5}
+
+/* Lo que la ley reconoce: cuatro enunciados con palomita, no cuatro cajas
+   iguales. La version anterior daba el mismo peso a todo (DEC-76). */
+.derechos{list-style:none;margin:8px 0 4px;display:grid;gap:13px}
+.derechos li{position:relative;padding-left:32px;font-size:var(--t-base);line-height:1.5;color:var(--texto)}
+.derechos li::before{content:'';position:absolute;left:0;top:1px;width:21px;height:21px;
+  border-radius:var(--r-pill);background:var(--guinda-cl);border:1px solid var(--dorado)}
+.derechos li::after{content:'';position:absolute;left:6px;top:7px;width:8px;height:4px;
+  border-left:2px solid var(--dorado-txt);border-bottom:2px solid var(--dorado-txt);transform:rotate(-45deg)}
+.derechos b{font-weight:600}
+
+/* Por que importa: un parrafo con filete, para que se lea como voz de la
+   institucion y no como otra lista mas. */
+.porque{font-size:var(--t-base);line-height:1.6;color:var(--texto);
+  margin:8px 0 4px;padding-left:15px;border-left:3px solid var(--dorado)}
+
+@media (max-width:430px){
+  .portada{padding:18px 16px 16px}
+  .portada-titulo{font-size:var(--t-xl)}
+}
 
 /* Qué pasa después: cuatro momentos en horizontal, con la misma gramática
    visual que la barra de pasos —círculo numerado unido por una línea—, para
@@ -325,6 +348,15 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .vias .via-mapa{font-size:var(--t-md);color:var(--gris)}
 .confirma-punto{border-top:1px solid var(--linea);padding-top:18px;margin-top:4px}
 .confirma-punto .cp-det{display:block;font-weight:400;font-size:var(--t-sm);color:var(--gris);margin-top:2px}
+
+/* Aviso de privacidad simplificado: se lee en pantalla antes de enviar, no
+   detras de un enlace que nadie abre. Tipografia menor que la del formulario,
+   para que informe sin competir con las preguntas (DEC-79). */
+.priv{border:1px solid var(--linea);border-radius:var(--r-caja);background:var(--blanco);
+  padding:16px 18px;margin:4px 0 18px}
+.priv p{font-size:var(--t-md);line-height:1.55;color:var(--texto);margin:0 0 10px}
+.priv p:last-child{margin-bottom:0}
+.priv b{color:var(--guinda);font-weight:600}
 
 /* ---------- Avisos ---------- */
 .aviso{border-left:4px solid var(--alerta);background:var(--alerta-bg);padding:14px 16px;border-radius:0 var(--r-ctrl) var(--r-ctrl) 0;font-size:var(--t-md);margin:16px 0;color:#5A4220}
@@ -953,6 +985,14 @@ var OBLIG = {
      uso:'Registra la vía de notificación elegida; de ella depende que se pida o no el domicilio.'},
   reserva:          {p:5, dgiva:false, vigente:false, etq:'Confidencialidad de los datos', dp:false, fin:'Cumplimiento',
      uso:'Registra si la persona solicita que sus datos no se hagan del conocimiento del denunciado.'},
+  /* Estadistica. Son opcionales en las dos rutas —tambien en la anonima— porque
+     no identifican a nadie: un genero y un rango de edad no son datos de
+     contacto. Se declaran aqui, y no sueltos en la pantalla, para que el
+     documento 09 diga que se pide, con que fin y con que caracter (DEC-78). */
+  sexo_genero:      {p:5, dgiva:false, vigente:false, etq:'Género', dp:true, fin:'Estadística',
+     uso:'Desagregación estadística de quién denuncia en la Ciudad. Opcional; no condiciona el trámite ni se incorpora al expediente. La identidad de género es dato sensible: sólo puede tratarse con consentimiento expreso, y por eso la pregunta admite no responder.'},
+  edad_rango:       {p:5, dgiva:false, vigente:false, etq:'Rango de edad', dp:true, fin:'Estadística',
+     uso:'Desagregación estadística por edad. Opcional; no condiciona el trámite ni se incorpora al expediente.'},
   privacidad:       {p:5, dgiva:true,  vigente:true,  etq:'Protesta de decir verdad y aviso de privacidad', dp:false, fin:'Cumplimiento',
      uso:'Constancia del consentimiento informado y de la protesta de decir verdad.'}
 };
@@ -1321,21 +1361,32 @@ function barra(){
 
 /* ================= Pantallas ================= */
 
-/* Lo primero que ve alguien parado en la calle con el telefono en la mano. La
-   version anterior ponia 232 palabras en cuatro cajas identicas y dejaba el
-   boton de empezar a 1 268 px: casi dos pantallas de desplazamiento antes de
-   poder hacer nada, y nada que distinguiera lo importante de lo accesorio.
-   Aqui va primero la promesa, enseguida el boton, y debajo lo que explica,
-   para quien lo necesite (DEC-53). */
+/* Lo primero que ve alguien parado en la calle con el telefono en la mano.
+   La version anterior decia en tres renglones lo que la Secretaria puede
+   hacer. Esta empieza por lo que la persona puede hacer —que es lo que la ley
+   le reconoce— y responde en orden las tres preguntas de quien nunca ha
+   denunciado: que me reconoce la ley, para que sirve denunciar y que pasa
+   despues (DEC-76). */
 function pInicio(){
   return '<div class="tarjeta">'+
     '<div class="portada">'+
-      '<p class="portada-intro">Cuando una obra, un establecimiento o una actividad daña el ambiente, '+
-        'la Secretaría puede <strong>verificarlo en campo</strong> e iniciar el procedimiento que corresponda. '+
-        'Para eso necesita saber qué ocurre y dónde.</p>'+
+      '<h2 class="portada-titulo">Denunciar el daño ambiental es tu derecho</h2>'+
+      '<p class="portada-intro">Quien vive un lugar es el primero en notar que algo anda mal: el humo que no debería estar ahí, el árbol que amaneció derribado, el escombro tirado en la barranca. '+
+        'Cuéntaselo a la <strong>Secretaría del Medio Ambiente</strong>: puede verificarlo en campo e iniciar el procedimiento que corresponda.</p>'+
       '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
-      '<p class="portada-pie">También en persona o por correo electrónico: los datos están al pie de la página.</p>'+
+      '<p class="portada-pie">Toma unos diez minutos y puedes pausar y continuar después. También puedes presentarla en persona o por correo electrónico: los datos están al pie de la página.</p>'+
     '</div>'+
+
+    '<h3 class="sub-seccion">Lo que la ley te reconoce</h3>'+
+    '<ul class="derechos">'+
+      '<li><b>Cualquier persona puede denunciar.</b> No necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio.</li>'+
+      '<li><b>Puedes denunciar sin dar tu nombre.</b> La Secretaría valora los hechos igual; lo que no podrá es avisarte del resultado ni pedirte una aclaración.</li>'+
+      '<li><b>Si das tus datos, puedes pedir que sean confidenciales.</b> Tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado.</li>'+
+      '<li><b>No necesitas saber qué norma se incumple.</b> Basta con describir lo que ocurre: clasificarlo le toca a la Secretaría.</li>'+
+    '</ul>'+
+
+    '<h3 class="sub-seccion">Por qué importa que denuncies</h3>'+
+    '<p class="porque">Denunciar no es pelearse con nadie: es la vía por la que la autoridad se entera. La Ciudad no tiene personal en cada calle, y buena parte del daño ambiental sólo se conoce porque alguien se tomó el tiempo de reportarlo. Cada denuncia queda registrada y ubicada en el mapa, y pasa a formar parte de la información con la que la Secretaría decide dónde inspeccionar.</p>'+
 
     '<h3 class="sub-seccion">Qué pasa después</h3>'+
     '<ol class="despues">'+
@@ -2073,12 +2124,37 @@ function pDenunciante(){
     '<div class="aviso aviso-ok">Tus datos personales no se difunden y sirven exclusivamente para el trámite de la denuncia.</div>';
   }
 
-  h += '<div class="campo" style="margin-top:22px"><label style="display:flex;gap:9px;align-items:flex-start;font-weight:400">'+
+  /* Estadistica. Dos preguntas al final, fuera del bloque de contacto: no
+     sirven para identificar a nadie ni entran al expediente, y por eso se
+     piden igual en la ruta anonima. Van en desplegable, no en botones, para
+     que se lean como lo que son: secundarias y opcionales (DEC-78). */
+  h += '<h3 class="sub-seccion">Dos preguntas para la estadística</h3>'+
+    '<p class="ayuda" style="margin-bottom:16px">Son opcionales y puedes dejarlas en blanco. Sirven para saber quién denuncia en la Ciudad y dónde hace falta acercar el servicio. No se usan para identificarte, no forman parte del expediente y no cambian el trámite de tu denuncia.</p>'+
+    campoSelect('sexo_genero','¿Con qué género te identificas?',
+      [{v:'mujer',t:'Mujer'},{v:'hombre',t:'Hombre'},{v:'no_binaria',t:'No binaria'},
+       {v:'otro',t:'Otro'},{v:'nd',t:'Prefiero no decirlo'}],false,'')+
+    campoSelect('edad_rango','¿En qué rango de edad estás?',
+      [{v:'-18',t:'Menor de 18 años'},{v:'18-29',t:'18 a 29 años'},{v:'30-44',t:'30 a 44 años'},
+       {v:'45-59',t:'45 a 59 años'},{v:'60+',t:'60 años o más'},{v:'nd',t:'Prefiero no decirlo'}],false,'')+
+
+  /* El aviso se lee en pantalla antes de enviar —como lo hace la PAOT en su
+     formulario— y no detras de un enlace. Lo que todavia no esta verificado
+     queda a la vista como hueco: ninguna de estas notas se inventa (DEC-79). */
+    '<h3 class="sub-seccion">Aviso de privacidad</h3>'+
+    '<div class="priv">'+
+      '<p><b>Quién trata tus datos.</b> La Secretaría del Medio Ambiente de la Ciudad de México, a través de la Dirección General de Inspección y Vigilancia Ambiental, es la responsable del tratamiento de los datos personales que proporciones, que quedan protegidos en el sistema de datos personales correspondiente. <span class="pendiente">Nombre del sistema de datos personales, por registrar</span></p>'+
+      '<p><b>Para qué se usan.</b> Registrar tu denuncia y darle seguimiento; identificar a las personas involucradas en el expediente; notificarte las actuaciones; remitir el asunto a la autoridad competente cuando no corresponda a la Secretaría; y, en su caso, con fines estadísticos. El género y el rango de edad son opcionales y se usan únicamente para estadística.</p>'+
+      '<p><b>Con qué fundamento.</b> El tratamiento deriva de las atribuciones de inspección y vigilancia de la Secretaría previstas en los artículos 279 y 280 de la Ley Ambiental de la Ciudad de México. <span class="pendiente">Artículo del Reglamento Interior que atribuye la función a la unidad responsable, por verificar</span></p>'+
+      '<p><b>Cuánto tiempo se conservan.</b> <span class="pendiente">Ciclo de vida del dato, por confirmar contra el catálogo de disposición documental de la Secretaría</span></p>'+
+      '<p><b>A quién pueden transferirse.</b> <span class="pendiente">Catálogo de transferencias y su fundamento, por determinar</span> Si solicitaste confidencialidad, tu nombre y tus datos de contacto no se hacen del conocimiento de la persona o el establecimiento denunciado.</p>'+
+      '<p><b>Cómo ejerces tus derechos.</b> Acceso, rectificación, cancelación y oposición, así como la revocación del consentimiento, ante la Unidad de Transparencia de la Secretaría, por la Plataforma Nacional de Transparencia o por TEL-INFO 55 5636 4636. <span class="pendiente">Domicilio, teléfono y correo de la Unidad de Transparencia, por confirmar</span></p>'+
+      '<p><b>Aviso integral.</b> <span class="pendiente">Por reexpedir y publicar</span> El aviso del formato vigente se sustenta en la Ley de Protección de Datos Personales para el Distrito Federal y refiere al InfoDF, ambos superados; debe reexpedirse conforme a la ley vigente de la Ciudad antes de publicar el formulario.</p>'+
+    '</div>'+
+
+    '<div class="campo"><label style="display:flex;gap:9px;align-items:flex-start;font-weight:400">'+
     '<input type="checkbox" id="chkPriv" style="width:auto;margin-top:4px" '+(val('privacidad')==='si'?'checked':'')+' onchange="guarda(\'privacidad\',this.checked?\'si\':\'\')">'+
-    '<span>Manifiesto bajo protesta de decir verdad que los hechos que denuncio son ciertos, y consiento el tratamiento de mis datos personales en los términos del aviso de privacidad. '+
-    '<button class="btn-link" style="background:none;border:none;color:var(--guinda);text-decoration:underline;cursor:pointer;font-size:inherit;padding:0" onclick="event.preventDefault();alert(\'Aviso de privacidad integral — pendiente de actualización.\\n\\nEl aviso vigente en el formato público se funda en la Ley de Proteccion de Datos Personales para el Distrito Federal y refiere al InfoDF, ambos superados. Debe reexpedirse conforme a la Ley de Proteccion de Datos Personales en Posesion de Sujetos Obligados de la Ciudad de Mexico, con el sistema de datos personales, la finalidad, las transferencias y la unidad de transparencia actualizados.\')">Consultar el aviso de privacidad</button></span></label>'+
+    '<span>He leído el aviso de privacidad y consiento el tratamiento de mis datos personales. Manifiesto <strong>bajo protesta de decir verdad</strong> que los hechos que denuncio son ciertos.</span></label>'+
     '<div class="err">Debes aceptar para poder enviar la denuncia.</div></div>'+
-    '<div class="aviso"><span class="pendiente">Pendiente</span> El aviso de privacidad del formato vigente se sustenta en normativa abrogada. Requiere reexpedición antes de publicar el formulario.</div>'+
 
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(4)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
   '<button type="button" class="btn btn-primario" onclick="valida(5)&&irA(6)">Revisar mi denuncia</button></div></div>';
@@ -2138,6 +2214,12 @@ function pRevision(){
     (anon?'':r('Confidencialidad', val('reserva')==='si'?'Solicitada':(val('reserva')==='no'?'No solicitada':'')))+
     (anon||val('notif_correo')==='si'?'':r('Domicilio', [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):''].filter(Boolean).join(' '),
                              val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'', val('dom_alcaldia'), val('dom_entidad')].filter(Boolean).join(', ')))+
+    r('Datos estadísticos', (function(){
+        var g = {mujer:'Mujer',hombre:'Hombre',no_binaria:'No binaria',otro:'Otro',nd:'Prefiere no decirlo'}[val('sexo_genero')]||'';
+        var e = {'-18':'Menor de 18 años','18-29':'18 a 29 años','30-44':'30 a 44 años',
+                 '45-59':'45 a 59 años','60+':'60 años o más',nd:'Prefiere no decirlo'}[val('edad_rango')]||'';
+        return [g,e].filter(Boolean).join(' · ');
+      })(), 5)+
   '</dl></div>'+
   '<div class="aviso aviso-guinda" style="margin-top:20px">Al enviar, la denuncia se registra con un folio y se turna a '+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+'. <span class="pendiente">Plazos de atención por confirmar</span></div>'+
@@ -2156,7 +2238,7 @@ function pAcuse(){
       '<button type="button" onclick="copiaFolio(this)">Copiar</button></div>'+
     '<p style="font-size:14px;color:var(--gris)">Recibida el '+esc(val('fecha_acuse'))+'</p>'+
     (anon?'<div class="aviso" style="text-align:left;margin-top:18px">Presentaste una denuncia anónima. No recibirás notificaciones; anota el folio para consultarla.</div>'
-         :'<div class="aviso aviso-ok" style="text-align:left;margin-top:18px">Enviamos el acuse en formato PDF al correo <strong>'+esc(val('correo'))+'</strong>.</div>')+
+         :'<div class="aviso aviso-ok" style="text-align:left;margin-top:18px">Enviamos el acuse en formato PDF al correo <strong>'+esc(val('correo'))+'</strong>. Si no lo ves en unos minutos, revisa la carpeta de correo no deseado.</div>')+
     '<div class="pasos-sig"><h3 style="font-size:16px;color:var(--guinda);margin-bottom:10px">Qué sigue</h3><ol>'+
       '<li>La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.</li>'+
       '<li>Si procede, se integra el expediente y se programa la visita de inspección.</li>'+
@@ -2165,6 +2247,8 @@ function pAcuse(){
     '</ol>'+
     (val('tipo_denunciado')==='gobierno' ?
       '<div class="aviso" style="text-align:left">Señalaste a una autoridad. La Secretaría valorará los hechos y, de resultar procedente, emitirá las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección. <span class="pendiente">Plazo y vía de respuesta por confirmar</span></div>' : '')+
+    '<h3 class="sub-seccion sub-seccion-sm">No tienes que ratificar nada</h3>'+
+    '<p class="nota-gris">Ante la Procuraduría Ambiental y del Ordenamiento Territorial, la denuncia presentada por vía electrónica debe ratificarse dentro de los tres días hábiles siguientes o se tiene por no presentada. Lo que acabas de presentar no exige ese trámite: la Secretaría actúa con la información que le diste. Si además quieres presentar la denuncia formal ante la Procuraduría, con respuesta obligada, la Secretaría puede remitirla. <span class="pendiente">Remisión a la Procuraduría, por convenir</span></p>'+
     '<h3 class="sub-seccion sub-seccion-sm">Puedes seguir aportando información</h3>'+
     '<p class="nota-gris">Si más adelante consigues fotografías, videos o documentos que fortalezcan tu denuncia, puedes enviarlos con tu número de folio. No hace falta presentar una denuncia nueva. <span class="pendiente">Vía para aportar información, por confirmar</span></p>'+
     '<h3 class="sub-seccion sub-seccion-sm">Dónde dar seguimiento</h3>'+
@@ -2295,6 +2379,8 @@ function limpiaError(k){
 function marca(k){
   var e=$('c_'+k); if(e){ e.classList.add('invalido'); }
   var f=$('f_'+k); if(f){ f.setAttribute('aria-invalid','true'); }
+  var m=$('e_'+k);
+  if(m) m.textContent = MOTIVO[k] || 'Este dato es necesario para dar trámite a la denuncia.';
   return false;
 }
 
@@ -2311,11 +2397,14 @@ function muestraResumenErrores(lista){
     c.setAttribute('tabindex','-1');
     t.insertBefore(c, t.children[1] || null);
   }
-  c.innerHTML = '<strong>Faltan '+lista.length+' '+(lista.length===1?'dato':'datos')+' para continuar</strong>'+
+  var conMotivo = lista.filter(function(k){ return MOTIVO[k]; }).length;
+  c.innerHTML = '<strong>'+(conMotivo===lista.length
+      ? 'Revisa '+lista.length+' '+(lista.length===1?'dato':'datos')+' para continuar'
+      : 'Faltan '+lista.length+' '+(lista.length===1?'dato':'datos')+' para continuar')+'</strong>'+
     '<ul>'+lista.map(function(k){
       var l = document.querySelector('label[for="f_'+k+'"]');
       var etq = l ? l.textContent.replace(/\s*opcional\s*$/,'').trim() : ((OBLIG[k]&&OBLIG[k].etq)||k);
-      return '<li><a href="#f_'+k+'" onclick="event.preventDefault();var e=document.getElementById(\'f_'+k+'\');if(e){e.focus();e.scrollIntoView({block:\'center\',behavior:\'smooth\'});}">'+esc(etq)+'</a></li>';
+      return '<li><a href="#f_'+k+'" onclick="event.preventDefault();var e=document.getElementById(\'f_'+k+'\');if(e){e.focus();e.scrollIntoView({block:\'center\',behavior:\'smooth\'});}">'+esc(etq)+'</a>'+(MOTIVO[k]?' — '+esc(MOTIVO[k]):'')+'</li>';
     }).join('')+'</ul>';
   c.focus();
   c.scrollIntoView({block:'center',behavior:'smooth'});
@@ -2324,8 +2413,36 @@ function limpiaResumenErrores(){
   var c = $('resumenErrores'); if(c) c.remove();
 }
 
+/* Una denuncia con los campos llenos de letras al azar pasa en el formulario
+   de la PAOT. Esto no juzga el contenido —eso le toca a la autoridad— sino que
+   distingue un texto en espanol de un punado de teclas, con tres senales que
+   no castigan a quien escribe mal: cuantas palabras hay, que proporcion de
+   vocales tienen y si hay caracteres repetidos. Ayuda a quien escribe de buena
+   fe; a quien no la tiene lo detiene el servidor, no el navegador (DEC-80). */
+function pareceTexto(x){
+  x = String(x||'').trim();
+  var palabras = x.split(/\s+/).filter(function(p){ return p.length > 1; });
+  if(palabras.length < 6) return false;
+  var letras = x.toLowerCase().replace(/[^a-záéíóúüñ]/g,'');
+  if(letras.length < 25) return false;
+  var voc = (letras.match(/[aeiouáéíóú]/g) || []).length / letras.length;
+  if(voc < 0.28 || voc > 0.68) return false;       /* el espanol ronda 0.47 */
+  if(/(.)\1{3,}/.test(x)) return false;            /* aaaa, !!!! */
+  if(palabras.filter(function(p){ return p.length > 24; }).length) return false;
+  /* Ninguna palabra de cinco letras o mas carece de vocal en espanol. */
+  return !palabras.filter(function(p){
+    var s = p.toLowerCase().replace(/[^a-záéíóúüñ]/g,'');
+    return s.length >= 5 && !/[aeiouáéíóú]/.test(s);
+  }).length;
+}
+
+/* Cuando el problema no es que el dato falte sino lo que dice, el mensaje no
+   puede ser «este dato es necesario». */
+var MOTIVO = {};
+
 function valida(n){
   limpiaResumenErrores();
+  MOTIVO = {};
 
   // Regla de competencia: se aplica siempre, incluso en modo de prueba.
   if(n===2 && val('fuera')==='si'){
@@ -2346,6 +2463,10 @@ function valida(n){
   // Validaciones de formato, además de la presencia del dato.
   if(n===2 && val('cp') && !/^\d{5}$/.test(val('cp').trim())) empuja(faltan,'cp');
   if(n===3 && val('hechos').trim().length>0 && val('hechos').trim().length<40) empuja(faltan,'hechos');
+  if(n===3 && val('hechos').trim().length>=40 && !pareceTexto(val('hechos'))){
+    MOTIVO.hechos = 'El texto no se entiende. Describe con tus palabras qué está ocurriendo.';
+    empuja(faltan,'hechos');
+  }
   if(n===5 && !anon){
     if(val('correo') && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('correo'))) empuja(faltan,'correo');
     if(val('telefono') && val('telefono').replace(/\D/g,'').length<10) empuja(faltan,'telefono');

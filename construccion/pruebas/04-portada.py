@@ -41,16 +41,21 @@ with sync_playwright() as pw:
             datos: a.querySelectorAll('.dato').length,
             pasos: a.querySelectorAll('.despues li').length,
             chips: a.querySelectorAll('.tener span').length,
+            derechos: a.querySelectorAll('.derechos li').length,
             encabezado: enc ? enc.innerText.replace(/\\s+/g,' ').trim() : '',
             tarjeta: t,
             desborde: document.documentElement.scrollWidth > window.innerWidth
           };
         }""")
 
-        # El tope subio de 140 a 180 al recuperar el texto de presentacion, que
-        # es contenido pedido y no relleno (DEC-57). Sigue habiendo tope: la
-        # version que motivo todo esto tenia 232 palabras.
-        afirma(r['palabras'] <= 180, '%s: la portada cabe en %d palabras (tope 180)' % (nom, r['palabras']))
+        # El tope subio a 340 al rehacer la portada: ahora enuncia el derecho,
+        # lo que la ley reconoce y por que sirve denunciar, que es contenido
+        # pedido y no relleno (DEC-76). Sigue habiendo tope, y sigue valiendo
+        # lo que lo motivo: el boton de empezar tiene que verse sin desplazar.
+        afirma(r['palabras'] <= 340, '%s: la portada cabe en %d palabras (tope 340)' % (nom, r['palabras']))
+        afirma(r['derechos'] == 4, '%s: los cuatro enunciados de lo que la ley reconoce' % nom)
+        afirma('tu derecho' in r['tarjeta'], '%s: la portada enuncia la denuncia como un derecho' % nom)
+        afirma('Secretar\u00eda del Medio Ambiente' in r['tarjeta'], '%s: la portada nombra a la Secretar\u00eda' % nom)
         intro = pg.evaluate("""() => {
           const i = document.querySelector('.portada-intro');
           const b = [...document.querySelectorAll('#app button')].find(x => x.textContent.includes('Iniciar'));

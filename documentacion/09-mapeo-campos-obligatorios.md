@@ -7,10 +7,10 @@
 
 | | |
 |---|---|
-| Campos del formulario | **52** |
-| Datos personales | **20** (38 %) |
-| Obligatorios · esquema DGIVA | 23 de 52 |
-| Obligatorios · formato vigente | 29 de 52 |
+| Campos del formulario | **54** |
+| Datos personales | **22** (41 %) |
+| Obligatorios · esquema DGIVA | 23 de 54 |
+| Obligatorios · formato vigente | 29 de 54 |
 | Campos con obligatoriedad condicionada | 19 |
 | Campos sin uso declarado | **0** |
 
@@ -29,6 +29,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 12 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 2 |
+| **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 2 |
 
 ---
 
@@ -112,6 +113,8 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Domicilio · entidad federativa | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
 | Consentimiento de notificación por correo | Obligatorio | Obligatorio | No | Siempre | Registra la vía de notificación elegida; de ella depende que se pida o no el domicilio. |
 | Confidencialidad de los datos | Opcional | Opcional | No | Siempre | Registra si la persona solicita que sus datos no se hagan del conocimiento del denunciado. |
+| Género | Opcional | Opcional | **Sí** | Siempre | Desagregación estadística de quién denuncia en la Ciudad. Opcional; no condiciona el trámite ni se incorpora al expediente. La identidad de género es dato sensible: sólo puede tratarse con consentimiento expreso, y por eso la pregunta admite no responder. |
+| Rango de edad | Opcional | Opcional | **Sí** | Siempre | Desagregación estadística por edad. Opcional; no condiciona el trámite ni se incorpora al expediente. |
 
 ---
 ## 3. Hallazgos de la revisión de minimización

@@ -700,3 +700,41 @@ Se resolvió de raíz y no administrando el conflicto: **la alcaldía deja de pr
 **El guion de construcción se detuvo con error**, como se le pidió que hiciera: la vía que requiere geocodificación cambió de marcado y de texto. Se actualizó. **Es la primera vez que esa salvaguarda avisa en lugar de dejar pasar el fallo en silencio**, que era exactamente para lo que se puso.
 
 **Verificación de cierre.** **177 comprobaciones en verde.** Sintaxis correcta, cero funciones sin uso, cero claves escritas y nunca leídas, cero clases huérfanas. Documento 09 regenerado. Comprobado que la alcaldía ya no se pregunta, que la determina el punto, y que **el resumen del paso 6 usa la misma alcaldía con la que se turna**, que es el defecto que abrió todo esto.
+
+---
+
+## Bloque: la portada, la estadística, el aviso de privacidad y el relleno
+
+**20 de septiembre de 2026.** Cinco encargos que llegaron seguidos y que resultaron ser el mismo tema: qué dice el formulario de sí mismo, y a quién se lo dice.
+
+### La portada ya no describe un trámite
+
+La versión anterior abría diciendo lo que la Secretaría puede hacer. Era correcta y era fría, y sobre todo era **breve donde tenía que informar**: quien nunca ha denunciado llega con tres preguntas y la pantalla no contestaba ninguna.
+
+La nueva abre con el derecho —*Denunciar el daño ambiental es tu derecho*— y las contesta en orden: **qué me reconoce la ley**, cuatro enunciados con palomita; **por qué importa**, un párrafo que dice lo que ninguna otra pantalla decía —que la Ciudad no tiene personal en cada calle y que buena parte del daño sólo se conoce porque alguien lo reportó—; y **qué pasa después**, que ya estaba. El tope de palabras sube de 180 a 340 y **sigue habiendo tope**, comprobado a 390 px: el botón de empezar tiene que verse sin desplazar (DEC-76).
+
+Con los cuatro enunciados **vuelve a la primera pantalla la promesa de denunciar sin dar el nombre** (M-01), que se había perdido sin que nadie lo notara al retirar las tarjetas de datos (DEC-77).
+
+### Dos preguntas para la estadística
+
+Género y rango de edad, al final del paso 5 y fuera del bloque de contacto. Se piden **también en la ruta anónima**, que es donde se perdería la mitad del universo, porque un género y un rango de edad no identifican a nadie ni entran al expediente. En desplegable y no en botones, para que se lean como lo que son. Ambas admiten «Prefiero no decirlo», que no es cortesía: **la identidad de género es dato sensible** y sólo puede tratarse con consentimiento expreso (DEC-78, P-20).
+
+### El aviso de privacidad salió de la ventana del navegador
+
+La PAOT pone su aviso simplificado en la pantalla, antes de enviar. Aquí estaba detrás de un enlace que abría una alerta con un texto provisional. Ahora es un bloque de seis rótulos —quién trata tus datos, para qué, con qué fundamento, cuánto se conservan, a quién se transfieren, cómo ejerces tus derechos—, colocado inmediatamente antes de la casilla con la que se consiente.
+
+**Cuatro de los seis están incompletos y así se ven.** El nombre del sistema de datos personales, el ciclo de vida, el catálogo de transferencias y los datos de la Unidad de Transparencia quedan como huecos a la vista, con el mismo tratamiento que el resto de los pendientes. Ninguno se rellenó con una aproximación: estas pantallas van a nombre de la Secretaría (DEC-79, P-19).
+
+### El relleno de teclado
+
+Se probó el formulario de la PAOT llenando todos los campos con letras al azar: **se envió**. El formulario mide ahora tres señales del relato —cuántas palabras tiene, qué proporción de vocales y si hay caracteres repetidos— y no deja avanzar cuando ninguna se cumple, con un mensaje que dice cuál es el problema en lugar de «este dato es necesario».
+
+El criterio de diseño fue **no castigar a quien escribe mal**: un relato con faltas de ortografía, sin acentos y sin puntuación pasa, y así está comprobado en la batería 06. Lo que no pasa es una cadena sin vocales o una tecla repetida.
+
+**Y se dejó escrito lo que esto no resuelve.** Una validación en el navegador ayuda a quien escribe de buena fe; a quien quiere hacer daño no lo detiene, porque el navegador es suyo y puede saltárselo. Las defensas que sirven —prueba de humanidad, límite por origen, verificación del correo, detección de duplicados, umbral de ráfaga y puntaje de completitud— viven en el servidor y son decisiones, no código. El documento 15 las desarrolla con su costo y su efecto, y P-21 las pone a decisión (DEC-80).
+
+### El acuse toma dos cosas del de la PAOT
+
+Que el correo puede caer en la carpeta de no deseados, que es un aviso práctico. Y **la ratificación**: ante la Procuraduría, la denuncia electrónica debe ratificarse en tres días hábiles o se tiene por no presentada. Quien ha denunciado antes lo espera, y su ausencia se lee como omisión. El acuse lo dice, lo contrasta con esta vía —que no lo exige— y ofrece la remisión a la Procuraduría para quien quiera la denuncia formal con respuesta obligada (DEC-81).
+
+**Verificación de cierre.** **208 comprobaciones en verde** en seis baterías, incluida la nueva 06 sobre estadística, aviso y relleno. Documento 09 regenerado: 54 campos, 22 datos personales, 19 condicionados, cero sin uso declarado.
