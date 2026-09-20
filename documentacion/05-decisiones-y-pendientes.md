@@ -93,6 +93,7 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 | DEC-80 | El relato tiene que parecer un texto escrito por una persona | 20 sep 2026 | En el formulario de la PAOT se puede enviar una denuncia con todos los campos llenos de letras al azar; se comprobó. El formulario mide tres señales del relato —cuántas palabras tiene, qué proporción de vocales y si hay caracteres repetidos— y no deja avanzar cuando ninguna se cumple. **No juzga el contenido ni castiga a quien escribe mal**: un relato con faltas de ortografía pasa, y así está probado. El mensaje deja de ser «este dato es necesario» y dice cuál es el problema. Esto ayuda a quien escribe de buena fe; **a quien no la tiene lo detiene el servidor, no el navegador** (documento 15) |
 | DEC-81 | El acuse explica la ratificación que aquí no hace falta | 20 sep 2026 | Ante la Procuraduría, la denuncia electrónica debe ratificarse en tres días hábiles o se tiene por no presentada. Quien ha denunciado antes lo espera, y su ausencia se lee como omisión. El acuse lo dice y lo contrasta con esta vía, que no lo exige, y ofrece la remisión a la Procuraduría para quien quiera la denuncia formal con respuesta obligada. Se toma también del acuse de la PAOT el aviso de revisar la carpeta de correo no deseado |
 | DEC-82 | El formulario acepta códigos plus, y el enlace corto deja de ser un callejón | 20 sep 2026 | Un enlace `maps.app.goo.gl` **no lleva la coordenada dentro** y el navegador no puede canjearlo (P-18): no es una limitación del prototipo, es la política de origen cruzado. La salida no era resolverlo, era **dejar de necesitarlo**: el código plus sí lleva la coordenada dentro, se decodifica con aritmética —sin red y sin depender de nadie— y Google Maps lo muestra en la ficha de cualquier lugar, donde se copia con un toque. Se implementó el decodificador y la recuperación del código corto respecto de la Ciudad, comprobados contra los ejemplos publicados de la especificación y en los cuatro rumbos, **incluido el sureste de Milpa Alta, que cae en otro bloque de un grado** y es donde falla una recuperación ingenua. Además, quien pegue un enlace corto ya no recibe un reproche: recibe el propio enlace para abrirlo y la instrucción de qué copiar de vuelta |
+| DEC-83 | El enlace de compartir es la vía principal, y el formulario lo dice así | 20 sep 2026 | El código plus resuelve el problema técnico pero **no el humano: nadie sabe qué es**, y quien no sabe sacar una coordenada tampoco va a buscar un código de ocho caracteres. Lo que la gente sí sabe hacer es **compartir la ubicación desde Google Maps**, y eso produce el enlace corto. El campo se reordenó en torno a ese gesto —«Pegar la ubicación de Google Maps o las coordenadas»—, el aviso dejó de explicar una imposibilidad y ahora dice **quién lo va a resolver y cuándo**, y se añadió un «Ver cómo funcionará» que coloca un punto de demostración **sólo a petición y advirtiéndolo**, como la cuenta simulada de Llave CDMX. El código plus y las coordenadas siguen aceptándose, pero como alternativas, no como la instrucción |
 
 ---
 
@@ -333,7 +334,24 @@ Este documento concentra las decisiones ya tomadas y **las quince preguntas abie
 
 *Recomendación.* **Opción B, en la versión funcional y con esas condiciones**, porque el beneficio recae justo en el caso más difícil —el sitio sin domicilio, donde el pin del mapa es lo único que la persona tiene—. En el prototipo no cabe: no hay servidor.
 
-*Lo que cambió el 20 de septiembre.* El problema dejó de ser urgente sin resolver P-18: el formulario acepta ahora el **código plus**, que sí lleva la coordenada dentro y se lee sin red (DEC-82), y a quien pega un enlace corto se le abre y se le dice qué copiar. **P-18 sigue abierto, pero bajó de prioridad**: ya no es la diferencia entre poder denunciar y no poder, sino entre dos toques y uno.
+*Lo que cambió el 20 de septiembre, y por qué P-18 subió de prioridad.* Primero se añadió el código plus, que sí lleva la coordenada dentro y se lee sin red (DEC-82). Después quedó claro que eso resuelve el problema técnico y no el humano: **nadie sabe qué es un código plus**, y quien no sabe sacar una coordenada menos va a buscar un código. El gesto que la gente conoce es compartir la ubicación, y ese gesto produce exactamente el enlace que no podemos leer.
+
+**P-18 deja de ser una mejora y pasa a ser requisito de la versión funcional.** No es la diferencia entre dos toques y uno: es la diferencia entre que la persona marque el sitio o abandone, y pesa más justo donde el formulario es más necesario —el lugar sin domicilio, donde el punto es lo único que hay—.
+
+*Cómo se implementa, para que no quede como un problema abierto.* Es un servicio de una sola función, y estas son sus condiciones:
+
+| | |
+|---|---|
+| **Entrada** | La dirección web que la persona pegó, nada más |
+| **Lista blanca** | `maps.app.goo.gl`, `goo.gl`, `g.co`. Cualquier otra, se rechaza sin consultarla |
+| **Consulta** | Petición que **no sigue** la redirección: se lee el encabezado `Location` y se descarta el cuerpo de la respuesta |
+| **Límites** | Tiempo de espera de tres segundos, máximo dos redirecciones, y sólo si la redirección apunta a `google.com/maps` |
+| **Salida** | La coordenada extraída del destino con las mismas expresiones que ya usa el navegador, o un error. **Nunca el contenido de la respuesta** |
+| **Abuso** | Límite de peticiones por origen, como el resto del formulario (P-21) |
+
+Esas condiciones son las que evitan la falsificación de petición del lado del servidor, que es el riesgo de aceptar una dirección web escrita por el público. Con ellas, la superficie de ataque se reduce a tres dominios y a un encabezado.
+
+*Efecto colateral favorable.* El navegador de la persona **nunca habla con Google**: quien consulta es el servidor, de modo que Google no obtiene su dirección de red ni sabe que alguien está presentando una denuncia.
 
 *A quién corresponde.* Sistema de Información Ambiental, junto con P-12.
 

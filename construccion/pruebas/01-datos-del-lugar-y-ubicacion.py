@@ -145,9 +145,10 @@ with sync_playwright() as pw:
         return document.getElementById('resBusqueda').innerText.trim(); }""")
     # El aviso cambio con DEC-82: ya no solo explica el problema, ofrece la
     # salida. Lo que no puede perderse es que el enlace no trae la coordenada.
-    afirma('no lleva la coordenada dentro' in aviso,
+    afirma('No lleva la coordenada dentro' in aviso,
            'un enlace corto se explica en vez de fallar en silencio')
-    afirma('c\u00f3digo plus' in aviso, 'y dice qu\u00e9 copiar de vuelta')
+    afirma('servidor de la Secretar\u00eda' in aviso,
+           'y dice qui\u00e9n lo resolver\u00e1, en vez de dejar ah\u00ed a la persona')
     afirma(peticiones == [], 'leer el enlace no genera ninguna peticion de red: %s' % peticiones[:2])
     pg.evaluate("guarda('coord_pegar',''); quitaPunto()")
 

@@ -863,7 +863,7 @@ var OBLIG = {
   /* Paso 2 */
   tiene_direccion:  {p:2, dgiva:true,  vigente:true,  etq:'¿El lugar tiene calle y número?', dp:false, fin:'Localización',
      uso:'Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia.'},
-  coord_pegar:      {p:2, dgiva:false, vigente:false, etq:'Coordenadas, código plus o enlace de mapa pegados', dp:false, fin:'Localización',
+  coord_pegar:      {p:2, dgiva:false, vigente:false, etq:'Ubicación pegada: enlace, coordenadas o código de lugar', dp:false, fin:'Localización',
      uso:'Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró.'},
   punto_confirmado: {p:2, dgiva:true,  vigente:true,  etq:'Confirmación del punto', dp:false, fin:'Competencia',
      cond:function(){ return !!val('lat'); } , cond_txt:'Sólo cuando ya hay un punto colocado',
@@ -1587,9 +1587,9 @@ function pUbicacion(){
         '<li><button type="button" class="btn btn-secundario" onclick="ubicaPorDireccion()">'+
           svgIcono('pin',16)+' Buscar la dirección que escribiste</button></li>')+
       '<li>'+
-        campo('coord_pegar','Pegar coordenadas, un código plus o un enlace de Google Maps','texto',false,
-          'Todo se lee en tu navegador: no se abre ni se consulta nada fuera. El código plus aparece en la ficha de cualquier lugar de Google Maps.',
-          'placeholder="19.3579, -99.1610  ·  WQGR+9V  ·  https://www.google.com/maps/@19.3579,-99.1610,17z"')+
+        campo('coord_pegar','Pegar la ubicación de Google Maps o las coordenadas','texto',false,
+          'Sirve el enlace que te da Google Maps al compartir, la dirección completa de la barra del navegador, las coordenadas escritas, o el código del lugar parecido a WQGR+9V.',
+          'placeholder="Pega aquí lo que copiaste de Google Maps"')+
         '<button type="button" class="btn btn-secundario" onclick="colocaPorTexto()">Colocar ese punto</button>'+
       '</li>'+
       '<li class="via-mapa">Dar un clic sobre el mapa, y arrastrar el punto para ajustarlo.</li>'+
@@ -2764,27 +2764,48 @@ function colocaPorTexto(){
   var t = val('coord_pegar');
   var c = leeCoordenadas(t);
   if(c){ cont.innerHTML = ''; vaA(c.lat, c.lon); return; }
-  /* El enlace corto no lleva la coordenada dentro y el navegador no puede
-     canjearlo (P-18). En vez de dejar ahi a la persona, se le abre el enlace
-     y se le dice que copiar de vuelta: en la computadora, la direccion de la
-     barra; en el telefono, el codigo plus de la ficha, que si trae la
-     coordenada y se copia con un toque (DEC-82). */
-  var corto = /goo\.gl|maps\.app/.test(t);
-  if(corto){
+
+  /* El enlace de compartir es el gesto que la gente conoce: nadie sabe sacar
+     una coordenada, y el codigo plus lo conoce menos gente todavia. El
+     problema es que ese enlace NO lleva la coordenada dentro —es un
+     identificador que hay que canjear— y el navegador no puede canjearlo: la
+     politica de origen cruzado se lo impide. Lo resuelve el servidor en diez
+     lineas, y por eso P-18 dejo de ser una mejora y paso a ser requisito.
+     Aqui se dice lo que va a pasar, se da la salida provisional, y se deja
+     ver la experiencia final a peticion —nunca sin pedirla, para que nadie
+     confunda un punto de demostracion con el suyo— (DEC-83). */
+  if(/goo\.gl|maps\.app|g\.co\/kgs/.test(t)){
     var url = (t.match(/https?:\/\/\S+/) || [t])[0];
     cont.innerHTML = '<div class="res-lista"><div class="vacio">'+
-      '<strong>Ese enlace no lleva la coordenada dentro.</strong> Es sólo un identificador, y resolverlo tendría que hacerlo el servidor, no tu navegador. Se arregla en dos pasos:'+
-      '<ol style="margin:10px 0 12px 18px;line-height:1.55">'+
+      '<strong>Ese enlace todavía no se puede resolver aquí.</strong> No lleva la coordenada dentro: es un identificador que hay que canjear, y eso lo hará el servidor de la Secretaría, no tu navegador. <span class="pendiente">Resolución de enlaces en el servidor, pendiente P-18</span>'+
+      '<p style="margin:11px 0 6px">Mientras tanto, en dos pasos:</p>'+
+      '<ol style="margin:0 0 12px 18px;line-height:1.55">'+
         '<li>Abre el enlace.</li>'+
-        '<li>Copía de vuelta <strong>el código plus</strong> que aparece en la ficha del lugar —algo como <code>WQGR+9V</code>— o, en computadora, la dirección completa de la barra del navegador.</li>'+
+        '<li>Copía de vuelta lo que veas: en computadora, la dirección completa de la barra del navegador; en el teléfono, el código que aparece en la ficha del lugar, parecido a <code>WQGR+9V</code>.</li>'+
       '</ol>'+
-      '<a class="btn btn-secundario" style="display:inline-block;text-decoration:none" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'">Abrir el enlace en otra pestaña</a>'+
+      '<div style="display:flex;gap:10px;flex-wrap:wrap">'+
+        '<a class="btn btn-secundario" style="text-decoration:none" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'">Abrir el enlace en otra pestaña</a>'+
+        '<button type="button" class="enlace" onclick="demoEnlace()">Ver cómo funcionará</button>'+
+      '</div>'+
       '</div></div>';
     return;
   }
   cont.innerHTML = '<div class="res-lista"><div class="vacio">'+
-    'No se reconocieron coordenadas. Escríbelas como 19.3579, -99.1610, pega el código plus del lugar —como WQGR+9V— o el enlace completo de Google Maps.'+
+    'No se reconoció nada. Puedes pegar el enlace que te da Google Maps al compartir, las coordenadas escritas como 19.3579, -99.1610, o el código del lugar parecido a WQGR+9V.'+
     '</div></div>';
+}
+
+/* Demostracion de la experiencia final, a peticion expresa: coloca un punto
+   fijo y lo dice con todas sus letras, igual que la cuenta simulada de Llave
+   CDMX. Sin esta advertencia, alguien probaria el prototipo con un enlace
+   suyo y daría por buena una coordenada inventada. */
+function demoEnlace(){
+  vaA(19.4326, -99.1332);
+  var cont = $('resBusqueda'); if(!cont) return;
+  cont.innerHTML = '<div class="aviso" style="border-left-color:var(--dorado)">'+
+    '<strong>Punto de demostración.</strong> Así se verá cuando el servidor resuelva el enlace: el punto aparece solo y tú sólo lo confirmas. '+
+    'En este prototipo <strong>el enlace no se resolvió de verdad</strong>: la coordenada que ves es fija y no corresponde al lugar que pegaste. '+
+    '<span class="pendiente">P-18</span></div>';
 }
 
 function vaA(la,lo){

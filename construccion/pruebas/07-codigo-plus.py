@@ -77,13 +77,31 @@ with sync_playwright() as pw:
       return {texto: c ? c.innerText.replace(/\\s+/g,' ') : '',
               abre: !!a, destino: a ? a.getAttribute('href') : '',
               rel: a ? a.getAttribute('rel') : '',
+              demo: !!(c && [...c.querySelectorAll('button')].some(b => b.textContent.indexOf('funcionará') >= 0)),
               pasos: c ? c.querySelectorAll('ol li').length : 0};
     }""")
-    afirma('código plus' in r['texto'], 'el aviso dice qué copiar de vuelta: el código plus')
+    afirma('No lleva la coordenada dentro' in r['texto'],
+           'el aviso explica por qué ese enlace no sirve todavía')
+    afirma('servidor de la Secretaría' in r['texto'],
+           'y dice quién lo va a resolver, en vez de culpar a la persona')
     afirma(r['abre'] and r['destino'].startswith('https://maps.app.goo.gl/'),
-           'y ofrece abrir el propio enlace que se pegó')
+           'ofrece abrir el propio enlace que se pegó')
     afirma('noopener' in r['rel'], 'la pestaña nueva se abre sin dar control sobre la nuestra')
     afirma(r['pasos'] == 2, 'la salida son dos pasos, no un párrafo')
+    afirma(r['demo'], 'y se puede ver cómo funcionará, a petición')
+
+    # La demostración coloca un punto fijo: no puede hacerlo sin avisarlo, o
+    # alguien dará por buena una coordenada inventada.
+    d = pg.evaluate("""() => {
+      demoEnlace();
+      const c = document.getElementById('resBusqueda');
+      return {texto: c ? c.innerText.replace(/\\s+/g,' ') : '',
+              lat: val('lat'), chip: c ? c.querySelectorAll('.pendiente').length : 0};
+    }""")
+    afirma(d['lat'] != '', 'la demostración coloca el punto')
+    afirma('no se resolvió de verdad' in d['texto'],
+           'y advierte que la coordenada es de demostración')
+    afirma(d['chip'] >= 1, 'con la marca de pendiente, como el resto de lo simulado')
 
     # ---- 5. Un codigo plus pegado coloca el punto ----
     r = pg.evaluate("""() => {

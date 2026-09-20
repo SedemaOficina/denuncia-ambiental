@@ -752,3 +752,15 @@ Y quien pegue un enlace corto ya no recibe un reproche: recibe el propio enlace 
 **P-18 —que el servidor resuelva el enlace corto— sigue abierto, pero bajó de prioridad**: ya no es la diferencia entre poder denunciar y no poder, sino entre dos toques y uno.
 
 **Verificación.** **232 comprobaciones en verde** en siete baterías. La batería 01 tenía una comprobación que buscaba la palabra «cortos» en el aviso; se verificó que no era regresión —el aviso ahora dice más, no menos— y se actualizó para fijar lo que no puede perderse: que el enlace no trae la coordenada y qué hay que copiar en su lugar (DEC-82).
+
+### Corrección el mismo día: el código plus no era la respuesta
+
+La observación fue exacta: **nadie sabe qué es un código plus**. Quien no sabe sacar una coordenada tampoco va a ir a buscar un código de ocho caracteres en la ficha de un lugar. Lo que la gente sí sabe hacer es **compartir la ubicación desde Google Maps**, y ese gesto produce justamente el enlace que el navegador no puede leer.
+
+De modo que el código plus quedó donde le corresponde —como alternativa que funciona, no como instrucción— y el campo se reordenó en torno al gesto real: *«Pegar la ubicación de Google Maps o las coordenadas»*. El aviso dejó de explicar una imposibilidad y ahora dice **quién lo va a resolver y cuándo**, con su marca de pendiente. Se añadió un «Ver cómo funcionará» que coloca un punto de demostración **sólo a petición y advirtiéndolo con todas sus letras**, igual que la cuenta simulada de Llave CDMX: sin esa advertencia, alguien probaría el prototipo con un enlace suyo y daría por buena una coordenada inventada.
+
+**Y P-18 cambió de naturaleza.** Deja de ser una mejora opcional y pasa a ser **requisito de la versión funcional**: no es la diferencia entre dos toques y uno, es la diferencia entre que la persona marque el sitio o abandone, y pesa más justo donde el formulario es más necesario —el lugar sin domicilio—. Para que no quede como un problema abierto, el pendiente lleva ahora la especificación completa del servicio: lista blanca de tres dominios, petición que no sigue la redirección, lectura sólo del encabezado, tiempo de espera de tres segundos y salida limitada a la coordenada. Son las condiciones que evitan la falsificación de petición del lado del servidor.
+
+Tiene además un efecto favorable que conviene decir en voz alta: resolviéndolo en el servidor, **el navegador de la persona nunca habla con Google**, de modo que Google no sabe que alguien está presentando una denuncia (DEC-83).
+
+**Verificación.** **237 comprobaciones en verde** en siete baterías. Dos comprobaciones de la batería 01 y 07 buscaban el texto anterior del aviso; se verificó que no eran regresiones y se actualizaron para fijar lo que no puede perderse: que el enlace no trae la coordenada, que se dice quién lo resolverá, y que la demostración se advierte.
