@@ -34,3 +34,7 @@ insumos/Propuesta DGIVA*.docx
 # Configuración local: direcciones de servicios y claves de proveedores.
 # Una clave escrita en un repositorio público queda indexada en horas.
 prototipo/configuracion-local.js
+
+# El artefacto se genera; no se versiona. Se versiona lo que lo genera.
+construccion/artefacto*.html
+construccion/__pycache__/
