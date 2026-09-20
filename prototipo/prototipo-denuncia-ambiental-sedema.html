@@ -1752,14 +1752,22 @@ function buscaEn(capa,la,lo,filtro){
    cuenta con convenio de coadministración. Las ANP federales que no aparecen
    en este catálogo corresponden exclusivamente al Gobierno Federal.
    Las llaves deben coincidir con el campo «nombre» de geometrias.geojson. */
+/* Las ocho Areas Naturales Protegidas federales que enumera la clausula
+   PRIMERA del Convenio Marco de Coordinacion CONANP-CDMX, suscrito el 10 de
+   marzo de 2025 y vigente hasta el 30 de septiembre de 2030. Fechas de decreto
+   y superficies tomadas del propio convenio, que corrigio tres datos que el
+   prototipo traia mal (DEC-89). El convenio NO transfiere inspeccion: su
+   clausula SEGUNDA deja a salvo, con todas sus letras, las facultades del
+   Titulo Sexto de la Ley General del Equilibrio Ecologico. */
+var CONVENIO_CONANP = { firma:'10 de marzo de 2025', vigencia:'30 de septiembre de 2030' };
 var ANP_COADMIN = {
   'Desierto de los Leones':              {decreto:'27 de noviembre de 1917', ha:1529.00},
-  'Cumbres del Ajusco':                  {decreto:'26 de agosto de 1936',    ha:920.00},
+  'Cumbres del Ajusco':                  {decreto:'23 de septiembre de 1936',ha:920.00},
   'Fuentes Brotantes de Tlalpan':        {decreto:'28 de septiembre de 1936',ha:129.00},
-  'Insurgente Miguel Hidalgo y Costilla':{decreto:'18 de septiembre de 1936',ha:525.05},
-  'El Tepeyac':                          {decreto:'18 de febrero de 1937',   ha:1500.00},
   'Lomas de Padierna':                   {decreto:'22 de abril de 1938',     ha:1161.21},
-  'Cerro de la Estrella (federal)':      {decreto:'24 de agosto de 1938',    ha:1100.00},
+  'El Tepeyac':                          {decreto:'18 de febrero de 1937',   ha:1500.00},
+  'Cerro de la Estrella (federal)':      {decreto:'24 de agosto de 1938',    ha:1183.33},
+  'Insurgente Miguel Hidalgo y Costilla':{decreto:'18 de septiembre de 1936',ha:1889.96},
   'Lago Tláhuac-Xico':                   {decreto:'8 de enero de 2024',      ha:3545.41}
 };
 
@@ -1805,13 +1813,16 @@ function consultaCapas(la,lo){
     r.nombre    = anpF.p.nombre;
     r.grupo     = anpF.p.grupo;
     r.rasgo     = anpF;
-    if(co){
-      r.tipo = 'Área Natural Protegida federal con convenio de coadministración';
-      r.dg = 'DGCORENADR'; r.coadmin = true;
-    } else {
-      r.tipo = 'Área Natural Protegida de competencia federal';
-      r.dg = 'FEDERAL';
-    }
+    /* Con convenio o sin el, la inspeccion en un parque federal es federal: el
+       convenio reparte administracion y manejo, no facultades de inspeccion y
+       vigilancia, y asi lo dice su clausula SEGUNDA. Lo que cambia con el
+       convenio no es quien inspecciona, es que la Secretaria coadyuva en la
+       administracion y tiene que enterarse (DEC-89). */
+    r.dg = 'FEDERAL';
+    r.coadmin = !!co;
+    r.tipo = co
+      ? 'Área Natural Protegida federal · la Secretaría coadyuva en su administración'
+      : 'Área Natural Protegida de competencia federal';
     if(anpL0) r.concurrencia = anpL0.p.nombre;
     return r;
   }
@@ -1861,14 +1872,12 @@ function analizaCapas(la,lo){
 
   if(c.dg==='FEDERAL'){
     guarda('dg_nombre','Procuraduría Federal de Protección al Ambiente (PROFEPA)');
-    guarda('dg_razon','El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría no tiene convenio de coadministración, por lo que la denuncia corresponde a la autoridad federal.');
+    guarda('dg_razon', c.coadmin
+      ? 'El punto se ubica en un Área Natural Protegida de competencia federal. La Secretaría coadyuva en su administración y manejo conforme al Convenio Marco de Coordinación con la CONANP, suscrito el '+CONVENIO_CONANP.firma+' y vigente hasta el '+CONVENIO_CONANP.vigencia+'; pero ese convenio deja expresamente a salvo las facultades federales de inspección y vigilancia, de modo que la denuncia corresponde a la PROFEPA. La Secretaría la recibe y la remite, y queda enterada por su papel en la administración del parque.'
+      : 'El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría no participa siquiera en la administración, por lo que la denuncia corresponde a la autoridad federal. La Secretaría la recibe y la remite.');
   } else if(c.dg==='DGCORENADR'){
     guarda('dg_nombre','Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas');
-    if(c.coadmin){
-      guarda('dg_razon','El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría cuenta con convenio de coadministración, por lo que la denuncia sí puede ser atendida en el ámbito local.');
-    } else {
-      guarda('dg_razon','El punto se ubica en '+(c.tipo.indexOf('Natural')>=0?'un Área Natural Protegida local':'suelo de conservación')+', materia que corresponde a esta dirección general.');
-    }
+    guarda('dg_razon','El punto se ubica en '+(c.tipo.indexOf('Natural')>=0?'un Área Natural Protegida local':'suelo de conservación')+', materia que corresponde a esta dirección general.');
   } else {
     guarda('dg_nombre','Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano');
     guarda('dg_razon','El punto se ubica en '+(c.nombre?'un Área de Valor Ambiental':'suelo urbano')+', materia que corresponde a esta dirección general.');
