@@ -1,5 +1,9 @@
 # Formulario web de Denuncia Ambiental · Auditoría del paso «¿Dónde ocurre?»
 
+> **Nota de vigencia · 20 de septiembre de 2026.** Este documento es una **auditoría fechada**: describe el prototipo en la fecha de su encabezado y **no se actualiza**. Sus mediciones, conteos, citas de pantalla y listas de controles describen la versión auditada, no la vigente; donde dice «hoy» debe leerse «en la fecha de esta auditoría». Las correcciones que derivaron de ella están registradas como decisiones en `05-decisiones-y-pendientes.md` y en la bitácora de `11-ruta-de-trabajo.md`, que son las fuentes del estado actual, junto con el prototipo. **Un hallazgo de este documento sólo se tiene por cerrado cuando una decisión lo declara cerrado y una comprobación automática lo sujeta.**
+>
+> *Qué la dejó atrás:* sus recomendaciones se aplicaron el mismo día. El apartado «Lo que el paso hace hoy» describe la versión 33 y ya no describe el paso: las cuatro maneras de colocar el punto y «Quitar el punto» quedaron en tres vías enunciadas juntas y sin quitar (DEC-74); los bloques declaran para qué sirven (DEC-73); la confirmación vive junto a los botones (DEC-75); y se adoptó la opción A sobre la alcaldía, que dejó de preguntarse (DEC-72). Léase como el diagnóstico que originó esos cambios, no como el estado del paso.
+
 **Versión:** 1.0 · 20 de septiembre de 2026
 **Qué es este documento.** Auditoría heurística y lógica del paso 2, hecha porque quien lo construye se declaró confundido sobre cómo debe funcionar. **Esa confusión es el hallazgo, no el punto de partida:** si quien conoce cada decisión no sabe explicar el paso, nadie que llegue de la calle podrá recorrerlo.
 

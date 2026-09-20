@@ -3,7 +3,7 @@
 **Versión:** 1.0 · 18 de septiembre de 2026
 **Generado desde el prototipo.** Las tablas de abajo salen de las mismas estructuras que gobiernan el formulario, de modo que documento y comportamiento no pueden discrepar.
 
-El formulario no es un camino único: hay **trece puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los doce escenarios que el panel de validación carga con un toque, para recorrer cada rama sin tener que capturar todo a mano.
+El formulario no es un camino único: hay **trece puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los trece escenarios que el panel de validación carga con un toque, para recorrer cada rama sin tener que capturar todo a mano.
 
 ---
 
@@ -38,14 +38,14 @@ Cada botón limpia el formulario, carga una combinación completa de respuestas 
 | Escenario | Qué muestra | Abre en | Área que atiende |
 |---|---|---|---|
 | **Comercio en suelo urbano** | Emisiones de un taller · identificado · notificación por correo · DGIVA | Paso 6 | DGIVA |
-| **Tala en suelo de conservación, anónima** | Tala · anónima · responsable desconocido · DGCORENADR | Paso 6 | Coordinación de Inspección y Vigilancia · DGCORENADR |
+| **Tala en suelo de conservación, anónima** | Tala · anónima · responsable desconocido · DGCORENADR | Paso 6 | DGCORENADR · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas |
 | **Obra de una alcaldía** | Se señala a una autoridad · ruta del artículo 331 · notificación por domicilio | Paso 6 | DGIVA |
 | **Afectación en Área de Valor Ambiental** | Bosque urbano · DGIVA · persona física señalada | Paso 2 | DGIVA |
-| **ANP federal con coadministración** | Desierto de los Leones · la Secretaría atiende en el ámbito local | Paso 2 | Coordinación de Inspección y Vigilancia · DGCORENADR |
+| **ANP federal coadministrada** | Desierto de los Leones · la Secretaría coadyuva en la administración; la denuncia se turna a la PROFEPA | Paso 2 | PROFEPA |
 | **ANP federal sin convenio** | El Histórico Coyoacán · se deriva a la PROFEPA | Paso 2 | PROFEPA |
 | **Punto fuera de la Ciudad** | Naucalpan · el formulario impide continuar | Paso 2 | Bloqueado: fuera de la Ciudad |
 | **Caso de otra autoridad** | Ruido de vecinos · se detiene el flujo y se orienta | Paso 1 | — |
-| **Hechos de hace más de un año** | Permanente · aviso del plazo del artículo 22 BIS 2 | Paso 3 | Coordinación de Inspección y Vigilancia · DGCORENADR |
+| **Hechos de hace más de un año** | Permanente · aviso del plazo del artículo 22 BIS 2 | Paso 3 | DGCORENADR · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas |
 | **Establecimiento de giro no listado** | «Otro» abre el campo de texto | Paso 2 | DGIVA |
 | **Formato vigente con validación activa** | Formulario vacío · muestra todo lo que el esquema ampliado exige | Paso 3 | — |
 | **Esquema DGIVA con validación activa** | Formulario vacío · muestra el mínimo exigible | Paso 2 | — |
@@ -58,7 +58,7 @@ Cada botón limpia el formulario, carga una combinación completa de respuestas 
 | Tala en suelo de conservación, anónima | Suelo de conservación | Desconocido | Anónima | — |
 | Obra de una alcaldía | Suelo urbano | Autoridad | Identificada | Domicilio |
 | Afectación en Área de Valor Ambiental | Área de Valor Ambiental · Bosque urbano | Persona | — | — |
-| ANP federal con coadministración | Área Natural Protegida federal con convenio de coadministración | — | — | — |
+| ANP federal coadministrada | Área Natural Protegida federal · la Secretaría coadyuva en su administración | PROFEPA | — | — |
 | ANP federal sin convenio | Área Natural Protegida de competencia federal | — | — | — |
 | Punto fuera de la Ciudad | Fuera de la Ciudad | — | — | — |
 | Caso de otra autoridad | — | — | — | — |
@@ -69,7 +69,7 @@ Cada botón limpia el formulario, carga una combinación completa de respuestas 
 
 ---
 
-## 3. Las seis rutas de competencia
+## 3. Las cinco rutas de competencia
 
 Es la bifurcación con más consecuencia, porque decide quién atiende y qué procedimiento sigue.
 
@@ -77,10 +77,9 @@ Es la bifurcación con más consecuencia, porque decide quién atiende y qué pr
 |---|---|---|
 | Suelo urbano | DGIVA | Inspección y, en su caso, sanción |
 | Área de Valor Ambiental | DGIVA | Inspección y, en su caso, sanción |
-| Área Natural Protegida local | Coordinación de Inspección y Vigilancia · DGCORENADR | Inspección y, en su caso, sanción |
-| Suelo de conservación | Coordinación de Inspección y Vigilancia · DGCORENADR | Inspección y, en su caso, sanción |
-| ANP federal **con** convenio de coadministración | La Secretaría, en el ámbito local | Inspección, con vista a la autoridad federal |
-| ANP federal **sin** convenio | PROFEPA | Se orienta a presentarla allá |
+| Área Natural Protegida local | DGCORENADR · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas | Inspección y, en su caso, sanción |
+| Suelo de conservación | DGCORENADR · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas | Inspección y, en su caso, sanción |
+| Área Natural Protegida federal, **con convenio o sin él** | PROFEPA | La Secretaría la recibe y la remite. Con convenio queda enterada por su papel en la administración del parque; el convenio no transfiere inspección (DEC-89) |
 | Fuera de la Ciudad de México | Ninguna | Se impide continuar |
 
 A esto se superpone una séptima ruta que no depende del territorio sino de a quién se señala: **si se denuncia a una autoridad**, el artículo 331 de la Ley Ambiental manda emitir recomendaciones en lugar de sancionar, y el acuse lo advierte.

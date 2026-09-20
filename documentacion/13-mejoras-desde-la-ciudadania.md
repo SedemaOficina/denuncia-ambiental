@@ -5,8 +5,11 @@
 
 | | Estado |
 |---|---|
-| M-01, M-05, M-08, M-09 | **Implementadas** · commit `d0e7c21` |
-| M-03, M-04, M-07 | **Implementadas** · DEC-44, DEC-45, DEC-46 |
+| M-01, M-08, M-09 | **Implementadas** · commit `d0e7c21` |
+| M-05 | **Implementada y revertida** · DEC-62 |
+| M-03 | **Implementada** · DEC-44 |
+| M-04 | **Implementada y retirada** · DEC-45, revertida por DEC-67 |
+| M-07 | **Superada** · DEC-46, sustituida por DEC-61 |
 | M-06, M-10 | Aprobadas, por hacer |
 | M-02 | **Detenida**: fundir supuestos toca el catálogo y lo decide la Dirección General |
 
@@ -15,6 +18,8 @@
 ---
 
 ## Lo que mide el formulario hoy
+
+> **Medición del 19 de septiembre de 2026, no actualizada.** Desde entonces cambiaron la portada, el paso 2 completo, los textos de ayuda, la jerarquía visual, el paso 5 y el paso 6. Las cifras describen aquella versión, no la vigente.
 
 Medido en pantalla de teléfono de 390 × 760 px, sobre el alto del contenedor del formulario. La columna «antes» es la versión 24, con la que se escribió la primera versión de este documento; la columna «ahora», la versión con las siete mejoras aplicadas.
 
@@ -83,6 +88,8 @@ Casi cinco pantallas para responder «¿dónde?». El paso contiene cuatro cosas
 
 ### M-04 · Ofrecer «los hechos ocurren donde estoy ahora»
 
+> **Retirada el 20 de septiembre de 2026 (DEC-67).** El formulario dejó de pedir permiso de ubicación al navegador: en un formulario de denuncia esa petición da motivo a desconfiar y el beneficio no lo compensa. La sustituyen la ubicación pegada de Google Maps, las coordenadas y el código plus (DEC-69, DEC-82, DEC-83). Lo que sigue se conserva por su valor de registro.
+
 > **Implementada · DEC-45.** Opción secundaria, nunca automática, con ese encuadre exacto. Propone el punto; la dirección capturada no se toca.
 **Coste: bajo. Reabre una decisión anterior, con distinto encuadre.**
 
@@ -93,6 +100,8 @@ El botón de geolocalización se retiró deliberadamente (DEC-13) por una razón
 ---
 
 ### M-05 · Sustituir la caja en blanco por preguntas pequeñas
+
+> **Revertida el 20 de septiembre de 2026 (DEC-62).** Los dieciocho ejemplos por supuesto y su función se retiraron: lo que orienta —qué se hace, quién, en qué horario, con qué frecuencia y con qué efecto— pasó a ser el marcador dentro del propio campo, donde se lee cuando hace falta y desaparece al escribir. Lo que sigue se conserva por su valor de registro.
 
 > **Implementada en su parte de bajo coste.** Cada uno de los dieciocho supuestos muestra bajo el campo un ejemplo de descripción propio de esa materia. Partir el campo en preguntas pequeñas cambiaría el modelo de datos y no se hizo.
 **Coste: medio. Cambia el modelo de datos de un campo.**
@@ -118,6 +127,8 @@ La evidencia llega en el paso 4, después de lo difícil. Para entonces la perso
 ---
 
 ### M-07 · Quitar la palabra «opcional» de casi todas partes
+
+> **Superada el 20 de septiembre de 2026 (DEC-61).** La marca se invirtió: se señala lo obligatorio con asterisco —acompañado de la palabra «obligatorio» sólo para lectores de pantalla— y se dejó de rotular lo opcional. Medido en el paso 2: de nueve apariciones de «opcional» a cero. Lo que sigue se conserva por su valor de registro.
 
 > **Implementada · DEC-46.** «Opcional» pasa de veintiocho a dieciocho apariciones: dentro de un bloque plegado no se repite campo por campo, porque lo dice el encabezado.
 **Coste: bajo, pero toca muchas pantallas.**

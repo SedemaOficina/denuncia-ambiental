@@ -1,5 +1,9 @@
 # Formulario web de Denuncia Ambiental · Auditoría heurística
 
+> **Nota de vigencia · 20 de septiembre de 2026.** Este documento es una **auditoría fechada**: describe el prototipo en la fecha de su encabezado y **no se actualiza**. Sus mediciones, conteos, citas de pantalla y listas de controles describen la versión auditada, no la vigente; donde dice «hoy» debe leerse «en la fecha de esta auditoría». Las correcciones que derivaron de ella están registradas como decisiones en `05-decisiones-y-pendientes.md` y en la bitácora de `11-ruta-de-trabajo.md`, que son las fuentes del estado actual, junto con el prototipo. **Un hallazgo de este documento sólo se tiene por cerrado cuando una decisión lo declara cerrado y una comprobación automática lo sujeta.**
+>
+> *Qué sigue vigente y qué no:* la Parte IV, en su apartado «Sobre el renglón Aplicado a medias», está al corriente y recoge el cierre de DEC-85. El resto es del 18 de septiembre. Quedaron atrás, entre otros, «el punto del mapa se puede mover o quitar» —«Quitar el punto» se retiró en DEC-74— y los conteos de campos por paso, superados por DEC-72 —la alcaldía dejó de preguntarse—, DEC-78 y DEC-79 —dos campos nuevos en el paso 5— y DEC-86 —la prueba de humanidad en el paso 6—.
+
 **Versión:** 1.0 · 18 de septiembre de 2026
 **Pregunta que guía la revisión:** ¿puede una persona cualquiera de la Ciudad de México presentar una denuncia ambiental sin ayuda, desde su teléfono, en una sola sesión?
 **Método:** las diez heurísticas de Nielsen aplicadas al recorrido completo, más medición de reflujo a 320 px, atributos de asistencia al llenado, carga por paso y legibilidad de los textos por el índice Fernández-Huerta.

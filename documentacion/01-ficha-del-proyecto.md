@@ -5,7 +5,7 @@
 **Control de versiones:** repositorio git en la carpeta del proyecto, desde el 18 de septiembre de 2026, publicado en `SedemaOficina/denuncia-ambiental`
 **Nota sobre el historial:** el historial se reescribió el 19 de septiembre de 2026 para retirar de él un documento de trabajo de la Dirección General de Inspección y Vigilancia Ambiental que no debía publicarse. La reescritura creó commits nuevos con **raíz nueva** (`b28e8b5`), sin ancestro común con la publicada antes (`fef6652`). El repositorio en GitHub se borró y se creó de nuevo para que ningún objeto de la historia anterior quedara almacenado ahí. Los cuatro primeros commits conservan sus mensajes originales y su contenido, sin ese documento; **no hay nada perdido**. Quien encuentre referencias a identificadores anteriores a `b28e8b5` está mirando la historia previa a la limpieza
 **Estado:** prototipo navegable en validación interna
-**Última actualización:** 19 de septiembre de 2026
+**Última actualización:** 20 de septiembre de 2026
 
 ---
 
@@ -36,15 +36,15 @@ El canal vigente presenta cinco deficiencias que el formulario corrige:
 
 ## 4. Actores
 
-- **Dirección General de Inspección y Vigilancia Ambiental.** Autoridad sustantiva; define reglas de procedencia y recibe las denuncias en suelo urbano y Áreas de Valor Ambiental.
-- **Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural.** Recibe las denuncias en suelo de conservación, Áreas Naturales Protegidas locales y Áreas Naturales Protegidas federales con convenio de coadministración.
+- **Dirección General de Inspección y Vigilancia Ambiental.** Autoridad sustantiva; define reglas de procedencia y recibe las denuncias en suelo urbano y Áreas de Valor Ambiental, por conducto de su Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano.
+- **Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural.** Recibe las denuncias en suelo de conservación y Áreas Naturales Protegidas **locales**, por conducto de su Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas. Las Áreas Naturales Protegidas **federales**, con convenio o sin él, se turnan a la PROFEPA: el convenio reparte administración y manejo, no inspección (DEC-89).
 - **Oficina de la Secretaría.** Coordinación del proyecto y enlace entre áreas.
 - **Sistema de Información Ambiental.** Provee las capas geográficas y, en la versión funcional, los servicios de geocodificación y cruce espacial.
 - **Autoridades receptoras por derivación.** Secretaría de Obras y Servicios, Secretaría de Seguridad Ciudadana, PAOT, PROFEPA, INVEA, Agencia de Atención Animal y alcaldías.
 
 ## 5. Arquitectura por fases
 
-**Fase 1 — Prototipo navegable (concluida).** Archivo HTML autocontenido, sin servidor, con las capas del Sistema de Información Ambiental embebidas. Sirve para validar el flujo, los campos y las reglas de enrutamiento con la Dirección General de Inspección y Vigilancia Ambiental antes de programar nada.
+**Fase 1 — Prototipo navegable (en curso).** Cierra con el acta de validación de la DGIVA y la resolución de P-01 y P-02. Archivo HTML autocontenido, sin servidor, con las capas del Sistema de Información Ambiental embebidas. Sirve para validar el flujo, los campos y las reglas de enrutamiento con la Dirección General de Inspección y Vigilancia Ambiental antes de programar nada.
 
 **Fase 2 — Versión funcional.** Formulario en Google Apps Script con respaldo en Sheets, carga de archivos a Drive, folio consecutivo, acuse en PDF y tablero de seguimiento para el área sustantiva. Permite operar sin depender de tiempos de la Dirección General de Tecnologías de la Información.
 
@@ -61,7 +61,7 @@ El proyecto tiene una carpeta local vinculada a esta sesión de trabajo:
 | Carpeta | Contenido |
 |---|---|
 | `prototipo/` | Prototipo navegable del formulario, en un archivo HTML autocontenido |
-| `documentacion/` | Los cinco documentos de este proyecto |
+| `documentacion/` | Los quince documentos de este proyecto |
 | `capas/` | Capas del Sistema de Información Ambiental empleadas por el formulario |
 | `insumos/` | Formato público vigente, propuesta de la Dirección General y Ley Ambiental |
 
@@ -76,6 +76,7 @@ Los entregables se escriben directamente en esa carpeta. La documentación se ma
 | `alcaldias.geojson` (16 polígonos) | Sistema de Información Ambiental | Determinación de alcaldía |
 | `geometrias.geojson` (66 polígonos: 13 bosques urbanos, 26 barrancas, 18 ANP locales, 9 ANP federales) | Sistema de Información Ambiental | Determinación de AVA y ANP |
 | `suelo_conservacion.geojson` (7 polígonos) | Sistema de Información Ambiental | Determinación de suelo de conservación |
-| Listado de ANP federales con convenio de coadministración (8) | Dirección General de Inspección y Vigilancia Ambiental | Regla de competencia |
+| Convenio Marco de Coordinación CONANP–CDMX (firma 10 mar 2025, vigencia 30 sep 2030) | Secretaría del Medio Ambiente | Catálogo de las ocho ANP coadministradas y regla de competencia |
+| Manual Administrativo de la SEDEMA | Secretaría del Medio Ambiente | Nombres de las unidades que atienden y plazos del procedimiento |
 | Manual de Identidad Gráfica Institucional 2024-2030 y set de iconos | Gobierno de la Ciudad de México | Identidad visual del formulario |
 | Ley Ambiental de la Ciudad de México, Gaceta Oficial 18 de julio de 2024 | Congreso de la Ciudad de México | Fundamento jurídico |

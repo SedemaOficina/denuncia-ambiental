@@ -854,3 +854,41 @@ Y tiene un efecto que conviene decir en voz alta, porque no es evidente: **el na
 Se construye con las condiciones ya escritas: lista blanca de tres dominios, petición que **no sigue** la redirección, lectura únicamente del encabezado, tres segundos de espera y salida limitada a la coordenada. Son las que evitan la falsificación de petición del lado del servidor.
 
 El prototipo no cambia de comportamiento —no hay servidor— pero sus textos dejan de decir «pendiente» y dicen «por construir», y ahora explican también el efecto sobre la privacidad (DEC-88).
+
+---
+
+## Bloque: quién atiende dentro de un parque federal, y auditoría de los quince documentos
+
+**20 de septiembre de 2026.**
+
+### El convenio no transfiere inspección (DEC-89)
+
+El prototipo turnaba a la DGCORENADR las Áreas Naturales Protegidas federales coadministradas, **como si el convenio le diera a la Secretaría facultades de inspección**. Leído el Convenio Marco de Coordinación CONANP-CDMX —firmado el 10 de marzo de 2025 y vigente hasta el 30 de septiembre de 2030—, resulta que no se las da, y lo dice con todas sus letras: su cláusula SEGUNDA define la administración *«sin perjuicio de las facultades que en materia de inspección y vigilancia otorga el Título Sexto de la Ley General del Equilibrio Ecológico y la Protección al Ambiente»*, cuyo artículo 161 las atribuye a la autoridad federal.
+
+**El convenio reparte administración y manejo, no inspección.** De modo que las nueve Áreas Naturales Protegidas federales se turnan a la PROFEPA: con convenio, la Secretaría coadyuva en la administración, recibe la denuncia, la remite y queda enterada; sin convenio, ni siquiera participa. En los dos casos **recibe y remite**, no devuelve a la persona: el artículo 189 de esa misma ley admite que la denuncia federal se presente ante otras autoridades.
+
+Era un defecto de competencia, no de diseño: una inspección ordenada donde la Secretaría no puede ordenarla es un acto viciado. La batería 11 fija la invariante —ningún punto dentro de un parque federal se turna a la Secretaría— y la comprueba en los nueve polígonos, buscando un punto interior de cada uno.
+
+**El convenio corrigió además tres datos del catálogo**: la fecha de decreto de Cumbres del Ajusco y las superficies de Cerro de la Estrella y de Insurgente Miguel Hidalgo y Costilla, que el prototipo traía mal.
+
+### Un defecto del generador que ocultaba un campo
+
+El lector del catálogo `OBLIG` exigía coma final en cada entrada. La última no la lleva, de modo que **el documento 09 perdía justo ese campo —el de la protesta de decir verdad y el aviso de privacidad— sin avisar**, y todas las cifras salían una unidad cortas: decía 55 campos donde hay 56. Es el documento con el que la Unidad de Transparencia redacta el aviso, y el único campo que faltaba era el del consentimiento.
+
+Se corrigió la expresión y, sobre todo, **se le puso una salvaguarda**: el guion cuenta cuántas entradas declara el catálogo y cuántas reconoció, y se detiene si no coinciden. La salvaguarda avisó en la primera corrida, que es para lo que se puso.
+
+### Auditoría de los quince documentos
+
+Se revisó la documentación completa contra el prototipo. El resultado, ordenado por gravedad:
+
+**Primero.** El documento de reglas de negocio decía que las Áreas Naturales Protegidas federales coadministradas se atienden «en el ámbito local». Es la regla que gobierna el turnado, en el documento que la Dirección General lee para validar: quien lo leyera turnaría una denuncia del Desierto de los Leones a la DGCORENADR. Corregido en RN-04 y RN-05, y en los documentos 01 y 10, que repetían el error.
+
+**Segundo.** La recomendación de P-04 —aún abierto— descansaba en la premisa de que la Secretaría «ya ejerce atribuciones» en esas áreas. DEC-89 la desmiente, de modo que la recomendación se invirtió: precedencia federal, con vista al área local.
+
+**Tercero.** Varios documentos seguían llamando «Coordinación de Inspección y Vigilancia» a la unidad de la DGCORENADR y presentaban su atribución como sin verificar. Es lo que más rápido llega a un oficio con firma.
+
+También se corrigieron los conteos de campos, escenarios y peso del documento 12; el estado de M-04, M-05 y M-07 en el documento 13, que figuraban como implementadas cuando dos se revirtieron y una fue superada; y se añadió al documento 03 el apartado del convenio con su cláusula SEGUNDA.
+
+**Las tres auditorías fechadas —06, 07 y 14— no se actualizaron.** Se les antepuso una nota de vigencia: son fotografía de una fecha y reescribirlas destruiría el registro de que el hallazgo existió. La nota dice además cuándo se tiene por cerrado un hallazgo: cuando una decisión lo declara cerrado **y** una comprobación automática lo sujeta.
+
+**Verificación.** **299 comprobaciones en verde en once baterías**, con una nueva: el turnado de las Áreas Naturales Protegidas federales. Documento 09 regenerado con 56 campos y 22 datos personales.

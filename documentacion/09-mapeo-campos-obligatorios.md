@@ -7,10 +7,10 @@
 
 | | |
 |---|---|
-| Campos del formulario | **55** |
-| Datos personales | **22** (40 %) |
-| Obligatorios · esquema DGIVA | 24 de 55 |
-| Obligatorios · formato vigente | 30 de 55 |
+| Campos del formulario | **56** |
+| Datos personales | **22** (39 %) |
+| Obligatorios · esquema DGIVA | 25 de 56 |
+| Obligatorios · formato vigente | 31 de 56 |
 | Campos con obligatoriedad condicionada | 19 |
 | Campos sin uso declarado | **0** |
 
@@ -28,7 +28,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | **Responsable** | Identificar y emplazar al probable infractor | 10 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 12 |
-| **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 3 |
+| **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 4 |
 | **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 2 |
 
 ---
@@ -115,12 +115,13 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Confidencialidad de los datos | Opcional | Opcional | No | Siempre | Registra si la persona solicita que sus datos no se hagan del conocimiento del denunciado. |
 | Género | Opcional | Opcional | **Sí** | Siempre | Desagregación estadística de quién denuncia en la Ciudad. Opcional; no condiciona el trámite ni se incorpora al expediente. La identidad de género es dato sensible: sólo puede tratarse con consentimiento expreso, y por eso la pregunta admite no responder. |
 | Rango de edad | Opcional | Opcional | **Sí** | Siempre | Desagregación estadística por edad. Opcional; no condiciona el trámite ni se incorpora al expediente. |
+| Protesta de decir verdad y aviso de privacidad | Obligatorio | Obligatorio | No | Siempre | Constancia del consentimiento informado y de la protesta de decir verdad. |
 
 ### Paso 6 · Revisión
 
 | Campo | DGIVA | Vigente | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|---|
-| Prueba de humanidad | Obligatorio | Obligatorio | No | Siempre | Impide el env\u00edo automatizado masivo. La comprobaci\u00f3n la resuelve el servidor; no identifica a la persona ni se incorpora al expediente. |
+| Prueba de humanidad | Obligatorio | Obligatorio | No | Siempre | Impide el envío automatizado masivo. La comprobación la resuelve el servidor; no identifica a la persona ni se incorpora al expediente. |
 
 ---
 ## 3. Hallazgos de la revisión de minimización

@@ -61,9 +61,9 @@ Sigue siendo el requisito 5 del criterio de salida y no depende de nosotros.
 Naturaleza jurídica del canal y aviso de privacidad. Sin ellos no hay publicación posible.
 
 **B-05 · Minimización — RESUELTA el 18 de septiembre de 2026** *(§1.8)*
-Cada uno de los 47 campos declara ahora su **uso**, si es **dato personal** y a qué **finalidad** sirve, dentro del mismo catálogo `OBLIG` que gobierna la pantalla y la validación (DEC-35). El documento 09 se genera de ahí y el comparativo del panel de validación lo muestra en pantalla.
+Cada uno de los 56 campos declara ahora su **uso**, si es **dato personal** y a qué **finalidad** sirve, dentro del mismo catálogo `OBLIG` que gobierna la pantalla y la validación (DEC-35). El documento 09 se genera de ahí y el comparativo del panel de validación lo muestra en pantalla.
 
-**Resultado:** 20 datos personales de 47 campos, seis finalidades y **cero campos sin uso declarado**. No hubo campos que retirar.
+**Resultado:** 22 datos personales de 56 campos, ocho finalidades y **cero campos sin uso declarado**. No hubo campos que retirar.
 
 **Tres hallazgos que sí salieron:**
 
@@ -86,7 +86,7 @@ El proyecto contempla el folio interno y el folio público. **No contempla el fo
 **Acción:** solicitar el catálogo de giros o padrón de fuentes fijas; ya está listado en `08-normativa-por-integrar.md`.
 
 **B-08 · Datos ficticios sin conjunto formal** *(§3)*
-Existen doce escenarios de prueba, que sirven para recorrer variantes, pero **no** un conjunto de 25 a 40 registros con todos los valores de cada catálogo representados, ni campo `es_ficticio`. Verificado: la marca no existe en el prototipo.
+Existen trece escenarios de prueba, que sirven para recorrer variantes, pero **no** un conjunto de 25 a 40 registros con todos los valores de cada catálogo representados, ni campo `es_ficticio`. Verificado: la marca no existe en el prototipo.
 Y hay un problema de fondo en los que sí existen: nombres como «Hojalatería El Volante» o «Servicios Automotrices del Centro S.A. de C.V.» **parecen negocios reales**. La norma lo prohíbe: un nombre creíble en una base de pruebas termina en una captura de pantalla o en un oficio, y ya no se distingue.
 **Acción:** al construir el conjunto formal, usar denominaciones inequívocamente falsas y legibles, y marcarlas.
 
@@ -106,7 +106,7 @@ El proveedor de mosaicos y su clave salieron del código a `prototipo/configurac
 | 3 | Portabilidad | Nunca corrida; sus hallazgos están anticipados en B-09 |
 | 6 | Capas geoespaciales | **Nunca corrida.** Ver abajo |
 | 7 | Cruce espacial | Se probó con puntos representativos, pero no de forma sistemática por capa, traslape y borde, ni contra una capa completa |
-| 12 | Rendimiento | Nunca corrida. El prototipo pesa cerca de 660 KB con las capas y el logotipo incrustados; la norma exige medirlo con red limitada |
+| 12 | Rendimiento | Nunca corrida. El prototipo pesa cerca de 730 KB con las capas y el logotipo incrustados —el artefacto con el mapa vectorial, cerca de 740—; la norma exige medirlo con red limitada |
 | 16 | Datos personales | Nunca corrida. Debe correrse **antes del primer dato real** |
 
 **Lo que ya se ve sin correr la auditoría 6**, sólo con leer las capas:

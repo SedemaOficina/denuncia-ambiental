@@ -32,12 +32,19 @@ FINALIDADES = [
 ]
 
 def lee_oblig(html):
-    """Lee el literal OBLIG sin ejecutar JavaScript: cada entrada por separado."""
+    """Lee el literal OBLIG sin ejecutar JavaScript: cada entrada por separado.
+
+       La coma final es opcional en la expresion: la ultima entrada del catalogo
+       no la lleva, y exigirla hacia que el documento perdiera justo ese campo
+       —el de la protesta de decir verdad y el aviso de privacidad— sin avisar,
+       y que todas las cifras salieran una unidad cortas. Por eso el guion
+       compara ahora cuantas entradas leyo contra cuantas hay."""
     i = html.index('var OBLIG = {')
     j = html.index('\n};', i)
     frag = html[i:j]
     campos = []
-    for m in re.finditer(r"\n  ([a-z_0-9]+):\s*\{(.*?)\},(?=\n)", frag, re.S):
+    declaradas = len(re.findall(r'\n  [a-z_0-9]+:\s*\{', frag))
+    for m in re.finditer(r"\n  ([a-z_0-9]+):\s*\{(.*?)\},?(?=\n|$)", frag, re.S):
         clave, cuerpo = m.group(1), m.group(2)
         def val(k, patron=r"([^,}]*)"):
             mm = re.search(k + r":\s*" + patron, cuerpo)
@@ -58,6 +65,10 @@ def lee_oblig(html):
         })
     if not campos:
         sys.exit('ERROR: no se leyó ningún campo de OBLIG; revisa el formato del catálogo.')
+    if len(campos) != declaradas:
+        sys.exit('ERROR: el catálogo declara %d campos y el lector reconoció %d. '
+                 'Alguna entrada no coincide con el patrón y el documento saldría incompleto.'
+                 % (declaradas, len(campos)))
     return campos
 
 def marca(obligatorio, cond):

@@ -1,5 +1,9 @@
 # Formulario web de Denuncia Ambiental · Auditoría de estilos, experiencia de uso y color
 
+> **Nota de vigencia · 20 de septiembre de 2026.** Este documento es una **auditoría fechada**: describe el prototipo en la fecha de su encabezado y **no se actualiza**. Sus mediciones, conteos, citas de pantalla y listas de controles describen la versión auditada, no la vigente; donde dice «hoy» debe leerse «en la fecha de esta auditoría». Las correcciones que derivaron de ella están registradas como decisiones en `05-decisiones-y-pendientes.md` y en la bitácora de `11-ruta-de-trabajo.md`, que son las fuentes del estado actual, junto con el prototipo. **Un hallazgo de este documento sólo se tiene por cerrado cuando una decisión lo declara cerrado y una comprobación automática lo sujeta.**
+>
+> *Qué la dejó atrás:* DEC-61 —se marca lo obligatorio y no lo opcional, al revés de lo que aquí se recomienda—, DEC-62 —retiro de siete ayudas y del ejemplo por supuesto—, DEC-64 —escala de jerarquía de seis niveles—, DEC-71 —retroceder pasa a enlace sin borde—, DEC-76 y DEC-77 —portada rehecha—, DEC-78 y DEC-79 —estadística y aviso de privacidad en el paso 5— y DEC-85 y DEC-86 —paso 6—. Los conteos de materias y tarjetas corresponden al catálogo de entonces.
+
 **Versión:** 1.0 · 18 de septiembre de 2026
 **Objeto auditado:** prototipo del formulario, versión del 18 de septiembre.
 **Método:** revisión del código de estilos, medición de contraste conforme a WCAG 2.1 AA y recorrido del flujo en pantalla de escritorio (1100 px) y de teléfono (390 px).

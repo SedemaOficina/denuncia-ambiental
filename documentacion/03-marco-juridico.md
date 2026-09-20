@@ -46,7 +46,7 @@ Ley Orgánica de la Procuraduría Ambiental y del Ordenamiento Territorial de la
 
 ## 3 bis. Lo que aporta el Manual Administrativo de la Secretaría
 
-Fuente: `insumos/normativa/Manual Administartivo SEDEMA.pdf`. Resuelve tres cuestiones que el Reglamento Interior dejaba abiertas.
+Fuente: `insumos/normativa/04_MANUAL_ADMINISTRATIVO_SEDEMA.pdf`. Resuelve tres cuestiones que el Reglamento Interior dejaba abiertas.
 
 ### Las dos unidades que atienden denuncias, con su nombre exacto
 
@@ -84,6 +84,18 @@ Ambos procedimientos empiezan igual y cierran con la resolución notificada. Los
 ### Si la denuncia no es competencia de la Secretaría
 
 La regla 11 del procedimiento de la DGIVA nombra a los destinatarios: **Instituto de Verificación Administrativa, Alcaldías, Procuraduría Ambiental y del Ordenamiento Territorial, o cualquier otra institución gubernamental**, según la materia. Es la lista que el paso 1 del formulario debe poder ofrecer.
+
+### El Convenio Marco de Coordinación CONANP–CDMX
+
+Fuente: `insumos/normativa/21_CONVENIO_CONANP_CDMX_20250310.pdf`. Suscrito el **10 de marzo de 2025**, con vigencia **hasta el 30 de septiembre de 2030**; sustituye al Acuerdo Marco de 2019, que venció el 1 de diciembre de 2024.
+
+Su **cláusula PRIMERA** enumera las ocho Áreas Naturales Protegidas federales en cuya administración y manejo coadyuva la Ciudad, con su fecha de decreto y su superficie: Desierto de los Leones, Cumbres del Ajusco, Fuentes Brotantes de Tlalpan, Lomas de Padierna, El Tepeyac, Cerro de la Estrella, Insurgentes Miguel Hidalgo y Costilla, y Tláhuac-Xico. El Histórico Coyoacán no está.
+
+Su **cláusula SEGUNDA** es la que decide la competencia, y conviene leerla completa: define la administración como la ejecución de actividades orientadas a la conservación, mediante manejo, gestión y uso de recursos, *«sin perjuicio de las facultades que en materia de inspección y vigilancia otorga el Título Sexto de la Ley General del Equilibrio Ecológico y la Protección al Ambiente»*.
+
+**El convenio reparte administración y manejo, no inspección.** El artículo 161 de esa misma ley atribuye los actos de inspección y vigilancia a la autoridad federal, y el 160 fija que su Título Sexto se aplica a los asuntos de competencia federal. De ahí DEC-89: **toda Área Natural Protegida federal se turna a la PROFEPA, con convenio o sin él.** Lo que el convenio añade es que, en las ocho, la Secretaría coadyuva en la administración y por tanto debe quedar enterada.
+
+Dos cosas más que aporta: su cláusula TERCERA, inciso p), enumera la **denuncia ciudadana** entre las materias de los proyectos conjuntos, lo que da pie a convenir la vía de remisión; y el artículo 189 de la Ley General admite que la denuncia federal se presente **ante otras autoridades**, lo que sostiene que la Secretaría la reciba y la remita en lugar de devolver a la persona.
 
 ### Lo que el Manual no resuelve
 
@@ -169,7 +181,7 @@ Verificado contra el **Reglamento Interior del Poder Ejecutivo y de la Administr
 
 **Matiz que debe conservarse.** El artículo 191, fracciones I y II, mantiene en la Dirección General de Inspección y Vigilancia Ambiental la **coordinación** de las estrategias y de los sistemas de videovigilancia en los cuatro ámbitos, incluidos suelo de conservación y Áreas Naturales Protegidas. Coordinar no es ordenar ni sancionar, de modo que el turnado no se altera, pero el diseño debe prever que esa dirección general conozca la estadística completa.
 
-**Traslape detectado — Dirección General del Sistema de Áreas Naturales Protegidas y Áreas de Valor Ambiental, artículo 190, fracción XXII.** Le corresponde «establecer y operar el sistema de inspección, seguridad y vigilancia de las áreas naturales protegidas, áreas de valor ambiental y de las áreas verdes urbanas». Es una tercera unidad con función de vigilancia sobre los mismos polígonos en los que el formulario turna a otras dos. No desplaza la facultad sancionadora, que sigue acotada por los artículos 188 y 191, pero obliga a definir si esa dirección general debe recibir copia de las denuncias que caen en Áreas Naturales Protegidas y Áreas de Valor Ambiental. Se registra en P-10.
+**Traslape detectado — Dirección General del Sistema de Áreas Naturales Protegidas y Áreas de Valor Ambiental, artículo 190, fracción XXII.** Le corresponde «establecer y operar el sistema de inspección, seguridad y vigilancia de las áreas naturales protegidas, áreas de valor ambiental y de las áreas verdes urbanas». Es una tercera unidad con función de vigilancia sobre los mismos polígonos en los que el formulario turna a otras dos. No desplaza la facultad sancionadora, que sigue acotada por los artículos 188 y 191, pero obliga a definir si esa dirección general debe recibir copia de las denuncias que caen en Áreas Naturales Protegidas y Áreas de Valor Ambiental. Se registró en P-10. **Resuelto el 20 de septiembre de 2026:** el Manual Administrativo no le asigna función alguna de recepción, trámite o seguimiento de denuncias, de modo que **no se le nombra como área que atiende ni recibe copia**. Queda registrada la incongruencia entre el Reglamento y el Manual, que no es del formulario.
 
 **Resuelto con el Manual Administrativo (20 de septiembre de 2026).** Lo que sigue se conserva porque explica de dónde venía la duda; la respuesta está en el apartado 3 bis.
 
