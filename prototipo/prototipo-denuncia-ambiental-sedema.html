@@ -78,7 +78,12 @@ main{max-width:980px;margin:0 auto;padding:24px 20px 96px}
 .progreso .avance{height:100%;background:var(--guinda);width:0;transition:width .35s ease}
 .progreso .paso-txt{display:none;font-size:var(--t-sm);color:var(--guinda);font-weight:700;margin-top:8px}
 .progreso .etapas{display:flex;justify-content:space-between;margin-top:9px;gap:4px}
-.progreso .etapa{font-size:var(--t-xs);color:var(--gris-cl);text-align:center;flex:1;letter-spacing:.02em}
+.progreso .etapa{font-size:var(--t-xs);color:var(--gris-cl);text-align:center;flex:1;letter-spacing:.02em;
+  background:none;border:none;padding:6px 2px;font-family:inherit;cursor:pointer;border-radius:var(--r-ctrl);
+  min-height:32px;line-height:1.25}
+.progreso .etapa:hover{color:var(--guinda);background:var(--guinda-cl)}
+.progreso .etapa[aria-current="step"]{cursor:default}
+.progreso .etapa[aria-current="step"]:hover{background:none}
 .progreso .etapa.activa{color:var(--guinda);font-weight:700}
 .progreso .etapa.hecha{color:var(--ok)}
 
@@ -1052,6 +1057,20 @@ function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){retur
 function $(id){ return document.getElementById(id); }
 function guarda(k,v){ estado[k]=v; }
 function val(k){ return estado[k]||''; }
+/* Navegación desde la barra de progreso. Usa exactamente las mismas reglas que el
+   botón Continuar: no hay una segunda puerta con criterios propios. Retroceder es
+   libre; avanzar valida cada paso intermedio y se detiene en el primero que falle,
+   mostrando ahí sus errores. La regla de competencia territorial se aplica siempre,
+   también en modo de prueba. */
+function vaAlPaso(n){
+  if(n === paso) return;
+  if(n < paso){ irA(n); return; }
+  for(var i = paso; i < n; i++){
+    if(!valida(i)){ if(i !== paso) irA(i); return; }
+  }
+  irA(n);
+}
+
 function irA(n){ paso=n; render(); window.scrollTo({top:0,behavior:'smooth'}); }
 function abrirModal(){ $('modal').classList.add('abierto'); }
 function abrePrivacidad(){ $('modalPriv').classList.add('abierto'); }
@@ -1099,9 +1118,17 @@ function barra(){
   $('pasoTxt').textContent = 'Paso '+paso+' de 6 · '+ETAPAS[paso-1];
   if($('anuncio')) $('anuncio').textContent = 'Paso '+paso+' de 6: '+ETAPAS[paso-1];
   $('progreso').setAttribute('aria-label','Paso '+paso+' de 6: '+ETAPAS[paso-1]);
+  /* Las etapas son botones: se puede navegar entre pasos ya recorridos sin volver
+     a pasar por todos. Retroceder nunca exige nada; avanzar exige que los pasos
+     intermedios pasen su validación, que en modo de prueba no pide nada. */
   $('etapas').innerHTML = ETAPAS.map(function(e,i){
     var n=i+1, c = n===paso?'activa' : (n<paso?'hecha':'');
-    return '<div class="etapa '+c+'">'+(n<paso?'✓ ':'')+esc(e)+'</div>';
+    var titulo = n===paso ? 'Estás en este paso'
+               : (n<paso ? 'Volver al paso '+n+': '+e
+                         : 'Ir al paso '+n+': '+e+'. Requiere completar los pasos anteriores.');
+    return '<button type="button" class="etapa '+c+'" onclick="vaAlPaso('+n+')"'+
+      (n===paso?' aria-current="step"':'')+' title="'+esc(titulo)+'">'+
+      (n<paso?'✓ ':'')+esc(e)+'</button>';
   }).join('');
 }
 

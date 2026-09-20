@@ -357,3 +357,17 @@ Si algo de eso no se entrega, el bloque no está cerrado.
 **Verificación de cierre.** Sintaxis correcta. Cero funciones duplicadas o sin uso, cero claves de estado sin lectura, cero clases de estilo huérfanas, cero `!important` indebidos; el único selector declarado dos veces es `textarea`, la excepción anotada. Orden del paso 2 comprobado por lectura del DOM: calle → número → alcaldía → colonia → código postal. Las dos preguntas filtro muestran y ocultan su campo según la respuesta. El bloque de empresa ya no pide domicilio; el de persona sí. El aviso de alcaldía discrepante persiste y desaparece cuando el punto llega a la alcaldía indicada. Seis pasos y doce escenarios sin error en consola.
 
 **Nota sobre el método.** Durante la verificación se dio por defectuoso el aviso de alcaldía con base en una prueba cuyo patrón de búsqueda estaba mal escrito y nunca podía coincidir. El código estaba bien. Es el caso de «el método de verificación también se verifica»: la corrección aplicada —comparar contra la alcaldía que eligió la persona y no contra la última calculada— se conserva porque es más robusta, pero **no corrigó un defecto que estuviera ocurriendo**.
+
+### 19 de septiembre de 2026 · bloque «un solo sentido y barra navegable»
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| Variante A de identificación | Retirada | Criterio ya descartado que reabría la discusión en cada sesión (DEC-40) |
+| `geocodificaInverso()` | Eliminada | El punto deja de escribir en la dirección. Una llamada menos a un servicio externo (DEC-41) |
+| `alcaldia_difiere` → `alcaldia_punto` | Clave sustituida | Ya no marca una discrepancia resuelta: guarda la alcaldía que arroja la capa, sin tocar la capturada |
+| `usaAlcaldiaDelPunto()` | Función nueva | Única vía por la que el mapa escribe en la dirección, y sólo a petición expresa |
+| Etapas de la barra de progreso | `div` → `button` | Navegación entre pasos, con `aria-current` en el actual |
+| `vaAlPaso(n)` | Función nueva | Reutiliza `valida()`: no se crea una segunda puerta con criterios propios |
+| 79 secuencias `\uXXXX` | Convertidas a caracteres reales | **Defecto propio.** En las cadenas funcionaban, pero en los comentarios quedaban como basura ilegible. Se verificó que el texto renderizado de los seis pasos es idéntico antes y después |
+
+**Verificación de cierre.** Sintaxis correcta. Cero funciones duplicadas o sin uso, cero claves de estado sin lectura, cero clases huérfanas, cero escapes literales; el único selector declarado dos veces es `textarea`, la excepción anotada. Comprobado que al colocar el punto en otra alcaldía **ninguno de los cinco campos de dirección cambia**, que la ficha muestra la alcaldía del punto y que la corrección sólo ocurre al pulsar el botón. En la barra: retroceder con un clic funciona; avanzar en modo de prueba funciona; con obligatoriedad activada y campos vacíos **no avanza y muestra el resumen de errores**; y con el punto fuera de la Ciudad **no avanza ni siquiera en modo de prueba**. Seis pasos y doce escenarios sin error en consola.
