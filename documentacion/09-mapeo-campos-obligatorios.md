@@ -11,7 +11,7 @@
 | Datos personales | **20** (38 %) |
 | Obligatorios · esquema DGIVA | 23 de 52 |
 | Obligatorios · formato vigente | 29 de 52 |
-| Campos con obligatoriedad condicionada | 18 |
+| Campos con obligatoriedad condicionada | 19 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -50,7 +50,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Coordenadas o enlace de mapa pegados | Opcional | Opcional | No | Siempre | Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró. |
 | Confirmación del punto | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando ya hay un punto colocado | El punto se arrastra, y un roce basta para moverlo. Como de esa coordenada depende el área que atiende la denuncia, se pide confirmarla; cualquier movimiento posterior borra la confirmación. |
 | Punto en el mapa | Obligatorio | Obligatorio | **Sí** | Siempre | Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas. |
-| Alcaldía | Obligatorio | Obligatorio | No | Siempre | Turnado, programación de operativos y estadística territorial. |
+| Alcaldía | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | No se pregunta: la determina el punto del mapa | Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse. |
 | Colonia | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio y estadística territorial. |
 | Código postal | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio; verifica la congruencia de la dirección capturada. |
 | Calle o vialidad | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |

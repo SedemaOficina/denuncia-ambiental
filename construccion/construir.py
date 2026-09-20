@@ -2,13 +2,11 @@
 """Genera la versión de artefacto a partir del archivo local.
    El artefacto no admite recursos externos, de modo que se retira Leaflet
    y se sustituye el mapa por una implementación en SVG."""
-import re, sys, os
+import re, sys
 
-AQUI    = os.path.dirname(os.path.abspath(__file__))
-RAIZ    = os.path.dirname(AQUI)
-ORIGEN  = os.environ.get('ORIGEN',  os.path.join(RAIZ, 'prototipo', 'prototipo-denuncia-ambiental-sedema.html'))
-DESTINO = os.environ.get('DESTINO', os.path.join(AQUI, 'artefacto.html'))
-MAPA    = os.path.join(AQUI, 'mapa_svg.js')
+ORIGEN  = '/mnt/user-data/outputs/prototipo-denuncia-ambiental-sedema.html'
+DESTINO = '/home/claude/build/artefacto.html'
+MAPA    = '/home/claude/build/mapa_svg.js'
 
 s = open(ORIGEN, encoding='utf-8').read()
 
@@ -71,19 +69,19 @@ s = s.replace(
 #        necesita el navegador— y se conserva.
 _antes = s
 s = re.sub(
-    r"\s*'<button type=\"button\" class=\"btn btn-primario\" style=\"padding:11px 20px;font-size:14px\" onclick=\"ubicaPorDireccion\(\)\">'\+"
-    r"\s*svgIcono\('pin',16\)\+' Ubicar en el mapa</button>'\+",
-    '', s, count=1)
+    r"\s*\(sinDir \? '' :\n\s*'<li><button type=\"button\" class=\"btn btn-secundario\" onclick=\"ubicaPorDireccion\(\)\">'\+"
+    r"\n\s*svgIcono\('pin',16\)\+' Buscar la direcci\u00f3n que escribiste</button></li>'\)\+",
+    "\n      ''+", s, count=1)
 if s == _antes:
-    sys.exit('ERROR: no se retiró el botón «Ubicar en el mapa»; revisa el marcado.')
+    sys.exit('ERROR: no se retiró la vía que requiere el servicio de geocodificación; revisa el marcado.')
 
 # 5 ter. El estado vacío no puede nombrar un botón que aquí no existe.
 _antes = s
 s = s.replace(
  'Captura la dirección y pulsa <strong>Ubicar en el mapa</strong>, o coloca el punto directamente sobre el mapa.',
- 'Coloca el punto directamente sobre el mapa.')
+ 'Pega las coordenadas o da un clic directamente sobre el mapa.')
 if s == _antes:
-    sys.exit('ERROR: el estado vacío sigue nombrando un botón inexistente; revisa el texto.')
+    sys.exit('ERROR: el estado vacío sigue nombrando una vía que aquí no existe; revisa el texto.')
 
 # 6. Sustituir la implementación del mapa
 mapa = open(MAPA, encoding='utf-8').read()

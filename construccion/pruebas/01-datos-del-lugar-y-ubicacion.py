@@ -117,7 +117,29 @@ with sync_playwright() as pw:
     afirma(r['lat'] != '' and abs(float(r['lat']) - 19.2938) < 0.001,
            'pegar un enlace de Google Maps coloca el punto (lat=%s)' % r['lat'])
     afirma(r['capa'] == 'Bosque de Tlalpan', 'y el cruce con las capas se resuelve sobre ese punto (%s)' % r['capa'])
-    afirma(r['alc'] == '', 'el punto pegado NO escribe la alcaldia de la direccion')
+    # DEC-72 invierte la regla anterior: la alcaldia ya no se escribe, la
+    # determina el punto. Antes habia dos -la escrita y la calculada-, el
+    # turnado usaba una y el acuse mostraba la otra, y podia enviarse una
+    # denuncia que dijera Coyoacan y se turnara como Tlalpan.
+    afirma(r['alc'] == 'Tlalpan', 'el punto determina la alcaldia (%s)' % r['alc'])
+    coherente = pg.evaluate("""() => {
+      guarda('calle','Av. Mexico'); guarda('num_ext','10');
+      guarda('colonia','Del Carmen'); guarda('cp','04100');
+      guarda('tiene_direccion','si'); guarda('punto_confirmado','si');
+      ponMarcador(19.2938, -99.1930);
+      guarda('punto_confirmado','si'); irA(6);
+      const dts = [...document.querySelectorAll('.resumen dt')].map(e => e.textContent.replace('Editar','').trim());
+      const dds = [...document.querySelectorAll('.resumen dd')].map(e => e.textContent.trim());
+      const o = {}; dts.forEach((k,i) => o[k] = dds[i]);
+      irA(2);
+      return {lugar: o['Lugar de los hechos'], alc: val('alcaldia'),
+              hayCampoAlcaldia: !!document.getElementById('f_alcaldia')};
+    }""")
+    pg.wait_for_timeout(300)
+    afirma(not coherente['hayCampoAlcaldia'], 'la alcaldia ya no se pregunta')
+    afirma(coherente['alc'] in coherente['lugar'],
+           'el resumen usa la MISMA alcaldia con la que se turna: «%s» contiene «%s»'
+           % (coherente['lugar'], coherente['alc']))
 
     aviso = pg.evaluate("""() => { guarda('coord_pegar','https://maps.app.goo.gl/AbCdEf'); colocaPorTexto();
         return document.getElementById('resBusqueda').innerText.trim(); }""")
@@ -157,6 +179,28 @@ with sync_playwright() as pw:
     afirma(r2['tras'] == '' and r2['casilla'] is False,
            'mover el punto borra la confirmacion y destilda la casilla')
     afirma(r2['bloquea'] is False, 'y vuelve a frenar el paso hasta confirmar de nuevo')
+
+    # La casilla estuvo duplicada -una dentro del panel de capas y otra encima
+    # de las acciones, con el mismo identificador-. Una sola, y con el detalle
+    # de lo que se confirma al dia (DEC-75).
+    r3 = pg.evaluate("""() => {
+      guarda('tiene_direccion','si'); irA(2); ponMarcador(19.2938, -99.1930);
+      const n = document.querySelectorAll('#c_punto_confirmado');
+      const det1 = document.querySelector('.cp-det');
+      const acc = [...document.querySelectorAll('#app .acciones')].pop();
+      const antes = n[0] && acc ? n[0].getBoundingClientRect().top < acc.getBoundingClientRect().top : null;
+      ponMarcador(19.31, -99.20);
+      return {n: n.length, det1: det1 ? det1.textContent : null,
+              det2: (document.querySelector('.cp-det')||{}).textContent, antes};
+    }""")
+    pg.wait_for_timeout(400)
+    afirma(r3['n'] == 1, 'hay una sola casilla de confirmacion (%s)' % r3['n'])
+    afirma(r3['antes'] is True, 'y va inmediatamente antes de los botones')
+    afirma(r3['det1'] and 'Tlalpan' in r3['det1'],
+           'la casilla dice que se esta confirmando: «%s»' % r3['det1'])
+    afirma(r3['det2'] and r3['det2'] != r3['det1'],
+           'y se actualiza al mover el punto: «%s» -> «%s»' % (r3['det1'], r3['det2']))
+
     pg.evaluate("quitaPunto(); guarda('tiene_direccion','si'); guarda('coord_pegar',''); render()")
     pg.wait_for_timeout(250)
 

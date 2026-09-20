@@ -316,6 +316,16 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
   font-family:inherit;font-size:var(--t-sm);font-weight:600;padding:8px 0;min-height:36px}
 .lin-detalle{margin:0 0 14px}
 
+/* Las tres vías de marcar el sitio, enunciadas juntas y con el mismo peso:
+   antes estaban repartidas por la pantalla y una de ellas ni se mencionaba. */
+.vias{list-style:none;margin:0 0 16px;border:1px solid var(--linea);border-radius:var(--r-caja);background:var(--blanco)}
+.vias li{padding:14px 16px;border-top:1px solid var(--linea)}
+.vias li:first-child{border-top:none}
+.vias li .campo{margin-bottom:10px}
+.vias .via-mapa{font-size:var(--t-md);color:var(--gris)}
+.confirma-punto{border-top:1px solid var(--linea);padding-top:18px;margin-top:4px}
+.confirma-punto .cp-det{display:block;font-weight:400;font-size:var(--t-sm);color:var(--gris);margin-top:2px}
+
 /* ---------- Avisos ---------- */
 .aviso{border-left:4px solid var(--alerta);background:var(--alerta-bg);padding:14px 16px;border-radius:0 var(--r-ctrl) var(--r-ctrl) 0;font-size:var(--t-md);margin:16px 0;color:#5A4220}
 .aviso strong{color:var(--alerta)}
@@ -693,7 +703,6 @@ var archivos = [];
 var paso = 0;
 var mapa = null, marcador = null;
 
-var ALCALDIAS = ['Álvaro Obregón','Azcapotzalco','Benito Juárez','Coyoacán','Cuajimalpa de Morelos','Cuauhtémoc','Gustavo A. Madero','Iztacalco','Iztapalapa','La Magdalena Contreras','Miguel Hidalgo','Milpa Alta','Tláhuac','Tlalpan','Venustiano Carranza','Xochimilco'];
 
 /* --- Materias de competencia de la Secretaría --- */
 var GRUPOS_MATERIA = [
@@ -830,7 +839,8 @@ var OBLIG = {
   lat:              {p:2, dgiva:true,  vigente:true,  etq:'Punto en el mapa', dp:true, fin:'Competencia',
      uso:'Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas.'},
   alcaldia:         {p:2, dgiva:true,  vigente:true,  etq:'Alcaldía', dp:false, fin:'Competencia',
-     uso:'Turnado, programación de operativos y estadística territorial.'},
+     cond:function(){ return !!val('lat'); } , cond_txt:'No se pregunta: la determina el punto del mapa',
+     uso:'Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse.'},
   colonia:          {p:2, dgiva:true,  vigente:true,  etq:'Colonia', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Localización del sitio y estadística territorial.'},
@@ -1465,97 +1475,120 @@ function renderMaterias(){
    consecuencia (DEC-47). */
 function sinDireccion(){ return val('tiene_direccion')==='no'; }
 
+/* EL PASO 2, REHECHO (DEC-72 a DEC-75).
+   La auditoría del documento 14 encontró que el paso pedía dos trabajos
+   distintos —describir el lugar con palabras y señalarlo en un mapa— sin decir
+   cuál servía para qué, con cuatro maneras de colocar el punto repartidas por
+   la pantalla y una alcaldía que existía dos veces. Aquí cada bloque declara
+   su propósito, las tres vías de marcar el sitio van juntas y con el mismo
+   peso, y la alcaldía la determina el punto. */
 function pUbicacion(){
-  /* Con dirección, ella va primero porque es como la gente piensa el lugar y de
-     ella se propone el punto. Sin dirección, el punto va primero porque es el
-     único localizador que existe. En los dos casos el punto manda: el cruce
-     espacial que determina la competencia se resuelve sobre la coordenada
-     (DEC-04), y nunca escribe de vuelta en lo que la persona capturó (DEC-41). */
   var sinDir = sinDireccion();
   var contestada = !!val('tiene_direccion');
-  return '<div class="tarjeta"><h2><span class="num">2</span>¿Dónde ocurre?</h2>'+
-  '<p class="sub">'+(!contestada
-    ? 'Primero dinos si el lugar de los hechos tiene domicilio: de eso depende lo que se te pregunte enseguida.'
-    : (sinDir
-      ? 'Marca el sitio en el mapa y dinos cómo se llega. El punto es lo que determina qué área de la Secretaría atiende la denuncia.'
-      : 'Escribe la dirección del lugar de los hechos y colócala en el mapa. El punto es lo que determina qué área de la Secretaría atiende la denuncia, así que verifícalo y muévelo si hace falta.'))+'</p>'+
 
-  campoSiNo('tiene_direccion','¿El lugar tiene calle y número?',
-    'Responde «No» si ocurre en un área natural protegida, una barranca, un bosque urbano, un terreno forestal o de cultivo, un camino o un canal.',
-    'render()')+
+  var h = '<div class="tarjeta"><h2><span class="num">2</span>¿Dónde ocurre?</h2>';
 
-  (!contestada
-    ? '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(1)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button></div></div>'
-    :
+  if(!contestada){
+    return h +
+      '<p class="sub">Primero dinos si el lugar de los hechos tiene domicilio: de eso depende lo que se te pregunte enseguida.</p>'+
+      campoSiNo('tiene_direccion','¿El lugar tiene calle y número?',
+        'Responde «No» si ocurre en un área natural protegida, una barranca, un bosque urbano, un terreno forestal o de cultivo, un camino o un canal.',
+        'render()')+
+      '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(1)">'+
+      '<span class="fl" aria-hidden="true">\u2039</span>Regresar</button></div></div>';
+  }
 
-  (sinDir ? '' :
-    '<h3 class="sub-seccion">Dirección del lugar de los hechos</h3>'+
-    '<div class="fila-2-1">'+
-      campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'')+
-      campo('num_ext','Número exterior','texto',false,'Si no tiene, escribe S/N','autocomplete="off"')+
+  /* El reparto de trabajo, dicho una vez: es lo que vuelve explicable el paso. */
+  h += '<p class="sub">'+(sinDir
+    ? 'Este paso pide dos cosas: <strong>marcar el sitio en el mapa</strong>, que es lo que decide qué área de la Secretaría atiende la denuncia, y <strong>decir cómo se llega</strong>, que es lo que permite al personal de inspección encontrarlo.'
+    : 'Este paso pide dos cosas: <strong>la dirección</strong>, que es lo que permite al personal de inspección llegar, y <strong>el punto en el mapa</strong>, que es lo que decide qué área de la Secretaría atiende la denuncia.')+'</p>'+
+    campoSiNo('tiene_direccion','¿El lugar tiene calle y número?',
+      'Responde «No» si ocurre en un área natural protegida, una barranca, un bosque urbano, un terreno forestal o de cultivo, un camino o un canal.',
+      'render()');
+
+  /* ---- Bloque A · la dirección (sólo cuando la hay) ---- */
+  if(!sinDir){
+    h += '<h3 class="sub-seccion">La dirección del lugar</h3>'+
+      '<p class="ayuda" style="margin-bottom:16px">Para que el personal de inspección pueda llegar. La alcaldía no se pregunta: la determina el punto que marques abajo.</p>'+
+      '<div class="fila-2-1">'+
+        campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'')+
+        campo('num_ext','Número exterior','texto',false,'Si no tiene, escribe S/N','autocomplete="off"')+
+      '</div>'+
+      '<div class="fila">'+
+        campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
+        campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
+      '</div>'+
+      '<div class="fila">'+
+        campo('entre_calle1','Entre calle 1','texto',false,'')+
+        campo('entre_calle2','Entre calle 2','texto',false,'')+
+      '</div>'+
+      campoArea('referencias','Cómo se reconoce el sitio',false,
+        'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3);
+  }
+
+  /* ---- Bloque B · el punto ---- */
+  h += '<h3 class="sub-seccion">El punto en el mapa</h3>'+
+    '<p class="ayuda" style="margin-bottom:14px">De esta ubicación dependen la alcaldía, el tipo de suelo y el área que atiende la denuncia. '+
+      (sinDir ? 'Márcalo de cualquiera de estas maneras:' : 'Puedes marcarlo de cualquiera de estas maneras:')+'</p>'+
+
+    '<ul class="vias">'+
+      (sinDir ? '' :
+        '<li><button type="button" class="btn btn-secundario" onclick="ubicaPorDireccion()">'+
+          svgIcono('pin',16)+' Buscar la dirección que escribiste</button></li>')+
+      '<li>'+
+        campo('coord_pegar','Pegar coordenadas o un enlace de Google Maps','texto',false,
+          'El enlace se lee en tu navegador: no se abre ni se consulta nada fuera.',
+          'placeholder="19.3579, -99.1610  ·  https://www.google.com/maps/@19.3579,-99.1610,17z"')+
+        '<button type="button" class="btn btn-secundario" onclick="colocaPorTexto()">Colocar ese punto</button>'+
+      '</li>'+
+      '<li class="via-mapa">Dar un clic sobre el mapa, y arrastrar el punto para ajustarlo.</li>'+
+    '</ul>'+
+
+    '<div id="resBusqueda"></div>'+
+    '<div class="mapa-barra">'+
+      '<span class="coords" id="coords">'+(val('lat')?svgIcono('pin',15)+' '+esc(val('lat'))+', '+esc(val('lon')):'Sin punto seleccionado')+'</span>'+
     '</div>'+
-    campoSelect('alcaldia','Alcaldía',ALCALDIAS,esObligatorio('alcaldia'),'')+
-    '<div class="fila">'+
-      campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
-      campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
-    '</div>'+
-    '<div class="fila">'+
-      campo('entre_calle1','Entre calle 1','texto',false,'')+
-      campo('entre_calle2','Entre calle 2','texto',false,'')+
-    '</div>'+
-    campoArea('referencias','Cómo se reconoce el sitio',false,'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3)+
-    '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px;flex-wrap:wrap">'+
-      '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="ubicaPorDireccion()">'+
-        svgIcono('pin',16)+' Ubicar en el mapa</button>'+
-    '</div>')+
+    '<div class="mapa-sin" id="mapaSin"><strong>No fue posible cargar el mapa.</strong> Lo que hayas capturado se conserva; el personal de la Secretaría georreferenciará el sitio al recibir la denuncia.</div>'+
+    '<div id="mapa"></div>'+
+    '<div id="panelCapas">'+cajaCapas()+'</div>';
 
-  (sinDir ?
-    '<h3 class="sub-seccion">Marca el sitio en el mapa</h3>'+
-    '<p class="ayuda" style="margin-bottom:12px">Da un clic sobre el punto donde ocurren los hechos y arrástralo para ajustarlo.</p>' : '')+
-  campo('coord_pegar','¿Tienes las coordenadas o un enlace de Google Maps?','texto',false,
-    'Pega aquí las coordenadas —19.3579, -99.1610— o el enlace del mapa. El enlace se lee en tu navegador: no se abre ni se consulta nada fuera.',
-    'placeholder="19.3579, -99.1610  ·  https://www.google.com/maps/@19.3579,-99.1610,17z"')+
-  '<div class="acciones" style="justify-content:flex-start;margin:-6px 0 14px">'+
-    '<button type="button" class="btn btn-secundario" style="padding:9px 16px;font-size:13.5px" onclick="colocaPorTexto()">Colocar el punto</button>'+
-  '</div>'+
-  '<div id="resBusqueda"></div>'+
+  /* ---- Bloque C · sin domicilio, cómo se identifica y cómo se llega ---- */
+  if(sinDir){
+    h += '<h3 class="sub-seccion">Cómo identificar el sitio</h3>'+
+      '<p class="ayuda" style="margin-bottom:16px">Esto sustituye al domicilio: es lo que permite al personal de inspección llegar.</p>'+
+      campo('nombre_lugar','Nombre del lugar','texto',esObligatorio('nombre_lugar'),
+        'El bosque, el parque, el paraje, el canal, el camino. Si el punto cae en un área que la Secretaría tiene registrada, se propone su nombre.')+
+      (val('capa_nombre') && val('nombre_lugar')!==val('capa_nombre') ?
+        '<div class="aviso" style="margin:-12px 0 18px">Según las capas de la Secretaría, el punto está en <strong>'+esc(val('capa_nombre'))+'</strong>. '+
+          '<button type="button" class="enlace" onclick="usaNombreDelPunto()">Usar ese nombre</button></div>' : '')+
+      campoArea('referencias','Cómo se llega y cómo se reconoce el sitio',esObligatorio('referencias'),
+        'Por dónde se entra, desde qué punto conocido y a qué distancia; y qué hay alrededor que permita reconocerlo.',3);
+  }
 
-  '<div class="mapa-barra">'+
-    '<span class="coords" id="coords">'+(val('lat')?svgIcono('pin',15)+' '+esc(val('lat'))+', '+esc(val('lon')):'Sin punto seleccionado')+'</span>'+
-    (val('lat')?'<button type="button" class="btn btn-secundario" style="padding:9px 16px;font-size:13.5px" onclick="quitaPunto()">Quitar el punto</button>':'')+
-  '</div>'+
-  '<div class="mapa-sin" id="mapaSin"><strong>No fue posible cargar el mapa.</strong> Lo que hayas capturado se conserva; el personal de la Secretaría georreferenciará el sitio al recibir la denuncia.</div>'+
-  '<div id="mapa"></div>'+
-  (sinDir
-    ? '<p class="ayuda">Como el lugar no tiene domicilio, puedes marcarlo de tres maneras: pegando las coordenadas, pegando el enlace de Google Maps, o dando un clic sobre el mapa y arrastrando el punto.</p>'
-    : '<p class="ayuda">Si el punto no quedó exactamente donde ocurre, arrástralo o da un clic sobre el mapa para colocarlo en otro lugar.</p>')+
-
-  '<div id="panelCapas">'+cajaCapas()+'</div>'+
+  h += '<div id="zonaConfirma">'+cajaConfirma()+'</div>';
 
 
+  h += '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(1)">'+
+    '<span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
+    '<button type="button" class="btn btn-primario" '+(val('fuera')==='si'?'disabled title="Coloca el punto dentro de la Ciudad de México para continuar"':'')+
+      ' onclick="valida(2)&&irA(3)">Continuar</button></div></div>';
+  return h;
+}
 
-  /* Sin dirección, el sitio se nombra e indica cómo se llega —y esto va DESPUÉS
-     del mapa, porque el nombre se propone desde la capa que contiene el punto.
-     Se propone, no se impone: la misma regla de DEC-41. */
-  (sinDir ?
-    '<h3 class="sub-seccion">Cómo identificar el sitio</h3>'+
-    campo('nombre_lugar','Nombre del lugar','texto',esObligatorio('nombre_lugar'),
-      'El bosque, el parque, el paraje, el canal, el camino. Si el punto cae en un área que la Secretaría tiene registrada, se propone su nombre.')+
-    (val('capa_nombre') && val('nombre_lugar')!==val('capa_nombre') ?
-      '<div class="aviso" style="margin:-12px 0 18px">Según las capas de la Secretaría, el punto está en <strong>'+esc(val('capa_nombre'))+'</strong>. '+
-        '<button type="button" class="enlace" onclick="usaNombreDelPunto()">Usar ese nombre</button></div>' : '')+
-    campoSelect('alcaldia','Alcaldía',ALCALDIAS,esObligatorio('alcaldia'),'Se propone desde el punto que marcaste')+
-    (val('alcaldia_punto') && val('alcaldia')!==val('alcaldia_punto') ?
-      '<div class="aviso" style="margin:-12px 0 18px">El punto está en <strong>'+esc(val('alcaldia_punto'))+'</strong>. '+
-        '<button type="button" class="enlace" onclick="usaAlcaldiaDelPunto()">Usar esa alcaldía</button></div>' : '')+
-    campoArea('referencias','Cómo se llega y cómo se reconoce el sitio',esObligatorio('referencias'),
-      'Por dónde se entra, desde qué punto conocido y a qué distancia; y qué hay alrededor que permita reconocerlo. Sin domicilio, esto es lo que permite al personal de inspección llegar.',3)
-    : '')+
-
-
-  '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(1)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
-  '<button type="button" class="btn btn-primario" '+(val('fuera')==='si'?'disabled title="Coloca el punto dentro de la Ciudad de México para continuar"':'')+
-    ' onclick="valida(2)&&irA(3)">Continuar</button></div></div>');
+/* La confirmación, inmediatamente antes de actuar: si un arrastre la borra, el
+   error aparece donde la persona está mirando y no dos pantallas arriba. Vive
+   en su propio contenedor porque el punto puede cambiar sin rehacer la
+   pantalla —rehacerla reiniciaría el mapa y perdería el encuadre—. */
+function cajaConfirma(){
+  if(!val('lat') || val('fuera')==='si') return '';
+  var det = [val('alcaldia'), val('capa_nombre')].filter(Boolean).join(' \u00b7 ');
+  return '<div class="campo confirma-punto" id="c_punto_confirmado">'+
+    '<label style="display:flex;gap:10px;align-items:flex-start;font-weight:600">'+
+      '<input type="checkbox" id="f_punto_confirmado" style="width:auto;margin-top:3px" '+(val('punto_confirmado')==='si'?'checked':'')+
+        ' onchange="guarda(\'punto_confirmado\',this.checked?\'si\':\'\');limpiaError(\'punto_confirmado\')">'+
+      '<span>Confirmo que el punto marca el lugar de los hechos'+marca_opc(esObligatorio('punto_confirmado'))+
+        (det ? '<span class="cp-det">'+esc(det)+'</span>' : '')+'</span></label>'+
+    '<div class="err">Confirma el punto para continuar: de esa ubicación depende el área que atiende la denuncia.</div></div>';
 }
 
 /* ---------- Resultado del cruce con las capas ---------- */
@@ -1575,18 +1608,8 @@ function cajaCapas(){
   }
   var claseCaja = dg==='DGCORENADR' ? 'capas capas-corena' : (dg==='FEDERAL' ? 'capas capas-federal' : 'capas');
   var h = '';
-  var alcP = val('alcaldia_punto'), alcC = val('alcaldia');
-  if(alcP && alcC && alcP !== alcC){
-    h += '<div class="aviso" role="status" style="margin-bottom:12px">Capturaste <strong>'+esc(alcC)+'</strong> '+
-      'y el punto cae en <strong>'+esc(alcP)+'</strong>. Revisa cuál es la correcta: si el punto no está donde ocurre, arrástralo; '+
-      'si lo que está mal es la alcaldía capturada, '+
-      '<button type="button" class="enlace" onclick="usaAlcaldiaDelPunto()">corrígela a '+esc(alcP)+'</button>.</div>';
-  } else if(alcP && !alcC){
-    h += '<div class="aviso" role="status" style="margin-bottom:12px">El punto cae en <strong>'+esc(alcP)+'</strong>. '+
-      '<button type="button" class="enlace" onclick="usaAlcaldiaDelPunto()">Usar esa alcaldía</button>.</div>';
-  }
   h += '<div class="'+claseCaja+'">'+
-    '<div class="capas-fila"><span class="capas-etq">Alcaldía del punto</span><span class="capas-val">'+esc(alcP||'No determinada')+'</span></div>'+
+    '<div class="capas-fila"><span class="capas-etq">Alcaldía</span><span class="capas-val">'+esc(val('alcaldia')||'No determinada')+'</span></div>'+
     '<div class="capas-fila"><span class="capas-etq">Tipo de zona</span><span class="capas-val">'+esc(val('capa_clase')||t||'No determinado')+'</span></div>';
   if(val('capa_categoria')) h += '<div class="capas-fila"><span class="capas-etq">Categoría</span><span class="capas-val">'+esc(val('capa_categoria'))+'</span></div>';
   if(n) h += '<div class="capas-fila"><span class="capas-etq">Área identificada</span><span class="capas-val">'+esc(n)+'</span></div>';
@@ -1606,16 +1629,6 @@ function cajaCapas(){
     h += '<div class="aviso aviso-bloqueo" role="alert" style="margin:12px 0 0"><strong>El punto se encuentra fuera de los límites de la Ciudad de México.</strong> La Secretaría sólo puede atender denuncias por hechos ocurridos dentro de la Ciudad. Mueve el punto al lugar de los hechos para continuar; si el hecho ocurrió en otra entidad, preséntalo ante la autoridad ambiental que corresponda.</div>';
   }
   h += '</div>';
-  /* Dentro del panel, porque es lo que se vuelve a dibujar cada vez que el
-     punto cambia: así la casilla aparece —y se destilda— con el movimiento. */
-  if(val('lat')){
-    h += '<div class="campo" id="c_punto_confirmado" style="margin:-10px 0 22px">'+
-      '<label style="display:flex;gap:9px;align-items:flex-start;font-weight:600">'+
-      '<input type="checkbox" id="f_punto_confirmado" style="width:auto;margin-top:3px" '+(val('punto_confirmado')==='si'?'checked':'')+
-        ' onchange="guarda(\'punto_confirmado\',this.checked?\'si\':\'\');limpiaError(\'punto_confirmado\')">'+
-      '<span>Confirmo que el punto marca el lugar de los hechos'+marca_opc(esObligatorio('punto_confirmado'))+'</span></label>'+
-      '<div class="err">Confirma el punto para continuar: de esa ubicación depende el área que atiende la denuncia.</div></div>';
-  }
   return h;
 }
 
@@ -1767,13 +1780,11 @@ function analizaCapas(la,lo){
      escribe de vuelta en la dirección. La alcaldía que arroja la capa oficial se
      guarda aparte, se muestra en la ficha y, si difiere de la capturada, se ofrece
      corregirla con un botón. Quien decide es la persona, no el sistema. */
-  guarda('alcaldia_punto', c.alcaldia || '');
-  if(sinDireccion()){
-    /* Aquí no hay dirección escrita que respetar, así que el punto puede llenar
-       lo que esté vacío. Lo que la persona ya escribió no se toca. */
-    if(!val('nombre_lugar') && c.nombre) guarda('nombre_lugar', c.nombre);
-    if(!val('alcaldia')     && c.alcaldia) guarda('alcaldia', c.alcaldia);
-  }
+  /* Una sola alcaldía, y la pone el punto: es el mismo dato con el que se
+     resuelve el turnado, de modo que el acuse y el expediente no pueden
+     contradecirse (DEC-72). */
+  guarda('alcaldia', c.alcaldia || '');
+  if(sinDireccion() && !val('nombre_lugar') && c.nombre) guarda('nombre_lugar', c.nombre);
   guarda('capa_tipo', c.tipo);
   guarda('capa_clase', c.clase);
   guarda('capa_categoria', c.categoria);
@@ -1800,6 +1811,7 @@ function analizaCapas(la,lo){
 
   resaltaPoligono(c.rasgo, c.grupo);
   var pc = $('panelCapas'); if(pc) pc.innerHTML = cajaCapas();
+  var zc = $('zonaConfirma'); if(zc) zc.innerHTML = cajaConfirma();
   var btn = document.querySelector('.acciones .btn-primario');
   if(btn){
     if(c.fuera){ btn.setAttribute('disabled',''); btn.title='Coloca el punto dentro de la Ciudad de México para continuar'; }
@@ -2164,7 +2176,6 @@ function pAcuse(){
     '</ol></div>'+
     '<div style="margin-top:24px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">'+
       '<button type="button" class="btn btn-secundario" onclick="alert(\'En la versión funcional, esta acción descarga el acuse en PDF.\')">Descargar acuse</button>'+
-      '<button type="button" class="btn btn-primario" onclick="estado={};archivos=[];borraBorrador();irA(0)">Presentar otra denuncia</button>'+
     '</div></div></div>';
 }
 
@@ -2578,7 +2589,7 @@ function vaA(la,lo){
   var c=$('resBusqueda'); if(c) c.innerHTML='';
 }
 
-/* Gemela de la anterior, para el nombre del sitio en la ruta sin dirección. */
+/* El nombre del sitio se propone desde la capa; esto lo acepta a petición. */
 function usaNombreDelPunto(){
   if(!val('capa_nombre')) return;
   guarda('nombre_lugar', val('capa_nombre'));
@@ -2586,19 +2597,7 @@ function usaNombreDelPunto(){
   render();
 }
 
-/* Única vía por la que el mapa escribe en la dirección: cuando la persona lo pide. */
-function usaAlcaldiaDelPunto(){
-  if(!val('alcaldia_punto')) return;
-  guarda('alcaldia', val('alcaldia_punto'));
-  render();
-}
 
-function quitaPunto(){
-  ['lat','lon','capa_tipo','capa_nombre','dg','dg_nombre','dg_razon','fuera','concurrencia','coadmin','alcaldia_punto'].forEach(function(k){ guarda(k,''); });
-  limpiaResaltado();
-  if(marcador && mapa){ mapa.removeLayer(marcador); marcador=null; }
-  render();
-}
 /* ================= Envío ================= */
 function enviar(){
   var n = Math.floor(Math.random()*899)+100;

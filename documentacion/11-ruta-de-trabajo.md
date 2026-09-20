@@ -668,3 +668,35 @@ El blanco táctil de 44 px se conserva por relleno interior y no por caja visibl
 **Pregunta abierta que quedó registrada como P-18.** Si el sistema debe resolver los enlaces cortos de Google Maps para sacar la coordenada. No se puede hacer desde el navegador —la política de origen cruzado lo impide—, así que exige servidor; y aceptar que el servidor pida una dirección web escrita por el público es una vulnerabilidad conocida, admisible sólo con lista blanca estricta. La recomendación es hacerlo en la versión funcional, con esas condiciones, porque el beneficio recae en el caso más difícil: el sitio sin domicilio, donde el pin del mapa es lo único que la persona tiene.
 
 **Verificación de cierre.** 171 comprobaciones en verde. Cero clases de estilo huérfanas.
+
+### 20 de septiembre de 2026 · reseño del paso 2, a partir de la auditoría
+
+Quien construye el formulario se declaró confundido sobre cómo debía funcionar el paso del lugar. **Esa confusión se tomó como el hallazgo y no como el punto de partida:** si quien conoce cada decisión no sabe explicar el paso, nadie que llegue de la calle podrá recorrerlo. Se auditó y el resultado está en el documento 14.
+
+#### El defecto que la auditoría encontró
+
+**La alcaldía existía dos veces**: la escrita y la que calcula el cruce espacial. El turnado usaba la del punto; el acuse mostraba la escrita; **el formulario no exigía que coincidieran**. Comprobado capturando una dirección en Coyoacán y el punto dentro del Bosque de Tlalpan: la denuncia se enviaba diciendo, en el mismo resumen, que ocurre en «Av. México 10, Del Carmen, C.P. 04100, Coyoacán» y que ocurre en «Área Natural Protegida local — Bosque de Tlalpan», turnada a la DGCORENADR. **Un expediente que nace contradiciéndose.**
+
+Se resolvió de raíz y no administrando el conflicto: **la alcaldía deja de preguntarse y la determina el punto** (DEC-72), que es el mismo dato con el que se resuelve el turnado. Reconoce además algo cierto: los límites de alcaldía no se conocen con precisión, así que se pedía un dato que el sistema determina mejor.
+
+#### Lo demás
+
+| Cambio | Motivo |
+|---|---|
+| Dos bloques rotulados | «La dirección del lugar» —para que el personal llegue— y «El punto en el mapa» —decide qué área atiende—. Dicho una vez arriba y una vez en cada bloque (DEC-73) |
+| Las tres vías, juntas | Buscar la dirección escrita, pegar coordenadas o enlace, o dar clic en el mapa: en una lista, con el mismo peso. Antes estaban repartidas y el subtítulo describía sólo una (DEC-74) |
+| «Ubicar en el mapa» a secundario | Había dos acciones con relleno compitiendo por ser el siguiente paso |
+| Sin «Quitar el punto» | El punto es obligatorio: su único destino era un error (DEC-74) |
+| La confirmación, junto a los botones | Y diciendo qué se confirma: alcaldía y área identificada, al día con el punto (DEC-75) |
+
+#### Código que quedó sin dueño y se retiró
+
+`alcaldia_punto`, `usaAlcaldiaDelPunto()`, el aviso de discrepancia, `quitaPunto()` y el catálogo `ALCALDIAS` completo, que existía sólo para llenar el selector.
+
+#### Dos defectos propios, los dos encontrados al probar
+
+**La casilla quedó duplicada.** Se añadió la nueva encima de los botones sin retirar la que estaba dentro de la ficha del cruce: **dos elementos con el mismo identificador**. Se retiró la vieja y la que queda tiene contenedor propio, refrescado junto con la ficha, porque el punto cambia sin rehacer la pantalla —rehacerla reiniciaría el mapa y perdería el encuadre—.
+
+**El guion de construcción se detuvo con error**, como se le pidió que hiciera: la vía que requiere geocodificación cambió de marcado y de texto. Se actualizó. **Es la primera vez que esa salvaguarda avisa en lugar de dejar pasar el fallo en silencio**, que era exactamente para lo que se puso.
+
+**Verificación de cierre.** **177 comprobaciones en verde.** Sintaxis correcta, cero funciones sin uso, cero claves escritas y nunca leídas, cero clases huérfanas. Documento 09 regenerado. Comprobado que la alcaldía ya no se pregunta, que la determina el punto, y que **el resumen del paso 6 usa la misma alcaldía con la que se turna**, que es el defecto que abrió todo esto.
