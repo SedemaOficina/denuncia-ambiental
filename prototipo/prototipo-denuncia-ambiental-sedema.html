@@ -225,6 +225,17 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .sub-seccion-sm{font-size:var(--t-md);margin:18px 0 8px}
 /* Texto secundario en gris, al tamaño de apoyo. */
 .nota-gris{font-size:var(--t-md);color:var(--gris)}
+/* Bloque plegable de campos accesorios. Dentro no se marca «opcional» campo por
+   campo: lo dice el encabezado una sola vez, y así la palabra conserva su valor. */
+.bloque-opcional{border:1px solid var(--linea);border-radius:var(--r-ctrl);margin:4px 0 22px;background:#fff}
+.enc-opcional{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:none;border:none;padding:14px 16px;min-height:48px;cursor:pointer;
+  font-family:'Cabin',sans-serif;font-size:var(--t-base);font-weight:600;color:var(--guinda);text-align:left}
+.enc-opcional em{font-style:normal;font-weight:400;color:var(--gris);font-size:var(--t-sm)}
+.enc-opcional:hover{background:var(--guinda-cl)}
+.cuerpo-opcional{padding:2px 16px 16px}
+.cuerpo-opcional .opc{display:none}
+
 /* Ejemplo de descripción bajo el campo de hechos: guía, no instrucción. */
 .ejemplo-hechos{margin:-10px 0 18px;font-size:var(--t-md);color:var(--gris);line-height:1.5;
   border-left:3px solid var(--linea);padding-left:12px;font-style:italic}
@@ -1334,9 +1345,10 @@ function pUbicacion(){
     campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
     campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
   '</div>'+
-  '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px">'+
+  '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px;flex-wrap:wrap">'+
     '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="ubicaPorDireccion()">'+
       svgIcono('pin',16)+' Ubicar en el mapa</button>'+
+    '<button type="button" class="enlace" onclick="estoyEnElLugar()">Los hechos ocurren donde estoy ahora</button>'+
   '</div>'+
   '<div id="resBusqueda"></div>'+
 
@@ -1350,24 +1362,35 @@ function pUbicacion(){
 
   '<div id="panelCapas">'+cajaCapas()+'</div>'+
 
-  '<h3 class="sub-seccion">Referencias adicionales <span class="opc">opcional</span></h3>'+
-  '<p class="ayuda" style="margin-bottom:16px">Cualquier dato que ayude al personal de inspección a localizar el sitio.</p>'+
-  '<div class="fila">'+
-    campo('entre_calle1','Entre calle 1','texto',false,'')+
-    campo('entre_calle2','Entre calle 2','texto',false,'')+
+  /* Todo lo accesorio del paso queda plegado: quien tiene algo que aportar lo abre.
+     Dentro no se marca nada como «opcional» —lo dice el encabezado del bloque— para
+     que la palabra conserve su significado donde sí importa. */
+  '<div class="bloque-opcional">'+
+    '<button type="button" class="enc-opcional" aria-expanded="'+(val('mas_lugar')==='si'?'true':'false')+'" '+
+      'onclick="guarda(\'mas_lugar\',val(\'mas_lugar\')===\'si\'?\'\':\'si\');render()">'+
+      '<span>Añadir más datos del lugar <em>— todo esto es opcional</em></span>'+
+      '<span class="fo-flecha" aria-hidden="true">'+(val('mas_lugar')==='si'?'⌃':'⌄')+'</span>'+
+    '</button>'+
+    (val('mas_lugar')==='si' ?
+      '<div class="cuerpo-opcional">'+
+        '<p class="ayuda" style="margin-bottom:14px">Cualquier dato que ayude al personal de inspección a localizar el sitio.</p>'+
+        '<div class="fila">'+
+          campo('entre_calle1','Entre calle 1','texto',false,'')+
+          campo('entre_calle2','Entre calle 2','texto',false,'')+
+        '</div>'+
+        campoArea('fachada','Color o características del sitio',false,'Cómo se reconoce desde la calle: color de la fachada, barda, portón, anuncios, vegetación, maquinaria.',2)+
+        campoArea('referencias','Otras referencias',false,'Puntos de interés cercanos, número de predio, descripción del acceso.',2)+
+        '<h3 class="sub-seccion sub-seccion-sm">Identificación del sitio</h3>'+
+        campoSiNo('es_estab','¿Los hechos ocurren dentro de un establecimiento?','Un negocio, fábrica, taller, obra en construcción, local o bodega. Sirve para que el personal de inspección reconozca el sitio en campo.','heredaEstablecimiento();render()')+
+        (val('es_estab')==='si' ?
+          '<div class="fila">'+
+            campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,false,'Elige el que más se parezca','actualizaOtroEstab()')+
+            campo('nombre_estab','Nombre comercial','texto',false,'Como aparece en el anuncio o la fachada')+
+          '</div>'+
+          '<div id="otroEstab">'+campoOtroEstab()+'</div>' : '')+
+      '</div>' : '')+
   '</div>'+
-  campoArea('fachada','Color o características del sitio',false,'Describe cómo se reconoce desde la calle: color de la fachada, barda, portón, anuncios, vegetación, maquinaria.',2)+
 
-  '<h3 class="sub-seccion">Identificación del sitio</h3>'+
-  campoSiNo('es_estab','¿Los hechos ocurren dentro de un establecimiento?','Un negocio, fábrica, taller, obra en construcción, local o bodega. Sirve para que el personal de inspección reconozca el sitio en campo; más adelante se pregunta quién es el responsable. Responde «No» si ocurren en la vía pública, en un predio baldío, en el campo o en una barranca.','heredaEstablecimiento();render()')+
-  (val('es_estab')==='si' ?
-    '<div class="fila">'+
-      campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,false,'Elige el que más se parezca','actualizaOtroEstab()')+
-      campo('nombre_estab','Nombre comercial','texto',false,'Como aparece en el anuncio o la fachada')+
-    '</div>'+
-    '<div id="otroEstab">'+campoOtroEstab()+'</div>' : '')+
-
-  campoArea('referencias','Otras referencias',false,'Puntos de interés cercanos, número de predio, descripción del acceso.',2)+
 
   '<div class="acciones"><button class="btn btn-secundario" onclick="irA(1)">Regresar</button>'+
   '<button type="button" class="btn btn-primario" '+(val('fuera')==='si'?'disabled title="Coloca el punto dentro de la Ciudad de México para continuar"':'')+
@@ -2096,6 +2119,12 @@ function valida(n){
     if(val('dom_cp') && !/^\d{5}$/.test(val('dom_cp').trim())) empuja(faltan,'dom_cp');
   }
 
+  /* Un campo obligatorio no puede quedar escondido tras un bloque plegado: el
+     resumen de errores enlazaría a algo que no está en la pantalla. Si alguno de
+     los que faltan vive ahí dentro, el bloque se abre antes de mostrar el error. */
+  var ENVUELTOS_LUGAR = ['entre_calle1','entre_calle2','fachada','referencias','es_estab','tipo_estab','nombre_estab'];
+  if(faltan.some(function(k){ return ENVUELTOS_LUGAR.indexOf(k) >= 0; })) guarda('mas_lugar','si');
+
   if(!faltan.length) return true;
 
   faltan.forEach(function(k){ marca(k); });
@@ -2291,6 +2320,25 @@ function vaA(la,lo){
   ponMarcador(la,lo);
   var c=$('resBusqueda'); if(c) c.innerHTML='';
 }
+/* El lugar de los hechos rara vez coincide con dónde está quien denuncia, y por eso
+   no hay un botón de «ubicarme» sin más (DEC-13). Pero hay un caso muy frecuente en
+   que sí coincide: la persona parada frente al problema. Se ofrece con ese encuadre
+   exacto, como opción secundaria y nunca de forma automática. */
+function estoyEnElLugar(){
+  var cont = $('resBusqueda'); if(!cont) return;
+  if(!navigator.geolocation){
+    cont.innerHTML = '<div class="res-lista"><div class="vacio">Este navegador no puede darnos tu ubicación. Coloca el punto sobre el mapa.</div></div>';
+    return;
+  }
+  cont.innerHTML = '<div class="res-lista"><div class="vacio" role="status">Buscando tu ubicación…</div></div>';
+  navigator.geolocation.getCurrentPosition(function(pos){
+    cont.innerHTML = '';
+    vaA(pos.coords.latitude, pos.coords.longitude);
+  }, function(){
+    cont.innerHTML = '<div class="res-lista"><div class="vacio">No fue posible obtener tu ubicación. Revisa el permiso del navegador o coloca el punto sobre el mapa.</div></div>';
+  }, {enableHighAccuracy:true, timeout:12000});
+}
+
 /* Única vía por la que el mapa escribe en la dirección: cuando la persona lo pide. */
 function usaAlcaldiaDelPunto(){
   if(!val('alcaldia_punto')) return;

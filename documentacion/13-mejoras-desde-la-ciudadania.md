@@ -1,7 +1,14 @@
 # Formulario web de Denuncia Ambiental · Mejoras desde la mirada de quien denuncia
 
-**Versión:** 1.0 · 19 de septiembre de 2026
-**Qué es este documento.** Propuestas, no decisiones. Ninguna está implementada. Cada una indica qué pasa hoy, qué se propone, qué cuesta y a quién corresponde resolverla.
+**Versión:** 2.0 · 19 de septiembre de 2026
+**Qué es este documento.** Propuestas llevadas a decisión. Nació como una lista de propuestas sin implementar; **siete de las diez están hoy en el prototipo** y así se marca cada una. Las tres restantes indican qué pasa hoy, qué se propone, qué cuesta y a quién corresponde resolverla.
+
+| | Estado |
+|---|---|
+| M-01, M-05, M-08, M-09 | **Implementadas** · commit `d0e7c21` |
+| M-03, M-04, M-07 | **Implementadas** · DEC-44, DEC-45, DEC-46 |
+| M-06, M-10 | Aprobadas, por hacer |
+| M-02 | **Detenida**: fundir supuestos toca el catálogo y lo decide la Dirección General |
 
 **Desde dónde está escrito.** La persona típica no está en un escritorio: está **en la calle, frente al problema, con el teléfono en una mano**, probablemente molesta y a veces con miedo de que la vean. Tiene tres minutos. Ése es el usuario contra el que hay que medir cada pantalla.
 
@@ -9,22 +16,24 @@
 
 ## Lo que mide el formulario hoy
 
-Medido sobre la versión 24, en pantalla de teléfono de 390 × 760 px.
+Medido en pantalla de teléfono de 390 × 760 px, sobre el alto del contenedor del formulario. La columna «antes» es la versión 24, con la que se escribió la primera versión de este documento; la columna «ahora», la versión con las siete mejoras aplicadas.
 
-| Paso | Alto | En pantallas de teléfono | Entradas | Palabras |
+| Paso | Antes | Ahora | Pantallas | Palabras (antes → ahora) |
 |---|---|---|---|---|
-| 1 · Qué denuncias | 2 251 px | 3.0 | 21 botones | 272 |
-| 2 · Dónde ocurre | **3 609 px** | **4.7** | 11 | 513 |
-| 3 · Qué ocurre | 2 969 px | 3.9 | 8 | 462 |
-| 4 · Pruebas | 838 px | 1.1 | 2 | 93 |
-| 5 · Tus datos | 1 993 px | 2.6 | 6 | 220 |
-| 6 · Revisión | 2 273 px | 3.0 | — | 161 |
-| **Total** | **13 933 px** | **18.3** | | **1 721** |
+| 1 · Qué denuncias | 2 251 px | 2 251 px | 3.0 | 272 → 272 |
+| 2 · Dónde ocurre | **3 609 px** | **2 163 px** | 4.7 → **2.8** | 513 → **282** |
+| 3 · Qué ocurre | 2 969 px | 2 013 px | 3.9 → 2.6 | 462 → 303 |
+| 4 · Pruebas | 838 px | 880 px | 1.1 → 1.2 | 93 → 95 |
+| 5 · Tus datos | 1 993 px | 1 884 px | 2.6 → 2.5 | 220 → 203 |
+| 6 · Revisión | 2 273 px | **2 321 px** | 3.0 → **3.1** | 161 → 138 |
+| **Total** | **13 933 px** | **11 512 px** | **18.3 → 15.1** | **1 721 → 1 293** |
+
+**El recorrido se acortó un 17 %** sin retirar un solo dato del esquema: lo que cambió es qué se ve de entrada. La palabra «opcional» pasó de veintiocho a dieciocho apariciones. **La pantalla más larga es ahora la revisión final**, que es lo que propone plegar M-10.
 
 **Tres lecturas de esta tabla.**
 
 1. **El recorrido completo son más de dieciocho pantallas de teléfono.** No es escandaloso para un trámite, pero sí es el presupuesto que hay que administrar: cada pantalla que se ahorre se nota.
-2. **El paso 2 es el cuello de botella**: casi cinco pantallas y 513 palabras para responder «¿dónde?». Es, además, el paso donde la persona está de pie en la calle.
+2. **El paso 2 era el cuello de botella**: casi cinco pantallas y 513 palabras para responder «¿dónde?», en el paso donde la persona está de pie en la calle. Hoy son 2.8 pantallas y 282 palabras: **dejó de ser el paso más largo**.
 3. **Las pruebas son el paso más corto**, 1.1 pantallas, y llegan al final. Es exactamente al revés de lo que valen: una fotografía sostiene la presunción fundada del artículo 280 mejor que tres párrafos de descripción.
 
 La ruta mínima —anónima, sin establecimiento, responsable desconocido— baja el paso 5 a 957 px, pero **el paso 2 sigue pesando 3 346 px**: el problema no es lo que se pregunta de más, es la estructura del paso.
@@ -34,6 +43,8 @@ La ruta mínima —anónima, sin establecimiento, responsable desconocido— baj
 ## Las propuestas, por cuánta gente pierden
 
 ### M-01 · Decir en la primera pantalla que se puede denunciar sin dar el nombre
+
+> **Implementada.** La pantalla de inicio abre con que se puede denunciar sin dar el nombre, y enumera en cuatro pasos qué ocurre después.
 **Coste: una línea de texto. Es la propuesta con mejor relación entre esfuerzo y efecto.**
 
 Quien teme a su vecino, al dueño del taller de la esquina o a quien ordenó la obra, **abandona antes de empezar**. Hoy la posibilidad de denunciar de forma anónima aparece hasta el paso 5, después de dieciséis pantallas de inversión. Quien tenía miedo nunca llegó ahí.
@@ -58,6 +69,8 @@ Es pedirle a quien denuncia que haga el trabajo que el sistema ya sabe hacer.
 ---
 
 ### M-03 · Partir el paso 2 y esconder lo accesorio
+
+> **Implementada · DEC-44.** Referencias adicionales e identificación del establecimiento quedaron tras «Añadir más datos del lugar». El paso baja de 4.7 a 2.8 pantallas y de diez a cinco campos a la vista.
 **Coste: bajo. Es reorganización, no funcionalidad nueva.**
 
 Casi cinco pantallas para responder «¿dónde?». El paso contiene cuatro cosas distintas: la dirección, el mapa, las referencias adicionales y la identificación del establecimiento.
@@ -67,6 +80,8 @@ Casi cinco pantallas para responder «¿dónde?». El paso contiene cuatro cosas
 ---
 
 ### M-04 · Ofrecer «los hechos ocurren donde estoy ahora»
+
+> **Implementada · DEC-45.** Opción secundaria, nunca automática, con ese encuadre exacto. Propone el punto; la dirección capturada no se toca.
 **Coste: bajo. Reabre una decisión anterior, con distinto encuadre.**
 
 El botón de geolocalización se retiró deliberadamente (DEC-13) por una razón correcta: el lugar de los hechos rara vez coincide con dónde está quien denuncia. Pero hay un caso muy frecuente en el que sí coincide: **la persona está parada frente al problema**.
@@ -76,6 +91,8 @@ El botón de geolocalización se retiró deliberadamente (DEC-13) por una razón
 ---
 
 ### M-05 · Sustituir la caja en blanco por preguntas pequeñas
+
+> **Implementada en su parte de bajo coste.** Cada uno de los dieciocho supuestos muestra bajo el campo un ejemplo de descripción propio de esa materia. Partir el campo en preguntas pequeñas cambiaría el modelo de datos y no se hizo.
 **Coste: medio. Cambia el modelo de datos de un campo.**
 
 «Descripción de los hechos», con mínimo de cuarenta caracteres, es el campo más difícil del formulario: una caja vacía y la obligación de llenarla. Quien no sabe cuánto escribir, escribe poco; quien escribe poco, recibe un expediente débil.
@@ -99,6 +116,8 @@ La evidencia llega en el paso 4, después de lo difícil. Para entonces la perso
 ---
 
 ### M-07 · Quitar la palabra «opcional» de casi todas partes
+
+> **Implementada · DEC-46.** «Opcional» pasa de veintiocho a dieciocho apariciones: dentro de un bloque plegado no se repite campo por campo, porque lo dice el encabezado.
 **Coste: bajo, pero toca muchas pantallas.**
 
 La palabra «opcional» aparece **veintiocho veces** en el recorrido completo. Cuando casi todo es opcional, la palabra deja de significar algo y el formulario **parece más largo de lo que es**.
@@ -108,6 +127,8 @@ La palabra «opcional» aparece **veintiocho veces** en el recorrido completo. C
 ---
 
 ### M-08 · Decir qué pasa después
+
+> **Implementada** en su parte no dependiente de P-01: la pantalla de inicio dice qué ocurre después sin comprometer plazos que aún no están resueltos.
 **Coste: una redacción. Depende de P-01 y P-08.**
 
 La pregunta que toda persona se hace antes de invertir diez minutos es **«¿me van a hacer caso?»**. Hoy el formulario no la responde en ningún momento.
@@ -117,6 +138,8 @@ La pregunta que toda persona se hace antes de invertir diez minutos es **«¿me 
 ---
 
 ### M-09 · Pasar todas las etiquetas por la prueba de la conversación
+
+> **Implementada.** «Presuntos responsables» → «Quién lo está haciendo». «Elementos probatorios» → «Fotos, videos o documentos». «Descripción de los hechos» → «Descripción de lo que ocurre».
 **Coste: bajo. Sólo redacción.**
 
 Quedan términos de oficio: «presuntos responsables», «temporalidad», «gestiones previas», «elementos probatorios», «materia». Algunos ya se suavizaron; el resto no.

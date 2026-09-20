@@ -383,3 +383,41 @@ Si algo de eso no se entrega, el bloque no está cerrado.
 **Corrección durante el propio cierre.** La primera versión repartía `scroll-margin-top` entre `.campo`, `.tarjeta h2`, `.sub-seccion` y `.resumen-errores`, **cuatro selectores que ya estaban declarados en otro sitio**. La auditoría de hojas de estilo lo detectó: es exactamente la regla «un selector, una declaración». Se sustituyó por una sola declaración de `scroll-padding-top` en el contenedor de desplazamiento, que además cubre cualquier elemento y no sólo esos cuatro.
 
 **Verificación de cierre.** Sintaxis correcta. Cero funciones duplicadas o sin uso, cero claves de estado sin lectura, cero clases huérfanas; el único selector declarado dos veces vuelve a ser `textarea`, la excepción anotada. Comprobado por medición que el recordatorio sigue visible tras desplazar 1 200 y 3 000 px, en pantalla de 1 100 y de 390 px; que no queda duplicado dentro del contenido; que no aparece en el paso 1 ni en el acuse; y que la barra ocupa 110 px en un teléfono de 760 px de alto. Seis pasos y doce escenarios sin error en consola.
+
+### 19 de septiembre de 2026 · bloque «mejoras desde la ciudadanía» (segunda parte: estructura)
+
+Segunda mitad de lo aprobado en el documento 13. La primera —contenido y redacción: anonimato y qué pasa después en la pantalla de inicio, ejemplo por supuesto, etiquetas en lenguaje común— cerró en el commit anterior.
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| `.bloque-opcional` / `.enc-opcional` / `.cuerpo-opcional` | Componente nuevo | Plegable de campos accesorios. Se usa en el paso 2 sobre referencias adicionales e identificación del establecimiento (DEC-44, M-03) |
+| `mas_lugar` | Clave de estado nueva | Sólo abre y cierra el bloque. **No entra en `OBLIG`**: no es un dato de la denuncia y no aparece en el acuse ni en el documento generado |
+| `.cuerpo-opcional .opc{display:none}` | Regla nueva | Dentro del bloque no se repite «opcional»: lo dice el encabezado una vez (DEC-46, M-07) |
+| `estoyEnElLugar()` | Función nueva | La ubicación del dispositivo, con el encuadre de DEC-45. Propone el punto; no toca la dirección (M-04) |
+| Red de seguridad en `valida()` | Guarda nueva | Si un campo obligatorio quedara dentro del bloque plegado, el resumen de errores enlazaría a algo que no está en la pantalla. La lista `ENVUELTOS_LUGAR` despliega el bloque antes de mostrar el error |
+
+**Tres defectos propios corregidos durante el cierre, los tres en la cadena de construcción del artefacto.** Ninguno era visible en el archivo local; los tres habrían llegado a la versión en línea que se usa para validar con la Dirección General.
+
+1. **`construir.py` retiraba el bloque de acciones por una expresión que ya no coincidía.** El marcado había ganado `flex-wrap:wrap` y la sustitución fallaba **en silencio**, dejando en el artefacto un botón que allí no funciona. Se acotó la expresión al botón que de verdad sobra —el que necesita servicio de geocodificación— y, sobre todo, **se hizo que el guion se detenga con error cuando una sustitución no encuentra su objetivo**. Una transformación que no encuentra qué transformar no puede seguir adelante como si nada.
+2. **La nota del artefacto sustituía al contenedor `resBusqueda` en lugar de precederlo.** Como `estoyEnElLugar()` escribe ahí sus mensajes y empieza con `if(!cont) return;`, en el artefacto la opción **no habría hecho absolutamente nada, sin aviso alguno**. La nota ahora va antes y el contenedor se conserva.
+3. **`quitaPunto()` del módulo de mapa vectorial se había desfasado del prototipo.** Al cargarse después, lo sobrescribe: en el artefacto no limpiaba `alcaldia_punto` —de modo que un aviso de alcaldía podía sobrevivir a quitar el punto— y sí limpiaba cinco claves que ya no existen. Se igualaron las listas. También se retiraron de ese módulo `geocodificaInverso()` y `buscaDireccion()`, ya sin llamador, y se añadió el encuadre del punto que el mapa vectorial no tenía.
+
+**Verificación de cierre.** Treinta y seis comprobaciones automatizadas sobre el artefacto construido, todas en verde. Sintaxis correcta en las dos piezas. Cero funciones sin uso; el único selector declarado dos veces sigue siendo `textarea`, la excepción anotada. Comprobado: el bloque nace plegado y sus campos **no están en el árbol del documento**, de modo que no los recorre el teclado ni el lector de pantalla; abre y cierra; lo capturado dentro sobrevive al plegado; ningún campo plegado es hoy obligatorio, y forzando que uno lo fuera, `valida()` frena y despliega el bloque; sin permiso de ubicación se muestra un mensaje y no un vacío; con permiso, el punto queda donde el navegador lo indica, el mapa se acerca, **la alcaldía capturada no cambia** y la del punto sí se registra. Siete pantallas sin error propio en consola.
+
+**Medición, contra la línea base del documento 13** (mismo método: alto del contenedor del formulario, teléfono de 390 × 760 px).
+
+| Paso | Antes | Ahora | |
+|---|---|---|---|
+| 1 · Qué denuncias | 2 251 px | 2 251 px | sin cambio |
+| 2 · Dónde ocurre | 3 609 px | **2 163 px** | −1 446 px · de 4.7 a 2.8 pantallas · de 513 a 282 palabras |
+| 3 · Qué ocurre | 2 969 px | **2 013 px** | −956 px, por las preguntas filtro de permisos y gestiones |
+| 4 · Pruebas | 838 px | 880 px | +42 px, por las etiquetas en lenguaje común |
+| 5 · Tus datos | 1 993 px | 1 884 px | −109 px |
+| 6 · Revisión | 2 273 px | 2 321 px | +48 px |
+| **Total** | **13 933 px · 18.3 pantallas** | **11 512 px · 15.1 pantallas** | **−17 %** |
+
+La palabra «opcional» pasa de veintiocho a dieciocho apariciones. La pantalla más larga es ahora **la revisión final, con 3.1** — que es justo lo que propone plegar M-10, pendiente junto con M-06.
+
+**Corrección de la propia medición.** La primera cifra que se anotó en este cierre —23.8 pantallas— medía el alto de todo el documento, con encabezado de gobierno, pie y ventanas modales incluidos, mientras que la línea base del documento 13 mide sólo el contenedor del formulario. Comparadas así, las dos versiones decían que el formulario había crecido cuando en realidad se había acortado un 17 %. **Una medición sólo sirve si repite el método de aquella contra la que se compara**; se rehízo con el método original y son las cifras de arriba las que valen.
+
+**Nota sobre el método.** Una de las treinta y seis comprobaciones falló en su primera ejecución por culpa de la prueba, no del código: forzaba la obligatoriedad de un campo marcando sólo la bandera del esquema vigente, cuando el panel estaba en el esquema de la propuesta de la Dirección General. Se corrigió la prueba para marcar ambas y no depender del esquema seleccionado. Es la segunda vez que el método de verificación resulta ser lo defectuoso; conviene anotarlo cada vez.
