@@ -52,18 +52,25 @@ with sync_playwright() as pw:
         # version que motivo todo esto tenia 232 palabras.
         afirma(r['palabras'] <= 180, '%s: la portada cabe en %d palabras (tope 180)' % (nom, r['palabras']))
         intro = pg.evaluate("""() => {
-          const i = document.querySelector('.portada-intro'), d = document.querySelector('.dato');
-          if(!i || !d) return null;
+          const i = document.querySelector('.portada-intro');
+          const b = [...document.querySelectorAll('#app button')].find(x => x.textContent.includes('Iniciar'));
+          if(!i || !b) return null;
           return {texto: i.innerText.trim().length,
-                  alineado: Math.abs(i.getBoundingClientRect().left - d.getBoundingClientRect().left) < 2};
+                  alineado: Math.abs(i.getBoundingClientRect().left - b.getBoundingClientRect().left) < 2};
         }""")
         afirma(intro is not None and intro['texto'] > 80, '%s: hay texto de presentación' % nom)
-        afirma(intro and intro['alineado'], '%s: la presentación alinea con las tarjetas de datos' % nom)
+        afirma(intro and intro['alineado'], '%s: la presentación alinea con el botón de iniciar' % nom)
         afirma(r['botonY'] is not None and r['botonY'] < alto,
                '%s: el botón de iniciar se ve sin desplazar (a %s px de %d)' % (nom, r['botonY'], alto))
         afirma(r['cajas'] == 0, '%s: no quedan cajas de aviso apiladas (%d)' % (nom, r['cajas']))
-        afirma(r['datos'] == 3 and r['pasos'] == 4 and r['chips'] == 3,
-               '%s: tres datos, cuatro pasos y tres etiquetas' % nom)
+        afirma(r['datos'] == 0, '%s: no quedan las tarjetas de datos (%d)' % (nom, r['datos']))
+        afirma(r['pasos'] == 4 and r['chips'] == 3, '%s: cuatro momentos y tres cosas que tener a la mano' % nom)
+        # Las etiquetas de «Ten a la mano» no pueden parecer pulsables.
+        parecenBoton = pg.evaluate("""() => [...document.querySelectorAll('.tener span')].some(e => {
+          const c = getComputedStyle(e);
+          return c.borderTopWidth !== '0px' || parseFloat(c.borderRadius) > 6;
+        })""")
+        afirma(not parecenBoton, '%s: las cosas que tener a la mano no parecen botones' % nom)
         afirma(not r['desborde'], '%s: sin desbordamiento horizontal' % nom)
 
         # El encabezado de la pagina ya titula y describe: la tarjeta no lo repite.

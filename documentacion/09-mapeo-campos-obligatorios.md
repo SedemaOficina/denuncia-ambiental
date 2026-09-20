@@ -7,11 +7,11 @@
 
 | | |
 |---|---|
-| Campos del formulario | **50** |
-| Datos personales | **20** (40 %) |
-| Obligatorios · esquema DGIVA | 22 de 50 |
-| Obligatorios · formato vigente | 28 de 50 |
-| Campos con obligatoriedad condicionada | 17 |
+| Campos del formulario | **52** |
+| Datos personales | **20** (38 %) |
+| Obligatorios · esquema DGIVA | 23 de 52 |
+| Obligatorios · formato vigente | 29 de 52 |
+| Campos con obligatoriedad condicionada | 18 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -22,8 +22,8 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 | Finalidad | Para qué | Campos |
 |---|---|---|
-| **Competencia** | Determinar la competencia y turnar al área que atiende | 3 |
-| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 12 |
+| **Competencia** | Determinar la competencia y turnar al área que atiende | 4 |
+| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 13 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 10 |
 | **Responsable** | Identificar y emplazar al probable infractor | 10 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
@@ -47,6 +47,8 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Campo | DGIVA | Vigente | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|---|
 | ¿El lugar tiene calle y número? | Obligatorio | Obligatorio | No | Siempre | Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia. |
+| Coordenadas o enlace de mapa pegados | Opcional | Opcional | No | Siempre | Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró. |
+| Confirmación del punto | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando ya hay un punto colocado | El punto se arrastra, y un roce basta para moverlo. Como de esa coordenada depende el área que atiende la denuncia, se pide confirmarla; cualquier movimiento posterior borra la confirmación. |
 | Punto en el mapa | Obligatorio | Obligatorio | **Sí** | Siempre | Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas. |
 | Alcaldía | Obligatorio | Obligatorio | No | Siempre | Turnado, programación de operativos y estadística territorial. |
 | Colonia | Obligatorio *(condicionado)* | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio y estadística territorial. |

@@ -187,11 +187,15 @@ function limpiaResaltado(){
   if(g) g.innerHTML = '';
 }
 function quitaPunto(){
-  ['lat','lon','capa_tipo','capa_nombre','dg','dg_nombre','dg_razon','fuera','concurrencia','coadmin','alcaldia_punto'].forEach(function(k){ guarda(k,''); });
+  ['lat','lon','capa_tipo','capa_nombre','dg','dg_nombre','dg_razon','fuera','concurrencia','coadmin','alcaldia_punto','punto_confirmado'].forEach(function(k){ guarda(k,''); });
   limpiaResaltado();
   render();
 }
 function ponMarcador(lat,lon){
+  /* Igual que en el prototipo: cualquier colocacion o arrastre deja el punto
+     sin confirmar. Esta funcion sobrescribe a la del prototipo, asi que la
+     regla hay que repetirla aqui (ver LEEME, segunda regla). */
+  guarda('punto_confirmado','');
   lat = (+lat).toFixed(6); lon = (+lon).toFixed(6);
   guarda('lat',lat); guarda('lon',lon);
   if($('coords')) $('coords').innerHTML = svgIcono('pin',15)+' '+lat+', '+lon;

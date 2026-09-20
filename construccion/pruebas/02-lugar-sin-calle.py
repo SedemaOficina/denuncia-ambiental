@@ -42,6 +42,7 @@ with sync_playwright() as pw:
     pg.wait_for_timeout(300)
     res = pg.evaluate("""() => {
       guarda('referencias','Se entra por la puerta 3, a 200 m del estacionamiento.');
+      guarda('punto_confirmado','si');
       const pasa = valida(2);
       const faltan = [...document.querySelectorAll('.campo.invalido label, .campo.invalido .etq')].map(e=>e.textContent.trim());
       return {pasa, faltan};
@@ -49,7 +50,8 @@ with sync_playwright() as pw:
     afirma(res['pasa'] is True, 'UNA DENUNCIA EN EL BOSQUE DE TLALPAN YA PUEDE PRESENTARSE (faltan: %s)' % res['faltan'])
 
     # ---------- 2. Sin el campo de acceso no avanza ----------
-    r2 = pg.evaluate("""() => { guarda('referencias',''); const pasa = valida(2);
+    r2 = pg.evaluate("""() => { guarda('referencias',''); guarda('punto_confirmado','si');
+        const pasa = valida(2);
         return {pasa, esOblig: esObligatorio('referencias')}; }""")
     afirma(r2['pasa'] is False and r2['esOblig'] is True,
            'sin dirección, «cómo se llega» es obligatorio y frena el paso')
@@ -93,6 +95,7 @@ with sync_playwright() as pw:
       guarda('tiene_direccion','si'); ['calle','colonia','cp'].forEach(k=>guarda(k,''));
       const vacio = valida(2);
       guarda('calle','Av. Rio Churubusco'); guarda('colonia','Del Carmen'); guarda('cp','04100');
+      guarda('punto_confirmado','si');
       const lleno = valida(2);
       return {vacio, lleno};
     }""")

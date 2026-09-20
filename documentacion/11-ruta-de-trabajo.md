@@ -625,3 +625,26 @@ De paso, el encabezado «¿Desde cuándo ocurre?» dejó de ser un estilo escrit
 **Nombres de establecimiento (DEC-63).** «Como aparece en el anuncio o la fachada» **supone que el sitio tiene anuncio**, y muchos no lo tienen —una escuela, una bodega, un predio en obra—. Y «nombre comercial» excluye a lo que no es comercio. Pasa a «Nombre del establecimiento», con ejemplos que cubren los dos casos.
 
 **Verificación de cierre.** **147 comprobaciones en verde**, quince de ellas nuevas. Sintaxis correcta, cero funciones sin uso, cero clases de estilo huérfanas. Documento 09 regenerado. Revisión visual en captura a 1 000 px.
+
+### 20 de septiembre de 2026 · ubicación sin geolocalización, y confirmación del punto
+
+Bloque largo de revisión en pantalla. Lo sustantivo son tres cosas.
+
+**Se retira la detección de ubicación del dispositivo (DEC-67).** Revierte DEC-45, que se había implementado el día anterior. El formulario deja de pedir ese permiso al navegador y **no queda una sola mención a la API de geolocalización en el código**. El argumento es el que no se tuvo al añadirla: un permiso de ubicación en un formulario de denuncia es, para quien denuncia, justo la clase de petición que da motivo a desconfiar, y ahorrar un clic no lo compensa.
+
+**Lo sustituye algo mejor (DEC-69):** pegar las coordenadas o el enlace de Google Maps. La persona pega lo que ya tiene —el pin que dejó en el mapa— y el punto se coloca. **El enlace se lee en el navegador, con una expresión regular sobre el texto**; el sistema no lo abre ni consulta nada fuera, y una prueba vigila que la operación no genere ninguna petición de red. Se reconocen las tres formas en que ese servicio escribe la coordenada en la dirección web: `@lat,lon`, `q=lat,lon` y `!3dlat!4dlon`. Los enlaces cortos no la llevan dentro, de modo que no hay nada que leer: **se pide el enlace completo en vez de resolverlo por fuera**, que es exactamente lo que se quiso evitar.
+
+**El punto debe confirmarse (DEC-70).** El punto se arrastra, y un roce basta para moverlo unas calles; de esa coordenada dependen el área que atiende y el tipo de suelo que se invoca. Aparece una casilla bajo el resultado del cruce —debajo de lo que ese punto acaba de determinar— y **cualquier colocación o arrastre posterior la borra**. Ésa es la única parte que la hace útil: una confirmación que sobrevive al movimiento no confirma nada.
+
+**Una regla que hubo que escribir dos veces, y esta vez a tiempo.** El mapa vectorial del artefacto sobrescribe `ponMarcador`, así que la limpieza de la confirmación tuvo que repetirse en `mapa_svg.js`. Es la segunda regla del LEEME de la carpeta de construcción, anotada el día anterior después de que un desfase parecido llegara al artefacto sin que nadie lo viera. Esta vez se aplicó **antes** de que fallara.
+
+**Un defecto propio, encontrado al probar.** La casilla se colocó primero fuera del panel de capas, que es lo único que se vuelve a dibujar al mover el punto: aparecía sólo tras un render completo, de modo que quien pegaba unas coordenadas no la veía. Se movió dentro del panel, que además es su sitio natural.
+
+| Otros cambios | |
+|---|---|
+| Tarjetas de la portada | Retiradas (DEC-65). **Con ellas se va de la primera pantalla el aviso de que se puede denunciar sin dar el nombre**, que era M-01: la opción sigue existiendo, pero ya no se anuncia antes de empezar |
+| «Ten a la mano» | Tenía borde redondeado y fondo blanco, es decir, el aspecto de un control: pasa a lista con viñeta dorada |
+| Pie de página | Las dos vías de presentación juntas, con el correo primero, y las dos áreas que atienden. **Nombrando a la dirección general y no a la coordinación**, conforme a DEC-30 |
+| Botones de sí y no | 40 px con ratón, 48 con el dedo: la regla del blanco táctil se condiciona al tipo de puntero, que es lo que mide, y no al ancho de pantalla (DEC-68) |
+
+**Verificación de cierre.** **166 comprobaciones en verde.** Sintaxis correcta en las dos piezas, cero funciones sin uso, cero claves escritas y nunca leídas, cero clases huérfanas. Documento 09 regenerado: 52 campos, 18 con obligatoriedad condicionada. Comprobado que sin punto no se pide confirmarlo, que al colocarlo aparece sin marcar, que sin confirmar el paso no avanza, y que **mover el punto borra la confirmación, destilda la casilla y vuelve a frenar el paso**.

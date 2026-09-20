@@ -83,40 +83,82 @@ with sync_playwright() as pw:
                         ['entre_calle1','entre_calle2','referencias'])
     afirma(oblig == [], 'con direccion, ninguno es obligatorio (lo son: %s)' % oblig)
 
-    # --- 5. «Los hechos ocurren donde estoy ahora» ---
-    enlace = pg.locator('button.enlace', has_text='donde estoy ahora')
-    afirma(enlace.count() == 1, 'el enlace de geolocalización está presente')
-    afirma(pg.locator('button:has-text("Ubicar en el mapa")').count() == 0,
-           'en el artefacto no queda el botón que requiere servicio de geocodificación')
+    # --- 5. Coordenadas o enlace de mapa pegados (DEC-67, DEC-69) ---
+    # La deteccion de ubicacion del dispositivo se retiro por completo: el
+    # formulario no debe pedir ese permiso ni tocar esa API. En su lugar, la
+    # persona pega lo que ya tiene, y el enlace se LEE aqui, sin salir a la red.
+    afirma(pg.locator('button.enlace', has_text='donde estoy ahora').count() == 0,
+           'no queda el boton que pedia la ubicacion del dispositivo')
+    afirma(pg.evaluate("() => typeof estoyEnElLugar") == 'undefined',
+           'la funcion de geolocalizacion se elimino')
+    afirma(pg.evaluate("() => document.documentElement.outerHTML.indexOf('navigator.geolocation') < 0"),
+           'el codigo ya no menciona la API de geolocalizacion')
+    afirma(pg.locator('#f_coord_pegar').count() == 1,
+           'existe el campo para pegar coordenadas o un enlace de mapa')
 
-    # degradación: sin permiso de ubicación debe avisar, no romper
-    enlace.click(); pg.wait_for_timeout(1200)
-    txt = pg.locator('#resBusqueda').inner_text()
-    afirma(len(txt.strip()) > 0, 'sin permiso de ubicación se muestra un mensaje, no un vacío: «%s»' % txt.strip()[:70])
+    peticiones = []
+    pg.on('request', lambda r: peticiones.append(r.url) if ('google' in r.url or 'goo.gl' in r.url) else None)
 
-    # con permiso concedido: coloca el punto y reencuadra
-    ctx2 = nav.new_context(viewport={'width':390,'height':844},
-                           geolocation={'latitude':19.3579,'longitude':-99.1610},
-                           permissions=['geolocation'], locale='es-MX')
-    p2 = ctx2.new_page()
-    err2 = []
-    p2.on('pageerror', lambda e: err2.append(str(e)))
-    p2.on('console', lambda m: err2.append(m.text) if m.type=='error' and es_propio(m.text) else None)
-    p2.goto(TMP.as_uri()); p2.wait_for_timeout(700)
-    p2.evaluate("guarda('materia','residuos'); guarda('resp_tipo','desconocido'); guarda('tiene_direccion','si'); irA(2)")
-    p2.wait_for_timeout(400)
-    vista_antes = p2.evaluate("() => VISTA && VISTA.w")
-    p2.locator('button.enlace', has_text='donde estoy ahora').click()
-    p2.wait_for_timeout(1500)
-    lat = p2.evaluate("() => val('lat')")
-    vista_dsp = p2.evaluate("() => VISTA && VISTA.w")
-    afirma(lat != '' and abs(float(lat) - 19.3579) < 0.001, 'con permiso, el punto queda en la ubicación devuelta (lat=%s)' % lat)
-    afirma(vista_dsp is not None and vista_antes is not None and vista_dsp < vista_antes,
-           'el mapa vectorial se acerca al punto (ancho %s -> %s)' % (vista_antes, vista_dsp))
-    afirma(p2.evaluate("() => val('alcaldia')") == '', 'el punto NO escribe la alcaldía de la dirección')
-    afirma(p2.evaluate("() => val('alcaldia_punto')") != '', 'el punto sí registra la alcaldía que le corresponde')
-    afirma(err2 == [], 'sin errores en el recorrido con geolocalización: %s' % err2[:3])
-    ctx2.close()
+    casos = [('19.3579, -99.1610', True), ('19.3579 -99.1610', True),
+             ('https://www.google.com/maps/@19.2938,-99.1930,17z', True),
+             ('https://www.google.com/maps?q=19.4326,-99.1332', True),
+             ('https://www.google.com/maps/place/X/@19.2938,-99.1930,17z/data=!3d19.2938!4d-99.1930', True),
+             ('https://maps.app.goo.gl/AbCdEf', False),
+             ('Avenida Chapultepec 440', False), ('', False)]
+    for t, esperado in casos:
+        r = pg.evaluate("t => leeCoordenadas(t)", t)
+        afirma((r is not None) == esperado,
+               'se %s coordenada en «%s»' % ('lee' if esperado else 'rechaza', (t[:46] or '(vacío)')))
+
+    r = pg.evaluate("""() => { ['lat','lon'].forEach(k=>guarda(k,''));
+        guarda('coord_pegar','https://www.google.com/maps/@19.2938,-99.1930,17z'); colocaPorTexto();
+        return {lat: val('lat'), capa: val('capa_nombre'), alc: val('alcaldia')}; }""")
+    pg.wait_for_timeout(400)
+    afirma(r['lat'] != '' and abs(float(r['lat']) - 19.2938) < 0.001,
+           'pegar un enlace de Google Maps coloca el punto (lat=%s)' % r['lat'])
+    afirma(r['capa'] == 'Bosque de Tlalpan', 'y el cruce con las capas se resuelve sobre ese punto (%s)' % r['capa'])
+    afirma(r['alc'] == '', 'el punto pegado NO escribe la alcaldia de la direccion')
+
+    aviso = pg.evaluate("""() => { guarda('coord_pegar','https://maps.app.goo.gl/AbCdEf'); colocaPorTexto();
+        return document.getElementById('resBusqueda').innerText.trim(); }""")
+    afirma('cortos' in aviso, 'un enlace corto se explica en vez de fallar en silencio')
+    afirma(peticiones == [], 'leer el enlace no genera ninguna peticion de red: %s' % peticiones[:2])
+    pg.evaluate("guarda('coord_pegar',''); quitaPunto()")
+
+    # --- 5 bis. Confirmacion del punto (DEC-70) ---
+    # El punto se arrastra, y un roce basta para moverlo. Se pide confirmarlo, y
+    # cualquier movimiento posterior borra la confirmacion: si sobreviviera al
+    # movimiento, pedirla no serviria de nada.
+    r = pg.evaluate("""() => {
+      cfg.validar = true; guarda('tiene_direccion','no'); quitaPunto(); irA(2);
+      const sinPunto = !!document.getElementById('f_punto_confirmado');
+      guarda('coord_pegar','19.2938, -99.1930'); colocaPorTexto();
+      return {sinPunto, conPunto: !!document.getElementById('f_punto_confirmado'),
+              marcada: (document.getElementById('f_punto_confirmado')||{}).checked};
+    }""")
+    pg.wait_for_timeout(400)
+    afirma(r['sinPunto'] is False, 'sin punto no se pide confirmarlo')
+    afirma(r['conPunto'] is True and r['marcada'] is False,
+           'al colocar el punto aparece la casilla, sin marcar')
+
+    r2 = pg.evaluate("""() => {
+      guarda('nombre_lugar','Bosque de Tlalpan'); guarda('referencias','Puerta 3');
+      const sinConfirmar = valida(2);
+      guarda('punto_confirmado','si');
+      const confirmado = valida(2);
+      ponMarcador(19.31, -99.20);
+      const tras = val('punto_confirmado');
+      const casilla = (document.getElementById('f_punto_confirmado')||{}).checked;
+      const bloquea = valida(2);
+      return {sinConfirmar, confirmado, tras, casilla, bloquea};
+    }""")
+    afirma(r2['sinConfirmar'] is False, 'sin confirmar el punto, el paso no avanza')
+    afirma(r2['confirmado'] is True, 'confirmado, el paso avanza')
+    afirma(r2['tras'] == '' and r2['casilla'] is False,
+           'mover el punto borra la confirmacion y destilda la casilla')
+    afirma(r2['bloquea'] is False, 'y vuelve a frenar el paso hasta confirmar de nuevo')
+    pg.evaluate("quitaPunto(); guarda('tiene_direccion','si'); guarda('coord_pegar',''); render()")
+    pg.wait_for_timeout(250)
 
     # --- 6. Recorrido completo de los 6 pasos ---
     pg.evaluate("""() => {

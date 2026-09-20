@@ -160,11 +160,16 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .si-no{display:flex;gap:10px}
 .si-no.envolver{flex-wrap:wrap}
 .si-no.envolver .btn-sn{min-width:0;flex:1 1 auto}
-.btn-sn{flex:0 0 auto;min-width:96px;min-height:48px;padding:12px 22px;
+.btn-sn{flex:0 0 auto;min-width:78px;min-height:40px;padding:9px 18px;
   background:#fff;border:1px solid var(--borde);border-radius:var(--r-ctrl);
-  font-family:'Cabin',sans-serif;font-size:var(--t-base);font-weight:600;color:var(--gris);cursor:pointer}
+  font-family:'Cabin',sans-serif;font-size:var(--t-md);font-weight:600;color:var(--gris);cursor:pointer}
+/* Con el dedo hace falta más superficie; con el ratón, no. */
+@media (pointer: coarse){
+  .btn-sn{min-width:96px;min-height:48px;padding:12px 22px;font-size:var(--t-base)}
+  .btn-sn[aria-pressed="true"]{padding:11px 21px}
+}
 .btn-sn:hover{border-color:var(--azul);color:var(--azul)}
-.btn-sn[aria-pressed="true"]{border-color:var(--azul);border-width:2px;background:var(--azul-cl);color:var(--azul);padding:11px 21px}
+.btn-sn[aria-pressed="true"]{border-color:var(--azul);border-width:2px;background:var(--azul-cl);color:var(--azul);padding:8px 17px}
 
 /* ---------- Hora en dos controles ---------- */
 .par-hora{display:flex;align-items:center;gap:8px}
@@ -267,11 +272,6 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
    hacer nada. Aqui la promesa va arriba, el boton enseguida, y lo que explica
    debajo, para quien lo necesite (DEC-53). */
 .portada{text-align:center;padding:2px 0 4px}
-.portada-datos{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;text-align:left}
-.dato{border:1px solid var(--linea);border-radius:var(--r-caja);padding:12px 12px 13px;background:var(--blanco)}
-.dato b{display:block;font-family:'Cabin',sans-serif;font-size:var(--t-md);color:var(--texto);
-  font-weight:700;line-height:1.25;margin-bottom:3px}
-.dato span{display:block;font-size:var(--t-xs);color:var(--gris);line-height:1.35}
 .portada-pie{font-size:var(--t-sm);color:var(--gris);margin-top:14px;line-height:1.5}
 
 /* Qué pasa después: cuatro momentos en horizontal, con la misma gramática
@@ -299,15 +299,13 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 }
 
 /* Ten a la mano: etiquetas, no vinetas con frases. */
-.tener{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 6px}
-.tener span{border:1px solid var(--linea);border-radius:var(--r-pill);padding:7px 13px;
-  font-size:var(--t-sm);color:var(--gris);background:var(--blanco)}
+.tener{display:flex;flex-wrap:wrap;gap:6px 22px;margin:4px 0 6px}
+.tener span{position:relative;padding-left:15px;font-size:var(--t-md);color:var(--gris);line-height:1.5}
+.tener span::before{content:'';position:absolute;left:0;top:.62em;width:5px;height:5px;
+  border-radius:var(--r-pill);background:var(--dorado)}
 
 @media (max-width:420px){
   .portada-intro{font-size:var(--t-base);margin-bottom:16px}
-  .portada-datos{grid-template-columns:1fr;gap:8px}
-  .dato{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:baseline;padding:10px 13px}
-  .dato b{margin-bottom:0}
 }
 
 
@@ -437,7 +435,8 @@ table.comp .nuevo{color:var(--guinda);font-weight:600}
 
 /* ---------- Pie ---------- */
 footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;font-size:var(--t-sm);color:var(--gris)}
-.pie{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:32px;align-items:start}
+.pie{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:30px;align-items:start}
+.pie-bloque p span{color:var(--gris)}
 .pie h2{font-size:var(--t-sm);text-transform:uppercase;letter-spacing:.06em;color:var(--guinda);margin-bottom:8px}
 .pie p{margin-bottom:8px;line-height:1.5}
 .pie a{color:var(--guinda);text-decoration:underline}
@@ -520,18 +519,25 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
     </div>
 
     <div class="pie-bloque">
-      <h2>Presentar la denuncia en persona</h2>
-      <p>Oficialía de Partes, interior del Bosque de San Juan de Aragón<br>
+      <h2>Otras formas de presentarla</h2>
+      <p><strong>Por correo electrónico</strong><br>
+        <a href="mailto:denuncias@sedema.cdmx.gob.mx">denuncias@sedema.cdmx.gob.mx</a></p>
+      <p><strong>En persona</strong><br>
+        Oficialía de Partes, interior del Bosque de San Juan de Aragón<br>
         Avenida José Loreto Fabela, acceso 1, colonia San Juan de Aragón<br>
-        Gustavo A. Madero, C.P. 07969, Ciudad de México</p>
-      <p>Lunes a viernes de 9:00 a 13:30 horas</p>
-      <p><span class="pendiente">Domicilios y horarios de las unidades que atienden, por confirmar</span></p>
+        Gustavo A. Madero, C.P. 07969, Ciudad de México<br>
+        Lunes a viernes de 9:00 a 13:30 horas</p>
+      <p><span class="pendiente">Teléfono de atención por confirmar</span></p>
     </div>
 
     <div class="pie-bloque">
-      <h2>Contacto</h2>
-      <p><a href="mailto:denuncias@sedema.cdmx.gob.mx">denuncias@sedema.cdmx.gob.mx</a></p>
-      <p><span class="pendiente">Teléfono de atención por confirmar</span></p>
+      <h2>Quién atiende la denuncia</h2>
+      <p>Según dónde ocurran los hechos, la denuncia la atiende una de dos áreas:</p>
+      <p><strong>Dirección General de Inspección y Vigilancia Ambiental</strong><br>
+        <span>Suelo urbano y Áreas de Valor Ambiental</span></p>
+      <p><strong>Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural</strong><br>
+        <span>Suelo de conservación y Áreas Naturales Protegidas. Atiende a través de su Coordinación de Inspección y Vigilancia Ambiental</span></p>
+      <p><span class="pendiente">Domicilios y horarios de las dos unidades, por confirmar</span></p>
       <p class="pie-enlaces">
         <button type="button" class="enlace" onclick="abrePrivacidad()">Aviso de privacidad</button>
       </p>
@@ -810,6 +816,11 @@ var OBLIG = {
   /* Paso 2 */
   tiene_direccion:  {p:2, dgiva:true,  vigente:true,  etq:'¿El lugar tiene calle y número?', dp:false, fin:'Localización',
      uso:'Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia.'},
+  coord_pegar:      {p:2, dgiva:false, vigente:false, etq:'Coordenadas o enlace de mapa pegados', dp:false, fin:'Localización',
+     uso:'Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró.'},
+  punto_confirmado: {p:2, dgiva:true,  vigente:true,  etq:'Confirmación del punto', dp:false, fin:'Competencia',
+     cond:function(){ return !!val('lat'); } , cond_txt:'Sólo cuando ya hay un punto colocado',
+     uso:'El punto se arrastra, y un roce basta para moverlo. Como de esa coordenada depende el área que atiende la denuncia, se pide confirmarla; cualquier movimiento posterior borra la confirmación.'},
   lat:              {p:2, dgiva:true,  vigente:true,  etq:'Punto en el mapa', dp:true, fin:'Competencia',
      uso:'Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas.'},
   alcaldia:         {p:2, dgiva:true,  vigente:true,  etq:'Alcaldía', dp:false, fin:'Competencia',
@@ -950,7 +961,8 @@ function esObligatorio(k){
    responde esto. Son dos preguntas distintas y conviene no mezclarlas. */
 function presente(k){
   if(k === 'archivos')   return archivos.length > 0;
-  if(k === 'privacidad') return val('privacidad') === 'si';
+  if(k === 'privacidad')       return val('privacidad') === 'si';
+  if(k === 'punto_confirmado') return val('punto_confirmado') === 'si';
   return String(val(k) || '').trim() !== '';
 }
 
@@ -1305,11 +1317,6 @@ function pInicio(){
       '<p class="portada-intro">Cuando una obra, un establecimiento o una actividad daña el ambiente, '+
         'la Secretaría puede <strong>verificarlo en campo</strong> e iniciar el procedimiento que corresponda. '+
         'Para eso necesita saber qué ocurre y dónde.</p>'+
-      '<div class="portada-datos">'+
-        '<div class="dato"><b>Sin tu nombre</b><span>si así lo prefieres</span></div>'+
-        '<div class="dato"><b>10 minutos</b><span>puedes pausar y seguir</span></div>'+
-        '<div class="dato"><b>Con folio</b><span>para dar seguimiento</span></div>'+
-      '</div>'+
       '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
       '<p class="portada-pie">También en persona o por correo electrónico: los datos están al pie de la página.</p>'+
     '</div>'+
@@ -1490,19 +1497,21 @@ function pUbicacion(){
       campo('entre_calle1','Entre calle 1','texto',false,'')+
       campo('entre_calle2','Entre calle 2','texto',false,'')+
     '</div>'+
-    campoArea('referencias','Cómo se reconoce el sitio',false,'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos, número de predio, cómo se entra.',3)+
+    campoArea('referencias','Cómo se reconoce el sitio',false,'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3)+
     '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px;flex-wrap:wrap">'+
       '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="ubicaPorDireccion()">'+
         svgIcono('pin',16)+' Ubicar en el mapa</button>'+
-      '<button type="button" class="enlace" onclick="estoyEnElLugar()">Los hechos ocurren donde estoy ahora</button>'+
     '</div>')+
 
   (sinDir ?
     '<h3 class="sub-seccion">Marca el sitio en el mapa</h3>'+
-    '<p class="ayuda" style="margin-bottom:12px">Da un clic sobre el punto donde ocurren los hechos y arrástralo para ajustarlo. Si estás ahí en este momento, puedes usar tu ubicación.</p>'+
-    '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px;flex-wrap:wrap">'+
-      '<button type="button" class="enlace" onclick="estoyEnElLugar()">Los hechos ocurren donde estoy ahora</button>'+
-    '</div>' : '')+
+    '<p class="ayuda" style="margin-bottom:12px">Da un clic sobre el punto donde ocurren los hechos y arrástralo para ajustarlo.</p>' : '')+
+  campo('coord_pegar','¿Tienes las coordenadas o un enlace de Google Maps?','texto',false,
+    'Pega aquí las coordenadas —19.3579, -99.1610— o el enlace del mapa. El enlace se lee en tu navegador: no se abre ni se consulta nada fuera.',
+    'placeholder="19.3579, -99.1610  ·  https://www.google.com/maps/@19.3579,-99.1610,17z"')+
+  '<div class="acciones" style="justify-content:flex-start;margin:-6px 0 14px">'+
+    '<button type="button" class="btn btn-secundario" style="padding:9px 16px;font-size:13.5px" onclick="colocaPorTexto()">Colocar el punto</button>'+
+  '</div>'+
   '<div id="resBusqueda"></div>'+
 
   '<div class="mapa-barra">'+
@@ -1511,9 +1520,13 @@ function pUbicacion(){
   '</div>'+
   '<div class="mapa-sin" id="mapaSin"><strong>No fue posible cargar el mapa.</strong> Lo que hayas capturado se conserva; el personal de la Secretaría georreferenciará el sitio al recibir la denuncia.</div>'+
   '<div id="mapa"></div>'+
-  '<p class="ayuda"><strong>El lugar de los hechos no tiene que ser donde tú estás.</strong> Si el punto no quedó exactamente donde ocurre, arrástralo, o da un clic sobre el mapa para colocarlo en otro lugar.</p>'+
+  (sinDir
+    ? '<p class="ayuda">Como el lugar no tiene domicilio, puedes marcarlo de tres maneras: pegando las coordenadas, pegando el enlace de Google Maps, o dando un clic sobre el mapa y arrastrando el punto.</p>'
+    : '<p class="ayuda">Si el punto no quedó exactamente donde ocurre, arrástralo o da un clic sobre el mapa para colocarlo en otro lugar.</p>')+
 
   '<div id="panelCapas">'+cajaCapas()+'</div>'+
+
+
 
   /* Sin dirección, el sitio se nombra e indica cómo se llega —y esto va DESPUÉS
      del mapa, porque el nombre se propone desde la capa que contiene el punto.
@@ -1587,6 +1600,16 @@ function cajaCapas(){
     h += '<div class="aviso aviso-bloqueo" role="alert" style="margin:12px 0 0"><strong>El punto se encuentra fuera de los límites de la Ciudad de México.</strong> La Secretaría sólo puede atender denuncias por hechos ocurridos dentro de la Ciudad. Mueve el punto al lugar de los hechos para continuar; si el hecho ocurrió en otra entidad, preséntalo ante la autoridad ambiental que corresponda.</div>';
   }
   h += '</div>';
+  /* Dentro del panel, porque es lo que se vuelve a dibujar cada vez que el
+     punto cambia: así la casilla aparece —y se destilda— con el movimiento. */
+  if(val('lat')){
+    h += '<div class="campo" id="c_punto_confirmado" style="margin:-10px 0 22px">'+
+      '<label style="display:flex;gap:9px;align-items:flex-start;font-weight:600">'+
+      '<input type="checkbox" id="f_punto_confirmado" style="width:auto;margin-top:3px" '+(val('punto_confirmado')==='si'?'checked':'')+
+        ' onchange="guarda(\'punto_confirmado\',this.checked?\'si\':\'\');limpiaError(\'punto_confirmado\')">'+
+      '<span>Confirmo que el punto marca el lugar de los hechos'+marca_opc(esObligatorio('punto_confirmado'))+'</span></label>'+
+      '<div class="err">Confirma el punto para continuar: de esa ubicación depende el área que atiende la denuncia.</div></div>';
+  }
   return h;
 }
 
@@ -2416,7 +2439,10 @@ function iniciaMapa(){
     div.style.display='none'; $('mapaSin').style.display='block';
   }
 }
+/* Cualquier colocación o arrastre deja el punto sin confirmar: si la
+   confirmación sobreviviera al movimiento, no serviría para nada. */
 function ponMarcador(lat,lon){
+  guarda('punto_confirmado','');
   lat = (+lat).toFixed(6); lon = (+lon).toFixed(6);
   guarda('lat',lat); guarda('lon',lon);
   if(marcador) mapa.removeLayer(marcador);
@@ -2502,28 +2528,48 @@ function ubicaPorDireccion(){
     cont.innerHTML = '<div class="res-lista"><div class="vacio">No fue posible consultar el servicio de búsqueda. Coloca el punto directamente sobre el mapa: la dirección que capturaste se conserva.</div></div>';
   });
 }
+/* Lee coordenadas sueltas o un enlace de Google Maps. Se reconocen las tres
+   formas en que ese servicio las escribe en la dirección web: «@lat,lon» del
+   mapa, «q=lat,lon» de una búsqueda y «!3dlat!4dlon» de una ficha de lugar.
+   Los enlaces cortos (maps.app.goo.gl) no llevan la coordenada dentro, de modo
+   que no hay nada que leer: se pide el enlace completo en vez de resolverlo
+   por fuera, que es justo lo que se quiso evitar. */
+function leeCoordenadas(t){
+  t = String(t || '').trim();
+  if(!t) return null;
+  var pares = [
+    /@(-?\d{1,3}\.\d+),(-?\d{1,3}\.\d+)/,
+    /[?&]q=(-?\d{1,3}\.\d+),\s*(-?\d{1,3}\.\d+)/,
+    /!3d(-?\d{1,3}\.\d+)!4d(-?\d{1,3}\.\d+)/,
+    /^\s*(-?\d{1,3}\.\d+)\s*[, ]\s*(-?\d{1,3}\.\d+)\s*$/
+  ];
+  for(var i=0;i<pares.length;i++){
+    var m = t.match(pares[i]);
+    if(m){
+      var la = parseFloat(m[1]), lo = parseFloat(m[2]);
+      if(la>=-90 && la<=90 && lo>=-180 && lo<=180) return {lat:la, lon:lo};
+    }
+  }
+  return null;
+}
+
+function colocaPorTexto(){
+  var cont = $('resBusqueda'); if(!cont) return;
+  var t = val('coord_pegar');
+  var c = leeCoordenadas(t);
+  if(c){ cont.innerHTML = ''; vaA(c.lat, c.lon); return; }
+  var corto = /goo\.gl|maps\.app/.test(t);
+  cont.innerHTML = '<div class="res-lista"><div class="vacio">'+
+    (corto
+      ? 'Ese enlace es de los cortos y no lleva la coordenada dentro. Ábrelo en el navegador y copia la dirección completa que aparezca arriba, o escribe las coordenadas.'
+      : 'No se reconocieron coordenadas. Escríbelas como 19.3579, -99.1610, o pega el enlace completo de Google Maps.')+
+    '</div></div>';
+}
+
 function vaA(la,lo){
   if(mapa){ mapa.setView([la,lo],17); }
   ponMarcador(la,lo);
   var c=$('resBusqueda'); if(c) c.innerHTML='';
-}
-/* El lugar de los hechos rara vez coincide con dónde está quien denuncia, y por eso
-   no hay un botón de «ubicarme» sin más (DEC-13). Pero hay un caso muy frecuente en
-   que sí coincide: la persona parada frente al problema. Se ofrece con ese encuadre
-   exacto, como opción secundaria y nunca de forma automática. */
-function estoyEnElLugar(){
-  var cont = $('resBusqueda'); if(!cont) return;
-  if(!navigator.geolocation){
-    cont.innerHTML = '<div class="res-lista"><div class="vacio">Este navegador no puede darnos tu ubicación. Coloca el punto sobre el mapa.</div></div>';
-    return;
-  }
-  cont.innerHTML = '<div class="res-lista"><div class="vacio" role="status">Buscando tu ubicación…</div></div>';
-  navigator.geolocation.getCurrentPosition(function(pos){
-    cont.innerHTML = '';
-    vaA(pos.coords.latitude, pos.coords.longitude);
-  }, function(){
-    cont.innerHTML = '<div class="res-lista"><div class="vacio">No fue posible obtener tu ubicación. Revisa el permiso del navegador o coloca el punto sobre el mapa.</div></div>';
-  }, {enableHighAccuracy:true, timeout:12000});
 }
 
 /* Gemela de la anterior, para el nombre del sitio en la ruta sin dirección. */
