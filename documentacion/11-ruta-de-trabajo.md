@@ -738,3 +738,17 @@ El criterio de diseño fue **no castigar a quien escribe mal**: un relato con fa
 Que el correo puede caer en la carpeta de no deseados, que es un aviso práctico. Y **la ratificación**: ante la Procuraduría, la denuncia electrónica debe ratificarse en tres días hábiles o se tiene por no presentada. Quien ha denunciado antes lo espera, y su ausencia se lee como omisión. El acuse lo dice, lo contrasta con esta vía —que no lo exige— y ofrece la remisión a la Procuraduría para quien quiera la denuncia formal con respuesta obligada (DEC-81).
 
 **Verificación de cierre.** **208 comprobaciones en verde** en seis baterías, incluida la nueva 06 sobre estadística, aviso y relleno. Documento 09 regenerado: 54 campos, 22 datos personales, 19 condicionados, cero sin uso declarado.
+
+### Añadido: el enlace corto de Google Maps
+
+**20 de septiembre de 2026.** El enlace que la aplicación de mapas comparte —`maps.app.goo.gl/…`— **no lleva la coordenada dentro**. Es un identificador que alguien tiene que canjear, y el navegador no puede hacerlo: la política de origen cruzado se lo impide. No es una limitación del prototipo.
+
+La salida no fue resolverlo, fue **dejar de necesitarlo**. El código plus —el que Google Maps muestra en la ficha de cualquier lugar, `WQGR+9V`— sí lleva la coordenada dentro: es la coordenada escrita en veinte caracteres, y se decodifica con aritmética, sin red y sin depender de ningún servicio. En el teléfono se copia con un toque, que es justo donde el enlace corto deja a la persona atorada.
+
+Se implementó el decodificador completo y la recuperación del código corto respecto de la Ciudad. **Comprobado contra los ejemplos publicados de la especificación** —`8FVC2222+22` y `796RWF8Q+WF`— y en los cuatro rumbos de la Ciudad, incluido el sureste de Milpa Alta, que cae en otro bloque de un grado que el centro y es donde una recuperación ingenua se equivoca por un grado entero.
+
+Y quien pegue un enlace corto ya no recibe un reproche: recibe el propio enlace para abrirlo en otra pestaña y la instrucción de qué copiar de vuelta, en dos pasos.
+
+**P-18 —que el servidor resuelva el enlace corto— sigue abierto, pero bajó de prioridad**: ya no es la diferencia entre poder denunciar y no poder, sino entre dos toques y uno.
+
+**Verificación.** **232 comprobaciones en verde** en siete baterías. La batería 01 tenía una comprobación que buscaba la palabra «cortos» en el aviso; se verificó que no era regresión —el aviso ahora dice más, no menos— y se actualizó para fijar lo que no puede perderse: que el enlace no trae la coordenada y qué hay que copiar en su lugar (DEC-82).

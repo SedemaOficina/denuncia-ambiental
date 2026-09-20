@@ -143,7 +143,11 @@ with sync_playwright() as pw:
 
     aviso = pg.evaluate("""() => { guarda('coord_pegar','https://maps.app.goo.gl/AbCdEf'); colocaPorTexto();
         return document.getElementById('resBusqueda').innerText.trim(); }""")
-    afirma('cortos' in aviso, 'un enlace corto se explica en vez de fallar en silencio')
+    # El aviso cambio con DEC-82: ya no solo explica el problema, ofrece la
+    # salida. Lo que no puede perderse es que el enlace no trae la coordenada.
+    afirma('no lleva la coordenada dentro' in aviso,
+           'un enlace corto se explica en vez de fallar en silencio')
+    afirma('c\u00f3digo plus' in aviso, 'y dice qu\u00e9 copiar de vuelta')
     afirma(peticiones == [], 'leer el enlace no genera ninguna peticion de red: %s' % peticiones[:2])
     pg.evaluate("guarda('coord_pegar',''); quitaPunto()")
 

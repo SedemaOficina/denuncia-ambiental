@@ -863,7 +863,7 @@ var OBLIG = {
   /* Paso 2 */
   tiene_direccion:  {p:2, dgiva:true,  vigente:true,  etq:'¿El lugar tiene calle y número?', dp:false, fin:'Localización',
      uso:'Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia.'},
-  coord_pegar:      {p:2, dgiva:false, vigente:false, etq:'Coordenadas o enlace de mapa pegados', dp:false, fin:'Localización',
+  coord_pegar:      {p:2, dgiva:false, vigente:false, etq:'Coordenadas, código plus o enlace de mapa pegados', dp:false, fin:'Localización',
      uso:'Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró.'},
   punto_confirmado: {p:2, dgiva:true,  vigente:true,  etq:'Confirmación del punto', dp:false, fin:'Competencia',
      cond:function(){ return !!val('lat'); } , cond_txt:'Sólo cuando ya hay un punto colocado',
@@ -1587,9 +1587,9 @@ function pUbicacion(){
         '<li><button type="button" class="btn btn-secundario" onclick="ubicaPorDireccion()">'+
           svgIcono('pin',16)+' Buscar la dirección que escribiste</button></li>')+
       '<li>'+
-        campo('coord_pegar','Pegar coordenadas o un enlace de Google Maps','texto',false,
-          'El enlace se lee en tu navegador: no se abre ni se consulta nada fuera.',
-          'placeholder="19.3579, -99.1610  ·  https://www.google.com/maps/@19.3579,-99.1610,17z"')+
+        campo('coord_pegar','Pegar coordenadas, un código plus o un enlace de Google Maps','texto',false,
+          'Todo se lee en tu navegador: no se abre ni se consulta nada fuera. El código plus aparece en la ficha de cualquier lugar de Google Maps.',
+          'placeholder="19.3579, -99.1610  ·  WQGR+9V  ·  https://www.google.com/maps/@19.3579,-99.1610,17z"')+
         '<button type="button" class="btn btn-secundario" onclick="colocaPorTexto()">Colocar ese punto</button>'+
       '</li>'+
       '<li class="via-mapa">Dar un clic sobre el mapa, y arrastrar el punto para ajustarlo.</li>'+
@@ -2666,6 +2666,67 @@ function ubicaPorDireccion(){
     cont.innerHTML = '<div class="res-lista"><div class="vacio">No fue posible consultar el servicio de búsqueda. Coloca el punto directamente sobre el mapa: la dirección que capturaste se conserva.</div></div>';
   });
 }
+/* ---- Codigo plus (Open Location Code) ----
+   Es la respuesta al enlace corto. Un enlace `maps.app.goo.gl` no lleva la
+   coordenada dentro: es un identificador que alguien tiene que canjear, y el
+   navegador no puede hacerlo (P-18). El codigo plus si la lleva: es la
+   coordenada escrita en veinte caracteres, y se decodifica con aritmetica,
+   sin red y sin depender de nadie. Google Maps lo muestra en la ficha de
+   cualquier lugar, y en el telefono se copia con un toque, que es justo donde
+   el enlace corto deja a la persona atorada (DEC-82). */
+var OLC = '23456789CFGHJMPQRVWX';
+
+/* Devuelve el centro del area que el codigo describe. */
+function descifraPlus(codigo){
+  var c = String(codigo||'').toUpperCase().replace(/\+/g,'').replace(/0+$/,'');
+  if(c.length < 4 || c.length % 2) return null;
+  for(var k=0;k<c.length;k++) if(OLC.indexOf(c[k]) < 0) return null;
+  var lat=-90, lon=-180, latP=20, lonP=20, i;
+  for(i=0; i+1 < c.length && i < 10; i+=2){
+    lat += OLC.indexOf(c[i]) * latP;
+    lon += OLC.indexOf(c[i+1]) * lonP;
+    if(i+2 < c.length && i+2 < 10){ latP/=20; lonP/=20; }
+  }
+  for(i=10; i < c.length && i < 15; i++){
+    var n = OLC.indexOf(c[i]);
+    latP/=5; lonP/=4;
+    lat += Math.floor(n/4) * latP;
+    lon += (n%4) * lonP;
+  }
+  return {lat: lat + latP/2, lon: lon + lonP/2};
+}
+
+/* Los ocho primeros caracteres del codigo de un punto: el prefijo con el que
+   se completa un codigo corto. */
+function cifraPlus(lat, lon){
+  var la = lat + 90, lo = lon + 180, latP = 20, lonP = 20, c = '';
+  for(var i=0;i<4;i++){
+    c += OLC.charAt(Math.floor(la/latP)) + OLC.charAt(Math.floor(lo/lonP));
+    la -= Math.floor(la/latP) * latP;  lo -= Math.floor(lo/lonP) * lonP;
+    latP/=20; lonP/=20;
+  }
+  return c;
+}
+
+/* Un codigo corto —«WQGR+9V»— omite los primeros caracteres y se entiende
+   respecto de una localidad. Aqui la localidad es la Ciudad de Mexico, y el
+   resultado se corre al bloque mas cercano, que es como lo define la norma:
+   sin ese ajuste, un codigo del oriente de la Ciudad cae un grado al lado. */
+function recuperaPlus(corto, refLat, refLon){
+  var mas = corto.indexOf('+');
+  if(mas < 0) return null;
+  var faltan = 8 - mas;
+  if(faltan <= 0 || faltan % 2) return null;
+  var d = descifraPlus(cifraPlus(refLat, refLon).substring(0, faltan) + corto);
+  if(!d) return null;
+  var bloque = Math.pow(20, 2 - faltan/2);
+  if(d.lat - refLat >  bloque/2) d.lat -= bloque;
+  if(refLat - d.lat >  bloque/2) d.lat += bloque;
+  if(d.lon - refLon >  bloque/2) d.lon -= bloque;
+  if(refLon - d.lon >  bloque/2) d.lon += bloque;
+  return d;
+}
+
 /* Lee coordenadas sueltas o un enlace de Google Maps. Se reconocen las tres
    formas en que ese servicio las escribe en la dirección web: «@lat,lon» del
    mapa, «q=lat,lon» de una búsqueda y «!3dlat!4dlon» de una ficha de lugar.
@@ -2681,6 +2742,13 @@ function leeCoordenadas(t){
     /!3d(-?\d{1,3}\.\d+)!4d(-?\d{1,3}\.\d+)/,
     /^\s*(-?\d{1,3}\.\d+)\s*[, ]\s*(-?\d{1,3}\.\d+)\s*$/
   ];
+  /* Codigo plus, entero o corto. Se busca dentro del texto porque la gente
+     pega «WQGR+9V Ciudad de Mexico», con la localidad detras. */
+  var cp = t.toUpperCase().match(/\b([23456789CFGHJMPQRVWX]{4,8}\+[23456789CFGHJMPQRVWX]{2,3})\b/);
+  if(cp){
+    var d = cp[1].indexOf('+') === 8 ? descifraPlus(cp[1]) : recuperaPlus(cp[1], 19.36, -99.13);
+    if(d && d.lat>=-90 && d.lat<=90 && d.lon>=-180 && d.lon<=180) return d;
+  }
   for(var i=0;i<pares.length;i++){
     var m = t.match(pares[i]);
     if(m){
@@ -2696,11 +2764,26 @@ function colocaPorTexto(){
   var t = val('coord_pegar');
   var c = leeCoordenadas(t);
   if(c){ cont.innerHTML = ''; vaA(c.lat, c.lon); return; }
+  /* El enlace corto no lleva la coordenada dentro y el navegador no puede
+     canjearlo (P-18). En vez de dejar ahi a la persona, se le abre el enlace
+     y se le dice que copiar de vuelta: en la computadora, la direccion de la
+     barra; en el telefono, el codigo plus de la ficha, que si trae la
+     coordenada y se copia con un toque (DEC-82). */
   var corto = /goo\.gl|maps\.app/.test(t);
+  if(corto){
+    var url = (t.match(/https?:\/\/\S+/) || [t])[0];
+    cont.innerHTML = '<div class="res-lista"><div class="vacio">'+
+      '<strong>Ese enlace no lleva la coordenada dentro.</strong> Es sólo un identificador, y resolverlo tendría que hacerlo el servidor, no tu navegador. Se arregla en dos pasos:'+
+      '<ol style="margin:10px 0 12px 18px;line-height:1.55">'+
+        '<li>Abre el enlace.</li>'+
+        '<li>Copía de vuelta <strong>el código plus</strong> que aparece en la ficha del lugar —algo como <code>WQGR+9V</code>— o, en computadora, la dirección completa de la barra del navegador.</li>'+
+      '</ol>'+
+      '<a class="btn btn-secundario" style="display:inline-block;text-decoration:none" target="_blank" rel="noopener noreferrer" href="'+esc(url)+'">Abrir el enlace en otra pestaña</a>'+
+      '</div></div>';
+    return;
+  }
   cont.innerHTML = '<div class="res-lista"><div class="vacio">'+
-    (corto
-      ? 'Ese enlace es de los cortos y no lleva la coordenada dentro. Ábrelo en el navegador y copia la dirección completa que aparezca arriba, o escribe las coordenadas.'
-      : 'No se reconocieron coordenadas. Escríbelas como 19.3579, -99.1610, o pega el enlace completo de Google Maps.')+
+    'No se reconocieron coordenadas. Escríbelas como 19.3579, -99.1610, pega el código plus del lugar —como WQGR+9V— o el enlace completo de Google Maps.'+
     '</div></div>';
 }
 
