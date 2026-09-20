@@ -242,6 +242,18 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .sub-seccion-sm{font-size:var(--t-md);margin:18px 0 8px}
 /* Texto secundario en gris, al tamaño de apoyo. */
 .nota-gris{font-size:var(--t-md);color:var(--gris)}
+.portada-intro{font-size:var(--t-lg);line-height:1.5;color:var(--texto);text-align:left;
+  max-width:56ch;margin:2px 0 18px;font-weight:400}
+.portada-intro strong{font-weight:600;color:var(--guinda)}
+
+/* El aviso de borrador acompaña, no compite: sin relleno y con el botón
+   secundario, para que el único elemento con peso siga siendo empezar. */
+.borrador{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;
+  border:1px solid var(--linea);border-left:3px solid var(--dorado);border-radius:var(--r-ctrl);
+  padding:12px 15px;margin:18px 0 4px;text-align:left}
+.borrador p{flex:1 1 220px;font-size:var(--t-md);color:var(--texto);line-height:1.45;margin:0}
+.borrador .btn{padding:8px 15px;font-size:var(--t-md);min-height:38px}
+
 /* ---- Portada ----
    La pantalla de inicio tenia 232 palabras en cuatro cajas identicas y el boton
    de empezar a 1 268 px: casi dos pantallas de desplazamiento antes de poder
@@ -274,6 +286,7 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
   font-size:var(--t-sm);color:var(--gris);background:var(--blanco)}
 
 @media (max-width:420px){
+  .portada-intro{font-size:var(--t-base);margin-bottom:16px}
   .portada-datos{grid-template-columns:1fr;gap:8px}
   .dato{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:baseline;padding:10px 13px}
   .dato b{margin-bottom:0}
@@ -1291,6 +1304,9 @@ function barra(){
 function pInicio(){
   return '<div class="tarjeta">'+
     '<div class="portada">'+
+      '<p class="portada-intro">Cuando una obra, un establecimiento o una actividad daña el ambiente, '+
+        'la Secretaría puede <strong>verificarlo en campo</strong> e iniciar el procedimiento que corresponda. '+
+        'Para eso necesita saber qué ocurre y dónde.</p>'+
       '<div class="portada-datos">'+
         '<div class="dato"><b>Sin tu nombre</b><span>si así lo prefieres</span></div>'+
         '<div class="dato"><b>10 minutos</b><span>puedes pausar y seguir</span></div>'+
@@ -1298,9 +1314,8 @@ function pInicio(){
       '</div>'+
       '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
       '<p class="portada-pie">También en persona o por correo electrónico: los datos están al pie de la página.</p>'+
+      avisoBorrador()+
     '</div>'+
-
-    avisoBorrador()+
 
     '<h3 class="sub-seccion">Qué pasa después</h3>'+
     '<ol class="despues">'+
@@ -2614,10 +2629,10 @@ function pideBorrar(){
    cerrar el navegador creyendo que ya denunció (DEC-54). */
 function avisoBorrador(){
   var b = leeBorrador(); if(!b) return '';
-  return '<div class="aviso aviso-guinda"><strong>Tienes una denuncia sin terminar.</strong> '+
-    'Aún no se ha presentado ante la Secretaría.<br><br>'+
-    '<button type="button" class="btn btn-primario" style="padding:10px 18px;min-height:44px" onclick="retomaBorrador()">Continuar donde me quedé</button> '+
-    '<button type="button" class="btn btn-secundario" style="padding:10px 18px;min-height:44px" onclick="pideBorrar()">Descartar y empezar de nuevo</button></div>';
+  return '<div class="borrador">'+
+    '<p><strong>Tienes una denuncia sin terminar.</strong> Aún no se ha presentado ante la Secretaría.</p>'+
+    '<button type="button" class="btn btn-secundario" onclick="retomaBorrador()">Continuar donde me quedé</button>'+
+    '<button type="button" class="enlace" onclick="pideBorrar()">Descartar</button></div>';
 }
 
 /* ================= Render ================= */

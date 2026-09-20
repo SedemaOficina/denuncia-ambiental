@@ -47,7 +47,18 @@ with sync_playwright() as pw:
           };
         }""")
 
-        afirma(r['palabras'] <= 140, '%s: la portada cabe en %d palabras (tope 140)' % (nom, r['palabras']))
+        # El tope subio de 140 a 180 al recuperar el texto de presentacion, que
+        # es contenido pedido y no relleno (DEC-57). Sigue habiendo tope: la
+        # version que motivo todo esto tenia 232 palabras.
+        afirma(r['palabras'] <= 180, '%s: la portada cabe en %d palabras (tope 180)' % (nom, r['palabras']))
+        intro = pg.evaluate("""() => {
+          const i = document.querySelector('.portada-intro'), d = document.querySelector('.dato');
+          if(!i || !d) return null;
+          return {texto: i.innerText.trim().length,
+                  alineado: Math.abs(i.getBoundingClientRect().left - d.getBoundingClientRect().left) < 2};
+        }""")
+        afirma(intro is not None and intro['texto'] > 80, '%s: hay texto de presentación' % nom)
+        afirma(intro and intro['alineado'], '%s: la presentación alinea con las tarjetas de datos' % nom)
         afirma(r['botonY'] is not None and r['botonY'] < alto,
                '%s: el botón de iniciar se ve sin desplazar (a %s px de %d)' % (nom, r['botonY'], alto))
         afirma(r['cajas'] == 0, '%s: no quedan cajas de aviso apiladas (%d)' % (nom, r['cajas']))
@@ -73,7 +84,7 @@ with sync_playwright() as pw:
           localStorage.setItem(CLAVE_BORRADOR, JSON.stringify(
             {estado:{materia:'ava', hechos:'x'.repeat(60)}, paso:3, t:Date.now()}));
           irA(0);
-          const a = document.querySelector('.aviso.aviso-guinda');
+          const a = document.querySelector('.borrador');
           const r = a ? {t: a.innerText.replace(/\\s+/g,' ').trim(),
                          botones: [...a.querySelectorAll('button')].length} : null;
           localStorage.removeItem(CLAVE_BORRADOR);
@@ -84,6 +95,20 @@ with sync_playwright() as pw:
             afirma('no se ha presentado' in av['t'],
                    '%s: el aviso conserva que la denuncia aún no se ha presentado' % nom)
             afirma(av['botones'] == 2, '%s: el aviso ofrece continuar y descartar' % nom)
+            peso = pg.evaluate("""() => {
+              localStorage.setItem(CLAVE_BORRADOR, JSON.stringify({estado:{materia:'ava'}, paso:3, t:Date.now()}));
+              irA(0);
+              const bs = [...document.querySelectorAll('#app button')];
+              const ini = bs.find(b => b.textContent.includes('Iniciar'));
+              const con = bs.find(b => b.textContent.includes('Continuar donde'));
+              const r = {iniRelleno: getComputedStyle(ini).backgroundColor,
+                         conRelleno: getComputedStyle(con).backgroundColor};
+              localStorage.removeItem(CLAVE_BORRADOR);
+              return r;
+            }""")
+            afirma(peso['iniRelleno'] != peso['conRelleno'] and 'rgb(255, 255, 255)' in peso['conRelleno'],
+                   '%s: continuar es secundario y no compite con iniciar (%s vs %s)'
+                   % (nom, peso['conRelleno'], peso['iniRelleno']))
             afirma(len(av['t'].split(' ')) <= 26,
                    '%s: el aviso se mantiene breve (%d palabras, tope 26)' % (nom, len(av['t'].split(' '))))
         pg.evaluate("irA(0)"); pg.wait_for_timeout(200)

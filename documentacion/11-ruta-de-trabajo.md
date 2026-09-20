@@ -538,3 +538,23 @@ El recordatorio de materia, que va fijo en todas las pantallas, pierde el fondo 
 **Verificación de cierre.** 118 comprobaciones en verde. Sintaxis correcta. Cero funciones sin uso, cero claves de estado escritas y nunca leídas, cero clases de estilo huérfanas. Revisión visual en capturas a 900 y a 390 px: la barra de pasos se lee en ambas, las etiquetas se ocultan en la estrecha y queda el renglón del paso actual, y no hay desbordamiento.
 
 **Nota sobre las pruebas.** Dos comprobaciones fallaron al correrlas de nuevo y ninguna era regresión. Una fijaba la existencia del bloque plegable, que acaba de disolverse; se reescribió para comprobar lo contrario. La otra miraba la marca de «opcional» **sin activar la obligatoriedad**, de modo que en modo de prueba veía todos los campos marcados y daba por defectuoso lo que era correcto. Es el mismo error de método de la vez anterior: la prueba medía una cosa creyendo medir otra.
+
+### 20 de septiembre de 2026 · la portada, segunda pasada
+
+El usuario revisó la portada rehecha y señaló dos cosas: falta un texto de presentación, y el aviso de denuncia sin terminar «casi tiene el mismo peso que iniciar».
+
+**Las dos observaciones son correctas, y la primera corrige algo que yo hice.** Al recortar las 232 palabras se fue con ellas lo que presentaba el trámite. Quedaron tres tarjetas y un botón, sin una línea que dijera para qué sirve nada de eso: eficiente y abrupta. La lección es que **recortar no es lo mismo que jerarquizar**: lo que sobraba era la repetición y las cuatro cajas iguales, no la presentación.
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| Párrafo de presentación | Recuperado | Dos frases: qué puede hacer la Secretaría y qué necesita para hacerlo. No repite el encabezado, que dice qué es el sitio, no para qué sirve |
+| Orden | Ajustado | Presentación → los tres datos → botón. La información antes de pedir la acción, que es lo que se pidió |
+| Aviso de denuncia sin terminar | Caja → tira | Era una caja con relleno y un botón guinda, es decir, un segundo botón principal compitiendo con el primero. Ahora es una tira con filete dorado, botón secundario y un enlace para descartar |
+
+**Medición.** 172 palabras —frente a las 232 de origen y las 123 de la versión anterior—, y el botón de iniciar a **573 px en teléfono y 472 en escritorio**: visible sin desplazar en ambos, que era la condición que no había que perder. El aviso de borrador ocupa el **19 %** del área del botón principal en escritorio.
+
+**Un defecto de alineación.** El párrafo nacía centrado como bloque, con un ancho máximo menor que el de las tarjetas, de modo que su borde izquierdo no coincidía con el de nada. Se alineó a la izquierda de la tarjeta y la prueba lo mide: los dos bordes deben coincidir dentro de dos píxeles. En teléfono, además, a 20 px ocupaba siete renglones y empujaba el botón al filo de la pantalla; al tamaño de cuerpo ocupa cinco.
+
+**Verificación de cierre.** 124 comprobaciones en verde. Cero funciones sin uso y cero clases de estilo huérfanas. Revisión visual en capturas de 1 300 y 390 px.
+
+**Nota sobre las pruebas.** Una comprobación falló porque buscaba el aviso de borrador por su clase anterior, que acababa de cambiar. Es el tipo de fallo que conviene que ocurra: la prueba estaba atada a lo que el aviso *era*, no a lo que hace, y al cambiar avisó. Se actualizó el selector y se añadió una comprobación de lo que sí importa —que el botón de continuar no tenga relleno, para que no compita con el de empezar—.
