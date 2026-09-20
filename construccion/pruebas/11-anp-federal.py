@@ -1,15 +1,23 @@
 # -*- coding: utf-8 -*-
-"""Quién atiende una denuncia dentro de un parque federal (DEC-89).
+"""Quién atiende una denuncia dentro de un parque federal (DEC-89, P-22).
 
    El prototipo turnaba a la DGCORENADR las Áreas Naturales Protegidas
    federales con convenio, como si el convenio le diera a la Secretaría
-   facultades de inspección. No se las da: la cláusula SEGUNDA del Convenio
-   Marco CONANP-CDMX deja a salvo, con todas sus letras, las facultades del
-   Título Sexto de la Ley General del Equilibrio Ecológico, que es el que
-   atribuye la inspección a la autoridad federal.
+   facultades de inspección. La cláusula SEGUNDA del Convenio Marco
+   CONANP-CDMX deja a salvo, con todas sus letras, las facultades del Título
+   Sexto de la Ley General del Equilibrio Ecológico, que es el que atribuye
+   la inspección a la autoridad federal.
 
-   Lo que se comprueba aquí es la invariante: **ningún punto dentro de un
-   parque federal se turna a la Secretaría**, tenga convenio o no."""
+   **Es un criterio provisional.** Interpretar el convenio frente al
+   Reglamento Interior y al Manual corresponde a las áreas y a la unidad
+   jurídica, no al prototipo, y la pregunta está abierta en P-22. Mientras se
+   resuelve, el formulario asume la competencia federal —la lectura que no
+   produce un acto viciado si resulta la correcta— y lo advierte en pantalla.
+
+   Esta batería comprueba ese comportamiento provisional: **ningún punto
+   dentro de un parque federal se turna a la Secretaría**, tenga convenio o
+   no, y **la pantalla dice que el criterio está a consulta**. Si P-22 se
+   resuelve en otro sentido, esta batería cambia con la regla."""
 import os, pathlib, sys
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
 RAIZ = AQUI.parent
@@ -108,6 +116,15 @@ with sync_playwright() as pw:
                    '%s: se dice que la Secretaría ni siquiera participa en la administración' % nombre)
         afirma('recibe y la remite' in r['razon'],
                '%s: la Secretaría recibe la denuncia y la remite, no la devuelve' % nombre)
+        # El aviso vive en la ficha del cruce, que sólo existe dentro del paso 2.
+        aviso = pg.evaluate("""([a,b]) => {
+          cfg.validar = true; guarda('materia','rsu'); guarda('tiene_direccion','no');
+          irA(2); ponMarcador(a,b);
+          const c = document.getElementById('panelCapas');
+          return c ? c.innerText : '';
+        }""", [pt['lat'], pt['lon']])
+        afirma('a consulta de las áreas' in aviso,
+               '%s: la pantalla advierte que el criterio está a consulta (P-22)' % nombre)
 
     # ---- 4. Lo local sigue siendo local ----
     pt = pg.evaluate(DENTRO, 'Bosque de Tlalpan')

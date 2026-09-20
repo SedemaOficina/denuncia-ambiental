@@ -861,13 +861,17 @@ El prototipo no cambia de comportamiento —no hay servidor— pero sus textos d
 
 **20 de septiembre de 2026.**
 
-### El convenio no transfiere inspección (DEC-89)
+### El convenio, leído: una duda que no decide el prototipo (DEC-89, P-22)
 
 El prototipo turnaba a la DGCORENADR las Áreas Naturales Protegidas federales coadministradas, **como si el convenio le diera a la Secretaría facultades de inspección**. Leído el Convenio Marco de Coordinación CONANP-CDMX —firmado el 10 de marzo de 2025 y vigente hasta el 30 de septiembre de 2030—, resulta que no se las da, y lo dice con todas sus letras: su cláusula SEGUNDA define la administración *«sin perjuicio de las facultades que en materia de inspección y vigilancia otorga el Título Sexto de la Ley General del Equilibrio Ecológico y la Protección al Ambiente»*, cuyo artículo 161 las atribuye a la autoridad federal.
 
-**El convenio reparte administración y manejo, no inspección.** De modo que las nueve Áreas Naturales Protegidas federales se turnan a la PROFEPA: con convenio, la Secretaría coadyuva en la administración, recibe la denuncia, la remite y queda enterada; sin convenio, ni siquiera participa. En los dos casos **recibe y remite**, no devuelve a la persona: el artículo 189 de esa misma ley admite que la denuncia federal se presente ante otras autoridades.
+**Leído así, el convenio reparte administración y manejo, no inspección.** De modo que el formulario pasa a turnar las nueve Áreas Naturales Protegidas federales a la PROFEPA: con convenio, la Secretaría coadyuva en la administración, recibe la denuncia, la remite y queda enterada; sin convenio, ni siquiera participa. En los dos casos **recibe y remite**, no devuelve a la persona: el artículo 189 de esa misma ley admite que la denuncia federal se presente ante otras autoridades.
 
-Era un defecto de competencia, no de diseño: una inspección ordenada donde la Secretaría no puede ordenarla es un acto viciado. La batería 11 fija la invariante —ningún punto dentro de un parque federal se turna a la Secretaría— y la comprueba en los nueve polígonos, buscando un punto interior de cada uno.
+**Y aquí hubo que frenar.** La lectura es defendible —una inspección ordenada donde la Secretaría no puede ordenarla es un acto viciado— pero **interpretar un convenio frente al Reglamento Interior y al Manual le toca a las áreas y a la unidad jurídica, no al prototipo**. Se cambió una regla de competencia leyendo una cláusula, y eso es precisamente lo que el proyecto no debe hacer solo.
+
+De modo que **DEC-89 queda como decisión provisional** y la pregunta se abre en **P-22**, con las tres opciones, lo que el convenio dice, lo que no resuelve y a quién corresponde —incluida la Dirección Regional Centro y Eje Neovolcánico de la CONANP, que es la responsable designada en su cláusula SÉPTIMA—. Mientras tanto el formulario asume la competencia federal, que es la lectura que no compromete nada si resulta la correcta, **y lo advierte en pantalla con su marca de pendiente**. Si las áreas resuelven lo contrario, el cambio es de una línea.
+
+Lo que **sí queda firme**, porque no depende de interpretación: las ocho áreas que enumera la cláusula PRIMERA y los tres datos del catálogo que el convenio corrigió. La batería 11 sujeta el comportamiento vigente —ningún punto dentro de un parque federal se turna a la Secretaría— en los nueve polígonos, buscando un punto interior de cada uno; si P-22 se resuelve en otro sentido, la batería cambia con la regla.
 
 **El convenio corrigió además tres datos del catálogo**: la fecha de decreto de Cumbres del Ajusco y las superficies de Cerro de la Estrella y de Insurgente Miguel Hidalgo y Costilla, que el prototipo traía mal.
 
@@ -881,7 +885,7 @@ Se corrigió la expresión y, sobre todo, **se le puso una salvaguarda**: el gui
 
 Se revisó la documentación completa contra el prototipo. El resultado, ordenado por gravedad:
 
-**Primero.** El documento de reglas de negocio decía que las Áreas Naturales Protegidas federales coadministradas se atienden «en el ámbito local». Es la regla que gobierna el turnado, en el documento que la Dirección General lee para validar: quien lo leyera turnaría una denuncia del Desierto de los Leones a la DGCORENADR. Corregido en RN-04 y RN-05, y en los documentos 01 y 10, que repetían el error.
+**Primero.** El documento de reglas de negocio afirmaba, sin matiz, que las Áreas Naturales Protegidas federales coadministradas se atienden «en el ámbito local». Es la regla que gobierna el turnado, en el documento que la Dirección General lee para validar. Se corrigió en RN-04 y RN-05, y en los documentos 01 y 10, **marcando el criterio como provisional y remitiendo a P-22**: la afirmación contraria tampoco debe escribirse como cosa juzgada.
 
 **Segundo.** La recomendación de P-04 —aún abierto— descansaba en la premisa de que la Secretaría «ya ejerce atribuciones» en esas áreas. DEC-89 la desmiente, de modo que la recomendación se invirtió: precedencia federal, con vista al área local.
 

@@ -37,7 +37,7 @@ El canal vigente presenta cinco deficiencias que el formulario corrige:
 ## 4. Actores
 
 - **Dirección General de Inspección y Vigilancia Ambiental.** Autoridad sustantiva; define reglas de procedencia y recibe las denuncias en suelo urbano y Áreas de Valor Ambiental, por conducto de su Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano.
-- **Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural.** Recibe las denuncias en suelo de conservación y Áreas Naturales Protegidas **locales**, por conducto de su Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas. Las Áreas Naturales Protegidas **federales**, con convenio o sin él, se turnan a la PROFEPA: el convenio reparte administración y manejo, no inspección (DEC-89).
+- **Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural.** Recibe las denuncias en suelo de conservación y Áreas Naturales Protegidas **locales**, por conducto de su Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas. Las Áreas Naturales Protegidas **federales**, con convenio o sin él, se turnan hoy a la PROFEPA, porque el convenio reparte administración y manejo y deja a salvo las facultades federales de inspección. **Es un criterio provisional, a consulta de las áreas (P-22).**
 - **Oficina de la Secretaría.** Coordinación del proyecto y enlace entre áreas.
 - **Sistema de Información Ambiental.** Provee las capas geográficas y, en la versión funcional, los servicios de geocodificación y cruce espacial.
 - **Autoridades receptoras por derivación.** Secretaría de Obras y Servicios, Secretaría de Seguridad Ciudadana, PAOT, PROFEPA, INVEA, Agencia de Atención Animal y alcaldías.

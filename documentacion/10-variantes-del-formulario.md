@@ -41,7 +41,7 @@ Cada botón limpia el formulario, carga una combinación completa de respuestas 
 | **Tala en suelo de conservación, anónima** | Tala · anónima · responsable desconocido · DGCORENADR | Paso 6 | DGCORENADR · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas |
 | **Obra de una alcaldía** | Se señala a una autoridad · ruta del artículo 331 · notificación por domicilio | Paso 6 | DGIVA |
 | **Afectación en Área de Valor Ambiental** | Bosque urbano · DGIVA · persona física señalada | Paso 2 | DGIVA |
-| **ANP federal coadministrada** | Desierto de los Leones · la Secretaría coadyuva en la administración; la denuncia se turna a la PROFEPA | Paso 2 | PROFEPA |
+| **ANP federal coadministrada** | Desierto de los Leones · la Secretaría coadyuva en la administración; la denuncia se turna a la PROFEPA mientras las áreas resuelven (P-22) | Paso 2 | PROFEPA |
 | **ANP federal sin convenio** | El Histórico Coyoacán · se deriva a la PROFEPA | Paso 2 | PROFEPA |
 | **Punto fuera de la Ciudad** | Naucalpan · el formulario impide continuar | Paso 2 | Bloqueado: fuera de la Ciudad |
 | **Caso de otra autoridad** | Ruido de vecinos · se detiene el flujo y se orienta | Paso 1 | — |
@@ -79,7 +79,7 @@ Es la bifurcación con más consecuencia, porque decide quién atiende y qué pr
 | Área de Valor Ambiental | DGIVA | Inspección y, en su caso, sanción |
 | Área Natural Protegida local | DGCORENADR · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas | Inspección y, en su caso, sanción |
 | Suelo de conservación | DGCORENADR · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas | Inspección y, en su caso, sanción |
-| Área Natural Protegida federal, **con convenio o sin él** | PROFEPA | La Secretaría la recibe y la remite. Con convenio queda enterada por su papel en la administración del parque; el convenio no transfiere inspección (DEC-89) |
+| Área Natural Protegida federal, **con convenio o sin él** | PROFEPA, provisionalmente | La Secretaría la recibe y la remite. Con convenio queda enterada por su papel en la administración del parque. **Criterio a consulta de las áreas (P-22)** |
 | Fuera de la Ciudad de México | Ninguna | Se impide continuar |
 
 A esto se superpone una séptima ruta que no depende del territorio sino de a quién se señala: **si se denuncia a una autoridad**, el artículo 331 de la Ley Ambiental manda emitir recomendaciones en lugar de sancionar, y el acuse lo advierte.
