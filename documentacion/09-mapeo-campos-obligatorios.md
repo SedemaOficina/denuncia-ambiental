@@ -62,7 +62,7 @@ Todo dato recabado sirve a una de estas seis finalidades. Ninguna otra.
 
 | Campo | DGIVA | Vigente | Dato personal | Uso declarado |
 |---|---|---|---|---|
-| Descripción de los hechos | Obligatorio | Obligatorio | No | Objeto y alcance de la visita de inspección; es la base de la motivación del acto. |
+| Descripción de lo que ocurre | Obligatorio | Obligatorio | No | Objeto y alcance de la visita de inspección; es la base de la motivación del acto. |
 | Desde cuándo ocurre | Opcional | Obligatorio | No | Determina si la conducta es continua o aislada, lo que define la urgencia y el cómputo del plazo. |
 | Fecha en que ocurrió o inició | Opcional | Obligatorio | No | Cómputo del plazo de presentación y ubicación temporal de los hechos en el expediente. |
 | Hora aproximada | Opcional | Opcional | No | Programar la visita en el horario en que la conducta ocurre; sin este dato la visita puede no encontrar nada. |
@@ -85,8 +85,8 @@ Todo dato recabado sirve a una de estas seis finalidades. Ninguna otra.
 
 | Campo | DGIVA | Vigente | Dato personal | Uso declarado |
 |---|---|---|---|---|
-| Elementos probatorios | Opcional | Obligatorio | **Sí** | Elementos probatorios que sustentan la presunción fundada del art. 280. |
-| Otras pruebas | Opcional | Opcional | No | Describe pruebas que la persona no puede adjuntar pero puede ofrecer. |
+| Fotos, videos o documentos | Opcional | Obligatorio | **Sí** | Elementos probatorios que sustentan la presunción fundada del art. 280. |
+| Otras pruebas que puedas ofrecer | Opcional | Opcional | No | Describe pruebas que la persona no puede adjuntar pero puede ofrecer. |
 
 ### Paso 5 · Tus datos
 
