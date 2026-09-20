@@ -1,7 +1,7 @@
 # Formulario web de Denuncia Ambiental · Mejoras desde la mirada de quien denuncia
 
 **Versión:** 2.0 · 19 de septiembre de 2026
-**Qué es este documento.** Propuestas llevadas a decisión. Nació como una lista de propuestas sin implementar; **siete de las diez están hoy en el prototipo** y así se marca cada una. Las tres restantes indican qué pasa hoy, qué se propone, qué cuesta y a quién corresponde resolverla.
+**Qué es este documento.** Propuestas llevadas a decisión. Nació como una lista de propuestas sin implementar; **siete llegaron a implementarse y cuatro siguen hoy en el prototipo tal como se describen: las otras tres se revirtieron o fueron superadas, y la tabla lo dice renglón por renglón** y así se marca cada una. Las tres restantes indican qué pasa hoy, qué se propone, qué cuesta y a quién corresponde resolverla.
 
 | | Estado |
 |---|---|

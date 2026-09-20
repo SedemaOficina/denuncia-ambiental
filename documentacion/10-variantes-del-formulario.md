@@ -13,8 +13,8 @@ El formulario no es un camino único: hay **doce puntos donde cambia de forma** 
 |---|---|---|---|
 | 1 | **Qué se denuncia** | 18 materias · 7 supuestos de otra autoridad | Elegir una materia avanza al paso 2. Elegir un supuesto de otra autoridad detiene el flujo y muestra a dónde acudir. |
 | 2 | **Dónde cae el punto (cruce espacial)** | Suelo urbano · AVA · ANP local · ANP federal con convenio · ANP federal sin convenio · Suelo de conservación · Fuera de la Ciudad | Determina el área que atiende y el contenido de la ficha. Fuera de la Ciudad bloquea el avance. |
-| 2 | **¿Los hechos ocurren dentro de un establecimiento?** | Sí · No | «Sí» muestra tipo de establecimiento y nombre comercial, y preselecciona «Una empresa o negocio» en el paso 3, donde se puede cambiar. |
-| 2 | **Tipo de establecimiento** | 19 giros · Otro | «Otro» abre un campo de texto para especificarlo. |
+| 3 | **¿Los hechos ocurren dentro de un establecimiento?** | Sí · No | «Sí» muestra tipo de establecimiento y nombre comercial, y preselecciona «Una empresa o negocio» en la pregunta siguiente, donde se puede cambiar. |
+| 3 | **Tipo de establecimiento** | 19 giros · Otro | «Otro» abre un campo de texto para especificarlo. |
 | 3 | **¿Quién es responsable de los hechos?** | Persona · Empresa · Autoridad · No lo sé | Cambia por completo el bloque de responsables. «Autoridad» además advierte la ruta del artículo 331 y la refleja en el acuse. |
 | 3 | **Desde cuándo ocurre y fecha** | Único · Recurrente · Permanente, con fecha anterior o posterior a un año | Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único. |
 | 5 | **¿Con qué identidad se presenta?** | Cuenta Llave CDMX · Escribir los datos · Denuncia anónima | Llave CDMX llena los datos y liga el folio a la cuenta. La anónima oculta todos los datos de identificación y cambia el acuse: sin notificación. |
@@ -46,7 +46,7 @@ Cada botón limpia el formulario, carga un caso completo —incluida la coordena
 | **Punto fuera de la Ciudad** | Naucalpan · el formulario impide continuar | Paso 2 |
 | **Caso de otra autoridad** | Ruido de vecinos · se detiene el flujo y se orienta | Paso 1 |
 | **Hechos de hace más de un año** | Permanente · aviso del plazo del artículo 22 BIS 2 | Paso 3 |
-| **Establecimiento de giro no listado** | «Otro» abre el campo de texto | Paso 2 |
+| **Establecimiento de giro no listado** | «Otro» abre el campo de texto | Paso 3 |
 | **Formulario vacío con validación activa** | Muestra qué exige cada paso antes de dejar continuar | Paso 2 |
 
 > El área que atiende cada caso no se documenta aquí: la resuelve el cruce espacial al cargar el escenario, y repetirla a mano es exactamente la forma en que este documento se separó del formulario. El apartado 3 explica la regla; el prototipo muestra el resultado.

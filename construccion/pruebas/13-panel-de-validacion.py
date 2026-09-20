@@ -9,8 +9,9 @@
 
    Esta batería cuida tres cosas: que el panel no reintroduzca aquellas
    variantes; que la obligatoriedad la gobierne **una sola bandera** del
-   catálogo; y que lo que pedía el formato de 2016 siga registrado como dato
-   documental, sin cambiar el comportamiento de nada."""
+   catálogo, sin rastro de la del formato de 2016 (DEC-99); y que **todo
+   campo obligatorio lleve su marca en pantalla**, en cualquiera de los
+   constructores de campo."""
 import os, pathlib, sys
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
 RAIZ = AQUI.parent
@@ -71,25 +72,22 @@ with sync_playwright() as pw:
     b = pg.evaluate("""() => {
       const k = Object.keys(OBLIG);
       const sinOblig = k.filter(x => typeof OBLIG[x].oblig !== 'boolean');
-      const sinVig   = k.filter(x => typeof OBLIG[x].vigente !== 'boolean');
-      const restos   = k.filter(x => 'dgiva' in OBLIG[x]);
+      const restos   = k.filter(x => 'dgiva' in OBLIG[x] || 'vigente' in OBLIG[x]);
       cfg.validar = false;
       const apagado = k.filter(esObligatorio).length;
       cfg.validar = true;
       const encendido = k.filter(esObligatorio);
-      return {n:k.length, sinOblig, sinVig, restos, apagado,
+      return {n:k.length, sinOblig, restos, apagado,
               encendido: encendido.length,
               coincide: encendido.every(x => OBLIG[x].oblig)};
     }""")
-    afirma(b['restos'] == [], 'ningún campo conserva la bandera vieja: %s' % b['restos'])
+    afirma(b['restos'] == [], 'ningún campo conserva una bandera vieja —dgiva o vigente—: %s' % b['restos'])
     afirma(b['sinOblig'] == [], 'los %d campos declaran su obligatoriedad: %s' % (b['n'], b['sinOblig']))
     afirma(b['apagado'] == 0, 'con la validación apagada no se exige nada (%d)' % b['apagado'])
     afirma(b['encendido'] > 0 and b['coincide'],
            'encendida, se exige lo que declara «oblig» y nada más (%d campos)' % b['encendido'])
 
-    # ---- 4. El formato de 2016 se conserva, pero no manda ----
-    afirma(b['sinVig'] == [],
-           'cada campo sigue registrando qué pedía el formato de 2016: %s' % b['sinVig'])
+    # ---- 4. Forzar una bandera que ya no existe no cambia nada ----
     v = pg.evaluate("""() => {
       const k = Object.keys(OBLIG);
       const antes = k.filter(esObligatorio).join(',');
@@ -98,7 +96,21 @@ with sync_playwright() as pw:
       delete cfg.esquema;
       return antes === despues;
     }""")
-    afirma(v, 'y ese dato no cambia lo que el formulario exige, aunque se intente forzarlo')
+    afirma(v, 'forzar el esquema retirado no cambia lo que el formulario exige')
+    m2016 = pg.evaluate("""() => { abreMapeo();
+      const c = document.getElementById('modalMapeo');
+      const th = [...c.querySelectorAll('thead th')].map(x => x.textContent.trim());
+      const cols = c.querySelector('tbody tr:not([style]) td') ? 0 : 0;
+      const filas = [...c.querySelectorAll('tbody tr')].map(r => r.children.length);
+      const txt = c.innerText;
+      c.classList.remove('abierto');
+      return {th, filas: [...new Set(filas)], hay2016: /2016|vigente/i.test(txt)}; }""")
+    afirma(not m2016['hay2016'],
+           'el mapeo no menciona el formato de 2016 en ninguna parte')
+    afirma('Formato de 2016' not in m2016['th'] and len(m2016['th']) == 4,
+           'y su tabla quedó en cuatro columnas: %s' % m2016['th'])
+    afirma(m2016['filas'] == [4] or m2016['filas'] == [1, 4] or m2016['filas'] == [4, 1],
+           'todos los renglones tienen el mismo número de celdas: %s' % m2016['filas'])
 
     # ---- 5. La leyenda de pantalla ya no habla de esquemas ----
     leyenda = pg.evaluate("""() => { cfg.validar = true; guarda('materia','rsu');
@@ -109,16 +121,68 @@ with sync_playwright() as pw:
     afirma('obligatorios' in leyenda and 'esquema' not in leyenda,
            'la leyenda dice sólo que son obligatorios: %r' % leyenda)
 
-    # ---- 6. El mapeo distingue lo vigente de lo documental ----
-    m = pg.evaluate("""() => { abreMapeo();
-      const c = document.getElementById('modalMapeo');
-      const th = [...c.querySelectorAll('thead th')].map(x => x.textContent.trim());
-      return {th, nota: c.querySelector('.nota-gris').innerText, abierto: c.classList.contains('abierto')}; }""")
-    afirma(m['abierto'], 'el mapeo sigue abriéndose desde el panel')
-    afirma('En este formulario' in m['th'] and 'Formato de 2016' in m['th'],
-           'y sus columnas separan lo que se exige de lo que se guarda como referencia: %s' % m['th'])
-    afirma('no cambia el comportamiento' in m['nota'],
-           'la nota lo dice con todas sus letras')
+    # ---- 6. Todo campo obligatorio lleva su marca en pantalla ----
+    #    El asterisco lo ponía cada constructor por su cuenta, y los dos que no
+    #    son <input> —las preguntas de sí o no y la hora— se quedaron sin él:
+    #    «¿El lugar tiene calle y número?» es obligatoria y no lo decía. Esto
+    #    recorre los cinco pasos con la validación encendida y exige, para cada
+    #    campo que en ese momento sea obligatorio, la marca y su texto para
+    #    lector de pantalla (DEC-99).
+    sinMarca, sinError = [], []
+    for n in (1, 2, 3, 4, 5):
+        d = pg.evaluate("""(n) => {
+          cfg.validar = true;
+          guarda('materia','tala'); guarda('tiene_direccion','si');
+          guarda('tipo_denunciado','empresa'); guarda('identificacion','nombre');
+          guarda('notif_correo','no');
+          irA(n);
+          const out = {marca: [], err: []};
+          Object.keys(OBLIG).forEach(k => {
+            if(OBLIG[k].p !== n || !esObligatorio(k)) return;
+            const c = document.getElementById('c_' + k);
+            if(!c) return;                       /* no se rinde en esta ruta */
+            const req = c.querySelector('.req');
+            const lec = c.querySelector('.solo-lector');
+            if(!req || !lec || lec.textContent.indexOf('obligatorio') < 0) out.marca.push(k);
+            if(!c.querySelector('.err')) out.err.push(k);
+          });
+          return out;
+        }""", n)
+        pg.wait_for_timeout(120)
+        sinMarca += d['marca']; sinError += d['err']
+    afirma(sinMarca == [], 'todo campo obligatorio lleva asterisco y su «(obligatorio)» para lector: %s' % sinMarca)
+    afirma(sinError == [], 'y todo campo obligatorio tiene dónde mostrar su error: %s' % sinError)
+
+    # Y lo contrario: la marca no aparece donde no toca.
+    demas = pg.evaluate("""() => {
+      cfg.validar = true; irA(3);
+      return Object.keys(OBLIG).filter(k => {
+        if(OBLIG[k].p !== 3 || esObligatorio(k)) return false;
+        const c = document.getElementById('c_' + k);
+        return c && c.querySelector('.req');
+      });
+    }"""); pg.wait_for_timeout(120)
+    afirma(demas == [], 'y ningún campo opcional la lleva: %s' % demas)
+
+    # ---- 6 bis. El resumen de errores nombra el campo como la pantalla ----
+    r = pg.evaluate("""() => {
+      cfg.validar = true; estado = {}; archivos = [];
+      guarda('materia','tala'); guarda('tiene_direccion','si');
+      irA(2); valida(2);
+      const c = document.getElementById('resumenErrores');
+      if(!c) return null;
+      const ren = [...c.querySelectorAll('li a')].map(a => a.textContent.trim());
+      const punto = [...c.querySelectorAll('li a')].find(a => /punto/i.test(a.textContent));
+      if(punto) punto.click();
+      return {ren, mapa: !!document.getElementById('mapa'),
+              foco: document.activeElement ? document.activeElement.id : ''};
+    }"""); pg.wait_for_timeout(300)
+    afirma(r is not None, 'el resumen de errores aparece')
+    if r:
+        sucios = [x for x in r['ren'] if '*' in x or 'obligatorio' in x.lower()]
+        afirma(sucios == [], 'ningún renglón arrastra «* (obligatorio)»: %s' % sucios)
+        afirma(any('unto' in x for x in r['ren']), 'el punto del mapa se lista: %s' % r['ren'])
+        afirma(r['foco'] == 'mapa', 'y su renglón lleva al mapa, no a un ancla inexistente: %r' % r['foco'])
 
     # ---- 7. Los escenarios siguen cargando ----
     esc = pg.evaluate("""() => {

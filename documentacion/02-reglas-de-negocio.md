@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Reglas de negocio
 
-**Versión:** 1.0 · 18 de septiembre de 2026
+**Versión:** 1.1 · 20 de septiembre de 2026
 Cada regla se identifica con la clave RN-NN. Las reglas marcadas como **[pendiente]** requieren determinación de la Dirección General de Inspección y Vigilancia Ambiental.
 
 ---

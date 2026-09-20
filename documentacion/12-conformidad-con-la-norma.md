@@ -61,9 +61,9 @@ Sigue siendo el requisito 5 del criterio de salida y no depende de nosotros.
 Naturaleza jurídica del canal y aviso de privacidad. Sin ellos no hay publicación posible.
 
 **B-05 · Minimización — RESUELTA el 18 de septiembre de 2026** *(§1.8)*
-Cada uno de los 54 campos declara ahora su **uso**, si es **dato personal** y a qué **finalidad** sirve, dentro del mismo catálogo `OBLIG` que gobierna la pantalla y la validación (DEC-35). El documento 09 se genera de ahí y el mapeo del panel de validación lo muestra en pantalla.
+Cada uno de los 53 campos declara ahora su **uso**, si es **dato personal** y a qué **finalidad** sirve, dentro del mismo catálogo `OBLIG` que gobierna la pantalla y la validación (DEC-35). El documento 09 se genera de ahí y el mapeo del panel de validación lo muestra en pantalla.
 
-**Resultado:** 22 datos personales de 56 campos, ocho finalidades y **cero campos sin uso declarado**. No hubo campos que retirar.
+**Resultado:** 21 datos personales de 53 campos, ocho finalidades y **cero campos sin uso declarado**. No hubo campos que retirar.
 
 **Tres hallazgos que sí salieron:**
 
@@ -86,7 +86,7 @@ El proyecto contempla el folio interno y el folio público. **No contempla el fo
 **Acción:** solicitar el catálogo de giros o padrón de fuentes fijas; ya está listado en `08-normativa-por-integrar.md`.
 
 **B-08 · Datos ficticios sin conjunto formal** *(§3)*
-Existen trece escenarios de prueba, que sirven para recorrer variantes, pero **no** un conjunto de 25 a 40 registros con todos los valores de cada catálogo representados, ni campo `es_ficticio`. Verificado: la marca no existe en el prototipo.
+Existen doce escenarios de prueba, que sirven para recorrer variantes, pero **no** un conjunto de 25 a 40 registros con todos los valores de cada catálogo representados, ni campo `es_ficticio`. Verificado: la marca no existe en el prototipo.
 Y hay un problema de fondo en los que sí existen: nombres como «Hojalatería El Volante» o «Servicios Automotrices del Centro S.A. de C.V.» **parecen negocios reales**. La norma lo prohíbe: un nombre creíble en una base de pruebas termina en una captura de pantalla o en un oficio, y ya no se distingue.
 **Acción:** al construir el conjunto formal, usar denominaciones inequívocamente falsas y legibles, y marcarlas.
 

@@ -90,11 +90,17 @@ with sync_playwright() as pw:
     afirma(r['paso'] == 8, 'al alcanzar el límite se muestra su propia pantalla')
     afirma(r['folio'] == '', 'y no se emite folio: la denuncia no se dio por presentada')
     afirma('no se perdió' in r['texto'], 'lo primero que dice es que la denuncia no se perdió')
-    afirma(r['salidas'] == 4, 'ofrece cuatro salidas, no un muro (%d)' % r['salidas'])
-    afirma('correo electrónico' in r['texto'] and 'en persona' in r['texto'],
-           'entre ellas las dos vías que no tienen límite: correo y Oficialía de Partes')
-    afirma('compartes la conexión' in r['texto'],
-           'y contempla la red compartida, que es a quién golpea un límite por origen')
+    # Dos salidas, y sólo las dos que la Secretaría puede sostener: volver a
+    # intentarlo por esta misma plataforma, o presentarla en la Oficialía de
+    # Partes. El correo electrónico se retiró: ofrecerlo abría una tercera vía
+    # de recepción que nadie había diseñado ni tiene quien la turne (DEC-99).
+    afirma(r['salidas'] == 2, 'ofrece dos salidas, no un muro (%d)' % r['salidas'])
+    afirma('en persona' in r['texto'] and 'Oficialía de Partes' in r['texto'],
+           'la vía presencial, con su domicilio al pie')
+    afirma('correo electrónico' not in r['texto'],
+           'y no se ofrece el correo como canal de denuncia')
+    afirma('compartes la conexión' not in r['texto'],
+           'ni se explica el límite por la conexión compartida')
     afirma(r['volver'], 'se puede volver a la denuncia sin recapturarla')
 
     # ---- 5. El límite no se anuncia con cifras ----

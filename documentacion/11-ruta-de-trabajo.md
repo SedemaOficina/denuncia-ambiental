@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Ruta de trabajo y convenciones de código
 
-**Versión:** 1.2 · 18 de septiembre de 2026
+**Versión:** 1.4 · 20 de septiembre de 2026
 **Para qué sirve este documento.** Fija el orden en que se construye el sistema, el criterio para dar por terminada cada fase y las reglas de código que se aplican desde la maqueta. Es el documento que se consulta antes de abrir cualquier módulo nuevo.
 
 ---
@@ -25,7 +25,7 @@ Prototipo navegable, sin servidor, con los datos y las capas embebidos.
 
 1. Las dieciocho materias y sus fundamentos verificados contra el texto vigente.
 2. Las bifurcaciones documentadas y simulables una por una desde el panel de pruebas.
-3. El mapeo de campos obligatorios acordado con la Dirección General, en los dos esquemas.
+3. El mapeo de campos obligatorios acordado con la Dirección General (documento 09). Hay una sola lista: el conmutador entre dos esquemas se retiró con DEC-97.
 4. Auditorías de estilo, heurística y accesibilidad aplicadas y sin hallazgos abiertos de severidad alta.
 5. **Acta de validación de la Dirección General de Inspección y Vigilancia Ambiental**, sobre una versión identificada del prototipo.
 6. Pendientes jurídicos P-01 y P-02 resueltos: sin naturaleza del canal ni aviso de privacidad no hay publicación posible.
@@ -933,3 +933,29 @@ Con eso, el panel pasa de seis grupos y siete controles a una nota, tres interru
 **La variable `--error-txt` se definía a sí misma.** Quedó como `--error-txt: var(--error-txt)` en el trabajo de color (DEC-95): una definición circular que el navegador descarta en silencio, de modo que el resumen de errores, la caja de confirmación y el aviso de bloqueo se pintaban con el color heredado y no con el rojo oscuro previsto. No rompía nada visible a simple vista, que es por lo que sobrevivió a la batería de color: esa batería comprueba **dónde** se usa cada familia, no que cada valor esté bien escrito. Corregido a `#8C1D18`, 9.1:1 sobre blanco.
 
 **Verificación.** **343 comprobaciones en verde en trece baterías**, con una nueva sobre el propio panel: que no reaparezcan las variantes retiradas, que una sola bandera gobierne la obligatoriedad, que el dato de 2016 no mande, y que los doce escenarios carguen sin romperse. Documentos 09 y 10 regenerados.
+
+### La auditoría general del 20 de septiembre
+
+Se auditó el proyecto entero con tres revisiones independientes y simultáneas —documental, de código y jurídica—, cada una obligada a verificar antes de afirmar. El resultado está en el **documento 16**, que se escribe una vez y no se actualiza. Aquí queda lo que importa para el método.
+
+**Las 343 comprobaciones estaban en verde y ninguna detectó ninguno de los ocho defectos graves.** No fallaron por pocas ni por flojas: fallaron por una razón que conviene nombrar porque volverá a presentarse. **Se comprobaba el estado y no la pantalla.** La batería del turnado federal verificaba que `dg_nombre` dijera PROFEPA —y lo decía— y que el aviso del criterio provisional apareciera —y aparecía—. Nunca leyó el resto del panel, donde un recuadro verde, residuo de DEC-07, afirmaba que «la denuncia se atiende en el ámbito local». Era lo último que leía la persona, y estaba en el color de lo confirmado.
+
+La misma familia explica el resto: el botón de descartar el borrador **existía**, y nadie comprobó que hiciera algo —anclaba la confirmación en un contenedor del paso 6 y se pulsaba desde la portada—; el renglón «Punto en el mapa» **se listaba**, y nadie comprobó que llevara a alguna parte; el límite de archivos **estaba escrito en la pantalla**, y nadie comprobó que se aplicara. Entraban archivos de 300 MB y los sobrantes se descartaban en silencio.
+
+De ahí la **batería 14**, que mira lo que la persona ve y lo que la persona pulsa: recorre cada parque federal leyendo el panel entero, pulsa los veinte botones «Editar» y verifica dónde aterriza cada uno, pasa archivos inadmisibles y exige que se rechacen **y se diga**, comprueba que ningún campo del catálogo sea un fantasma —eso cazó a `responsables`, declarado en el documento 09 y sin pantalla donde llenarse— y barre las reglas de estilo buscando selectores que el documento ya no usa, que es el mismo barrido que habría cazado la variable `--error-txt`.
+
+**Queda una regla:** una comprobación que sólo lee el estado no ha comprobado el formulario.
+
+### Las tres citas penales
+
+El artículo 344 BIS se citaba en tala, terráceos y cascajo. El documento 08 lo registraba como «pendiente de verificar el texto vigente» mientras el documento 12 afirmaba, con la misma fecha, que ninguna cita estaba sin verificar. Las dos cosas no podían ser ciertas.
+
+Se verificó contra el Código Penal para el Distrito Federal con las reformas del 24 de diciembre de 2025, que estaba en la carpeta desde el 20 de septiembre. **Dos de las tres estaban mal:** la tala es el 345 BIS —«al que de forma ilegal o con dolo derribe, tale u ocasione la muerte de uno o más árboles»— y el cascajo es el 344 —residuos de la industria de la construcción en lugar no autorizado—. El 344 BIS es el de terráceos y ahí sí correspondía. Se precisó además el ordenamiento, que se citaba como «Código Penal» a secas.
+
+Es exactamente el tipo de cita que el proyecto se propuso no escribir nunca, y estuvo tres días en pantalla en dos materias donde no correspondía. La lección no es que la regla fuera mala: es que **una regla sin comprobación automática que la sujete es una intención**. Quedan doce fundamentos de materia sin respaldo declarado, y el criterio de salida 1 de la fase 1 los exige verificados.
+
+### Dos hallazgos que resultaron falsos
+
+A dos de las tres revisiones se les entregó una copia parcial del proyecto, y ambas concluyeron —correctamente, para lo que veían— que faltaban veintiún archivos de normativa y que `normalizar_capas.py` no existía. Verificado contra la carpeta de trabajo: los veintidós archivos están con su nomenclatura correcta y el guion existe. Se registra porque **un auditor sólo puede responder por lo que se le entrega**, y la próxima vez la copia va completa.
+
+**Verificación.** **381 comprobaciones en verde en catorce baterías.** Documentos 09 y 10 regenerados: 53 campos, 21 datos personales, ninguno sin uso declarado.

@@ -69,7 +69,7 @@ Nueve archivos no seguían la convención del proyecto —`NN_NOMBRE_AAAAMMDD.pd
 | **LGEEPA (05)** | Artículos 160 y 161: la inspección en asuntos federales es federal. Artículo 189: la denuncia federal puede presentarse ante otras autoridades, lo que sostiene que la Secretaría reciba y remita | Sustento de DEC-89 |
 | **Ley Orgánica de la PAOT (16)** | Ratificación en tres días, confidencialidad, caducidad de un año y requisitos de la denuncia | Textos del acuse (DEC-81) |
 | **Ley Ambiental (02)** | Fundamento por materia y la vía del artículo 280 | Catálogo de materias |
-| **Reglamento Interior (07)** | Reparto entre las dos direcciones generales | **P-17** |
+| **Reglamento Interior (07)** | Reparto entre las dos direcciones generales | **P-22** |
 | **NADF-001-RNAT-2015 (18)** | Poda, derribo y trasplante | Materia de arbolado |
 | **NADF-005-AMBT-2013 (20)** | Emisiones sonoras: límites permisibles | Materia de ruido, pendiente de aprovechar |
 | **Código Penal (10)** | Artículo 344 Bis, citado en tres materias | Pendiente de verificar el texto vigente |
