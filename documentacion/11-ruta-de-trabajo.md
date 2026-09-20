@@ -574,3 +574,30 @@ El usuario revisó la portada rehecha y señaló dos cosas: falta un texto de pr
 **Verificación de cierre.** **132 comprobaciones en verde**, ocho de ellas nuevas. Sintaxis correcta. Cero funciones sin uso, cero claves escritas y nunca leídas, cero clases de estilo huérfanas. Documento 09 regenerado. Comprobado por medición: el paso 2 sin contestar muestra un solo campo y sólo el botón de Regresar, y al contestar muestra nueve campos y los dos botones; la franja de borrador **no está dentro del formulario**, va encima de la tarjeta y desaparece al entrar al cuestionario; los cuatro momentos van en una fila en pantalla ancha y en dos en la estrecha.
 
 **Nota sobre las pruebas.** Cuatro comprobaciones fallaron al correrlas de nuevo y ninguna era regresión: dos miraban el aviso de borrador por la clase y el contenedor anteriores, una fijaba un ancho mínimo que dejó de tener sentido al pasar a columnas, y otra leía la marca de obligatoriedad por la palabra «opcional», que acababa de desaparecer. **Es el patrón de toda la sesión**: cuando una prueba se ata a cómo se ve algo y no a lo que garantiza, cambia el diseño y la prueba se rompe sin que haya nada roto. Las cuatro se reescribieron contra la garantía —que el aviso quede fuera del formulario, que el texto no caiga en la columna del número, que lo obligatorio lleve marca— y no contra la apariencia.
+
+### 20 de septiembre de 2026 · limpieza de textos de ayuda
+
+Revisión en pantalla, señalando uno por uno los textos que estorban. Todos eran de la misma clase: **explicar con palabras lo que el propio control enseña al usarlo**.
+
+| Texto retirado | Dónde | Por qué sobraba |
+|---|---|---|
+| «Por ejemplo: Avenida Río Churubusco» | Calle | Nadie necesita un ejemplo de cómo es una calle |
+| «Si el punto del mapa cae en otra, el formulario te lo advierte» | Alcaldía | Sigue siendo cierto —el aviso existe—, pero anunciarlo antes de que ocurra no ayuda: cuando ocurre, el aviso se explica solo |
+| «No hace falta que suene formal» | Descripción | La caja vacía ya invita a escribir; decirlo no cambia lo que la persona escribe |
+| «Por ejemplo: "De la chimenea de la fábrica…"» | Descripción | Ejemplo por supuesto, de M-05 |
+| «Si es así, lo habitual es que el establecimiento sea el responsable, y el formulario lo propone» | Establecimiento | Describe lo que la persona va a ver ocurrir un segundo después |
+| «Elige el que más se parezca» | Tipo de establecimiento | Es lo que cualquiera hace ante una lista |
+
+**Dos cambios de fondo, no de recorte.**
+
+El título de la descripción **daba por hecho que los hechos siguen ocurriendo**: «Describe lo que está ocurriendo». Una denuncia puede ser de ayer o de hace dos meses, y el campo de temporalidad que viene después contempla las tres cosas. Pasa a **«Cuenta qué pasó o qué está pasando»**.
+
+Lo que de verdad orienta —qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce— estaba en una caja de aviso debajo del campo. **Pasa a ser el marcador dentro del propio campo**: se lee en el momento en que hace falta, desaparece al empezar a escribir y no ocupa espacio permanente. `campoArea()` ganó un parámetro para ello.
+
+**Esto revierte M-05**, que añadió un ejemplo de descripción por cada supuesto. Se retiran la función y los dieciocho textos: dejarlos sin llamador sería exactamente el código zombi que la norma prohíbe. Quedan en el historial si se quisieran recuperar.
+
+**Los subtítulos de sección vuelven al guinda.** En la reducción de saturación habían pasado a neutro, pero un h2 grande en guinda para el paso y un h3 menor en guinda para la sección son jerarquía de tipografía **y** color a la vez, no repetición. Fue una corrección pedida al verlo en pantalla, y es correcta.
+
+**Corrección desde un comentario en el artefacto.** La ayuda de la pregunta del domicilio pasa a los términos con que la Secretaría nombra esos sitios: área natural protegida, barranca, bosque urbano, terreno forestal o de cultivo, camino o canal.
+
+**Verificación de cierre.** 132 comprobaciones en verde. Sintaxis correcta, cero funciones sin uso, cero clases de estilo huérfanas. Comprobado por lectura del árbol que la calle y la alcaldía ya no llevan ayuda, que el número exterior dice «escribe S/N», y que el campo de descripción tiene el marcador dentro y ninguna ayuda ni ejemplo alrededor.

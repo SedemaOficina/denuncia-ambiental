@@ -238,7 +238,7 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .enc-otras:hover{border-color:var(--gris);color:var(--texto)}
 
 /* Subtítulo de bloque dentro de un paso. Sustituye seis estilos en línea idénticos. */
-.sub-seccion{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-lg);color:var(--texto);margin:26px 0 4px}
+.sub-seccion{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-lg);color:var(--guinda);margin:26px 0 4px}
 .sub-seccion-sm{font-size:var(--t-md);margin:18px 0 8px}
 /* Texto secundario en gris, al tamaño de apoyo. */
 .nota-gris{font-size:var(--t-md);color:var(--gris)}
@@ -305,10 +305,6 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 }
 
 
-/* Ejemplo de descripción bajo el campo de hechos: guía, no instrucción. */
-.ejemplo-hechos{margin:-10px 0 18px;font-size:var(--t-md);color:var(--gris);line-height:1.5;
-  border-left:3px solid var(--linea);padding-left:12px;font-style:italic}
-.ejemplo-hechos span{font-style:normal;font-weight:600;color:var(--texto)}
 
 /* Columna de uso declarado en el comparativo de campos: texto largo y secundario. */
 table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
@@ -699,82 +695,64 @@ var MATERIAS = [
   /* --- Aire, ruido y vehículos --- */
   {id:'emisiones', g:0, c:'Humo, polvo, gases u olores', k:'humo polvo gases vapores olor peste chimenea fabrica taller pintura solvente hollin caldera', ico:'emisiones', nom:'Emisiones a la atmósfera', formal:'Emisiones a la atmósfera de fuentes fijas',
    desc:'Humo, polvo, gases, vapores u olores que despide un establecimiento industrial, mercantil o de servicios de jurisdicción local.',
-   norma:'Arts. 196 y 200, Ley Ambiental de la Ciudad de México',
-   ej:'De la chimenea de la fábrica sale humo negro todas las mañanas y huele a solvente en toda la cuadra.'},
+   norma:'Arts. 196 y 200, Ley Ambiental de la Ciudad de México'},
   {id:'ruido', g:0, c:'De un establecimiento o comercio', k:'ruido bocina musica sonido vibracion escandalo anuncio espectacular luz reflector alumbrado olor', ico:'ruido', nom:'Ruido, olores o anuncios', formal:'Ruido, vibraciones, olores y contaminación visual y lumínica',
    desc:'Ruido, vibraciones, energía térmica o lumínica, olores o anuncios que rebasan los límites permisibles y provienen de un establecimiento.',
-   norma:'Arts. 214 y 215, fracción I, Ley Ambiental de la Ciudad de México',
-   ej:'El bar de la esquina pone música a todo volumen desde las once de la noche y hasta vibran las ventanas.'},
+   norma:'Arts. 214 y 215, fracción I, Ley Ambiental de la Ciudad de México'},
   {id:'quema', g:0, c:'Basura, llantas o pastizales', k:'quema fuego incendio llantas basura quemada fogata pastizal', ico:'quema', nom:'Quema a cielo abierto', formal:'Quema de residuos o materiales a cielo abierto',
    desc:'Quema de basura, llantas, pastizales o cualquier material al aire libre. Está prohibida salvo casos excepcionales con aviso previo a la Secretaría.',
-   norma:'Art. 213, Ley Ambiental de la Ciudad de México',
-   ej:'En el lote de junto queman basura y llantas al anochecer; el humo se mete a las casas.'},
+   norma:'Art. 213, Ley Ambiental de la Ciudad de México'},
   {id:'vehiculo', g:0, c:'Humo visible o ruido excesivo', k:'vehiculo camion autobus microbus combi coche auto humo negro transporte carga diesel', ico:'vehiculo', nom:'Vehículo contaminante', formal:'Vehículo ostensiblemente contaminante',
    desc:'Vehículo automotor que despide humo visible o ruido excesivo, incluidos los del transporte de carga y de pasajeros.',
-   norma:'Arts. 204, 205 y 216, Ley Ambiental de la Ciudad de México',
-   ej:'Un camión de carga circula por la avenida echando humo negro; alcancé a ver la placa.'},
+   norma:'Arts. 204, 205 y 216, Ley Ambiental de la Ciudad de México'},
   {id:'verificacion', g:0, c:'Cobros o verificación indebida', k:'verificentro verificacion holograma engomado corrupcion cobro', ico:'verificacion', nom:'Verificentro irregular', formal:'Irregularidades en un centro de verificación vehicular',
    desc:'Cobros indebidos, aprobación de vehículos sin verificar, alteración de equipos o cualquier irregularidad en un verificentro autorizado.',
-   norma:'Arts. 258 y 279, Ley Ambiental de la Ciudad de México',
-   ej:'En el verificentro me ofrecieron el holograma sin revisar el coche, a cambio de un pago.'},
+   norma:'Arts. 258 y 279, Ley Ambiental de la Ciudad de México'},
 
   /* --- Agua, suelo y residuos --- */
   {id:'descargas', g:1, c:'Aguas residuales al drenaje', k:'agua drenaje aguas negras residuales descarga alcantarilla coladera aceite grasa lavado', ico:'descargas', nom:'Descargas al drenaje', formal:'Descargas de aguas residuales al drenaje',
    desc:'Descargas de aguas residuales de establecimientos industriales, mercantiles o de servicios a los cuerpos de agua o al sistema de drenaje y alcantarillado.',
-   norma:'Arts. 223 y 230, Ley Ambiental de la Ciudad de México',
-   ej:'El taller tira agua con aceite a la coladera de la banqueta todos los días al cerrar.'},
+   norma:'Arts. 223 y 230, Ley Ambiental de la Ciudad de México'},
   {id:'rsu', g:1, c:'Basura de un establecimiento', k:'basura residuos organico inorganico separacion tiradero contenedor bolsa', ico:'rsu', nom:'Residuos de un establecimiento', formal:'Residuos sólidos urbanos de fuentes fijas',
    desc:'Manejo indebido de residuos generados por un establecimiento industrial, mercantil o de servicios; por ejemplo, mezcla de residuos orgánicos e inorgánicos.',
-   norma:'Ley de Residuos Sólidos de la Ciudad de México y su Reglamento',
-   ej:'El restaurante saca toda la basura revuelta y la deja en la calle desde temprano.'},
+   norma:'Ley de Residuos Sólidos de la Ciudad de México y su Reglamento'},
   {id:'construccion', g:1, c:'Escombro y material de obra', k:'escombro cascajo obra demolicion material varilla concreto', ico:'construccion', nom:'Residuos de la construcción', formal:'Residuos de la construcción y la demolición',
    desc:'Manejo o disposición final indebida de materiales de construcción y demolición procedentes de una obra.',
-   norma:'Ley de Residuos Sólidos de la Ciudad de México y su Reglamento',
-   ej:'La obra deja escombro y costales de cemento sobre la banqueta y parte de la calle.'},
+   norma:'Ley de Residuos Sólidos de la Ciudad de México y su Reglamento'},
   {id:'asentamiento', g:3, c:'Casas u obras donde no se permite', k:'asentamiento irregular invasion construccion casa vivienda predio fraccionamiento lotificacion venta de terrenos ocupacion', ico:'asentamiento', nom:'Construcción o asentamiento irregular', formal:'Asentamiento humano irregular u obra sin autorización en zona de protección',
    desc:'Casas, bardas, caminos o cualquier obra levantada en suelo de conservación, en un Área de Valor Ambiental o en un Área Natural Protegida. Toda intervención en esas zonas requiere autorización previa de la Secretaría.',
-   norma:'Art. 98 y Art. 138, fracción I, Ley Ambiental de la Ciudad de México',
-   ej:'Están levantando casas en la ladera del cerro, donde antes había monte.'},
+   norma:'Art. 98 y Art. 138, fracción I, Ley Ambiental de la Ciudad de México'},
   {id:'tala', g:3, c:'Tala, desmonte o quema de monte', k:'tala talamontes desmonte deforestacion monte bosque arboles derribo motosierra incendio provocado', ico:'tala', nom:'Tala o desmonte de vegetación', formal:'Derribo o remoción de vegetación forestal en zona de protección',
    desc:'Derribo de árboles, desmonte o remoción de vegetación forestal en suelo de conservación, en un Área de Valor Ambiental o en un Área Natural Protegida.',
-   norma:'Art. 7, fracción XVII, y Art. 164, Ley Ambiental de la Ciudad de México; Art. 344 Bis del Código Penal',
-   ej:'Cortaron varios árboles grandes del terreno de atrás con motosierra, sin aviso ni lona.'},
+   norma:'Art. 7, fracción XVII, y Art. 164, Ley Ambiental de la Ciudad de México; Art. 344 Bis del Código Penal'},
   {id:'agua_zona', g:3, c:'Canal, manantial o cuerpo de agua', k:'canal manantial rio arroyo laguna humedal chinampa xochimilco relleno desecacion agua entubada presa bordo', ico:'agua_zona', nom:'Afectación a un cuerpo de agua', formal:'Interrupción o afectación del sistema hidrológico en zona de protección',
    desc:'Relleno, desvío, entubamiento, azolve o contaminación de canales, manantiales, ríos, humedales o cuerpos de agua dentro de una zona de protección.',
-   norma:'Art. 138, fracción VI, Ley Ambiental de la Ciudad de México',
-   ej:'Al canal le están echando tierra y cascajo para ganarle terreno.'},
+   norma:'Art. 138, fracción VI, Ley Ambiental de la Ciudad de México'},
   {id:'agroquimicos', g:3, c:'Plaguicidas o fertilizantes prohibidos', k:'agroquimico plaguicida insecticida herbicida fertilizante fumigacion pesticida cultivo siembra', ico:'agroquimicos', nom:'Uso de agroquímicos prohibidos', formal:'Uso de agroquímicos, fertilizantes o plaguicidas prohibidos en suelo de conservación',
    desc:'Aplicación de agroquímicos, fertilizantes nitrogenados o químicos, herbicidas, insecticidas o pesticidas en suelo de conservación, donde están prohibidos.',
-   norma:'Art. 232, fracción V, Ley Ambiental de la Ciudad de México',
-   ej:'Fumigan el cultivo con un líquido de olor muy fuerte y sin ninguna protección.'},
+   norma:'Art. 232, fracción V, Ley Ambiental de la Ciudad de México'},
   {id:'terraceos', g:3, c:'Despalmes, excavación o banco de tierra', k:'terraceos terraceo tierra despalme excavacion banco de tierra desmonte maquinaria retroexcavadora nivelacion', ico:'terraceos', nom:'Remoción de tierra o vegetación', formal:'Terráceos y remoción de cubierta vegetal',
    desc:'Remoción de tierra o de cubierta vegetal; incluye bancos de tierra y despalmes.',
-   norma:'Arts. 92 y 164, Ley Ambiental de la Ciudad de México; Art. 344 Bis del Código Penal',
-   ej:'Con maquinaria están emparejando el cerro y quitando toda la vegetación.'},
+   norma:'Arts. 92 y 164, Ley Ambiental de la Ciudad de México; Art. 344 Bis del Código Penal'},
   {id:'cascajo', g:1, c:'Tiro de escombro en un predio', k:'cascajo escombro tiro relleno barranca camion de volteo', ico:'cascajo', nom:'Depósito de cascajo', formal:'Depósito de residuos de la construcción',
    desc:'Tiro de residuos de la industria de la construcción en un predio, barranca o zona de conservación.',
-   norma:'Arts. 92 y 232, Ley Ambiental de la Ciudad de México; Art. 344 Bis del Código Penal',
-   ej:'Llegan camiones de noche a tirar cascajo en el paraje y se van rápido.'},
+   norma:'Arts. 92 y 232, Ley Ambiental de la Ciudad de México; Art. 344 Bis del Código Penal'},
 
   /* --- Arbolado, áreas verdes y áreas protegidas --- */
   {id:'arbolado', g:2, c:'Poda o derribo sin autorización', k:'arbol arboles tala talaron poda podaron derribo derribaron rama tronco motosierra fresno jacaranda', ico:'arbolado', nom:'Daño a arbolado urbano', formal:'Poda, derribo o daño a arbolado urbano',
    desc:'Poda, derribo, trasplante o daño mecánico a árboles sin la autorización previa de la alcaldía, o realizado de forma indebida.',
-   norma:'Art. 106, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-001-RNAT-2015',
-   ej:'Podaron el árbol de la banqueta hasta dejarlo sin ramas y no se ve ningún permiso.'},
+   norma:'Art. 106, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-001-RNAT-2015'},
   {id:'areas_verdes', g:2, c:'Ocupación o deterioro de un jardín', k:'area verde jardin camellon parque pasto cesped pavimentar cementar invasion', ico:'areas_verdes', nom:'Daño a un área verde', formal:'Daño o reducción de un área verde',
    desc:'Pavimentación, ocupación, relleno o cualquier obra que reduzca o deteriore la superficie de un área verde pública.',
-   norma:'Arts. 104 y 105, Ley Ambiental de la Ciudad de México',
-   ej:'Pavimentaron parte del camellón y quitaron el pasto que había.'},
+   norma:'Arts. 104 y 105, Ley Ambiental de la Ciudad de México'},
   {id:'ava', g:3, c:'Daño no previsto en los supuestos anteriores', k:'bosque barranca area natural protegida anp ava area de valor ambiental humedal canal chinampa', ico:'ava', nom:'Otra afectación a una zona protegida', formal:'Afectación a un Área de Valor Ambiental, al suelo de conservación o a un Área Natural Protegida',
    desc:'Obras o actividades que dañan un bosque urbano, una barranca, un cuerpo de agua declarado o un Área Natural Protegida.',
-   norma:'Arts. 92, 116, 126 y 138, Ley Ambiental de la Ciudad de México',
-   ej:'Están metiendo maquinaria dentro del bosque y abrieron una brecha.'},
+   norma:'Arts. 92, 116, 126 y 138, Ley Ambiental de la Ciudad de México'},
 
   /* --- Obras y actividades --- */
   {id:'impacto', g:4, c:'Obra sin permiso ambiental', k:'obra construccion edificio desarrollo inmobiliario manifestacion de impacto permiso autorizacion', ico:'impacto', nom:'Impacto ambiental de una obra', formal:'Impacto ambiental por obra o actividad',
    desc:'Obras o actividades que requieren evaluación de impacto ambiental y se realizan sin ella, o que incumplen las medidas que les fueron impuestas.',
-   norma:'Arts. 23 y 53, Ley Ambiental de la Ciudad de México',
-   ej:'Están construyendo un edificio grande y no hay ningún aviso de autorización a la vista.'}
+   norma:'Arts. 23 y 53, Ley Ambiental de la Ciudad de México'}
 ];
 
 /* --- Supuestos que NO son competencia de la Secretaría --- */
@@ -1494,10 +1472,10 @@ function pUbicacion(){
   (sinDir ? '' :
     '<h3 class="sub-seccion">Dirección del lugar de los hechos</h3>'+
     '<div class="fila-2-1">'+
-      campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'Por ejemplo: Avenida Río Churubusco')+
-      campo('num_ext','Número exterior','texto',false,'Si no tiene, escribe «sin número»','autocomplete="off"')+
+      campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'')+
+      campo('num_ext','Número exterior','texto',false,'Si no tiene, escribe S/N','autocomplete="off"')+
     '</div>'+
-    campoSelect('alcaldia','Alcaldía',ALCALDIAS,esObligatorio('alcaldia'),'Si el punto del mapa cae en otra, el formulario te lo advierte')+
+    campoSelect('alcaldia','Alcaldía',ALCALDIAS,esObligatorio('alcaldia'),'')+
     '<div class="fila">'+
       campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
       campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
@@ -1805,10 +1783,8 @@ function pHechos(){
      cuánto escribir, escribe poco, y una descripción pobre da un expediente débil.
      El ejemplo sale del catálogo de materias, así que corresponde a lo que la
      persona eligió denunciar y no es una frase genérica. */
-  campoArea('hechos','Describe lo que está ocurriendo',esObligatorio('hechos'),
-    'Cuenta qué viste, con tus palabras. No hace falta que suene formal.',6)+
-  ejemploHechos()+
-  '<div class="aviso" style="margin-top:-6px;font-size:13.5px">Una descripción útil responde: qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce (humo, olor, ruido, derrame, tala, tiro de material).</div>'+
+  campoArea('hechos','Cuenta qué pasó o qué está pasando',esObligatorio('hechos'),'',6,
+    'Qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce: humo, olor, ruido, derrame, tala, tiro de material.')+
 
   '<h3 style="font-size:var(--t-lg);color:var(--guinda);margin:26px 0 14px">¿Desde cuándo ocurre?'+marca_opc(esObligatorio('temporalidad'))+'</h3>'+
   '<div class="campo"><div class="opciones">'+
@@ -1830,11 +1806,11 @@ function pHechos(){
      responde, y propone la respuesta a la siguiente. Preguntada aquí, el aviso
      puente sobra y la redundancia con «¿a quién denuncias?» desaparece (DEC-49). */
   campoSiNo('es_estab','¿Los hechos ocurren dentro de un establecimiento?',
-    'Un negocio, fábrica, taller, obra en construcción, local o bodega. Si es así, lo habitual es que el establecimiento sea el responsable, y el formulario lo propone.',
+    'Un negocio, fábrica, taller, obra en construcción, local o bodega.',
     'heredaEstablecimiento();render()')+
   (val('es_estab')==='si' ?
     '<div class="fila">'+
-      campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,esObligatorio('tipo_estab'),'Elige el que más se parezca','actualizaOtroEstab()')+
+      campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,esObligatorio('tipo_estab'),'','actualizaOtroEstab()')+
       campo('nombre_estab','Nombre comercial','texto',esObligatorio('nombre_estab'),'Como aparece en el anuncio o la fachada')+
     '</div>'+
     '<div id="otroEstab">'+campoOtroEstab()+'</div>' : '')+
@@ -2189,11 +2165,11 @@ function campoSelect(k,etq,ops,oblig,ayuda,alCambiar){
     '</select><div class="err" id="'+idE+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
 }
 
-function campoArea(k,etq,oblig,ayuda,filas){
+function campoArea(k,etq,oblig,ayuda,filas,marcador){
   var id='f_'+k, idA='a_'+k, idE='e_'+k, idN='n_'+k;
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
-    '<textarea id="'+id+'" name="'+k+'" rows="'+(filas||4)+'"'+((LIMITES[k]&&LIMITES[k].max)?' maxlength="'+LIMITES[k].max+'"':'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" style="min-height:'+((filas||4)*26+16)+'px" '+
+    '<textarea id="'+id+'" name="'+k+'" rows="'+(filas||4)+'"'+((LIMITES[k]&&LIMITES[k].max)?' maxlength="'+LIMITES[k].max+'"':'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false"'+(marcador?' placeholder="'+esc(marcador)+'"':'')+' style="min-height:'+((filas||4)*26+16)+'px" '+
       'oninput="guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');document.getElementById(\''+idN+'\').textContent=contadorTxt(\''+k+'\')">'+esc(val(k))+'</textarea>'+
     '<div class="contador" id="'+idN+'">'+esc(contadorTxt(k))+'</div>'+
     '<div class="err" id="'+idE+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
@@ -2226,12 +2202,6 @@ function campoOpciones(k,etq,ops,ayuda,accion){
 
 /* Pregunta de sí o no, en dos botones. */
 /* Ejemplo de descripción, tomado de la materia que la persona eligió. */
-function ejemploHechos(){
-  var m = MATERIAS.filter(function(x){ return x.id===val('materia'); })[0];
-  if(!m || !m.ej) return '';
-  return '<p class="ejemplo-hechos"><span>Por ejemplo:</span> «'+esc(m.ej)+'»</p>';
-}
-
 function campoSiNo(k,etq,ayuda,accion){
   var v = val(k);
   return '<div class="campo" id="c_'+k+'"><span class="etq">'+esc(etq)+'</span>'+
