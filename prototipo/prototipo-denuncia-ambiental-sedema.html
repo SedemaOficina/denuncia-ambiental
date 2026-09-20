@@ -481,7 +481,7 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
       <label><input type="radio" name="vIdent" value="B" checked onchange="cfg.ident=this.value;render()">
         <span><b>B — Admite denuncia anónima (decidida)</b> con aviso de efectos sobre el seguimiento.</span></label>
       <label><input type="radio" name="vIdent" value="C" onchange="cfg.ident=this.value;render()">
-        <span><b>C — Identificación obligatoria</b>, sin opción de anonimato. La confidencialidad de los datos se pregunta siempre, en las tres variantes.</span></label>
+        <span><b>C — Identificación obligatoria</b>, sin opción de anonimato: quedan la cuenta Llave CDMX y los datos escritos. La confidencialidad de los datos se pregunta siempre, en las dos variantes.</span></label>
     </div>
     <div class="grupo">
       <strong style="font-size:13px;display:block;margin-bottom:8px">Campos obligatorios</strong>
@@ -561,7 +561,7 @@ footer{border-top:3px solid var(--dorado);background:#fff;padding:32px 20px 0;fo
         <tr><td>Alcaldía, colonia y código postal</td><td class="si">Captura manual</td><td class="si">Captura manual</td><td class="nuevo">Se derivan de la coordenada mediante cruce con la capa de alcaldías del SIA</td></tr>
         <tr><td>Área de Valor Ambiental</td><td class="no">No previsto</td><td class="nuevo">Pregunta opcional al ciudadano</td><td class="nuevo">Ya no se pregunta: se resuelve por cruce con las capas de AVA, barrancas, ANP y suelo de conservación</td></tr>
         <tr><td>Área que atiende la denuncia</td><td class="no">No previsto</td><td class="no">No previsto</td><td class="nuevo">Determinación automática: DGIVA en suelo urbano y AVA; DGCORENADR en suelo de conservación, ANP local y ANP federal con convenio de coadministración; PROFEPA en ANP federal sin convenio</td></tr>
-        <tr><td>Referencias del sitio</td><td class="no">No previsto</td><td class="nuevo">Opcional (entre calles, color de fachada)</td><td class="nuevo">Entre calle 1 y calle 2 en campos separados, más fachada y referencias abiertas</td></tr>
+        <tr><td>Referencias del sitio</td><td class="no">No previsto</td><td class="nuevo">Opcional (entre calles, color de fachada)</td><td class="nuevo">Entre calle 1 y calle 2 en campos separados, más un campo abierto de cómo se reconoce y cómo se llega al sitio</td></tr>
         <tr><td>Tipo de establecimiento</td><td class="no">No previsto</td><td class="no">No previsto</td><td class="nuevo">Pregunta previa sobre si hay establecimiento y, en su caso, catálogo de giros; permite estadística por tipo de fuente</td></tr>
         <tr><td>Hechos denunciados</td><td class="si">Obligatorio</td><td class="si">Obligatorio</td><td>Mínimo de caracteres y guía de redacción en pantalla</td></tr>
         <tr><td>Materia de la denuncia</td><td class="no">No previsto</td><td class="no">No previsto</td><td class="nuevo">Clasificación en catorce materias de competencia local, agrupadas en cuatro bloques temáticos; permite turnar sin lectura previa</td></tr>
@@ -754,15 +754,20 @@ var OBLIG = {
   materia:          {p:1, dgiva:true,  vigente:true,  etq:'Materia de la denuncia', dp:false, fin:'Competencia',
      uso:'Determina la competencia de la Secretaría y el fundamento que se invoca; alimenta la estadística por materia.'},
   /* Paso 2 */
+  tiene_direccion:  {p:2, dgiva:true,  vigente:true,  etq:'¿El lugar tiene calle y número?', dp:false, fin:'Localización',
+     uso:'Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia.'},
   lat:              {p:2, dgiva:true,  vigente:true,  etq:'Punto en el mapa', dp:true, fin:'Competencia',
      uso:'Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas.'},
   alcaldia:         {p:2, dgiva:true,  vigente:true,  etq:'Alcaldía', dp:false, fin:'Competencia',
      uso:'Turnado, programación de operativos y estadística territorial.'},
   colonia:          {p:2, dgiva:true,  vigente:true,  etq:'Colonia', dp:false, fin:'Localización',
+     cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Localización del sitio y estadística territorial.'},
   cp:               {p:2, dgiva:true,  vigente:true,  etq:'Código postal', dp:false, fin:'Localización',
+     cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Localización del sitio; verifica la congruencia de la dirección capturada.'},
   calle:            {p:2, dgiva:true,  vigente:true,  etq:'Calle o vialidad', dp:false, fin:'Localización',
+     cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Domicilio del lugar de los hechos en la orden de visita (art. 281).'},
   num_ext:          {p:2, dgiva:false, vigente:false, etq:'Número exterior', dp:false, fin:'Localización',
      uso:'Precisa el predio en la orden de visita.'},
@@ -770,16 +775,20 @@ var OBLIG = {
      uso:'Permite ubicar el predio cuando no hay número visible.'},
   entre_calle2:     {p:2, dgiva:false, vigente:false, etq:'Entre calle 2', dp:false, fin:'Localización',
      uso:'Permite ubicar el predio cuando no hay número visible.'},
-  fachada:          {p:2, dgiva:false, vigente:false, etq:'Color o características del sitio', dp:false, fin:'Localización',
-     uso:'Reconocer el sitio en campo cuando la numeración es ambigua o inexistente.'},
-  es_estab:         {p:2, dgiva:false, vigente:false, etq:'¿Los hechos ocurren dentro de un establecimiento?', dp:false, fin:'Localización',
-     uso:'Caracteriza el sitio como fuente fija y determina qué datos de identificación se piden.'},
-  tipo_estab:       {p:2, dgiva:false, vigente:false, etq:'Tipo de establecimiento', dp:false, fin:'Localización',
+  es_estab:         {p:3, dgiva:false, vigente:false, etq:'¿Los hechos ocurren dentro de un establecimiento?', dp:false, fin:'Localización',
+     uso:'Caracteriza el sitio como fuente fija y propone al establecimiento como responsable. Se pregunta junto a la identificación del responsable, que es lo que determina.'},
+  tipo_estab:       {p:3, dgiva:false, vigente:false, etq:'Tipo de establecimiento', dp:false, fin:'Localización',
+     cond:function(){ return val('es_estab')==='si'; } , cond_txt:'Sólo cuando los hechos ocurren dentro de un establecimiento',
      uso:'Prepara la visita —qué se va a inspeccionar— y alimenta la estadística por tipo de fuente.'},
-  nombre_estab:     {p:2, dgiva:false, vigente:false, etq:'Nombre comercial', dp:false, fin:'Localización',
+  nombre_estab:     {p:3, dgiva:false, vigente:false, etq:'Nombre comercial', dp:false, fin:'Localización',
+     cond:function(){ return val('es_estab')==='si'; } , cond_txt:'Sólo cuando los hechos ocurren dentro de un establecimiento',
      uso:'Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas.'},
-  referencias:      {p:2, dgiva:false, vigente:false, etq:'Otras referencias', dp:false, fin:'Localización',
-     uso:'Acceso al sitio cuando es de difícil localización.'},
+  nombre_lugar:     {p:2, dgiva:true,  vigente:true,  etq:'Nombre del lugar', dp:false, fin:'Localización',
+     cond:function(){ return val('tiene_direccion')==='no'; } , cond_txt:'Sólo cuando el lugar no tiene calle ni número',
+     uso:'Sustituye al domicilio en la orden de visita cuando el sitio no lo tiene. Se propone desde la capa oficial que contiene el punto.'},
+  referencias:      {p:2, dgiva:true,  vigente:true,  etq:'Cómo se reconoce y cómo se llega al sitio', dp:false, fin:'Localización',
+     cond:function(){ return sinDireccion(); } , cond_txt:'Obligatorio sólo cuando el lugar no tiene calle ni número; en los demás casos se pide como dato opcional',
+     uso:'Reúne en un solo campo lo que antes se preguntaba dos veces —cómo se ve el sitio y cómo se accede a él—. Sin domicilio es lo único que permite al personal de inspección llegar, y por eso ahí se exige.'},
   /* Paso 3 */
   hechos:           {p:3, dgiva:true,  vigente:true,  etq:'Descripción de lo que ocurre', dp:false, fin:'Expediente',
      uso:'Objeto y alcance de la visita de inspección; es la base de la motivación del acto.'},
@@ -806,16 +815,19 @@ var OBLIG = {
   resp_obra:        {p:3, dgiva:false, vigente:false, etq:'Número de obra, contrato o permiso', dp:false, fin:'Responsable',
      uso:'Permite requerir el expediente de la obra pública señalada.'},
   establecimiento:  {p:3, dgiva:false, vigente:true,  etq:'Razón social del establecimiento', dp:false, fin:'Responsable',
+     cond:function(){ return val('tipo_denunciado')==='empresa'; } , cond_txt:'Sólo cuando se denuncia a una empresa o establecimiento',
      uso:'Razón social del probable infractor para el emplazamiento y el cruce con licencias.'},
   responsables:     {p:3, dgiva:false, vigente:true,  etq:'Personas señaladas como responsables', dp:true, fin:'Responsable',
      uso:'Personas señaladas como responsables, en el esquema del formato vigente.'},
   sabe_permisos:    {p:3, dgiva:false, vigente:false, etq:'¿Sabes algo sobre los permisos?', dp:false, fin:'Expediente',
    uso:'Filtra la pregunta larga: sólo se pide el detalle a quien tiene algo que aportar.'},
   permisos:         {p:3, dgiva:false, vigente:true,  etq:'Permisos o autorizaciones', dp:false, fin:'Expediente',
+     cond:function(){ return val('sabe_permisos')==='si'; } , cond_txt:'Sólo cuando la persona dice saber algo sobre los permisos',
      uso:'Orienta la verificación documental: si existe autorización y si la obra se ajusta a sus términos.'},
   reporto_antes:    {p:3, dgiva:false, vigente:false, etq:'¿Ya reportaste ante otra autoridad?', dp:false, fin:'Expediente',
    uso:'Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga.'},
   gestiones:        {p:3, dgiva:false, vigente:false, etq:'Gestiones previas', dp:false, fin:'Expediente',
+     cond:function(){ return val('reporto_antes')==='si'; } , cond_txt:'Sólo cuando la persona dice haberlo reportado antes',
      uso:'Evita duplicar expedientes con otras autoridades y gradúa la gravedad por reincidencia.'},
   /* Paso 4 */
   archivos:         {p:4, dgiva:false, vigente:true,  etq:'Fotos, videos o documentos', dp:true, fin:'Expediente',
@@ -823,6 +835,8 @@ var OBLIG = {
   otras_pruebas:    {p:4, dgiva:false, vigente:false, etq:'Otras pruebas que puedas ofrecer', dp:false, fin:'Expediente',
      uso:'Describe pruebas que la persona no puede adjuntar pero puede ofrecer.'},
   /* Paso 5 */
+  identificacion:   {p:5, dgiva:true,  vigente:true,  etq:'Cómo se presenta la denuncia', dp:false, fin:'Identificación',
+     uso:'Determina qué datos se piden y qué seguimiento es posible. Con cuenta Llave CDMX la identidad queda acreditada, que es lo que da sentido a la reserva de identidad frente a la persona denunciada; con datos escritos hay contacto pero no acreditación; anónima no admite notificación ni aclaraciones.'},
   nombre:           {p:5, dgiva:true,  vigente:true,  etq:'Nombre(s)', dp:true, fin:'Contacto',
      uso:'Identificación de la persona denunciante en el expediente y en el acuse.'},
   apellido_paterno: {p:5, dgiva:true,  vigente:true,  etq:'Apellido paterno', dp:true, fin:'Contacto',
@@ -834,18 +848,25 @@ var OBLIG = {
   correo:           {p:5, dgiva:true,  vigente:true,  etq:'Correo electrónico', dp:true, fin:'Contacto',
      uso:'Envío del acuse, notificación del avance y consulta del estatus.'},
   dom_calle:        {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · calle', dp:true, fin:'Contacto',
+     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
   dom_num_ext:      {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · número exterior', dp:true, fin:'Contacto',
+     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
   dom_num_int:      {p:5, dgiva:false, vigente:false, etq:'Domicilio · número interior', dp:true, fin:'Contacto',
+     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
   dom_colonia:      {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · colonia', dp:true, fin:'Contacto',
+     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
   dom_cp:           {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · código postal', dp:true, fin:'Contacto',
+     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
   dom_alcaldia:     {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · alcaldía o municipio', dp:true, fin:'Contacto',
+     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
   dom_entidad:      {p:5, dgiva:true,  vigente:true,  etq:'Domicilio · entidad federativa', dp:true, fin:'Contacto',
+     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
   notif_correo:     {p:5, dgiva:true,  vigente:true,  etq:'Consentimiento de notificación por correo', dp:false, fin:'Cumplimiento',
      uso:'Registra la vía de notificación elegida; de ella depende que se pida o no el domicilio.'},
@@ -863,8 +884,20 @@ function esObligatorio(k){
   if(!cfg.validar) return false;
   var o = OBLIG[k];
   if(!o) return false;
+  /* La condicion manda sobre el esquema: un campo que no aplica a esta ruta no
+     es obligatorio aunque el esquema lo marque. Vive en OBLIG y no suelta en
+     valida() para que el documento 09 diga la verdad sobre cada campo. */
+  if(o.cond && !o.cond()) return false;
   if(cfg.esquema === 'vigente') return !!o.vigente;
   return !!o.dgiva;
+}
+
+/* Si el campo APLICA lo responde OBLIG; COMO se comprueba que esta lleno lo
+   responde esto. Son dos preguntas distintas y conviene no mezclarlas. */
+function presente(k){
+  if(k === 'archivos')   return archivos.length > 0;
+  if(k === 'privacidad') return val('privacidad') === 'si';
+  return String(val(k) || '').trim() !== '';
 }
 
 function camposDelPaso(n){
@@ -891,7 +924,7 @@ var BIFURCACIONES = [
    efecto:'Cambia por completo el bloque de responsables. «Autoridad» además advierte la ruta del artículo 331 y la refleja en el acuse.'},
   {paso:'3', pregunta:'Desde cuándo ocurre y fecha', opciones:'Único · Recurrente · Permanente, con fecha anterior o posterior a un año',
    efecto:'Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único.'},
-  {paso:'5', pregunta:'Variante de identificación (decisión institucional)', opciones:'A obligatoria · B admite anónima · C obligatoria sin anonimato',
+  {paso:'5', pregunta:'Variante de identificación (decisión institucional)', opciones:'B admite anónima · C obligatoria sin anonimato. En las dos, identificarse puede ser con cuenta Llave CDMX o escribiendo los datos',
    efecto:'B agrega la elección entre identificarse y denunciar de forma anónima.'},
   {paso:'5', pregunta:'¿Denuncia anónima?', opciones:'Sí · No',
    efecto:'«Sí» oculta todos los datos de identificación y cambia el acuse: sin notificación.'},
@@ -908,10 +941,23 @@ var BIFURCACIONES = [
 ];
 
 var ESCENARIOS = [
+  {id:'sin_calle', nom:'Sitio sin domicilio, con cuenta Llave CDMX',
+   d:'Tala en el Bosque de Tlalpan · sin calle ni colonia · identidad acreditada · DGCORENADR',
+   paso:6, cfg:{ident:'B',validar:true},
+   e:{tiene_direccion:'no', materia:'tala', lat:'19.293800', lon:'-99.193000',
+      nombre_lugar:'Bosque de Tlalpan', alcaldia:'Tlalpan',
+      referencias:'Se entra por la puerta 3, sobre Camino a Santa Teresa. A unos 200 metros del estacionamiento, subiendo por la vereda de la derecha, junto a los tanques de agua.',
+      hechos:'Están derribando encinos adultos con motosierra dentro del bosque, fuera de cualquier sendero. Llevan tres fines de semana seguidos y sacan la madera en una camioneta de redilas por la puerta 3.',
+      temporalidad:'recurrente', fecha_hecho:'2026-09-05', hora_h:'08', hora_m:'30',
+      es_estab:'no', tipo_denunciado:'desconocido', sabe_permisos:'no', reporto_antes:'no',
+      identificacion:'llave', sesion_llave:'si',
+      nombre:'María Fernanda', apellido_paterno:'Ramírez', apellido_materno:'Cortés',
+      correo:'mf.ramirez@ejemplo.mx', telefono:'5555010203',
+      notif_correo:'si', reserva:'si', privacidad:'si'}},
   {id:'urbano', nom:'Comercio en suelo urbano',
    d:'Emisiones de un taller · identificado · notificación por correo · DGIVA',
    paso:6, cfg:{ident:'B',validar:false},
-   e:{materia:'emisiones', lat:'19.432600', lon:'-99.133200',
+   e:{tiene_direccion:'si', materia:'emisiones', lat:'19.432600', lon:'-99.133200',
       calle:'Avenida Chapultepec', num_ext:'440', colonia:'Centro', cp:'06010',
       es_estab:'si', tipo_estab:'Taller mecánico, hojalatería o pintura', nombre_estab:'Hojalatería El Volante',
       hechos:'El taller pinta carrocerías en la banqueta sin cabina ni extracción. El olor a solvente entra a las viviendas de los dos edificios contiguos y dura toda la tarde.',
@@ -920,24 +966,24 @@ var ESCENARIOS = [
       resp_encargado:'El encargado se identifica como Raúl',
       nombre:'María Fernanda', apellido_paterno:'Ríos', apellido_materno:'Galván',
       telefono:'5512345678', correo:'ejemplo@correo.com',
-      notif_correo:'si', reserva:'si', privacidad:'si', anonima:'no'}},
+      notif_correo:'si', reserva:'si', privacidad:'si', identificacion:'nombre'}},
 
   {id:'conservacion', nom:'Tala en suelo de conservación, anónima',
    d:'Tala · anónima · responsable desconocido · DGCORENADR',
    paso:6, cfg:{ident:'B',validar:false},
-   e:{materia:'tala', lat:'19.210000', lon:'-98.995000',
+   e:{tiene_direccion:'si', materia:'tala', lat:'19.210000', lon:'-98.995000',
       calle:'Camino a San Antonio Tecómitl', colonia:'San Antonio Tecómitl', cp:'12100',
       es_estab:'no',
       hechos:'Cada semana entran camionetas con motosierra y sacan troncos por la brecha. Ya abrieron un claro grande donde antes había monte cerrado.',
       temporalidad:'permanente', fecha_hecho:'2026-06-01',
       tipo_denunciado:'nose',
       resp_senas:'Dos camionetas de redilas blancas, sin placas visibles. Llegan entre las seis y las ocho de la mañana, cuatro o cinco personas.',
-      anonima:'si', privacidad:'si'}},
+      identificacion:'anonima', privacidad:'si'}},
 
   {id:'gobierno', nom:'Obra de una alcaldía',
    d:'Se señala a una autoridad · ruta del artículo 331 · notificación por domicilio',
    paso:6, cfg:{ident:'B',validar:false},
-   e:{materia:'arbolado', lat:'19.355000', lon:'-99.070000',
+   e:{tiene_direccion:'si', materia:'arbolado', lat:'19.355000', lon:'-99.070000',
       calle:'Avenida Ermita Iztapalapa', num_ext:'1200', colonia:'Constitución de 1917', cp:'09260',
       es_estab:'no',
       hechos:'La cuadrilla de la alcaldía derribó doce fresnos del camellón para ampliar el carril. No colocaron aviso ni exhibieron autorización.',
@@ -948,58 +994,58 @@ var ESCENARIOS = [
       telefono:'5598765432', correo:'ejemplo2@correo.com',
       notif_correo:'no', dom_calle:'Calle Oriente 249', dom_num_ext:'14', dom_colonia:'Agrícola Oriental',
       dom_cp:'08500', dom_alcaldia:'Iztacalco', dom_entidad:'Ciudad de México',
-      reserva:'no', privacidad:'si', anonima:'no'}},
+      reserva:'no', privacidad:'si', identificacion:'llave', sesion_llave:'si'}},
 
   {id:'ava', nom:'Afectación en Área de Valor Ambiental',
    d:'Bosque urbano · DGIVA · persona física señalada',
    paso:2, cfg:{ident:'B',validar:false},
-   e:{materia:'ava', lat:'19.296390', lon:'-99.183480', es_estab:'no', tipo_denunciado:'particular',
+   e:{tiene_direccion:'si', materia:'ava', lat:'19.296390', lon:'-99.183480', es_estab:'no', tipo_denunciado:'particular',
       resp_nombre:'No se conoce el nombre',
       resp_senas:'Un hombre de unos cincuenta años que cerca con malla una parte del bosque y cobra el acceso.'}},
 
   {id:'anp_coadmin', nom:'ANP federal con coadministración',
    d:'Desierto de los Leones · la Secretaría atiende en el ámbito local',
    paso:2, cfg:{ident:'B',validar:false},
-   e:{materia:'asentamiento', lat:'19.306780', lon:'-99.310970', es_estab:'no'}},
+   e:{tiene_direccion:'si', materia:'asentamiento', lat:'19.306780', lon:'-99.310970', es_estab:'no'}},
 
   {id:'anp_federal', nom:'ANP federal sin convenio',
    d:'El Histórico Coyoacán · se deriva a la PROFEPA',
    paso:2, cfg:{ident:'B',validar:false},
-   e:{materia:'ava', lat:'19.354350', lon:'-99.171610', es_estab:'no'}},
+   e:{tiene_direccion:'si', materia:'ava', lat:'19.354350', lon:'-99.171610', es_estab:'no'}},
 
   {id:'fuera', nom:'Punto fuera de la Ciudad',
    d:'Naucalpan · el formulario impide continuar',
    paso:2, cfg:{ident:'B',validar:false},
-   e:{materia:'emisiones', lat:'19.478000', lon:'-99.240000', es_estab:'no'}},
+   e:{tiene_direccion:'si', materia:'emisiones', lat:'19.478000', lon:'-99.240000', es_estab:'no'}},
 
   {id:'derivado', nom:'Caso de otra autoridad',
    d:'Ruido de vecinos · se detiene el flujo y se orienta',
    paso:1, cfg:{ident:'B',validar:false,triage:true},
-   e:{deriva:'d_ruido'}},
+   e:{tiene_direccion:'si', deriva:'d_ruido'}},
 
   {id:'viejo', nom:'Hechos de hace más de un año',
    d:'Permanente · aviso del plazo del artículo 22 BIS 2',
    paso:3, cfg:{ident:'B',validar:false},
-   e:{materia:'cascajo', lat:'19.240000', lon:'-99.105000', es_estab:'no',
+   e:{tiene_direccion:'si', materia:'cascajo', lat:'19.240000', lon:'-99.105000', es_estab:'no',
       hechos:'Desde hace más de dos años tiran cascajo en el borde del canal. El montón ya ganó varios metros de agua.',
       temporalidad:'permanente', fecha_hecho:'2024-03-15', tipo_denunciado:'nose'}},
 
   {id:'otro_giro', nom:'Establecimiento de giro no listado',
    d:'«Otro» abre el campo de texto',
    paso:2, cfg:{ident:'B',validar:false},
-   e:{materia:'descargas', lat:'19.390000', lon:'-99.060000',
+   e:{tiene_direccion:'si', materia:'descargas', lat:'19.390000', lon:'-99.060000',
       calle:'Calle 5', num_ext:'27', colonia:'Agrícola Pantitlán', cp:'08100',
       es_estab:'si', tipo_estab:'Otro', tipo_estab_otro:'Planta de lavado de garrafones'}},
 
   {id:'vigente_vacio', nom:'Formato vigente con validación activa',
    d:'Formulario vacío · muestra todo lo que el esquema ampliado exige',
    paso:3, cfg:{ident:'B',validar:true,esquema:'vigente'},
-   e:{materia:'impacto'}},
+   e:{tiene_direccion:'si', materia:'impacto'}},
 
   {id:'dgiva_vacio', nom:'Esquema DGIVA con validación activa',
    d:'Formulario vacío · muestra el mínimo exigible',
    paso:2, cfg:{ident:'B',validar:true,esquema:'dgiva'},
-   e:{materia:'impacto'}}
+   e:{tiene_direccion:'si', materia:'impacto'}}
 ];
 
 function cargaEscenario(id){
@@ -1042,8 +1088,7 @@ var LIMITES = {
   responsables:  {max:1000},
   permisos:      {max:1000},
   gestiones:     {max:1000},
-  referencias:   {max:1000},
-  fachada:       {max:500},
+  referencias:   {max:1200},
   otras_pruebas: {max:1000},
   resp_senas:    {max:1000}
 };
@@ -1327,44 +1372,88 @@ function renderMaterias(){
   if(enFiltro && $('f_filtro')) $('f_filtro').focus();
 }
 
-function pUbicacion(){
-  /* La dirección va primero porque es como la gente piensa el lugar, y de ella
-     se propone el punto. Pero el punto manda: el cruce espacial que determina la
-     competencia se resuelve sobre la coordenada, no sobre lo escrito (DEC-04). */
-  return '<div class="tarjeta"><h2><span class="num">2</span>¿Dónde ocurre?</h2>'+
-  '<p class="sub">Escribe la dirección del lugar de los hechos y colócala en el mapa. '+
-    'El punto es lo que determina qué área de la Secretaría atiende la denuncia, así que verifícalo y muévelo si hace falta.</p>'+
+/* Buena parte de lo que atiende la Secretaría ocurre donde no hay domicilio:
+   bosques, áreas naturales protegidas, barrancas, caminos, canales, suelo de
+   conservación. Exigir calle, colonia y código postal ahí no depuraba el dato,
+   impedía presentar la denuncia —y justamente la de los sitios que atiende la
+   Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural.
+   Por eso el paso pregunta primero cómo se llega al lugar y ordena lo demás en
+   consecuencia (DEC-47). */
+function sinDireccion(){ return val('tiene_direccion')==='no'; }
 
-  '<h3 class="sub-seccion">Dirección del lugar de los hechos</h3>'+
-  '<div class="fila-2-1">'+
-    campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'Por ejemplo: Avenida Río Churubusco')+
-    campo('num_ext','Número exterior','texto',false,'Si no tiene, escribe «sin número»','autocomplete="off"')+
-  '</div>'+
-  campoSelect('alcaldia','Alcaldía',ALCALDIAS,esObligatorio('alcaldia'),'Si el punto del mapa cae en otra, el formulario te lo advierte')+
-  '<div class="fila">'+
-    campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
-    campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
-  '</div>'+
-  '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px;flex-wrap:wrap">'+
-    '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="ubicaPorDireccion()">'+
-      svgIcono('pin',16)+' Ubicar en el mapa</button>'+
-    '<button type="button" class="enlace" onclick="estoyEnElLugar()">Los hechos ocurren donde estoy ahora</button>'+
-  '</div>'+
+function pUbicacion(){
+  /* Con dirección, ella va primero porque es como la gente piensa el lugar y de
+     ella se propone el punto. Sin dirección, el punto va primero porque es el
+     único localizador que existe. En los dos casos el punto manda: el cruce
+     espacial que determina la competencia se resuelve sobre la coordenada
+     (DEC-04), y nunca escribe de vuelta en lo que la persona capturó (DEC-41). */
+  var sinDir = sinDireccion();
+  return '<div class="tarjeta"><h2><span class="num">2</span>¿Dónde ocurre?</h2>'+
+  '<p class="sub">'+(sinDir
+    ? 'Marca el sitio en el mapa y dinos cómo se llega. El punto es lo que determina qué área de la Secretaría atiende la denuncia.'
+    : 'Escribe la dirección del lugar de los hechos y colócala en el mapa. El punto es lo que determina qué área de la Secretaría atiende la denuncia, así que verifícalo y muévelo si hace falta.')+'</p>'+
+
+  campoSiNo('tiene_direccion','¿El lugar tiene calle y número?',
+    'Responde «No» si ocurre en un bosque, un área natural, una barranca, un camino, un canal, un predio en el campo o cualquier sitio sin domicilio.',
+    'render()')+
+
+  (sinDir ? '' :
+    '<h3 class="sub-seccion">Dirección del lugar de los hechos</h3>'+
+    '<div class="fila-2-1">'+
+      campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'Por ejemplo: Avenida Río Churubusco')+
+      campo('num_ext','Número exterior','texto',false,'Si no tiene, escribe «sin número»','autocomplete="off"')+
+    '</div>'+
+    campoSelect('alcaldia','Alcaldía',ALCALDIAS,esObligatorio('alcaldia'),'Si el punto del mapa cae en otra, el formulario te lo advierte')+
+    '<div class="fila">'+
+      campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
+      campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
+    '</div>'+
+    '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px;flex-wrap:wrap">'+
+      '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="ubicaPorDireccion()">'+
+        svgIcono('pin',16)+' Ubicar en el mapa</button>'+
+      '<button type="button" class="enlace" onclick="estoyEnElLugar()">Los hechos ocurren donde estoy ahora</button>'+
+    '</div>')+
+
+  (sinDir ?
+    '<h3 class="sub-seccion">Marca el sitio en el mapa</h3>'+
+    '<p class="ayuda" style="margin-bottom:12px">Da un clic sobre el punto donde ocurren los hechos y arrástralo para ajustarlo. Si estás ahí en este momento, puedes usar tu ubicación.</p>'+
+    '<div class="acciones" style="justify-content:flex-start;margin:4px 0 14px;flex-wrap:wrap">'+
+      '<button type="button" class="enlace" onclick="estoyEnElLugar()">Los hechos ocurren donde estoy ahora</button>'+
+    '</div>' : '')+
   '<div id="resBusqueda"></div>'+
 
   '<div class="mapa-barra">'+
     '<span class="coords" id="coords">'+(val('lat')?svgIcono('pin',15)+' '+esc(val('lat'))+', '+esc(val('lon')):'Sin punto seleccionado')+'</span>'+
     (val('lat')?'<button type="button" class="btn btn-secundario" style="padding:9px 16px;font-size:13.5px" onclick="quitaPunto()">Quitar el punto</button>':'')+
   '</div>'+
-  '<div class="mapa-sin" id="mapaSin"><strong>No fue posible cargar el mapa.</strong> La dirección que capturaste se conserva; el personal de la Secretaría georreferenciará el sitio al recibir la denuncia.</div>'+
+  '<div class="mapa-sin" id="mapaSin"><strong>No fue posible cargar el mapa.</strong> Lo que hayas capturado se conserva; el personal de la Secretaría georreferenciará el sitio al recibir la denuncia.</div>'+
   '<div id="mapa"></div>'+
   '<p class="ayuda"><strong>El lugar de los hechos no tiene que ser donde tú estás.</strong> Si el punto no quedó exactamente donde ocurre, arrástralo, o da un clic sobre el mapa para colocarlo en otro lugar.</p>'+
 
   '<div id="panelCapas">'+cajaCapas()+'</div>'+
 
+  /* Sin dirección, el sitio se nombra e indica cómo se llega —y esto va DESPUÉS
+     del mapa, porque el nombre se propone desde la capa que contiene el punto.
+     Se propone, no se impone: la misma regla de DEC-41. */
+  (sinDir ?
+    '<h3 class="sub-seccion">Cómo identificar el sitio</h3>'+
+    campo('nombre_lugar','Nombre del lugar','texto',esObligatorio('nombre_lugar'),
+      'El bosque, el parque, el paraje, el canal, el camino. Si el punto cae en un área que la Secretaría tiene registrada, se propone su nombre.')+
+    (val('capa_nombre') && val('nombre_lugar')!==val('capa_nombre') ?
+      '<div class="aviso" style="margin:-12px 0 18px">Según las capas de la Secretaría, el punto está en <strong>'+esc(val('capa_nombre'))+'</strong>. '+
+        '<button type="button" class="enlace" onclick="usaNombreDelPunto()">Usar ese nombre</button></div>' : '')+
+    campoSelect('alcaldia','Alcaldía',ALCALDIAS,esObligatorio('alcaldia'),'Se propone desde el punto que marcaste')+
+    (val('alcaldia_punto') && val('alcaldia')!==val('alcaldia_punto') ?
+      '<div class="aviso" style="margin:-12px 0 18px">El punto está en <strong>'+esc(val('alcaldia_punto'))+'</strong>. '+
+        '<button type="button" class="enlace" onclick="usaAlcaldiaDelPunto()">Usar esa alcaldía</button></div>' : '')+
+    campoArea('referencias','Cómo se llega y cómo se reconoce el sitio',esObligatorio('referencias'),
+      'Por dónde se entra, desde qué punto conocido y a qué distancia; y qué hay alrededor que permita reconocerlo. Sin domicilio, esto es lo que permite al personal de inspección llegar.',3)
+    : '')+
+
   /* Todo lo accesorio del paso queda plegado: quien tiene algo que aportar lo abre.
      Dentro no se marca nada como «opcional» —lo dice el encabezado del bloque— para
      que la palabra conserve su significado donde sí importa. */
+  (sinDir ? '' :
   '<div class="bloque-opcional">'+
     '<button type="button" class="enc-opcional" aria-expanded="'+(val('mas_lugar')==='si'?'true':'false')+'" '+
       'onclick="guarda(\'mas_lugar\',val(\'mas_lugar\')===\'si\'?\'\':\'si\');render()">'+
@@ -1378,18 +1467,9 @@ function pUbicacion(){
           campo('entre_calle1','Entre calle 1','texto',false,'')+
           campo('entre_calle2','Entre calle 2','texto',false,'')+
         '</div>'+
-        campoArea('fachada','Color o características del sitio',false,'Cómo se reconoce desde la calle: color de la fachada, barda, portón, anuncios, vegetación, maquinaria.',2)+
-        campoArea('referencias','Otras referencias',false,'Puntos de interés cercanos, número de predio, descripción del acceso.',2)+
-        '<h3 class="sub-seccion sub-seccion-sm">Identificación del sitio</h3>'+
-        campoSiNo('es_estab','¿Los hechos ocurren dentro de un establecimiento?','Un negocio, fábrica, taller, obra en construcción, local o bodega. Sirve para que el personal de inspección reconozca el sitio en campo.','heredaEstablecimiento();render()')+
-        (val('es_estab')==='si' ?
-          '<div class="fila">'+
-            campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,false,'Elige el que más se parezca','actualizaOtroEstab()')+
-            campo('nombre_estab','Nombre comercial','texto',false,'Como aparece en el anuncio o la fachada')+
-          '</div>'+
-          '<div id="otroEstab">'+campoOtroEstab()+'</div>' : '')+
+        campoArea('referencias','Cómo se reconoce el sitio',false,'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos, número de predio, cómo se entra.',3)+
       '</div>' : '')+
-  '</div>'+
+  '</div>')+
 
 
   '<div class="acciones"><button class="btn btn-secundario" onclick="irA(1)">Regresar</button>'+
@@ -1400,7 +1480,10 @@ function pUbicacion(){
 /* ---------- Resultado del cruce con las capas ---------- */
 function cajaCapas(){
   if(!val('lat')){
-    return '<div class="aviso" style="margin-bottom:22px">Captura la dirección y pulsa <strong>Ubicar en el mapa</strong>, o coloca el punto directamente sobre el mapa. De esa ubicación dependen la alcaldía, el tipo de suelo y el área que atiende la denuncia.</div>';
+    return '<div class="aviso" style="margin-bottom:22px">'+(sinDireccion()
+      ? 'Da un clic sobre el mapa para colocar el punto donde ocurren los hechos.'
+      : 'Captura la dirección y pulsa <strong>Ubicar en el mapa</strong>, o coloca el punto directamente sobre el mapa.')+
+      ' De esa ubicación dependen la alcaldía, el tipo de suelo y el área que atiende la denuncia.</div>';
   }
   var t = val('capa_tipo'), n = val('capa_nombre'), dg = val('dg');
   if(val('fuera')==='si'){
@@ -1594,6 +1677,12 @@ function analizaCapas(la,lo){
      guarda aparte, se muestra en la ficha y, si difiere de la capturada, se ofrece
      corregirla con un botón. Quien decide es la persona, no el sistema. */
   guarda('alcaldia_punto', c.alcaldia || '');
+  if(sinDireccion()){
+    /* Aquí no hay dirección escrita que respetar, así que el punto puede llenar
+       lo que esté vacío. Lo que la persona ya escribió no se toca. */
+    if(!val('nombre_lugar') && c.nombre) guarda('nombre_lugar', c.nombre);
+    if(!val('alcaldia')     && c.alcaldia) guarda('alcaldia', c.alcaldia);
+  }
   guarda('capa_tipo', c.tipo);
   guarda('capa_clase', c.clase);
   guarda('capa_categoria', c.categoria);
@@ -1657,9 +1746,22 @@ function pHechos(){
   '<div id="avisoPlazo">'+avisoPlazo()+'</div>'+
 
   '<h3 class="sub-seccion">Quién lo está haciendo</h3>'+
-  avisoHeredado()+
+  /* La pregunta del establecimiento vivía al final del paso anterior, entre los
+     datos del lugar, y necesitaba un aviso que explicara aquí lo contestado
+     allá. No es un detalle del lugar: es la primera pregunta sobre quién
+     responde, y propone la respuesta a la siguiente. Preguntada aquí, el aviso
+     puente sobra y la redundancia con «¿a quién denuncias?» desaparece (DEC-49). */
+  campoSiNo('es_estab','¿Los hechos ocurren dentro de un establecimiento?',
+    'Un negocio, fábrica, taller, obra en construcción, local o bodega. Si es así, lo habitual es que el establecimiento sea el responsable, y el formulario lo propone.',
+    'heredaEstablecimiento();render()')+
+  (val('es_estab')==='si' ?
+    '<div class="fila">'+
+      campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,esObligatorio('tipo_estab'),'Elige el que más se parezca','actualizaOtroEstab()')+
+      campo('nombre_estab','Nombre comercial','texto',esObligatorio('nombre_estab'),'Como aparece en el anuncio o la fachada')+
+    '</div>'+
+    '<div id="otroEstab">'+campoOtroEstab()+'</div>' : '')+
   campoOpciones('tipo_denunciado','¿Quién es responsable de los hechos?', TIPOS_DENUNCIADO,
-    'Aquí interesa quién responde por la obra o la actividad, no el lugar: el lugar ya lo señalaste en el paso anterior. Si no lo sabes, elige «No lo sé»: no impide presentar la denuncia.')+
+    'Si no lo sabes, elige «No lo sé»: no impide presentar la denuncia.')+
   bloqueDenunciado()+
 
   '<h3 class="sub-seccion">Permisos o autorizaciones</h3>'+
@@ -1712,17 +1814,6 @@ function heredaEstablecimiento(){
   if(val('es_estab')==='si' && !val('tipo_denunciado')) guarda('tipo_denunciado','empresa');
 }
 
-function avisoHeredado(){
-  if(val('es_estab')!=='si') return '';
-  var t = val('tipo_estab')==='Otro' ? (val('tipo_estab_otro')||'') : val('tipo_estab');
-  var d = [t, val('nombre_estab') ? '«'+val('nombre_estab')+'»' : ''].filter(Boolean).join(' ');
-  var cabeza = 'En el paso anterior señalaste que los hechos ocurren dentro de un establecimiento'+(d ? ': <strong>'+esc(d)+'</strong>' : '')+'. ';
-  var cola = val('tipo_denunciado')==='empresa'
-    ? 'Por eso quedó marcada la opción <strong>Una empresa o negocio</strong>. Si quien responde por los hechos es otro —la persona propietaria del predio, o una autoridad de gobierno—, cámbialo aquí. '
-    : 'El lugar ya quedó registrado; aquí sólo señalas quién responde por los hechos. ';
-  return '<div class="aviso">'+cabeza+cola+
-    '<button type="button" class="enlace" onclick="irA(2)">Corregir el establecimiento</button></div>';
-}
 
 /* Las preguntas sobre quién es el responsable cambian según a quién se
    denuncie. Pedirle a alguien el domicilio fiscal de un talamontes, o la
@@ -1778,25 +1869,72 @@ function pEvidencia(){
   return h;
 }
 
+/* Tres rutas, no dos. Escribir el nombre a mano identifica a efectos de
+   contacto, pero no acredita a nadie: la reserva de identidad frente a la
+   persona denunciada sólo tiene sentido si hay identidad, y eso lo da la
+   cuenta. Por eso Llave CDMX es una ruta propia y no un adorno de la otra
+   (DEC-50). La decisión se pide aquí, al final, y no en la primera pantalla:
+   antes de saber qué se le va a preguntar, nadie puede decidir con criterio
+   cuánto quiere exponerse, y un muro de autenticación en la primera pantalla
+   pierde la denuncia entera, porque todavía no hay nada capturado. */
+function esAnonima(){ return cfg.ident==='B' && val('identificacion')==='anonima'; }
+function conLlave(){ return val('identificacion')==='llave'; }
+function haySesion(){ return conLlave() && val('sesion_llave')==='si'; }
+
+/* La integración real está pendiente (P-15): aquí se simula para poder mostrar
+   el recorrido completo en la sesión de validación. Los datos son ficticios y
+   la pantalla lo dice. */
+function entraConLlave(){
+  guarda('sesion_llave','si');
+  guarda('nombre','María Fernanda');
+  guarda('apellido_paterno','Ramírez');
+  guarda('apellido_materno','Cortés');
+  guarda('correo','mf.ramirez@ejemplo.mx');
+  guarda('telefono','5555010203');
+  ['nombre','apellido_paterno','correo','telefono'].forEach(limpiaError);
+  render();
+}
+function salirDeLlave(){
+  guarda('sesion_llave','');
+  ['nombre','apellido_paterno','apellido_materno','correo','telefono'].forEach(function(k){ guarda(k,''); });
+  render();
+}
+
 function pDenunciante(){
-  var anon = val('anonima')==='si';
+  var anon = esAnonima();
   var h = '<div class="tarjeta"><h2><span class="num">5</span>Tus datos</h2>';
 
-  if(cfg.ident==='B'){
-    h += '<p class="sub">Puedes presentar tu denuncia con o sin identificarte.</p>'+
-      '<div class="campo"><div class="opciones">'+
-        '<button type="button" class="opcion" aria-pressed="'+(!anon?'true':'false')+'" onclick="guarda(\'anonima\',\'no\');render()"><span class="nombre">Me identifico</span><span class="desc">Recibes folio, acuse y aviso del resultado. La Secretaría puede pedirte información adicional.</span></button>'+
-        '<button type="button" class="opcion" aria-pressed="'+(anon?'true':'false')+'" onclick="guarda(\'anonima\',\'si\');render()"><span class="nombre">Denuncia anónima</span><span class="desc">No proporcionas datos. La Secretaría valora los hechos, pero no puede notificarte ni pedirte aclaraciones.</span></button>'+
-      '</div></div>';
-    if(anon){
-      h += '<div class="aviso"><strong>Ten en cuenta:</strong> sin datos de contacto no podrás conocer el resultado de tu denuncia ni subsanar información faltante. Si la descripción o la ubicación resultan insuficientes, el expediente no podrá continuar.</div>';
-    }
+  var ident = val('identificacion');
+  function opcion(v,nom,desc){
+    return '<button type="button" class="opcion" aria-pressed="'+(ident===v?'true':'false')+'" '+
+      'onclick="guarda(\'identificacion\',\''+v+'\');render()">'+
+      '<span class="nombre">'+nom+'</span><span class="desc">'+desc+'</span></button>';
   }
-  if(cfg.ident==='C'){
-    h += '<p class="sub">Tus datos son obligatorios para dar trámite a la denuncia.</p>';
+  h += '<p class="sub">Elige cómo quieres presentar tu denuncia.</p>'+
+    '<div class="campo"><div class="opciones">'+
+      opcion('llave','Con mi cuenta Llave CDMX',
+        'Tus datos se llenan solos y después puedes consultar el estado de tu denuncia entrando con tu cuenta, sin recordar el folio.')+
+      opcion('nombre','Escribo mis datos',
+        'Recibes folio y acuse, y la Secretaría puede pedirte información adicional. Para consultar el estado necesitarás el folio.')+
+      (cfg.ident==='B' ? opcion('anonima','Denuncia anónima',
+        'No proporcionas datos. La Secretaría valora los hechos, pero no puede notificarte ni pedirte aclaraciones.') : '')+
+    '</div></div>';
+
+  if(anon){
+    h += '<div class="aviso"><strong>Ten en cuenta:</strong> sin datos de contacto no podrás conocer el resultado de tu denuncia ni subsanar información faltante. Si la descripción o la ubicación resultan insuficientes, el expediente no podrá continuar.</div>';
+  }
+  if(conLlave() && !haySesion()){
+    h += '<div class="aviso"><strong>Llave CDMX</strong> es la cuenta con la que la Ciudad opera sus trámites en línea. Con ella no escribes tus datos y el folio queda ligado a tu cuenta.<br><br>'+
+      '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="entraConLlave()">Entrar con Llave CDMX</button></div>'+
+      '<div class="aviso" style="border-left-color:var(--dorado)"><strong>En este prototipo la cuenta se simula.</strong> La integración real está pendiente de resolverse con la Agencia Digital de Innovación Pública (P-15), incluido qué datos entrega la cuenta. Los que aparecen al entrar son ficticios.</div>';
+  }
+  if(haySesion()){
+    h += '<div class="aviso aviso-ok">Entraste como <strong>'+esc([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '))+'</strong> · '+esc(val('correo'))+'. '+
+      'Estos datos vienen de tu cuenta y puedes corregirlos abajo si hiciera falta. '+
+      '<button type="button" class="enlace" onclick="salirDeLlave()">Salir de la cuenta</button></div>';
   }
 
-  if(!(cfg.ident==='B' && anon)){
+  if(ident==='nombre' || haySesion()){
     h += '<div class="fila-3">'+
       campo('nombre','Nombre(s)','texto',esObligatorio('nombre'),'','autocomplete="given-name"')+
       campo('apellido_paterno','Apellido paterno','texto',esObligatorio('apellido_paterno'),'','autocomplete="family-name"')+
@@ -1848,26 +1986,32 @@ function pDenunciante(){
 
 function pRevision(){
   var m = MATERIAS.filter(function(x){return x.id===val('materia');})[0];
-  var anon = (cfg.ident==='B' && val('anonima')==='si');
+  var anon = esAnonima();
   function r(t,v,ir){ return '<dt>'+t+(ir?' <button type="button" class="editar" onclick="irA('+ir+')">Editar</button>':'')+'</dt>'+
     '<dd>'+(v?esc(v):'<em>Sin dato</em>')+'</dd>'; }
 
-  var ubic = [[val('calle'),val('num_ext')].filter(Boolean).join(' '),val('colonia'),val('cp')?'C.P. '+val('cp'):'',val('alcaldia')].filter(Boolean).join(', ');
+  /* El lugar se resume distinto según tenga domicilio o no: en un bosque, una
+     dirección vacía separada por comas no dice nada y el nombre del sitio sí. */
+  var ubic = sinDireccion()
+    ? [val('nombre_lugar'),val('alcaldia')].filter(Boolean).join(', ')
+    : [[val('calle'),val('num_ext')].filter(Boolean).join(' '),val('colonia'),val('cp')?'C.P. '+val('cp'):'',val('alcaldia')].filter(Boolean).join(', ');
   var refs = [(val('entre_calle1')||val('entre_calle2'))?'Entre '+[val('entre_calle1'),val('entre_calle2')].filter(Boolean).join(' y '):'',
-              val('fachada')?'Características del sitio: '+val('fachada'):'',
-              val('es_estab')==='si'?'Establecimiento: '+([val('tipo_estab')==='Otro'?('Otro: '+(val('tipo_estab_otro')||'sin especificar')):val('tipo_estab'),val('nombre_estab')].filter(Boolean).join(' · ')||'sin datos'):'',
               val('referencias')].filter(Boolean).join('\n');
+  var estab = val('es_estab')==='si'
+    ? ([val('tipo_estab')==='Otro'?('Otro: '+(val('tipo_estab_otro')||'sin especificar')):val('tipo_estab'),val('nombre_estab')].filter(Boolean).join(' · ')||'Sí, sin más datos')
+    : (val('es_estab')==='no' ? 'No' : '');
   var temp = {unico:'Ocurrió una sola vez',recurrente:'Ocurre de forma repetida',permanente:'Es permanente o continuo'}[val('temporalidad')]||'';
 
   var h = '<div class="tarjeta"><h2><span class="num">6</span>Revisa antes de enviar</h2>'+
   '<p class="sub">Verifica que la información sea correcta. Una vez enviada, la denuncia se turna al área de inspección.</p>'+
   '<div class="resumen"><dl>'+
     r('Materia', m?(m.formal||m.nom):'', 1)+
-    r('Lugar de los hechos', ubic, 2)+
+    r(sinDireccion()?'Sitio de los hechos':'Lugar de los hechos', ubic, 2)+
     r('Coordenadas', val('lat')?val('lat')+', '+val('lon'):'')+
     r('Tipo de suelo', [val('capa_tipo'),val('capa_nombre')].filter(Boolean).join(' — '))+
     r('Área que atiende', val('dg_nombre'))+
     r('Referencias', refs)+
+    r('¿Dentro de un establecimiento?', estab, 3)+
     r('Hechos denunciados', val('hechos'), 3)+
     r('Temporalidad', [temp,val('fecha_hecho'),(val('hora_h')?val('hora_h')+':'+(val('hora_m')||'00')+' horas':'')].filter(Boolean).join(' · '))+
     r('Establecimiento', val('establecimiento'))+
@@ -1885,6 +2029,9 @@ function pRevision(){
     r('Archivos adjuntos', archivos.length? archivos.map(function(a){return a.name;}).join('\n') : '')+
     r('Otras pruebas', val('otras_pruebas'), 4)+
     r('Denunciante', anon ? 'Denuncia anónima' : [val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '), 5)+
+    (anon?'':r('Identificación', haySesion()
+        ? 'Acreditada con cuenta Llave CDMX'
+        : (val('identificacion')==='nombre' ? 'Datos proporcionados por la persona denunciante, sin acreditación' : '')))+
     (anon?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' · ')))+
     (anon?'':r('Notificación', val('notif_correo')==='si'?'Por correo electrónico':(val('notif_correo')==='no'?'Por domicilio':'')))+
     (anon?'':r('Confidencialidad', val('reserva')==='si'?'Solicitada':(val('reserva')==='no'?'No solicitada':'')))+
@@ -1899,7 +2046,7 @@ function pRevision(){
 }
 
 function pAcuse(){
-  var anon = (cfg.ident==='B' && val('anonima')==='si');
+  var anon = esAnonima();
   return '<div class="tarjeta"><div class="acuse">'+
     '<div class="marca">'+svgIcono('check',40,'#fff')+'</div>'+
     '<h2>Tu denuncia fue recibida</h2>'+
@@ -2091,23 +2238,13 @@ function valida(n){
   }
   if(!cfg.validar) return true;   // obligatoriedad desactivada para las pruebas
 
-  var anon = (cfg.ident==='B' && val('anonima')==='si');
+  var anon = esAnonima();
   var faltan = [];
 
   camposDelPaso(n).forEach(function(k){
     if(!esObligatorio(k)) return;
     if(anon && SOLO_IDENTIFICADO.indexOf(k) >= 0) return;
-    if(k==='es_estab' || k==='temporalidad'){ if(!val(k)) faltan.push(k); return; }
-    if(k==='permisos' ){ if(val('sabe_permisos')!=='si') return; }
-    if(k==='gestiones'){ if(val('reporto_antes')!=='si') return; }
-    if(k==='tipo_estab' || k==='nombre_estab'){ if(val('es_estab')!=='si') return; }
-    if(k==='establecimiento'){ if(val('tipo_denunciado')!=='empresa') return; }
-    if(k==='lat'){ if(!val('lat')) faltan.push(k); return; }
-    if(k==='archivos'){ if(!archivos.length) faltan.push(k); return; }
-    if(k==='privacidad'){ if(val('privacidad')!=='si') faltan.push(k); return; }
-    if(k.indexOf('dom_')===0 && val('notif_correo')!=='no') return;
-    if(k==='notif_correo'){ if(!val(k)) faltan.push(k); return; }
-    if(!String(val(k)||'').trim()) faltan.push(k);
+    if(!presente(k)) faltan.push(k);
   });
 
   // Validaciones de formato, además de la presencia del dato.
@@ -2122,8 +2259,8 @@ function valida(n){
   /* Un campo obligatorio no puede quedar escondido tras un bloque plegado: el
      resumen de errores enlazaría a algo que no está en la pantalla. Si alguno de
      los que faltan vive ahí dentro, el bloque se abre antes de mostrar el error. */
-  var ENVUELTOS_LUGAR = ['entre_calle1','entre_calle2','fachada','referencias','es_estab','tipo_estab','nombre_estab'];
-  if(faltan.some(function(k){ return ENVUELTOS_LUGAR.indexOf(k) >= 0; })) guarda('mas_lugar','si');
+  var ENVUELTOS_LUGAR = ['entre_calle1','entre_calle2','referencias'];
+  if(!sinDireccion() && faltan.some(function(k){ return ENVUELTOS_LUGAR.indexOf(k) >= 0; })) guarda('mas_lugar','si');
 
   if(!faltan.length) return true;
 
@@ -2337,6 +2474,14 @@ function estoyEnElLugar(){
   }, function(){
     cont.innerHTML = '<div class="res-lista"><div class="vacio">No fue posible obtener tu ubicación. Revisa el permiso del navegador o coloca el punto sobre el mapa.</div></div>';
   }, {enableHighAccuracy:true, timeout:12000});
+}
+
+/* Gemela de la anterior, para el nombre del sitio en la ruta sin dirección. */
+function usaNombreDelPunto(){
+  if(!val('capa_nombre')) return;
+  guarda('nombre_lugar', val('capa_nombre'));
+  limpiaError('nombre_lugar');
+  render();
 }
 
 /* Única vía por la que el mapa escribe en la dirección: cuando la persona lo pide. */

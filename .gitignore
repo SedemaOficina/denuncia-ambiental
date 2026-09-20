@@ -38,3 +38,5 @@ prototipo/configuracion-local.js
 # El artefacto se genera; no se versiona. Se versiona lo que lo genera.
 construccion/artefacto*.html
 construccion/__pycache__/
+construccion/pruebas/_pagina.html
+construccion/_artefacto*.html

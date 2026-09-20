@@ -16,13 +16,16 @@ El entorno donde se publica el artefacto **bloquea todo recurso externo**. El pr
 |---|---|
 | `construir.py` | Transforma el archivo local en la versión publicable |
 | `mapa_svg.js` | El mapa vectorial que sustituye a Leaflet. Se inyecta al final, de modo que **sus definiciones sobrescriben a las del prototipo** |
-| `pruebas.py` | Treinta y seis comprobaciones automatizadas sobre el artefacto ya construido |
+| `generar_doc09.py` | Regenera `documentacion/09-mapeo-campos-obligatorios.md` desde el catálogo `OBLIG` |
+| `pruebas.py` | Corre todas las pruebas y suma el resultado |
+| `pruebas/` | Una batería por cierre de trabajo. **No se borran cuando su asunto se cierra**: una prueba vieja en verde es lo que avisa cuando un cambio nuevo rompe algo viejo |
 
 ## Cómo se usa
 
 ```
 python3 construccion/construir.py          # genera construccion/artefacto.html
 python3 construccion/pruebas.py            # lo comprueba
+python3 construccion/generar_doc09.py      # rehace el documento 09 desde OBLIG
 ```
 
 Las pruebas necesitan Playwright y un Chromium; la ruta al navegador se pasa en la variable `CHROMIUM` si no es la predeterminada.
@@ -38,3 +41,11 @@ Las pruebas necesitan Playwright y un Chromium; la ruta al navegador se pasa en 
 Que el bloque plegable nace cerrado y sus campos no están en el árbol del documento; que abre, cierra y conserva lo capturado; que ningún campo obligatorio queda escondido —y que, forzando que uno lo estuviera, la validación lo despliega—; que la ubicación del dispositivo avisa cuando no hay permiso y coloca el punto cuando lo hay; que **el punto no escribe en la dirección**; y que las siete pantallas se dibujan sin error propio en consola.
 
 No cubren la apariencia. Eso se revisa mirando.
+
+## El documento 09 se genera, no se escribe
+
+`OBLIG` es la única fuente de verdad: de él salen la marca de «opcional» en pantalla, la validación y el documento 09. Mantener las tres cosas a mano es garantizarse que se separen, y cuando se separan **el documento que sustenta la minimización ante la Unidad de Transparencia empieza a decir algo distinto de lo que el formulario hace**. Por eso el documento se regenera.
+
+El generador conserva la parte redactada a mano —del apartado 3 en adelante—, la busca por su encabezado y la vuelve a pegar. Si no la encuentra, **se detiene con error en vez de publicar un documento mutilado**. Ya ocurrió una vez que un generador anterior se llevó por delante esa cola.
+
+Ese generador anterior, además, **no estaba en ninguna parte**: se escribió en una sesión de trabajo y se perdió con ella. Es la misma lección que el resto de esta carpeta: lo que produce un entregable vale tanto como el entregable, y va al repositorio.

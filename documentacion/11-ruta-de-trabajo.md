@@ -435,3 +435,40 @@ Se descartó resolverlo con `--allow-unrelated-histories`, que habría injertado
 **Lo que esto no arregla, y conviene no olvidar.** El documento **estuvo publicado**. Quien lo haya clonado o descargado en esos días lo conserva. La lección operativa es anterior a todo esto: **el `.gitignore` se escribe antes del primer commit, no después del primer push.** Hoy ya excluye ese documento, los PDF de normativa, el historial del prototipo y el archivo de configuración con la llave de CARTO.
 
 **Nota de herramienta.** La primera escritura de estos dos archivos se hizo desde el entorno de trabajo y la herramienta reportó «éxito» habiendo dejado en disco una versión anterior. Se detectó al comprobar el contenido en disco, no al leer la respuesta de la herramienta. **Vale para cualquier escritura: lo que confirma que un archivo quedó bien es leerlo, no que la herramienta diga que sí.**
+
+### 19 de septiembre de 2026 · bloque «el lugar sin domicilio y las tres rutas de identificación»
+
+Dos asuntos que parecían de la misma clase y no lo eran: el primero es un **defecto**, el segundo una decisión de diseño.
+
+#### El defecto
+
+El formulario exigía calle, colonia y código postal. En un bosque, un área natural protegida, una barranca, un camino o un canal esos datos no existen. Comprobado antes de tocar nada, poniendo un punto dentro del Bosque de Tlalpan: **el sistema identificaba correctamente el área natural protegida, la alcaldía y que la denuncia correspondía a la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural —y acto seguido no dejaba continuar**, porque pedía un domicilio inexistente. El formulario servía bien a la mitad urbana de lo que la Secretaría atiende.
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| `tiene_direccion` | Pregunta nueva, obligatoria | Encamina el paso. Obligatoria porque, sin respuesta, el formulario elegía una rama en silencio (DEC-47) |
+| `nombre_lugar` | Campo nuevo | Sustituye al domicilio donde no lo hay. **Se propone desde la capa oficial que contiene el punto**: si el punto cae en el Bosque de Tlalpan, el nombre aparece solo |
+| `usaNombreDelPunto()` | Función nueva | Gemela de `usaAlcaldiaDelPunto()`. El sistema propone; corrige quien denuncia (DEC-41) |
+| Orden del paso | Bifurcado | Con domicilio, la dirección primero y el punto después. Sin domicilio, el punto primero —es el único localizador— y la identificación del sitio después, porque el nombre se propone desde la capa |
+
+#### La obligatoriedad, a donde pertenece
+
+Las condiciones —qué campo se pide y cuándo— vivían sueltas en `valida()`. El documento 09 se genera de `OBLIG`, de modo que **afirmaba que el domicilio de notificación era obligatorio siempre**, cuando sólo se pide a quien rechaza la notificación electrónica. El documento con el que se sustenta la minimización ante la Unidad de Transparencia no puede decir algo distinto de lo que el formulario hace. Diecisiete campos declaran hoy su condición en `OBLIG`, con un texto legible que el documento 09 publica en una columna propia, y `valida()` quedó reducida a comprobar presencia (DEC-48).
+
+#### Dos observaciones del propio usuario, ambas correctas
+
+**«Color o características del sitio» y «Otras referencias» eran la misma pregunta hecha dos veces.** Dos cajas vacías donde bastaba una, y el efecto habitual: quien no sabe en cuál escribir, no escribe en ninguna. Peor aún, este mismo bloque estaba a punto de añadir una tercera —«cómo se llega»— para la ruta sin domicilio. Las tres son ahora una sola: **«Cómo se reconoce y cómo se llega al sitio»**, obligatoria sólo donde no hay domicilio, porque ahí es lo único que permite al personal de inspección llegar a una coordenada.
+
+**La pregunta del establecimiento estaba en el paso equivocado, y el código lo estaba diciendo.** Existía `avisoHeredado()`, una función cuyo único trabajo era explicar en el paso 3 lo contestado en el paso 2: «En el paso anterior señalaste que...». **Cuando hace falta un puente así, la pregunta está mal colocada.** No es un detalle del lugar: es la primera pregunta sobre quién responde, y propone la respuesta a la siguiente. Movida al paso 3, el aviso puente se eliminó entero y con él la redundancia con «¿a quién denuncias?» que estaba anotada desde la revisión heurística (DEC-49).
+
+#### Las tres rutas de identificación
+
+Anónima, datos escritos y cuenta Llave CDMX. **La tercera no es un adorno de la segunda:** escribir el nombre a mano identifica para contacto pero no acredita a nadie, y la reserva de identidad frente a la persona denunciada sólo tiene sentido si hay identidad. La elección se pide **en el paso 5 y no en la primera pantalla**, por tres razones que constan en DEC-50; la tercera es de calendario: así el formulario puede salir sin la integración y esperarla, en vez de depender de ella. La cuenta se simula y **la pantalla dice que se simula**, porque P-15 sigue abierto.
+
+#### Lo que se recuperó
+
+El generador del documento 09 **no estaba en ninguna parte**: se había escrito en una sesión anterior y se perdió con ella, de modo que el documento sólo podía mantenerse a mano —justo lo que no debe pasar con un documento generado—. Se reescribió y quedó en `construccion/`, y se detiene con error si no encuentra la parte redactada a mano, en vez de publicar un documento mutilado. Las tres baterías de pruebas se reunieron en `construccion/pruebas/` con un solo corredor.
+
+**Verificación de cierre.** **101 comprobaciones automatizadas, todas en verde**, incluidas las dos baterías anteriores, que se conservan: una prueba vieja en verde es lo que avisa cuando un cambio nuevo rompe algo viejo. Sintaxis correcta. Cero funciones sin uso, cero duplicadas, cero claves de estado escritas y nunca leídas, cero clases de estilo huérfanas; los cuatro `!important` están todos dentro de `prefers-reduced-motion`, que es su uso legítimo, y el único selector declarado dos veces sigue siendo `textarea`, la excepción anotada. Documento 09 regenerado: **50 campos, 20 datos personales, 17 con obligatoriedad condicionada, ninguno sin uso declarado**. Comprobado que la denuncia en el Bosque de Tlalpan ya puede presentarse, que sin domicilio no se piden calle ni colonia ni código postal y sí el nombre y el acceso, que con domicilio todo sigue igual que ayer, que las tres rutas de identificación piden lo suyo y sólo lo suyo, y que el resumen final distingue la identidad acreditada de la que no lo está.
+
+**Nota sobre el método.** Dos de las comprobaciones antiguas fallaron al correrlas de nuevo. Ninguna era una regresión: una nombraba un campo que hoy está fundido en otro, y la otra forzaba la obligatoriedad de un campo que ahora tiene condición propia, de modo que medía la condición y no la red que pretendía probar. Se corrigieron las pruebas, no el código —y se anota, porque es la tercera vez en el proyecto que lo defectuoso resulta ser el método de verificación, y la única defensa contra eso es comprobar siempre qué falló antes de tocar nada.
