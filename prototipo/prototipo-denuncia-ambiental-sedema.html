@@ -1691,10 +1691,20 @@ function cajaCapas(){
   if(n) h += '<div class="capas-fila"><span class="capas-etq">Área identificada</span><span class="capas-val">'+esc(n)+'</span></div>';
   h += '<div class="capas-fila"><span class="capas-etq">Atiende</span><span class="capas-val"><strong>'+esc(val('dg_nombre')||'')+'</strong></span></div>'+
     '<p class="capas-nota">'+esc(val('dg_razon')||'')+
-      ((val('dg')==='DGCORENADR' || val('dg')==='DGIVA')
-        ? ' <span class="pendiente">Fundamento del reparto de atribuciones por confirmar</span>' : '')+'</p>';
+      (val('dg')==='FEDERAL'
+        ? ' <span class="pendiente">Criterio provisional, a consulta de las áreas (P-22)</span>' : '')+'</p>';
   if(val('dg')==='FEDERAL'){
-    h += '<div class="aviso" style="margin:12px 0 0">Esta Área Natural Protegida es de competencia federal y la Secretaría no cuenta con convenio de coadministración sobre ella. Presenta la denuncia ante la PROFEPA. <span class="pendiente">Criterio por confirmar con la DGIVA</span>'+
+    /* Criterio provisional. La lectura de la clausula SEGUNDA del convenio
+       —que deja a salvo las facultades federales de inspeccion— es la razon de
+       que el formulario turne aqui a la federacion, pero interpretar un
+       convenio frente al Reglamento Interior y al Manual le toca a las areas,
+       no al prototipo. Mientras se consulta se asume la competencia federal,
+       que es la que no produce un acto viciado, y se advierte (P-22). */
+    h += '<div class="aviso" style="margin:12px 0 0">'+
+      (val('coadmin')==='si'
+        ? 'Esta Área Natural Protegida es de competencia federal y la Secretaría coadyuva en su administración conforme al convenio con la CONANP. <strong>Está a consulta de las áreas</strong> si la denuncia debe atenderse aquí o ante la PROFEPA: mientras se resuelve, el formulario asume la competencia federal.'
+        : 'Esta Área Natural Protegida es de competencia federal y la Secretaría no participa en su administración. Presenta la denuncia ante la PROFEPA.')+
+      ' <span class="pendiente">Criterio provisional, a consulta de las áreas (P-22)</span>'+
       (val('concurrencia')?'<br><br>El punto también se encuentra dentro del Área Natural Protegida local «'+esc(val('concurrencia'))+'», por lo que existe concurrencia de competencias y la Secretaría puede intervenir en el ámbito local.':'')+'</div>';
   }
   if(val('coadmin')==='si'){
@@ -1873,7 +1883,7 @@ function analizaCapas(la,lo){
   if(c.dg==='FEDERAL'){
     guarda('dg_nombre','Procuraduría Federal de Protección al Ambiente (PROFEPA)');
     guarda('dg_razon', c.coadmin
-      ? 'El punto se ubica en un Área Natural Protegida de competencia federal. La Secretaría coadyuva en su administración y manejo conforme al Convenio Marco de Coordinación con la CONANP, suscrito el '+CONVENIO_CONANP.firma+' y vigente hasta el '+CONVENIO_CONANP.vigencia+'; pero ese convenio deja expresamente a salvo las facultades federales de inspección y vigilancia, de modo que la denuncia corresponde a la PROFEPA. La Secretaría la recibe y la remite, y queda enterada por su papel en la administración del parque.'
+      ? 'El punto se ubica en un Área Natural Protegida de competencia federal. La Secretaría coadyuva en su administración y manejo conforme al Convenio Marco de Coordinación con la CONANP, suscrito el '+CONVENIO_CONANP.firma+' y vigente hasta el '+CONVENIO_CONANP.vigencia+'. Ese convenio deja a salvo las facultades federales de inspección y vigilancia, por lo que el formulario asume, en tanto las áreas resuelven, que la denuncia corresponde a la PROFEPA. La Secretaría la recibe y la remite, y queda enterada por su papel en la administración del parque.'
       : 'El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría no participa siquiera en la administración, por lo que la denuncia corresponde a la autoridad federal. La Secretaría la recibe y la remite.');
   } else if(c.dg==='DGCORENADR'){
     guarda('dg_nombre','Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas');
