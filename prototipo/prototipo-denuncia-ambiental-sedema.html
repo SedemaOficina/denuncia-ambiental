@@ -190,6 +190,7 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .chip-materia > span{flex:1;line-height:1.35;color:var(--texto)}
 .chip-materia .cm-etq{display:block;font-size:var(--t-xs);color:var(--gris);text-transform:uppercase;letter-spacing:.05em}
 .chip-materia .enlace{flex-shrink:0;line-height:1.2}
+.resumen .derivado{float:right;font-size:var(--t-xs);color:var(--gris-cl);font-weight:400;font-style:italic}
 .editar{background:none;border:none;color:var(--azul);font-size:var(--t-xs);text-decoration:underline;cursor:pointer;padding:2px 4px;font-family:inherit;font-weight:400;float:right}
 
 .leyenda-oblig{font-size:var(--t-sm);color:var(--gris);background:var(--guinda-cl);border-radius:var(--r-ctrl);padding:9px 14px;margin-bottom:14px}
@@ -2161,11 +2162,35 @@ function pDenunciante(){
   return h;
 }
 
+/* Corregir desde la revision tiene que llevar al campo, no al paso: si la
+   pantalla es larga —y el paso 3 lo es—, aterrizar arriba obliga a buscar.
+   Se reconstruye el paso y despues se enfoca el campo, porque irA() rehace
+   la pantalla y el elemento anterior deja de existir (DEC-85). */
+function vaACampo(n, k){
+  irA(n);
+  setTimeout(function(){
+    var caja = $('c_'+k) || $('f_'+k);
+    if(!caja) return;
+    caja.scrollIntoView({block:'center', behavior:'smooth'});
+    var f = $('f_'+k) || caja.querySelector('input,select,textarea,button');
+    if(f && f.focus) try{ f.focus({preventScroll:true}); }catch(e){ f.focus(); }
+  }, 80);
+}
+
 function pRevision(){
   var m = MATERIAS.filter(function(x){return x.id===val('materia');})[0];
   var anon = esAnonima();
-  function r(t,v,ir){ return '<dt>'+t+(ir?' <button type="button" class="editar" onclick="irA('+ir+')">Editar</button>':'')+'</dt>'+
-    '<dd>'+(v?esc(v):'<em>Sin dato</em>')+'</dd>'; }
+  /* Ningun renglon se queda callado: o lleva su boton de corregir —que
+     aterriza en el campo— o dice por que no se puede corregir ahi. Antes solo
+     siete de veinticuatro tenian boton, sin regla visible, y lo que parecia
+     era que el resto no se podia cambiar (DEC-85). */
+  function r(t,v,ir,k){
+    var acc = ir === 0
+      ? '<span class="derivado">Lo determina el punto del mapa</span>'
+      : (ir ? ' <button type="button" class="editar" onclick="'+
+              (k ? "vaACampo("+ir+",'"+k+"')" : 'irA('+ir+')')+'">Editar</button>' : '');
+    return '<dt>'+t+acc+'</dt><dd>'+(v?esc(v):'<em>Sin dato</em>')+'</dd>';
+  }
 
   /* El lugar se resume distinto según tenga domicilio o no: en un bosque, una
      dirección vacía separada por comas no dice nada y el nombre del sitio sí. */
@@ -2183,43 +2208,43 @@ function pRevision(){
   '<p class="sub">Verifica que la información sea correcta. Una vez enviada, la denuncia se turna al área de inspección.</p>'+
   '<div class="resumen"><dl>'+
     r('Materia', m?(m.formal||m.nom):'', 1)+
-    r(sinDireccion()?'Sitio de los hechos':'Lugar de los hechos', ubic, 2)+
-    r('Coordenadas', val('lat')?val('lat')+', '+val('lon'):'')+
-    r('Tipo de suelo', [val('capa_tipo'),val('capa_nombre')].filter(Boolean).join(' — '))+
-    r('Área que atiende', val('dg_nombre'))+
-    r('Referencias', refs)+
-    r('¿Dentro de un establecimiento?', estab, 3)+
-    r('Hechos denunciados', val('hechos'), 3)+
-    r('Temporalidad', [temp,val('fecha_hecho'),(val('hora_h')?val('hora_h')+':'+(val('hora_m')||'00')+' horas':'')].filter(Boolean).join(' · '))+
-    r('Establecimiento', val('establecimiento'))+
+    r(sinDireccion()?'Sitio de los hechos':'Lugar de los hechos', ubic, 2, sinDireccion()?'nombre_lugar':'calle')+
+    r('Coordenadas', val('lat')?val('lat')+', '+val('lon'):'', 2, 'coord_pegar')+
+    r('Tipo de suelo', [val('capa_tipo'),val('capa_nombre')].filter(Boolean).join(' — '), 0)+
+    r('Área que atiende', val('dg_nombre'), 0)+
+    r('Referencias', refs, 2, 'referencias')+
+    r('¿Dentro de un establecimiento?', estab, 3, 'es_estab')+
+    r('Hechos denunciados', val('hechos'), 3, 'hechos')+
+    r('Temporalidad', [temp,val('fecha_hecho'),(val('hora_h')?val('hora_h')+':'+(val('hora_m')||'00')+' horas':'')].filter(Boolean).join(' · '), 3, 'temporalidad')+
+    r('Establecimiento', val('establecimiento'), 3, 'establecimiento')+
     r('A quién se denuncia', (function(){
         var t = TIPOS_DENUNCIADO.filter(function(x){return x.v===val('tipo_denunciado');})[0];
         if(!t) return '';
         return t.t + (val('tipo_denunciado')==='gobierno' && val('autoridad_denunciada') ? ' · '+val('autoridad_denunciada') : '');
-      })(), 3)+
+      })(), 3, 'tipo_denunciado')+
     r('Datos del responsable', [val('establecimiento'),val('resp_nombre'),val('autoridad_denunciada'),
         val('resp_area'),val('resp_encargado'),val('resp_obra'),val('resp_domicilio'),val('resp_senas')]
-        .filter(Boolean).join('\n'))+
-    r('Otros datos de los responsables', val('responsables'))+
-    r('Permisos o autorizaciones', val('permisos'))+
-    r('Gestiones previas', val('gestiones'))+
-    r('Archivos adjuntos', archivos.length? archivos.map(function(a){return a.name;}).join('\n') : '')+
-    r('Otras pruebas', val('otras_pruebas'), 4)+
-    r('Denunciante', anon ? 'Denuncia anónima' : [val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '), 5)+
+        .filter(Boolean).join('\n'), 3, 'resp_nombre')+
+    r('Otros datos de los responsables', val('responsables'), 3, 'responsables')+
+    r('Permisos o autorizaciones', val('permisos'), 3, 'sabe_permisos')+
+    r('Gestiones previas', val('gestiones'), 3, 'reporto_antes')+
+    r('Archivos adjuntos', archivos.length? archivos.map(function(a){return a.name;}).join('\n') : '', 4)+
+    r('Otras pruebas', val('otras_pruebas'), 4, 'otras_pruebas')+
+    r('Denunciante', anon ? 'Denuncia anónima' : [val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '), 5, 'identificacion')+
     (anon?'':r('Identificación', haySesion()
         ? 'Acreditada con cuenta Llave CDMX'
-        : (val('identificacion')==='nombre' ? 'Datos proporcionados por la persona denunciante, sin acreditación' : '')))+
-    (anon?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' · ')))+
-    (anon?'':r('Notificación', val('notif_correo')==='si'?'Por correo electrónico':(val('notif_correo')==='no'?'Por domicilio':'')))+
-    (anon?'':r('Confidencialidad', val('reserva')==='si'?'Solicitada':(val('reserva')==='no'?'No solicitada':'')))+
+        : (val('identificacion')==='nombre' ? 'Datos proporcionados por la persona denunciante, sin acreditación' : ''), 5, 'identificacion'))+
+    (anon?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' · '), 5, 'telefono'))+
+    (anon?'':r('Notificación', val('notif_correo')==='si'?'Por correo electrónico':(val('notif_correo')==='no'?'Por domicilio':''), 5, 'notif_correo'))+
+    (anon?'':r('Confidencialidad', val('reserva')==='si'?'Solicitada':(val('reserva')==='no'?'No solicitada':''), 5, 'reserva'))+
     (anon||val('notif_correo')==='si'?'':r('Domicilio', [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):''].filter(Boolean).join(' '),
-                             val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'', val('dom_alcaldia'), val('dom_entidad')].filter(Boolean).join(', ')))+
+                             val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'', val('dom_alcaldia'), val('dom_entidad')].filter(Boolean).join(', '), 5, 'dom_calle'))+
     r('Datos estadísticos', (function(){
         var g = {mujer:'Mujer',hombre:'Hombre',no_binaria:'No binaria',otro:'Otro',nd:'Prefiere no decirlo'}[val('sexo_genero')]||'';
         var e = {'-18':'Menor de 18 años','18-29':'18 a 29 años','30-44':'30 a 44 años',
                  '45-59':'45 a 59 años','60+':'60 años o más',nd:'Prefiere no decirlo'}[val('edad_rango')]||'';
         return [g,e].filter(Boolean).join(' · ');
-      })(), 5)+
+      })(), 5, 'sexo_genero')+
   '</dl></div>'+
   '<div class="aviso aviso-guinda" style="margin-top:20px">Al enviar, la denuncia se registra con un folio y se turna a '+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+', que la recibe en tres días hábiles y analiza el caso en diez.</div>'+

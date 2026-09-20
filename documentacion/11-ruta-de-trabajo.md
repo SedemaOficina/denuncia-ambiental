@@ -796,3 +796,15 @@ Los tres avisos de «plazo por confirmar» —portada, revisión y acuse— se s
 **La DGSANPAVA no recibe denuncias.** El Manual no le asigna ninguna función de recepción, trámite o seguimiento. Pero el artículo 190, fracción XXII, del Reglamento Interior **sí le atribuye operar el sistema de inspección y vigilancia en Áreas Naturales Protegidas y Áreas de Valor Ambiental**. Es una incongruencia entre el Reglamento y el Manual, no del formulario. Hasta que se aclare, el formulario no la nombra como área que atiende, y así queda registrado en P-10.
 
 **Verificación.** 237 comprobaciones en verde. La portada creció diez palabras al sustituir el aviso por las cifras, de modo que el tope subió de 340 a 350 —es dato, no relleno— y sigue comprobándose que el botón de empezar se ve sin desplazar a 390 px (DEC-84).
+
+### Añadido: por qué no se podían corregir todos los campos
+
+La pregunta tenía respuesta, y era mala: **no había regla**. La pantalla de revisión resume veinticuatro renglones y sólo siete llevaban «Editar», uno por paso, colocado en el primer renglón de cada grupo. Como los grupos no se ven, lo que quedaba era un patrón arbitrario, y lo que una persona lee ahí es que los demás datos no se pueden cambiar. Quien detecta un error en un renglón sin botón hace una de dos cosas: envía algo que sabe incorrecto, o abandona.
+
+Ahora cada renglón lleva su botón. Y corregir **aterriza en el campo**, con el foco puesto en el control: el paso 3 es largo, y llevar a la persona al principio del paso la obliga a buscar lo que ya sabía que estaba mal. Como `irA()` rehace la pantalla, el enfoque se aplica después de reconstruirla.
+
+Los dos únicos renglones sin botón son los que **calcula el cruce del punto con las capas** —tipo de suelo y área que atiende—. No pueden editarse porque no se capturan, y en vez de quedarse callados lo dicen: «Lo determina el punto del mapa». Quien quiera cambiarlos tiene que mover el punto, que es la verdad del sistema.
+
+La comprobación que fija esto no cuenta botones: exige que **ningún renglón se quede sin decir cómo se corrige**, de modo que un campo nuevo que se olvide de declararlo hace fallar la batería (DEC-85).
+
+**Verificación.** 251 comprobaciones en verde en ocho baterías.
