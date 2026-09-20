@@ -421,3 +421,17 @@ La palabra «opcional» pasa de veintiocho a dieciocho apariciones. La pantalla 
 **Corrección de la propia medición.** La primera cifra que se anotó en este cierre —23.8 pantallas— medía el alto de todo el documento, con encabezado de gobierno, pie y ventanas modales incluidos, mientras que la línea base del documento 13 mide sólo el contenedor del formulario. Comparadas así, las dos versiones decían que el formulario había crecido cuando en realidad se había acortado un 17 %. **Una medición sólo sirve si repite el método de aquella contra la que se compara**; se rehízo con el método original y son las cifras de arriba las que valen.
 
 **Nota sobre el método.** Una de las treinta y seis comprobaciones falló en su primera ejecución por culpa de la prueba, no del código: forzaba la obligatoriedad de un campo marcando sólo la bandera del esquema vigente, cuando el panel estaba en el esquema de la propuesta de la Dirección General. Se corrigió la prueba para marcar ambas y no depender del esquema seleccionado. Es la segunda vez que el método de verificación resulta ser lo defectuoso; conviene anotarlo cada vez.
+
+### 19 de septiembre de 2026 · reconstrucción del repositorio remoto
+
+Al intentar sincronizar, GitHub Desktop devolvió **«Unable to merge unrelated histories»**. No era un fallo de la herramienta: al retirar de la historia el documento de trabajo de la Dirección General, `filter-branch` no editó los commits sino que **creó commits nuevos con raíz nueva**, de modo que la historia local (`b28e8b5`) y la publicada (`fef6652`) no compartían ningún ancestro.
+
+**Antes de decidir nada se comprobó qué había de cada lado.** Los cuatro commits del remoto eran los cuatro primeros del local, con los mismos mensajes, en su versión previa a la limpieza; la única diferencia de contenido era el documento. El remoto no tenía nada propio. Se auditó además toda la historia local: 32 archivos, el documento en cero commits, y **ni la llave de CARTO ni los PDF de normativa ni `configuracion-local.js` en ninguno**.
+
+Se descartó resolverlo con `--allow-unrelated-histories`, que habría injertado de vuelta la historia con el documento, deshaciendo la limpieza. Entre las dos vías reales —forzar el envío sobre el repositorio existente, o borrarlo y crearlo de nuevo— se eligió **la segunda**: el envío forzado deja los objetos sueltos accesibles por su identificador durante un tiempo indeterminado, mientras que borrar el repositorio los elimina con él.
+
+**Verificación posterior al envío.** Punta remota y local coinciden en `ee48daf`; dieciséis commits arriba; ninguna diferencia de contenido; el documento aparece cero veces en la historia remota; la raíz remota es `b28e8b5`, la limpia.
+
+**Lo que esto no arregla, y conviene no olvidar.** El documento **estuvo publicado**. Quien lo haya clonado o descargado en esos días lo conserva. La lección operativa es anterior a todo esto: **el `.gitignore` se escribe antes del primer commit, no después del primer push.** Hoy ya excluye ese documento, los PDF de normativa, el historial del prototipo y el archivo de configuración con la llave de CARTO.
+
+**Nota de herramienta.** La primera escritura de estos dos archivos se hizo desde el entorno de trabajo y la herramienta reportó «éxito» habiendo dejado en disco una versión anterior. Se detectó al comprobar el contenido en disco, no al leer la respuesta de la herramienta. **Vale para cualquier escritura: lo que confirma que un archivo quedó bien es leerlo, no que la herramienta diga que sí.**

@@ -2,9 +2,10 @@
 
 **Área responsable:** Secretaría del Medio Ambiente de la Ciudad de México · Dirección General de Inspección y Vigilancia Ambiental
 **Titularidad del desarrollo:** Sistema de Información Ambiental, Secretaría del Medio Ambiente de la Ciudad de México
-**Control de versiones:** repositorio git en la carpeta del proyecto, desde el 18 de septiembre de 2026
+**Control de versiones:** repositorio git en la carpeta del proyecto, desde el 18 de septiembre de 2026, publicado en `SedemaOficina/denuncia-ambiental`
+**Nota sobre el historial:** el historial se reescribió el 19 de septiembre de 2026 para retirar de él un documento de trabajo de la Dirección General de Inspección y Vigilancia Ambiental que no debía publicarse. La reescritura creó commits nuevos con **raíz nueva** (`b28e8b5`), sin ancestro común con la publicada antes (`fef6652`). El repositorio en GitHub se borró y se creó de nuevo para que ningún objeto de la historia anterior quedara almacenado ahí. Los cuatro primeros commits conservan sus mensajes originales y su contenido, sin ese documento; **no hay nada perdido**. Quien encuentre referencias a identificadores anteriores a `b28e8b5` está mirando la historia previa a la limpieza
 **Estado:** prototipo navegable en validación interna
-**Última actualización:** 18 de septiembre de 2026
+**Última actualización:** 19 de septiembre de 2026
 
 ---
 
