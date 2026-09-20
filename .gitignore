@@ -6,7 +6,9 @@
 # Normativa de referencia: documentos públicos, re-descargables del
 # portal de la Consejería Jurídica, y 26 MB que cargarían cada copia
 # del repositorio. Qué debe estar aquí y con qué fecha de reforma se
-# documenta en insumos/normativa/LEEME - qué falta aquí.md
+# documenta en documentacion/08-normativa-por-integrar.md, que lleva el
+# inventario verificado: nombre, ordenamiento, fecha de reforma y si el
+# archivo tiene capa de texto.
 insumos/normativa/*.pdf
 
 # Copias fechadas previas al control de versiones. A partir de ahora
