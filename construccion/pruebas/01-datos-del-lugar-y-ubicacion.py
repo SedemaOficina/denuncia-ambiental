@@ -234,33 +234,66 @@ with sync_playwright() as pw:
     afirma(d['cpHaceLasDos'],
            'el codigo postal conserva ademas su aviso de formato: las dos cosas conviven')
 
+    #    Lo que se cuenta aqui es CUANTAS veces consulta por direccion
+    #    capturada: una. Disparar al salir de cada campo producia dos o tres,
+    #    y las primeras, con la direccion a medias, daban el peor resultado
+    #    (DEC-102).
     caut = pg.evaluate("""() => {
-      const out = {}; let llamo = false;
+      const out = {}; let veces = 0;
       const real = window.ubicaPorDireccion;
-      window.ubicaPorDireccion = () => { llamo = true; };
-      /* 1. Con la calle sola no busca: en esta Ciudad seria una moneda al aire. */
-      estado = {}; guarda('materia','tala'); guarda('tiene_direccion','si');
-      guarda('calle','Avenida Chapultepec'); olvidaBusqueda();
-      llamo = false; buscaDireccionSola(); out.soloCalle = llamo;
-      /* 2. Con calle y colonia, si. */
-      llamo = false; guarda('colonia','Centro'); buscaDireccionSola(); out.calleYColonia = llamo;
-      /* 3. No repite la misma consulta al salir del campo siguiente. */
-      llamo = false; buscaDireccionSola(); out.repite = llamo;
-      /* 4. Si ya hay punto, la direccion no lo mueve. */
-      llamo = false; olvidaBusqueda(); guarda('lat','19.4326'); guarda('lon','-99.1332');
-      guarda('colonia','Roma Norte'); buscaDireccionSola(); out.conPunto = llamo;
-      /* 5. Sin domicilio no hay nada que buscar. */
-      llamo = false; guarda('lat',''); guarda('tiene_direccion','no'); olvidaBusqueda();
-      buscaDireccionSola(); out.sinDomicilio = llamo;
+      window.ubicaPorDireccion = () => { veces++; };
+      const limpio = () => { estado = {}; olvidaBusqueda(); veces = 0;
+        guarda('materia','tala'); guarda('tiene_direccion','si'); };
+
+      /* 1. La direccion incompleta no consulta, por mucho que se salga de los campos. */
+      limpio();
+      guarda('calle','Avenida Chapultepec'); buscaDireccionSola();
+      out.soloCalle = veces;
+      guarda('colonia','Centro'); buscaDireccionSola();
+      out.sinCP = veces;
+
+      /* 2. Al completarla, consulta una vez y solo una, salgan de los campos
+            que salgan. */
+      guarda('cp','06010'); buscaDireccionSola();
+      out.completa = veces;
+      buscaDireccionSola(); buscaDireccionSola(); buscaDireccionSola();
+      out.trasCuatroSalidas = veces;
+
+      /* 3. Si se corrige la direccion, si vuelve a consultar: es otra direccion. */
+      guarda('colonia','Juárez'); buscaDireccionSola();
+      out.trasCorregir = veces;
+
+      /* 4. El numero exterior es opcional: no se espera por el. */
+      limpio();
+      guarda('calle','Calle 5'); guarda('colonia','Agrícola Pantitlán'); guarda('cp','08100');
+      buscaDireccionSola(); out.sinNumero = veces;
+
+      /* 5. Si ya hay punto, la direccion no lo mueve. */
+      limpio(); guarda('lat','19.4326'); guarda('lon','-99.1332');
+      guarda('calle','Calle 5'); guarda('colonia','Roma Norte'); guarda('cp','06700');
+      buscaDireccionSola(); out.conPunto = veces;
+
+      /* 6. Sin domicilio no hay nada que buscar. */
+      limpio(); guarda('tiene_direccion','no');
+      guarda('calle','Calle 5'); guarda('colonia','Centro'); guarda('cp','06010');
+      buscaDireccionSola(); out.sinDomicilio = veces;
+
       window.ubicaPorDireccion = real;
       return out;
     }"""); pg.wait_for_timeout(200)
-    afirma(not caut['soloCalle'], 'con la calle sola no busca')
-    afirma(caut['calleYColonia'], 'con calle y colonia, si busca')
-    afirma(not caut['repite'], 'y no repite la misma consulta en cada campo')
-    afirma(not caut['conPunto'],
-           'si la persona ya coloco el punto, la direccion no se lo mueve')
-    afirma(not caut['sinDomicilio'], 'en la ruta sin domicilio no busca nada')
+    afirma(caut['soloCalle'] == 0, 'con la calle sola no consulta (%d)' % caut['soloCalle'])
+    afirma(caut['sinCP'] == 0, 'ni con la direccion todavia incompleta (%d)' % caut['sinCP'])
+    afirma(caut['completa'] == 1,
+           'al completarse la direccion consulta, y una sola vez (%d)' % caut['completa'])
+    afirma(caut['trasCuatroSalidas'] == 1,
+           'salir de los cuatro campos no multiplica la consulta (%d)' % caut['trasCuatroSalidas'])
+    afirma(caut['trasCorregir'] == 2,
+           'corregir la direccion si vuelve a consultar: es otra direccion (%d)' % caut['trasCorregir'])
+    afirma(caut['sinNumero'] == 1,
+           'el numero exterior es opcional y no se espera por el (%d)' % caut['sinNumero'])
+    afirma(caut['conPunto'] == 0,
+           'si la persona ya coloco el punto, la direccion no se lo mueve (%d)' % caut['conPunto'])
+    afirma(caut['sinDomicilio'] == 0, 'en la ruta sin domicilio no consulta (%d)' % caut['sinDomicilio'])
 
     # En la ruta sin domicilio, el texto no promete lo que ahi no ocurre.
     txt = pg.evaluate("""() => { estado = {}; guarda('materia','tala');

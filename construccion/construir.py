@@ -74,7 +74,7 @@ s = s.replace(
 #        el texto hace, porque en esta version no se cumple.
 _antes = s
 s = s.replace(
- '<strong>Con la dirección que escribiste, el punto se coloca solo.</strong> Si quedó fuera de lugar, arrástralo o da un clic donde corresponda. También puedes:',
+ '<strong>Al terminar de escribir la dirección, el punto se coloca solo.</strong> Si quedó fuera de lugar, arrástralo o da un clic donde corresponda. También puedes:',
  'Esta versión en línea no ubica la dirección por ti. Marca el punto directamente:')
 if s == _antes:
     sys.exit('ERROR: no se corrigió la promesa de que la dirección coloca el punto; revisa el texto.')

@@ -1566,7 +1566,7 @@ function pUbicacion(){
     '<p class="ayuda" style="margin-bottom:14px">De esta ubicación dependen la alcaldía, el tipo de suelo y el área que atiende la denuncia. '+
       (sinDir
         ? 'Este sitio no tiene domicilio, así que el punto se marca directamente:'
-        : '<strong>Con la dirección que escribiste, el punto se coloca solo.</strong> Si quedó fuera de lugar, arrástralo o da un clic donde corresponda. También puedes:')+'</p>'+
+        : '<strong>Al terminar de escribir la dirección, el punto se coloca solo.</strong> Si quedó fuera de lugar, arrástralo o da un clic donde corresponda. También puedes:')+'</p>'+
 
     '<ul class="vias">'+
       '<li>'+
@@ -2793,11 +2793,33 @@ function resaltaPoligono(rasgo, grupo){
 var ULTIMA_BUSQUEDA = '';
 function olvidaBusqueda(){ ULTIMA_BUSQUEDA = ''; }
 
+/* Un campo del domicilio es exigible en esta ruta. Se lee del catalogo y NO
+   de esObligatorio(), que devuelve falso mientras la validacion este apagada:
+   la busqueda no puede depender de un interruptor del panel. */
+function pideDireccion(k){
+  var o = OBLIG[k];
+  return !!(o && o.oblig && (!o.cond || o.cond()));
+}
+
+/* La busqueda espera a que la direccion este COMPLETA, y entonces consulta
+   una sola vez (DEC-102). Disparar al salir de cada campo producia dos o tres
+   consultas por denuncia —y las primeras, con la direccion a medias, daban el
+   peor resultado, que es lo que la persona veia primero—. Cuatro cautelas:
+   · Sin domicilio no hay nada que buscar.
+   · Si ya hay punto, la direccion no lo mueve: corregir la colonia no puede
+     deshacer el ajuste fino que la persona acaba de hacer en el mapa.
+   · Todos los campos exigibles del domicilio, llenos. El numero exterior es
+     opcional: no se espera por el, pero si esta se usa.
+   · Y no se repite la misma consulta, porque el disparo ocurre al salir de
+     cualquiera de los cuatro campos. */
 function buscaDireccionSola(){
-  if(sinDireccion()) return;                       /* no hay domicilio que buscar */
-  if(val('lat')) return;                           /* ya hay punto: no se toca */
-  if(!String(val('calle')||'').trim()) return;
-  if(!String(val('colonia')||'').trim() && !String(val('cp')||'').trim()) return;
+  if(sinDireccion()) return;
+  if(val('lat')) return;
+  var faltan = CAMPOS_DIRECCION.filter(function(k){
+    return pideDireccion(k) && !String(val(k)||'').trim();
+  });
+  if(faltan.length) return;
+  if(!String(val('calle')||'').trim()) return;      /* la calle, siempre */
   var firma = [val('calle'),val('num_ext'),val('colonia'),val('cp')].join('|');
   if(firma === ULTIMA_BUSQUEDA) return;
   ULTIMA_BUSQUEDA = firma;
