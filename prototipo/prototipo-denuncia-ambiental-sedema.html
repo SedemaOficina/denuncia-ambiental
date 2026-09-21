@@ -137,6 +137,17 @@ input[type=text],input[type=tel],input[type=email],input[type=date],select,texta
   width:100%;padding:12px 13px;border:1px solid var(--borde);border-radius:var(--r-ctrl);
   font-family:inherit;font-size:var(--t-base);background:var(--blanco);color:var(--texto);transition:border-color .15s,box-shadow .15s;min-height:46px;
 }
+/* El select traia el control del sistema y se veia distinto de los demas campos
+   —otro tipo de letra, otra altura, otra flecha—. Se le quita esa apariencia y
+   se le dibuja la flecha, de modo que la columna de campos queda pareja. */
+select{
+  appearance:none;-webkit-appearance:none;-moz-appearance:none;
+  padding-right:40px;cursor:pointer;
+  background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2355585A' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;background-size:12px 8px;
+}
+select.sin-elegir{color:var(--gris-cl)}
+select option{color:var(--texto)}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--foco);box-shadow:0 0 0 3px rgba(26,115,199,.18)}
 /* Única excepción al alto mínimo de la regla base anterior. */
 textarea{min-height:130px;resize:vertical;line-height:1.6}
@@ -749,61 +760,61 @@ var MATERIAS = [
    norma:'Arts. 196 y 200, Ley Ambiental de la Ciudad de México'},
   {id:'ruido', g:0, c:'De un establecimiento o comercio', k:'ruido bocina musica sonido vibracion escandalo anuncio espectacular luz reflector alumbrado olor', ico:'ruido', nom:'Ruido, olores o anuncios', formal:'Ruido, vibraciones, olores y contaminación visual y lumínica',
    desc:'Ruido, vibraciones, energía térmica o lumínica, olores o anuncios que rebasan los límites permisibles y provienen de un establecimiento.',
-   norma:'Arts. 214 y 215, fracción I, Ley Ambiental de la Ciudad de México'},
+   norma:'Arts. 214 y 215, fracción I, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-005-AMBT-2013'},
   {id:'quema', g:0, c:'Basura, llantas o pastizales', k:'quema fuego incendio llantas basura quemada fogata pastizal', ico:'quema', nom:'Quema a cielo abierto', formal:'Quema de residuos o materiales a cielo abierto',
    desc:'Quema de basura, llantas, pastizales o cualquier material al aire libre. Está prohibida salvo casos excepcionales con aviso previo a la Secretaría.',
    norma:'Art. 213, Ley Ambiental de la Ciudad de México'},
   {id:'vehiculo', g:0, c:'Humo visible o ruido excesivo', k:'vehiculo camion autobus microbus combi coche auto humo negro transporte carga diesel', ico:'vehiculo', nom:'Vehículo contaminante', formal:'Vehículo ostensiblemente contaminante',
    desc:'Vehículo automotor que despide humo visible o ruido excesivo, incluidos los del transporte de carga y de pasajeros.',
-   norma:'Arts. 204, 205 y 216, Ley Ambiental de la Ciudad de México'},
+   norma:'Arts. 205, 208 y 216, Ley Ambiental de la Ciudad de México'},
   {id:'verificacion', g:0, c:'Cobros o verificación indebida', k:'verificentro verificacion holograma engomado corrupcion cobro', ico:'verificacion', nom:'Verificentro irregular', formal:'Irregularidades en un centro de verificación vehicular',
    desc:'Cobros indebidos, aprobación de vehículos sin verificar, alteración de equipos o cualquier irregularidad en un verificentro autorizado.',
-   norma:'Arts. 258 y 279, Ley Ambiental de la Ciudad de México'},
+   norma:'Arts. 255, 258 y 279, Ley Ambiental de la Ciudad de México'},
 
   /* --- Agua, suelo y residuos --- */
   {id:'descargas', g:1, c:'Aguas residuales al drenaje', k:'agua drenaje aguas negras residuales descarga alcantarilla coladera aceite grasa lavado', ico:'descargas', nom:'Descargas al drenaje', formal:'Descargas de aguas residuales al drenaje',
    desc:'Descargas de aguas residuales de establecimientos industriales, mercantiles o de servicios a los cuerpos de agua o al sistema de drenaje y alcantarillado.',
-   norma:'Arts. 223 y 230, Ley Ambiental de la Ciudad de México'},
+   norma:'Arts. 223, 226 y 227, Ley Ambiental de la Ciudad de México'},
   {id:'rsu', g:1, c:'Basura de un establecimiento', k:'basura residuos organico inorganico separacion tiradero contenedor bolsa', ico:'rsu', nom:'Residuos de un establecimiento', formal:'Residuos sólidos urbanos de fuentes fijas',
    desc:'Manejo indebido de residuos generados por un establecimiento industrial, mercantil o de servicios; por ejemplo, mezcla de residuos orgánicos e inorgánicos.',
-   norma:'Ley de Residuos Sólidos de la Ciudad de México y su Reglamento'},
+   norma:'Arts. 24, 25 y 33 de la Ley de Residuos Sólidos del Distrito Federal; Art. 232, Ley Ambiental de la Ciudad de México'},
   {id:'construccion', g:1, c:'Escombro y material de obra', k:'escombro cascajo obra demolicion material varilla concreto', ico:'construccion', nom:'Residuos de la construcción', formal:'Residuos de la construcción y la demolición',
    desc:'Manejo o disposición final indebida de materiales de construcción y demolición procedentes de una obra.',
-   norma:'Ley de Residuos Sólidos de la Ciudad de México y su Reglamento'},
+   norma:'Arts. 24, fracción III Bis, 25, fracciones I, II y IV, y 26 de la Ley de Residuos Sólidos del Distrito Federal; Art. 237, Ley Ambiental de la Ciudad de México'},
   {id:'asentamiento', g:3, c:'Casas u obras donde no se permite', k:'asentamiento irregular invasion construccion casa vivienda predio fraccionamiento lotificacion venta de terrenos ocupacion', ico:'asentamiento', nom:'Construcción o asentamiento irregular', formal:'Asentamiento humano irregular u obra sin autorización en zona de protección',
    desc:'Casas, bardas, caminos o cualquier obra levantada en suelo de conservación, en un Área de Valor Ambiental o en un Área Natural Protegida. Toda intervención en esas zonas requiere autorización previa de la Secretaría.',
-   norma:'Art. 98 y Art. 138, fracción I, Ley Ambiental de la Ciudad de México'},
+   norma:'Arts. 98, 123 y 138, fracción I, Ley Ambiental de la Ciudad de México'},
   {id:'tala', g:3, c:'Tala, desmonte o quema de monte', k:'tala talamontes desmonte deforestacion monte bosque arboles derribo motosierra incendio provocado', ico:'tala', nom:'Tala o desmonte de vegetación', formal:'Derribo o remoción de vegetación forestal en zona de protección',
    desc:'Derribo de árboles, desmonte o remoción de vegetación forestal en suelo de conservación, en un Área de Valor Ambiental o en un Área Natural Protegida.',
-   norma:'Art. 7, fracción XVII, y Art. 164, Ley Ambiental de la Ciudad de México; Art. 345 BIS del Código Penal para el Distrito Federal'},
+   norma:'Arts. 7, fracción XVII, 98, 108 y 109, Ley Ambiental de la Ciudad de México; Art. 345 BIS del Código Penal para el Distrito Federal'},
   {id:'agua_zona', g:3, c:'Canal, manantial o cuerpo de agua', k:'canal manantial rio arroyo laguna humedal chinampa xochimilco relleno desecacion agua entubada presa bordo', ico:'agua_zona', nom:'Afectación a un cuerpo de agua', formal:'Interrupción o afectación del sistema hidrológico en zona de protección',
    desc:'Relleno, desvío, entubamiento, azolve o contaminación de canales, manantiales, ríos, humedales o cuerpos de agua dentro de una zona de protección.',
-   norma:'Art. 138, fracción VI, Ley Ambiental de la Ciudad de México'},
+   norma:'Arts. 116, 123 y 138, fracción VI, Ley Ambiental de la Ciudad de México'},
   {id:'agroquimicos', g:3, c:'Plaguicidas o fertilizantes prohibidos', k:'agroquimico plaguicida insecticida herbicida fertilizante fumigacion pesticida cultivo siembra', ico:'agroquimicos', nom:'Uso de agroquímicos prohibidos', formal:'Uso de agroquímicos, fertilizantes o plaguicidas prohibidos en suelo de conservación',
    desc:'Aplicación de agroquímicos, fertilizantes nitrogenados o químicos, herbicidas, insecticidas o pesticidas en suelo de conservación, donde están prohibidos.',
    norma:'Art. 232, fracción V, Ley Ambiental de la Ciudad de México'},
   {id:'terraceos', g:3, c:'Despalmes, excavación o banco de tierra', k:'terraceos terraceo tierra despalme excavacion banco de tierra desmonte maquinaria retroexcavadora nivelacion', ico:'terraceos', nom:'Remoción de tierra o vegetación', formal:'Terráceos y remoción de cubierta vegetal',
    desc:'Remoción de tierra o de cubierta vegetal; incluye bancos de tierra y despalmes.',
-   norma:'Arts. 92 y 164, Ley Ambiental de la Ciudad de México; Art. 344 BIS del Código Penal para el Distrito Federal'},
+   norma:'Arts. 98, 123, 138, fracción V, y 164, fracciones IV y VII, Ley Ambiental de la Ciudad de México; Art. 344 BIS del Código Penal para el Distrito Federal'},
   {id:'cascajo', g:1, c:'Tiro de escombro en un predio', k:'cascajo escombro tiro relleno barranca camion de volteo', ico:'cascajo', nom:'Depósito de cascajo', formal:'Depósito de residuos de la construcción',
    desc:'Tiro de residuos de la industria de la construcción en un predio, barranca o zona de conservación.',
-   norma:'Arts. 92 y 232, Ley Ambiental de la Ciudad de México; Art. 344 del Código Penal para el Distrito Federal'},
+   norma:'Art. 237, Ley Ambiental de la Ciudad de México; Arts. 25, fracciones I, IV y IX, y 26 de la Ley de Residuos Sólidos del Distrito Federal; Art. 344 del Código Penal para el Distrito Federal'},
 
   /* --- Arbolado, áreas verdes y áreas protegidas --- */
   {id:'arbolado', g:2, c:'Poda o derribo sin autorización', k:'arbol arboles tala talaron poda podaron derribo derribaron rama tronco motosierra fresno jacaranda', ico:'arbolado', nom:'Daño a arbolado urbano', formal:'Poda, derribo o daño a arbolado urbano',
    desc:'Poda, derribo, trasplante o daño mecánico a árboles sin la autorización previa de la alcaldía, o realizado de forma indebida.',
-   norma:'Art. 106, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-001-RNAT-2015'},
+   norma:'Arts. 108, 109 y 112, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-001-RNAT-2015; Art. 345 BIS del Código Penal para el Distrito Federal'},
   {id:'areas_verdes', g:2, c:'Ocupación o deterioro de un jardín', k:'area verde jardin camellon parque pasto cesped pavimentar cementar invasion', ico:'areas_verdes', nom:'Daño a un área verde', formal:'Daño o reducción de un área verde',
    desc:'Pavimentación, ocupación, relleno o cualquier obra que reduzca o deteriore la superficie de un área verde pública.',
-   norma:'Arts. 104 y 105, Ley Ambiental de la Ciudad de México'},
+   norma:'Arts. 105 y 113, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-006-RNAT-2016'},
   {id:'ava', g:3, c:'Daño no previsto en los supuestos anteriores', k:'bosque barranca area natural protegida anp ava area de valor ambiental humedal canal chinampa', ico:'ava', nom:'Otra afectación a una zona protegida', formal:'Afectación a un Área de Valor Ambiental, al suelo de conservación o a un Área Natural Protegida',
    desc:'Obras o actividades que dañan un bosque urbano, una barranca, un cuerpo de agua declarado o un Área Natural Protegida.',
-   norma:'Arts. 92, 116, 126 y 138, Ley Ambiental de la Ciudad de México'},
+   norma:'Arts. 98, 123 y 138, Ley Ambiental de la Ciudad de México'},
 
   /* --- Obras y actividades --- */
   {id:'impacto', g:4, c:'Obra sin permiso ambiental', k:'obra construccion edificio desarrollo inmobiliario manifestacion de impacto permiso autorizacion', ico:'impacto', nom:'Impacto ambiental de una obra', formal:'Impacto ambiental por obra o actividad',
    desc:'Obras o actividades que requieren evaluación de impacto ambiental y se realizan sin ella, o que incumplen las medidas que les fueron impuestas.',
-   norma:'Arts. 23 y 53, Ley Ambiental de la Ciudad de México'}
+   norma:'Arts. 25 y 50, Ley Ambiental de la Ciudad de México; Reglamento de Impacto Ambiental y Riesgo de la Ciudad de México'}
 ];
 
 /* --- Supuestos que NO son competencia de la Secretaría --- */
@@ -903,14 +914,17 @@ var OBLIG = {
      uso:'Programar la visita en el horario en que la conducta ocurre; sin este dato la visita puede no encontrar nada.'},
   tipo_denunciado:  {p:3, oblig:false, etq:'¿Quién es responsable de los hechos?', dp:false, fin:'Responsable',
      uso:'Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar.'},
+  autoridad_nivel:  {p:3, oblig:false, etq:'Ámbito de la autoridad señalada', dp:false, fin:'Responsable',
+     cond:function(){ return val('tipo_denunciado')==='gobierno'; } , cond_txt:'Sólo cuando se señala a una autoridad',
+     uso:'Encamina la recomendación del art. 331: de él depende si se dirige a una dependencia de la Ciudad, a una alcaldía o a la federación, y contra qué catálogo se propone el nombre.'},
   autoridad_denunciada: {p:3, oblig:false, etq:'Dependencia, alcaldía u organismo señalado', dp:false, fin:'Responsable',
-     uso:'Destinataria de la recomendación del art. 331.'},
+     cond:function(){ return val('tipo_denunciado')==='gobierno' && !!val('autoridad_nivel'); } ,
+     cond_txt:'Sólo cuando se señala a una autoridad y se eligió su ámbito',
+     uso:'Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla.'},
   resp_nombre:      {p:3, oblig:false, etq:'Nombre de la persona o del negocio', dp:true, fin:'Responsable',
      uso:'Emplazamiento del probable infractor (art. 289).'},
   resp_senas:       {p:3, oblig:false, etq:'Cómo se identifica al responsable', dp:true, fin:'Responsable',
      uso:'Identificación del responsable en campo cuando no se conoce su nombre.'},
-  resp_domicilio:   {p:3, oblig:false, etq:'Dónde se localiza al responsable', dp:true, fin:'Responsable',
-     uso:'Domicilio para el emplazamiento cuando es distinto del lugar de los hechos.'},
   resp_encargado:   {p:3, oblig:false, etq:'Persona encargada o representante', dp:true, fin:'Responsable',
      uso:'Persona con quien se entiende la diligencia (art. 283).'},
   resp_area:        {p:3, oblig:false, etq:'Área o persona servidora pública', dp:true, fin:'Responsable',
@@ -1218,6 +1232,96 @@ var TIPOS_DENUNCIADO = [
 /* Catálogo de tipos de establecimiento, ordenado por frecuencia en las
    denuncias ambientales. Sustituir por el catálogo de giros que utilice
    la Dirección General cuando lo proporcione. */
+
+/* =========================================================
+   AUTORIDADES QUE PUEDEN SER SEÑALADAS
+   Preguntar «¿qué dependencia?» en un campo libre producia
+   «la delegacion», «agua», «el gobierno»: nada con lo que se
+   pueda turnar ni dirigir una recomendacion. Se pregunta
+   primero el ambito y despues el nombre, sobre un catalogo
+   que acepta escribir la sigla (DEC-105).
+
+   Las dependencias de la Ciudad son las del articulo 16 de la
+   Ley Organica del Poder Ejecutivo y de la Administracion
+   Publica de la Ciudad de Mexico, texto vigente al 13 de julio
+   de 2026. Las alcaldias son las dieciseis. Las federales son
+   las que aparecen con mas frecuencia en materia ambiental y
+   NO salen de un ordenamiento local: es una lista de apoyo,
+   por eso siempre se puede escribir otra.
+   ========================================================= */
+var NIVELES_AUTORIDAD = [
+  {v:'cdmx',     t:'Gobierno de la Ciudad de México'},
+  {v:'alcaldia', t:'Una alcaldía'},
+  {v:'federal',  t:'Autoridad federal'},
+  {v:'otra',     t:'Otra'}
+];
+
+var AUTORIDADES = {
+  cdmx: [
+    'SEDEMA — Secretaría del Medio Ambiente',
+    'SEGIAGUA — Secretaría de Gestión Integral del Agua',
+    'SACMEX — Sistema de Aguas de la Ciudad de México',
+    'SOBSE — Secretaría de Obras y Servicios',
+    'SEMOVI — Secretaría de Movilidad',
+    'SEDUVI — Secretaría de Planeación, Ordenamiento Territorial y Coordinación Metropolitana',
+    'SSC — Secretaría de Seguridad Ciudadana',
+    'SGIRPC — Secretaría de Gestión Integral de Riesgos y Protección Civil',
+    'SEDECO — Secretaría de Desarrollo Económico',
+    'SECTEI — Secretaría de Educación, Ciencia, Tecnología e Innovación',
+    'Secretaría de Bienestar e Igualdad Social',
+    'Secretaría de Salud Pública',
+    'Secretaría de Cultura',
+    'Secretaría de Turismo',
+    'Secretaría de Vivienda',
+    'Secretaría de Trabajo y Fomento al Empleo',
+    'Secretaría de Administración y Finanzas',
+    'Secretaría de Gobierno',
+    'Secretaría de Atención y Participación Ciudadana',
+    'Secretaría de las Mujeres',
+    'Secretaría de Pueblos y Barrios Originarios y Comunidades Indígenas Residentes',
+    'Secretaría de la Contraloría General',
+    'Consejería Jurídica y de Servicios Legales',
+    'PAOT — Procuraduría Ambiental y del Ordenamiento Territorial',
+    'INVEA — Instituto de Verificación Administrativa',
+    'ADIP — Agencia Digital de Innovación Pública',
+    'Agencia de Atención Animal',
+    'Metrobús',
+    'STC Metro — Sistema de Transporte Colectivo',
+    'RTP — Red de Transporte de Pasajeros',
+    'Servicio de Transportes Eléctricos'
+  ],
+  alcaldia: [
+    'Álvaro Obregón','Azcapotzalco','Benito Juárez','Coyoacán',
+    'Cuajimalpa de Morelos','Cuauhtémoc','Gustavo A. Madero','Iztacalco',
+    'Iztapalapa','La Magdalena Contreras','Miguel Hidalgo','Milpa Alta',
+    'Tláhuac','Tlalpan','Venustiano Carranza','Xochimilco'
+  ],
+  federal: [
+    'SEMARNAT — Secretaría de Medio Ambiente y Recursos Naturales',
+    'PROFEPA — Procuraduría Federal de Protección al Ambiente',
+    'CONAGUA — Comisión Nacional del Agua',
+    'CONANP — Comisión Nacional de Áreas Naturales Protegidas',
+    'CONAFOR — Comisión Nacional Forestal',
+    'ASEA — Agencia de Seguridad, Energía y Ambiente',
+    'SICT — Secretaría de Infraestructura, Comunicaciones y Transportes',
+    'SEDATU — Secretaría de Desarrollo Agrario, Territorial y Urbano',
+    'CFE — Comisión Federal de Electricidad',
+    'PEMEX — Petróleos Mexicanos',
+    'INAH — Instituto Nacional de Antropología e Historia',
+    'SEDENA — Secretaría de la Defensa Nacional',
+    'Grupo Aeroportuario de la Ciudad de México'
+  ],
+  otra: []
+};
+
+/* El ambito no pinta la lista por si solo: tambien limpia lo que se hubiera
+   escrito para otro ambito, para que no quede una alcaldia guardada bajo
+   «autoridad federal». */
+function cambiaNivelAutoridad(){
+  guarda('autoridad_denunciada','');
+  render();
+}
+
 var TIPOS_ESTAB = [
   'Obra en construcción o demolición',
   'Taller mecánico, hojalatería o pintura',
@@ -1234,7 +1338,7 @@ var TIPOS_ESTAB = [
   'Hospital, clínica, consultorio o laboratorio',
   'Escuela, oficina o edificio público',
   'Banco de materiales, mina o tiro de tierra',
-  'Centro de acopio, reciclaje o chatarrería',
+  'Centro de acopio o reciclaje',
   'Vivero, granja, establo o rastro',
   'Espectáculo público, feria o evento masivo',
   'Otro'
@@ -1593,7 +1697,7 @@ function pUbicacion(){
     h += '<h3 class="sub-seccion">Cómo identificar el sitio</h3>'+
       '<p class="ayuda" style="margin-bottom:16px">Esto sustituye al domicilio: es lo que permite al personal de inspección llegar.</p>'+
       campo('nombre_lugar','Nombre del lugar','texto',esObligatorio('nombre_lugar'),
-        'El bosque, el parque, el paraje, el canal, el camino. Si el punto cae en un área que la Secretaría tiene registrada, se propone su nombre.')+
+        'El paraje, la comunidad, el canal, el camino. Si el punto cae en un área que la Secretaría tiene registrada, se propone su nombre.')+
       (val('capa_nombre') && val('nombre_lugar')!==val('capa_nombre') ?
         '<div class="aviso" style="margin:-12px 0 18px">Según las capas de la Secretaría, el punto está en <strong>'+esc(val('capa_nombre'))+'</strong>. '+
           '<button type="button" class="enlace" onclick="usaNombreDelPunto()">Usar ese nombre</button></div>' : '')+
@@ -1635,7 +1739,7 @@ function cajaCapas(){
   if(val('capa_categoria')) h += '<div class="capas-fila"><span class="capas-etq">Categoría</span><span class="capas-val">'+esc(val('capa_categoria'))+'</span></div>';
   if(n) h += '<div class="capas-fila"><span class="capas-etq">Área identificada</span><span class="capas-val">'+esc(n)+'</span></div>';
   h += '<div class="capas-fila"><span class="capas-etq">Atiende</span><span class="capas-val"><strong>'+esc(val('dg_nombre')||'')+'</strong></span></div>'+
-    '<p class="capas-nota">'+esc(val('dg_razon')||'')+'</p>';
+    (val('dg_razon') ? '<p class="capas-nota">'+esc(val('dg_razon'))+'</p>' : '');
   if(val('dg')==='FEDERAL'){
     /* Criterio provisional. La lectura de la clausula SEGUNDA del convenio
        —que deja a salvo las facultades federales de inspeccion— es la razon de
@@ -1830,10 +1934,10 @@ function analizaCapas(la,lo){
       : 'El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría no participa siquiera en la administración, por lo que la denuncia corresponde a la autoridad federal. La Secretaría la recibe y la remite.');
   } else if(c.dg==='DGCORENADR'){
     guarda('dg_nombre','Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas');
-    guarda('dg_razon','El punto se ubica en '+(c.tipo.indexOf('Natural')>=0?'un Área Natural Protegida local':'suelo de conservación')+', materia que corresponde a esta dirección general.');
+    guarda('dg_razon','');   /* la ficha lo dice arriba: tipo de zona y quién atiende */
   } else {
     guarda('dg_nombre','Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano');
-    guarda('dg_razon','El punto se ubica en '+(c.nombre?'un Área de Valor Ambiental':'suelo urbano')+', materia que corresponde a esta dirección general.');
+    guarda('dg_razon','');   /* la ficha lo dice arriba: tipo de zona y quién atiende */
   }
 
   resaltaPoligono(c.rasgo, c.grupo);
@@ -1883,7 +1987,8 @@ function pHechos(){
     'heredaEstablecimiento();render()')+
   (val('es_estab')==='si' ?
     '<div class="fila">'+
-      campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,esObligatorio('tipo_estab'),'','actualizaOtroEstab()')+
+      campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,esObligatorio('tipo_estab'),
+        'Si ninguna opción encaja, elige «Otro» al final de la lista y escríbelo.','actualizaOtroEstab()')+
       campo('nombre_estab','Nombre del establecimiento','texto',esObligatorio('nombre_estab'),'Por ejemplo: Taller Automotriz Hernández, Escuela Primaria Benito Juárez, Bodega La Central')+
     '</div>'+
     '<div id="otroEstab">'+campoOtroEstab()+'</div>' : '')+
@@ -1942,8 +2047,8 @@ function avisoPlazo(){
    en la version funcional habria viajado al expediente. Se limpia lo que ya no
    se puede ver ni corregir (DEC-100). */
 var CLAVES_RESP = {
-  particular:  ['resp_nombre','resp_senas','resp_domicilio'],
-  empresa:     ['establecimiento','resp_encargado','resp_domicilio'],
+  particular:  ['resp_nombre','resp_senas'],
+  empresa:     ['establecimiento','resp_encargado'],
   gobierno:    ['autoridad_denunciada','resp_area','resp_obra'],
   desconocido: ['resp_senas'],
   nose:        ['resp_senas']
@@ -1965,14 +2070,36 @@ function heredaEstablecimiento(){
 /* Las preguntas sobre quién es el responsable cambian según a quién se
    denuncie. Pedirle a alguien el domicilio fiscal de un talamontes, o la
    razón social de un vecino, es pedirle lo que no puede saber. */
+
+/* La lista se ofrece con <datalist>: propone mientras se escribe, acepta la
+   sigla —porque va en el propio texto de la opcion— y no impide escribir una
+   autoridad que no este catalogada, que es lo que haria un <select>. */
+function bloqueAutoridad(){
+  var n = val('autoridad_nivel'), lista = AUTORIDADES[n] || [];
+  var ayuda = n==='alcaldia' ? 'Escribe el nombre de la alcaldía.'
+            : n==='otra'     ? 'Escribe el nombre de la autoridad, como lo conozcas.'
+            : 'Escribe el nombre o la sigla —SEDEMA, CONAGUA, PROFEPA— y elige de la lista. Si no aparece, escríbelo.';
+  return campo('autoridad_denunciada','¿Cuál?','texto',false, ayuda,
+      (lista.length ? 'list="cat_autoridad" ' : '')+'autocomplete="off"')+
+    (lista.length
+      ? '<datalist id="cat_autoridad">'+
+          lista.map(function(x){ return '<option value="'+esc(x)+'"></option>'; }).join('')+
+        '</datalist>'
+      : '');
+}
+
 function bloqueDenunciado(){
   var t = val('tipo_denunciado');
   if(!t) return '';
 
   if(t==='particular'){
-    return campo('resp_nombre','Nombre de la persona','texto',false,'Si no lo sabes, deja el campo vacío y descríbela abajo')+
-      campoArea('resp_senas','¿Cómo se le identifica?',false,'Cómo reconocerla: si es el propietario del predio, el encargado de la obra, un vecino; su descripción, el vehículo que usa, el horario en que llega.',3)+
-      campo('resp_domicilio','Dónde se le localiza','texto',false,'Sólo si es distinto del lugar de los hechos');
+    /* «¿Cómo se le identifica?» y «Dónde se le localiza» pedían a la persona
+       que denuncia una media filiación y un domicilio: el tono era el de un
+       parte, no el de una denuncia ambiental. Lo que la visita de inspección
+       necesita saber es qué papel tiene esa persona en el lugar (DEC-105). */
+    return campo('resp_nombre','Nombre de la persona','texto',false,'Si no lo sabes, deja el campo vacío y responde lo de abajo')+
+      campoArea('resp_senas','¿Qué relación tiene con el lugar?',false,
+        'Por ejemplo: es el dueño del predio, es quien encargó la obra, es el encargado del negocio, es un vecino, es quien opera la maquinaria. Si no lo sabes, escribe cómo lo reconocerías.',3);
   }
 
   if(t==='empresa'){
@@ -1990,7 +2117,10 @@ function bloqueDenunciado(){
         'La Secretaría no sanciona a otra autoridad: conforme al artículo 331 de la Ley Ambiental de la Ciudad de México, '+
         'emite las recomendaciones necesarias para promover ante ella la ejecución de las acciones que procedan.'+
       '</div>'+
-      campo('autoridad_denunciada','¿Qué dependencia, alcaldía u organismo?','texto',false,'Por ejemplo: la alcaldía, un organismo de agua, una empresa contratada por el gobierno')+
+      campoOpciones('autoridad_nivel','¿De qué ámbito es la autoridad?', NIVELES_AUTORIDAD,
+        'Si no estás seguro, elige el que más se acerque: la Secretaría lo verifica al turnar.',
+        'cambiaNivelAutoridad()')+
+      (val('autoridad_nivel') ? bloqueAutoridad() : '')+
       campo('resp_area','Área o persona servidora pública','texto',false,'Si la conoces')+
       campo('resp_obra','Número de obra, contrato o permiso','texto',false,'Si se trata de una obra pública y el dato aparece en la lona o el letrero');
   }
@@ -2250,7 +2380,7 @@ function pRevision(){
         return t.t + (val('tipo_denunciado')==='gobierno' && val('autoridad_denunciada') ? ' · '+val('autoridad_denunciada') : '');
       })(), 3, 'tipo_denunciado')+
     r('Datos del responsable', [val('establecimiento'),val('resp_nombre'),val('autoridad_denunciada'),
-        val('resp_area'),val('resp_encargado'),val('resp_obra'),val('resp_domicilio'),val('resp_senas')]
+        val('resp_area'),val('resp_encargado'),val('resp_obra'),val('resp_senas')]
         .filter(Boolean).join('\n'), 3, 'resp_nombre')+
     r('Permisos o autorizaciones', val('permisos'), 3, 'sabe_permisos')+
     r('Gestiones previas', val('gestiones'), 3, 'reporto_antes')+
@@ -2353,7 +2483,8 @@ function campoSelect(k,etq,ops,oblig,ayuda,alCambiar){
   var id='f_'+k, idA='a_'+k, idE='e_'+k;
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
-    '<select id="'+id+'" name="'+k+'" aria-describedby="'+idA+' '+idE+'" aria-invalid="false" onchange="guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');'+(alCambiar||'')+'">'+
+    '<select id="'+id+'" name="'+k+'"'+(val(k)?'':' class="sin-elegir"')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" '+
+      'onchange="this.classList.toggle(\'sin-elegir\',!this.value);guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');'+(alCambiar||'')+'">'+
     '<option value="">Selecciona…</option>'+
     ops.map(function(o){
       var v = (typeof o === 'object') ? o.v : o, t = (typeof o === 'object') ? o.t : o;

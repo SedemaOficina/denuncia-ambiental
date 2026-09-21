@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** 3.0 · 20 de septiembre de 2026
+**Versión:** 3.0 · 21 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -8,9 +8,9 @@
 | | |
 |---|---|
 | Campos del formulario | **53** |
-| Datos personales | **21** (40 %) |
+| Datos personales | **20** (38 %) |
 | Obligatorios en este formulario | 24 de 53 |
-| Campos con obligatoriedad condicionada | 18 |
+| Campos con obligatoriedad condicionada | 20 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -70,10 +70,10 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Fecha en que ocurrió o inició | Opcional | No | Siempre | Cómputo del plazo de presentación y ubicación temporal de los hechos en el expediente. |
 | Hora aproximada | Opcional | No | Siempre | Programar la visita en el horario en que la conducta ocurre; sin este dato la visita puede no encontrar nada. |
 | ¿Quién es responsable de los hechos? | Opcional | No | Siempre | Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar. |
-| Dependencia, alcaldía u organismo señalado | Opcional | No | Siempre | Destinataria de la recomendación del art. 331. |
+| Ámbito de la autoridad señalada | Opcional | No | Sólo cuando se señala a una autoridad | Encamina la recomendación del art. 331: de él depende si se dirige a una dependencia de la Ciudad, a una alcaldía o a la federación, y contra qué catálogo se propone el nombre. |
+| Dependencia, alcaldía u organismo señalado | Opcional | No | Sólo cuando se señala a una autoridad y se eligió su ámbito | Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla. |
 | Nombre de la persona o del negocio | Opcional | **Sí** | Siempre | Emplazamiento del probable infractor (art. 289). |
 | Cómo se identifica al responsable | Opcional | **Sí** | Siempre | Identificación del responsable en campo cuando no se conoce su nombre. |
-| Dónde se localiza al responsable | Opcional | **Sí** | Siempre | Domicilio para el emplazamiento cuando es distinto del lugar de los hechos. |
 | Persona encargada o representante | Opcional | **Sí** | Siempre | Persona con quien se entiende la diligencia (art. 283). |
 | Área o persona servidora pública | Opcional | **Sí** | Siempre | Precisa el área a la que se dirige la recomendación. |
 | Número de obra, contrato o permiso | Opcional | No | Siempre | Permite requerir el expediente de la obra pública señalada. |

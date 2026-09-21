@@ -12,24 +12,23 @@ Cada regla se identifica con la clave RN-NN. Las reglas marcadas como **[pendien
 | Bloque | Materias | Fundamento |
 |---|---|---|
 | Aire, ruido y vehículos | Emisiones a la atmósfera | Arts. 196 y 200 |
-| | Ruido, vibraciones o contaminación visual y lumínica | Arts. 214 y 215, fr. I |
+| | Ruido, vibraciones o contaminación visual y lumínica | Arts. 214 y 215, fr. I; NADF-005-AMBT-2013 |
 | | Quema de residuos o materiales a cielo abierto | Art. 213 |
-| | Vehículo ostensiblemente contaminante | Arts. 204, 205 y 216 |
-| | Irregularidades en un centro de verificación vehicular | Arts. 258 y 279 |
-| Agua, suelo y residuos | Descargas residuales al drenaje | Arts. 223 y 230 |
+| | Vehículo ostensiblemente contaminante | Arts. 205, 208 y 216 |
+| | Irregularidades en un centro de verificación vehicular | Arts. 255, 258 y 279 |
+| Agua, suelo y residuos | Descargas residuales al drenaje | Arts. 223, 226 y 227 |
 | | Residuos sólidos urbanos de establecimientos | Ley de Residuos Sólidos |
 | | Residuos de la construcción | Ley de Residuos Sólidos |
-| | Terráceos y remoción de cubierta vegetal | Arts. 92 y 164; Art. 344 Bis del Código Penal |
-| | Depósito de cascajo | Arts. 92 y 232; Art. 344 Bis del Código Penal |
+| | Depósito de cascajo | Art. 237; Arts. 25, frs. I, IV y IX, y 26 de la Ley de Residuos Sólidos del Distrito Federal; Art. 344 del Código Penal para el Distrito Federal |
 | Arbolado y áreas verdes | Daño a arbolado urbano | Art. 106; NADF-001-RNAT-2015 |
-| | Daño o reducción de un área verde | Arts. 104 y 105 |
-| Zonas de protección: AVA, suelo de conservación y ANP | Construcción o asentamiento irregular | Art. 98; Art. 138, fr. I |
-| | Tala o desmonte de vegetación | Art. 7, fr. XVII; Art. 164; Art. 344 Bis del Código Penal |
-| | Terráceos y remoción de cubierta vegetal | Arts. 92 y 164; Art. 344 Bis del Código Penal |
-| | Afectación a un cuerpo de agua | Art. 138, fr. VI |
+| | Daño o reducción de un área verde | Arts. 105 y 113; NADF-006-RNAT-2016 |
+| Zonas de protección: AVA, suelo de conservación y ANP | Construcción o asentamiento irregular | Arts. 98, 123 y 138, fr. I |
+| | Tala o desmonte de vegetación | Arts. 7, fr. XVII, 98, 108 y 109; Art. 345 BIS del Código Penal para el Distrito Federal |
+| | Terráceos y remoción de cubierta vegetal | Arts. 98, 123, 138, fr. V, y 164, frs. IV y VII; Art. 344 BIS del Código Penal para el Distrito Federal |
+| | Afectación a un cuerpo de agua | Arts. 116, 123 y 138, fr. VI |
 | | Uso de agroquímicos prohibidos | Art. 232, fr. V |
-| | Otra afectación a una zona protegida | Arts. 92, 116, 126 y 138 |
-| Obras y actividades | Impacto ambiental por obra o actividad | Arts. 23 y 53 |
+| | Otra afectación a una zona protegida | Arts. 98, 123 y 138 |
+| Obras y actividades | Impacto ambiental por obra o actividad | Arts. 25 y 50; Reglamento de Impacto Ambiental y Riesgo de la CDMX |
 
 Los artículos corresponden a la Ley Ambiental de la Ciudad de México salvo mención distinta.
 

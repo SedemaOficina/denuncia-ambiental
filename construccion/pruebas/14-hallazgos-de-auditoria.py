@@ -173,8 +173,8 @@ with sync_playwright() as pw:
       const rutas = [
         {tiene_direccion:'si', materia:'tala', tipo_denunciado:'empresa', es_estab:'si', tipo_estab:'Otro',
          identificacion:'nombre', notif_correo:'no', sabe_permisos:'si', reporto_antes:'si', temporalidad:'unico'},
-        {tiene_direccion:'no', materia:'tala', tipo_denunciado:'gobierno', identificacion:'llave',
-         sesion_llave:'si', notif_correo:'si'},
+        {tiene_direccion:'no', materia:'tala', tipo_denunciado:'gobierno', autoridad_nivel:'cdmx',
+         identificacion:'llave', sesion_llave:'si', notif_correo:'si'},
         {tiene_direccion:'si', materia:'tala', tipo_denunciado:'particular', identificacion:'anonima'}
       ];
       rutas.forEach(r => {
