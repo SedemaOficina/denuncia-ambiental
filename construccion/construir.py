@@ -2,11 +2,16 @@
 """Genera la versión de artefacto a partir del archivo local.
    El artefacto no admite recursos externos, de modo que se retira Leaflet
    y se sustituye el mapa por una implementación en SVG."""
-import re, sys
+import re, sys, os, pathlib
 
-ORIGEN  = '/mnt/user-data/outputs/prototipo-denuncia-ambiental-sedema.html'
-DESTINO = '/home/claude/build/artefacto.html'
-MAPA    = '/home/claude/build/mapa_svg.js'
+# Las rutas se resuelven contra la raiz del repositorio, como en los otros dos
+# guiones. Estaban escritas fijas y apuntaban a carpetas de la maquina donde se
+# escribio el guion, de modo que el comando que documenta el LEEME no corria
+# desde el repositorio (DEC-111). Admiten sustitucion por variable de entorno.
+RAIZ    = pathlib.Path(os.path.abspath(__file__)).parent.parent
+ORIGEN  = os.environ.get('ORIGEN',  str(RAIZ / 'prototipo' / 'prototipo-denuncia-ambiental-sedema.html'))
+DESTINO = os.environ.get('DESTINO', str(RAIZ / 'construccion' / 'artefacto.html'))
+MAPA    = os.environ.get('MAPA',    str(RAIZ / 'construccion' / 'mapa_svg.js'))
 
 s = open(ORIGEN, encoding='utf-8').read()
 

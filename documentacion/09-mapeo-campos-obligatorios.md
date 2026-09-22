@@ -1,16 +1,16 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** 3.0 · 21 de septiembre de 2026
+**Versión:** 3.0 · 22 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos del formulario | **53** |
-| Datos personales | **20** (38 %) |
-| Obligatorios en este formulario | 24 de 53 |
-| Campos con obligatoriedad condicionada | 20 |
+| Campos del formulario | **55** |
+| Datos personales | **20** (36 %) |
+| Obligatorios en este formulario | 24 de 55 |
+| Campos con obligatoriedad condicionada | 22 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -22,7 +22,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Finalidad | Para qué | Campos |
 |---|---|---|
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 3 |
-| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 12 |
+| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 14 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 10 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
@@ -55,6 +55,8 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Calle o vialidad | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |
 | Número exterior | Opcional | No | Siempre | Precisa el predio en la orden de visita. |
 | Entre qué calles | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |
+| Manzana | Opcional | No | Sólo cuando el lugar tiene calle y número | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
+| Lote | Opcional | No | Sólo cuando el lugar tiene calle y número | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
 | Nombre del lugar | Obligatorio *(condicionado)* | No | Sólo cuando el lugar no tiene calle ni número | Sustituye al domicilio en la orden de visita cuando el sitio no lo tiene. Se propone desde la capa oficial que contiene el punto. |
 | Cómo se reconoce y cómo se llega al sitio | Obligatorio *(condicionado)* | No | Obligatorio sólo cuando el lugar no tiene calle ni número; en los demás casos se pide como dato opcional | Reúne en un solo campo lo que antes se preguntaba dos veces —cómo se ve el sitio y cómo se accede a él—. Sin domicilio es lo único que permite al personal de inspección llegar, y por eso ahí se exige. |
 

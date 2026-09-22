@@ -237,7 +237,12 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 /* ---------- Lista compacta de supuestos ---------- */
 .lista-op{display:grid;grid-template-columns:1fr;gap:8px}
 .lista-op > *{min-width:0}
-@media(min-width:760px){ .lista-op{grid-template-columns:1fr 1fr;gap:10px} }
+@media(min-width:760px){ .lista-op{grid-template-columns:1fr 1fr;gap:10px}
+  /* Excepcion deliberada a la rejilla de dos columnas: un bloque con una
+     sola tarjeta dejaba media fila vacia a su derecha, y ese hueco se lee
+     como una opcion que falta. Con el orden por frecuencia el caso es el
+     primer bloque de la pantalla, asi que es lo primero que se ve (DEC-112). */
+  .lista-op.sola{grid-template-columns:1fr} }
 .fila-op{display:flex;align-items:center;gap:13px;width:100%;min-width:0;max-width:100%;text-align:left;
   background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-ctrl);
   padding:12px 14px;min-height:58px;cursor:pointer;font:inherit;color:inherit;
@@ -740,81 +745,99 @@ var mapa = null, marcador = null;
 
 
 /* --- Materias de competencia de la Secretaría --- */
+/* EL ORDEN ES DATO, NO CATÁLOGO LEGAL (DEC-108).
+   Los bloques y las materias dentro de cada bloque van en el orden en que se
+   ven, y ese orden sale del volumen observado en la base histórica de la
+   CIVASU —2,175 denuncias de 2024 a 2026—, no del orden en que la Ley trata
+   las materias: así, las primeras tarjetas cubren la mayor parte de lo que se
+   denuncia y la pantalla deja de pedir que se recorra entera.
+   Dos excepciones deliberadas al criterio de frecuencia:
+   · «Otra afectación a una zona protegida» va al final de su bloque aunque sea
+     el supuesto con más registros en la base: es el cajón de sastre, y un
+     cajón de sastre arriba se lleva las denuncias que tienen supuesto propio.
+   · «Remoción de tierra» y «Agroquímicos» se conservan pese a no tener un solo
+     registro en la base. Esa ausencia mide el canal y no la realidad: son
+     conductas de suelo de conservación, que se denuncian ante la DGCORENADR y
+     por eso no aparecen en una base de la DGIVA (D-16 del documento 17).
+   El grupo se referencia por CLAVE y no por índice de arreglo: con índices,
+   reordenar los bloques desalinea en silencio las materias que los apuntan,
+   que es justo la operación que abrió este bloque de cambios. */
 var GRUPOS_MATERIA = [
-  'Aire, ruido y vehículos',
-  'Agua, suelo y residuos',
-  'Arbolado y áreas verdes',
-  'Zonas de protección: AVA, suelo de conservación y ANP',
-  'Obras y actividades'
+  {id:'obras',    nom:'Obras y actividades'},
+  {id:'aire',     nom:'Aire, ruido y vehículos'},
+  {id:'residuos', nom:'Agua, suelo y residuos'},
+  {id:'arbolado', nom:'Arbolado y áreas verdes'},
+  {id:'zonas',    nom:'Zonas de protección: AVA, suelo de conservación y ANP'}
 ];
 
-/* Nota que acompaña a un bloque, cuando aporta. */
+/* Nota que acompaña a un bloque, cuando aporta. Va por clave del grupo. */
 var NOTAS_GRUPO = {
-  3: 'Elige aquí si el hecho ocurre en un bosque, una barranca, un área natural protegida o en el suelo de conservación.'
+  zonas: 'Elige aquí si el hecho ocurre en un bosque, una barranca, un área natural protegida o en el suelo de conservación.'
 };
 
 var MATERIAS = [
+  /* --- Obras y actividades --- */
+  {id:'impacto', g:'obras', c:'Obra sin permiso ambiental', k:'obra construccion edificio desarrollo inmobiliario manifestacion de impacto permiso autorizacion', ico:'impacto', nom:'Impacto ambiental de una obra', formal:'Impacto ambiental por obra o actividad',
+   desc:'Obras o actividades que requieren evaluación de impacto ambiental y se realizan sin ella, o que incumplen las medidas que les fueron impuestas.',
+   norma:'Arts. 25 y 50, Ley Ambiental de la Ciudad de México; Reglamento de Impacto Ambiental y Riesgo de la Ciudad de México'},
   /* --- Aire, ruido y vehículos --- */
-  {id:'emisiones', g:0, c:'Humo, polvo, gases u olores', k:'humo polvo gases vapores olor peste chimenea fabrica taller pintura solvente hollin caldera', ico:'emisiones', nom:'Emisiones a la atmósfera', formal:'Emisiones a la atmósfera de fuentes fijas',
+  {id:'emisiones', g:'aire', c:'Humo, polvo, gases u olores', k:'humo polvo gases vapores olor peste chimenea fabrica taller pintura solvente hollin caldera', ico:'emisiones', nom:'Emisiones a la atmósfera', formal:'Emisiones a la atmósfera de fuentes fijas',
    desc:'Humo, polvo, gases, vapores u olores que despide un establecimiento industrial o mercantil.',
    norma:'Arts. 196 y 200, Ley Ambiental de la Ciudad de México'},
-  {id:'ruido', g:0, c:'De un establecimiento o comercio', k:'ruido bocina musica sonido vibracion escandalo anuncio espectacular luz reflector alumbrado olor', ico:'ruido', nom:'Ruido, olores o anuncios', formal:'Ruido, vibraciones, olores y contaminación visual y lumínica',
+  {id:'ruido', g:'aire', c:'De un establecimiento o comercio', k:'ruido bocina musica sonido vibracion escandalo anuncio espectacular luz reflector alumbrado olor', ico:'ruido', nom:'Ruido, olores o anuncios', formal:'Ruido, vibraciones, olores y contaminación visual y lumínica',
    desc:'Ruido, vibraciones, olores, contaminación visual o lumínica.',
    norma:'Arts. 214 y 215, fracción I, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-005-AMBT-2013'},
-  {id:'quema', g:0, c:'Basura, llantas o pastizales', k:'quema fuego incendio llantas basura quemada fogata pastizal', ico:'quema', nom:'Quema a cielo abierto', formal:'Quema de residuos o materiales a cielo abierto',
+  {id:'quema', g:'aire', c:'Basura, llantas o pastizales', k:'quema fuego incendio llantas basura quemada fogata pastizal', ico:'quema', nom:'Quema a cielo abierto', formal:'Quema de residuos o materiales a cielo abierto',
    desc:'Quema de basura, llantas, pastizales o cualquier material al aire libre.',
    norma:'Art. 213, Ley Ambiental de la Ciudad de México'},
-  {id:'vehiculo', g:0, c:'Humo visible o ruido excesivo', k:'vehiculo camion autobus microbus combi coche auto humo negro transporte carga diesel', ico:'vehiculo', nom:'Vehículo contaminante', formal:'Vehículo ostensiblemente contaminante',
+  {id:'vehiculo', g:'aire', c:'Humo visible o ruido excesivo', k:'vehiculo camion autobus microbus combi coche auto humo negro transporte carga diesel', ico:'vehiculo', nom:'Vehículo contaminante', formal:'Vehículo ostensiblemente contaminante',
    desc:'Vehículo automotor que despide humo visible o ruido excesivo.',
    norma:'Arts. 205, 208 y 216, Ley Ambiental de la Ciudad de México'},
-  {id:'verificacion', g:0, c:'Cobros o verificación indebida', k:'verificentro verificacion holograma engomado corrupcion cobro', ico:'verificacion', nom:'Verificentro irregular', formal:'Irregularidades en un centro de verificación vehicular',
+  {id:'verificacion', g:'aire', c:'Cobros o verificación indebida', k:'verificentro verificacion holograma engomado corrupcion cobro', ico:'verificacion', nom:'Verificentro irregular', formal:'Irregularidades en un centro de verificación vehicular',
    desc:'Cobros indebidos, aprobación de vehículos sin verificar, alteración de equipos o cualquier irregularidad en un verificentro autorizado.',
    norma:'Arts. 255, 258 y 279, Ley Ambiental de la Ciudad de México'},
-
   /* --- Agua, suelo y residuos --- */
-  {id:'descargas', g:1, c:'Aguas residuales al drenaje', k:'agua drenaje aguas negras residuales descarga alcantarilla coladera aceite grasa lavado', ico:'descargas', nom:'Descargas al drenaje', formal:'Descargas de aguas residuales al drenaje',
-   desc:'Descargas de aguas residuales de establecimientos industriales, mercantiles o de servicios a los cuerpos de agua o al sistema de drenaje y alcantarillado.',
-   norma:'Arts. 223, 226 y 227, Ley Ambiental de la Ciudad de México'},
-  {id:'rsu', g:1, c:'Basura de un establecimiento', k:'basura residuos organico inorganico separacion tiradero contenedor bolsa', ico:'rsu', nom:'Residuos de un establecimiento', formal:'Residuos sólidos urbanos de fuentes fijas',
+  {id:'plasticos', g:'residuos', c:'Bolsas, globos metálicos, popotes o unicel', k:'plastico plasticos bolsa bolsas globo globos metalico metalizado popote popotes unicel desechable desechables vaso vasos cubiertos recipiente sucursal tienda supermercado comercio', ico:'rsu', nom:'Plásticos de un solo uso', formal:'Comercialización, distribución o entrega de plásticos de un solo uso',
+   desc:'Venta, distribución o entrega de bolsas, globos metálicos, popotes, vasos, cubiertos o recipientes de plástico de un solo uso por un establecimiento mercantil.',
+   norma:'[Art. __, fracc. __] de la Ley de Residuos Sólidos del Distrito Federal — fundamento por verificar contra el texto vigente (PB-09)'},
+  {id:'rsu', g:'residuos', c:'Basura de un establecimiento', k:'basura residuos organico inorganico separacion tiradero contenedor bolsa', ico:'rsu', nom:'Residuos de un establecimiento', formal:'Residuos sólidos urbanos de fuentes fijas',
    desc:'Manejo indebido de residuos generados por un establecimiento industrial, mercantil o de servicios; por ejemplo, mezcla de residuos orgánicos e inorgánicos.',
    norma:'Arts. 24, 25 y 33 de la Ley de Residuos Sólidos del Distrito Federal; Art. 232, Ley Ambiental de la Ciudad de México'},
-  {id:'construccion', g:1, c:'Escombro y material de obra', k:'escombro cascajo obra demolicion material varilla concreto', ico:'construccion', nom:'Residuos de la construcción', formal:'Residuos de la construcción y la demolición',
+  {id:'descargas', g:'residuos', c:'Aguas residuales al drenaje', k:'agua drenaje aguas negras residuales descarga alcantarilla coladera aceite grasa lavado', ico:'descargas', nom:'Descargas al drenaje', formal:'Descargas de aguas residuales al drenaje',
+   desc:'Descargas de aguas residuales de establecimientos industriales, mercantiles o de servicios a los cuerpos de agua o al sistema de drenaje y alcantarillado.',
+   norma:'Arts. 223, 226 y 227, Ley Ambiental de la Ciudad de México'},
+  {id:'construccion', g:'residuos', c:'Escombro y material de obra', k:'escombro cascajo obra demolicion material varilla concreto', ico:'construccion', nom:'Residuos de la construcción', formal:'Residuos de la construcción y la demolición',
    desc:'Manejo o disposición final indebida de materiales de construcción y demolición procedentes de una obra.',
    norma:'Arts. 24, fracción III Bis, 25, fracciones I, II y IV, y 26 de la Ley de Residuos Sólidos del Distrito Federal; Art. 237, Ley Ambiental de la Ciudad de México'},
-  {id:'asentamiento', g:3, c:'Casas u obras donde no se permite', k:'asentamiento irregular invasion construccion casa vivienda predio fraccionamiento lotificacion venta de terrenos ocupacion', ico:'asentamiento', nom:'Construcción o asentamiento irregular', formal:'Asentamiento humano irregular u obra sin autorización en zona de protección',
-   desc:'Casas, bardas, caminos o cualquier obra levantada en suelo de conservación, en un Área de Valor Ambiental o en un Área Natural Protegida. Toda intervención en esas zonas requiere autorización previa de la Secretaría.',
-   norma:'Arts. 98, 123 y 138, fracción I, Ley Ambiental de la Ciudad de México'},
-  {id:'tala', g:3, c:'Tala, desmonte o quema de monte', k:'tala talamontes desmonte deforestacion monte bosque arboles derribo motosierra incendio provocado', ico:'tala', nom:'Tala o desmonte de vegetación', formal:'Derribo o remoción de vegetación forestal en zona de protección',
-   desc:'Derribo de árboles, desmonte o remoción de vegetación forestal en suelo de conservación, en un Área de Valor Ambiental o en un Área Natural Protegida.',
-   norma:'Arts. 7, fracción XVII, 98, 108 y 109, Ley Ambiental de la Ciudad de México; Art. 345 BIS del Código Penal para el Distrito Federal'},
-  {id:'agua_zona', g:3, c:'Canal, manantial o cuerpo de agua', k:'canal manantial rio arroyo laguna humedal chinampa xochimilco relleno desecacion agua entubada presa bordo', ico:'agua_zona', nom:'Afectación a un cuerpo de agua', formal:'Interrupción o afectación del sistema hidrológico en zona de protección',
-   desc:'Relleno, desvío, entubamiento, azolve o contaminación de canales, manantiales, ríos, humedales o cuerpos de agua dentro de una zona de protección.',
-   norma:'Arts. 116, 123 y 138, fracción VI, Ley Ambiental de la Ciudad de México'},
-  {id:'agroquimicos', g:3, c:'Plaguicidas o fertilizantes prohibidos', k:'agroquimico plaguicida insecticida herbicida fertilizante fumigacion pesticida cultivo siembra', ico:'agroquimicos', nom:'Uso de agroquímicos prohibidos', formal:'Uso de agroquímicos, fertilizantes o plaguicidas prohibidos en suelo de conservación',
-   desc:'Aplicación de agroquímicos, fertilizantes nitrogenados o químicos, herbicidas, insecticidas o pesticidas en suelo de conservación, donde están prohibidos.',
-   norma:'Art. 232, fracción V, Ley Ambiental de la Ciudad de México'},
-  {id:'terraceos', g:3, c:'Despalmes, excavación o banco de tierra', k:'terraceos terraceo tierra despalme excavacion banco de tierra desmonte maquinaria retroexcavadora nivelacion', ico:'terraceos', nom:'Remoción de tierra o vegetación', formal:'Terráceos y remoción de cubierta vegetal',
-   desc:'Remoción de tierra o de cubierta vegetal; incluye bancos de tierra y despalmes.',
-   norma:'Arts. 98, 123, 138, fracción V, y 164, fracciones IV y VII, Ley Ambiental de la Ciudad de México; Art. 344 BIS del Código Penal para el Distrito Federal'},
-  {id:'cascajo', g:1, c:'Tiro de escombro en un predio', k:'cascajo escombro tiro relleno barranca camion de volteo', ico:'cascajo', nom:'Depósito de cascajo', formal:'Depósito de residuos de la construcción',
+  {id:'cascajo', g:'residuos', c:'Tiro de escombro en un predio', k:'cascajo escombro tiro relleno barranca camion de volteo', ico:'cascajo', nom:'Depósito de cascajo', formal:'Depósito de residuos de la construcción',
    desc:'Tiro de residuos de la industria de la construcción en un predio, barranca o zona de conservación.',
    norma:'Art. 237, Ley Ambiental de la Ciudad de México; Arts. 25, fracciones I, IV y IX, y 26 de la Ley de Residuos Sólidos del Distrito Federal; Art. 344 del Código Penal para el Distrito Federal'},
-
-  /* --- Arbolado, áreas verdes y áreas protegidas --- */
-  {id:'arbolado', g:2, c:'Poda o derribo sin autorización', k:'arbol arboles tala talaron poda podaron derribo derribaron rama tronco motosierra fresno jacaranda', ico:'arbolado', nom:'Daño a arbolado urbano', formal:'Poda, derribo o daño a arbolado urbano',
+  /* --- Arbolado y áreas verdes --- */
+  {id:'arbolado', g:'arbolado', c:'Poda o derribo sin autorización', k:'arbol arboles tala talaron poda podaron derribo derribaron rama tronco motosierra fresno jacaranda', ico:'arbolado', nom:'Daño a arbolado urbano', formal:'Poda, derribo o daño a arbolado urbano',
    desc:'Poda, derribo, trasplante o daño mecánico a árboles sin la autorización previa de la alcaldía, o realizado de forma indebida.',
    norma:'Arts. 108, 109 y 112, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-001-RNAT-2015; Art. 345 BIS del Código Penal para el Distrito Federal'},
-  {id:'areas_verdes', g:2, c:'Ocupación o deterioro de un jardín', k:'area verde jardin camellon parque pasto cesped pavimentar cementar invasion', ico:'areas_verdes', nom:'Daño a un área verde', formal:'Daño o reducción de un área verde',
+  {id:'areas_verdes', g:'arbolado', c:'Ocupación o deterioro de un jardín', k:'area verde jardin camellon parque pasto cesped pavimentar cementar invasion', ico:'areas_verdes', nom:'Daño a un área verde', formal:'Daño o reducción de un área verde',
    desc:'Pavimentación, ocupación, relleno o cualquier obra que reduzca o deteriore la superficie de un área verde pública.',
    norma:'Arts. 105 y 113, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-006-RNAT-2016'},
-  {id:'ava', g:3, c:'Daño no previsto en los supuestos anteriores', k:'bosque barranca area natural protegida anp ava area de valor ambiental humedal canal chinampa', ico:'ava', nom:'Otra afectación a una zona protegida', formal:'Afectación a un Área de Valor Ambiental, al suelo de conservación o a un Área Natural Protegida',
+  /* --- Zonas de protección: AVA, suelo de conservación y ANP --- */
+  {id:'tala', g:'zonas', c:'Tala, desmonte o quema de monte', k:'tala talamontes desmonte deforestacion monte bosque arboles derribo motosierra incendio provocado', ico:'tala', nom:'Tala o desmonte de vegetación', formal:'Derribo o remoción de vegetación forestal en zona de protección',
+   desc:'Derribo de árboles, desmonte o remoción de vegetación forestal en suelo de conservación, en un Área de Valor Ambiental o en un Área Natural Protegida.',
+   norma:'Arts. 7, fracción XVII, 98, 108 y 109, Ley Ambiental de la Ciudad de México; Art. 345 BIS del Código Penal para el Distrito Federal'},
+  {id:'agua_zona', g:'zonas', c:'Canal, manantial o cuerpo de agua', k:'canal manantial rio arroyo laguna humedal chinampa xochimilco relleno desecacion agua entubada presa bordo', ico:'agua_zona', nom:'Afectación a un cuerpo de agua', formal:'Interrupción o afectación del sistema hidrológico en zona de protección',
+   desc:'Relleno, desvío, entubamiento, azolve o contaminación de canales, manantiales, ríos, humedales o cuerpos de agua dentro de una zona de protección.',
+   norma:'Arts. 116, 123 y 138, fracción VI, Ley Ambiental de la Ciudad de México'},
+  {id:'asentamiento', g:'zonas', c:'Casas u obras donde no se permite', k:'asentamiento irregular invasion construccion casa vivienda predio fraccionamiento lotificacion venta de terrenos ocupacion', ico:'asentamiento', nom:'Construcción o asentamiento irregular', formal:'Asentamiento humano irregular u obra sin autorización en zona de protección',
+   desc:'Casas, bardas, caminos o cualquier obra levantada en suelo de conservación, en un Área de Valor Ambiental o en un Área Natural Protegida. Toda intervención en esas zonas requiere autorización previa de la Secretaría.',
+   norma:'Arts. 98, 123 y 138, fracción I, Ley Ambiental de la Ciudad de México'},
+  {id:'terraceos', g:'zonas', c:'Despalmes, excavación o banco de tierra', k:'terraceos terraceo tierra despalme excavacion banco de tierra desmonte maquinaria retroexcavadora nivelacion', ico:'terraceos', nom:'Remoción de tierra o vegetación', formal:'Terráceos y remoción de cubierta vegetal',
+   desc:'Remoción de tierra o de cubierta vegetal; incluye bancos de tierra y despalmes.',
+   norma:'Arts. 98, 123, 138, fracción V, y 164, fracciones IV y VII, Ley Ambiental de la Ciudad de México; Art. 344 BIS del Código Penal para el Distrito Federal'},
+  {id:'agroquimicos', g:'zonas', c:'Plaguicidas o fertilizantes prohibidos', k:'agroquimico plaguicida insecticida herbicida fertilizante fumigacion pesticida cultivo siembra', ico:'agroquimicos', nom:'Uso de agroquímicos prohibidos', formal:'Uso de agroquímicos, fertilizantes o plaguicidas prohibidos en suelo de conservación',
+   desc:'Aplicación de agroquímicos, fertilizantes nitrogenados o químicos, herbicidas, insecticidas o pesticidas en suelo de conservación, donde están prohibidos.',
+   norma:'Art. 232, fracción V, Ley Ambiental de la Ciudad de México'},
+  {id:'ava', g:'zonas', c:'Daño no previsto en los supuestos anteriores', k:'bosque barranca area natural protegida anp ava area de valor ambiental humedal canal chinampa', ico:'ava', nom:'Otra afectación a una zona protegida', formal:'Afectación a un Área de Valor Ambiental, al suelo de conservación o a un Área Natural Protegida',
    desc:'Obras o actividades que dañan un bosque urbano, una barranca, un cuerpo de agua declarado o un Área Natural Protegida.',
-   norma:'Arts. 98, 123 y 138, Ley Ambiental de la Ciudad de México'},
-
-  /* --- Obras y actividades --- */
-  {id:'impacto', g:4, c:'Obra sin permiso ambiental', k:'obra construccion edificio desarrollo inmobiliario manifestacion de impacto permiso autorizacion', ico:'impacto', nom:'Impacto ambiental de una obra', formal:'Impacto ambiental por obra o actividad',
-   desc:'Obras o actividades que requieren evaluación de impacto ambiental y se realizan sin ella, o que incumplen las medidas que les fueron impuestas.',
-   norma:'Arts. 25 y 50, Ley Ambiental de la Ciudad de México; Reglamento de Impacto Ambiental y Riesgo de la Ciudad de México'}
+   norma:'Arts. 98, 123 y 138, Ley Ambiental de la Ciudad de México'}
 ];
 
 /* --- Supuestos que NO son competencia de la Secretaría --- */
@@ -889,6 +912,17 @@ var OBLIG = {
      tiene armada, y a la orden de visita le llega igual (DEC-90). */
   entre_calles:     {p:2, oblig:false, etq:'Entre qué calles', dp:false, fin:'Localización',
      uso:'Permite ubicar el predio cuando no hay número visible.'},
+  /* En una parte de la Ciudad el predio no se identifica por número sino por
+     manzana y lote: en la base histórica de la CIVASU ocurre en el 5.8 % de
+     los domicilios capturados, y hoy esa referencia acaba escrita dentro del
+     campo de calle, de modo que la dirección llega partida a la orden de
+     visita. Dos campos propios la conservan entera (DEC-110). */
+  manzana:          {p:2, oblig:false, etq:'Manzana', dp:false, fin:'Localización',
+     cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
+     uso:'Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote.'},
+  lote:             {p:2, oblig:false, etq:'Lote', dp:false, fin:'Localización',
+     cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
+     uso:'Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote.'},
   es_estab:         {p:3, oblig:false, etq:'¿Los hechos ocurren dentro de un establecimiento?', dp:false, fin:'Localización',
      uso:'Caracteriza el sitio como fuente fija y propone al establecimiento como responsable. Se pregunta junto a la identificación del responsable, que es lo que determina.'},
   tipo_estab:       {p:3, oblig:false, etq:'Tipo de establecimiento', dp:false, fin:'Localización',
@@ -1040,7 +1074,7 @@ function camposDelPaso(n){
    representativas que el panel de validación carga con un toque.
    ========================================================= */
 var BIFURCACIONES = [
-  {paso:'1', pregunta:'Qué se denuncia', opciones:'18 materias · 7 supuestos de otra autoridad',
+  {paso:'1', pregunta:'Qué se denuncia', opciones:'19 materias · 7 supuestos de otra autoridad',
    efecto:'Elegir una materia avanza al paso 2. Elegir un supuesto de otra autoridad detiene el flujo y muestra a dónde acudir.'},
   {paso:'2', pregunta:'Dónde cae el punto (cruce espacial)', opciones:'Suelo urbano · AVA · ANP local · ANP federal con convenio · ANP federal sin convenio · Suelo de conservación · Fuera de la Ciudad',
    efecto:'Determina el área que atiende y el contenido de la ficha. Fuera de la Ciudad bloquea el avance.'},
@@ -1540,13 +1574,13 @@ function pMateria(){
     '<div id="listaMaterias">';
 
   var hubo = false;
-  GRUPOS_MATERIA.forEach(function(gr,gi){
-    var lista = MATERIAS.filter(function(m){ return m.g===gi && coincide(m); });
+  GRUPOS_MATERIA.forEach(function(gr){
+    var lista = MATERIAS.filter(function(m){ return m.g===gr.id && coincide(m); });
     if(!lista.length) return;
     hubo = true;
-    h += '<h3 class="grupo-materia">'+esc(gr)+'</h3>'+
-         (NOTAS_GRUPO[gi] ? '<p class="nota-grupo">'+esc(NOTAS_GRUPO[gi])+'</p>' : '')+
-         '<div class="lista-op">'+lista.map(function(m){ return fila(m,'materia'); }).join('')+'</div>';
+    h += '<h3 class="grupo-materia">'+esc(gr.nom)+'</h3>'+
+         (NOTAS_GRUPO[gr.id] ? '<p class="nota-grupo">'+esc(NOTAS_GRUPO[gr.id])+'</p>' : '')+
+         '<div class="lista-op'+(lista.length===1?' sola':'')+'">'+lista.map(function(m){ return fila(m,'materia'); }).join('')+'</div>';
   });
 
   if(cfg.triage){
@@ -1653,6 +1687,10 @@ function pUbicacion(){
       '<div class="fila-2-1">'+
         campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'')+
         campo('num_ext','Número exterior','texto',false,'Si no tiene, escribe S/N','autocomplete="off"')+
+      '</div>'+
+      '<div class="fila">'+
+        campo('manzana','Manzana','texto',false,'Cuando el predio se identifica por manzana y lote, y no por número.')+
+        campo('lote','Lote','texto',false,'')+
       '</div>'+
       '<div class="fila">'+
         campo('colonia','Colonia','texto',esObligatorio('colonia'),'')+
@@ -2922,6 +2960,12 @@ function resaltaPoligono(rasgo, grupo){
    · No repite la misma consulta dos veces, porque se dispara al salir de
      cada uno de los cuatro campos del domicilio. */
 var ULTIMA_BUSQUEDA = '';
+/* PARECE CODIGO MUERTO Y NO LO ES: dentro del prototipo nadie la llama. Quien
+   la llama son las pruebas, que necesitan olvidar la ultima busqueda entre un
+   caso y el siguiente para que la memoizacion de arriba no les devuelva el
+   resultado anterior. Se retiro el 22 de septiembre de 2026 en una auditoria
+   de codigo muerto que solo miro el prototipo y el artefacto, y la bateria 01
+   dejo de correr; se restituyo con esta nota. */
 function olvidaBusqueda(){ ULTIMA_BUSQUEDA = ''; }
 
 /* Un campo del domicilio es exigible en esta ruta. Se lee del catalogo y NO

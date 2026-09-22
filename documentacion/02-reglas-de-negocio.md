@@ -1,36 +1,44 @@
 # Formulario web de Denuncia Ambiental · Reglas de negocio
 
-**Versión:** 1.1 · 20 de septiembre de 2026
+**Versión:** 1.2 · 22 de septiembre de 2026
 Cada regla se identifica con la clave RN-NN. Las reglas marcadas como **[pendiente]** requieren determinación de la Dirección General de Inspección y Vigilancia Ambiental.
 
 ---
 
 ## A. Clasificación y competencia
 
-**RN-01.** Toda denuncia se clasifica en origen en una de las dieciocho materias de competencia local, agrupadas en cinco bloques temáticos:
+**RN-01.** Toda denuncia se clasifica en origen en una de las **diecinueve** materias de competencia local, agrupadas en cinco bloques temáticos. **Los bloques y las materias dentro de cada bloque se presentan en el orden en que se denuncian, no en el orden en que la Ley las trata**: ese orden sale del volumen observado en la base histórica de la CIVASU —2,175 denuncias de 2024 a 2026, documento 17— y su efecto es que el supuesto más denunciado quede a la vista sin desplazar la pantalla (DEC-108).
 
 | Bloque | Materias | Fundamento |
 |---|---|---|
+| Obras y actividades | Impacto ambiental por obra o actividad | Arts. 25 y 50; Reglamento de Impacto Ambiental y Riesgo de la CDMX |
 | Aire, ruido y vehículos | Emisiones a la atmósfera | Arts. 196 y 200 |
 | | Ruido, vibraciones o contaminación visual y lumínica | Arts. 214 y 215, fr. I; NADF-005-AMBT-2013 |
 | | Quema de residuos o materiales a cielo abierto | Art. 213 |
 | | Vehículo ostensiblemente contaminante | Arts. 205, 208 y 216 |
 | | Irregularidades en un centro de verificación vehicular | Arts. 255, 258 y 279 |
-| Agua, suelo y residuos | Descargas residuales al drenaje | Arts. 223, 226 y 227 |
+| Agua, suelo y residuos | **Plásticos de un solo uso** | **[Art. __, fracc. __] de la Ley de Residuos Sólidos del Distrito Federal — por verificar (PB-09)** |
 | | Residuos sólidos urbanos de establecimientos | Ley de Residuos Sólidos |
+| | Descargas residuales al drenaje | Arts. 223, 226 y 227 |
 | | Residuos de la construcción | Ley de Residuos Sólidos |
 | | Depósito de cascajo | Art. 237; Arts. 25, frs. I, IV y IX, y 26 de la Ley de Residuos Sólidos del Distrito Federal; Art. 344 del Código Penal para el Distrito Federal |
 | Arbolado y áreas verdes | Daño a arbolado urbano | Art. 106; NADF-001-RNAT-2015 |
 | | Daño o reducción de un área verde | Arts. 105 y 113; NADF-006-RNAT-2016 |
-| Zonas de protección: AVA, suelo de conservación y ANP | Construcción o asentamiento irregular | Arts. 98, 123 y 138, fr. I |
-| | Tala o desmonte de vegetación | Arts. 7, fr. XVII, 98, 108 y 109; Art. 345 BIS del Código Penal para el Distrito Federal |
-| | Terráceos y remoción de cubierta vegetal | Arts. 98, 123, 138, fr. V, y 164, frs. IV y VII; Art. 344 BIS del Código Penal para el Distrito Federal |
+| Zonas de protección: AVA, suelo de conservación y ANP | Tala o desmonte de vegetación | Arts. 7, fr. XVII, 98, 108 y 109; Art. 345 BIS del Código Penal para el Distrito Federal |
 | | Afectación a un cuerpo de agua | Arts. 116, 123 y 138, fr. VI |
+| | Construcción o asentamiento irregular | Arts. 98, 123 y 138, fr. I |
+| | Terráceos y remoción de cubierta vegetal | Arts. 98, 123, 138, fr. V, y 164, frs. IV y VII; Art. 344 BIS del Código Penal para el Distrito Federal |
 | | Uso de agroquímicos prohibidos | Art. 232, fr. V |
 | | Otra afectación a una zona protegida | Arts. 98, 123 y 138 |
-| Obras y actividades | Impacto ambiental por obra o actividad | Arts. 25 y 50; Reglamento de Impacto Ambiental y Riesgo de la CDMX |
 
 Los artículos corresponden a la Ley Ambiental de la Ciudad de México salvo mención distinta.
+
+**Dos excepciones deliberadas al criterio de frecuencia**, ambas anotadas en el código junto a la estructura que las aplica:
+
+1. **«Otra afectación a una zona protegida» va al final de su bloque** aunque sea, con 307 registros, el supuesto con más volumen de ese bloque en la base. Es el cajón de sastre, y un cajón de sastre arriba se lleva las denuncias que tienen supuesto propio.
+2. **«Terráceos y remoción de cubierta vegetal» y «Uso de agroquímicos prohibidos» se conservan pese a no tener un solo registro** en la base. Esa ausencia mide el canal y no la realidad: son conductas de suelo de conservación, que corresponden a la DGCORENADR y por eso no aparecen en una base de la DGIVA (D-16 del documento 17).
+
+**La materia de plásticos de un solo uso se incorporó el 22 de septiembre de 2026** (DEC-109). No estaba en el catálogo pese a ser, con 202 registros, la cuarta en volumen de la base, y la de mejor rendimiento de todas: **cero por ciento de incompetencia en tres años y 76.7 % de visita practicada**. Su fundamento **queda como hueco visible** hasta que se verifique contra el texto vigente, conforme a la regla de no escribir ningún número de artículo sin verificar.
 
 El bloque de **zonas de protección** reúne los supuestos propios de las Áreas de Valor Ambiental, el suelo de conservación y las Áreas Naturales Protegidas, que el catálogo anterior sólo cubría de manera indirecta. Su fundamento común es el artículo 98: *cualquier intervención que se pretenda llevar a cabo en Suelo de Conservación requerirá opinión, permiso, licencia o autorización previa por parte de la Secretaría*, y el artículo 138, que enumera lo prohibido en las Áreas Naturales Protegidas. La persona denunciante no necesita saber en cuál de las tres categorías se encuentra: el cruce espacial lo resuelve y de él depende el turnado, conforme a RN-03 y RN-04.
 

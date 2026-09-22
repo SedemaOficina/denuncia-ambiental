@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Variantes del formulario
 
-**Versión:** 2.0 · 20 de septiembre de 2026
+**Versión:** 2.0 · 22 de septiembre de 2026
 **Generado automáticamente** de las estructuras `BIFURCACIONES` y `ESCENARIOS` del prototipo, que son las mismas que gobiernan el panel de validación. Documento y comportamiento no pueden discrepar.
 
 El formulario no es un camino único: hay **doce puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los doce escenarios que el panel de validación carga con un toque, para recorrer cada rama sin capturar todo a mano.
@@ -11,7 +11,7 @@ El formulario no es un camino único: hay **doce puntos donde cambia de forma** 
 
 | Paso | Qué se responde | Opciones | Cómo cambia el formulario |
 |---|---|---|---|
-| 1 | **Qué se denuncia** | 18 materias · 7 supuestos de otra autoridad | Elegir una materia avanza al paso 2. Elegir un supuesto de otra autoridad detiene el flujo y muestra a dónde acudir. |
+| 1 | **Qué se denuncia** | 19 materias · 7 supuestos de otra autoridad | Elegir una materia avanza al paso 2. Elegir un supuesto de otra autoridad detiene el flujo y muestra a dónde acudir. |
 | 2 | **Dónde cae el punto (cruce espacial)** | Suelo urbano · AVA · ANP local · ANP federal con convenio · ANP federal sin convenio · Suelo de conservación · Fuera de la Ciudad | Determina el área que atiende y el contenido de la ficha. Fuera de la Ciudad bloquea el avance. |
 | 3 | **¿Los hechos ocurren dentro de un establecimiento?** | Sí · No | «Sí» muestra tipo de establecimiento y nombre comercial, y preselecciona «Una empresa o negocio» en la pregunta siguiente, donde se puede cambiar. |
 | 3 | **Tipo de establecimiento** | 19 giros · Otro | «Otro» abre un campo de texto para especificarlo. |

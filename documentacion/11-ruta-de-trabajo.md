@@ -959,3 +959,68 @@ Es exactamente el tipo de cita que el proyecto se propuso no escribir nunca, y e
 A dos de las tres revisiones se les entregó una copia parcial del proyecto, y ambas concluyeron —correctamente, para lo que veían— que faltaban veintiún archivos de normativa y que `normalizar_capas.py` no existía. Verificado contra la carpeta de trabajo: los veintidós archivos están con su nomenclatura correcta y el guion existe. Se registra porque **un auditor sólo puede responder por lo que se le entrega**, y la próxima vez la copia va completa.
 
 **Verificación.** **381 comprobaciones en verde en catorce baterías.** Documentos 09 y 10 regenerados: 53 campos, 21 datos personales, ninguno sin uso declarado.
+
+### 22 de septiembre de 2026 · bloque «el orden del paso 1, los plásticos y manzana y lote»
+
+Primer bloque que **no sale de una revisión en pantalla sino de un dato**: el análisis de la base histórica de denuncias de la CIVASU —2,175 registros de 2024 a 2026— que quedó en el documento 17. De sus veinte decisiones derivadas se traen aquí las que no dependen de ninguna respuesta de la Dirección General.
+
+#### Antes de tocar nada, se verificó qué faltaba de verdad
+
+De las seis que se iban a aplicar, **tres ya estaban hechas**, y sólo se supo leyendo el archivo:
+
+| Propuesta | Lo que había |
+|---|---|
+| Campos de entre calles permanentes | Ya existe `entre_calles`, y mejor resuelto: DEC-90 fundió los dos campos del formato de papel en uno solo |
+| Priorizar barrancas y AVA al proponer el nombre del lugar | Ya lo hace `consultaCapas()`, con la precedencia declarada y el nombre propuesto desde la capa que contiene el punto |
+| Conservar las conductas de suelo de conservación | Las seis están en el catálogo. Es un acuerdo de no retirarlas, no un cambio |
+
+Vale anotarlo porque la propuesta se escribió leyendo el documento 09 **del espacio de trabajo**, que va una decena de decisiones por detrás del repositorio. **El documento que manda es el del repositorio**, y la verificación se hace contra el archivo, no contra la documentación.
+
+#### Los cambios
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| Orden de bloques y materias | Reordenado | Por volumen observado, no por orden del catálogo legal (DEC-108) |
+| `GRUPOS_MATERIA` | Reestructurado | De arreglo de cadenas a objetos con clave; `m.g` pasa de índice a clave de texto. Con índices, reordenar los bloques desalinea en silencio las materias que los apuntan: es la fragilidad que esta misma operación habría disparado |
+| `NOTAS_GRUPO` | Reclavado | De índice numérico a clave del grupo |
+| Materia `plasticos` | Añadida | Cuarta en volumen de la base, cero incompetencia en tres años, 76.7 % de visita, y no estaba en el catálogo (DEC-109). Fundamento como hueco visible; icono provisional, reutilizado del de residuos |
+| `manzana`, `lote` | Campos nuevos | 5.8 % de los domicilios de la base se identifican así, y hoy esa referencia acaba dentro del campo de calle (DEC-110) |
+| `.lista-op.sola` | Clase nueva | Un bloque de una sola tarjeta ocupa el renglón entero (DEC-112) |
+| `construir.py` | Corregido | Rutas fijas de otra máquina: el comando del LEEME no corría desde el repositorio (DEC-111) |
+| «18 materias» en `BIFURCACIONES` | Texto corregido | Pasa a 19 |
+| Documento 02, RN-01 | Actualizado | Diecinueve materias, en el orden en que se ven, con las dos excepciones deliberadas escritas |
+
+#### Medición, en teléfono de 390 × 760 px
+
+| | Antes | Ahora |
+|---|---|---|
+| Primera tarjeta | Emisiones a la atmósfera, a 672 px | **Impacto ambiental de una obra**, a 672 px |
+| «Impacto ambiental de una obra» | **2,363 px** · tercera pantalla | **672 px** · primera |
+| Tarjetas visibles sin desplazar | 2 | **1** |
+| Cobertura de lo visible, sobre la base | 21.9 % de las denuncias | **28.5 %** |
+| Alto del paso 1 | 2,290 px · 3.0 pantallas | 2,363 px · 3.1 pantallas |
+
+**El cambio tiene un costo y conviene decirlo sin adornos:** se ve una tarjeta menos sin desplazar, porque un bloque de una sola materia cuesta su encabezado. Lo que sube es la cobertura, no el número de tarjetas.
+
+#### Un defecto que sólo apareció mirando
+
+Con el orden nuevo, el primer bloque tiene una sola tarjeta y la rejilla de dos columnas le dejaba **media fila vacía a su derecha**, en lo primero que se ve de la pantalla. Ninguna comprobación lo habría visto: la tarjeta estaba, el texto era correcto y no había error en consola. Se corrigió con una excepción anotada a la rejilla (DEC-112). **Es la enésima vez que el cierre lo encuentra la captura y no la medición**, y por eso el cierre incluye siempre una.
+
+#### Una función que parecía muerta y no lo estaba
+
+La auditoría de código muerto señaló `olvidaBusqueda()`: declarada una vez, sin una sola llamada **ni en el prototipo ni en el artefacto**. Se retiró, y la batería 01 dejó de correr con `ReferenceError`. **Quien la llama son las pruebas**, que necesitan olvidar la última búsqueda entre un caso y el siguiente para que la memoización no les devuelva el resultado anterior.
+
+Se restituyó con una nota que dice quién la llama. Y queda la lección, que es del método y no del código: **la auditoría de código muerto tiene que buscar también en `construccion/pruebas/`**, no sólo en el prototipo y en el artefacto. Un símbolo no está muerto porque una búsqueda no lo encuentre donde uno miró.
+
+Los otros cuatro hallazgos de esa misma auditoría —`.encima`, `.w3`, `.humano`, `.listo`— resultaron **falsos positivos** al comprobarlos uno por uno: tres se aplican por concatenación o por `classList`, y `.w3` no era una clase sino un fragmento de un SVG incrustado como `data:` dentro de la hoja de estilos. **Cinco señalamientos, un solo hallazgo verdadero, y el verdadero estaba equivocado.**
+
+#### Verificación de cierre
+
+**419 comprobaciones en verde en quince baterías**, una de ellas nueva: `15-orden-del-paso-1.py`, con 25 comprobaciones. Sintaxis correcta. Cero funciones duplicadas, cero claves de estado escritas y nunca leídas, cero selectores declarados dos veces, cero colores fuera de `:root`, y los cuatro `!important` siguen todos dentro de `prefers-reduced-motion`. Documentos 09 y 10 regenerados: **55 campos, 20 datos personales, 22 con obligatoriedad condicionada, ninguno sin uso declarado**.
+
+**Lo que la batería nueva sujeta es la regla, no la tabla.** La primera versión fijaba por su nombre las cinco primeras tarjetas, que es exactamente el error de método que este proyecto ya cometió cuatro veces: una prueba atada a cómo se ve algo se rompe cuando el diseño cambia a propósito. Se sustituyó por la comprobación de que **la pantalla pinta el orden del catálogo**, que es el invariante, y el orden concreto se imprime como información.
+
+#### Dos cosas que quedan anotadas para el bloque siguiente
+
+1. **El icono de plásticos de un solo uso es el de residuos sólidos**, de modo que la tarjeta queda con el mismo icono que su vecina «Residuos de un establecimiento». Es un defecto visible y pide un icono propio del set institucional.
+2. **`num_ext` y `entre_calles` no declaran su condición en `OBLIG`** aunque sólo se pidan en la ruta con domicilio, de modo que el documento 09 dice de ellos «Siempre» donde debería decir «Sólo cuando el lugar tiene calle y número». `manzana` y `lote` nacen con la condición declarada; los dos viejos siguen sin ella. Es una línea en cada uno, y no se tocó por no abrir un asunto dentro de un bloque abierto.
