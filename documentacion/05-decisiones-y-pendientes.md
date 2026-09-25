@@ -127,21 +127,25 @@ Este documento concentra las decisiones ya tomadas y **las veintidós preguntas 
 
 ---
 
-**P-01. ¿Qué es jurídicamente este formulario: un reporte ciudadano o una denuncia ciudadana?**
+**P-01. ¿Con qué fundamento recibe la Secretaría, y qué obligaciones asume al recibir?**
 
-*Por qué importa.* El artículo 329 de la Ley Ambiental de la Ciudad de México dispone que la denuncia ciudadana se presenta **ante la Procuraduría**, no ante la Secretaría, y el artículo 332 exige su ratificación y obliga a contestar en treinta días hábiles. La Ley no prevé a la Secretaría como receptora. La respuesta determina el nombre del instrumento, los textos del acuse, el aviso de privacidad y los compromisos de plazo que la Secretaría adquiere.
+*Reformulada el 25 de septiembre de 2026.* La pregunta estaba mal planteada. Decía «¿qué es jurídicamente este formulario: un reporte ciudadano o una denuncia ciudadana?», como si recibir fuera la concesión y la Procuraduría el cauce natural. La lectura del texto vigente muestra lo contrario.
+
+*Lo que dice el Reglamento Interior*, texto vigente al 27 de marzo de 2026. El **artículo 191, fracción XXX**, corresponde a la Dirección General de Inspección y Vigilancia Ambiental: «Recibir, tramitar, atender, denuncias ciudadanas y en su caso, formular ante la autoridad que corresponda, las denuncias en materia ambiental, relacionadas con suelo urbano y áreas de valor ambiental, así como por actos u omisiones que pudieran constituir infracciones, delitos y/o ecocidios, competencia de la Ciudad de México». El **artículo 188, fracción XXXVIII**, dice lo mismo para la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural en suelo de conservación y Áreas Naturales Protegidas. Ambas provienen de la reforma publicada en la Gaceta Oficial el **19 de enero de 2023**. No es una facultad implícita ni derivada: está escrita, y el verbo es *recibir*.
+
+*Lo que dice la Ley Ambiental.* El **artículo 329** dispone que toda persona «**podrá** denunciar ante la Procuraduría». Es una vía que se abre a la persona, no una competencia exclusiva; y su segundo párrafo presupone que otra autoridad reciba la denuncia y la turne cuando el asunto no le corresponda. El tercer párrafo abre además la vía penal ante la Fiscalía General de Justicia.
+
+*Lo que sí hay que asumir.* La ratificación y la contestación fundada y motivada en treinta días hábiles del **artículo 332** son cargas de la Procuraduría, atadas a los medios que ella establezca; no se trasladan a la Secretaría por recibir. Pero el último párrafo de ese mismo artículo **no acota el sujeto**: «La autoridad estará obligada a informar al denunciante sobre el trámite que recaiga a su denuncia». Prudente asumirla, y es exactamente lo que P-07 dejó abierto: el plazo para informar.
 
 *Opciones.*
-- **A. Reporte ciudadano.** El formulario capta información que, conforme al artículo 280 de la Ley Ambiental, la Secretaría valora para instaurar por sí misma el procedimiento de inspección. No requiere ratificación, es compatible con el anonimato y no obliga a plazo de respuesta.
-- **B. Denuncia ciudadana en sentido estricto.** El formulario opera como ventanilla que remite a la Procuraduría, con la ratificación en tres días hábiles y el plazo de respuesta de treinta días hábiles que fija su Ley Orgánica.
-- **C. Mixta con remisión automática.** Se capta como reporte y, además, se remite a la Procuraduría.
-- **D. Mixta con orientación.** Se capta como reporte y se informa a la persona denunciante que puede presentar además su denuncia ante la Procuraduría, sin remitirla de oficio.
+- **A. Denuncia ciudadana ante la Secretaría.** Se recibe, se tramita y se atiende con fundamento en las fracciones citadas del Reglamento Interior, y el acuse informa que existen además la vía de la Procuraduría y la penal. La Secretaría fija su propio plazo para informar del trámite.
+- **B. Ventanilla que remite a la Procuraduría.** Renuncia a una facultad que el Reglamento Interior atribuye expresamente a estas direcciones generales.
+- **C. Atención propia con remisión automática.** Cada denuncia se convertiría en un requerimiento de la Procuraduría, con obligación de rendir informe en diez días hábiles, sin beneficio para la persona denunciante.
+- **D. Reporte ciudadano.** Se capta información y se actúa de oficio conforme al artículo 280 de la Ley Ambiental, sin llamar denuncia al instrumento. Subutiliza el fundamento reglamentario y desconcierta a quien ya conoce la figura. **Era la recomendación anterior; queda superada.**
 
-*Recomendación fundada.* **Opción D.** La revisión de la Ley Orgánica de la Procuraduría la sustenta en tres puntos:
+*Recomendación.* **Opción A.** Las dos direcciones generales tienen atribución expresa para recibir, tramitar y atender denuncias ciudadanas, y el artículo 280 permite instaurar el procedimiento de inspección con la información recabada, sin ratificación. Nombrar al instrumento por lo que es evita además que la persona presente dos veces el mismo hecho.
 
-1. **La Procuraduría no inspecciona.** Su artículo 25, fracción IV, la faculta para requerir a las autoridades competentes la realización de las visitas de verificación e inspección. En materia ambiental local esa autoridad es la Secretaría, de modo que la denuncia presentada allá regresa como requerimiento, con la carga añadida de rendir informe en diez días hábiles (arts. 20 y 25 BIS) bajo apercibimiento de responsabilidad administrativa. Recibir directamente es más rápido para el ciudadano y menos oneroso para la Secretaría.
-2. **La remisión automática convierte cada denuncia en un requerimiento.** La opción C generaría de manera artificial la obligación de informar en diez días hábiles por cada caso, sin beneficio para la persona denunciante.
-3. **La actuación de oficio no exige ratificación.** El artículo 280 de la Ley Ambiental basta para que la Secretaría instaure el procedimiento de inspección con la información recabada.
+*Lo que la opción A obliga a cuidar.* El acuse. Debe decir que la Secretaría atiende la denuncia, en qué plazo informa del trámite, y que quien quiera la respuesta fundada y motivada en treinta días hábiles del artículo 332 puede acudir además a la Procuraduría. Prometer menos de lo que se cumple no cuesta nada; prometer de más sí.
 
 *Bloquea:* P-02, P-05, P-07 y todos los textos del formulario.
 
