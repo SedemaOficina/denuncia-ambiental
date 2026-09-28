@@ -10,7 +10,8 @@
 | M-03 | **Implementada** · DEC-44 |
 | M-04 | **Implementada y retirada** · DEC-45, revertida por DEC-67 |
 | M-07 | **Superada** · DEC-46, sustituida por DEC-61 |
-| M-06, M-10 | Aprobadas, por hacer |
+| M-10 | **Implementada** · DEC-113. La revisión baja de 3 841 a 1 395 px en teléfono: 64 % menos, de 5.1 a 1.8 pantallas |
+| M-06 | Aprobada, por hacer |
 | M-02 | **Detenida**: fundir supuestos toca el catálogo y lo decide la Dirección General |
 
 **Desde dónde está escrito.** La persona típica no está en un escritorio: está **en la calle, frente al problema, con el teléfono en una mano**, probablemente molesta y a veces con miedo de que la vean. Tiene tres minutos. Ése es el usuario contra el que hay que medir cada pantalla.
@@ -33,7 +34,7 @@ Medido en pantalla de teléfono de 390 × 760 px, sobre el alto del contenedor d
 | 6 · Revisión | 2 273 px | **2 321 px** | 3.0 → **3.1** | 161 → 138 |
 | **Total** | **13 933 px** | **11 512 px** | **18.3 → 15.1** | **1 721 → 1 293** |
 
-**El recorrido se acortó un 17 %** sin retirar un solo dato del esquema: lo que cambió es qué se ve de entrada. La palabra «opcional» pasó de veintiocho a dieciocho apariciones. **La pantalla más larga es ahora la revisión final**, que es lo que propone plegar M-10.
+**El recorrido se acortó un 17 %** sin retirar un solo dato del esquema: lo que cambió es qué se ve de entrada. La palabra «opcional» pasó de veintiocho a dieciocho apariciones. **La pantalla más larga era entonces la revisión final**, que es lo que proponía plegar M-10; hecho el 28 de septiembre con DEC-113, pasó de 5.1 a 1.8 pantallas de teléfono.
 
 **Tres lecturas de esta tabla.**
 
@@ -185,6 +186,6 @@ Tres pantallas repitiendo todo lo capturado. Sirve para dar confianza, pero es m
 
 | Primero, cuesta poco y rinde mucho | M-01, M-07, M-09, M-03 |
 | Después, con el área sustantiva | M-02, M-08 |
-| Cuando haya decisión de diseño | M-04, M-05, M-06, M-10 |
+| Cuando haya decisión de diseño | M-04, M-05, M-06 |
 
 **M-01 debería hacerse hoy**: es una línea de texto y es lo único de esta lista que recupera a alguien que hoy se va antes de empezar.

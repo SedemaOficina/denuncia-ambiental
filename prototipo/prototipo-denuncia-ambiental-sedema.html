@@ -476,6 +476,23 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .arch .x:hover{background:var(--error-bg);border-color:var(--error)}
 
 /* ---------- Resumen ---------- */
+/* M-10 · Revision plegada por bloques. El resumen de una linea vive en el
+   summary; el detalle, dentro. Se usa <details> y no una caja propia porque
+   el navegador ya le da el teclado y el estado expandido a los lectores de
+   pantalla, sin una linea de JS. */
+.rev-acciones{text-align:right;margin-bottom:10px}
+.rev-todo{background:none;border:none;color:var(--azul);font-size:var(--t-sm);text-decoration:underline;cursor:pointer;padding:6px 4px;font-family:inherit}
+details.rev-bloque{border:1px solid var(--linea);border-radius:var(--r-ctrl);background:var(--blanco);margin-bottom:10px}
+details.rev-bloque>summary{list-style:none;cursor:pointer;display:block;padding:12px 42px 12px 14px;position:relative}
+details.rev-bloque>summary::-webkit-details-marker{display:none}
+details.rev-bloque>summary::after{content:'';position:absolute;right:18px;top:50%;width:8px;height:8px;margin-top:-7px;border-right:2px solid var(--gris);border-bottom:2px solid var(--gris);transform:rotate(45deg)}
+details.rev-bloque[open]>summary::after{transform:rotate(-135deg);margin-top:-2px}
+details.rev-bloque>summary:focus-visible{outline:3px solid var(--foco);outline-offset:2px;border-radius:var(--r-ctrl)}
+details.rev-bloque[open]>summary{border-bottom:1px solid var(--linea)}
+.rb-tit{display:block;font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.06em;color:var(--gris);font-weight:600;margin-bottom:3px}
+.rb-res{display:block;font-size:var(--t-md);color:var(--texto);overflow-wrap:anywhere}
+.rb-res em{color:var(--gris-cl)}
+details.rev-bloque .resumen{padding:14px}
 .resumen dl{display:grid;grid-template-columns:200px 1fr;gap:1px;background:var(--linea);border:1px solid var(--linea);border-radius:var(--r-ctrl);overflow:hidden;font-size:var(--t-md)}
 .resumen dt{background:var(--fondo);padding:11px 14px;font-weight:600;color:var(--texto);font-size:var(--t-sm)}
 .resumen dd{background:var(--blanco);padding:11px 14px;white-space:pre-wrap;word-break:break-word}
@@ -2365,6 +2382,29 @@ function vaACampo(n, k){
   }, 80);
 }
 
+/* Un bloque de la revision: la linea que resume arriba, el detalle dentro.
+   Si el bloque no rinde un solo renglon en esta ruta —pruebas en una denuncia
+   sin archivos ni otras pruebas, por ejemplo— no se pinta: un bloque vacio
+   que se abre para no mostrar nada es peor que no estar. */
+function bloqueRev(id, titulo, resumen, filas){
+  if(!filas) return '';
+  return '<details class="rev-bloque" id="rb_'+id+'">'+
+    '<summary><span class="rb-tit">'+esc(titulo)+'</span>'+
+    '<span class="rb-res">'+(resumen ? esc(resumen) : '<em>Sin dato</em>')+'</span></summary>'+
+    '<div class="resumen"><dl>'+filas+'</dl></div></details>';
+}
+
+/* Abre los cinco de una vez, o los cierra si ya estan todos abiertos. Es la
+   salida para quien quiere leer la denuncia entera antes de enviarla, que es
+   justo lo que la revision plegada podria quitarle. */
+function alternaDetalleRevision(){
+  var ds = document.querySelectorAll('details.rev-bloque'), i, abrir = false;
+  for(i = 0; i < ds.length; i++){ if(!ds[i].open){ abrir = true; break; } }
+  for(i = 0; i < ds.length; i++){ ds[i].open = abrir; }
+  var b = $('btnRevTodo');
+  if(b) b.textContent = abrir ? 'Ocultar el detalle' : 'Ver todo el detalle';
+}
+
 function pRevision(){
   var m = MATERIAS.filter(function(x){return x.id===val('materia');})[0];
   var anon = esAnonima();
@@ -2399,47 +2439,84 @@ function pRevision(){
     : (val('es_estab')==='no' ? 'No' : '');
   var temp = {unico:'Ocurrió una sola vez',recurrente:'Ocurre de forma repetida',permanente:'Es permanente o continuo'}[val('temporalidad')]||'';
 
-  var h = '<div class="tarjeta"><h2><span class="num">6</span>Revisa antes de enviar</h2>'+
-  '<p class="sub">Verifica que la información sea correcta. Una vez enviada, la denuncia se turna al área de inspección.</p>'+
-  '<div class="resumen"><dl>'+
-    r('Materia', m?(m.formal||m.nom):'', 1)+
+  /* M-10 · La revision se pliega por bloques. Eran tres pantallas repitiendo
+     todo lo capturado: util para dar confianza, demasiado para leer al final,
+     y desde que el recorrido se acorto un 17 % era la pantalla mas larga del
+     formulario. Cada bloque muestra UNA linea con lo que de verdad importa de
+     el —la direccion, el relato, quien denuncia— y guarda el detalle a un
+     clic. Los botones de corregir de cada renglon siguen ahi dentro, intactos
+     (DEC-85): plegar no puede convertir en mudo lo que ya decia como se
+     corrige. Y «Ver todo el detalle» abre los cinco de una vez, para quien
+     quiera leerlo entero. */
+  var fUbicacion =
     r(sinDireccion()?'Sitio de los hechos':'Lugar de los hechos', ubic, 2, sinDireccion()?'nombre_lugar':'calle')+
     r('Coordenadas', val('lat')?val('lat')+', '+val('lon'):'', 2, 'coord_pegar')+
-    r('Tipo de suelo', [val('capa_tipo'),val('capa_nombre')].filter(Boolean).join(' — '), 0)+
-    r('Área que atiende', val('dg_nombre'), 0)+
-    r('Referencias', refs, 2, 'referencias')+
-    r('¿Dentro de un establecimiento?', estab, 3, 'es_estab')+
+    r('Tipo de suelo', [val('capa_tipo'),val('capa_nombre')].filter(Boolean).join(' \u2014 '), 0)+
+    r('\u00c1rea que atiende', val('dg_nombre'), 0)+
+    r('Referencias', refs, 2, 'referencias');
+
+  var fHechos =
+    r('\u00bfDentro de un establecimiento?', estab, 3, 'es_estab')+
     r('Hechos denunciados', val('hechos'), 3, 'hechos')+
-    r('Temporalidad', [temp,val('fecha_hecho'),(val('hora_h')?val('hora_h')+':'+(val('hora_m')||'00')+' horas':'')].filter(Boolean).join(' · '), 3, 'temporalidad')+
+    r('Temporalidad', [temp,val('fecha_hecho'),(val('hora_h')?val('hora_h')+':'+(val('hora_m')||'00')+' horas':'')].filter(Boolean).join(' \u00b7 '), 3, 'temporalidad')+
     r('Establecimiento', val('establecimiento'), 3, 'establecimiento')+
-    r('A quién se denuncia', (function(){
+    r('A qui\u00e9n se denuncia', (function(){
         var t = TIPOS_DENUNCIADO.filter(function(x){return x.v===val('tipo_denunciado');})[0];
         if(!t) return '';
-        return t.t + (val('tipo_denunciado')==='gobierno' && val('autoridad_denunciada') ? ' · '+val('autoridad_denunciada') : '');
+        return t.t + (val('tipo_denunciado')==='gobierno' && val('autoridad_denunciada') ? ' \u00b7 '+val('autoridad_denunciada') : '');
       })(), 3, 'tipo_denunciado')+
     r('Datos del responsable', [val('establecimiento'),val('resp_nombre'),val('autoridad_denunciada'),
         val('resp_area'),val('resp_encargado'),val('resp_obra'),val('resp_senas')]
         .filter(Boolean).join('\n'), 3, 'resp_nombre')+
     r('Permisos o autorizaciones', val('permisos'), 3, 'sabe_permisos')+
-    r('Gestiones previas', val('gestiones'), 3, 'reporto_antes')+
+    r('Gestiones previas', val('gestiones'), 3, 'reporto_antes');
+
+  var fPruebas =
     r('Archivos adjuntos', archivos.length? archivos.map(function(a){return a.name;}).join('\n') : '', 4)+
-    r('Otras pruebas', val('otras_pruebas'), 4, 'otras_pruebas')+
-    r('Denunciante', anon ? 'Denuncia anónima' : [val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '), 5, 'identificacion')+
-    (anon?'':r('Identificación', haySesion()
+    r('Otras pruebas', val('otras_pruebas'), 4, 'otras_pruebas');
+
+  var fQuien =
+    r('Denunciante', anon ? 'Denuncia an\u00f3nima' : [val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '), 5, 'identificacion')+
+    (anon?'':r('Identificaci\u00f3n', haySesion()
         ? 'Acreditada con cuenta Llave CDMX'
-        : (val('identificacion')==='nombre' ? 'Datos proporcionados por la persona denunciante, sin acreditación' : ''), 5, 'identificacion'))+
-    (anon?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' · '), 5, 'telefono'))+
-    (anon?'':r('Notificación', val('notif_correo')==='si'?'Por correo electrónico':(val('notif_correo')==='no'?'Por domicilio':''), 5, 'notif_correo'))+
+        : (val('identificacion')==='nombre' ? 'Datos proporcionados por la persona denunciante, sin acreditaci\u00f3n' : ''), 5, 'identificacion'))+
+    (anon?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' \u00b7 '), 5, 'telefono'))+
+    (anon?'':r('Notificaci\u00f3n', val('notif_correo')==='si'?'Por correo electr\u00f3nico':(val('notif_correo')==='no'?'Por domicilio':''), 5, 'notif_correo'))+
     (anon?'':r('Confidencialidad', val('reserva')==='si'?'Solicitada':(val('reserva')==='no'?'No solicitada':''), 5, 'reserva'))+
     (anon||val('notif_correo')==='si'?'':r('Domicilio', [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):''].filter(Boolean).join(' '),
                              val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'', val('dom_alcaldia'), val('dom_entidad')].filter(Boolean).join(', '), 5, 'dom_calle'))+
-    r('Datos estadísticos', (function(){
+    r('Datos estad\u00edsticos', (function(){
         var g = {mujer:'Mujer',hombre:'Hombre',no_binaria:'No binaria',otro:'Otro',nd:'Prefiere no decirlo'}[val('sexo_genero')]||'';
-        var e = {'-18':'Menor de 18 años','18-29':'18 a 29 años','30-44':'30 a 44 años',
-                 '45-59':'45 a 59 años','60+':'60 años o más',nd:'Prefiere no decirlo'}[val('edad_rango')]||'';
-        return [g,e].filter(Boolean).join(' · ');
-      })(), 5, 'sexo_genero')+
-  '</dl></div>'+
+        var e = {'-18':'Menor de 18 a\u00f1os','18-29':'18 a 29 a\u00f1os','30-44':'30 a 44 a\u00f1os',
+                 '45-59':'45 a 59 a\u00f1os','60+':'60 a\u00f1os o m\u00e1s',nd:'Prefiere no decirlo'}[val('edad_rango')]||'';
+        return [g,e].filter(Boolean).join(' \u00b7 ');
+      })(), 5, 'sexo_genero');
+
+  var nArch = archivos.length;
+  var resHechos = String(val('hechos')||'').replace(/\s+/g,' ').trim();
+  if(resHechos.length > 95) resHechos = resHechos.slice(0,95).replace(/\s+\S*$/,'') + '\u2026';
+
+  var h = '<div class="tarjeta"><h2><span class="num">6</span>Revisa antes de enviar</h2>'+
+  '<p class="sub">Cada bloque muestra lo principal. Abre el que quieras revisar a detalle; ah\u00ed puedes corregir dato por dato.</p>'+
+  '<div class="rev-acciones"><button type="button" class="rev-todo" id="btnRevTodo" onclick="alternaDetalleRevision()">Ver todo el detalle</button></div>'+
+  bloqueRev('materia','Qu\u00e9 se denuncia', m?(m.formal||m.nom):'', r('Materia', m?(m.formal||m.nom):'', 1))+
+  /* En la linea va la direccion y el tipo de suelo, no el area que atiende:
+     el nombre completo de la direccion general con su coordinacion ocupaba
+     cuatro renglones en telefono, que es justo lo que este bloque vino a
+     evitar. El area queda dentro del bloque y, sobre todo, en el aviso que va
+     debajo, donde se dice en prosa a quien se turna. */
+  bloqueRev('lugar','D\u00f3nde ocurre', [ubic, val('capa_tipo')].filter(Boolean).join(' \u00b7 '), fUbicacion)+
+  bloqueRev('hechos','Qu\u00e9 pas\u00f3 y qui\u00e9n responde', resHechos, fHechos)+
+  bloqueRev('pruebas','Pruebas', (nArch? nArch+(nArch===1?' archivo adjunto':' archivos adjuntos') : 'Sin archivos adjuntos')+(val('otras_pruebas')?' \u00b7 con otras pruebas se\u00f1aladas':''), fPruebas)+
+  /* La linea de este bloque lleva tambien si la identidad esta acreditada: es
+     lo que mas pesa de el. Escribir el nombre a mano identifica a efectos de
+     contacto pero no acredita a nadie, y la reserva de identidad frente a la
+     persona denunciada solo tiene sentido si hay identidad (DEC-50). Esconderlo
+     tras un clic seria plegar justo el dato por el que se abre el bloque. */
+  bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima'
+      : ([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' ') || 'Sin nombre capturado')
+        + (haySesion() ? ' \u00b7 Acreditada con cuenta Llave CDMX'
+          : (val('identificacion')==='nombre' ? ' \u00b7 Datos sin acreditaci\u00f3n' : '')), fQuien)+
   '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia se registra con un folio y se turna a '+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+
     (val('dg')==='FEDERAL'
