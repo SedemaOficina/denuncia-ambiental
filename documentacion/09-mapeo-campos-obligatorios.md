@@ -7,10 +7,10 @@
 
 | | |
 |---|---|
-| Campos del formulario | **58** |
-| Datos personales | **20** (34 %) |
-| Obligatorios en este formulario | 25 de 58 |
-| Campos con obligatoriedad condicionada | 25 |
+| Campos del formulario | **60** |
+| Datos personales | **20** (33 %) |
+| Obligatorios en este formulario | 26 de 60 |
+| Campos con obligatoriedad condicionada | 27 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -21,8 +21,8 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 | Finalidad | Para qué | Campos |
 |---|---|---|
-| **Competencia** | Determinar la competencia y turnar al área que atiende | 4 |
-| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 14 |
+| **Competencia** | Determinar la competencia y turnar al área que atiende | 5 |
+| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 15 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 10 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
@@ -49,7 +49,9 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | ¿El lugar tiene calle y número? | Obligatorio | No | Siempre | Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia. |
 | Ubicación pegada: enlace, coordenadas o código de lugar | Opcional | No | Siempre | Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró. |
 | Punto en el mapa | Obligatorio | **Sí** | Siempre | Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas. |
-| Alcaldía | Obligatorio *(condicionado)* | No | No se pregunta: la determina el punto del mapa | Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse. |
+| Alcaldía | Obligatorio *(condicionado)* | No | No se pregunta: la determina el punto del mapa | Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse. La dirección lleva además su propia alcaldía (`alcaldia_dir`, DEC-118), que **no la sustituye**. |
+| Alcaldía de la dirección | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Parte del domicilio del lugar en la orden de visita y filtro del catálogo de colonias: sólo se ofrecen las de la alcaldía elegida. **No decide el turnado**: quién atiende lo sigue resolviendo la alcaldía del punto (DEC-72). Si no coinciden, el formulario lo avisa y el expediente lo marca (DEC-118). |
+| Alcaldía de la dirección distinta de la del punto | Opcional | No | No se pregunta: la calcula el formulario al comparar las dos alcaldías | Marca para quien recibe la denuncia: la dirección y el punto no están en la misma alcaldía. No impide enviar, porque cerca del límite puede no haber error; sí obliga a mirar antes de programar la visita (DEC-118). |
 | Colonia | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio y estadística territorial. |
 | Clave de la colonia (IECM) | Opcional | No | No se pregunta: la pone el catálogo cuando la persona elige su colonia de la lista | Clave CVEUT de la unidad territorial del IECM 2022. Agrupa las denuncias por colonia sin depender de cómo se escribió el nombre. Queda vacía cuando la persona escribe una colonia que no está en el catálogo: el nombre se conserva igual (DEC-117). |
 | Código postal | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio; verifica la congruencia de la dirección capturada. Se escribe a mano y se admite sólo en el intervalo de la Ciudad, del 01000 al 16999 (DEC-117). |

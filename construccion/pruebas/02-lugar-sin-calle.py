@@ -92,9 +92,10 @@ with sync_playwright() as pw:
 
     # ---------- 4. La ruta con direccion sigue intacta ----------
     d = pg.evaluate("""() => {
-      guarda('tiene_direccion','si'); ['calle','colonia','cp'].forEach(k=>guarda(k,''));
+      guarda('tiene_direccion','si'); ['calle','alcaldia_dir','colonia','cp'].forEach(k=>guarda(k,''));
       const vacio = valida(2);
-      guarda('calle','Av. Rio Churubusco'); guarda('colonia','Del Carmen'); guarda('cp','04100');
+      /* La alcaldia de la direccion se pregunta desde DEC-118. */
+      guarda('calle','Av. Rio Churubusco'); guarda('alcaldia_dir','Coyoacán'); guarda('colonia','Del Carmen'); guarda('cp','04100');
       guarda('punto_confirmado','si');
       const lleno = valida(2);
       return {vacio, lleno};

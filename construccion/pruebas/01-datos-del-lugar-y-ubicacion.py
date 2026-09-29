@@ -124,7 +124,7 @@ with sync_playwright() as pw:
     afirma(r['alc'] == 'Tlalpan', 'el punto determina la alcaldia (%s)' % r['alc'])
     coherente = pg.evaluate("""() => {
       guarda('calle','Av. Mexico'); guarda('num_ext','10');
-      guarda('colonia','Del Carmen'); guarda('cp','04100');
+      guarda('alcaldia_dir','Coyoacán'); guarda('colonia','Del Carmen'); guarda('cp','04100');
       guarda('tiene_direccion','si');
       ponMarcador(19.2938, -99.1930);
       irA(6);
@@ -132,14 +132,19 @@ with sync_playwright() as pw:
       const dds = [...document.querySelectorAll('.resumen dd')].map(e => e.textContent.trim());
       const o = {}; dts.forEach((k,i) => o[k] = dds[i]);
       irA(2);
-      return {lugar: o['Lugar de los hechos'], alc: val('alcaldia'),
+      return {lugar: o['Lugar de los hechos'], alc: val('alcaldia'), atiende: o[Object.keys(o).find(k => k.indexOf('Alcaldía que atiende') === 0)] || '',
+              marca: val('alcaldia_discrepa'),
               hayCampoAlcaldia: !!document.getElementById('f_alcaldia')};
     }""")
     pg.wait_for_timeout(300)
-    afirma(not coherente['hayCampoAlcaldia'], 'la alcaldia ya no se pregunta')
-    afirma(coherente['alc'] in coherente['lugar'],
-           'el resumen usa la MISMA alcaldia con la que se turna: «%s» contiene «%s»'
-           % (coherente['lugar'], coherente['alc']))
+    # DEC-118 vuelve a preguntar la alcaldia, pero como parte de la direccion
+    # (f_alcaldia_dir) y sin tocar la que decide el turnado. Lo que DEC-72
+    # corrigio fue que la diferencia se callara; eso es lo que se vigila.
+    afirma(not coherente['hayCampoAlcaldia'], 'la alcaldia del turnado sigue sin preguntarse')
+    afirma('Coyoacán' in coherente['lugar'], 'la direccion lleva su propia alcaldia: «%s»' % coherente['lugar'])
+    afirma(coherente['atiende'].startswith(coherente['alc']) and 'no coincide' in coherente['atiende'],
+           'y el resumen dice aparte la del punto, con la que se turna, y que no coinciden: «%s»' % coherente['atiende'])
+    afirma(coherente['marca'] == 'si', 'el expediente lleva la marca de la diferencia')
 
     aviso = pg.evaluate("""() => { guarda('coord_pegar','https://maps.app.goo.gl/AbCdEf'); colocaPorTexto();
         return document.getElementById('resBusqueda').innerText.trim(); }""")

@@ -918,7 +918,13 @@ var OBLIG = {
      uso:'Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas.'},
   alcaldia:         {p:2, oblig:true,  etq:'Alcaldía', dp:false, fin:'Competencia',
      cond:function(){ return !!val('lat'); } , cond_txt:'No se pregunta: la determina el punto del mapa',
-     uso:'Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse.'},
+     uso:'Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse. La dirección lleva además su propia alcaldía (`alcaldia_dir`, DEC-118), que **no la sustituye**.'},
+  alcaldia_dir:     {p:2, oblig:true,  etq:'Alcaldía de la dirección', dp:false, fin:'Localización',
+     cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
+     uso:'Parte del domicilio del lugar en la orden de visita y filtro del catálogo de colonias: sólo se ofrecen las de la alcaldía elegida. **No decide el turnado**: quién atiende lo sigue resolviendo la alcaldía del punto (DEC-72). Si no coinciden, el formulario lo avisa y el expediente lo marca (DEC-118).'},
+  alcaldia_discrepa:{p:2, oblig:false, etq:'Alcaldía de la dirección distinta de la del punto', dp:false, fin:'Competencia',
+     cond:function(){ return !!val('alcaldia_discrepa'); } , cond_txt:'No se pregunta: la calcula el formulario al comparar las dos alcaldías',
+     uso:'Marca para quien recibe la denuncia: la dirección y el punto no están en la misma alcaldía. No impide enviar, porque cerca del límite puede no haber error; sí obliga a mirar antes de programar la visita (DEC-118).'},
   colonia:          {p:2, oblig:true,  etq:'Colonia', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Localización del sitio y estadística territorial.'},
@@ -1151,7 +1157,7 @@ var ESCENARIOS = [
    d:'Emisiones de un taller · identificado · notificación por correo · DGIVA',
    paso:6, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'emisiones', lat:'19.432600', lon:'-99.133200',
-      calle:'Avenida Chapultepec', num_ext:'440', colonia:'Centro', cp:'06010',
+      calle:'Avenida Chapultepec', num_ext:'440', colonia:'Centro I', alcaldia_dir:'Cuauhtémoc', cp:'06010',
       es_estab:'si', tipo_estab:'Taller mecánico, hojalatería o pintura', nombre_estab:'Hojalatería El Volante',
       hechos:'El taller pinta carrocerías en la banqueta sin cabina ni extracción. El olor a solvente entra a las viviendas de los dos edificios contiguos y dura toda la tarde.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-10', hora_h:'16', hora_m:'00',
@@ -1165,7 +1171,7 @@ var ESCENARIOS = [
    d:'Tala · anónima · responsable desconocido · DGCORENADR',
    paso:6, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'tala', lat:'19.210000', lon:'-98.995000',
-      calle:'Camino a San Antonio Tecómitl', colonia:'San Antonio Tecómitl', cp:'12100',
+      calle:'Camino a San Antonio Tecómitl', colonia:'San Antonio Tecómitl (Pueblo)', alcaldia_dir:'Milpa Alta', cp:'12100',
       es_estab:'no',
       hechos:'Cada semana entran camionetas con motosierra y sacan troncos por la brecha. Ya abrieron un claro grande donde antes había monte cerrado.',
       temporalidad:'permanente', fecha_hecho:'2026-06-01',
@@ -1177,7 +1183,7 @@ var ESCENARIOS = [
    d:'Se señala a una autoridad · ruta del artículo 331 · notificación por domicilio',
    paso:6, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'arbolado', lat:'19.355000', lon:'-99.070000',
-      calle:'Avenida Ermita Iztapalapa', num_ext:'1200', colonia:'Constitución de 1917', cp:'09260',
+      calle:'Avenida Ermita Iztapalapa', num_ext:'1200', colonia:'Constitución de 1917 I', alcaldia_dir:'Iztapalapa', cp:'09260',
       es_estab:'no',
       hechos:'La cuadrilla de la alcaldía derribó doce fresnos del camellón para ampliar el carril. No colocaron aviso ni exhibieron autorización.',
       temporalidad:'unico', fecha_hecho:'2026-09-15', hora_h:'09', hora_m:'30',
@@ -1227,7 +1233,7 @@ var ESCENARIOS = [
    d:'«Otro» abre el campo de texto',
    paso:3, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'descargas', lat:'19.390000', lon:'-99.060000',
-      calle:'Calle 5', num_ext:'27', colonia:'Agrícola Pantitlán', cp:'08100',
+      calle:'Calle 5', num_ext:'27', colonia:'Pantitlán I', alcaldia_dir:'Iztacalco', cp:'08100',
       es_estab:'si', tipo_estab:'Otro', tipo_estab_otro:'Planta de lavado de garrafones'}},
 
   {id:'vacio', nom:'Formulario vacío con validación activa',
@@ -1774,7 +1780,7 @@ function pUbicacion(){
   /* ---- Bloque A · la dirección (sólo cuando la hay) ---- */
   if(!sinDir){
     h += '<h3 class="sub-seccion">La dirección del lugar</h3>'+
-      '<p class="ayuda" style="margin-bottom:16px">Para que el personal de inspección pueda llegar. La alcaldía no se pregunta: la determina el punto que marques abajo.</p>'+
+      '<p class="ayuda" style="margin-bottom:16px">Para que el personal de inspección pueda llegar.</p>'+
       '<div class="fila-2-1">'+
         campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'')+
         campo('num_ext','Número exterior','texto',false,'Si no tiene, escribe S/N','autocomplete="off"')+
@@ -1783,12 +1789,16 @@ function pUbicacion(){
         campo('manzana','Manzana','texto',false,'Cuando el predio se identifica por manzana y lote, y no por número.')+
         campo('lote','Lote','texto',false,'')+
       '</div>'+
+      /* La alcaldia va antes que la colonia porque la acota (DEC-118). */
       '<div class="fila">'+
+        campoSelect('alcaldia_dir','Alcaldía',ALCALDIAS_ORDEN(),esObligatorio('alcaldia_dir'),'','cambiaAlcaldiaDir()')+
         campoColonia()+
-        campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
       '</div>'+
-      campo('entre_calles','Entre qué calles','texto',false,'',
-        'placeholder="Entre Morelos y Juárez"')+
+      '<div class="fila">'+
+        campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
+        campo('entre_calles','Entre qué calles','texto',false,'',
+          'placeholder="Entre Morelos y Juárez"')+
+      '</div>'+
       campoArea('referencias','Cómo se reconoce el sitio',false,
         'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3);
   }
@@ -2086,7 +2096,7 @@ function analizaCapas(la,lo){
 
   resaltaPoligono(c.rasgo, c.grupo);
   var pc = $('panelCapas'); if(pc) pc.innerHTML = cajaCapas();
-  var ac = $('avisoColonia'); if(ac) ac.innerHTML = avisoColonia();
+  actualizaAvisoAlcaldia();
   var fa = $('fotoAhora');
   if(fa){ var nuevo = bloqueFotoAhora(); if(!!nuevo !== !!fa.innerHTML){ fa.innerHTML = nuevo; pintaArchivos(); } }
   var btn = document.querySelector('.acciones .btn-primario');
@@ -2536,7 +2546,11 @@ function pRevision(){
      dirección vacía separada por comas no dice nada y el nombre del sitio sí. */
   var ubic = sinDireccion()
     ? [val('nombre_lugar'),val('alcaldia')].filter(Boolean).join(', ')
-    : [[val('calle'),val('num_ext')].filter(Boolean).join(' '),val('colonia'),val('cp')?'C.P. '+val('cp'):'',val('alcaldia')].filter(Boolean).join(', ');
+    : [[val('calle'),val('num_ext')].filter(Boolean).join(' '),val('colonia'),val('cp')?'C.P. '+val('cp'):'',alcaldiaDeLaDireccion()].filter(Boolean).join(', ');
+  /* Dos alcaldias, dos renglones: la de la direccion va en la direccion, y la
+     que decide el turnado va aparte, dicha como del punto. Si difieren, el
+     renglon lo dice: fue callar la diferencia lo que DEC-72 corrigio. */
+  actualizaAvisoAlcaldia();
   var refs = [val('entre_calles')?'Entre '+val('entre_calles'):'',
               val('referencias')].filter(Boolean).join('\n');
   var estab = val('es_estab')==='si'
@@ -2556,6 +2570,7 @@ function pRevision(){
   var fUbicacion =
     r(sinDireccion()?'Sitio de los hechos':'Lugar de los hechos', ubic, 2, sinDireccion()?'nombre_lugar':'calle')+
     r('Coordenadas', val('lat')?val('lat')+', '+val('lon'):'', 2, 'coord_pegar')+
+    (sinDireccion() ? '' : r('Alcaldía que atiende', val('alcaldia') + (discrepaAlcaldia() ? ' \u00b7 no coincide con la de la dirección' : ''), 0))+
     r('Tipo de suelo', [val('capa_tipo'),val('capa_nombre')].filter(Boolean).join(' \u2014 '), 0)+
     r('\u00c1rea que atiende', val('dg_nombre'), 0)+
     r('Referencias', refs, 2, 'referencias');
@@ -2727,8 +2742,13 @@ function alcaldiaDeFila(r){ return CATALOGO_COLONIAS.alcaldias[r[1]]; }
    cada grupo, primero la alcaldia del punto, si ya hay punto. */
 function sugiereColonias(q, max){
   var nq = normaCol(q); if(nq.length < 2) return [];
-  var pal = nq.split(' '), idx = indiceColonias(), filas = CATALOGO_COLONIAS.filas, alc = val('alcaldia'), res = [];
+  /* Con alcaldia de la direccion, solo sus colonias (DEC-118). Sin ella —solo
+     en pruebas, porque el campo esta deshabilitado— todo el catalogo, con la
+     alcaldia del punto primero. */
+  var dir = val('alcaldia_dir');
+  var pal = nq.split(' '), idx = indiceColonias(), filas = CATALOGO_COLONIAS.filas, alc = dir || val('alcaldia'), res = [];
   for(var i=0;i<filas.length;i++){
+    if(dir && alcaldiaDeFila(filas[i]) !== dir) continue;
     var t = idx[i], ok = true;
     for(var j=0;j<pal.length;j++) if(t.indexOf(pal[j]) < 0){ ok = false; break; }
     if(!ok) continue;
@@ -2740,11 +2760,19 @@ function sugiereColonias(q, max){
   return res.slice(0, max||8).map(function(x){ return x.i; });
 }
 
+/* Las 16 en orden alfabetico espanol: «Alvaro Obregon» primero, no al final
+   como la deja un orden por codigo de caracter. */
+function ALCALDIAS_ORDEN(){
+  return CATALOGO_COLONIAS.alcaldias.slice().sort(function(a,b){ return a.localeCompare(b,'es'); });
+}
+
 function campoColonia(){
+  var sinAlc = !val('alcaldia_dir');
   return '<div class="campo" id="c_colonia"><label for="f_colonia">Colonia'+marca_opc(esObligatorio('colonia'))+'</label>'+
     '<div class="ayuda" id="a_colonia">Escribe y elige de la lista. Si no aparece, déjala como la conoces.</div>'+
     '<div class="combo">'+
       '<input type="text" id="f_colonia" name="colonia" role="combobox" aria-autocomplete="list" aria-expanded="false" '+
+        (sinAlc ? 'disabled placeholder="Primero elige la alcaldía" ' : '')+
         'aria-controls="lista_colonia" autocomplete="off" aria-describedby="a_colonia e_colonia" aria-invalid="false" '+
         'value="'+esc(val('colonia'))+'" oninput="escribeColonia(this.value)" onkeydown="teclaColonia(event)" onblur="saleColonia();buscaDireccionSola()">'+
       '<ul class="combo-lista" id="lista_colonia" role="listbox" aria-label="Colonias del catálogo" hidden></ul>'+
@@ -2760,7 +2788,7 @@ function escribeColonia(v){
   guarda('colonia_cve', ''); guarda('colonia_alcaldia', '');
   limpiaError('colonia');
   pintaSugerencias();
-  var ac = $('avisoColonia'); if(ac) ac.innerHTML = avisoColonia();
+  actualizaAvisoAlcaldia();
 }
 function pintaSugerencias(){
   var ul = $('lista_colonia'), inp = $('f_colonia'); if(!ul || !inp) return;
@@ -2772,9 +2800,11 @@ function pintaSugerencias(){
     ? COL_OPCIONES.map(function(i,n){
         return '<li role="option" id="op_col_'+n+'" aria-selected="false" data-fila="'+i+'" '+
           'onmousedown="event.preventDefault()" onclick="eligeColonia('+i+')">'+
-          '<span class="op-nom">'+esc(filas[i][0])+'</span><span class="op-alc">'+esc(alcaldiaDeFila(filas[i]))+'</span></li>';
+          '<span class="op-nom">'+esc(filas[i][0])+'</span>'+(val('alcaldia_dir') ? '' : '<span class="op-alc">'+esc(alcaldiaDeFila(filas[i]))+'</span>')+'</li>';
       }).join('')
-    : '<li class="combo-vacio" role="presentation">No está en el catálogo. Puedes dejarla como la escribiste.</li>';
+    : '<li class="combo-vacio" role="presentation">'+(val('alcaldia_dir')
+        ? 'No está en el catálogo de '+esc(val('alcaldia_dir'))+'. Revisa la alcaldía, o déjala como la escribiste.'
+        : 'No está en el catálogo. Puedes dejarla como la escribiste.')+'</li>';
   ul.hidden = false; inp.setAttribute('aria-expanded','true');
 }
 function cierraColonias(){
@@ -2805,7 +2835,7 @@ function eligeColonia(i){
   guarda('colonia', r[0]); guarda('colonia_cve', r[2]); guarda('colonia_alcaldia', alcaldiaDeFila(r));
   var inp = $('f_colonia'); if(inp) inp.value = r[0];
   cierraColonias(); limpiaError('colonia');
-  var ac = $('avisoColonia'); if(ac) ac.innerHTML = avisoColonia();
+  actualizaAvisoAlcaldia();
 }
 /* Al salir sin elegir —y antes de que la direccion busque el punto, que va
    detras en el mismo onblur (DEC-101)—: si lo escrito es exactamente una colonia del catalogo,
@@ -2815,26 +2845,58 @@ function saleColonia(){
   cierraColonias();
   if(!val('colonia_cve')){
     var nq = normaCol(val('colonia')), filas = CATALOGO_COLONIAS.filas, iguales = [];
-    if(nq) for(var i=0;i<filas.length;i++) if(normaCol(filas[i][0]) === nq || normaCol(filas[i][3]) === nq) iguales.push(i);
-    var alc = val('alcaldia');
+    var dir = val('alcaldia_dir');
+    if(nq) for(var i=0;i<filas.length;i++){
+      if(dir && alcaldiaDeFila(filas[i]) !== dir) continue;
+      if(normaCol(filas[i][0]) === nq || normaCol(filas[i][3]) === nq) iguales.push(i);
+    }
+    var alc = dir || val('alcaldia');
     var una = iguales.length === 1 ? iguales[0]
             : (alc ? iguales.filter(function(i){ return alcaldiaDeFila(filas[i]) === alc; })[0] : undefined);
     if(una !== undefined){
       guarda('colonia_cve', filas[una][2]); guarda('colonia_alcaldia', alcaldiaDeFila(filas[una]));
-      var ac = $('avisoColonia'); if(ac) ac.innerHTML = avisoColonia();
+      actualizaAvisoAlcaldia();
     }
   }
 }
 /* Se avisa, no se corrige. Las fronteras del IECM y las de la capa de
    alcaldias no son identicas: en 13 de 1 837 colonias no coinciden, de modo
    que cerca del limite el aviso puede salir sin que nada este mal. */
+/* La alcaldia de la direccion: la elegida, o la de la colonia si no se eligio. */
+function alcaldiaDeLaDireccion(){ return val('alcaldia_dir') || val('colonia_alcaldia'); }
+function discrepaAlcaldia(){
+  if(sinDireccion() || val('fuera') === 'si') return false;
+  var da = alcaldiaDeLaDireccion(), pa = val('alcaldia');
+  return !!(da && pa && da !== pa);
+}
 function avisoColonia(){
-  if(sinDireccion()) return '';
-  var ca = val('colonia_alcaldia'), pa = val('alcaldia');
-  if(!ca || !pa || ca === pa || val('fuera') === 'si') return '';
-  return '<div class="aviso" role="status" style="margin:12px 0 0">Según el catálogo, <strong>'+esc(val('colonia'))+
-    '</strong> está en <strong>'+esc(ca)+'</strong>, pero el punto cae en <strong>'+esc(pa)+'</strong>. '+
-    'Revisa la colonia o el punto; cuenta la alcaldía del punto. Cerca del límite entre alcaldías puede pasar sin que haya error.</div>';
+  if(!discrepaAlcaldia()) return '';
+  return '<div class="aviso" role="status" style="margin:12px 0 0">La dirección está en <strong>'+esc(alcaldiaDeLaDireccion())+
+    '</strong>, pero el punto cae en <strong>'+esc(val('alcaldia'))+'</strong>. '+
+    'Revisa la alcaldía o el punto; quién atiende lo decide el punto. Cerca del límite entre alcaldías puede pasar sin que haya error.</div>';
+}
+/* Una sola puerta para el aviso y para la marca del expediente, de modo que
+   no puedan decir cosas distintas. */
+function actualizaAvisoAlcaldia(){
+  guarda('alcaldia_discrepa', discrepaAlcaldia() ? 'si' : '');
+  var ac = $('avisoColonia'); if(ac) ac.innerHTML = avisoColonia();
+}
+/* Cambiar la alcaldia de la direccion suelta la colonia elegida de otra
+   alcaldia, y habilita el campo sin rehacer la pantalla, que reiniciaria el
+   mapa (DEC-75). Lo escrito a mano, sin clave, se conserva. */
+function cambiaAlcaldiaDir(){
+  var inp = $('f_colonia');
+  if(val('colonia_cve') && val('colonia_alcaldia') !== val('alcaldia_dir')){
+    guarda('colonia',''); guarda('colonia_cve',''); guarda('colonia_alcaldia','');
+    if(inp) inp.value = '';
+  }
+  if(inp){
+    inp.disabled = !val('alcaldia_dir');
+    if(inp.disabled) inp.setAttribute('placeholder','Primero elige la alcaldía'); else inp.removeAttribute('placeholder');
+  }
+  cierraColonias();
+  actualizaAvisoAlcaldia();
+  buscaDireccionSola();
 }
 
 /* =========================================================
@@ -3350,27 +3412,32 @@ function buscaDireccionSola(){
   });
   if(faltan.length) return;
   if(!String(val('calle')||'').trim()) return;      /* la calle, siempre */
-  var firma = [val('calle'),val('num_ext'),val('colonia'),val('cp')].join('|');
+  var firma = [val('calle'),val('num_ext'),val('colonia'),val('cp'),val('alcaldia_dir')].join('|');
   if(firma === ULTIMA_BUSQUEDA) return;
   ULTIMA_BUSQUEDA = firma;
   ubicaPorDireccion(true);
 }
 
+/* El texto que se consulta, aparte, para que se pueda revisar sin servicio. */
+function consultaDireccion(){
+  var partes = [val('calle'), val('num_ext'), String(val('colonia')||'').replace(/\s*\([^)]*\)/g,''), val('cp'), val('alcaldia_dir')]
+    .filter(function(x){ return String(x||'').trim(); });
+  return partes.join(', ') + ', Ciudad de México';
+}
+
 function ubicaPorDireccion(sola){
   var cont = $('resBusqueda'); if(!cont) return;
-  /* La alcaldia NO entra en la consulta: la escribe el cruce a partir del
-     punto, de modo que usarla aqui seria alimentar la busqueda de la
-     direccion con el punto anterior —y contradecir la direccion recien
-     escrita— (DEC-100). */
+  /* La alcaldia del PUNTO no entra en la consulta: usarla seria alimentar la
+     busqueda con el punto anterior (DEC-100). La de la direccion si, porque
+     la escribio la persona y afina la busqueda (DEC-118). */
   /* «(Unidad Habitacional)», «(Pueblo)»: lo que el catalogo pone entre
      parentesis ayuda a leer, pero confunde al servicio de busqueda. */
-  var partes = [val('calle'), val('num_ext'), String(val('colonia')||'').replace(/\s*\([^)]*\)/g,''), val('cp')].filter(function(x){ return String(x||'').trim(); });
   if(!String(val('calle')||'').trim()){
     if(sola) return;
     cont.innerHTML = '<div class="res-lista"><div class="vacio">Escribe al menos la calle para poder ubicarla. También puedes colocar el punto directamente sobre el mapa.</div></div>';
     return;
   }
-  var q = partes.join(', ') + ', Ciudad de México';
+  var q = consultaDireccion();
   cont.innerHTML = '<div class="res-lista"><div class="vacio" role="status">Buscando la dirección…</div></div>';
   var url = 'https://nominatim.openstreetmap.org/search?format=jsonv2&limit=6&countrycodes=mx'+
             '&viewbox='+CDMX_BBOX[0]+','+CDMX_BBOX[3]+','+CDMX_BBOX[2]+','+CDMX_BBOX[1]+'&bounded=1&q='+encodeURIComponent(q);
