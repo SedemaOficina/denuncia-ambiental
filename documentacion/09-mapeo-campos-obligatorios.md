@@ -7,9 +7,9 @@
 
 | | |
 |---|---|
-| Campos del formulario | **60** |
-| Datos personales | **20** (33 %) |
-| Obligatorios en este formulario | 26 de 60 |
+| Campos del formulario | **58** |
+| Datos personales | **20** (34 %) |
+| Obligatorios en este formulario | 26 de 58 |
 | Campos con obligatoriedad condicionada | 27 |
 | Campos sin uso declarado | **0** |
 
@@ -23,11 +23,11 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 |---|---|---|
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 5 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 15 |
-| **Expediente** | Integrar el expediente y motivar el acto de inspección | 10 |
+| **Expediente** | Integrar el expediente y motivar el acto de inspección | 9 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 12 |
-| **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 4 |
+| **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 3 |
 | **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 4 |
 
 ---
@@ -75,7 +75,6 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Descripción de lo que ocurre | Obligatorio | No | Siempre | Objeto y alcance de la visita de inspección; es la base de la motivación del acto. |
 | Desde cuándo ocurre | Opcional | No | Siempre | Determina si la conducta es continua o aislada, lo que define la urgencia y el cómputo del plazo. |
 | Fecha en que ocurrió o inició | Opcional | No | Siempre | Cómputo del plazo de presentación y ubicación temporal de los hechos en el expediente. |
-| Hora aproximada | Opcional | No | Siempre | Programar la visita en el horario en que la conducta ocurre; sin este dato la visita puede no encontrar nada. |
 | ¿Quién es responsable de los hechos? | Opcional | No | Siempre | Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar. |
 | Ámbito de la autoridad señalada | Opcional | No | Sólo cuando se señala a una autoridad | Encamina la recomendación del art. 331: de él depende si se dirige a una dependencia de la Ciudad, a una alcaldía o a la federación, y contra qué catálogo se propone el nombre. |
 | Dependencia, alcaldía u organismo señalado | Opcional | No | Sólo cuando se señala a una autoridad y se eligió su ámbito | Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla. |
@@ -101,12 +100,12 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 | Campo | Obligatorio | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|
-| Cómo se presenta la denuncia | Obligatorio | No | Siempre | Determina qué datos se piden y qué seguimiento es posible. Con cuenta Llave CDMX la identidad queda acreditada, que es lo que da sentido a la reserva de identidad frente a la persona denunciada; con datos escritos hay contacto pero no acreditación; anónima no admite notificación ni aclaraciones. |
+| Cómo se presenta la denuncia | Obligatorio | No | Siempre | Determina qué datos se piden y qué seguimiento es posible. Con cuenta Llave CDMX la identidad queda acreditada; con datos escritos hay contacto pero no acreditación; la anónima no lleva nombre y sólo admite avisos si la persona deja un correo (DEC-119). En las tres rutas los datos son confidenciales frente a la persona denunciada. |
 | Nombre(s) | Obligatorio | **Sí** | Siempre | Identificación de la persona denunciante en el expediente y en el acuse. |
 | Apellido paterno | Obligatorio | **Sí** | Siempre | Identificación de la persona denunciante en el expediente y en el acuse. |
 | Apellido materno | Opcional | **Sí** | Siempre | Completa la identificación en el registro administrativo. |
-| Teléfono | Obligatorio | **Sí** | Siempre | Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. |
-| Correo electrónico | Obligatorio | **Sí** | Siempre | Envío del acuse, notificación del avance y consulta del estatus. |
+| Teléfono | Obligatorio | **Sí** | Siempre | Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119). |
+| Correo electrónico | Obligatorio | **Sí** | Siempre | Envío del acuse, notificación del avance y consulta del estatus. En la denuncia anónima se ofrece como opcional, para que la Secretaría pueda informar el trámite sin conocer el nombre (DEC-119). |
 | Domicilio · calle | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
 | Domicilio · número exterior | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
 | Domicilio · número interior | Opcional | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
@@ -115,7 +114,6 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Domicilio · alcaldía o municipio | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
 | Domicilio · entidad federativa | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
 | Consentimiento de notificación por correo | Obligatorio | No | Siempre | Registra la vía de notificación elegida; de ella depende que se pida o no el domicilio. |
-| Confidencialidad de los datos | Opcional | No | Siempre | Registra si la persona solicita que sus datos no se hagan del conocimiento del denunciado. |
 | Género | Opcional | **Sí** | Siempre | Desagregación estadística de quién denuncia en la Ciudad. Opcional; no condiciona el trámite ni se incorpora al expediente. La identidad de género es dato sensible: sólo puede tratarse con consentimiento expreso, y por eso la pregunta admite no responder. |
 | Rango de edad | Opcional | **Sí** | Siempre | Desagregación estadística por edad. Opcional; no condiciona el trámite ni se incorpora al expediente. |
 | Protesta de decir verdad y aviso de privacidad | Obligatorio | No | Siempre | Constancia del consentimiento informado y de la protesta de decir verdad. |

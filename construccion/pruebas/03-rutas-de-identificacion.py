@@ -74,12 +74,16 @@ with sync_playwright() as pw:
 
     # 5. Ruta anonima
     pg.evaluate("guarda('identificacion','anonima'); render()"); pg.wait_for_timeout(300)
+    #    La anónima no pide nombre, pero ofrece correo y teléfono opcionales
+    #    para recibir avisos (DEC-119).
     an = pg.evaluate("""() => ({campos: document.querySelectorAll('#f_nombre').length,
-      aviso: document.getElementById('app').innerText.includes('sin datos de contacto'),
-      pasa: (guarda('privacidad','si'), valida(5))})""")
-    afirma(an['campos']==0, 'ruta anónima: no se pide ningún dato')
-    afirma(an['aviso'], 'y se advierte qué se pierde')
-    afirma(an['pasa'] is True, 'la denuncia anónima puede enviarse')
+      contacto: !!document.getElementById('f_correo') && !!document.getElementById('f_telefono'),
+      aviso: document.getElementById('app').innerText.includes('sin un correo'),
+      pasa: (guarda('privacidad','si'), guarda('correo',''), guarda('telefono',''), valida(5))})""")
+    afirma(an['campos']==0, 'ruta anónima: no se pide el nombre')
+    afirma(an['contacto'], 'pero se ofrecen correo y teléfono para avisos')
+    afirma(an['aviso'], 'y, sin correo, se advierte qué se pierde')
+    afirma(an['pasa'] is True, 'la denuncia anónima puede enviarse sin dejar contacto')
 
     # 6. La denuncia anónima no depende de ninguna configuración (DEC-97)
     #    La variante C —identificación obligatoria— se retiró: quedó decidido

@@ -207,10 +207,6 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .btn-sn:hover{border-color:var(--azul);color:var(--azul)}
 .btn-sn[aria-pressed="true"]{border-color:var(--azul);border-width:2px;background:var(--azul-cl);color:var(--azul);padding:8px 17px}
 
-/* ---------- Hora en dos controles ---------- */
-.par-hora{display:flex;align-items:center;gap:8px}
-.par-hora select{flex:1;min-width:0}
-.sep-hora{color:var(--gris-cl);font-weight:600}
 .resumen-errores{border:2px solid var(--error);background:var(--error-bg);border-radius:var(--r-ctrl);padding:16px 18px;margin-bottom:22px;color:var(--error-txt)}
 .resumen-errores:focus{outline:3px solid var(--foco);outline-offset:2px}
 .resumen-errores strong{display:block;color:var(--error);font-size:var(--t-base);margin-bottom:8px}
@@ -267,7 +263,6 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .fila-op .fo-nom{display:block;font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-base);color:var(--azul);line-height:1.25;overflow-wrap:anywhere}
 .fila-op .fo-desc{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.35;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .fila-op .fo-det{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.45;margin-top:7px;padding-top:7px;border-top:1px dotted var(--linea)}
-.fila-op .fo-norma{display:block;font-size:var(--t-xs);color:var(--gris-cl);font-style:italic;margin-top:5px}
 .fila-op .fo-flecha{flex-shrink:0;color:var(--azul);font-size:var(--t-lg);line-height:1;opacity:.55}
 .fila-op:hover .fo-flecha{opacity:1}
 .fila-op.otra .fo-nom{color:var(--gris);font-weight:500}
@@ -983,8 +978,6 @@ var OBLIG = {
      uso:'Determina si la conducta es continua o aislada, lo que define la urgencia y el cómputo del plazo.'},
   fecha_hecho:      {p:3, oblig:false, etq:'Fecha en que ocurrió o inició', dp:false, fin:'Expediente',
      uso:'Cómputo del plazo de presentación y ubicación temporal de los hechos en el expediente.'},
-  hora_h:           {p:3, oblig:false, etq:'Hora aproximada', dp:false, fin:'Expediente',
-     uso:'Programar la visita en el horario en que la conducta ocurre; sin este dato la visita puede no encontrar nada.'},
   tipo_denunciado:  {p:3, oblig:false, etq:'¿Quién es responsable de los hechos?', dp:false, fin:'Responsable',
      uso:'Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar.'},
   autoridad_nivel:  {p:3, oblig:false, etq:'Ámbito de la autoridad señalada', dp:false, fin:'Responsable',
@@ -1024,7 +1017,7 @@ var OBLIG = {
      uso:'Describe pruebas que la persona no puede adjuntar pero puede ofrecer.'},
   /* Paso 5 */
   identificacion:   {p:5, oblig:true,  etq:'Cómo se presenta la denuncia', dp:false, fin:'Identificación',
-     uso:'Determina qué datos se piden y qué seguimiento es posible. Con cuenta Llave CDMX la identidad queda acreditada, que es lo que da sentido a la reserva de identidad frente a la persona denunciada; con datos escritos hay contacto pero no acreditación; anónima no admite notificación ni aclaraciones.'},
+     uso:'Determina qué datos se piden y qué seguimiento es posible. Con cuenta Llave CDMX la identidad queda acreditada; con datos escritos hay contacto pero no acreditación; la anónima no lleva nombre y sólo admite avisos si la persona deja un correo (DEC-119). En las tres rutas los datos son confidenciales frente a la persona denunciada.'},
   nombre:           {p:5, oblig:true,  etq:'Nombre(s)', dp:true, fin:'Contacto',
      uso:'Identificación de la persona denunciante en el expediente y en el acuse.'},
   apellido_paterno: {p:5, oblig:true,  etq:'Apellido paterno', dp:true, fin:'Contacto',
@@ -1032,9 +1025,9 @@ var OBLIG = {
   apellido_materno: {p:5, oblig:false, etq:'Apellido materno', dp:true, fin:'Contacto',
      uso:'Completa la identificación en el registro administrativo.'},
   telefono:         {p:5, oblig:true,  etq:'Teléfono', dp:true, fin:'Contacto',
-     uso:'Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación.'},
+     uso:'Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119).'},
   correo:           {p:5, oblig:true,  etq:'Correo electrónico', dp:true, fin:'Contacto',
-     uso:'Envío del acuse, notificación del avance y consulta del estatus.'},
+     uso:'Envío del acuse, notificación del avance y consulta del estatus. En la denuncia anónima se ofrece como opcional, para que la Secretaría pueda informar el trámite sin conocer el nombre (DEC-119).'},
   dom_calle:        {p:5, oblig:true,  etq:'Domicilio · calle', dp:true, fin:'Contacto',
      cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
@@ -1058,8 +1051,6 @@ var OBLIG = {
      uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
   notif_correo:     {p:5, oblig:true,  etq:'Consentimiento de notificación por correo', dp:false, fin:'Cumplimiento',
      uso:'Registra la vía de notificación elegida; de ella depende que se pida o no el domicilio.'},
-  reserva:          {p:5, oblig:false, etq:'Confidencialidad de los datos', dp:false, fin:'Cumplimiento',
-     uso:'Registra si la persona solicita que sus datos no se hagan del conocimiento del denunciado.'},
   /* Estadistica. Son opcionales en las dos rutas —tambien en la anonima— porque
      no identifican a nadie: un genero y un rango de edad no son datos de
      contacto. Se declaran aqui, y no sueltos en la pantalla, para que el
@@ -1079,7 +1070,10 @@ var OBLIG = {
 };
 
 /* Campos que sólo aplican cuando la persona se identifica. */
-var SOLO_IDENTIFICADO = ['nombre','apellido_paterno','apellido_materno','telefono','correo','notif_correo','reserva',
+/* Lo que la anonima puede dejar, opcional: no se exige, pero si se escribe
+   se revisa su forma (DEC-119). */
+var CONTACTO_ANONIMO = ['correo','telefono'];
+var SOLO_IDENTIFICADO = ['nombre','apellido_paterno','apellido_materno','telefono','correo','notif_correo',
   'dom_calle','dom_num_ext','dom_num_int','dom_colonia','dom_cp','dom_alcaldia','dom_entidad'];
 
 function esObligatorio(k){
@@ -1126,11 +1120,9 @@ var BIFURCACIONES = [
   {paso:'3', pregunta:'Desde cuándo ocurre y fecha', opciones:'Único · Recurrente · Permanente, con fecha anterior o posterior a un año',
    efecto:'Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único.'},
   {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Cuenta Llave CDMX · Escribir los datos · Denuncia anónima',
-   efecto:'Llave CDMX llena los datos y liga el folio a la cuenta. La anónima oculta todos los datos de identificación y cambia el acuse: sin notificación.'},
+   efecto:'Llave CDMX llena los datos y liga el folio a la cuenta. La anónima no pide nombre ni domicilio, y ofrece correo y teléfono opcionales; sin correo, el acuse dice que no habrá notificación.'},
   {paso:'5', pregunta:'¿Notificación por correo?', opciones:'Sí · No',
    efecto:'«No» despliega los siete campos del domicilio. «Sí» los suprime.'},
-  {paso:'5', pregunta:'¿Datos confidenciales?', opciones:'Sí · No',
-   efecto:'Se registra en el resumen; no cambia los campos.'},
   {paso:'Todos', pregunta:'Obligatoriedad', opciones:'Desactivada · Activa',
    efecto:'Activa, cada paso exige sus campos obligatorios antes de continuar y los demás se marcan como opcionales.'},
   {paso:'Todos', pregunta:'Filtro de competencia', opciones:'Activo · Inactivo',
@@ -1147,12 +1139,12 @@ var ESCENARIOS = [
       nombre_lugar:'Bosque de Tlalpan', alcaldia:'Tlalpan',
       referencias:'Se entra por la puerta 3, sobre Camino a Santa Teresa. A unos 200 metros del estacionamiento, subiendo por la vereda de la derecha, junto a los tanques de agua.',
       hechos:'Están derribando encinos adultos con motosierra dentro del bosque, fuera de cualquier sendero. Llevan tres fines de semana seguidos y sacan la madera en una camioneta de redilas por la puerta 3.',
-      temporalidad:'recurrente', fecha_hecho:'2026-09-05', hora_h:'08', hora_m:'30',
+      temporalidad:'recurrente', fecha_hecho:'2026-09-05',
       es_estab:'no', tipo_denunciado:'desconocido', sabe_permisos:'no', reporto_antes:'no',
       identificacion:'llave', sesion_llave:'si',
       nombre:'María Fernanda', apellido_paterno:'Ramírez', apellido_materno:'Cortés',
       correo:'mf.ramirez@ejemplo.mx', telefono:'5555010203',
-      notif_correo:'si', reserva:'si', privacidad:'si'}},
+      notif_correo:'si', privacidad:'si'}},
   {id:'urbano', nom:'Comercio en suelo urbano',
    d:'Emisiones de un taller · identificado · notificación por correo · DGIVA',
    paso:6, cfg:{validar:false},
@@ -1160,12 +1152,12 @@ var ESCENARIOS = [
       calle:'Avenida Chapultepec', num_ext:'440', colonia:'Centro I', alcaldia_dir:'Cuauhtémoc', cp:'06010',
       es_estab:'si', tipo_estab:'Taller mecánico, hojalatería o pintura', nombre_estab:'Hojalatería El Volante',
       hechos:'El taller pinta carrocerías en la banqueta sin cabina ni extracción. El olor a solvente entra a las viviendas de los dos edificios contiguos y dura toda la tarde.',
-      temporalidad:'recurrente', fecha_hecho:'2026-09-10', hora_h:'16', hora_m:'00',
+      temporalidad:'recurrente', fecha_hecho:'2026-09-10',
       tipo_denunciado:'empresa', establecimiento:'Servicios Automotrices del Centro S.A. de C.V.',
       resp_encargado:'El encargado se identifica como Raúl',
       nombre:'María Fernanda', apellido_paterno:'Ríos', apellido_materno:'Galván',
       telefono:'5512345678', correo:'ejemplo@correo.com',
-      notif_correo:'si', reserva:'si', privacidad:'si', identificacion:'nombre'}},
+      notif_correo:'si', privacidad:'si', identificacion:'nombre'}},
 
   {id:'conservacion', nom:'Tala en suelo de conservación, anónima',
    d:'Tala · anónima · responsable desconocido · DGCORENADR',
@@ -1186,14 +1178,14 @@ var ESCENARIOS = [
       calle:'Avenida Ermita Iztapalapa', num_ext:'1200', colonia:'Constitución de 1917 I', alcaldia_dir:'Iztapalapa', cp:'09260',
       es_estab:'no',
       hechos:'La cuadrilla de la alcaldía derribó doce fresnos del camellón para ampliar el carril. No colocaron aviso ni exhibieron autorización.',
-      temporalidad:'unico', fecha_hecho:'2026-09-15', hora_h:'09', hora_m:'30',
+      temporalidad:'unico', fecha_hecho:'2026-09-15',
       tipo_denunciado:'gobierno', autoridad_denunciada:'Alcaldía Iztapalapa, Dirección de Obras',
       resp_area:'Cuadrilla de servicios urbanos', resp_obra:'Lona de obra sin número visible',
       nombre:'Jorge', apellido_paterno:'Hernández', apellido_materno:'Luna',
       telefono:'5598765432', correo:'ejemplo2@correo.com',
       notif_correo:'no', dom_calle:'Calle Oriente 249', dom_num_ext:'14', dom_colonia:'Agrícola Oriental',
       dom_cp:'08500', dom_alcaldia:'Iztacalco', dom_entidad:'Ciudad de México',
-      reserva:'no', privacidad:'si', identificacion:'llave', sesion_llave:'si'}},
+      privacidad:'si', identificacion:'llave', sesion_llave:'si'}},
 
   {id:'ava', nom:'Afectación en Área de Valor Ambiental',
    d:'Bosque urbano · DGIVA · persona física señalada',
@@ -1581,7 +1573,7 @@ function pInicio(){
       '<ul class="derechos">'+
         '<li>Cualquier persona puede denunciar.</li>'+
         '<li>Puedes hacerlo sin dar tu nombre.</li>'+
-        '<li>Si das tus datos, puedes pedir que sean confidenciales.</li>'+
+        '<li>Tus datos no se dan a conocer a quien denuncias.</li>'+
         '<li>No necesitas saber qué norma se incumple.</li>'+
       '</ul>'+
     '</div>'+
@@ -1612,7 +1604,7 @@ function pMateria(){
   var q = sinAcentos(val('filtro')).trim();
   function coincide(o){
     if(!q) return true;
-    return sinAcentos(o.nom+' '+(o.c||'')+' '+(o.desc||'')+' '+(o.norma||'')+' '+(o.k||'')).indexOf(q) >= 0;
+    return sinAcentos(o.nom+' '+(o.c||'')+' '+(o.desc||'')+' '+(o.k||'')).indexOf(q) >= 0;
   }
   var detalle = val('fundamento')==='si';
 
@@ -1628,7 +1620,6 @@ function pMateria(){
         '<span class="fo-nom">'+esc(o.nom)+'</span>'+
         '<span class="fo-desc">'+esc(o.c||o.desc||'')+'</span>'+
         (detalle && (o.formal||o.desc) ? '<span class="fo-det">'+(o.formal?'<em>'+esc(o.formal)+'</em><br>':'')+esc(o.desc||'')+'</span>' : '')+
-        (detalle && o.norma ? '<span class="fo-norma">'+esc(o.norma)+'</span>' : '')+
       '</span>'+
       '<span class="fo-flecha" aria-hidden="true">'+(tipo==='materia'?'›':'')+'</span>'+
     '</button>';
@@ -1644,7 +1635,7 @@ function pMateria(){
     '</div>'+
     '<p class="lin-detalle"><button type="button" class="enlace" aria-pressed="'+(detalle?'true':'false')+'" '+
       'onclick="guarda(\'fundamento\',val(\'fundamento\')===\'si\'?\'\':\'si\');render()">'+
-      (detalle?'Ocultar el detalle y el fundamento':'Ver el detalle y el fundamento de cada supuesto')+'</button></p>'+
+      (detalle?'Ocultar el detalle':'Ver el detalle de cada supuesto')+'</button></p>'+
     '<div class="campo" id="c_materia">'+
     (esObligatorio('materia') ? '<span class="req" aria-hidden="true">*</span><span class="solo-lector"> (obligatorio)</span>' : '')+
     '<div class="err" id="e_materia">Elige la materia de la denuncia para continuar.</div>'+
@@ -2142,7 +2133,6 @@ function pHechos(){
   '</div></div>'+
   '<div class="fila">'+
     campo('fecha_hecho','Fecha en que ocurrió o inició','fecha',esObligatorio('fecha_hecho'),'Elige la fecha en el calendario','max="'+hoyISO()+'"')+
-    campoHora('Hora aproximada en que ocurre','Si es a distintas horas, anota la más frecuente')+
   '</div>'+
   '<div id="avisoPlazo">'+avisoPlazo()+'</div>'+
 
@@ -2373,11 +2363,21 @@ function pDenunciante(){
       opcion('nombre','Escribo mis datos',
         'Recibes folio y acuse, y la Secretaría puede pedirte información adicional. Para consultar el estado necesitarás el folio.')+
       opcion('anonima','Denuncia anónima',
-        'No proporcionas datos. La Secretaría valora los hechos, pero no puede notificarte ni pedirte aclaraciones.')+
+        'No das tu nombre. Puedes dejar un correo y un teléfono para recibir avisos del trámite.')+
     '</div><div class="err" id="e_identificacion">Elige una de las tres formas para poder continuar.</div></div>';
 
+  /* La anonima no pide nombre, pero ofrece dejar un medio de contacto: sin
+     el, la Secretaria no puede informar el tramite ni pedir lo que falte.
+     Los dos son opcionales —exigirlos convertiria el anonimato en una
+     condicion— y, si se escriben, se revisa su forma (DEC-119). */
   if(anon){
-    h += '<div class="aviso"><strong>Ten en cuenta:</strong> sin datos de contacto no podrás conocer el resultado de tu denuncia ni subsanar información faltante. Si la descripción o la ubicación resultan insuficientes, el expediente no podrá continuar.</div>';
+    h += '<p class="ayuda" style="margin:4px 0 14px">No te pedimos tu nombre. Si dejas un correo, ahí recibirás el folio y los avisos del trámite; el teléfono sirve para que el personal de inspección te pida una aclaración. Los dos son opcionales.</p>'+
+      '<div class="fila">'+
+        campo('correo','Correo electrónico para avisos','email',false,'Opcional','autocomplete="email" inputmode="email"')+
+        campo('telefono','Teléfono','tel',false,'Opcional · a diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
+      '</div>'+
+      (val('correo') ? '' :
+      '<div class="aviso"><strong>Ten en cuenta:</strong> sin un correo no podrás conocer el resultado de tu denuncia ni completar información faltante. Si la descripción o la ubicación resultan insuficientes, el expediente no podrá continuar.</div>');
   }
   if(conLlave() && !haySesion()){
     h += '<div class="aviso"><strong>Llave CDMX</strong> es la cuenta con la que la Ciudad opera sus trámites en línea. Con ella no escribes tus datos y el folio queda ligado a tu cuenta.<br><br>'+
@@ -2422,9 +2422,6 @@ function pDenunciante(){
       campo('dom_entidad','Entidad federativa','texto',esObligatorio('dom_entidad'),'Ciudad de México, Estado de México, etc.','autocomplete="address-level1"')+
     '</div>')+
 
-    campoSiNo('reserva','¿Quieres que tus datos se mantengan confidenciales?',
-      'Si respondes que sí, tu nombre y tus datos de contacto no se hacen del conocimiento de la persona o el establecimiento denunciado. Es un derecho que la ley reconoce expresamente.')+
-
     '<div class="aviso aviso-ok">Tus datos personales no se difunden y sirven exclusivamente para el trámite de la denuncia.</div>';
   }
 
@@ -2450,7 +2447,10 @@ function pDenunciante(){
       '<p><b>Para qué se usan.</b> Registrar tu denuncia y darle seguimiento; identificar a las personas involucradas en el expediente; notificarte las actuaciones; remitir el asunto a la autoridad competente cuando no corresponda a la Secretaría; y, en su caso, con fines estadísticos. El género y el rango de edad son opcionales y se usan únicamente para estadística.</p>'+
       '<p><b>Con qué fundamento.</b> El tratamiento deriva de las atribuciones de inspección y vigilancia de la Secretaría previstas en los artículos 279 y 280 de la Ley Ambiental de la Ciudad de México. <span class="pendiente">Artículo del Reglamento Interior que atribuye la función a la unidad responsable, por verificar</span></p>'+
       '<p><b>Cuánto tiempo se conservan.</b> <span class="pendiente">Ciclo de vida del dato, por confirmar contra el catálogo de disposición documental de la Secretaría</span></p>'+
-      '<p><b>A quién pueden transferirse.</b> <span class="pendiente">Catálogo de transferencias y su fundamento, por determinar</span> Si solicitaste confidencialidad, tu nombre y tus datos de contacto no se hacen del conocimiento de la persona o el establecimiento denunciado.</p>'+
+      '<p><b>A quién pueden transferirse.</b> <span class="pendiente">Catálogo de transferencias y su fundamento, por determinar</span></p>'+
+      /* Ya no se pregunta: la confidencialidad es la regla, no una opción que
+         haya que pedir (DEC-119). */
+      '<p><b>Confidencialidad.</b> Tu nombre y tus datos de contacto no se hacen del conocimiento de la persona o el establecimiento que denuncias.</p>'+
       '<p><b>Cómo ejerces tus derechos.</b> Acceso, rectificación, cancelación y oposición, así como la revocación del consentimiento, ante la Unidad de Transparencia de la Secretaría, por la Plataforma Nacional de Transparencia o por TEL-INFO 55 5636 4636. <span class="pendiente">Domicilio, teléfono y correo de la Unidad de Transparencia, por confirmar</span></p>'+
       '<p><b>Aviso integral.</b> <span class="pendiente">Por reexpedir y publicar</span> El aviso del formato vigente se sustenta en la Ley de Protección de Datos Personales para el Distrito Federal y refiere al InfoDF, ambos superados; debe reexpedirse conforme a la ley vigente de la Ciudad antes de publicar el formulario.</p>'+
     '</div>'+
@@ -2579,7 +2579,7 @@ function pRevision(){
     r('\u00bfDentro de un establecimiento?', estab, 3, 'es_estab')+
     r('Hechos denunciados', val('hechos'), 3, 'hechos')+
     (val('materia')==='vehiculo' ? r('Tipo de servicio', (SERVICIO_VEHICULO.filter(function(x){return x.v===val('veh_servicio');})[0]||{}).t||'', 3, 'veh_servicio') : '')+
-    r('Temporalidad', [temp,val('fecha_hecho'),(val('hora_h')?val('hora_h')+':'+(val('hora_m')||'00')+' horas':'')].filter(Boolean).join(' \u00b7 '), 3, 'temporalidad')+
+    r('Temporalidad', [temp,val('fecha_hecho')].filter(Boolean).join(' \u00b7 '), 3, 'temporalidad')+
     r('Establecimiento', val('establecimiento'), 3, 'establecimiento')+
     r('A qui\u00e9n se denuncia', (function(){
         var t = TIPOS_DENUNCIADO.filter(function(x){return x.v===val('tipo_denunciado');})[0];
@@ -2601,9 +2601,8 @@ function pRevision(){
     (anon?'':r('Identificaci\u00f3n', haySesion()
         ? 'Acreditada con cuenta Llave CDMX'
         : (val('identificacion')==='nombre' ? 'Datos proporcionados por la persona denunciante, sin acreditaci\u00f3n' : ''), 5, 'identificacion'))+
-    (anon?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' \u00b7 '), 5, 'telefono'))+
+    ((anon && !val('telefono') && !val('correo'))?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' \u00b7 '), 5, anon?'correo':'telefono'))+
     (anon?'':r('Notificaci\u00f3n', val('notif_correo')==='si'?'Por correo electr\u00f3nico':(val('notif_correo')==='no'?'Por domicilio':''), 5, 'notif_correo'))+
-    (anon?'':r('Confidencialidad', val('reserva')==='si'?'Solicitada':(val('reserva')==='no'?'No solicitada':''), 5, 'reserva'))+
     (anon||val('notif_correo')==='si'?'':r('Domicilio', [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):''].filter(Boolean).join(' '),
                              val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'', val('dom_alcaldia'), val('dom_entidad')].filter(Boolean).join(', '), 5, 'dom_calle'))+
     r('Datos estad\u00edsticos', (function(){
@@ -2634,7 +2633,7 @@ function pRevision(){
      contacto pero no acredita a nadie, y la reserva de identidad frente a la
      persona denunciada solo tiene sentido si hay identidad (DEC-50). Esconderlo
      tras un clic seria plegar justo el dato por el que se abre el bloque. */
-  bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima'
+  bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima' + (val('correo') ? ' \u00b7 Con correo para avisos' : ' \u00b7 Sin datos de contacto')
       : ([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' ') || 'Sin nombre capturado')
         + (haySesion() ? ' \u00b7 Acreditada con cuenta Llave CDMX'
           : (val('identificacion')==='nombre' ? ' \u00b7 Datos sin acreditaci\u00f3n' : '')), fQuien)+
@@ -2658,7 +2657,7 @@ function pAcuse(){
     '<div class="folio"><span id="folioTxt" style="overflow-wrap:anywhere">'+esc(val('folio'))+'</span>'+
       '<button type="button" onclick="copiaFolio(this)">Copiar</button></div>'+
     '<p style="font-size:14px;color:var(--gris)">Recibida el '+esc(val('fecha_acuse'))+'</p>'+
-    (anon?'<div class="aviso" style="text-align:left;margin-top:18px">Presentaste una denuncia anónima. No recibirás notificaciones; anota el folio para consultarla.</div>'
+    (anon && !val('correo')?'<div class="aviso" style="text-align:left;margin-top:18px">Presentaste una denuncia anónima. No recibirás notificaciones; anota el folio para consultarla.</div>'
          :'<div class="aviso aviso-ok" style="text-align:left;margin-top:18px">Enviamos el acuse en formato PDF al correo <strong>'+esc(val('correo'))+'</strong>. Si no lo ves en unos minutos, revisa la carpeta de correo no deseado.</div>')+
     '<div class="pasos-sig"><h3 style="font-size:16px;color:var(--guinda);margin-bottom:10px">Qué sigue</h3><ol>'+
       '<li>La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.</li>'+
@@ -2980,22 +2979,6 @@ function campoSiNo(k,etq,ayuda,accion){
 }
 
 /* Hora en dos controles: horas y minutos. */
-function campoHora(etq,ayuda){
-  var hs=[], ms=[];
-  for(var i=0;i<24;i++){ var h=String(i).padStart(2,'0'); hs.push({v:h,t:h+' h'}); }
-  for(var j=0;j<60;j+=5){ var m=String(j).padStart(2,'0'); ms.push({v:m,t:m+' min'}); }
-  return '<div class="campo campo-hora" id="c_hora_h"><span class="etq">'+esc(etq)+marca_opc(esObligatorio('hora_h'))+'</span>'+
-    (ayuda?'<div class="ayuda">'+esc(ayuda)+'</div>':'<div class="ayuda"></div>')+
-    '<div class="par-hora">'+
-      '<label class="solo-lector" for="f_hora_h">Hora</label>'+
-      '<select id="f_hora_h" onchange="guarda(\'hora_h\',this.value)">'+
-        '<option value="">Hora</option>'+hs.map(function(o){return '<option value="'+o.v+'" '+(val('hora_h')===o.v?'selected':'')+'>'+o.t+'</option>';}).join('')+'</select>'+
-      '<span class="sep-hora" aria-hidden="true">:</span>'+
-      '<label class="solo-lector" for="f_hora_m">Minutos</label>'+
-      '<select id="f_hora_m" onchange="guarda(\'hora_m\',this.value)">'+
-        '<option value="">Minutos</option>'+ms.map(function(o){return '<option value="'+o.v+'" '+(val('hora_m')===o.v?'selected':'')+'>'+o.t+'</option>';}).join('')+'</select>'+
-    '</div><div class="err"></div></div>';
-}
 
 /* El contador aparece sólo cuando falta para el mínimo o se acerca al máximo. */
 function contadorTxt(k){
@@ -3165,7 +3148,7 @@ function valida(n){
   /* Formato, además de la presencia del dato: la misma tabla que usa el aviso
      al salir del campo, para que no puedan separarse (DEC-91). */
   camposDelPaso(n).forEach(function(k){
-    if(anon && SOLO_IDENTIFICADO.indexOf(k) >= 0) return;
+    if(anon && SOLO_IDENTIFICADO.indexOf(k) >= 0 && CONTACTO_ANONIMO.indexOf(k) < 0) return;
     if(formatoMal(k)){ MOTIVO[k] = msgFormato(k); empuja(faltan,k); }
   });
   if(n===3 && val('hechos').trim().length>0 && val('hechos').trim().length<40){
