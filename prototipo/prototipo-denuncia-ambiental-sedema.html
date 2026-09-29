@@ -278,9 +278,6 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
   margin:24px 0 10px;padding:0 0 6px;border-top:none;border-bottom:1px solid var(--linea)}
 /* Texto secundario en gris, al tamaño de apoyo. */
 .nota-gris{font-size:var(--t-md);color:var(--gris)}
-.portada-intro{font-size:var(--t-lg);line-height:1.5;color:var(--texto);text-align:left;
-  max-width:56ch;margin:2px 0 18px;font-weight:400}
-.portada-intro strong{font-weight:600;color:var(--guinda)}
 
 /* Franja de sistema: va fuera del formulario, entre el encabezado y la
    tarjeta. Acompaña, no compite —sin relleno y con el botón secundario—, para
@@ -291,83 +288,70 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .franja p{flex:1 1 240px;font-size:var(--t-md);color:var(--texto);line-height:1.45;margin:0}
 .franja .btn{padding:8px 15px;font-size:var(--t-md);min-height:38px}
 
-/* ---- Portada ----
-   La pantalla de inicio tenia 232 palabras en cuatro cajas identicas y el boton
-   de empezar a 1 268 px: casi dos pantallas de desplazamiento antes de poder
-   hacer nada. Aqui la promesa va arriba, el boton enseguida, y lo que explica
-   debajo, para quien lo necesite (DEC-53). */
-.portada{text-align:left;background:var(--guinda-cl);border-radius:var(--r-caja);
-  box-shadow:inset 0 3px 0 var(--dorado);padding:24px 22px 20px;margin:2px 0 4px}
+/* ---- Portada (DEC-116) ----
+   La eleccion del medio es el cuerpo de la pagina. Sin caja de fondo: el
+   titulo va sobre el gris de la pagina y las dos vias son tarjetas blancas.
+   La via en linea lleva el borde guinda porque contiene la accion principal
+   y es la unica que se hace desde aqui. */
+.portada{padding:6px 0 10px}
 .portada-titulo{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-2xl);
-  font-weight:700;line-height:1.18;color:var(--guinda);letter-spacing:-.4px;margin:0 0 12px}
-.portada-pie{font-size:var(--t-sm);color:var(--gris);margin-top:14px;line-height:1.5}
+  font-weight:700;line-height:1.15;color:var(--texto);letter-spacing:-.3px;margin:0 0 8px}
+.portada-intro{font-size:var(--t-base);line-height:1.5;color:var(--gris);max-width:56ch;margin:0 0 24px}
+.rotulo-portada{font-family:'Roboto',Arial,sans-serif;font-size:var(--t-xs);font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--gris);margin:0 0 10px;padding:0;border:0}
 
-/* Lo que la ley reconoce: cuatro enunciados con palomita, no cuatro cajas
-   iguales. La version anterior daba el mismo peso a todo (DEC-76). */
-.derechos{list-style:none;margin:8px 0 4px;display:grid;gap:13px}
-.derechos li{position:relative;padding-left:32px;font-size:var(--t-base);line-height:1.5;color:var(--texto)}
-.derechos li::before{content:'';position:absolute;left:0;top:1px;width:21px;height:21px;
+.medios{display:grid;gap:12px}
+@media (min-width:760px){ .medios{grid-template-columns:1.15fr 1fr;align-items:start} }
+.medio{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja);padding:18px}
+.medio-principal{border:2px solid var(--guinda)}
+.medio-cab{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
+.medio-cab h3{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-lg);font-weight:700;color:var(--texto);margin:0}
+.medio-etq{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:var(--guinda);background:var(--guinda-cl);padding:3px 9px;border-radius:var(--r-pill)}
+.medio > p{margin:0 0 12px;color:var(--gris)}
+.medio-mini{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-wrap:wrap;gap:4px 16px;
+  font-size:var(--t-sm);color:var(--gris)}
+.medio-mini li{position:relative;padding-left:13px}
+.medio-mini li::before{content:'';position:absolute;left:0;top:.6em;width:6px;height:6px;
+  border-radius:var(--r-pill);background:var(--dorado)}
+.medio-datos{margin:6px 0 0;font-size:var(--t-md)}
+.medio-datos dt{font-weight:600;color:var(--texto);margin-top:10px}
+.medio-datos dt:first-child{margin-top:0}
+.medio-datos dd{margin:2px 0 0;color:var(--gris);line-height:1.5}
+.medio-pend{margin:12px 0 0}
+
+.portada-bloque{margin-top:28px;padding-top:18px;border-top:1px solid var(--linea)}
+
+/* Lo que la ley reconoce: cuatro enunciados de una linea, con palomita (DEC-76). */
+.derechos{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.derechos li{position:relative;padding-left:30px;font-size:var(--t-base);line-height:1.45;color:var(--texto)}
+.derechos li::before{content:'';position:absolute;left:0;top:1px;width:20px;height:20px;
   border-radius:var(--r-pill);background:var(--guinda-cl);border:1px solid var(--dorado)}
 .derechos li::after{content:'';position:absolute;left:6px;top:7px;width:8px;height:4px;
   border-left:2px solid var(--dorado-txt);border-bottom:2px solid var(--dorado-txt);transform:rotate(-45deg)}
-.derechos b{font-weight:600}
 
-/* Por que importa: un parrafo con filete, para que se lea como voz de la
-   institucion y no como otra lista mas. */
-.porque{font-size:var(--t-base);line-height:1.6;color:var(--texto);
-  margin:8px 0 4px;padding-left:15px;border-left:3px solid var(--dorado)}
-
-@media (max-width:430px){
-  .portada{padding:18px 16px 16px}
-  .portada-titulo{font-size:var(--t-xl)}
-}
-
-/* Qué pasa después: cuatro momentos en horizontal, con la misma gramática
-   visual que la barra de pasos —círculo numerado unido por una línea—, para
-   que se lean como una secuencia y no como una lista (DEC-58). */
-.despues{list-style:none;counter-reset:d;margin:6px 0 4px;display:grid;
+/* Que pasa despues: cuatro momentos en fila, con la gramatica de la barra de
+   pasos —circulo numerado unido por una linea— (DEC-58). Con textos de una
+   palabra y un detalle corto, la fila cabe tambien en el telefono: la columna
+   de DEC-96 se hizo para frases que se partian, y ya no las hay. */
+.despues{list-style:none;counter-reset:d;margin:4px 0 0;padding:0;display:grid;
   grid-template-columns:repeat(4,1fr);gap:0}
 .despues li{position:relative;counter-increment:d;display:flex;flex-direction:column;
-  align-items:center;text-align:center;padding:0 8px;min-width:0}
+  align-items:center;text-align:center;padding:0 4px;min-width:0}
 .despues li::before{content:counter(d);position:relative;z-index:1;
   display:flex;align-items:center;justify-content:center;flex-shrink:0;
   width:26px;height:26px;border-radius:var(--r-pill);background:var(--blanco);
   border:2px solid var(--linea);color:var(--texto);
-  font-family:'Cabin',sans-serif;font-weight:700;font-size:var(--t-sm);margin-bottom:9px}
+  font-family:'Cabin',sans-serif;font-weight:700;font-size:var(--t-sm);margin-bottom:8px}
 .despues li::after{content:'';position:absolute;top:13px;left:50%;width:100%;height:2px;
   background:var(--linea);z-index:0}
 .despues li:last-child::after{display:none}
 .despues b{display:block;font-family:'Cabin',sans-serif;font-size:var(--t-md);
-  color:var(--texto);font-weight:600;line-height:1.3}
-.despues span{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.45;margin-top:3px}
-/* En el teléfono, en columna. Dos por renglón dejaba cuatro cajas centradas
-   en tiras de 150 px, con el texto partido y la secuencia perdida: ya no se
-   leía 1-2-3-4, se leían cuatro tarjetas. En vertical, el número va a la
-   izquierda, el texto ocupa el ancho completo y la línea que une los
-   círculos sigue diciendo que es una secuencia (DEC-96). */
-@media (max-width:620px){
-  .despues{grid-template-columns:1fr;gap:0}
-  /* Rejilla de dos columnas: el numero en la primera, el titulo y el detalle
-     apilados en la segunda. En fila quedaban los tres al lado, y el titulo se
-     partía en dos renglones mientras el detalle se apretaba a su derecha. */
-  .despues li{display:grid;grid-template-columns:26px 1fr;column-gap:13px;row-gap:2px;
-    align-items:start;text-align:left;padding:0 0 18px 0}
-  .despues li:last-child{padding-bottom:0}
-  .despues li::before{grid-column:1;grid-row:1;margin-bottom:0}
-  .despues b{grid-column:2;grid-row:1;text-align:left}
-  .despues span{grid-column:2;grid-row:2;text-align:left;margin-top:0}
-  .despues li::after{display:block;top:26px;left:12px;width:2px;height:100%}
-  .despues li:last-child::after{display:none}
-}
+  color:var(--texto);font-weight:600;line-height:1.3;white-space:nowrap}
+.despues span{display:block;font-size:var(--t-xs);color:var(--gris);line-height:1.4;margin-top:2px}
 
-/* Ten a la mano: etiquetas, no vinetas con frases. */
-.tener{display:flex;flex-wrap:wrap;gap:6px 22px;margin:4px 0 6px}
-.tener span{position:relative;padding-left:15px;font-size:var(--t-md);color:var(--gris);line-height:1.5}
-.tener span::before{content:'';position:absolute;left:0;top:.62em;width:5px;height:5px;
-  border-radius:var(--r-pill);background:var(--dorado)}
-
-@media (max-width:420px){
-  .portada-intro{font-size:var(--t-base);margin-bottom:16px}
+@media (max-width:430px){
+  .portada-titulo{font-size:var(--t-xl)}
 }
 
 
@@ -620,8 +604,8 @@ footer{border-top:3px solid var(--dorado);background:var(--blanco);padding:32px 
 
 <header class="titulo">
   <div class="contenedor">
-    <h1>Denuncia Ambiental en línea</h1>
-    <p>Secretaría del Medio Ambiente. Reporta obras, actividades o establecimientos que dañan el ambiente en la Ciudad de México.</p>
+    <h1>Denuncia Ambiental</h1>
+    <p>Secretaría del Medio Ambiente de la Ciudad de México</p>
   </div>
 </header>
 
@@ -649,14 +633,8 @@ footer{border-top:3px solid var(--dorado);background:var(--blanco);padding:32px 
     </div>
 
     <div class="pie-bloque">
-      <h2>Otras formas de presentarla</h2>
-      <p><strong>Por correo electrónico</strong><br>
-        <a href="mailto:denuncias@sedema.cdmx.gob.mx">denuncias@sedema.cdmx.gob.mx</a></p>
-      <p><strong>En persona</strong><br>
-        Oficialía de Partes, interior del Bosque de San Juan de Aragón<br>
-        Avenida José Loreto Fabela, acceso 1, colonia San Juan de Aragón<br>
-        Gustavo A. Madero, C.P. 07969, Ciudad de México<br>
-        Lunes a viernes de 9:00 a 13:30 horas</p>
+      <h2>También en persona</h2>
+      <div id="pieEnPersona"></div>
       <p><span class="pendiente">Teléfono de atención por confirmar</span></p>
     </div>
 
@@ -1529,44 +1507,71 @@ function barra(){
    le reconoce— y responde en orden las tres preguntas de quien nunca ha
    denunciado: que me reconoce la ley, para que sirve denunciar y que pasa
    despues (DEC-76). */
+/* Los datos de la via presencial viven en un solo lugar: los pinta la portada
+   y los pinta el pie. Escribirlos dos veces es como se contradijeron el
+   formato en PDF y el portal (P-09), y ese domicilio sigue sin confirmarse. */
+var PRESENCIAL = {
+  lugar: 'Oficialía de Partes, interior del Bosque de San Juan de Aragón. Av. José Loreto Fabela, acceso 1, col. San Juan de Aragón, Gustavo A. Madero, C.P. 07969.',
+  horario: 'Lunes a viernes, de 9:00 a 13:30 horas.',
+  pendiente: 'Domicilio por confirmar'
+};
+
+/* ---- Portada (DEC-116) ----
+   La portada es la elección del medio: en línea o en persona. Tenía 349
+   palabras y casi cuatro pantallas de teléfono, repetía el título del
+   encabezado, daba el mismo peso a cinco secciones y dejaba los medios para
+   presentar la denuncia en el pie de página, después de todo lo demás.
+   Ahora los dos medios son el cuerpo de la página; lo que la ley reconoce y
+   lo que pasa después quedan en una línea cada cosa. Se retiraron «Por qué
+   importa» —un párrafo que nadie lee antes de denunciar— y «Ten a la mano»,
+   que el propio formulario pide cuando hace falta. Y ya no se ofrece el
+   correo electrónico como vía: no la hay. */
 function pInicio(){
-  return '<div class="tarjeta">'+
-    '<div class="portada">'+
-      '<h2 class="portada-titulo">Denunciar el daño ambiental es tu derecho</h2>'+
-      '<p class="portada-intro">Quien vive un lugar es el primero en notar que algo anda mal: el humo que no debería estar ahí, el árbol que amaneció derribado, el escombro tirado en la barranca. '+
-        'Cuéntaselo a la <strong>Secretaría del Medio Ambiente</strong>: puede verificarlo en campo e iniciar el procedimiento que corresponda.</p>'+
-      '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
-      '<p class="portada-pie">Toma unos diez minutos y puedes pausar y continuar después. También puedes presentarla en persona o por correo electrónico: los datos están al pie de la página.</p>'+
+  return '<div class="portada">'+
+    '<h2 class="portada-titulo">Denuncia un daño al ambiente</h2>'+
+    '<p class="portada-intro">Humo, ruido, tala, escombro, obras en zonas protegidas. La Secretaría lo verifica en campo.</p>'+
+
+    '<p class="rotulo-portada">Elige cómo presentarla</p>'+
+    '<div class="medios">'+
+      '<section class="medio medio-principal" aria-labelledby="medioLinea">'+
+        '<div class="medio-cab"><h3 id="medioLinea">En línea</h3><span class="medio-etq">Desde aquí</span></div>'+
+        '<p>A cualquier hora, en unos diez minutos.</p>'+
+        '<ul class="medio-mini"><li>Recibes tu folio al terminar</li><li>Puedes pausar y seguir después</li></ul>'+
+        '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
+      '</section>'+
+      '<section class="medio" aria-labelledby="medioPersona">'+
+        '<div class="medio-cab"><h3 id="medioPersona">En persona</h3></div>'+
+        datosPresencial()+
+      '</section>'+
     '</div>'+
 
-    '<h3 class="sub-seccion">Lo que la ley te reconoce</h3>'+
-    '<ul class="derechos">'+
-      '<li><b>Cualquier persona puede denunciar.</b> No necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio.</li>'+
-      '<li><b>Puedes denunciar sin dar tu nombre.</b> La Secretaría valora los hechos igual; lo que no podrá es avisarte del resultado ni pedirte una aclaración.</li>'+
-      '<li><b>Si das tus datos, puedes pedir que sean confidenciales.</b> Tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado.</li>'+
-      '<li><b>No necesitas saber qué norma se incumple.</b> Basta con describir lo que ocurre: clasificarlo le toca a la Secretaría.</li>'+
-    '</ul>'+
-
-    '<h3 class="sub-seccion">Por qué importa que denuncies</h3>'+
-    '<p class="porque">Denunciar no es pelearse con nadie: es la vía por la que la autoridad se entera. La Ciudad no tiene personal en cada calle, y buena parte del daño ambiental sólo se conoce porque alguien se tomó el tiempo de reportarlo. Cada denuncia queda registrada y ubicada en el mapa, y pasa a formar parte de la información con la que la Secretaría decide dónde inspeccionar.</p>'+
-
-    '<h3 class="sub-seccion">Qué pasa después</h3>'+
-    '<ol class="despues">'+
-      '<li><b>Recibes un folio</b><span>En pantalla, y por correo si dejaste uno.</span></li>'+
-      '<li><b>Se turna al área que corresponde</b><span>Según dónde ocurran los hechos.</span></li>'+
-      '<li><b>Visita de inspección</b><span>Si el caso procede.</span></li>'+
-      '<li><b>Te informan el resultado</b><span>Si dejaste un medio de contacto.</span></li>'+
-    '</ol>'+
-    '<p class="portada-pie" style="text-align:left;margin-top:12px">La Secretaría la turna al área que corresponde en <strong>tres días hábiles</strong>, y esa área analiza el caso en <strong>diez</strong>.</p>'+
-
-    '<h3 class="sub-seccion">Ten a la mano</h3>'+
-    '<div class="tener">'+
-      '<span>Dónde ocurre</span>'+
-      '<span>Qué ocurre y desde cuándo</span>'+
-      '<span>Fotos o videos, si tienes</span>'+
+    /* El derecho sigue enunciado (DEC-76): cambia la forma, no el contenido. */
+    '<div class="portada-bloque">'+
+      '<h3 class="rotulo-portada">Lo que la ley te reconoce</h3>'+
+      '<ul class="derechos">'+
+        '<li>Cualquier persona puede denunciar.</li>'+
+        '<li>Puedes hacerlo sin dar tu nombre.</li>'+
+        '<li>Si das tus datos, puedes pedir que sean confidenciales.</li>'+
+        '<li>No necesitas saber qué norma se incumple.</li>'+
+      '</ul>'+
     '</div>'+
-    '<p class="portada-pie" style="text-align:left;margin-top:16px">Si el caso corresponde a otra autoridad, el primer paso te dice a cuál: así no presentas una denuncia que no podrá atenderse.</p>'+
+
+    '<div class="portada-bloque">'+
+      '<h3 class="rotulo-portada">Qué pasa después</h3>'+
+      '<ol class="despues">'+
+        '<li><b>Folio</b><span>al enviar</span></li>'+
+        '<li><b>Turnado</b><span>en 3 días hábiles</span></li>'+
+        '<li><b>Visita</b><span>si procede</span></li>'+
+        '<li><b>Resultado</b><span>si dejaste contacto</span></li>'+
+      '</ol>'+
+    '</div>'+
   '</div>';
+}
+
+function datosPresencial(){
+  return '<dl class="medio-datos"><dt>Dónde</dt><dd>'+esc(PRESENCIAL.lugar)+'</dd>'+
+    '<dt>Cuándo</dt><dd>'+esc(PRESENCIAL.horario)+'</dd></dl>'+
+    (PRESENCIAL.pendiente ? '<p class="medio-pend"><span class="pendiente">'+esc(PRESENCIAL.pendiente)+'</span></p>' : '');
 }
 
 function pMateria(){
@@ -3567,6 +3572,9 @@ document.addEventListener('keydown', function(e){
       '<span class="be-nom">'+x.nom+'</span><span class="be-d">'+x.d+'</span></button>';
   }).join('');
 })();
+
+/* El pie toma la via presencial de la misma fuente que la portada. */
+(function(){ var c = document.getElementById('pieEnPersona'); if(c) c.innerHTML = datosPresencial(); })();
 
 render();
 </script>

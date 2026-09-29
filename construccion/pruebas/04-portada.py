@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-"""La pantalla de inicio (DEC-53).
+"""La pantalla de inicio (DEC-53, DEC-116).
 
-   Tenia 232 palabras en cuatro cajas identicas y el boton de empezar a 1 268 px:
-   casi dos pantallas de desplazamiento antes de poder hacer nada. Ademas repetia
-   el titulo y la bajada que ya estan en el encabezado institucional de la pagina.
-   Estas comprobaciones fijan lo que no debe volver a crecer."""
+   La portada es la eleccion del medio: en linea o en persona. Tenia 349
+   palabras y casi cuatro pantallas de telefono, repetia el titulo del
+   encabezado y dejaba los medios para presentar la denuncia en el pie.
+   Estas comprobaciones fijan lo que no debe volver: el texto que crece, el
+   boton que se aleja, la via presencial escondida, el domicilio escrito dos
+   veces y el correo electronico ofrecido como via, que no lo es."""
 import os, pathlib
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
 RAIZ = AQUI.parent
@@ -33,81 +35,76 @@ with sync_playwright() as pw:
           const a = document.getElementById('app');
           const t = a.innerText.replace(/\\s+/g,' ').trim();
           const b = [...a.querySelectorAll('button')].find(x => x.textContent.includes('Iniciar'));
-          const enc = document.querySelector('.titulo h1, .titulo');
+          const medios = [...a.querySelectorAll('.medio')];
+          const pie = document.getElementById('pieEnPersona');
           return {
             palabras: t.split(' ').length,
             botonY: b ? Math.round(b.getBoundingClientRect().top + window.scrollY) : null,
+            botonEnLinea: !!(b && b.closest('.medio-principal')),
+            medios: medios.length,
+            persona: medios.length > 1 ? medios[1].innerText : '',
+            enLineaPrimero: medios.length > 1 && medios[0].classList.contains('medio-principal'),
+            ladoALado: medios.length > 1 && Math.abs(medios[0].getBoundingClientRect().top - medios[1].getBoundingClientRect().top) < 2,
+            pend: medios.length > 1 ? !!medios[1].querySelector('.pendiente') : false,
+            pieTxt: pie ? pie.innerText.replace(/\\s+/g,' ').trim() : '',
+            lugar: PRESENCIAL.lugar,
+            mailto: document.querySelectorAll('a[href^="mailto:"]').length,
             cajas: a.querySelectorAll('.aviso').length,
-            datos: a.querySelectorAll('.dato').length,
-            pasos: a.querySelectorAll('.despues li').length,
-            chips: a.querySelectorAll('.tener span').length,
-            derechos: a.querySelectorAll('.derechos li').length,
-            encabezado: enc ? enc.innerText.replace(/\\s+/g,' ').trim() : '',
+            derechos: [...a.querySelectorAll('.derechos li')].map(li => li.innerText.trim()),
+            pasos: [...a.querySelectorAll('.despues b')].map(e => ({alto: e.getBoundingClientRect().height,
+                     lh: parseFloat(getComputedStyle(e).lineHeight), top: Math.round(e.closest('li').getBoundingClientRect().top)})),
             tarjeta: t,
             desborde: document.documentElement.scrollWidth > window.innerWidth
           };
         }""")
 
-        # El tope subio a 350: a 340 por rehacer la portada y diez palabras mas
-        # al sustituir el aviso de «plazos por confirmar» por los plazos reales
-        # del Manual Administrativo, que es dato y no relleno (DEC-84). Rehacer la portada: ahora enuncia el derecho,
-        # lo que la ley reconoce y por que sirve denunciar, que es contenido
-        # pedido y no relleno (DEC-76). Sigue habiendo tope, y sigue valiendo
-        # lo que lo motivo: el boton de empezar tiene que verse sin desplazar.
-        afirma(r['palabras'] <= 350, '%s: la portada cabe en %d palabras (tope 350)' % (nom, r['palabras']))
-        afirma(r['derechos'] == 4, '%s: los cuatro enunciados de lo que la ley reconoce' % nom)
-        afirma('tu derecho' in r['tarjeta'], '%s: la portada enuncia la denuncia como un derecho' % nom)
-        afirma('Secretar\u00eda del Medio Ambiente' in r['tarjeta'], '%s: la portada nombra a la Secretar\u00eda' % nom)
-        intro = pg.evaluate("""() => {
-          const i = document.querySelector('.portada-intro');
-          const b = [...document.querySelectorAll('#app button')].find(x => x.textContent.includes('Iniciar'));
-          if(!i || !b) return null;
-          return {texto: i.innerText.trim().length,
-                  alineado: Math.abs(i.getBoundingClientRect().left - b.getBoundingClientRect().left) < 2};
-        }""")
-        afirma(intro is not None and intro['texto'] > 80, '%s: hay texto de presentación' % nom)
-        afirma(intro and intro['alineado'], '%s: la presentación alinea con el botón de iniciar' % nom)
+        # Tope de texto. Era 350 y la portada lo llenaba; con DEC-116 baja a
+        # 160. No es un numero arbitrario: es la portada actual (138) con
+        # margen para ajustes de redaccion, no para una seccion nueva.
+        afirma(r['palabras'] <= 160, '%s: la portada cabe en %d palabras (tope 160)' % (nom, r['palabras']))
         afirma(r['botonY'] is not None and r['botonY'] < alto,
                '%s: el botón de iniciar se ve sin desplazar (a %s px de %d)' % (nom, r['botonY'], alto))
+
+        # Los dos medios son el cuerpo de la pagina.
+        afirma(r['medios'] == 2, '%s: la portada ofrece los dos medios para presentar la denuncia' % nom)
+        afirma(r['botonEnLinea'], '%s: el botón de iniciar vive dentro del medio en línea' % nom)
+        afirma(r['enLineaPrimero'], '%s: el medio en línea va primero' % nom)
+        afirma('En persona' in r['persona'] and r['lugar'] in r['persona'],
+               '%s: el medio presencial da dónde y cuándo' % nom)
+        esperado_lado = ancho >= 760
+        afirma(r['ladoALado'] == esperado_lado,
+               '%s: los dos medios van %s' % (nom, 'lado a lado' if esperado_lado else 'apilados'))
+
+        # Mientras P-09 no se resuelva, el domicilio no puede presentarse como
+        # confirmado: el PDF y el portal dicen dos cosas distintas.
+        afirma(r['pend'], '%s: el domicilio lleva la marca de «por confirmar»' % nom)
+        # Una sola fuente: el pie dice el mismo domicilio que la portada.
+        afirma(r['lugar'] in r['pieTxt'], '%s: el pie y la portada dicen el mismo domicilio' % nom)
+        # El correo electronico no es una via de presentacion.
+        afirma(r['mailto'] == 0, '%s: ningún enlace ofrece el correo electrónico como vía' % nom)
+        afirma('correo electrónico' not in r['tarjeta'], '%s: la portada no menciona el correo como vía' % nom)
+
+        # Lo que la ley reconoce sigue enunciado (DEC-76), ahora en una linea cada cosa.
+        afirma(len(r['derechos']) == 4, '%s: los cuatro enunciados de lo que la ley reconoce' % nom)
+        afirma('Lo que la ley te reconoce' in r['tarjeta'] or 'LO QUE LA LEY TE RECONOCE' in r['tarjeta'],
+               '%s: y se presentan como derechos, no como avisos' % nom)
+        afirma(all(len(x.split()) <= 10 for x in r['derechos']),
+               '%s: cada derecho cabe en una frase corta' % nom)
+        afirma('sin dar tu nombre' in r['tarjeta'], '%s: la portada dice que se puede denunciar sin dar el nombre (DEC-77)' % nom)
+
+        # Que pasa despues: cuatro momentos en una fila, cada titulo en un renglon.
+        afirma(len(r['pasos']) == 4, '%s: cuatro momentos de lo que pasa después' % nom)
+        filas = len(set(x['top'] for x in r['pasos']))
+        afirma(filas == 1, '%s: los cuatro van en una sola fila (%d)' % (nom, filas))
+        afirma(all(x['alto'] <= x['lh'] * 1.2 for x in r['pasos']),
+               '%s: ningún título de momento se parte en dos renglones' % nom)
+
         afirma(r['cajas'] == 0, '%s: no quedan cajas de aviso apiladas (%d)' % (nom, r['cajas']))
-        afirma(r['datos'] == 0, '%s: no quedan las tarjetas de datos (%d)' % (nom, r['datos']))
-        afirma(r['pasos'] == 4 and r['chips'] == 3, '%s: cuatro momentos y tres cosas que tener a la mano' % nom)
-        # Las etiquetas de «Ten a la mano» no pueden parecer pulsables.
-        parecenBoton = pg.evaluate("""() => [...document.querySelectorAll('.tener span')].some(e => {
-          const c = getComputedStyle(e);
-          return c.borderTopWidth !== '0px' || parseFloat(c.borderRadius) > 6;
-        })""")
-        afirma(not parecenBoton, '%s: las cosas que tener a la mano no parecen botones' % nom)
         afirma(not r['desborde'], '%s: sin desbordamiento horizontal' % nom)
-
-        # El encabezado de la pagina ya titula y describe: la tarjeta no lo repite.
-        afirma('Denuncia Ambiental en línea' not in r['tarjeta'],
-               '%s: la tarjeta no repite el título del encabezado' % nom)
-        afirma('dañan el ambiente en la Ciudad de México' not in r['tarjeta'],
-               '%s: la tarjeta no repite la bajada del encabezado' % nom)
-
-        # El texto de cada paso ocupa su propia celda: una linea, no una palabra por linea.
-        anchos = pg.evaluate("""() => [...document.querySelectorAll('.despues span')]
-            .map(e => Math.round(e.getBoundingClientRect().width))""")
-        afirma(min(anchos) > 80, '%s: el texto de los pasos no cae en la columna del número (mínimo %d px)' % (nom, min(anchos)))
-        filas = pg.evaluate("""() => {
-          const li=[...document.querySelectorAll('.despues li')];
-          return [...new Set(li.map(e=>Math.round(e.getBoundingClientRect().top)))].length;
-        }""")
-        # En el telefono la secuencia va en columna: dos por renglon dejaba el
-        # titulo partido y el detalle apretado, y se perdia el 1-2-3-4 (DEC-96).
-        esperado = 1 if ancho >= 620 else 4
-        afirma(filas == esperado, '%s: los cuatro momentos van en %d fila(s), como corresponde al ancho' % (nom, filas))
-        alineado = pg.evaluate("""() => {
-          const b = document.querySelector('.despues b');
-          const li = document.querySelector('.despues li');
-          return {texto: getComputedStyle(b).textAlign,
-                  sangria: Math.round(b.getBoundingClientRect().left - li.getBoundingClientRect().left)};
-        }""")
-        if ancho < 620:
-            afirma(alineado['texto'] == 'left', 'telefono: el texto de cada momento va alineado a la izquierda')
-            afirma(alineado['sangria'] > 30,
-                   'y sangrado a la derecha del numero, no debajo (%d px)' % alineado['sangria'])
+        # El encabezado ya titula y describe: la portada no lo repite.
+        afirma('Denuncia Ambiental' not in r['tarjeta'], '%s: la portada no repite el título del encabezado' % nom)
+        afirma('Por qué importa' not in r['tarjeta'] and 'Ten a la mano' not in r['tarjeta'],
+               '%s: no vuelven las secciones que se retiraron' % nom)
 
         # El aviso de denuncia sin terminar puede acortarse, pero NUNCA puede
         # perder que aun no se ha presentado: sin esa frase alguien cierra el
