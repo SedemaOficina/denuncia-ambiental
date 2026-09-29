@@ -7,10 +7,10 @@
 
 | | |
 |---|---|
-| Campos del formulario | **56** |
-| Datos personales | **20** (36 %) |
-| Obligatorios en este formulario | 25 de 56 |
-| Campos con obligatoriedad condicionada | 23 |
+| Campos del formulario | **58** |
+| Datos personales | **20** (34 %) |
+| Obligatorios en este formulario | 25 de 58 |
+| Campos con obligatoriedad condicionada | 25 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -28,7 +28,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 12 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 4 |
-| **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 2 |
+| **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 4 |
 
 ---
 
@@ -51,7 +51,9 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Punto en el mapa | Obligatorio | **Sí** | Siempre | Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas. |
 | Alcaldía | Obligatorio *(condicionado)* | No | No se pregunta: la determina el punto del mapa | Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse. |
 | Colonia | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio y estadística territorial. |
-| Código postal | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio; verifica la congruencia de la dirección capturada. |
+| Clave de la colonia (IECM) | Opcional | No | No se pregunta: la pone el catálogo cuando la persona elige su colonia de la lista | Clave CVEUT de la unidad territorial del IECM 2022. Agrupa las denuncias por colonia sin depender de cómo se escribió el nombre. Queda vacía cuando la persona escribe una colonia que no está en el catálogo: el nombre se conserva igual (DEC-117). |
+| Código postal | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio; verifica la congruencia de la dirección capturada. Se escribe a mano y se admite sólo en el intervalo de la Ciudad, del 01000 al 16999 (DEC-117). |
+| Celda UGA | Opcional | No | No se pregunta ni se muestra: la asigna el punto del mapa | Celda de la malla hexagonal del Sistema de Información Ambiental (~1 km²) en la que cae el punto. No se muestra a la persona: queda en el expediente para la programación de operativos y la estadística territorial. Es provisional: el servidor la vuelve a derivar con la capa completa y guarda la versión de la malla (DEC-117). |
 | Calle o vialidad | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |
 | Número exterior | Opcional | No | Siempre | Precisa el predio en la orden de visita. |
 | Entre qué calles | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |

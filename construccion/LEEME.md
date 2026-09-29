@@ -17,6 +17,8 @@ El entorno donde se publica el artefacto **bloquea todo recurso externo**. El pr
 | `construir.py` | Transforma el archivo local en la versión publicable |
 | `mapa_svg.js` | El mapa vectorial que sustituye a Leaflet. Se inyecta al final, de modo que **sus definiciones sobrescriben a las del prototipo** |
 | `generar_doc09.py` | Regenera `documentacion/09-mapeo-campos-obligatorios.md` desde el catálogo `OBLIG` |
+| `generar_catalogos.py` | Incrusta en el prototipo el catálogo de colonias (IECM 2022) y los centros de la malla UGA, a partir de `capas/originales/` (DEC-117). Idempotente |
+| `validar_catalogos.py` | Coteja los catálogos incrustados contra los polígonos completos. Requiere `shapely`; se corre al cambiar un origen |
 | `pruebas.py` | Corre todas las pruebas y suma el resultado |
 | `pruebas/` | Una batería por cierre de trabajo. **No se borran cuando su asunto se cierra**: una prueba vieja en verde es lo que avisa cuando un cambio nuevo rompe algo viejo |
 
@@ -25,6 +27,7 @@ El entorno donde se publica el artefacto **bloquea todo recurso externo**. El pr
 ```
 python3 construccion/construir.py          # genera construccion/artefacto.html
 python3 construccion/pruebas.py            # lo comprueba
+python3 construccion/generar_catalogos.py  # sólo si cambió una capa de capas/originales/
 python3 construccion/generar_doc09.py      # rehace el documento 09 desde OBLIG
 ```
 
