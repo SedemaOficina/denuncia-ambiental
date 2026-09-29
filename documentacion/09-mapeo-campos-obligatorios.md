@@ -1,16 +1,16 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** 3.0 · 22 de septiembre de 2026
+**Versión:** 3.0 · 29 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos del formulario | **55** |
+| Campos del formulario | **56** |
 | Datos personales | **20** (36 %) |
-| Obligatorios en este formulario | 24 de 55 |
-| Campos con obligatoriedad condicionada | 22 |
+| Obligatorios en este formulario | 25 de 56 |
+| Campos con obligatoriedad condicionada | 23 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -21,7 +21,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 | Finalidad | Para qué | Campos |
 |---|---|---|
-| **Competencia** | Determinar la competencia y turnar al área que atiende | 3 |
+| **Competencia** | Determinar la competencia y turnar al área que atiende | 4 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 14 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 10 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
@@ -64,6 +64,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 | Campo | Obligatorio | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|
+| ¿Es transporte público o de carga? | Obligatorio *(condicionado)* | No | Sólo cuando se denuncia un vehículo contaminante | Distingue el transporte concesionado de pasajeros y el de carga del vehículo particular. El cauce de atención de cada uno con la Secretaría de Movilidad está por definirse: el dato se recoge desde ahora para no tener que volver a pedirlo. |
 | ¿Los hechos ocurren dentro de un establecimiento? | Opcional | No | Siempre | Caracteriza el sitio como fuente fija y propone al establecimiento como responsable. Se pregunta junto a la identificación del responsable, que es lo que determina. |
 | Tipo de establecimiento | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Prepara la visita —qué se va a inspeccionar— y alimenta la estadística por tipo de fuente. |
 | Nombre del establecimiento | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas. |

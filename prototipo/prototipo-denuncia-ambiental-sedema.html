@@ -476,6 +476,17 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .arch .x:hover{background:var(--error-bg);border-color:var(--error)}
 
 /* ---------- Resumen ---------- */
+/* M-06 · La camara en el paso 2. Borde punteado y fondo neutro: es una
+   invitacion, no un campo, y no debe competir con el boton de Continuar, que
+   es la unica accion con relleno de color de la pantalla (DEC-71). */
+.foto-ahora{border:1px dashed var(--borde);border-radius:var(--r-ctrl);background:var(--fondo);padding:16px;margin:24px 0 8px}
+.fa-txt{display:block;margin-bottom:12px}
+.fa-txt strong{display:block;font-size:var(--t-base);color:var(--texto);margin-bottom:4px}
+.fa-txt span{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.5}
+.fa-btn{width:100%}
+@media (min-width:640px){.fa-btn{width:auto}}
+.foto-ahora .lista-arch{margin-top:12px}
+.foto-ahora .lista-arch:empty{display:none}
 /* M-10 · Revision plegada por bloques. El resumen de una linea vive en el
    summary; el detalle, dentro. Se usa <details> y no una caja propia porque
    el navegador ya le da el teclado y el estado expandido a los lectores de
@@ -940,6 +951,9 @@ var OBLIG = {
   lote:             {p:2, oblig:false, etq:'Lote', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote.'},
+  veh_servicio:     {p:3, oblig:true, etq:'¿Es transporte público o de carga?', dp:false, fin:'Competencia',
+     cond:function(){ return val('materia')==='vehiculo'; } , cond_txt:'Sólo cuando se denuncia un vehículo contaminante',
+     uso:'Distingue el transporte concesionado de pasajeros y el de carga del vehículo particular. El cauce de atención de cada uno con la Secretaría de Movilidad está por definirse: el dato se recoge desde ahora para no tener que volver a pedirlo.'},
   es_estab:         {p:3, oblig:false, etq:'¿Los hechos ocurren dentro de un establecimiento?', dp:false, fin:'Localización',
      uso:'Caracteriza el sitio como fuente fija y propone al establecimiento como responsable. Se pregunta junto a la identificación del responsable, que es lo que determina.'},
   tipo_estab:       {p:3, oblig:false, etq:'Tipo de establecimiento', dp:false, fin:'Localización',
@@ -1273,6 +1287,17 @@ var ARCHIVOS = {
 /* A quién se denuncia. La distinción no es estadística: cuando los hechos
    son atribuibles a una autoridad, el artículo 331 de la Ley Ambiental
    manda emitir recomendaciones, no sancionar. */
+/* Tres respuestas, no sí o no: «público» y «carga» siguen rutas distintas y
+   juntarlas obligaría a preguntar otra vez cuál de las dos. «No lo sé» existe
+   porque quien ve pasar un camión humeando no siempre distingue la placa, y
+   no saberlo no puede impedir la denuncia. */
+var SERVICIO_VEHICULO = [
+  {v:'pasajeros', t:'Transporte público de pasajeros'},
+  {v:'carga',     t:'Transporte de carga'},
+  {v:'particular',t:'Es un vehículo particular'},
+  {v:'nose',      t:'No lo sé'}
+];
+
 var TIPOS_DENUNCIADO = [
   {v:'particular', t:'Una persona'},
   {v:'empresa',    t:'Una empresa o negocio'},
@@ -1673,6 +1698,26 @@ function sinDireccion(){ return val('tiene_direccion')==='no'; }
    la pantalla y una alcaldía que existía dos veces. Aquí cada bloque declara
    su propósito, las tres vías de marcar el sitio van juntas y con el mismo
    peso, y la alcaldía la determina el punto. */
+/* M-06 · La camara del paso 2. Se pinta en su propio contenedor porque el
+   punto se coloca sin rehacer la pantalla —rehacerla reiniciaria el mapa
+   (DEC-75)—: cuando el primer punto cae dentro de la Ciudad, el cruce de
+   capas llena este contenedor, y desde ahi se queda. */
+function bloqueFotoAhora(){
+  if(!val('lat') || val('fuera')==='si') return '';
+  return '<div class="foto-ahora">'+
+    '<div class="fa-txt"><strong>\u00bfEst\u00e1s frente al lugar?</strong>'+
+    '<span>T\u00f3male una foto ahora. Es el mejor momento: m\u00e1s tarde, desde tu casa, ya no se puede. '+
+    'Si prefieres, puedes adjuntarlas m\u00e1s adelante.</span></div>'+
+    /* Sin icono: el juego institucional no trae camara (DEC-11) y un clip,
+       que es lo que usa el paso 4, dice «adjuntar», no «fotografiar». */
+    '<button type="button" class="btn btn-secundario fa-btn" onclick="$(\'inputFoto\').click()">'+
+      'Tomar o elegir una foto</button>'+
+    '<input type="file" id="inputFoto" multiple accept="image/*,video/*" capture="environment" class="oculto" '+
+      'onchange="agregaArchivos(this.files)">'+
+    '<div class="lista-arch" id="listaArchTemprano"></div>'+
+  '</div>';
+}
+
 function pUbicacion(){
   var sinDir = sinDireccion();
   var contestada = !!val('tiene_direccion');
@@ -1760,6 +1805,17 @@ function pUbicacion(){
         'Por dónde se entra, desde qué punto conocido y a qué distancia; y qué hay alrededor que permita reconocerlo.',3);
   }
 
+
+  /* M-06 · La fotografia se pide aqui, no en el paso 4. La evidencia llegaba
+     despues de lo dificil, y para entonces la persona puede estar en su casa,
+     en el metro, o haber perdido el impulso: la foto se toma cuando se ve el
+     problema, no diez minutos despues. Aparece solo cuando ya hay punto, que
+     es la senal de que la persona esta ubicando el sitio.
+     No sustituye al paso 4, lo adelanta: los archivos van al mismo arreglo
+     `archivos` —una sola fuente de verdad—, y lo que se agregue aqui aparece
+     alla y en la revision. En telefono, `capture` abre la camara directamente;
+     en escritorio el navegador lo ignora y abre el selector de siempre. */
+  h += '<div id="fotoAhora">'+bloqueFotoAhora()+'</div>';
 
   h += '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(1)">'+
     '<span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
@@ -1997,6 +2053,8 @@ function analizaCapas(la,lo){
 
   resaltaPoligono(c.rasgo, c.grupo);
   var pc = $('panelCapas'); if(pc) pc.innerHTML = cajaCapas();
+  var fa = $('fotoAhora');
+  if(fa){ var nuevo = bloqueFotoAhora(); if(!!nuevo !== !!fa.innerHTML){ fa.innerHTML = nuevo; pintaArchivos(); } }
   var btn = document.querySelector('.acciones .btn-primario');
   if(btn){
     if(c.fuera){ btn.setAttribute('disabled',''); btn.title='Coloca el punto dentro de la Ciudad de México para continuar'; }
@@ -2017,6 +2075,19 @@ function pHechos(){
      persona eligió denunciar y no es una frase genérica. */
   campoArea('hechos','Cuenta qué pasó o qué está pasando',esObligatorio('hechos'),'',6,
     'Qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce: humo, olor, ruido, derrame, tala, tiro de material.')+
+
+  /* La descripción de la tarjeta dice sólo lo que se ve —humo o ruido— porque
+     es lo que sirve para elegir la categoría (DEC-107). Pero el dato de si la
+     unidad presta un servicio hay que recogerlo igual, y no por afinar la
+     estadística: el transporte concesionado y el de carga tienen un cauce de
+     atención distinto del vehículo particular, y ese cauce con la Secretaría
+     de Movilidad está por definirse. El dato se recoge desde ahora para no
+     tener que volver a pedirlo. Preguntado aquí y no en la tarjeta, la primera
+     pantalla no se alarga y el expediente no pierde el dato. */
+  (val('materia')==='vehiculo'
+    ? campoOpciones('veh_servicio','¿Es transporte público o de carga?', SERVICIO_VEHICULO,
+        'Fíjate en la placa o en el rótulo de la unidad. Si no alcanzaste a verlos, «No lo sé» basta.')
+    : '')+
 
   '<h3 class="sub-seccion" id="c_temporalidad">¿Desde cuándo ocurre?'+marca_opc(esObligatorio('temporalidad'))+'</h3>'+
   '<div class="campo"><div class="opciones">'+
@@ -2458,6 +2529,7 @@ function pRevision(){
   var fHechos =
     r('\u00bfDentro de un establecimiento?', estab, 3, 'es_estab')+
     r('Hechos denunciados', val('hechos'), 3, 'hechos')+
+    (val('materia')==='vehiculo' ? r('Tipo de servicio', (SERVICIO_VEHICULO.filter(function(x){return x.v===val('veh_servicio');})[0]||{}).t||'', 3, 'veh_servicio') : '')+
     r('Temporalidad', [temp,val('fecha_hecho'),(val('hora_h')?val('hora_h')+':'+(val('hora_m')||'00')+' horas':'')].filter(Boolean).join(' \u00b7 '), 3, 'temporalidad')+
     r('Establecimiento', val('establecimiento'), 3, 'establecimiento')+
     r('A qui\u00e9n se denuncia', (function(){
@@ -2881,9 +2953,12 @@ function agregaArchivos(fl){
 }
 var ARCH_RECHAZADOS = [];
 function quitaArchivo(i){ archivos.splice(i,1); pintaArchivos(); }
+/* Hay dos puntos de entrada de archivos —la camara del paso 2 y la zona de
+   carga del paso 4— y un solo arreglo. La lista se pinta en todos los
+   contenedores que haya en pantalla, que seran cero o uno segun el paso. */
 function pintaArchivos(){
-  var c = $('listaArch'); if(!c) return;
-  c.innerHTML = archivos.map(function(a,i){
+  var cs = document.querySelectorAll('.lista-arch'); if(!cs.length) return;
+  var html = archivos.map(function(a,i){
     return '<div class="arch"><span style="color:var(--guinda);line-height:0">'+svgIcono('clip',18)+'</span><span class="n">'+esc(a.name)+'</span>'+
       '<span class="p">'+(a.size?(a.size/1048576).toFixed(1)+' MB':'')+'</span>'+
       '<button class="x" onclick="quitaArchivo('+i+')" title="Quitar">&times;</button></div>';
@@ -2892,6 +2967,7 @@ function pintaArchivos(){
       (ARCH_RECHAZADOS.length===1?'No se pudo agregar un archivo:':'No se pudieron agregar '+ARCH_RECHAZADOS.length+' archivos:')+'</strong><ul style="margin:6px 0 0 20px">'+
       ARCH_RECHAZADOS.map(function(x){ return '<li>'+esc(x.n)+' — '+esc(x.r)+'</li>'; }).join('')+'</ul></div>'
     : '');
+  for(var j = 0; j < cs.length; j++) cs[j].innerHTML = html;
 }
 
 /* ================= Mapa ================= */
@@ -3452,7 +3528,7 @@ function render(){
   $('app').innerHTML = (cfg.validar && paso>=2 && paso<=5
     ? '<p class="leyenda-oblig">Los campos marcados con <span class="req" aria-hidden="true">*</span> son obligatorios.</p>' : '') + h;
   if(paso===2) iniciaMapa();
-  if(paso===4) pintaArchivos();
+  if(paso===2 || paso===4) pintaArchivos();
   guardaBorrador();
   /* El foco se iba al principio del documento en cada cambio de paso: render()
      reemplaza todo el contenido y nadie lo recolocaba, de modo que quien navega
