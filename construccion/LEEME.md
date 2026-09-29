@@ -31,7 +31,7 @@ python3 construccion/generar_catalogos.py  # sólo si cambió una capa de capas/
 python3 construccion/generar_doc09.py      # rehace el documento 09 desde OBLIG
 ```
 
-Las pruebas necesitan Playwright y un Chromium; la ruta al navegador se pasa en la variable `CHROMIUM` si no es la predeterminada.
+Las pruebas necesitan Playwright y un Chromium; la ruta al navegador se pasa en la variable `CHROMIUM` si no es la predeterminada. La batería 20 genera sus imágenes de prueba con `Pillow` y `numpy`, en una carpeta temporal.
 
 ## Dos reglas que costaron caro aprender
 

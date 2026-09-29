@@ -466,7 +466,8 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .lista-arch{margin-top:14px;display:flex;flex-direction:column;gap:8px}
 .arch{display:flex;align-items:center;gap:11px;padding:8px 8px 8px 13px;background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-ctrl);font-size:var(--t-md)}
 .arch .n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.arch .p{color:var(--gris-cl);font-size:var(--t-sm)}
+.arch .p{color:var(--gris-cl);font-size:var(--t-sm);white-space:nowrap}
+.arch .p.procesando{color:var(--azul)}
 .arch .x{background:none;border:1px solid transparent;color:var(--error);cursor:pointer;font-size:var(--t-lg);line-height:1;width:44px;height:44px;border-radius:var(--r-ctrl);flex-shrink:0}
 .arch .x:hover{background:var(--error-bg);border-color:var(--error)}
 
@@ -1005,6 +1006,8 @@ var OBLIG = {
      uso:'Evita duplicar expedientes con otras autoridades y gradúa la gravedad por reincidencia.'},
   /* Paso 4 */
   archivos:         {p:4, oblig:false, etq:'Fotos, videos o documentos', dp:true, fin:'Expediente',
+     /* DEC-121: cada foto llega optimizada y acompañada de la huella SHA-256
+        del original y, si la trae, de su fecha y lugar de captura. */
      uso:'Elementos probatorios que sustentan la presunción fundada del art. 280.'},
   otras_pruebas:    {p:4, oblig:false, etq:'Otras pruebas que puedas ofrecer', dp:false, fin:'Expediente',
      uso:'Describe pruebas que la persona no puede adjuntar pero puede ofrecer.'},
@@ -1277,7 +1280,12 @@ var ARCHIVOS = {
   mb: 25,
   /* Formatos que admite la Secretaría (DEC-120). */
   exts: ['jpg','jpeg','png','mp4','mov','doc','docx','pdf','xls','xlsx'],
-  texto: 'Fotografías JPG, JPEG o PNG · Video MP4 o MOV · Documentos Word, PDF o Excel'
+  texto: 'Fotografías JPG, JPEG o PNG · Video MP4 o MOV · Documentos Word, PDF o Excel',
+  /* Las fotos se optimizan en el navegador antes de subir (DEC-121). 2048 px
+     por el lado largo conserva legibles placas, letreros y numeros de
+     fachada; por debajo se ahorra poco mas y se pierde prueba. Video y
+     documentos no se tocan aqui: el video se convierte en el servidor. */
+  optimiza: {tipos:['jpg','jpeg','png'], lado:2048, calidad:0.82}
 };
 
 /* A quién se denuncia. La distinción no es estadística: cuando los hechos
@@ -2271,7 +2279,9 @@ function pEvidencia(){
     '<span class="lim">'+esc(ARCHIVOS.texto)+'<br>Hasta '+ARCHIVOS.max+' archivos, '+ARCHIVOS.mb+' MB cada uno. <span class="pendiente">Límites por confirmar con la DGIVA</span></span>'+
   '</button>'+
   '<input type="file" id="inputArch" multiple class="oculto" accept="'+ARCHIVOS.exts.map(function(e){return '.'+e;}).join(',')+'" onchange="agregaArchivos(this.files)">'+
-  '<div class="lista-arch" id="listaArch"></div></div>'+
+  '<div class="lista-arch" id="listaArch" aria-live="polite"></div>'+
+  '<p class="nota-gris" style="margin:10px 0 0">Las fotos se optimizan al agregarlas para que suban rápido, sin perder detalle. Su fecha y lugar de captura se conservan como parte de la prueba.</p>'+
+  '<div class="err" id="e_archivos">Espera a que terminen de optimizarse las fotos.</div></div>'+
   campoArea('otras_pruebas','Describe otras pruebas que no puedas adjuntar',false,'Por ejemplo, documentos en original o testimonios.',2)+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(3)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
   '<button type="button" class="btn btn-primario" onclick="valida(4)&&irA(5)">Continuar</button></div></div>';
@@ -2410,7 +2420,7 @@ function pDenunciante(){
     '<h3 class="sub-seccion">Aviso de privacidad</h3>'+
     '<div class="priv">'+
       '<p><b>Quién trata tus datos.</b> La Secretaría del Medio Ambiente de la Ciudad de México, a través de la Dirección General de Inspección y Vigilancia Ambiental, es la responsable del tratamiento de los datos personales que proporciones, que quedan protegidos en el sistema de datos personales correspondiente. <span class="pendiente">Nombre del sistema de datos personales, por registrar</span></p>'+
-      '<p><b>Para qué se usan.</b> Registrar tu denuncia y darle seguimiento; identificar a las personas involucradas en el expediente; notificarte las actuaciones; remitir el asunto a la autoridad competente cuando no corresponda a la Secretaría; y, en su caso, con fines estadísticos. El género y el rango de edad son opcionales y se usan únicamente para estadística.</p>'+
+      '<p><b>Para qué se usan.</b> Registrar tu denuncia y darle seguimiento; identificar a las personas involucradas en el expediente; notificarte las actuaciones; remitir el asunto a la autoridad competente cuando no corresponda a la Secretaría; y, en su caso, con fines estadísticos. El género y el rango de edad son opcionales y se usan únicamente para estadística. De las fotografías se conservan la fecha y el lugar en que se tomaron, como parte de la prueba.</p>'+
       '<p><b>Con qué fundamento.</b> El tratamiento deriva de las atribuciones de inspección y vigilancia de la Secretaría previstas en los artículos 279 y 280 de la Ley Ambiental de la Ciudad de México. <span class="pendiente">Artículo del Reglamento Interior que atribuye la función a la unidad responsable, por verificar</span></p>'+
       '<p><b>Cuánto tiempo se conservan.</b> <span class="pendiente">Ciclo de vida del dato, por confirmar contra el catálogo de disposición documental de la Secretaría</span></p>'+
       '<p><b>A quién pueden transferirse.</b> <span class="pendiente">Catálogo de transferencias y su fundamento, por determinar</span></p>'+
@@ -3117,6 +3127,11 @@ function valida(n){
     if(anon && SOLO_IDENTIFICADO.indexOf(k) >= 0 && CONTACTO_ANONIMO.indexOf(k) < 0) return;
     if(formatoMal(k)){ MOTIVO[k] = msgFormato(k); empuja(faltan,k); }
   });
+  /* Una foto a medio optimizar no ha terminado de agregarse (DEC-121). */
+  if(n===4 && archivos.some(function(a){ return a.estado==='optimizando'; })){
+    MOTIVO.archivos = 'Espera a que terminen de optimizarse las fotos.';
+    empuja(faltan,'archivos');
+  }
   if(n===3 && val('hechos').trim().length>0 && val('hechos').trim().length<40){
     /* Sin motivo, el resumen decia «falta este dato» mientras el contador,
        debajo, decia cuantos caracteres faltaban: dos diagnosticos del mismo
@@ -3155,14 +3170,146 @@ function agregaArchivos(fl){
       rechazados.push({n:f.name, r:'ese tipo de archivo no se admite'});
       continue;
     }
-    if(f.size && f.size > ARCHIVOS.mb*1048576){
-      rechazados.push({n:f.name, r:'pesa '+(f.size/1048576).toFixed(1)+' MB y el máximo son '+ARCHIVOS.mb+' MB'});
+    /* Una foto se mide despues de optimizarla: una de 30 MB que queda en
+       1 MB no se rechaza por lo que pesaba (DEC-121). */
+    var esFoto = ARCHIVOS.optimiza.tipos.indexOf(ext) >= 0 && typeof Blob !== 'undefined' && f instanceof Blob;
+    if(!esFoto && f.size && f.size > ARCHIVOS.mb*1048576){
+      rechazados.push({n:f.name, r:'pesa '+pesoTxt(f.size)+' y el máximo son '+ARCHIVOS.mb+' MB'});
       continue;
     }
-    archivos.push({name:f.name, size:f.size});
+    var a = {name:f.name, size:f.size};
+    archivos.push(a);
+    if(esFoto){ a.estado = 'optimizando'; a.size_original = f.size; procesaFoto(f, ext, a); }
+    else if(typeof Blob !== 'undefined' && f instanceof Blob) a.blob = f;
   }
   ARCH_RECHAZADOS = rechazados;
   pintaArchivos();
+}
+
+/* =========================================================
+   FOTOS: HUELLA, FECHA Y LUGAR, Y OPTIMIZACION (DEC-121)
+   Tres cosas, en este orden y sobre el archivo ORIGINAL:
+   1. La huella SHA-256 del original. Si despues se discute una foto, se
+      puede comprobar que el original que presente la persona es el mismo.
+   2. La fecha y el lugar de captura que trae la foto (EXIF). Al optimizar
+      se pierden, y son prueba: se guardan aparte, en el expediente.
+   3. La optimizacion: 2048 px por el lado largo y JPG de calidad alta.
+      Si el resultado no pesa menos, o el navegador no puede hacerlo, se
+      conserva el original: optimizar nunca puede costar la foto.
+   ========================================================= */
+function pesoTxt(b){
+  return b < 1048576 ? Math.max(1, Math.round(b/1024))+' KB' : (b/1048576).toFixed(1)+' MB';
+}
+function hexDe(buf){
+  return Array.prototype.map.call(new Uint8Array(buf), function(x){ return ('0'+x.toString(16)).slice(-2); }).join('');
+}
+function huellaDe(buf){
+  if(!(window.crypto && crypto.subtle && crypto.subtle.digest)) return Promise.resolve('');
+  return crypto.subtle.digest('SHA-256', buf).then(hexDe, function(){ return ''; });
+}
+
+/* Lector minimo de EXIF de un JPG: fecha de captura y coordenadas GPS. No
+   interpreta nada mas; ante cualquier anomalia devuelve lo que alcanzo. */
+function leeExif(buf){
+  var r = {};
+  try{
+    var v = new DataView(buf);
+    if(v.byteLength < 4 || v.getUint16(0) !== 0xFFD8) return r;
+    var o = 2;
+    while(o + 4 <= v.byteLength){
+      var m = v.getUint16(o);
+      if((m & 0xFF00) !== 0xFF00 || m === 0xFFDA) break;
+      var largo = v.getUint16(o + 2);
+      if(m === 0xFFE1 && v.getUint32(o + 4) === 0x45786966){
+        var t = o + 10, le = v.getUint16(t) === 0x4949;
+        var g16 = function(p){ return v.getUint16(p, le); }, g32 = function(p){ return v.getUint32(p, le); };
+        if(g16(t + 2) !== 42) return r;
+        var ifd = function(p){
+          var n = g16(p), e = {};
+          for(var i=0;i<n;i++){ var q = p + 2 + i*12; e[g16(q)] = {n:g32(q + 4), en:q + 8}; }
+          return e;
+        };
+        var txt = function(x){
+          var p = x.n > 4 ? t + g32(x.en) : x.en, s = '';
+          for(var i=0;i<x.n;i++){ var c = v.getUint8(p + i); if(!c) break; s += String.fromCharCode(c); }
+          return s;
+        };
+        var racs = function(x){
+          var p = t + g32(x.en), a = [];
+          for(var i=0;i<x.n;i++){ var d = g32(p + i*8 + 4); a.push(d ? g32(p + i*8)/d : 0); }
+          return a;
+        };
+        var cero = ifd(t + g32(t + 4));
+        if(cero[0x8769]){ var ex = ifd(t + g32(cero[0x8769].en)); if(ex[0x9003]) r.fecha = txt(ex[0x9003]); }
+        if(!r.fecha && cero[0x0132]) r.fecha = txt(cero[0x0132]);
+        if(r.fecha){
+          var f = r.fecha.match(/^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})/);
+          r.fecha = f ? f[1]+'-'+f[2]+'-'+f[3]+'T'+f[4]+':'+f[5]+':'+f[6] : '';
+          if(!r.fecha) delete r.fecha;
+        }
+        if(cero[0x8825]){
+          var g = ifd(t + g32(cero[0x8825].en));
+          if(g[2] && g[4]){
+            var la = racs(g[2]), lo = racs(g[4]);
+            var dla = la[0] + (la[1]||0)/60 + (la[2]||0)/3600, dlo = lo[0] + (lo[1]||0)/60 + (lo[2]||0)/3600;
+            if(g[1] && txt(g[1]) === 'S') dla = -dla;
+            if(g[3] && txt(g[3]) === 'W') dlo = -dlo;
+            if(dla || dlo){ r.lat = +dla.toFixed(6); r.lon = +dlo.toFixed(6); }
+          }
+        }
+        return r;
+      }
+      o += 2 + largo;
+    }
+  }catch(e){}
+  return r;
+}
+
+/* Reduce y vuelve a codificar. La orientacion la aplica el navegador al
+   leer la imagen (from-image), porque al reescribirla se pierde la marca que
+   la indicaba. El fondo blanco evita que un PNG transparente quede negro. */
+function optimizaFoto(file){
+  var o = ARCHIVOS.optimiza;
+  if(typeof createImageBitmap !== 'function') return Promise.reject();
+  return createImageBitmap(file, {imageOrientation:'from-image'}).then(function(bmp){
+    var k = Math.min(1, o.lado / Math.max(bmp.width, bmp.height));
+    var c = document.createElement('canvas');
+    c.width = Math.round(bmp.width*k); c.height = Math.round(bmp.height*k);
+    var x = c.getContext('2d');
+    x.fillStyle = '#ffffff'; x.fillRect(0, 0, c.width, c.height);
+    x.drawImage(bmp, 0, 0, c.width, c.height);
+    if(bmp.close) bmp.close();
+    return new Promise(function(ok, mal){
+      c.toBlob(function(b){ b ? ok({blob:b, ancho:c.width, alto:c.height}) : mal(); }, 'image/jpeg', o.calidad);
+    });
+  });
+}
+
+function procesaFoto(f, ext, a){
+  var lee = f.arrayBuffer ? f.arrayBuffer() : Promise.reject();
+  lee.then(function(buf){
+    var meta = (ext === 'jpg' || ext === 'jpeg') ? leeExif(buf) : {};
+    return Promise.all([huellaDe(buf), optimizaFoto(f).catch(function(){ return null; })]).then(function(res){
+      a.sha256_original = res[0];
+      if(meta.fecha) a.fecha_captura = meta.fecha;
+      if(meta.lat !== undefined){ a.lat_captura = meta.lat; a.lon_captura = meta.lon; }
+      var r = res[1];
+      if(r && r.blob && r.blob.size < f.size){
+        a.blob = r.blob; a.size = r.blob.size; a.tipo = 'image/jpeg';
+        a.optimizada = true; a.dimensiones = r.ancho+'x'+r.alto;
+      } else {
+        a.blob = f; a.optimizada = false;
+      }
+    });
+  }).catch(function(){ a.blob = f; a.optimizada = false; })
+  .then(function(){
+    delete a.estado;
+    if(a.size > ARCHIVOS.mb*1048576){
+      var i = archivos.indexOf(a); if(i >= 0) archivos.splice(i, 1);
+      ARCH_RECHAZADOS = ARCH_RECHAZADOS.concat([{n:a.name, r:'aún optimizada pesa '+pesoTxt(a.size)+' y el máximo son '+ARCHIVOS.mb+' MB'}]);
+    }
+    pintaArchivos();
+  });
 }
 var ARCH_RECHAZADOS = [];
 function quitaArchivo(i){ archivos.splice(i,1); pintaArchivos(); }
@@ -3173,7 +3320,9 @@ function pintaArchivos(){
   var cs = document.querySelectorAll('.lista-arch'); if(!cs.length) return;
   var html = archivos.map(function(a,i){
     return '<div class="arch"><span style="color:var(--guinda);line-height:0">'+svgIcono('clip',18)+'</span><span class="n">'+esc(a.name)+'</span>'+
-      '<span class="p">'+(a.size?(a.size/1048576).toFixed(1)+' MB':'')+'</span>'+
+      (a.estado === 'optimizando'
+        ? '<span class="p procesando">Optimizando…</span>'
+        : '<span class="p">'+(a.optimizada ? pesoTxt(a.size_original)+' \u2192 '+pesoTxt(a.size) : (a.size ? pesoTxt(a.size) : ''))+'</span>')+
       '<button class="x" onclick="quitaArchivo('+i+')" title="Quitar">&times;</button></div>';
   }).join('') + (ARCH_RECHAZADOS.length
     ? '<div class="aviso aviso-bloqueo" role="alert" style="margin:10px 0 0"><strong>'+
