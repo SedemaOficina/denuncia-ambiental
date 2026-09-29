@@ -69,33 +69,79 @@ with sync_playwright() as pw:
     port = pg.evaluate("() => { irA(0); return document.getElementById('app').innerText; }")
     afirma('pedir que sean confidenciales' not in port and 'no se dan a conocer' in port, 'la portada lo dice como regla')
 
-    # ---- 4. Anónima con contacto opcional ----
+    # ---- 4. Anónima: correo obligatorio, teléfono opcional (DEC-119, DEC-120) ----
     a = pg.evaluate("""() => { estado={}; cfg.validar=true; guarda('identificacion','anonima'); guarda('privacidad','si'); irA(5);
       const lab = k => { const l=document.querySelector('label[for="f_'+k+'"]'); return l?l.innerText:''; };
       return {correo: !!document.getElementById('f_correo'), tel: !!document.getElementById('f_telefono'),
               nombre: !!document.getElementById('f_nombre'), dom: !!document.getElementById('f_dom_calle'),
               notif: !!document.getElementById('c_notif_correo'),
-              ast: (lab('correo')+lab('telefono')).indexOf('*')>=0, pasa: valida(5)}; }""")
-    afirma(a['correo'] and a['tel'], 'la anónima ofrece correo y teléfono')
+              astC: lab('correo').indexOf('*')>=0, astT: lab('telefono').indexOf('*')>=0,
+              pasa: valida(5), marcado: !!document.querySelector('#c_correo.invalido')}; }""")
+    afirma(a['correo'] and a['tel'], 'la anónima pide correo y ofrece teléfono')
     afirma(not a['nombre'] and not a['dom'] and not a['notif'], 'sin nombre, sin domicilio y sin pregunta de notificación')
-    afirma(not a['ast'] and a['pasa'] is True, 'los dos son opcionales: sin ellos, el paso se completa')
-    m = pg.evaluate("""() => { guarda('correo','ana@correo'); render(); const ok = valida(5);
-      return {ok, marcado: !!document.querySelector('#c_correo.invalido')}; }""")
-    afirma(m['ok'] is False and m['marcado'], 'un correo mal escrito sí detiene el paso')
+    afirma(a['astC'] and not a['astT'], 'el correo lleva marca de obligatorio; el teléfono no')
+    afirma(a['pasa'] is False and a['marcado'], 'sin correo, el paso no avanza y el correo se marca')
+    m = pg.evaluate("""() => { guarda('correo','ana@correo'); render(); return valida(5); }""")
+    afirma(m is False, 'un correo mal escrito tampoco')
     t = pg.evaluate("""() => { guarda('telefono','55123'); guarda('correo','ana@correo.mx'); render(); return valida(5); }""")
-    afirma(t is False, 'y un teléfono incompleto también')
-    ok = pg.evaluate("""() => { guarda('telefono','5512345678'); render(); return {pasa: valida(5),
-      aviso: document.getElementById('app').innerText.indexOf('sin un correo')>=0}; }""")
-    afirma(ok['pasa'] is True and not ok['aviso'], 'con correo válido pasa, y ya no advierte que no habrá avisos')
+    afirma(t is False, 'un teléfono incompleto sí detiene el paso')
+    ok = pg.evaluate("""() => { guarda('telefono',''); render(); return valida(5); }""")
+    afirma(ok is True, 'con correo válido y sin teléfono, pasa')
     rv = pg.evaluate("""() => { irA(6); alternaDetalleRevision();
       const q = document.querySelector('#rb_quien .rb-res'); const dt=[...document.querySelectorAll('.resumen dt')].find(x=>x.textContent.indexOf('Contacto')===0);
       return {res: q?q.textContent:'', contacto: dt?dt.nextElementSibling.textContent:''}; }""")
     afirma('anónima' in rv['res'] and 'correo' in rv['res'], 'la revisión dice «anónima · con correo para avisos»: %r' % rv['res'])
-    afirma('ana@correo.mx' in rv['contacto'], 'y muestra el contacto que dejó')
+    afirma('ana@correo.mx' in rv['contacto'], 'y muestra el correo')
     ac = pg.evaluate("""() => { guarda('folio','SEDEMA-PRUEBA'); irA(7); return document.getElementById('app').innerText; }""")
-    afirma('ana@correo.mx' in ac and 'No recibirás notificaciones' not in ac, 'el acuse usa el correo de la anónima')
-    sin = pg.evaluate("""() => { guarda('correo',''); guarda('telefono',''); irA(7); return document.getElementById('app').innerText; }""")
-    afirma('No recibirás notificaciones' in sin, 'y sin correo, el acuse dice que no habrá notificaciones')
+    afirma('ana@correo.mx' in ac and 'No recibirás notificaciones' not in ac, 'el acuse se envía al correo de la anónima')
+
+    # ---- 4 bis. Formatos admitidos (DEC-120) ----
+    f = pg.evaluate("""() => { archivos.length=0; irA(4);
+      const inp=document.getElementById('inputArch');
+      agregaArchivos([{name:'a.jpg',size:1},{name:'b.JPEG',size:1},{name:'c.png',size:1},{name:'d.mp4',size:1},{name:'e.mov',size:1},
+                      {name:'f.doc',size:1},{name:'g.docx',size:1},{name:'h.pdf',size:1},{name:'i.xls',size:1},{name:'j.xlsx',size:1}]);
+      const ok = archivos.length;
+      archivos.length=0; agregaArchivos([{name:'k.heic',size:1},{name:'l.webp',size:1},{name:'m.gif',size:1}]);
+      const t=document.getElementById('app').innerText;
+      return {ok, rech: archivos.length, accept: inp?inp.getAttribute('accept'):'',
+              texto: /JPG, JPEG o PNG/.test(t) && /MP4 o MOV/.test(t) && /Word, PDF o Excel/.test(t)}; }""")
+    afirma(f['ok'] == 10, 'se admiten JPG, JPEG, PNG, MP4, MOV, Word, PDF y Excel (%d de 10)' % f['ok'])
+    afirma(f['rech'] == 0, 'HEIC, WEBP y GIF se rechazan')
+    afirma('.xlsx' in f['accept'] and '.heic' not in f['accept'], 'el selector de archivos ofrece los mismos formatos')
+    afirma(f['texto'], 'y la pantalla los anuncia con esas palabras')
+    pg.evaluate("() => { archivos.length=0; }")
+
+    # ---- 5. Número exterior obligatorio con dirección (DEC-120) ----
+    n = pg.evaluate("""() => { estado={}; cfg.validar=true; guarda('materia','rsu'); guarda('tiene_direccion','si'); irA(2);
+      const l = document.querySelector('label[for="f_num_ext"]');
+      guarda('calle','Calle 5'); guarda('alcaldia_dir','Iztacalco'); guarda('colonia','Pantitlán I'); guarda('cp','08100');
+      guarda('lat','19.410000'); guarda('lon','-99.070000'); guarda('alcaldia','Iztacalco');
+      valida(2);
+      const sinNum = !!document.querySelector('#c_num_ext.invalido');
+      guarda('num_ext','S/N'); render(); valida(2);
+      const conSN = !document.querySelector('#c_num_ext.invalido');
+      return {ast: l ? l.innerText.indexOf('*')>=0 : false, oblig: esObligatorio('num_ext'), sinNum, conSN}; }""")
+    afirma(n['oblig'] and n['ast'], 'con dirección, el número exterior es obligatorio y lleva su marca')
+    afirma(n['sinNum'], 'vacío, detiene el paso')
+    afirma(n['conSN'], '«S/N» es respuesta válida')
+    sd = pg.evaluate("() => { guarda('tiene_direccion','no'); return esObligatorio('num_ext'); }")
+    afirma(sd is False, 'sin dirección no se exige')
+
+    # ---- 6. Establecimiento: «Especifica» al lado del tipo, el nombre después (DEC-120) ----
+    pg.set_viewport_size({'width':1100,'height':900})
+    e = pg.evaluate("""() => { estado={}; guarda('materia','rsu'); guarda('es_estab','si'); guarda('tipo_estab','Otro'); irA(3);
+      const r = id => { const x=document.getElementById(id); return x ? x.getBoundingClientRect() : null; };
+      const t=r('f_tipo_estab'), o=r('f_tipo_estab_otro'), n=r('f_nombre_estab');
+      return t&&o&&n ? {mismaFila: Math.abs(t.top-o.top)<2, alLado: o.left>t.right, debajo: n.top>Math.max(t.bottom,o.bottom)} : null; }""")
+    afirma(e and e['mismaFila'] and e['alLado'], 'en escritorio, «Especifica el tipo» va al lado del tipo de establecimiento')
+    afirma(e and e['debajo'], 'y el nombre del establecimiento va después de los dos')
+    pg.set_viewport_size({'width':390,'height':800})
+    e2 = pg.evaluate("""() => { const r=id=>document.getElementById(id).getBoundingClientRect();
+      return r('f_tipo_estab').bottom < r('f_tipo_estab_otro').top && r('f_tipo_estab_otro').bottom < r('f_nombre_estab').top; }""")
+    afirma(e2, 'en teléfono quedan en ese orden: tipo, especifica, nombre')
+    e3 = pg.evaluate("""() => { const s=document.getElementById('f_tipo_estab'); s.value=TIPOS_ESTAB[0].v||TIPOS_ESTAB[0]; s.dispatchEvent(new Event('change'));
+      return !document.getElementById('f_tipo_estab_otro') && !!document.getElementById('f_nombre_estab'); }""")
+    afirma(e3, 'con otro tipo, «Especifica» se retira y el nombre se queda')
 
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])
     pg.close(); nav.close()

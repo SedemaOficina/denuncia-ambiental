@@ -252,7 +252,7 @@ with sync_playwright() as pw:
 
       /* 1. La direccion incompleta no consulta, por mucho que se salga de los campos. */
       limpio();
-      guarda('calle','Avenida Chapultepec'); buscaDireccionSola();
+      guarda('calle','Avenida Chapultepec'); guarda('num_ext','440'); buscaDireccionSola();
       out.soloCalle = veces;
       guarda('colonia','Centro'); buscaDireccionSola();
       out.sinCP = veces;
@@ -268,10 +268,12 @@ with sync_playwright() as pw:
       guarda('colonia','Juárez'); buscaDireccionSola();
       out.trasCorregir = veces;
 
-      /* 4. El numero exterior es opcional: no se espera por el. */
+      /* 4. El numero exterior es obligatorio desde DEC-120: sin el no se
+            consulta; «S/N» cuenta como respuesta. */
       limpio();
       guarda('calle','Calle 5'); guarda('colonia','Agrícola Pantitlán'); guarda('cp','08100');
       buscaDireccionSola(); out.sinNumero = veces;
+      guarda('num_ext','S/N'); buscaDireccionSola(); out.conSN = veces;
 
       /* 5. Si ya hay punto, la direccion no lo mueve. */
       limpio(); guarda('lat','19.4326'); guarda('lon','-99.1332');
@@ -294,8 +296,10 @@ with sync_playwright() as pw:
            'salir de los cuatro campos no multiplica la consulta (%d)' % caut['trasCuatroSalidas'])
     afirma(caut['trasCorregir'] == 2,
            'corregir la direccion si vuelve a consultar: es otra direccion (%d)' % caut['trasCorregir'])
-    afirma(caut['sinNumero'] == 1,
-           'el numero exterior es opcional y no se espera por el (%d)' % caut['sinNumero'])
+    afirma(caut['sinNumero'] == 0,
+           'sin numero exterior la direccion no esta completa y no consulta (%d)' % caut['sinNumero'])
+    afirma(caut['conSN'] == 1,
+           'con «S/N» ya consulta (%d)' % caut['conSN'])
     afirma(caut['conPunto'] == 0,
            'si la persona ya coloco el punto, la direccion no se lo mueve (%d)' % caut['conPunto'])
     afirma(caut['sinDomicilio'] == 0, 'en la ruta sin domicilio no consulta (%d)' % caut['sinDomicilio'])

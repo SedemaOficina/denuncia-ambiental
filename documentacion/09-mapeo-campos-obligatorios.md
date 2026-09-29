@@ -9,8 +9,8 @@
 |---|---|
 | Campos del formulario | **58** |
 | Datos personales | **20** (34 %) |
-| Obligatorios en este formulario | 26 de 58 |
-| Campos con obligatoriedad condicionada | 27 |
+| Obligatorios en este formulario | 27 de 58 |
+| Campos con obligatoriedad condicionada | 28 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -57,7 +57,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Código postal | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio; verifica la congruencia de la dirección capturada. Se escribe a mano y se admite sólo en el intervalo de la Ciudad, del 01000 al 16999 (DEC-117). |
 | Celda UGA | Opcional | No | No se pregunta ni se muestra: la asigna el punto del mapa | Celda de la malla hexagonal del Sistema de Información Ambiental (~1 km²) en la que cae el punto. No se muestra a la persona: queda en el expediente para la programación de operativos y la estadística territorial. Es provisional: el servidor la vuelve a derivar con la capa completa y guarda la versión de la malla (DEC-117). |
 | Calle o vialidad | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |
-| Número exterior | Opcional | No | Siempre | Precisa el predio en la orden de visita. |
+| Número exterior | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Precisa el predio en la orden de visita. Obligatorio cuando el lugar tiene dirección; si el predio no tiene número se escribe «S/N», que es una respuesta válida (DEC-120). |
 | Entre qué calles | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |
 | Manzana | Opcional | No | Sólo cuando el lugar tiene calle y número | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
 | Lote | Opcional | No | Sólo cuando el lugar tiene calle y número | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
@@ -105,7 +105,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Apellido paterno | Obligatorio | **Sí** | Siempre | Identificación de la persona denunciante en el expediente y en el acuse. |
 | Apellido materno | Opcional | **Sí** | Siempre | Completa la identificación en el registro administrativo. |
 | Teléfono | Obligatorio | **Sí** | Siempre | Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119). |
-| Correo electrónico | Obligatorio | **Sí** | Siempre | Envío del acuse, notificación del avance y consulta del estatus. En la denuncia anónima se ofrece como opcional, para que la Secretaría pueda informar el trámite sin conocer el nombre (DEC-119). |
+| Correo electrónico | Obligatorio | **Sí** | Siempre | Envío del acuse, notificación del avance y consulta del estatus. En la denuncia anónima también es obligatorio: es la vía para enviar el folio e informar el trámite sin conocer el nombre (DEC-119, DEC-120). |
 | Domicilio · calle | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
 | Domicilio · número exterior | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
 | Domicilio · número interior | Opcional | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |

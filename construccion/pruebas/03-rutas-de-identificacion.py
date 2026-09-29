@@ -74,16 +74,16 @@ with sync_playwright() as pw:
 
     # 5. Ruta anonima
     pg.evaluate("guarda('identificacion','anonima'); render()"); pg.wait_for_timeout(300)
-    #    La anónima no pide nombre, pero ofrece correo y teléfono opcionales
-    #    para recibir avisos (DEC-119).
+    #    La anónima no pide nombre, pero sí un correo para avisos (DEC-119,
+    #    DEC-120); el teléfono es opcional.
     an = pg.evaluate("""() => ({campos: document.querySelectorAll('#f_nombre').length,
       contacto: !!document.getElementById('f_correo') && !!document.getElementById('f_telefono'),
-      aviso: document.getElementById('app').innerText.includes('sin un correo'),
-      pasa: (guarda('privacidad','si'), guarda('correo',''), guarda('telefono',''), valida(5))})""")
+      sinCorreo: (guarda('privacidad','si'), guarda('correo',''), guarda('telefono',''), valida(5)),
+      conCorreo: (guarda('correo','avisos@correo.mx'), valida(5))})""")
     afirma(an['campos']==0, 'ruta anónima: no se pide el nombre')
-    afirma(an['contacto'], 'pero se ofrecen correo y teléfono para avisos')
-    afirma(an['aviso'], 'y, sin correo, se advierte qué se pierde')
-    afirma(an['pasa'] is True, 'la denuncia anónima puede enviarse sin dejar contacto')
+    afirma(an['contacto'], 'pero sí correo, y teléfono como opcional')
+    afirma(an['sinCorreo'] is False, 'sin correo la anónima no avanza')
+    afirma(an['conCorreo'] is True, 'con correo, y sin teléfono, se puede enviar')
 
     # 6. La denuncia anónima no depende de ninguna configuración (DEC-97)
     #    La variante C —identificación obligatoria— se retiró: quedó decidido

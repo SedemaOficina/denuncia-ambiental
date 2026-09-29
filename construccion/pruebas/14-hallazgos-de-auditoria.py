@@ -106,7 +106,7 @@ with sync_playwright() as pw:
     a = pg.evaluate("""() => {
       estado = {}; archivos = []; irA(4);
       const f = (n, mb) => ({name: n, size: mb * 1048576});
-      agregaArchivos([f('a.jpg',2), f('enorme.jpg',300), f('hoja.xlsx',1)]);
+      agregaArchivos([f('a.jpg',2), f('enorme.jpg',300), f('comprimido.zip',1)]);
       const lista = document.getElementById('listaArch');
       return {n: archivos.length, txt: lista ? lista.innerText : '',
               nombres: archivos.map(x => x.name)};
@@ -114,7 +114,7 @@ with sync_playwright() as pw:
     afirma(a['nombres'] == ['a.jpg'], 'se acepta sólo el archivo admisible: %s' % a['nombres'])
     afirma('enorme.jpg' in a['txt'] and 'MB' in a['txt'],
            'se dice qué archivo se rechazó por tamaño y por qué')
-    afirma('hoja.xlsx' in a['txt'], 'y cuál por tipo no admitido')
+    afirma('comprimido.zip' in a['txt'], 'y cuál por tipo no admitido')
     corte = pg.evaluate("""() => {
       archivos = [];
       const muchos = []; for(let i=0;i<14;i++) muchos.push({name:'f'+i+'.jpg', size:1048576});

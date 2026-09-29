@@ -11,7 +11,7 @@
 | M-04 | **Implementada y retirada** · DEC-45, revertida por DEC-67 |
 | M-07 | **Superada** · DEC-46, sustituida por DEC-61 |
 | M-10 | **Implementada** · DEC-113. La revisión baja de 3 841 a 1 395 px en teléfono: 64 % menos, de 5.1 a 1.8 pantallas |
-| M-06 | **Implementada** · DEC-114. La cámara se ofrece en el paso 2, en cuanto el punto cae dentro de la Ciudad |
+| M-06 | **Retirada** · DEC-120. Se implementó en DEC-114 y se retiró por instrucción: la evidencia entra sólo por el paso 4 |
 | M-02 | **Detenida**: fundir supuestos toca el catálogo y lo decide la Dirección General |
 
 **Desde dónde está escrito.** La persona típica no está en un escritorio: está **en la calle, frente al problema, con el teléfono en una mano**, probablemente molesta y a veces con miedo de que la vean. Tiene tres minutos. Ése es el usuario contra el que hay que medir cada pantalla.

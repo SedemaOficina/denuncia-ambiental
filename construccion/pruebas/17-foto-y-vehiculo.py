@@ -1,15 +1,9 @@
 # -*- coding: utf-8 -*-
-"""La fotografía donde se ve el problema (M-06) y el servicio del vehículo.
+"""El servicio del vehículo, y que la foto del paso 2 no vuelva (DEC-120).
 
-   M-06. La evidencia llegaba en el paso 4, después de lo difícil; para
-   entonces la persona puede estar ya en su casa o en el metro. Ahora el paso
-   2 ofrece tomar la foto en cuanto el punto cae dentro de la Ciudad. Lo que
-   esta batería vigila es lo que puede salir mal al adelantarla:
-   1. Que aparezca sin rehacer la pantalla, porque rehacerla reinicia el mapa.
-   2. Que los archivos vayan al MISMO arreglo: lo tomado en el paso 2 tiene que
-      estar en el 4 y en la revisión, no en una lista paralela.
-   3. Que no compita con Continuar: una sola acción con color por pantalla.
-   4. Que en teléfono abra la cámara, no el selector de archivos.
+   M-06. La invitación a tomar la foto en el paso 2 (DEC-114) se retiró por
+   instrucción (DEC-120): se vigila que no vuelva y que la evidencia siga
+   entrando por el paso 4.
 
    Vehículo contaminante. La tarjeta dice sólo lo que se ve (DEC-107); el dato
    de si la unidad presta un servicio se pregunta en el paso 3. Se vigila que
@@ -40,57 +34,18 @@ with sync_playwright() as pw:
     pg.on('pageerror', lambda e: err.append('pageerror: '+str(e)))
     pg.goto(TMP.as_uri()); pg.wait_for_timeout(700)
 
-    # ---------------- M-06 ----------------
-    pg.evaluate("() => { archivos.length = 0; guarda('lat',''); guarda('lon',''); guarda('materia','rsu'); guarda('tiene_direccion','si'); irA(2); }")
-    pg.wait_for_timeout(400)
-    antes = pg.evaluate("() => { const f = document.getElementById('fotoAhora'); return {existe: !!f, lleno: !!(f && f.innerHTML.trim())}; }")
-    afirma(antes['existe'] and not antes['lleno'], 'sin punto todavía, el paso 2 no ofrece la foto')
-
-    # Marcamos el mapa para saber si se reinicia al aparecer el bloque.
-    pg.evaluate("() => { const m = document.getElementById('mapa'); if(m) m.dataset.testigo = 'mismo'; }")
+    # ---------------- Foto en el paso 2: retirada (DEC-120) ----------------
+    #    La invitación a tomar la foto frente al lugar (M-06, DEC-114) se
+    #    retiró por instrucción. Se vigila que no vuelva y que la evidencia
+    #    siga entrando por el paso 4.
+    pg.evaluate("() => { archivos.length = 0; guarda('materia','rsu'); guarda('tiene_direccion','si'); irA(2); }")
+    pg.wait_for_timeout(300)
     pg.evaluate("() => ponMarcador(19.3500, -99.1620)"); pg.wait_for_timeout(400)
-    d = pg.evaluate("""() => {
-      const f = document.getElementById('fotoAhora');
-      const inp = document.getElementById('inputFoto');
-      const b = f && f.querySelector('button');
-      const m = document.getElementById('mapa');
-      return {
-        lleno: !!(f && f.innerHTML.trim()),
-        texto: f ? f.textContent : '',
-        capture: inp ? inp.getAttribute('capture') : null,
-        accept: inp ? inp.getAttribute('accept') : null,
-        multiple: inp ? inp.hasAttribute('multiple') : false,
-        primario: b ? b.classList.contains('btn-primario') : null,
-        mapaIntacto: !!(m && m.dataset.testigo === 'mismo'),
-        coloreados: [...document.querySelectorAll('.btn-primario')].filter(x => x.offsetParent !== null).length
-      };
-    }""")
-    afirma(d['lleno'], 'al caer el punto dentro de la Ciudad aparece la invitación a tomar la foto')
-    afirma(d['mapaIntacto'], 'y aparece sin rehacer la pantalla: el mapa no se reinició')
-    afirma('frente al lugar' in d['texto'], 'la invitación se dirige a quien está ahí: «%s…»' % d['texto'].strip()[:40])
-    afirma(d['capture'] == 'environment', 'en teléfono abre la cámara trasera, no el selector de archivos')
-    afirma(d['accept'] and 'image/' in d['accept'] and 'video/' in d['accept'], 'acepta foto y video')
-    afirma(d['multiple'], 'y admite varias de una vez')
-    afirma(d['primario'] is False, 'el botón no es de acción principal: no compite con Continuar')
-    afirma(d['coloreados'] == 1, 'sigue habiendo una sola acción con color en la pantalla (%d)' % d['coloreados'])
-
-    # Un solo arreglo: lo tomado en el paso 2 se ve ahi, en el 4 y en la revision.
-    pg.evaluate("() => agregaArchivos([%s])" % FALSO); pg.wait_for_timeout(250)
-    en2 = pg.evaluate("() => (document.getElementById('listaArchTemprano')||{}).textContent || ''")
-    afirma('basura-esquina.jpg' in en2, 'lo que se toma en el paso 2 se lista ahí mismo')
-    pg.evaluate("() => irA(4)"); pg.wait_for_timeout(350)
-    en4 = pg.evaluate("() => (document.getElementById('listaArch')||{}).textContent || ''")
-    afirma('basura-esquina.jpg' in en4, 'y aparece en el paso 4: es el mismo arreglo, no una lista paralela')
-    pg.evaluate("() => irA(2)"); pg.wait_for_timeout(400)
-    vuelta = pg.evaluate("() => (document.getElementById('listaArchTemprano')||{}).textContent || ''")
-    afirma('basura-esquina.jpg' in vuelta, 'al regresar al paso 2 la lista sigue ahí')
-    n = pg.evaluate("() => archivos.length")
-    afirma(n == 1, 'y no se duplicó al ir y volver (%d archivo)' % n)
-
-    # Fuera de la Ciudad no se ofrece: no hay denuncia que documentar.
-    pg.evaluate("() => ponMarcador(19.6000, -98.9000)"); pg.wait_for_timeout(400)
-    fuera = pg.evaluate("() => ({f: val('fuera'), lleno: !!document.getElementById('fotoAhora').innerHTML.trim()})")
-    afirma(fuera['f'] == 'si' and not fuera['lleno'], 'con el punto fuera de la Ciudad la invitación se retira')
+    r = pg.evaluate("""() => ({bloque: !!document.querySelector('#fotoAhora, .foto-ahora, #inputFoto'),
+      texto: /frente al lugar|Tomar o elegir una foto/.test(document.getElementById('app').innerText)})""")
+    afirma(not r['bloque'] and not r['texto'], 'con el punto colocado, el paso 2 ya no ofrece tomar la foto')
+    p4 = pg.evaluate("() => { irA(4); return !!document.querySelector('.lista-arch') && !!document.querySelector('input[type=file]'); }")
+    afirma(p4, 'la evidencia sigue entrando por el paso 4')
 
     # ---------------- Vehiculo ----------------
     PREP = """(m) => { archivos.length = 0; cfg.validar = true; guarda('materia', m); guarda('veh_servicio','');

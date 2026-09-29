@@ -55,7 +55,7 @@ with sync_playwright() as pw:
 
     # Sin responderlas, el paso 5 se completa.
     pasa = pg.evaluate("""() => {
-      cfg.validar = true; guarda('identificacion','anonima');
+      cfg.validar = true; guarda('identificacion','anonima'); guarda('correo','avisos@correo.mx');
       guarda('sexo_genero',''); guarda('edad_rango',''); guarda('privacidad','si');
       irA(5); return valida(5);
     }""")
