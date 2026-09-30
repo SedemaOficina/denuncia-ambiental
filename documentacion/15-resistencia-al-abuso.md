@@ -45,7 +45,7 @@ Seis controles, ordenados por relación entre lo que cuestan y lo que evitan.
 
 **2. Límite por origen y por ventana de tiempo. ADOPTADO el 20 de septiembre de 2026 (DEC-86).** Un número máximo de denuncias por dirección de red y por sesión en una hora y en un día. No impide la denuncia legítima —nadie presenta veinte denuncias distintas en una hora— y convierte el ataque masivo en un ataque lento. Su especificación está en la sección 4 bis.
 
-**3. Verificación del correo antes de emitir el folio.** En la ruta identificada, el folio se entrega cuando la persona confirma el correo. Encarece el envío masivo porque exige un buzón real por denuncia. **No aplica a la ruta anónima**, y ahí está el límite del control: el anonimato es un valor del canal y no puede sacrificarse a la comodidad de la defensa.
+**3. Verificación del correo antes de emitir el folio.** *No aplica mientras no haya servicio de envío de correos (DEC-134).* En la ruta identificada, el folio se entrega cuando la persona confirma el correo. Encarece el envío masivo porque exige un buzón real por denuncia. **No aplica a la ruta anónima**, y ahí está el límite del control: el anonimato es un valor del canal y no puede sacrificarse a la comodidad de la defensa.
 
 **4. Detección de duplicados.** Misma materia, mismo punto dentro de un radio corto, misma ventana de días: en lugar de abrir un expediente nuevo, se acumula al existente y se registra como denuncia adicional. **Es el control que más trabajo ahorra**, y además mejora el expediente legítimo: diez vecinos denunciando el mismo taller valen más juntos que separados.
 
@@ -84,11 +84,11 @@ Lo que el prototipo ya trae es **el lugar y el texto**: la prueba de humanidad v
 | Por navegador | 1 hora | 3 envíos | Se endurece la prueba de humanidad |
 | Por dirección de red | 24 horas | 50 envíos | Corte duro y aviso al área |
 
-**El límite no rechaza, endurece.** Ésa es la regla de diseño: el primer umbral no cierra la puerta, sube el costo. Sólo el último corta, y aun así la denuncia puede presentarse por correo o en persona. **La ventana es deslizante**, no de reloj de pared: si no, todo el mundo reintenta al dar la hora.
+**El límite no rechaza, endurece.** Ésa es la regla de diseño: el primer umbral no cierra la puerta, sube el costo. Sólo el último corta, y aun así la denuncia puede presentarse en persona. **La ventana es deslizante**, no de reloj de pared: si no, todo el mundo reintenta al dar la hora.
 
 **La red compartida es el caso que hay que cuidar.** Una oficina, una escuela o un café salen por la misma dirección: el límite por origen golpea a quien no hizo nada. Por eso el umbral por navegador es más bajo que el de red, por eso el primer umbral endurece en vez de cerrar, y por eso la pantalla de límite lo dice con todas sus letras.
 
-**Lo que la pantalla del límite tiene que hacer, y ya hace:** decir primero que **la denuncia no se perdió**; no emitir folio, porque no se presentó; ofrecer las dos vías sin límite —correo y Oficialía de Partes—; explicar el caso de la conexión compartida; permitir volver a la denuncia sin recapturarla; y **no publicar las cifras**, que es lo que convierte un umbral en un obstáculo bordeable.
+**Lo que la pantalla del límite tiene que hacer, y ya hace:** decir primero que **la denuncia no se perdió**; no emitir folio, porque no se presentó; ofrecer la vía sin límite —en persona, en la oficina que atiende la zona—; explicar el caso de la conexión compartida; permitir volver a la denuncia sin recapturarla; y **no publicar las cifras**, que es lo que convierte un umbral en un obstáculo bordeable.
 
 ---
 

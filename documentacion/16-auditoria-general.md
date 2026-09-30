@@ -1,5 +1,7 @@
 # Formulario web de Denuncia Ambiental · Auditoría general del proyecto
 
+> **Nota de vigencia · 30 de septiembre de 2026.** Este documento es una **auditoría fechada**: describe el proyecto el 20 de septiembre y **no se actualiza**. Lo vigente está en el documento 05 (decisiones) y en los documentos 09 y 10, que se generan del código. La auditoría de cierre del 30 de septiembre es DEC-146.
+
 **Versión:** 1.0 · 20 de septiembre de 2026
 **Alcance:** los quince documentos, el prototipo completo, la cadena de construcción y las trece baterías de prueba vigentes ese día.
 **Método:** tres revisiones independientes y simultáneas —documental, de código y jurídica—, cada una obligada a verificar sus hallazgos antes de afirmarlos. La revisión de código ejecutó el formulario en un navegador; la jurídica trabajó sin acceso a los PDF de la normativa y así lo declara en cada punto.

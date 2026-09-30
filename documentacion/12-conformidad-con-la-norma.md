@@ -86,7 +86,7 @@ El proyecto contempla el folio interno y el folio público. **No contempla el fo
 **Acción:** solicitar el catálogo de giros o padrón de fuentes fijas; ya está listado en `08-normativa-por-integrar.md`.
 
 **B-08 · Datos ficticios sin conjunto formal** *(§3)*
-Existen doce escenarios de prueba, que sirven para recorrer variantes, pero **no** un conjunto de 25 a 40 registros con todos los valores de cada catálogo representados, ni campo `es_ficticio`. Verificado: la marca no existe en el prototipo.
+Existen once escenarios de prueba, que sirven para recorrer variantes, pero **no** un conjunto de 25 a 40 registros con todos los valores de cada catálogo representados, ni campo `es_ficticio`. Verificado: la marca no existe en el prototipo.
 Y hay un problema de fondo en los que sí existen: nombres como «Hojalatería El Volante» o «Servicios Automotrices del Centro S.A. de C.V.» **parecen negocios reales**. La norma lo prohíbe: un nombre creíble en una base de pruebas termina en una captura de pantalla o en un oficio, y ya no se distingue.
 **Acción:** al construir el conjunto formal, usar denominaciones inequívocamente falsas y legibles, y marcarlas.
 

@@ -142,7 +142,7 @@ La palabra «opcional» aparece **veintiocho veces** en el recorrido completo. C
 
 ### M-08 · Decir qué pasa después
 
-> **Implementada** en su parte no dependiente de P-01: la pantalla de inicio dice qué ocurre después sin comprometer plazos que aún no están resueltos.
+> **Implementada en el acuse** («Qué sigue»), sin plazos (DEC-138). En la pantalla de inicio se retiró con DEC-142.
 **Coste: una redacción. Depende de P-01 y P-08.**
 
 La pregunta que toda persona se hace antes de invertir diez minutos es **«¿me van a hacer caso?»**. Hoy el formulario no la responde en ningún momento.

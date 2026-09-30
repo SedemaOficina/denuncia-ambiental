@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Reglas de negocio
 
-**Versión:** 1.2 · 22 de septiembre de 2026
+**Versión:** 1.3 · 30 de septiembre de 2026
 Cada regla se identifica con la clave RN-NN. Las reglas marcadas como **[pendiente]** requieren determinación de la Dirección General de Inspección y Vigilancia Ambiental.
 
 ---
@@ -78,11 +78,11 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 ## B. Ubicación del hecho
 
-**RN-10.** La coordenada geográfica es el dato rector de la ubicación. **La alcaldía no se pregunta:** la determina el punto por cruce con `alcaldias.geojson`, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse (DEC-72). Desaparecieron el selector, el catálogo de alcaldías y el aviso de discrepancia.
+**RN-10.** La coordenada geográfica es el dato rector de la ubicación: la alcaldía que decide el turnado la determina el punto por cruce con `alcaldias.geojson` (DEC-72). La dirección lleva además su propia alcaldía, elegida de una lista, que acota las colonias que se ofrecen (DEC-118). Si la alcaldía de la dirección y la del punto no coinciden, se avisa y se marca en el expediente; no se corrige, porque cerca del límite puede no haber error.
 
-**RN-11.** La colonia, el código postal y la calle se proponen por geocodificación inversa a partir de la coordenada y son editables por la persona denunciante.
+**RN-11.** La colonia se elige del catálogo del IECM 2022 de la alcaldía elegida, y se admite escrita si no aparece; el código postal se escribe y sólo se admite del 01000 al 16999 (DEC-117). El número exterior es obligatorio, con «S/N» como respuesta válida (DEC-120). Manzana y lote aparecen sólo a quien dice que su predio se identifica así (DEC-124).
 
-**RN-12.** El lugar de los hechos es independiente de la ubicación física de la persona denunciante y de su domicilio para notificaciones. El formulario ofrece **tres vías enunciadas juntas y con el mismo peso**: buscar la dirección escrita, pegar la ubicación de Google Maps —enlace, coordenadas o código plus— o dar clic sobre el mapa. **No se pide permiso de ubicación al navegador** (DEC-67). El punto puede moverse cuantas veces sea necesario, y al moverlo se pide confirmarlo de nuevo.
+**RN-12.** El lugar de los hechos es independiente de la ubicación física de la persona denunciante y de su domicilio para notificaciones. El punto se coloca de tres maneras: a partir de la dirección escrita, pegando la ubicación de Google Maps —enlace, coordenadas o código plus— o con un clic sobre el mapa; se ajusta arrastrándolo. **No se pide permiso de ubicación al navegador** (DEC-67). **Con dirección, el punto es opcional**: sin él, la Secretaría ubica el lugar con la dirección y el folio no nombra área hasta hacerlo (DEC-123). Sin dirección, el punto es obligatorio.
 
 **RN-13.** El mapa permanece limpio: las zonas no se dibujan de manera general. Únicamente cuando el punto cae dentro de un polígono —Área de Valor Ambiental, Área Natural Protegida o suelo de conservación— se traza ese polígono y sólo ése. Si el punto cae en suelo urbano no se dibuja nada. El mapa no lleva leyenda: el resultado del cruce se lee en la ficha, que expresa por separado el **tipo de zona** —Área de Valor Ambiental, Área Natural Protegida, suelo de conservación o suelo urbano— y la **categoría** —bosque urbano, barranca, local o federal con su categoría de decreto—.
 
@@ -94,9 +94,9 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 ## C. Identificación de la persona denunciante
 
-**RN-17.** Se admite la denuncia anónima, advirtiendo que sin datos de contacto la Secretaría no puede notificar el seguimiento ni requerir información adicional.
+**RN-17.** Se admite la denuncia anónima. No pide nombre ni domicilio, pero sí un **correo de contacto, obligatorio**, para que la Secretaría pueda pedir lo que falte; el teléfono es opcional (DEC-119, DEC-120).
 
-**RN-18.** Cuando la persona se identifica, el nombre se captura desagregado en nombre, apellido paterno y apellido materno, y el domicilio en calle, número exterior, número interior, colonia, código postal, alcaldía o municipio y entidad federativa.
+**RN-18.** Cuando la persona se identifica, el nombre se captura desagregado en nombre, apellido paterno y apellido materno. El **domicilio para notificaciones se pide siempre y es obligatorio** (DEC-134), con la misma forma que la dirección del lugar (DEC-135): en la Ciudad, alcaldía en lista, colonia del catálogo y código postal de la Ciudad; con la casilla «Vivo fuera de la Ciudad de México», entidad en lista, municipio y colonia escritos (DEC-136).
 
 **RN-19.** Los datos personales de la persona denunciante no se hacen del conocimiento de la persona denunciada ni se difunden.
 
@@ -120,15 +120,15 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 **RN-25.** La carga de elementos probatorios es opcional. **[pendiente]** Confirmar el límite de archivos y de peso; el prototipo asume diez archivos de hasta 25 MB.
 
-**RN-26.** El formulario advierte que las fotografías no deben editarse, para conservar la fecha y la ubicación con que fueron tomadas.
+**RN-26.** Las fotografías se optimizan en el navegador antes de subir. Antes se calcula la huella SHA-256 del original y se leen su fecha y lugar de captura, que se guardan aparte en el expediente (DEC-121).
 
 ## E. Acuse y seguimiento
 
-**RN-27.** Al enviarse, la denuncia recibe folio con la estructura `SEDEMA/DGIVA/DEN/AAAA/NNNNNN`.
+**RN-27.** Al enviarse, la denuncia recibe folio con la estructura `SEDEMA/<área>/DEN/AAAA/NNNNNN`, donde el área es la que determina el punto; sin punto, el folio no lleva segmento de área (DEC-100, DEC-123). **[pendiente]** Estructura definitiva y consecutivo (P-13).
 
-**RN-28.** Cuando existe correo electrónico, se envía acuse en formato PDF. En la denuncia anónima el folio se entrega únicamente en pantalla.
+**RN-28.** No hay envío de correos. El folio se entrega en pantalla y la persona descarga su acuse en PDF, con el folio, la fecha de recepción y todo lo que capturó (DEC-134, DEC-139).
 
-**RN-29.** Los plazos del procedimiento constan en el Manual Administrativo y el formulario los comunica: **tres días hábiles** para turnar la denuncia al área competente, **diez** para que esa área analice el caso, **cinco** para turnar o rechazar si no es de su competencia, y **noventa y tres días hábiles** el procedimiento completo en suelo urbano —noventa en suelo de conservación—. Son días hábiles y pueden variar. **[pendiente]** Falta el plazo para responder a quien pregunta por el avance de su folio, que corresponde a la Jefatura de Unidad Departamental de Seguimiento a Denuncias (P-07).
+**RN-29.** Los plazos del procedimiento constan en el Manual Administrativo —tres días hábiles para turnar, diez para analizar, cinco para turnar o rechazar si no es de su competencia, y noventa y tres días hábiles el procedimiento completo en suelo urbano, noventa en suelo de conservación—, pero **el formulario no los comunica** (DEC-138). **[pendiente]** Falta el plazo para responder a quien pregunta por el avance de su folio (P-07).
 
 ## F. Estado de prueba
 

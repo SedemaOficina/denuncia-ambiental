@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Ruta de trabajo y convenciones de código
 
-**Versión:** 1.4 · 20 de septiembre de 2026
+**Versión:** 1.5 · 30 de septiembre de 2026
 **Para qué sirve este documento.** Fija el orden en que se construye el sistema, el criterio para dar por terminada cada fase y las reglas de código que se aplican desde la maqueta. Es el documento que se consulta antes de abrir cualquier módulo nuevo.
 
 ---
@@ -17,13 +17,15 @@ De ahí se sigue el orden: mientras el formulario ciudadano no esté validado po
 
 Ninguna fase inicia sin que la anterior cumpla su criterio de salida. El criterio es verificable: no es una opinión sobre el avance.
 
+**Equivalencia con las tres etapas de la Oficina de la Secretaría** (documento 01): la etapa 1, validar el formulario, es la fase 1; la etapa 2, el módulo de acceso de la Secretaría, es la fase 5 y su tablero; la etapa 3, la implementación en el SIA, reúne las fases 2, 3, 4 y 6.
+
 ### Fase 1 · Maqueta del formulario ciudadano *(en curso)*
 
 Prototipo navegable, sin servidor, con los datos y las capas embebidos.
 
 **Criterio de salida**
 
-1. Las dieciocho materias y sus fundamentos verificados contra el texto vigente.
+1. Las diecinueve materias y sus fundamentos verificados contra el texto vigente.
 2. Las bifurcaciones documentadas y simulables una por una desde el panel de pruebas.
 3. El mapeo de campos obligatorios acordado con la Dirección General (documento 09). Hay una sola lista: el conmutador entre dos esquemas se retiró con DEC-97.
 4. Auditorías de estilo, heurística y accesibilidad aplicadas y sin hallazgos abiertos de severidad alta.
@@ -75,7 +77,7 @@ El cruce espacial deja el navegador y las geometrías simplificadas.
 
 ### Fase 4 · Versión funcional del formulario
 
-Persistencia, folio con consecutivo administrado, carga real de archivos y acuse en PDF.
+Persistencia, folio con consecutivo administrado, carga real de archivos y acuse en PDF con el folio que emite el servidor.
 
 **Criterio de salida.** Prueba controlada con un grupo reducido de personas usuarias reales y con personal de la Dirección General, antes de la publicación abierta.
 
@@ -85,7 +87,7 @@ Bandeja, detalle, estados, asignación, indicadores y exportación.
 
 ### Fase 6 · Seguimiento ciudadano (AD-02)
 
-Consulta de estatus, notificación de avance y aportación posterior de información.
+Consulta de estatus por folio y aportación posterior de información. La notificación de avance por correo sólo si se contrata un servicio de envío (DEC-134).
 
 **Regla de precedencia.** AD-02 no se construye antes que AD-01: sólo puede mostrar estados que el área sustantiva registre efectivamente.
 
@@ -1024,3 +1026,18 @@ Los otros cuatro hallazgos de esa misma auditoría —`.encima`, `.w3`, `.humano
 
 1. **El icono de plásticos de un solo uso es el de residuos sólidos**, de modo que la tarjeta queda con el mismo icono que su vecina «Residuos de un establecimiento». Es un defecto visible y pide un icono propio del set institucional.
 2. **`num_ext` y `entre_calles` no declaran su condición en `OBLIG`** aunque sólo se pidan en la ruta con domicilio, de modo que el documento 09 dice de ellos «Siempre» donde debería decir «Sólo cuando el lugar tiene calle y número». `manzana` y `lote` nacen con la condición declarada; los dos viejos siguen sin ella. Es una línea en cada uno, y no se tocó por no abrir un asunto dentro de un bloque abierto.
+
+---
+
+### 29 y 30 de septiembre de 2026 · bloque «de DEC-117 a DEC-146»
+
+Treinta decisiones en dos días. El detalle de cada una está en el documento 05; aquí queda lo que cambió de fondo.
+
+- **La dirección se volvió estructurada.** Colonia del catálogo del IECM 2022 acotada por la alcaldía elegida, código postal de la Ciudad, número exterior obligatorio, manzana y lote a pregunta, y celda UGA que asigna el punto sin mostrarse (DEC-117, DEC-118, DEC-120, DEC-124).
+- **El punto dejó de ser obligatorio con dirección.** Quien no sabe usar un mapa denuncia con la dirección; la Secretaría ubica el lugar después (DEC-123). La guía para copiar la ubicación de Google Maps lleva dibujos propios (DEC-125).
+- **Sin Llave CDMX y sin correos automáticos.** La identificación queda en dos rutas, con datos o anónima (DEC-130); no se pregunta por notificación electrónica, el domicilio se pide siempre y admite domicilios fuera de la Ciudad (DEC-134 a DEC-136).
+- **El acuse lo descarga la persona**, en PDF armado en el navegador, con folio, fecha, todo lo revisado y las huellas de las fotos (DEC-139).
+- **Sin plazos en pantalla** (DEC-138), con aviso de privacidad reducido a dos apartados mientras se desarrolla el completo.
+- **Portada y pie rehechos.** Oficina según la zona, tarjetas del mismo alto, preguntas frecuentes, un solo estilo por nivel y pie con redes sociales (DEC-137, DEC-140 a DEC-145).
+- **Versión de prueba en GitHub Pages** para la aprobación (DEC-127) y **mapeo de campos que siempre refleja la última versión**, con los datos que viajan sin verse (DEC-128).
+- **Auditoría de cierre (DEC-146).** Fuera el código sin uso y los comentarios que describían versiones anteriores; `construir.py` ya no tiene reglas que no sustituyen nada y detiene la construcción si una deja de encontrar su texto; los documentos 01, 02, 04, 11, 12, 13, 15 y 16 y el `README` quedaron al día; el proyecto de Claude recibe las mismas versiones.

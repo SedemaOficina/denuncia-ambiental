@@ -17,7 +17,8 @@ El entorno donde se publica el artefacto **bloquea todo recurso externo**. El pr
 | `construir.py` | Transforma el archivo local en la versión publicable |
 | `mapa_svg.js` | El mapa vectorial que sustituye a Leaflet. Se inyecta al final, de modo que **sus definiciones sobrescriben a las del prototipo** |
 | `generar_doc09.py` | Regenera `documentacion/09-mapeo-campos-obligatorios.md` desde `OBLIG` y `DERIVADOS`, y pone en el prototipo la versión del formulario (la última decisión del documento 05). Correrlo después de cada cambio (DEC-128) |
-| `publicar_pages.py` | Copia el prototipo a `docs/index.html` para GitHub Pages: sin la configuración local ni su clave, con aviso de versión de prueba y sin indexar en buscadores (DEC-127) |
+| `publicar_pages.py` | Copia el prototipo a `docs/index.html` para GitHub Pages: sin la configuración local ni su clave, con la franja gris de versión de prueba y sin indexar en buscadores (DEC-127, DEC-137) |
+| `generar_doc10.py` | Regenera `documentacion/10-variantes-del-formulario.md` desde `BIFURCACIONES` y `ESCENARIOS` |
 | `generar_catalogos.py` | Incrusta en el prototipo el catálogo de colonias (IECM 2022) y los centros de la malla UGA, a partir de `capas/originales/` (DEC-117). Idempotente |
 | `validar_catalogos.py` | Coteja los catálogos incrustados contra los polígonos completos. Requiere `shapely`; se corre al cambiar un origen |
 | `pruebas.py` | Corre todas las pruebas y suma el resultado |
@@ -30,6 +31,8 @@ python3 construccion/construir.py          # genera construccion/artefacto.html
 python3 construccion/pruebas.py            # lo comprueba
 python3 construccion/generar_catalogos.py  # sólo si cambió una capa de capas/originales/
 python3 construccion/generar_doc09.py      # rehace el documento 09 desde OBLIG
+python3 construccion/generar_doc10.py      # rehace el documento 10 desde las ramas y escenarios
+python3 construccion/publicar_pages.py     # rehace docs/index.html para GitHub Pages
 ```
 
 Las pruebas necesitan Playwright y un Chromium; la ruta al navegador se pasa en la variable `CHROMIUM` si no es la predeterminada. La batería 20 genera sus imágenes de prueba con `Pillow` y `numpy`, en una carpeta temporal.
@@ -38,7 +41,7 @@ Las pruebas necesitan Playwright y un Chromium; la ruta al navegador se pasa en 
 
 **Primera: una sustitución que no encuentra su objetivo detiene el guion.** El 19 de septiembre una expresión regular dejó de coincidir porque el marcado había ganado un `flex-wrap:wrap`. La sustitución falló **en silencio** y el artefacto se publicó con un botón que allí no funciona. Desde entonces cada sustitución frágil comprueba que cambió algo y aborta si no. Un guion de construcción que sigue adelante sin haber hecho su trabajo es peor que uno que se rompe.
 
-**Segunda: lo que `mapa_svg.js` sobrescribe hay que mantenerlo al día a mano.** Como se carga después, sus versiones de `quitaPunto`, `ponMarcador` e `iniciaMapa` ganan. El mismo día se descubrió que `quitaPunto` se había quedado atrás: no limpiaba una clave nueva y sí limpiaba cinco que ya no existen. **Al tocar en el prototipo cualquiera de las funciones que este archivo redefine, hay que revisar si aquí también.**
+**Segunda: lo que `mapa_svg.js` sobrescribe hay que mantenerlo al día a mano.** Como se carga después, sus versiones de `iniciaMapa`, `ponMarcador`, `vaA` y `ubicaPorDireccion` ganan. El 19 de septiembre se descubrió que una de ellas se había quedado atrás: no limpiaba una clave nueva y sí limpiaba cinco que ya no existen. **Al tocar en el prototipo cualquiera de las funciones que este archivo redefine, hay que revisar si aquí también.**
 
 ## Lo que las pruebas cubren
 

@@ -248,7 +248,7 @@ with sync_playwright() as pw:
       const out = {}; let veces = 0;
       const real = window.ubicaPorDireccion;
       window.ubicaPorDireccion = () => { veces++; };
-      const limpio = () => { estado = {}; olvidaBusqueda(); veces = 0;
+      const limpio = () => { estado = {}; ULTIMA_BUSQUEDA = ''; veces = 0;
         guarda('materia','tala'); guarda('tiene_direccion','si'); };
 
       /* 1. La direccion incompleta no consulta, por mucho que se salga de los campos. */

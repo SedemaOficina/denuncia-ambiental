@@ -9,14 +9,16 @@ Esta carpeta está vinculada al proyecto **Denuncias Ambientales** en Claude: lo
 | Carpeta | Contenido |
 |---|---|
 | `prototipo/` | Prototipo navegable del formulario. Es un archivo HTML autocontenido: se abre con doble clic en el navegador. Requiere conexión a internet para el mapa base y la búsqueda por dirección. |
-| `documentacion/` | Ficha del proyecto, reglas de negocio, marco jurídico, modelo de datos y documento de decisiones y pendientes. Los mismos documentos están en el proyecto de Claude. |
-| `capas/` | Capas del Sistema de Información Ambiental usadas por el formulario: alcaldías, Áreas de Valor Ambiental y Áreas Naturales Protegidas, y suelo de conservación. |
+| `documentacion/` | Diecisiete documentos: ficha, reglas de negocio, marco jurídico, modelo de datos, decisiones y pendientes (el de referencia), mapeo de campos y ramas —generados del código—, ruta de trabajo, auditorías fechadas y análisis de la base histórica. Los mismos documentos están en el proyecto de Claude. |
+| `capas/` | Capas del Sistema de Información Ambiental usadas por el formulario: alcaldías, Áreas de Valor Ambiental y Áreas Naturales Protegidas, suelo de conservación y, en `originales/`, colonias del IECM 2022 y la malla UGA. |
+| `construccion/` | Lo que genera la versión en línea, la de GitHub Pages y los documentos 09 y 10, y las baterías de prueba. Ver su `LEEME.md`. |
+| `docs/` | La versión de prueba que publica GitHub Pages. Se genera; no se edita a mano. |
 | `insumos/` | Formato público vigente, propuesta de la Dirección General de Inspección y Vigilancia Ambiental y Ley Ambiental de la Ciudad de México. |
 
 ## Cómo usar el prototipo en una sesión de validación
 
 1. Abre `prototipo/prototipo-denuncia-ambiental-sedema.html`.
-2. El botón **Panel de validación**, en la esquina inferior derecha, permite comparar las variantes de identificación, activar la obligatoridad de campos, abrir el comparativo de campos y cargar un caso de ejemplo.
+2. El botón **Panel de validación**, en la esquina inferior derecha, permite exigir los campos obligatorios, simular el límite de envíos, cargar uno de los once escenarios de prueba y abrir el mapeo de campos y las ramas del formulario.
 3. Mientras el formulario está en prueba, **ningún campo es obligatorio**: se puede recorrer completo sin llenar nada. La única regla que sí bloquea es la de competencia territorial.
 
 ## Configuración local

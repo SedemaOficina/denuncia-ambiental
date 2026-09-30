@@ -95,8 +95,8 @@ with sync_playwright() as pw:
     # Partes. El correo electrónico se retiró: ofrecerlo abría una tercera vía
     # de recepción que nadie había diseñado ni tiene quien la turne (DEC-99).
     afirma(r['salidas'] == 2, 'ofrece dos salidas, no un muro (%d)' % r['salidas'])
-    afirma('en persona' in r['texto'] and 'Oficialía de Partes' in r['texto'],
-           'la vía presencial, con su domicilio al pie')
+    afirma('en persona' in r['texto'] and 'oficinas' in r['texto'] and 'al pie' in r['texto'],
+           'la vía presencial, con las oficinas al pie (DEC-146)')
     afirma('correo electrónico' not in r['texto'],
            'y no se ofrece el correo como canal de denuncia')
     afirma('compartes la conexión' not in r['texto'],

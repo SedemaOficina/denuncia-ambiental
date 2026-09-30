@@ -4,8 +4,8 @@
 **Titularidad del desarrollo:** Sistema de Información Ambiental, Secretaría del Medio Ambiente de la Ciudad de México
 **Control de versiones:** repositorio git en la carpeta del proyecto, desde el 18 de septiembre de 2026, publicado en `SedemaOficina/denuncia-ambiental`
 **Nota sobre el historial:** el historial se reescribió el 19 de septiembre de 2026 para retirar de él un documento de trabajo de la Dirección General de Inspección y Vigilancia Ambiental que no debía publicarse. La reescritura creó commits nuevos con **raíz nueva** (`b28e8b5`), sin ancestro común con la publicada antes (`fef6652`). El repositorio en GitHub se borró y se creó de nuevo para que ningún objeto de la historia anterior quedara almacenado ahí. Los cuatro primeros commits conservan sus mensajes originales y su contenido, sin ese documento; **no hay nada perdido**. Quien encuentre referencias a identificadores anteriores a `b28e8b5` está mirando la historia previa a la limpieza
-**Estado:** prototipo navegable en validación interna
-**Última actualización:** 20 de septiembre de 2026
+**Estado:** prototipo navegable en validación, publicado como versión de prueba en GitHub Pages (DEC-127)
+**Última actualización:** 30 de septiembre de 2026
 
 ---
 
@@ -29,10 +29,10 @@ El canal vigente presenta cinco deficiencias que el formulario corrige:
 |---|---|
 | Captura estructurada de la denuncia | Sustitución de la Oficialía de Partes; el canal presencial se conserva |
 | Filtro previo de competencia y derivación | Sustanciación del procedimiento administrativo de inspección |
-| Georreferenciación y determinación automática del área competente | Notificación electrónica de actos administrativos |
-| Carga de elementos probatorios | Consulta pública del estado del expediente (fase 4) |
-| Folio y acuse automáticos | Módulo de administración y seguimiento (fase 3, diferida) |
-| | Interoperabilidad con la PAOT o el INVEA (fase 4) |
+| Georreferenciación y determinación automática del área competente | Notificación electrónica: no hay servicio de envío de correos (DEC-134) |
+| Carga de elementos probatorios | Consulta pública del estado del expediente (etapa 3) |
+| Folio y acuse en PDF que la persona descarga | Módulo de administración y seguimiento (etapa 2, diferida) |
+| | Interoperabilidad con la PAOT o el INVEA (etapa 3) |
 
 ## 4. Actores
 
@@ -42,15 +42,15 @@ El canal vigente presenta cinco deficiencias que el formulario corrige:
 - **Sistema de Información Ambiental.** Provee las capas geográficas y, en la versión funcional, los servicios de geocodificación y cruce espacial.
 - **Autoridades receptoras por derivación.** Secretaría de Obras y Servicios, Secretaría de Seguridad Ciudadana, PAOT, PROFEPA, INVEA, Agencia de Atención Animal y alcaldías.
 
-## 5. Arquitectura por fases
+## 5. Arquitectura por etapas
 
-**Fase 1 — Prototipo navegable (en curso).** Cierra con el acta de validación de la DGIVA y la resolución de P-01 y P-02. Archivo HTML autocontenido, sin servidor, con las capas del Sistema de Información Ambiental embebidas. Sirve para validar el flujo, los campos y las reglas de enrutamiento con la Dirección General de Inspección y Vigilancia Ambiental antes de programar nada.
+Tres etapas, en el orden que fijó la Oficina de la Secretaría. El documento 11 las desglosa en fases con criterio de salida.
 
-**Fase 2 — Versión funcional.** Formulario en Google Apps Script con respaldo en Sheets, carga de archivos a Drive, folio consecutivo, acuse en PDF y tablero de seguimiento para el área sustantiva. Permite operar sin depender de tiempos de la Dirección General de Tecnologías de la Información.
+**Etapa 1 — Validar el formulario (en curso).** Prototipo navegable, sin servidor, con las capas del Sistema de Información Ambiental embebidas y una versión de prueba en GitHub Pages. Cierra con el acta de validación de la Dirección General de Inspección y Vigilancia Ambiental y la resolución de P-01 y P-02.
 
-**Fase 3 — Módulo de administración y seguimiento.** Herramienta interna para el equipo que atiende las denuncias: usuarios con perfiles diferenciados, bandeja con filtros, detalle de la denuncia con mapa y evidencia, control de estados, tableros de indicadores y exportación. **Diferida hasta que el formulario de denuncia esté validado**, porque se construye sobre su modelo de datos. El alcance previsto está descrito en el documento de decisiones, apartado AD-01.
+**Etapa 2 — Módulo de acceso de la Secretaría.** Entrada protegida para el personal, con cuentas institucionales, bandeja de denuncias y tablero de indicadores, sobre la misma base que el formulario (AD-01). Se construye sobre el modelo de datos validado en la etapa 1.
 
-**Fase 4 — Integración institucional.** Publicación en el portal de la Secretaría, servicios de cruce espacial y geocodificación resueltos en servidor contra las capas completas, y consulta ciudadana del estado de la denuncia por folio.
+**Etapa 3 — Implementación en el SIA.** El servidor del Sistema de Información Ambiental recibe y guarda la denuncia, emite el folio, resuelve el cruce espacial contra las capas completas, la geocodificación y los controles contra el envío masivo, y sostiene la consulta ciudadana por folio (AD-02). El detalle está en el documento «Qué resuelve el servidor del SIA».
 
 ## 6. Ubicación de los archivos
 
@@ -61,8 +61,9 @@ El proyecto tiene una carpeta local vinculada a esta sesión de trabajo:
 | Carpeta | Contenido |
 |---|---|
 | `prototipo/` | Prototipo navegable del formulario, en un archivo HTML autocontenido |
-| `documentacion/` | Los quince documentos de este proyecto |
+| `documentacion/` | Los diecisiete documentos de este proyecto y la cédula de respuesta a la DGIVA |
 | `capas/` | Capas del Sistema de Información Ambiental empleadas por el formulario |
+| `construccion/` | Cadena que genera la versión en línea, la de GitHub Pages y los documentos 09 y 10, y las baterías de prueba |
 | `insumos/` | Formato público vigente, propuesta de la Dirección General y Ley Ambiental |
 
 Los entregables se escriben directamente en esa carpeta. La documentación se mantiene además en el proyecto de Claude, de modo que las dos copias se actualizan a la vez.
@@ -80,3 +81,5 @@ Los entregables se escriben directamente en esa carpeta. La documentación se ma
 | Manual Administrativo de la SEDEMA | Secretaría del Medio Ambiente | Nombres de las unidades que atienden y plazos del procedimiento |
 | Manual de Identidad Gráfica Institucional 2024-2030 y set de iconos | Gobierno de la Ciudad de México | Identidad visual del formulario |
 | Ley Ambiental de la Ciudad de México, Gaceta Oficial 18 de julio de 2024 | Congreso de la Ciudad de México | Fundamento jurídico |
+| Colonias del IECM 2022 (1 837 unidades territoriales) | Sistema de Información Ambiental | Catálogo de colonias de la dirección y del domicilio |
+| Malla UGA (1 624 celdas de ~1 km², versión del 22-09-2026) | Sistema de Información Ambiental | Celda del punto, para operativos y estadística |

@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-144 · 30 de septiembre de 2026
+**Versión:** DEC-146 · 30 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -100,7 +100,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 
 | Campo | Obligatorio | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|
-| Cómo se presenta la denuncia | Obligatorio | No | Siempre | Determina qué datos se piden y qué seguimiento es posible. Con datos escritos hay nombre y contacto; la anónima no lleva nombre y sólo admite avisos si la persona deja un correo (DEC-119). En las tres rutas los datos son confidenciales frente a la persona denunciada. |
+| Cómo se presenta la denuncia | Obligatorio | No | Siempre | Determina qué datos se piden. Con datos escritos hay nombre, contacto y domicilio para notificaciones; la anónima no lleva nombre y exige un correo de contacto (DEC-120, DEC-134). En las dos rutas los datos son confidenciales frente a la persona denunciada. |
 | Nombre(s) | Obligatorio | **Sí** | Siempre | Identificación de la persona denunciante en el expediente y en el acuse. |
 | Apellido paterno | Obligatorio | **Sí** | Siempre | Identificación de la persona denunciante en el expediente y en el acuse. |
 | Apellido materno | Opcional | **Sí** | Siempre | Completa la identificación en el registro administrativo. |
