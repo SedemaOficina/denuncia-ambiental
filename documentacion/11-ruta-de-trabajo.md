@@ -75,7 +75,7 @@ El cruce espacial deja el navegador y las geometrías simplificadas.
 
 ### Fase 4 · Versión funcional del formulario
 
-Persistencia, folio con consecutivo administrado, carga real de archivos, acuse en PDF y correo de notificación.
+Persistencia, folio con consecutivo administrado, carga real de archivos y acuse en PDF.
 
 **Criterio de salida.** Prueba controlada con un grupo reducido de personas usuarias reales y con personal de la Dirección General, antes de la publicación abierta.
 

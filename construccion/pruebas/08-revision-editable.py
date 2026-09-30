@@ -29,7 +29,6 @@ PREPARA = """() => {
   guarda('es_estab','si'); guarda('temporalidad','recurrente');
   guarda('identificacion','nombre'); guarda('nombre','Ana'); guarda('apellido_paterno','Ruiz');
   guarda('telefono','5512345678'); guarda('correo','ana@ejemplo.mx');
-  guarda('notif_correo','no'); guarda('reserva','si');
   guarda('sexo_genero','mujer'); guarda('edad_rango','30-44');
   irA(6);
 }"""

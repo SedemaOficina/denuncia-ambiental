@@ -1101,30 +1101,21 @@ var OBLIG = {
   telefono:         {p:5, oblig:true,  etq:'Teléfono', dp:true, fin:'Contacto',
      uso:'Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119).'},
   correo:           {p:5, oblig:true,  etq:'Correo electrónico', dp:true, fin:'Contacto',
-     uso:'Envío del acuse, notificación del avance y consulta del estatus. En la denuncia anónima también es obligatorio: es la vía para enviar el folio e informar el trámite sin conocer el nombre (DEC-119, DEC-120).'},
+     uso:'Contacto por escrito: la Secretaría puede escribir para aclarar datos o informar el trámite. No hay envío automático de correos (DEC-134). En la denuncia anónima también es obligatorio: es la única forma de contactar a quien no da su nombre (DEC-119, DEC-120).'},
   dom_calle:        {p:5, oblig:true,  etq:'Domicilio · calle', dp:true, fin:'Contacto',
-     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
-     uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
+     uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_num_ext:      {p:5, oblig:true,  etq:'Domicilio · número exterior', dp:true, fin:'Contacto',
-     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
-     uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
+     uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_num_int:      {p:5, oblig:false, etq:'Domicilio · número interior', dp:true, fin:'Contacto',
-     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
-     uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
+     uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_colonia:      {p:5, oblig:true,  etq:'Domicilio · colonia', dp:true, fin:'Contacto',
-     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
-     uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
+     uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_cp:           {p:5, oblig:true,  etq:'Domicilio · código postal', dp:true, fin:'Contacto',
-     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
-     uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
+     uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_alcaldia:     {p:5, oblig:true,  etq:'Domicilio · alcaldía o municipio', dp:true, fin:'Contacto',
-     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
-     uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
+     uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_entidad:      {p:5, oblig:true,  etq:'Domicilio · entidad federativa', dp:true, fin:'Contacto',
-     cond:function(){ return val('notif_correo')==='no'; } , cond_txt:'Sólo cuando la persona no acepta la notificación electrónica',
-     uso:'Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica.'},
-  notif_correo:     {p:5, oblig:true,  etq:'Consentimiento de notificación por correo', dp:false, fin:'Cumplimiento',
-     uso:'Registra la vía de notificación elegida; de ella depende que se pida o no el domicilio.'},
+     uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   /* Estadistica. Son opcionales en las dos rutas —tambien en la anonima— porque
      no identifican a nadie: un genero y un rango de edad no son datos de
      contacto. Se declaran aqui, y no sueltos en la pantalla, para que el
@@ -1215,7 +1206,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-133', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-134', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1223,7 +1214,7 @@ var VERSION_FORMULARIO = {dec:'DEC-133', fecha:'30 de septiembre de 2026'};
    enviar el folio ni informar el tramite. El telefono sigue opcional. */
 var CONTACTO_ANONIMO = ['correo','telefono'];
 var EXIGIDO_ANONIMO  = ['correo'];
-var SOLO_IDENTIFICADO = ['nombre','apellido_paterno','apellido_materno','telefono','correo','notif_correo',
+var SOLO_IDENTIFICADO = ['nombre','apellido_paterno','apellido_materno','telefono','correo',
   'dom_calle','dom_num_ext','dom_num_int','dom_colonia','dom_cp','dom_alcaldia','dom_entidad'];
 
 function esObligatorio(k){
@@ -1270,9 +1261,7 @@ var BIFURCACIONES = [
   {paso:'3', pregunta:'Desde cuándo ocurre y fecha', opciones:'Único · Recurrente · Permanente, con fecha anterior o posterior a un año',
    efecto:'Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único.'},
   {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Escribir los datos · Denuncia anónima',
-   efecto:'Con datos, se piden nombre, contacto y vía de notificación. La anónima no pide nombre ni domicilio; exige un correo para avisos y ofrece el teléfono como opcional.'},
-  {paso:'5', pregunta:'¿Notificación por correo?', opciones:'Sí · No',
-   efecto:'«No» despliega los siete campos del domicilio. «Sí» los suprime.'},
+   efecto:'Con datos, se piden nombre, teléfono, correo y domicilio para notificaciones. La anónima no pide nombre ni domicilio; exige un correo de contacto y ofrece el teléfono como opcional.'},
   {paso:'Todos', pregunta:'Obligatoriedad', opciones:'Desactivada · Activa',
    efecto:'Activa, cada paso exige sus campos obligatorios antes de continuar y los demás se marcan como opcionales.'},
   {paso:'Todos', pregunta:'Filtro de competencia', opciones:'Activo · Inactivo',
@@ -1294,9 +1283,11 @@ var ESCENARIOS = [
       identificacion:'nombre',
       nombre:'María Fernanda', apellido_paterno:'Ramírez', apellido_materno:'Cortés',
       correo:'mf.ramirez@ejemplo.mx', telefono:'5555010203',
-      notif_correo:'si', privacidad:'si'}},
+      dom_calle:'Calzada de Tlalpan', dom_num_ext:'4820', dom_colonia:'La Joya',
+      dom_cp:'14090', dom_alcaldia:'Tlalpan', dom_entidad:'Ciudad de México',
+      privacidad:'si'}},
   {id:'urbano', nom:'Comercio en suelo urbano',
-   d:'Emisiones de un taller · identificado · notificación por correo · DGIVA',
+   d:'Emisiones de un taller · identificado · DGIVA',
    paso:6, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'emisiones', lat:'19.432600', lon:'-99.133200',
       calle:'Avenida Chapultepec', num_ext:'440', colonia:'Centro I', alcaldia_dir:'Cuauhtémoc', cp:'06010',
@@ -1307,7 +1298,9 @@ var ESCENARIOS = [
       resp_encargado:'El encargado se identifica como Raúl',
       nombre:'María Fernanda', apellido_paterno:'Ríos', apellido_materno:'Galván',
       telefono:'5512345678', correo:'ejemplo@correo.com',
-      notif_correo:'si', privacidad:'si', identificacion:'nombre'}},
+      dom_calle:'Avenida Chapultepec', dom_num_ext:'452', dom_colonia:'Roma Norte',
+      dom_cp:'06700', dom_alcaldia:'Cuauhtémoc', dom_entidad:'Ciudad de México',
+      privacidad:'si', identificacion:'nombre'}},
 
   {id:'conservacion', nom:'Tala en suelo de conservación, anónima',
    d:'Tala · anónima · responsable desconocido · DGCORENADR',
@@ -1333,7 +1326,7 @@ var ESCENARIOS = [
       resp_area:'Cuadrilla de servicios urbanos', resp_obra:'Lona de obra sin número visible',
       nombre:'Jorge', apellido_paterno:'Hernández', apellido_materno:'Luna',
       telefono:'5598765432', correo:'ejemplo2@correo.com',
-      notif_correo:'no', dom_calle:'Calle Oriente 249', dom_num_ext:'14', dom_colonia:'Agrícola Oriental',
+      dom_calle:'Calle Oriente 249', dom_num_ext:'14', dom_colonia:'Agrícola Oriental',
       dom_cp:'08500', dom_alcaldia:'Iztacalco', dom_entidad:'Ciudad de México',
       privacidad:'si', identificacion:'nombre'}},
 
@@ -2586,17 +2579,18 @@ function pDenunciante(){
       opcion('nombre','Escribo mis datos',
         'Recibes folio y acuse, y la Secretaría puede pedirte información adicional. Para consultar el estado necesitarás el folio.')+
       opcion('anonima','Denuncia anónima',
-        'No das tu nombre. Sólo te pedimos un correo para enviarte el folio y los avisos del trámite.')+
+        'No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda escribirte.')+
     '</div><div class="err" id="e_identificacion">Elige una de las dos formas para poder continuar.</div></div>';
 
   /* La anonima no pide nombre, pero si un correo: es por donde la Secretaria
-     envia el folio, informa el tramite y pide lo que falte. Es obligatorio
+     puede escribir para pedir lo que falte. No hay envio automatico de
+     correos, y la pantalla no lo promete (DEC-134). Es obligatorio
      (DEC-120); el telefono sigue opcional. Los dos, si se escriben, se
      revisan en su forma (DEC-119). */
   if(anon){
-    h += '<p class="ayuda" style="margin:4px 0 14px">No te pedimos tu nombre. Sólo necesitamos un correo para enviarte el folio y los avisos del trámite. El teléfono es opcional: sirve para que el personal de inspección te pida una aclaración.</p>'+
+    h += '<p class="ayuda" style="margin:4px 0 14px">No te pedimos tu nombre. Sólo necesitamos un correo para que la Secretaría pueda escribirte si necesita aclarar algo. El teléfono es opcional.</p>'+
       '<div class="fila">'+
-        campo('correo','Correo electrónico para avisos','email',esObligatorio('correo'),'Ahí recibirás el folio y los avisos','autocomplete="email" inputmode="email"')+
+        campo('correo','Correo electrónico de contacto','email',esObligatorio('correo'),'','autocomplete="email" inputmode="email"')+
         campo('telefono','Teléfono','tel',false,'Opcional · a diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
       '</div>';
   }
@@ -2609,16 +2603,14 @@ function pDenunciante(){
     '</div>'+
     '<div class="fila">'+
       campo('telefono','Teléfono','tel',esObligatorio('telefono'),'A diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
-      campo('correo','Correo electrónico','email',esObligatorio('correo'),'Ahí recibirás el acuse y el folio','autocomplete="email" inputmode="email"')+
+      campo('correo','Correo electrónico','email',esObligatorio('correo'),'','autocomplete="email" inputmode="email"')+
     '</div>'+
 
-    campoSiNo('notif_correo','¿Aceptas que la Secretaría te notifique por correo electrónico?',
-      'Si aceptas, no necesitas dar un domicilio: todo el seguimiento llega al correo que registraste.')+
-    (val('notif_correo')==='si' ?
-      '<div class="aviso aviso-ok">Recibirás el acuse y el resultado en <strong>'+(val('correo')?esc(val('correo')):'el correo que registres arriba')+'</strong>. No necesitas dar un domicilio.</div>' : '')+
-    (val('notif_correo')!=='no' ? '' :
+    /* Ya no se pregunta si se acepta la notificacion por correo: no hay
+       servicio de envio automatico. El domicilio es la via de notificacion
+       y se pide siempre en esta ruta (DEC-134). */
     '<h3 class="sub-seccion">Domicilio para recibir notificaciones</h3>'+
-    '<p class="ayuda" style="margin-bottom:16px">Puede ser distinto del lugar de los hechos.</p>'+
+    '<p class="ayuda" style="margin-bottom:16px">Ahí te notificará la Secretaría. Puede ser distinto del lugar de los hechos.</p>'+
     '<div class="fila-3">'+
       campo('dom_calle','Calle','texto',esObligatorio('dom_calle'),'','autocomplete="address-line1"')+
       campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'','autocomplete="address-line2" inputmode="numeric"')+
@@ -2631,7 +2623,7 @@ function pDenunciante(){
     '<div class="fila">'+
       campo('dom_alcaldia','Alcaldía o municipio','texto',esObligatorio('dom_alcaldia'),'','autocomplete="address-level2"')+
       campo('dom_entidad','Entidad federativa','texto',esObligatorio('dom_entidad'),'Ciudad de México, Estado de México, etc.','autocomplete="address-level1"')+
-    '</div>');
+    '</div>';
     /* Para qué sirven los datos y que no se difunden lo dice el aviso de
        privacidad; repetirlo aquí era un segundo aviso sin valor legal (DEC-133). */
   }
@@ -2810,8 +2802,7 @@ function pRevision(){
   var fQuien =
     r('Denunciante', anon ? 'Denuncia an\u00f3nima' : [val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '), 5, 'identificacion')+
     ((anon && !val('telefono') && !val('correo'))?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' \u00b7 '), 5, anon?'correo':'telefono'))+
-    (anon?'':r('Notificaci\u00f3n', val('notif_correo')==='si'?'Por correo electr\u00f3nico':(val('notif_correo')==='no'?'Por domicilio':''), 5, 'notif_correo'))+
-    (anon||val('notif_correo')==='si'?'':r('Domicilio', [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):''].filter(Boolean).join(' '),
+    (anon?'':r('Domicilio para notificaciones', [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):''].filter(Boolean).join(' '),
                              val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'', val('dom_alcaldia'), val('dom_entidad')].filter(Boolean).join(', '), 5, 'dom_calle'))+
     r('Datos estad\u00edsticos', (function(){
         var g = {mujer:'Mujer',hombre:'Hombre',no_binaria:'No binaria',otro:'Otro',nd:'Prefiere no decirlo'}[val('sexo_genero')]||'';
@@ -2838,7 +2829,7 @@ function pRevision(){
   bloqueRev('pruebas','Pruebas', (nArch? nArch+(nArch===1?' archivo adjunto':' archivos adjuntos') : 'Sin archivos adjuntos')+(val('otras_pruebas')?' \u00b7 con otras pruebas se\u00f1aladas':''), fPruebas)+
   /* La linea de este bloque dice quien denuncia, o que es anonima y si dejo
      correo: es lo que mas pesa de el (DEC-113, DEC-130). */
-  bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima' + (val('correo') ? ' \u00b7 Con correo para avisos' : ' \u00b7 Sin datos de contacto')
+  bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima' + (val('correo') ? ' \u00b7 Con correo de contacto' : ' \u00b7 Sin datos de contacto')
       : ([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' ') || 'Sin nombre capturado'), fQuien)+
   (!val('lat') && !sinDireccion()
     ? '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia se registra con un folio. Como no marcaste el punto, la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
@@ -2858,17 +2849,15 @@ function pAcuse(){
   return '<div class="tarjeta"><div class="acuse">'+
     '<div class="marca">'+svgIcono('check',40,'#fff')+'</div>'+
     '<h2>Tu denuncia fue recibida</h2>'+
-    '<p style="color:var(--gris)">Conserva este folio. Con él puedes consultar el estado de tu denuncia.</p>'+
+    '<p style="color:var(--gris)">Conserva este folio o toma una captura de esta pantalla: con él consultas el estado de tu denuncia.</p>'+
     '<div class="folio"><span id="folioTxt" style="overflow-wrap:anywhere">'+esc(val('folio'))+'</span>'+
       '<button type="button" onclick="copiaFolio(this)">Copiar</button></div>'+
     '<p style="font-size:14px;color:var(--gris)">Recibida el '+esc(val('fecha_acuse'))+'</p>'+
-    (anon && !val('correo')?'<div class="aviso" style="text-align:left;margin-top:18px">Presentaste una denuncia anónima. No recibirás notificaciones; anota el folio para consultarla.</div>'
-         :'<div class="aviso aviso-ok" style="text-align:left;margin-top:18px">Enviamos el acuse en formato PDF al correo <strong>'+esc(val('correo'))+'</strong>. Si no lo ves en unos minutos, revisa la carpeta de correo no deseado.</div>')+
     '<div class="pasos-sig"><h3 style="font-size:16px;color:var(--guinda);margin-bottom:10px">Qué sigue</h3><ol>'+
       '<li>La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.</li>'+
       '<li>Si procede, se integra el expediente y se programa la visita de inspección.</li>'+
       '<li>El inspector ambiental, autorizado por la Secretaría, practica la visita y levanta el acta correspondiente.</li>'+
-      '<li>Se te informa el resultado por el medio de contacto que registraste.</li>'+
+      '<li>'+(anon ? 'Si la Secretaría necesita algo más, te escribirá al correo que dejaste.' : 'Se te notifica el resultado en el domicilio que registraste.')+'</li>'+
     '</ol>'+
     '<p class="nota-gris" style="margin-top:10px">Los primeros dos pasos tienen plazo: <strong>tres días hábiles</strong> para turnar la denuncia al área que corresponde y <strong>diez</strong> para que esa área analice el caso. El procedimiento completo, hasta la resolución notificada, está previsto en <strong>noventa y tres días hábiles</strong> en suelo urbano y <strong>noventa</strong> en suelo de conservación. Son días hábiles y pueden variar si otra dependencia tarda en responder o si la persona denunciada interpone un medio de defensa.</p>'+
     (val('tipo_denunciado')==='gobierno' ?

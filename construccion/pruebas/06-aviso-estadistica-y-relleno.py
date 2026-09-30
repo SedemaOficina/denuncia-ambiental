@@ -111,7 +111,7 @@ with sync_playwright() as pw:
            'y el mensaje dice cuál es el problema, no «este dato es necesario»: %r' % v['mensaje'][:60])
     afirma('Revisa' in v['resumen'] or 'Faltan' in v['resumen'], 'el resumen de errores lo recoge')
 
-    # ---- 4. El acuse: ratificacion y correo ----
+    # ---- 4. El acuse: ratificacion, y sin promesa de correo (DEC-134) ----
     ac = pg.evaluate("""() => {
       guarda('folio','SEDEMA-2026-000001'); guarda('identificacion','nombre');
       guarda('correo','persona@ejemplo.mx'); guarda('fecha_acuse','20 de septiembre de 2026');
@@ -119,11 +119,11 @@ with sync_playwright() as pw:
       const t = document.getElementById('app').innerText;
       return {ratifica: t.indexOf('ratificar') >= 0,
               tresDias: t.indexOf('tres d\\u00edas h\\u00e1biles') >= 0,
-              spam: t.indexOf('correo no deseado') >= 0};
+              promete: t.indexOf('correo no deseado') >= 0 || t.indexOf('Enviamos') >= 0};
     }""")
     afirma(ac['ratifica'] and ac['tresDias'],
            'el acuse explica la ratificación de la Procuraduría y que aquí no hace falta')
-    afirma(ac['spam'], 'y avisa que el acuse puede caer en correo no deseado')
+    afirma(not ac['promete'], 'y no promete un acuse por correo: no hay servicio de envío (DEC-134)')
 
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])
     pg.close(); nav.close()

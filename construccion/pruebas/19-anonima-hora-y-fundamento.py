@@ -98,10 +98,24 @@ with sync_playwright() as pw:
     rv = pg.evaluate("""() => { irA(6); alternaDetalleRevision();
       const q = document.querySelector('#rb_quien .rb-res'); const dt=[...document.querySelectorAll('.resumen dt')].find(x=>x.textContent.indexOf('Contacto')===0);
       return {res: q?q.textContent:'', contacto: dt?dt.nextElementSibling.textContent:''}; }""")
-    afirma('anónima' in rv['res'] and 'correo' in rv['res'], 'la revisión dice «anónima · con correo para avisos»: %r' % rv['res'])
+    afirma('anónima' in rv['res'] and 'correo' in rv['res'], 'la revisión dice «anónima · con correo de contacto»: %r' % rv['res'])
     afirma('ana@correo.mx' in rv['contacto'], 'y muestra el correo')
     ac = pg.evaluate("""() => { guarda('folio','SEDEMA-PRUEBA'); irA(7); return document.getElementById('app').innerText; }""")
-    afirma('ana@correo.mx' in ac and 'No recibirás notificaciones' not in ac, 'el acuse se envía al correo de la anónima')
+    afirma('escribirá al correo' in ac and 'Enviamos' not in ac, 'el acuse no promete envíos: dice que la Secretaría escribirá si necesita algo')
+
+    # ---- 4 ter. Sin notificación por correo; domicilio siempre (DEC-134) ----
+    nd = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('identificacion','nombre'); irA(5);
+      const t = document.getElementById('app').innerText;
+      return {notif: !!document.getElementById('c_notif_correo'), dom: !!document.getElementById('f_dom_calle'),
+              oblig: ['dom_calle','dom_num_ext','dom_colonia','dom_cp','dom_alcaldia','dom_entidad'].every(k => esObligatorio(k)),
+              promete: /recibirás el acuse|te notifique por correo|llega al correo/i.test(t),
+              declarado: 'notif_correo' in OBLIG}; }""")
+    afirma(not nd['notif'] and not nd['declarado'], 'ya no se pregunta si se acepta la notificación por correo')
+    afirma(nd['dom'] and nd['oblig'], 'con datos, el domicilio para notificaciones se pide siempre y es obligatorio')
+    afirma(not nd['promete'], 'la pantalla no promete correos automáticos')
+    ac2 = pg.evaluate("""() => { guarda('correo','x@correo.mx'); guarda('folio','SEDEMA-PRUEBA'); irA(7); return document.getElementById('app').innerText; }""")
+    afirma('Enviamos' not in ac2 and 'captura' in ac2 and 'domicilio que registraste' in ac2,
+           'el acuse pide conservar el folio o una captura, y el resultado se notifica en el domicilio')
 
     # ---- 4 bis. Formatos admitidos (DEC-120) ----
     f = pg.evaluate("""() => { archivos.length=0; irA(4);

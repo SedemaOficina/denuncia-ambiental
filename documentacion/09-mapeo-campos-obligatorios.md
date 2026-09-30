@@ -1,18 +1,18 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-133 · 30 de septiembre de 2026
+**Versión:** DEC-134 · 30 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos que llena la persona | **55** |
+| Campos que llena la persona | **54** |
 | Datos que viajan a la base sin verse en pantalla | **13** |
 | Datos que calcula el formulario y se muestran | 14 |
-| Datos personales | **20** (36 %) |
-| Obligatorios en este formulario | 26 de 55 |
-| Campos con obligatoriedad condicionada | 26 |
+| Datos personales | **20** (37 %) |
+| Obligatorios en este formulario | 25 de 54 |
+| Campos con obligatoriedad condicionada | 19 |
 | Datos sin uso declarado | **0** |
 
 ---
@@ -29,7 +29,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 12 |
-| **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 3 |
+| **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 2 |
 | **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 5 |
 
 ---
@@ -104,15 +104,14 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Apellido paterno | Obligatorio | **Sí** | Siempre | Identificación de la persona denunciante en el expediente y en el acuse. |
 | Apellido materno | Opcional | **Sí** | Siempre | Completa la identificación en el registro administrativo. |
 | Teléfono | Obligatorio | **Sí** | Siempre | Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119). |
-| Correo electrónico | Obligatorio | **Sí** | Siempre | Envío del acuse, notificación del avance y consulta del estatus. En la denuncia anónima también es obligatorio: es la vía para enviar el folio e informar el trámite sin conocer el nombre (DEC-119, DEC-120). |
-| Domicilio · calle | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
-| Domicilio · número exterior | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
-| Domicilio · número interior | Opcional | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
-| Domicilio · colonia | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
-| Domicilio · código postal | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
-| Domicilio · alcaldía o municipio | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
-| Domicilio · entidad federativa | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona no acepta la notificación electrónica | Notificación por domicilio. Sólo se pide si la persona no acepta la notificación electrónica. |
-| Consentimiento de notificación por correo | Obligatorio | No | Siempre | Registra la vía de notificación elegida; de ella depende que se pida o no el domicilio. |
+| Correo electrónico | Obligatorio | **Sí** | Siempre | Contacto por escrito: la Secretaría puede escribir para aclarar datos o informar el trámite. No hay envío automático de correos (DEC-134). En la denuncia anónima también es obligatorio: es la única forma de contactar a quien no da su nombre (DEC-119, DEC-120). |
+| Domicilio · calle | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · número exterior | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · número interior | Opcional | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · colonia | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · código postal | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · alcaldía o municipio | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · entidad federativa | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Género | Opcional | **Sí** | Siempre | Desagregación estadística de quién denuncia en la Ciudad. Opcional; no condiciona el trámite ni se incorpora al expediente. La identidad de género es dato sensible: sólo puede tratarse con consentimiento expreso, y por eso la pregunta admite no responder. |
 | Rango de edad | Opcional | **Sí** | Siempre | Desagregación estadística por edad. Opcional; no condiciona el trámite ni se incorpora al expediente. |
 | Protesta de decir verdad y aviso de privacidad | Obligatorio | No | Siempre | Constancia del consentimiento informado y de la protesta de decir verdad. |

@@ -37,7 +37,6 @@ PREPARA = """() => {
   guarda('tipo_denunciado','empresa'); guarda('establecimiento','Constructora del Sur');
   guarda('identificacion','nombre'); guarda('nombre','Ana'); guarda('apellido_paterno','Ruiz');
   guarda('telefono','5512345678'); guarda('correo','ana@ejemplo.mx');
-  guarda('notif_correo','no'); guarda('reserva','si');
   guarda('dom_calle','Miguel Angel de Quevedo'); guarda('dom_num_ext','22');
   guarda('dom_colonia','Chimalistac'); guarda('dom_cp','01070');
   guarda('sexo_genero','mujer'); guarda('edad_rango','30-44');

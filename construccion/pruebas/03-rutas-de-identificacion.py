@@ -55,7 +55,7 @@ with sync_playwright() as pw:
 
     # 5. Ruta anonima
     pg.evaluate("guarda('identificacion','anonima'); render()"); pg.wait_for_timeout(300)
-    #    La anónima no pide nombre, pero sí un correo para avisos (DEC-119,
+    #    La anónima no pide nombre, pero sí un correo de contacto (DEC-119,
     #    DEC-120); el teléfono es opcional.
     an = pg.evaluate("""() => ({campos: document.querySelectorAll('#f_nombre').length,
       contacto: !!document.getElementById('f_correo') && !!document.getElementById('f_telefono'),

@@ -135,7 +135,6 @@ with sync_playwright() as pw:
           cfg.validar = true;
           guarda('materia','tala'); guarda('tiene_direccion','si');
           guarda('tipo_denunciado','empresa'); guarda('identificacion','nombre');
-          guarda('notif_correo','no');
           irA(n);
           const out = {marca: [], err: []};
           Object.keys(OBLIG).forEach(k => {
