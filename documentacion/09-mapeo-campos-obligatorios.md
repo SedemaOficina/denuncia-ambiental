@@ -7,10 +7,10 @@
 
 | | |
 |---|---|
-| Campos del formulario | **58** |
+| Campos del formulario | **59** |
 | Datos personales | **20** (34 %) |
-| Obligatorios en este formulario | 27 de 58 |
-| Campos con obligatoriedad condicionada | 28 |
+| Obligatorios en este formulario | 27 de 59 |
+| Campos con obligatoriedad condicionada | 30 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -21,7 +21,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 
 | Finalidad | Para qué | Campos |
 |---|---|---|
-| **Competencia** | Determinar la competencia y turnar al área que atiende | 5 |
+| **Competencia** | Determinar la competencia y turnar al área que atiende | 6 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 15 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 9 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
@@ -48,7 +48,8 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 |---|---|---|---|---|
 | ¿El lugar tiene calle y número? | Obligatorio | No | Siempre | Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia. |
 | Ubicación pegada: enlace, coordenadas o código de lugar | Opcional | No | Siempre | Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró. |
-| Punto en el mapa | Obligatorio | **Sí** | Siempre | Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas. |
+| Punto en el mapa | Obligatorio *(condicionado)* | **Sí** | Obligatorio sólo cuando el lugar no tiene dirección; con dirección, si no se marca, la Secretaría ubica el lugar a partir de ella | Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas. Con dirección es opcional: quien no sabe usar un mapa no puede quedarse sin denunciar; entonces la Secretaría ubica el lugar con la dirección y el turnado espera a ese paso (DEC-123). |
+| Origen de la ubicación | Opcional | No | No se pregunta: «punto» si la persona lo marcó, «dirección» si la Secretaría debe ubicar el lugar | Separa las denuncias que llegan con punto de las que hay que ubicar con la dirección antes de turnarlas; alimenta la bandeja «por ubicar» del módulo interno (DEC-123). |
 | Alcaldía | Obligatorio *(condicionado)* | No | No se pregunta: la determina el punto del mapa | Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse. La dirección lleva además su propia alcaldía (`alcaldia_dir`, DEC-118), que **no la sustituye**. |
 | Alcaldía de la dirección | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Parte del domicilio del lugar en la orden de visita y filtro del catálogo de colonias: sólo se ofrecen las de la alcaldía elegida. **No decide el turnado**: quién atiende lo sigue resolviendo la alcaldía del punto (DEC-72). Si no coinciden, el formulario lo avisa y el expediente lo marca (DEC-118). |
 | Alcaldía de la dirección distinta de la del punto | Opcional | No | No se pregunta: la calcula el formulario al comparar las dos alcaldías | Marca para quien recibe la denuncia: la dirección y el punto no están en la misma alcaldía. No impide enviar, porque cerca del límite puede no haber error; sí obliga a mirar antes de programar la visita (DEC-118). |

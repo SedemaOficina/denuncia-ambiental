@@ -310,7 +310,7 @@ with sync_playwright() as pw:
       return document.getElementById('c_lat').innerText; }"""); pg.wait_for_timeout(250)
     # Ojo: «Al pegarla, el punto se coloca solo» es de la via de Google Maps y
     # ahi si aplica. Lo que no debe aparecer es la promesa sobre la direccion.
-    afirma('Con la direcci' not in txt and 'no tiene domicilio' in txt,
+    afirma('Con la direcci' not in txt and 'no tiene dirección' in txt,
            'sin domicilio, no se promete que la direccion coloque el punto')
     afirma('clic sobre el mapa' in txt and 'Google Maps' in txt,
            'y se ofrecen las dos vias que si funcionan ahi')

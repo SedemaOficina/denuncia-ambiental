@@ -167,7 +167,8 @@ with sync_playwright() as pw:
     # ---- 6 bis. El resumen de errores nombra el campo como la pantalla ----
     r = pg.evaluate("""() => {
       cfg.validar = true; estado = {}; archivos = [];
-      guarda('materia','tala'); guarda('tiene_direccion','si');
+      /* Sin direccion, porque con direccion el punto es opcional (DEC-123). */
+      guarda('materia','tala'); guarda('tiene_direccion','no');
       irA(2); valida(2);
       const c = document.getElementById('resumenErrores');
       if(!c) return null;

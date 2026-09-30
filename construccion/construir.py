@@ -79,18 +79,13 @@ s = s.replace(
 #        el texto hace, porque en esta version no se cumple.
 _antes = s
 s = s.replace(
- '<strong>Al terminar de escribir la dirección, el punto se coloca solo.</strong> Si quedó fuera de lugar, arrástralo o da un clic donde corresponda. También puedes:',
- 'Esta versión en línea no ubica la dirección por ti. Marca el punto directamente:')
+ '<span class="solo-local">Al terminar de escribir la dirección, el punto se coloca solo; si quedó fuera de lugar, arrástralo.</span>',
+ '<span class="solo-local">Esta versión de prueba no ubica la dirección sola: márcalo tú o continúa sin punto.</span>')
 if s == _antes:
     sys.exit('ERROR: no se corrigió la promesa de que la dirección coloca el punto; revisa el texto.')
 
-# 5 ter. El estado vacío no puede nombrar un botón que aquí no existe.
-_antes = s
-s = s.replace(
- 'Captura la dirección y pulsa <strong>Ubicar en el mapa</strong>, o coloca el punto directamente sobre el mapa.',
- 'Pega las coordenadas o da un clic directamente sobre el mapa.')
-if s == _antes:
-    sys.exit('ERROR: el estado vacío sigue nombrando una vía que aquí no existe; revisa el texto.')
+# 5 ter. (Retirado en DEC-123: el estado vacío ya no nombra el botón «Ubicar en
+#        el mapa» en el origen, que era lo que esta regla corregía aquí.)
 
 # 6. Sustituir la implementación del mapa
 mapa = open(MAPA, encoding='utf-8').read()

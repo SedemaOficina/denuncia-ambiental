@@ -377,7 +377,6 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .vias li{padding:14px 16px;border-top:1px solid var(--linea)}
 .vias li:first-child{border-top:none}
 .vias li .campo{margin-bottom:10px}
-.vias .via-mapa{font-size:var(--t-md);color:var(--gris)}
 /* Como sacar la ubicacion: plegado, para no cargar a quien ya sabe (DEC-122). */
 .como-ubicar{margin:-2px 0 4px;font-size:var(--t-sm);color:var(--gris)}
 .como-ubicar summary{cursor:pointer;color:var(--azul);font-weight:600;text-decoration:underline;padding:6px 0;min-height:36px;display:inline-flex;align-items:center}
@@ -909,7 +908,11 @@ var OBLIG = {
   coord_pegar:      {p:2, oblig:false, etq:'Ubicación pegada: enlace, coordenadas o código de lugar', dp:false, fin:'Localización',
      uso:'Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró.'},
   lat:              {p:2, oblig:true,  etq:'Punto en el mapa', dp:true, fin:'Competencia',
-     uso:'Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas.'},
+     cond:function(){ return sinDireccion(); } , cond_txt:'Obligatorio sólo cuando el lugar no tiene dirección; con dirección, si no se marca, la Secretaría ubica el lugar a partir de ella',
+     uso:'Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas. Con dirección es opcional: quien no sabe usar un mapa no puede quedarse sin denunciar; entonces la Secretaría ubica el lugar con la dirección y el turnado espera a ese paso (DEC-123).'},
+  ubicacion_origen: {p:2, oblig:false, etq:'Origen de la ubicación', dp:false, fin:'Competencia',
+     cond:function(){ return true; } , cond_txt:'No se pregunta: «punto» si la persona lo marcó, «dirección» si la Secretaría debe ubicar el lugar',
+     uso:'Separa las denuncias que llegan con punto de las que hay que ubicar con la dirección antes de turnarlas; alimenta la bandeja «por ubicar» del módulo interno (DEC-123).'},
   alcaldia:         {p:2, oblig:true,  etq:'Alcaldía', dp:false, fin:'Competencia',
      cond:function(){ return !!val('lat'); } , cond_txt:'No se pregunta: la determina el punto del mapa',
      uso:'Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse. La dirección lleva además su propia alcaldía (`alcaldia_dir`, DEC-118), que **no la sustituye**.'},
@@ -1783,21 +1786,24 @@ function pUbicacion(){
 
   /* ---- Bloque B · el punto ---- */
   h += '<div class="campo" id="c_lat">'+
-    '<h3 class="sub-seccion">El punto en el mapa'+marca_opc(esObligatorio('lat'))+'</h3>'+
-    '<p class="ayuda" style="margin-bottom:14px">De esta ubicación dependen la alcaldía, el tipo de suelo y el área que atiende la denuncia. '+
+    /* DEC-123. La alcaldia ya se escribe arriba, en la direccion: el texto no
+       la vuelve a mencionar. Con direccion, el punto es opcional y se dice
+       por que conviene; sin direccion, es la unica forma de saber donde es. */
+    '<h3 class="sub-seccion">'+(sinDir ? 'Marca el lugar en el mapa' : 'Marca el lugar en el mapa, si puedes')+marca_opc(esObligatorio('lat'))+'</h3>'+
+    '<p class="ayuda" style="margin-bottom:14px">'+
       (sinDir
-        ? 'Este sitio no tiene domicilio, así que el punto se marca directamente:'
-        : '<strong>Al terminar de escribir la dirección, el punto se coloca solo.</strong> Si quedó fuera de lugar, arrástralo o da un clic donde corresponda. También puedes:')+'</p>'+
+        ? 'Como el sitio no tiene dirección, el punto es la única forma de saber dónde está. De él depende qué área de la Secretaría atiende tu denuncia.'
+        : 'Con el punto se sabe desde ahora qué área atiende tu denuncia. <strong>Si no puedes marcarlo, basta la dirección</strong>: la Secretaría ubicará el lugar con ella. '+
+          '<span class="solo-local">Al terminar de escribir la dirección, el punto se coloca solo; si quedó fuera de lugar, arrástralo.</span>')+'</p>'+
 
     '<ul class="vias">'+
       '<li>'+
         campo('coord_pegar','Pegar la ubicación de Google Maps o las coordenadas','texto',false,
-          'Al pegarla, el punto se coloca solo.',
+          'Al pegarla, el punto se coloca solo. También puedes dar un clic sobre el mapa, y arrastrar el punto para ajustarlo.',
           'placeholder="Por ejemplo: 19.4326, -99.1332" '+
           'onpaste="setTimeout(colocaPorTexto,0)" onblur="colocaPorTexto()"')+
         ayudaUbicacion()+
       '</li>'+
-      '<li class="via-mapa">Dar un clic sobre el mapa, y arrastrar el punto para ajustarlo.</li>'+
     '</ul>'+
 
     '<div id="resBusqueda"></div>'+
@@ -1838,8 +1844,8 @@ function cajaCapas(){
   if(!val('lat')){
     return '<div class="aviso" style="margin-bottom:22px">'+(sinDireccion()
       ? 'Da un clic sobre el mapa para colocar el punto donde ocurren los hechos.'
-      : 'Captura la dirección y pulsa <strong>Ubicar en el mapa</strong>, o coloca el punto directamente sobre el mapa.')+
-      ' De esa ubicación dependen la alcaldía, el tipo de suelo y el área que atiende la denuncia.</div>';
+      : 'Todavía no hay punto. Puedes continuar así: la Secretaría ubicará el lugar con la dirección que escribiste y entonces se sabrá qué área atiende la denuncia.')+
+      '</div>';
   }
   var t = val('capa_tipo'), n = val('capa_nombre'), dg = val('dg');
   if(val('fuera')==='si'){
@@ -2548,9 +2554,9 @@ function pRevision(){
      quiera leerlo entero. */
   var fUbicacion =
     r(sinDireccion()?'Sitio de los hechos':'Lugar de los hechos', ubic, 2, sinDireccion()?'nombre_lugar':'calle')+
-    r('Coordenadas', val('lat')?val('lat')+', '+val('lon'):'', 2, 'coord_pegar')+
-    (sinDireccion() ? '' : r('Alcaldía que atiende', val('alcaldia') + (discrepaAlcaldia() ? ' \u00b7 no coincide con la de la dirección' : ''), 0))+
-    r('Tipo de suelo', [val('capa_tipo'),val('capa_nombre')].filter(Boolean).join(' \u2014 '), 0)+
+    r('Coordenadas', val('lat')?val('lat')+', '+val('lon'):(sinDireccion()?'':'Sin marcar · la Secretaría ubicará el lugar con la dirección'), 2, 'coord_pegar')+
+    (sinDireccion() ? '' : r('Alcaldía que atiende', val('lat') ? val('alcaldia') + (discrepaAlcaldia() ? ' \u00b7 no coincide con la de la dirección' : '') : 'Se determinará al ubicar la dirección', 0))+
+    r('Tipo de suelo', val('lat') ? [val('capa_tipo'),val('capa_nombre')].filter(Boolean).join(' \u2014 ') : 'Se determinará al ubicar la dirección', 0)+
     r('\u00c1rea que atiende', val('dg_nombre'), 0)+
     r('Referencias', refs, 2, 'referencias');
 
@@ -2616,11 +2622,13 @@ function pRevision(){
       : ([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' ') || 'Sin nombre capturado')
         + (haySesion() ? ' \u00b7 Acreditada con cuenta Llave CDMX'
           : (val('identificacion')==='nombre' ? ' \u00b7 Datos sin acreditaci\u00f3n' : '')), fQuien)+
-  '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia se registra con un folio y se turna a '+
+  (!val('lat') && !sinDireccion()
+    ? '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia se registra con un folio. Como no marcaste el punto, la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
+    : '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia se registra con un folio y se turna a '+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+
     (val('dg')==='FEDERAL'
       ? '. Como el punto se ubica en un Área Natural Protegida de competencia federal, la Secretaría la recibe y la remite: los plazos de atención los fija esa autoridad.</div>'
-      : ', que la recibe en tres días hábiles y analiza el caso en diez.</div>')+
+      : ', que la recibe en tres días hábiles y analiza el caso en diez.</div>'))+
   cajaHumano()+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(5)"><span class="fl" aria-hidden="true">\u2039</span>Corregir</button>'+
   '<button type="button" class="btn btn-primario" onclick="enviar()">Enviar denuncia</button></div></div>';
@@ -3839,8 +3847,11 @@ function enviar(){
      que manda el asunto a la DGCORENADR emitia un folio que decia DGIVA, y el
      acuse se contradecia dos parrafos mas abajo. La estructura definitiva
      esta a decision en P-13 (DEC-100). */
-  var area = val('dg')==='DGCORENADR' ? 'DGCORENADR' : (val('dg')==='FEDERAL' ? 'REM' : 'DGIVA');
-  guarda('folio','SEDEMA/'+area+'/DEN/2026/'+String(n).padStart(6,'0'));
+  /* Sin punto no hay turnado todavia: el folio no nombra un area que nadie
+     ha determinado (DEC-123). */
+  guarda('ubicacion_origen', val('lat') ? 'punto' : 'direccion');
+  var area = !val('lat') ? '' : (val('dg')==='DGCORENADR' ? 'DGCORENADR' : (val('dg')==='FEDERAL' ? 'REM' : 'DGIVA'));
+  guarda('folio','SEDEMA/'+(area ? area+'/' : '')+'DEN/2026/'+String(n).padStart(6,'0'));
   var d = new Date();
   var meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   guarda('fecha_acuse', d.getDate()+' de '+meses[d.getMonth()]+' de '+d.getFullYear()+', '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+' horas');
