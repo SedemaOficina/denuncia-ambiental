@@ -4620,12 +4620,20 @@ function pdfEnsambla(paginas, logo, W, H){
 
 function descargaAcuse(b){
   if(b){ b.disabled = true; b.textContent = 'Preparando el acuse…'; }
+  var nombre = 'acuse-' + String(val('folio') || 'denuncia').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf';
   construyeAcusePdf().then(function(bytes){
-    var blob = new Blob([bytes], {type: 'application/pdf'}), url = URL.createObjectURL(blob);
-    var a = document.createElement('a');
-    a.href = url; a.download = 'acuse-' + String(val('folio') || 'denuncia').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf';
-    document.body.appendChild(a); a.click(); a.remove();
-    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+    var blob = new Blob([bytes], {type: 'application/pdf'});
+    /* Dentro del visor de claude.ai la descarga pasa por su capacidad
+       «downloads»; en cualquier otro sitio, un enlace de descarga comun. */
+    var visor = window.claude && typeof window.claude.use === 'function' ? window.claude.use('downloads') : null;
+    return Promise.resolve(visor).then(function(dl){
+      if(dl) return dl.save({filename: nombre, data: blob});
+      var url = URL.createObjectURL(blob), a = document.createElement('a');
+      a.href = url; a.download = nombre;
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+    });
+  }).then(function(){
     if(b){ b.disabled = false; b.textContent = 'Descargar de nuevo'; }
     var n = $('notaAcuse'); if(n) n.textContent = 'Listo: revisa tus descargas. Guárdalo junto con tu folio.';
   }).catch(function(){
