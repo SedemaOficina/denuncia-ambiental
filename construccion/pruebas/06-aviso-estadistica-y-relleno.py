@@ -79,8 +79,9 @@ with sync_playwright() as pw:
     }""")
     afirma(av is not None and av['visible'], 'el aviso de privacidad ocupa lugar en la pantalla')
     afirma(av and av['antesDelCheck'], 'y va antes de la casilla con la que se consiente')
-    afirma(av and av['rotulos'] == 6, 'trae los seis rótulos del aviso simplificado (%s)' % (av and av['rotulos']))
-    afirma(av and av['huecos'] >= 5, 'los datos que faltan quedan a la vista como huecos (%s)' % (av and av['huecos']))
+    # DEC-138: por ahora sólo quién trata los datos y para qué, y el resto por desarrollar.
+    afirma(av and av['rotulos'] == 2, 'trae sólo quién trata los datos y para qué (%s rótulos)' % (av and av['rotulos']))
+    afirma(av and av['huecos'] == 1, 'y un solo letrero de «por desarrollar» (%s)' % (av and av['huecos']))
     afirma(av and av['alertas'] == 0, 'ya no se esconde detrás de una ventana del navegador')
 
     # ---- 3. El relato tiene que parecer un texto ----
@@ -121,8 +122,29 @@ with sync_playwright() as pw:
               tresDias: t.indexOf('tres d\\u00edas h\\u00e1biles') >= 0,
               promete: t.indexOf('correo no deseado') >= 0 || t.indexOf('Enviamos') >= 0};
     }""")
-    afirma(ac['ratifica'] and ac['tresDias'],
-           'el acuse explica la ratificación de la Procuraduría y que aquí no hace falta')
+    afirma(ac['ratifica'] and not ac['tresDias'],
+           'el acuse dice que no hace falta ratificar, sin plazos (DEC-138)')
+
+    # ---- 5. DEC-138: lupa, «Mi caso no está» aparte, textos que crecen, sin plazos ----
+    x = pg.evaluate("""() => { estado = {}; cfg.triage = true; irA(1);
+      const lupa = document.querySelector('.filtro-materia .busca-lupa'), inp = document.getElementById('f_filtro');
+      const otras = document.querySelector('.bloque-otras'), tarjeta = document.querySelector('#app .tarjeta');
+      const cs = otras ? getComputedStyle(otras) : null;
+      return {lupa: !!lupa, sangria: inp ? parseFloat(getComputedStyle(inp).paddingLeft) : 0,
+              otrasFondo: cs ? cs.backgroundColor !== getComputedStyle(tarjeta).backgroundColor : false,
+              otrasBorde: cs ? cs.borderTopStyle === 'dashed' : false}; }""")
+    afirma(x['lupa'] and x['sangria'] >= 40, 'el buscador lleva lupa y el texto no la pisa')
+    afirma(x['otrasFondo'] and x['otrasBorde'], '«Mi caso no está en la lista» se ve aparte, con otro fondo y borde')
+    t = pg.evaluate("""() => { irA(3); const a = document.getElementById('f_hechos'); const cs = getComputedStyle(a);
+      const antes = a.offsetHeight; a.value = ('Humo negro todas las tardes. ').repeat(40); a.dispatchEvent(new Event('input'));
+      return {resize: cs.resize, overflow: cs.overflowY, antes, despues: a.offsetHeight, cabe: a.scrollHeight <= a.clientHeight + 1}; }""")
+    afirma(t['resize'] == 'none' and t['overflow'] == 'hidden', 'los textos largos no muestran barra ni tirador')
+    afirma(t['despues'] > t['antes'] and t['cabe'], 'y crecen solos con lo que se escribe (%s → %s px)' % (t['antes'], t['despues']))
+    pl = pg.evaluate("""() => { cargaEscenario('urbano'); guarda('verificacion','si'); const out = [];
+      for(let n = 0; n <= 6; n++){ irA(n); out.push(document.getElementById('app').innerText); }
+      enviar(); out.push(document.getElementById('app').innerText); return out.join(' '); }""")
+    afirma(not any(w in pl for w in ('días hábiles', 'plazo', 'Plazo')), 'ninguna pantalla menciona plazos')
+    afirma('Las fotos se optimizan' not in pl, 'ni la nota de las fotos optimizadas')
     afirma(not ac['promete'], 'y no promete un acuse por correo: no hay servicio de envío (DEC-134)')
 
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])

@@ -164,7 +164,7 @@ select.sin-elegir{color:var(--gris-cl)}
 select option{color:var(--texto)}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--foco);box-shadow:0 0 0 3px rgba(26,115,199,.18)}
 /* Única excepción al alto mínimo de la regla base anterior. */
-textarea{min-height:130px;resize:vertical;line-height:1.6}
+textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 /* ---------- Renglones de campos ----------
    Cada selector se declara una sola vez. La alineación entre columnas
    vive en el bloque @supports de más abajo y no se repite aquí. */
@@ -267,7 +267,9 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .grupo-materia:first-of-type{margin-top:6px}
 .nota-grupo{font-size:var(--t-sm);color:var(--gris);margin:-2px 0 12px;line-height:1.5;max-width:70ch}
 .filtro-materia{display:flex;gap:9px;margin-bottom:18px}
-.filtro-materia input{flex:1}
+.busca{position:relative;flex:1}
+.busca input{width:100%;padding-left:46px}
+.busca-lupa{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--gris);pointer-events:none}
 .sin-coincidencias{padding:16px;color:var(--gris);font-size:var(--t-md)}
 
 
@@ -296,7 +298,10 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .fila-op.otra .fo-ico{color:var(--gris-cl)}
 .fila-op.otra{border-style:dashed}
 
-.bloque-otras{margin-top:26px;border-top:1px solid var(--linea);padding-top:18px}
+/* Fuera de la lista y con otro fondo: no es un supuesto mas, es la salida
+   para lo que no atiende la Secretaria (DEC-138). */
+.bloque-otras{margin-top:34px;padding:16px 18px 18px;background:var(--fondo);border:1px dashed var(--borde);border-radius:var(--r-caja)}
+.otras-rotulo{margin:0 0 10px;font-size:var(--t-sm);color:var(--gris)}
 .enc-otras{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;
   background:none;border:1px solid var(--linea);border-radius:var(--r-ctrl);padding:14px 16px;min-height:52px;
   font-family:'Cabin',sans-serif;font-size:var(--t-base);font-weight:600;color:var(--gris);cursor:pointer;text-align:left}
@@ -583,6 +588,9 @@ details.rev-bloque .resumen{padding:14px}
 .folio{display:inline-flex;flex-wrap:wrap;justify-content:center;max-width:100%;align-items:center;gap:12px;background:var(--guinda);color:var(--blanco);font-family:ui-monospace,Menlo,monospace;font-size:var(--t-lg);letter-spacing:.06em;padding:12px 16px 12px 24px;border-radius:var(--r-ctrl);margin:14px 0;font-weight:600}
 .folio button{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.5);color:var(--blanco);font-family:'Cabin',sans-serif;font-size:var(--t-sm);font-weight:600;padding:8px 12px;border-radius:var(--r-ctrl);cursor:pointer;min-height:40px}
 .folio button:hover{background:rgba(255,255,255,.3)}
+.acuse-pdf{margin:18px auto 4px;max-width:420px}
+.acuse-pdf .btn{width:100%}
+.acuse-pdf .nota-gris{margin:8px 0 0;text-align:center}
 .pasos-sig{text-align:left;margin-top:22px;border-top:1px solid var(--linea);padding-top:20px}
 .pasos-sig ol{margin-left:20px;font-size:var(--t-md);color:var(--gris)}
 .pasos-sig li{margin-bottom:9px}
@@ -789,9 +797,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
   <div class="caja">
     <button class="cerrar" onclick="document.getElementById('modalPriv').classList.remove('abierto')" aria-label="Cerrar">&times;</button>
     <h3 id="tPriv">Aviso de privacidad</h3>
-    <div class="aviso"><span class="pendiente">Pendiente de reexpedición</span> El aviso que acompaña al formato vigente se funda en la Ley de Protección de Datos Personales para el Distrito Federal y remite al InfoDF, ambos superados por la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México y el INFO CDMX. Debe reexpedirse antes de publicar el formulario.</div>
-    <p style="font-size:var(--t-md);color:var(--gris);margin-top:14px">El aviso definitivo deberá señalar el sistema de datos personales en el que se incorporan los datos, la finalidad del tratamiento, las transferencias previstas, la persona responsable del sistema y el lugar donde ejercer los derechos de acceso, rectificación, cancelación y oposición.</p>
-    <p style="font-size:var(--t-md);color:var(--gris);margin-top:12px">Los datos de la persona denunciante no se hacen del conocimiento de la persona denunciada ni se difunden.</p>
+    <div class="priv" id="privPie"></div>
   </div>
 </div>
 
@@ -1056,9 +1062,9 @@ var OBLIG = {
   hechos:           {p:3, oblig:true,  etq:'Descripción de lo que ocurre', dp:false, fin:'Expediente',
      uso:'Objeto y alcance de la visita de inspección; es la base de la motivación del acto.'},
   temporalidad:     {p:3, oblig:false, etq:'Desde cuándo ocurre', dp:false, fin:'Expediente',
-     uso:'Determina si la conducta es continua o aislada, lo que define la urgencia y el cómputo del plazo.'},
+     uso:'Determina si la conducta es continua o aislada, lo que define la urgencia de la atención.'},
   fecha_hecho:      {p:3, oblig:false, etq:'Fecha en que ocurrió o inició', dp:false, fin:'Expediente',
-     uso:'Cómputo del plazo de presentación y ubicación temporal de los hechos en el expediente.'},
+     uso:'Ubicación temporal de los hechos en el expediente.'},
   tipo_denunciado:  {p:3, oblig:false, etq:'¿Quién es responsable de los hechos?', dp:false, fin:'Responsable',
      uso:'Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar.'},
   autoridad_nivel:  {p:3, oblig:false, etq:'Ámbito de la autoridad señalada', dp:false, fin:'Responsable',
@@ -1207,7 +1213,7 @@ var DERIVADOS = {
   folio:          {etq:'Folio', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
                    uso:'Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento.'},
   fecha_acuse:    {etq:'Fecha y hora de recepción', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
-                   uso:'Desde cuándo corren los plazos de turnado y análisis.'},
+                   uso:'Fecha y hora en que la denuncia entra al expediente.'},
   size_original:  {etq:'Peso original de la foto', origen:'La foto, al adjuntarla', fin:'Expediente', dp:false, se_ve:true, por:'foto',
                    uso:'Se muestra junto al peso optimizado; deja constancia de la optimización.'},
   sha256_original:{etq:'Huella SHA-256 del original', origen:'La foto, antes de optimizarla', fin:'Expediente', dp:false, se_ve:false, por:'foto',
@@ -1238,7 +1244,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-137', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-139', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1393,7 +1399,7 @@ var ESCENARIOS = [
    e:{tiene_direccion:'si', deriva:'d_ruido'}},
 
   {id:'viejo', nom:'Hechos de hace más de un año',
-   d:'Permanente · aviso del plazo del artículo 22 BIS 2',
+   d:'Permanente · hechos que continúan',
    paso:3, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'cascajo', lat:'19.240000', lon:'-99.105000', es_estab:'no',
       hechos:'Desde hace más de dos años tiran cascajo en el borde del canal. El montón ya ganó varios metros de agua.',
@@ -1642,7 +1648,12 @@ function vaAlPaso(n){
 }
 
 function irA(n){ paso=n; render(); window.scrollTo({top:0,behavior:'smooth'}); }
-function abrePrivacidad(){ $('modalPriv').classList.add('abierto'); }
+function abrePrivacidad(){
+  /* El aviso del pie es el mismo que el del paso 5: se copia de ahi (DEC-138). */
+  var d = document.createElement('div'); d.innerHTML = avisoPrivacidad();
+  var p = $('privPie'), q = d.querySelector('.priv'); if(p && q) p.innerHTML = q.innerHTML;
+  $('modalPriv').classList.add('abierto');
+}
 
 /* El mapeo sale de los catálogos cada vez que se abre: no guarda nada, y por
    eso no puede quedarse atrás del formulario (DEC-128). Tres secciones:
@@ -1830,7 +1841,7 @@ function pInicio(){
       '<h3 class="rotulo-portada">Qué pasa después</h3>'+
       '<ol class="despues">'+
         '<li><b>Folio</b><span>al enviar</span></li>'+
-        '<li><b>Turnado</b><span>en 3 días hábiles</span></li>'+
+        '<li><b>Turnado</b><span>al área que corresponde</span></li>'+
         '<li><b>Visita</b><span>si procede</span></li>'+
         '<li><b>Resultado</b><span>si dejaste contacto</span></li>'+
       '</ol>'+
@@ -1888,8 +1899,13 @@ function pMateria(){
     '<p class="sub">Elige el supuesto que más se parezca a lo que ocurre; al elegirlo pasas al siguiente paso.</p>'+
     '<div class="filtro-materia">'+
       '<label class="solo-lector" for="f_filtro">Buscar entre los supuestos</label>'+
-      '<input type="text" id="f_filtro" placeholder="Busca: humo, ruido, talaron un árbol, escombro…" value="'+esc(val('filtro'))+'" '+
-        'oninput="guarda(\'filtro\',this.value);renderMaterias()">'+
+      '<div class="busca">'+
+        '<svg class="busca-lupa" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">'+
+          '<circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/>'+
+          '<line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>'+
+        '<input type="text" id="f_filtro" placeholder="Busca: humo, ruido, talaron un árbol, escombro…" value="'+esc(val('filtro'))+'" '+
+          'oninput="guarda(\'filtro\',this.value);renderMaterias()">'+
+      '</div>'+
       (val('filtro')?'<button type="button" class="btn btn-secundario" style="padding:11px 16px" onclick="guarda(\'filtro\',\'\');render()">Limpiar</button>':'')+
     '</div>'+
     '<div class="campo" id="c_materia">'+
@@ -1913,6 +1929,7 @@ function pMateria(){
     if(der.length){
       hubo = true;
       h += '<div class="bloque-otras">'+
+        '<p class="otras-rotulo">¿No encuentras tu caso? Algunos los atiende otra autoridad.</p>'+
         '<button type="button" class="enc-otras" aria-expanded="'+(abierto?'true':'false')+'" onclick="guarda(\'otras\',val(\'otras\')===\'si\'?\'\':\'si\');render()">'+
           '<span>Mi caso no está en la lista</span>'+
           '<span class="fo-flecha" aria-hidden="true">'+(abierto?'⌃':'⌄')+'</span>'+
@@ -2406,10 +2423,8 @@ function pHechos(){
   '<button type="button" class="btn btn-primario" onclick="valida(3)&&irA(4)">Continuar</button></div></div>';
 }
 
-/* El art. 22 BIS 2 de la Ley Orgánica de la Procuraduría fija un plazo de un año
-   para presentar la denuncia, contado desde que iniciaron los hechos o desde que
-   se tuvo conocimiento de ellos. En hechos continuos el plazo corre desde el
-   conocimiento, de modo que se advierte sin impedir el envío. */
+/* La fecha de los hechos solo se revisa para que no sea futura. El aviso
+   del plazo de un ano se retiro: el formulario no menciona plazos (DEC-138). */
 function hoyISO(){
   var d=new Date();
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -2422,12 +2437,9 @@ function avisoPlazo(){
   if(isNaN(d)) return '';
   var hoy = new Date();
   if(d > hoy) return '<div class="aviso">La fecha capturada es posterior al día de hoy. Verifícala.</div>';
-  var meses = (hoy - d) / (1000*60*60*24*30.44);
-  if(meses <= 12) return '';
-  if(val('temporalidad')==='permanente' || val('temporalidad')==='recurrente'){
-    return '<div class="aviso">Los hechos iniciaron hace más de un año. Como señalaste que continúan, la denuncia procede; describe también desde cuándo se agravaron o cuándo los conociste.</div>';
-  }
-  return '<div class="aviso"><strong>Los hechos ocurrieron hace más de un año.</strong> Puedes continuar, pero indica en la descripción desde cuándo tuviste conocimiento de ellos: ese es el momento que cuenta para el plazo de presentación.</div>';
+  /* Sin plazo de presentacion: el formulario no fija ni menciona plazos
+     (DEC-138). Solo se revisa que la fecha no sea futura. */
+  return '';
 }
 
 /* El sitio y el sujeto son datos distintos y ninguno sustituye al otro: el
@@ -2597,7 +2609,6 @@ function pEvidencia(){
   '</button>'+
   '<input type="file" id="inputArch" multiple class="oculto" accept="'+ARCHIVOS.exts.map(function(e){return '.'+e;}).join(',')+'" onchange="agregaArchivos(this.files)">'+
   '<div class="lista-arch" id="listaArch" aria-live="polite"></div>'+
-  '<p class="nota-gris" style="margin:10px 0 0">Las fotos se optimizan al agregarlas para que suban rápido, sin perder detalle. Su fecha y lugar de captura se conservan como parte de la prueba.</p>'+
   '<div class="err" id="e_archivos">Espera a que terminen de optimizarse las fotos.</div></div>'+
   campoArea('otras_pruebas','Describe otras pruebas que no puedas adjuntar',false,'Por ejemplo, documentos en original o testimonios.',2)+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(3)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
@@ -2613,6 +2624,15 @@ function pEvidencia(){
    cuánto quiere exponerse, y un muro de autenticación en la primera pantalla
    pierde la denuncia entera, porque todavía no hay nada capturado. */
 function esAnonima(){ return val('identificacion')==='anonima'; }
+
+function avisoPrivacidad(){
+  return '<h3 class="sub-seccion">Aviso de privacidad</h3>'+
+    '<div class="priv">'+
+      '<p><b>Quién trata tus datos.</b> La Secretaría del Medio Ambiente de la Ciudad de México, a través de la Dirección General de Inspección y Vigilancia Ambiental, es la responsable del tratamiento de los datos personales que proporciones, que quedan protegidos en el sistema de datos personales correspondiente.</p>'+
+      '<p><b>Para qué se usan.</b> Registrar tu denuncia y darle seguimiento; identificar a las personas involucradas en el expediente; notificarte las actuaciones; remitir el asunto a la autoridad competente cuando no corresponda a la Secretaría; y, en su caso, con fines estadísticos. El género y el rango de edad son opcionales y se usan únicamente para estadística. De las fotografías se conservan la fecha y el lugar en que se tomaron, como parte de la prueba.</p>'+
+      '<p><span class="pendiente">Aviso de privacidad completo, por desarrollar</span></p>'+
+    '</div>';
+}
 
 function pDenunciante(){
   var anon = esAnonima();
@@ -2719,21 +2739,9 @@ function pDenunciante(){
        {v:'45-59',t:'45 a 59 años'},{v:'60+',t:'60 años o más'},{v:'nd',t:'Prefiero no decirlo'}],false,'')+
 
   /* El aviso se lee en pantalla antes de enviar —como lo hace la PAOT en su
-     formulario— y no detras de un enlace. Lo que todavia no esta verificado
-     queda a la vista como hueco: ninguna de estas notas se inventa (DEC-79). */
-    '<h3 class="sub-seccion">Aviso de privacidad</h3>'+
-    '<div class="priv">'+
-      '<p><b>Quién trata tus datos.</b> La Secretaría del Medio Ambiente de la Ciudad de México, a través de la Dirección General de Inspección y Vigilancia Ambiental, es la responsable del tratamiento de los datos personales que proporciones, que quedan protegidos en el sistema de datos personales correspondiente. <span class="pendiente">Nombre del sistema de datos personales, por registrar</span></p>'+
-      '<p><b>Para qué se usan.</b> Registrar tu denuncia y darle seguimiento; identificar a las personas involucradas en el expediente; notificarte las actuaciones; remitir el asunto a la autoridad competente cuando no corresponda a la Secretaría; y, en su caso, con fines estadísticos. El género y el rango de edad son opcionales y se usan únicamente para estadística. De las fotografías se conservan la fecha y el lugar en que se tomaron, como parte de la prueba.</p>'+
-      '<p><b>Con qué fundamento.</b> El tratamiento deriva de las atribuciones de inspección y vigilancia de la Secretaría previstas en los artículos 279 y 280 de la Ley Ambiental de la Ciudad de México. <span class="pendiente">Artículo del Reglamento Interior que atribuye la función a la unidad responsable, por verificar</span></p>'+
-      '<p><b>Cuánto tiempo se conservan.</b> <span class="pendiente">Ciclo de vida del dato, por confirmar contra el catálogo de disposición documental de la Secretaría</span></p>'+
-      '<p><b>A quién pueden transferirse.</b> <span class="pendiente">Catálogo de transferencias y su fundamento, por determinar</span></p>'+
-      /* Ya no se pregunta: la confidencialidad es la regla, no una opción que
-         haya que pedir (DEC-119). */
-      '<p><b>Confidencialidad.</b> Tu nombre y tus datos de contacto no se hacen del conocimiento de la persona o el establecimiento que denuncias.</p>'+
-      '<p><b>Cómo ejerces tus derechos.</b> Acceso, rectificación, cancelación y oposición, así como la revocación del consentimiento, ante la Unidad de Transparencia de la Secretaría, por la Plataforma Nacional de Transparencia o por TEL-INFO 55 5636 4636. <span class="pendiente">Domicilio, teléfono y correo de la Unidad de Transparencia, por confirmar</span></p>'+
-      '<p><b>Aviso integral.</b> <span class="pendiente">Por reexpedir y publicar</span> El aviso del formato vigente se sustenta en la Ley de Protección de Datos Personales para el Distrito Federal y refiere al InfoDF, ambos superados; debe reexpedirse conforme a la ley vigente de la Ciudad antes de publicar el formulario.</p>'+
-    '</div>'+
+     formulario— y no detras de un enlace (DEC-79). Por ahora solo quien trata
+     los datos y para que; el resto queda por desarrollar (DEC-138). */
+    avisoPrivacidad()+
 
     '<div class="campo" id="c_privacidad"><label for="chkPriv" style="display:flex;gap:9px;align-items:flex-start;font-weight:400">'+
     '<input type="checkbox" id="chkPriv" style="width:auto;margin-top:4px" '+(val('privacidad')==='si'?'checked':'')+' onchange="guarda(\'privacidad\',this.checked?\'si\':\'\');limpiaError(\'privacidad\')">'+
@@ -2918,8 +2926,8 @@ function pRevision(){
     : '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia se registra con un folio y se turna a '+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+
     (val('dg')==='FEDERAL'
-      ? '. Como el punto se ubica en un Área Natural Protegida de competencia federal, la Secretaría la recibe y la remite: los plazos de atención los fija esa autoridad.</div>'
-      : ', que la recibe en tres días hábiles y analiza el caso en diez.</div>'))+
+      ? '. Como el punto se ubica en un Área Natural Protegida de competencia federal, la Secretaría la recibe y la remite a esa autoridad.</div>'
+      : '.</div>'))+
   cajaHumano()+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(5)"><span class="fl" aria-hidden="true">\u2039</span>Corregir</button>'+
   '<button type="button" class="btn btn-primario" onclick="enviar()">Enviar denuncia</button></div></div>';
@@ -2931,21 +2939,25 @@ function pAcuse(){
   return '<div class="tarjeta"><div class="acuse">'+
     '<div class="marca">'+svgIcono('check',40,'#fff')+'</div>'+
     '<h2>Tu denuncia fue recibida</h2>'+
-    '<p style="color:var(--gris)">Conserva este folio o toma una captura de esta pantalla: con él consultas el estado de tu denuncia.</p>'+
+    '<p style="color:var(--gris)">Guarda tu folio y descarga tu acuse: no se envían por correo electrónico. Con el folio consultas el estado de tu denuncia.</p>'+
     '<div class="folio"><span id="folioTxt" style="overflow-wrap:anywhere">'+esc(val('folio'))+'</span>'+
       '<button type="button" onclick="copiaFolio(this)">Copiar</button></div>'+
     '<p style="font-size:14px;color:var(--gris)">Recibida el '+esc(val('fecha_acuse'))+'</p>'+
+    /* Sin correo, el acuse se lo lleva la persona (DEC-139). */
+    '<div class="acuse-pdf">'+
+      '<button type="button" class="btn btn-primario" onclick="descargaAcuse(this)">Descargar acuse (PDF)</button>'+
+      '<p id="notaAcuse" class="nota-gris" aria-live="polite">Incluye tu folio, la fecha y todo lo que capturaste.</p>'+
+    '</div>'+
     '<div class="pasos-sig"><h3 style="font-size:16px;color:var(--guinda);margin-bottom:10px">Qué sigue</h3><ol>'+
       '<li>La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.</li>'+
       '<li>Si procede, se integra el expediente y se programa la visita de inspección.</li>'+
       '<li>El inspector ambiental, autorizado por la Secretaría, practica la visita y levanta el acta correspondiente.</li>'+
       '<li>'+(anon ? 'Si la Secretaría necesita algo más, te escribirá al correo que dejaste.' : 'Se te notifica el resultado en el domicilio que registraste.')+'</li>'+
     '</ol>'+
-    '<p class="nota-gris" style="margin-top:10px">Los primeros dos pasos tienen plazo: <strong>tres días hábiles</strong> para turnar la denuncia al área que corresponde y <strong>diez</strong> para que esa área analice el caso. El procedimiento completo, hasta la resolución notificada, está previsto en <strong>noventa y tres días hábiles</strong> en suelo urbano y <strong>noventa</strong> en suelo de conservación. Son días hábiles y pueden variar si otra dependencia tarda en responder o si la persona denunciada interpone un medio de defensa.</p>'+
     (val('tipo_denunciado')==='gobierno' ?
-      '<div class="aviso" style="text-align:left">Señalaste a una autoridad. La Secretaría valorará los hechos y, de resultar procedente, emitirá las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección. <span class="pendiente">Plazo y vía de respuesta por confirmar</span></div>' : '')+
+      '<div class="aviso" style="text-align:left">Señalaste a una autoridad. La Secretaría valorará los hechos y, de resultar procedente, emitirá las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección. <span class="pendiente">Vía de respuesta por confirmar</span></div>' : '')+
     '<h3 class="sub-seccion sub-seccion-sm">No tienes que ratificar nada</h3>'+
-    '<p class="nota-gris">Ante la Procuraduría Ambiental y del Ordenamiento Territorial, la denuncia presentada por vía electrónica debe ratificarse dentro de los tres días hábiles siguientes o se tiene por no presentada. Lo que acabas de presentar no exige ese trámite: la Secretaría actúa con la información que le diste. Si además quieres presentar la denuncia formal ante la Procuraduría, con respuesta obligada, la Secretaría puede remitirla. <span class="pendiente">Remisión a la Procuraduría, por convenir</span></p>'+
+    '<p class="nota-gris">Lo que acabas de presentar no exige ratificarse: la Secretaría actúa con la información que le diste. Si además quieres presentar la denuncia formal ante la Procuraduría, con respuesta obligada, la Secretaría puede remitirla. <span class="pendiente">Remisión a la Procuraduría, por convenir</span></p>'+
     '<h3 class="sub-seccion sub-seccion-sm">Puedes seguir aportando información</h3>'+
     '<p class="nota-gris">Si más adelante consigues fotografías, videos o documentos que fortalezcan tu denuncia, puedes enviarlos con tu número de folio. No hace falta presentar una denuncia nueva. <span class="pendiente">Vía para aportar información, por confirmar</span></p>'+
     '<h3 class="sub-seccion sub-seccion-sm">Dónde dar seguimiento</h3>'+
@@ -3239,12 +3251,21 @@ function campoSelect(k,etq,ops,oblig,ayuda,alCambiar){
     '</select><div class="err" id="'+idE+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
 }
 
+/* Los campos de texto largo crecen con lo que se escribe, sin barra de
+   desplazamiento (DEC-138). */
+function autoAlto(t){
+  if(!t) return;
+  t.style.height = 'auto';
+  t.style.height = (t.scrollHeight + t.offsetHeight - t.clientHeight) + 'px';
+}
+function ajustaTextos(){ document.querySelectorAll('#app textarea').forEach(autoAlto); }
+
 function campoArea(k,etq,oblig,ayuda,filas,marcador){
   var id='f_'+k, idA='a_'+k, idE='e_'+k, idN='n_'+k;
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
     '<textarea id="'+id+'" name="'+k+'" rows="'+(filas||4)+'"'+((LIMITES[k]&&LIMITES[k].max)?' maxlength="'+LIMITES[k].max+'"':'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false"'+(marcador?' placeholder="'+esc(marcador)+'"':'')+' style="min-height:'+((filas||4)*26+16)+'px" '+
-      'oninput="guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');document.getElementById(\''+idN+'\').textContent=contadorTxt(\''+k+'\')">'+esc(val(k))+'</textarea>'+
+      'oninput="autoAlto(this);guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');document.getElementById(\''+idN+'\').textContent=contadorTxt(\''+k+'\')">'+esc(val(k))+'</textarea>'+
     '<div class="contador" id="'+idN+'">'+esc(contadorTxt(k))+'</div>'+
     '<div class="err" id="'+idE+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
 }
@@ -4327,6 +4348,292 @@ function enviar(){
   irA(7);
 }
 
+/* =========================================================
+   ACUSE EN PDF (DEC-139)
+   No hay envio de correos: la persona se lleva su acuse al terminar. El PDF
+   se arma aqui mismo, sin bibliotecas externas: tamano carta, fuentes
+   estandar de PDF (Helvetica, con las anchuras de sus metricas para cortar
+   renglones), el logotipo institucional del encabezado de la pagina y el
+   contenido de la revision que la persona confirmo. Dice lo mismo que la
+   pantalla porque lo lee de la misma funcion, pRevision().
+   ========================================================= */
+var ACUSE_PROTOTIPO = true;   /* leyenda y marca de agua mientras sea prototipo */
+
+var PDF_ANCHOS = (function(){
+  /* Anchuras por millar de Helvetica y Helvetica-Bold, del 32 al 126. */
+  var reg = [278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,
+    1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,
+    333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584];
+  var neg = [278,333,474,556,556,889,722,238,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,333,333,584,584,584,611,
+    975,722,722,722,722,667,611,778,722,278,556,722,611,833,722,778,667,778,722,667,611,722,667,944,667,667,611,333,278,333,584,556,
+    333,556,611,556,611,556,333,611,611,278,278,556,278,889,611,611,611,611,389,556,333,611,556,778,556,556,500,389,280,389,584];
+  return {F1: reg, F2: neg, F3: reg};
+})();
+/* Letras acentuadas: miden lo que su letra base. */
+var PDF_BASE = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','ü':'u','ñ':'n','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U','Ü':'U','Ñ':'N',
+  'à':'a','è':'e','ì':'i','ò':'o','ù':'u','ç':'c','Ç':'C'};
+var PDF_ESP = {'¿':611,'¡':333,'«':556,'»':556,'·':278,'°':400,'º':365,'ª':370,'—':1000,'–':556,'“':333,'”':333,'‘':222,'’':222,'…':1000,'•':350,'²':333,'×':584};
+function pdfAncho(t, f, tam){
+  var w = 0, tabla = PDF_ANCHOS[f];
+  for(var i = 0; i < t.length; i++){
+    var c = t.charAt(i), b = PDF_BASE[c] || c, k = b.charCodeAt(0);
+    w += PDF_ESP[c] !== undefined ? PDF_ESP[c] : (k >= 32 && k <= 126 ? tabla[k-32] : 556);
+  }
+  return w * tam / 1000;
+}
+/* A WinAnsi, que es lo que entienden las fuentes estandar; se escapan los
+   parentesis y la diagonal invertida. */
+var PDF_WIN = {'€':128,'‚':130,'„':132,'…':133,'•':149,'–':150,'—':151,'‘':145,'’':146,'“':147,'”':148,'™':153};
+function pdfTexto(t){
+  var o = '';
+  for(var i = 0; i < t.length; i++){
+    var c = t.charAt(i), k = t.charCodeAt(i);
+    if(PDF_WIN[c]) k = PDF_WIN[c];
+    else if(k > 255 || (k < 32 && k !== 9)) k = 63;
+    var ch = String.fromCharCode(k);
+    o += (ch === '(' || ch === ')' || ch === '\\') ? '\\' + ch : ch;
+  }
+  return o;
+}
+function pdfCortar(t, f, tam, ancho){
+  var out = [];
+  String(t || '').split(/\r?\n/).forEach(function(par){
+    var pal = par.split(/\s+/).filter(Boolean), lin = '';
+    if(!pal.length){ out.push(''); return; }
+    pal.forEach(function(p){
+      /* Una palabra mas ancha que el renglon (una huella, un enlace) se parte. */
+      while(pdfAncho(p, f, tam) > ancho){
+        var n = p.length;
+        while(n > 1 && pdfAncho(p.slice(0, n), f, tam) > ancho) n--;
+        if(lin){ out.push(lin); lin = ''; }
+        out.push(p.slice(0, n)); p = p.slice(n);
+      }
+      var prueba = lin ? lin + ' ' + p : p;
+      if(pdfAncho(prueba, f, tam) <= ancho) lin = prueba;
+      else { out.push(lin); lin = p; }
+    });
+    if(lin) out.push(lin);
+  });
+  return out;
+}
+function pdfColor(hex){
+  var n = parseInt(hex.slice(1), 16);
+  return [(n >> 16 & 255) / 255, (n >> 8 & 255) / 255, (n & 255) / 255].map(function(x){ return x.toFixed(3); }).join(' ');
+}
+
+/* Lo que la persona reviso, bloque por bloque, leido de la revision. */
+function datosDelAcuse(){
+  var d = document.createElement('div');
+  d.innerHTML = pRevision();
+  var bloques = [];
+  d.querySelectorAll('details.rev-bloque').forEach(function(b){
+    var filas = [];
+    b.querySelectorAll('dt').forEach(function(dt){
+      var dd = dt.nextElementSibling, e = dt.cloneNode(true);
+      e.querySelectorAll('.editar,.derivado').forEach(function(x){ x.remove(); });
+      var v = dd ? dd.textContent.trim() : '';
+      if(!v || v === 'Sin dato') return;
+      filas.push([e.textContent.trim(), v]);
+    });
+    if(filas.length) bloques.push({titulo: b.querySelector('.rb-tit').textContent.trim(), filas: filas});
+  });
+  return bloques;
+}
+
+/* El logotipo del encabezado de la pagina, pasado a JPEG sobre blanco: es el
+   formato que un PDF incrusta sin decodificarlo. */
+function logoParaPdf(){
+  return new Promise(function(ok){
+    var img = document.querySelector('.barra-gobierno img');
+    if(!img || !img.src){ ok(null); return; }
+    var im = new Image();
+    im.onload = function(){
+      try{
+        var c = document.createElement('canvas'); c.width = im.naturalWidth; c.height = im.naturalHeight;
+        var x = c.getContext('2d'); x.fillStyle = '#FFFFFF'; x.fillRect(0, 0, c.width, c.height); x.drawImage(im, 0, 0);
+        var b64 = c.toDataURL('image/jpeg', 0.92).split(',')[1];
+        ok({bin: atob(b64), w: c.width, h: c.height});
+      }catch(e){ ok(null); }
+    };
+    im.onerror = function(){ ok(null); };
+    im.src = img.src;
+  });
+}
+
+function construyeAcusePdf(){
+  return logoParaPdf().then(function(logo){
+    var W = 612, H = 792, M = 56, AN = W - 2*M;
+    var GUINDA = pdfColor('#9D2148'), DORADO = pdfColor('#B28E5C'), GRIS = pdfColor('#55585A'),
+        TEXTO = pdfColor('#2B2D2E'), CLARO = pdfColor('#F7F1F3'), MARCA = pdfColor('#EFEFEF');
+    var paginas = [], cs = '', y = 0;
+    function nuevaPagina(){
+      if(cs) paginas.push(cs);
+      cs = '';
+      if(ACUSE_PROTOTIPO){
+        /* Marca de agua, antes que todo lo demas para quedar debajo. */
+        cs += 'BT /F2 64 Tf ' + MARCA + ' rg 0.819 0.574 -0.574 0.819 150 250 Tm (' + pdfTexto('PROTOTIPO') + ') Tj ET\n';
+      }
+      if(paginas.length === 0){
+        var hLogo = 38;
+        if(logo) cs += 'q ' + (hLogo * logo.w / logo.h).toFixed(2) + ' 0 0 ' + hLogo + ' ' + M + ' ' + (H - M - hLogo + 6) + ' cm /Im1 Do Q\n';
+        texto('SECRETARÍA DEL MEDIO AMBIENTE', W - M, H - M - 2, 'F2', 8.5, GRIS, 'der');
+        texto('Acuse de recepción de denuncia ambiental', W - M, H - M - 14, 'F1', 8.5, GRIS, 'der');
+        texto('Presentada en línea', W - M, H - M - 25, 'F3', 7.5, GRIS, 'der');
+        y = H - M - hLogo;
+      } else {
+        texto('Folio ' + val('folio'), W - M, H - M + 8, 'F1', 8, GRIS, 'der');
+        y = H - M;
+      }
+      cs += GUINDA + ' RG 1 w ' + M + ' ' + y + ' m ' + (W - M) + ' ' + y + ' l S\n';
+      y -= 22;
+    }
+    function texto(t, x, yy, f, tam, color, al){
+      if(al === 'der') x -= pdfAncho(t, f, tam);
+      else if(al === 'centro') x -= pdfAncho(t, f, tam) / 2;
+      cs += 'BT /' + f + ' ' + tam + ' Tf ' + color + ' rg ' + x.toFixed(2) + ' ' + yy.toFixed(2) + ' Td (' + pdfTexto(t) + ') Tj ET\n';
+    }
+    function hayLugar(alto){ if(y - alto < M + 30) nuevaPagina(); }
+    function parrafo(t, x, ancho, f, tam, color, sep){
+      var lins = pdfCortar(t, f, tam, ancho), ld = tam * 1.38;
+      lins.forEach(function(l){ hayLugar(ld); texto(l, x, y, f, tam, color); y -= ld; });
+      y -= (sep || 0);
+    }
+    function seccion(t){
+      hayLugar(46);
+      y -= 6;
+      texto(t.toUpperCase(), M, y, 'F2', 10, GUINDA);
+      y -= 6;
+      cs += DORADO + ' RG 0.6 w ' + M + ' ' + y + ' m ' + (W - M) + ' ' + y + ' l S\n';
+      y -= 15;
+    }
+    function fila(et, v){
+      var cE = 150, lE = pdfCortar(et, 'F2', 8.5, cE - 12), lV = pdfCortar(v, 'F1', 9.5, AN - cE), ld = 13;
+      var n = Math.max(lE.length, lV.length);
+      /* Una fila corta no se parte entre paginas; una larga, si. */
+      if(n <= 6) hayLugar(n * ld);
+      for(var i = 0; i < n; i++){
+        hayLugar(ld);
+        if(lE[i]) texto(lE[i], M, y, 'F2', 8.5, GRIS);
+        if(lV[i]) texto(lV[i], M + cE, y, 'F1', 9.5, TEXTO);
+        y -= ld;
+      }
+      y -= 4;
+    }
+
+    nuevaPagina();
+
+    /* Titulo y folio */
+    texto('ACUSE DE RECEPCIÓN', W / 2, y, 'F2', 15, GUINDA, 'centro');
+    y -= 26;
+    var alto = 78;
+    cs += CLARO + ' rg ' + GUINDA + ' RG 1 w ' + M + ' ' + (y - alto + 12) + ' ' + AN + ' ' + alto + ' re B\n';
+    texto('Folio', M + 16, y - 6, 'F1', 9, GRIS);
+    texto(val('folio') || '', M + 16, y - 28, 'F2', 18, GUINDA);
+    texto('Recibida el ' + (val('fecha_acuse') || ''), M + 16, y - 48, 'F1', 9.5, TEXTO);
+    y -= alto + 8;
+    /* Con punto, el area que atiende va en «Dónde ocurre»; sin el, se dice
+       que falta determinarla. */
+    if(!val('lat')) parrafo('La Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.',
+      M, AN, 'F1', 9.5, TEXTO, 4);
+    parrafo('Conserva este acuse y tu folio: no se envían por correo electrónico. Con el folio consultas el estado de tu denuncia.',
+      M, AN, 'F2', 9.5, TEXTO, 6);
+
+    /* La denuncia, como se reviso */
+    datosDelAcuse().forEach(function(b){
+      seccion(b.titulo);
+      b.filas.forEach(function(f){ fila(f[0], f[1]); });
+    });
+
+    /* Huellas de los archivos: permiten comprobar despues que la prueba no cambio. */
+    var conHuella = archivos.filter(function(a){ return a.sha256_original; });
+    if(conHuella.length){
+      seccion('Huellas de las fotografías');
+      conHuella.forEach(function(a){ fila(a.name, 'SHA-256 ' + a.sha256_original); });
+    }
+
+    seccion('Qué sigue');
+    var anon = esAnonima();
+    ['La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.',
+     'Si procede, se integra el expediente y se programa la visita de inspección.',
+     'El inspector ambiental, autorizado por la Secretaría, practica la visita y levanta el acta correspondiente.',
+     anon ? 'Si la Secretaría necesita algo más, te escribirá al correo que dejaste.'
+          : 'Se te notifica el resultado en el domicilio que registraste.'].forEach(function(t, i){
+      var lins = pdfCortar(t, 'F1', 9.5, AN - 18);
+      hayLugar(lins.length * 13);
+      texto((i + 1) + '.', M, y, 'F2', 9.5, GUINDA);
+      lins.forEach(function(l){ texto(l, M + 18, y, 'F1', 9.5, TEXTO); y -= 13; });
+      y -= 3;
+    });
+    paginas.push(cs);
+
+    /* Pie de cada pagina: filete dorado, folio y numeracion */
+    var total = paginas.length;
+    paginas = paginas.map(function(c, i){
+      var p = '';
+      p += DORADO + ' RG 0.8 w ' + M + ' ' + (M + 14) + ' m ' + (W - M) + ' ' + (M + 14) + ' l S\n';
+      var pie = 'Página ' + (i + 1) + ' de ' + total;
+      p += 'BT /F1 8 Tf ' + GRIS + ' rg ' + (W / 2 - pdfAncho(pie, 'F1', 8) / 2).toFixed(2) + ' ' + (M) + ' Td (' + pdfTexto(pie) + ') Tj ET\n';
+      p += 'BT /F1 7.5 Tf ' + GRIS + ' rg ' + M + ' ' + M + ' Td (' + pdfTexto(val('folio') || '') + ') Tj ET\n';
+      if(ACUSE_PROTOTIPO){
+        var ley = 'Prototipo de validación interna. Este acuse no tiene validez oficial.';
+        p += 'BT /F3 7.5 Tf ' + GRIS + ' rg ' + (W / 2 - pdfAncho(ley, 'F3', 7.5) / 2).toFixed(2) + ' ' + (M - 12) + ' Td (' + pdfTexto(ley) + ') Tj ET\n';
+      }
+      return c + p;
+    });
+    return pdfEnsambla(paginas, logo, W, H);
+  });
+}
+
+/* El archivo PDF: objetos, tabla de referencias cruzadas y remate. Todo en
+   una cadena de un byte por caracter, que al final se vuelve bytes. */
+function pdfEnsambla(paginas, logo, W, H){
+  var obj = [], n = 0;
+  function nuevo(){ return ++n; }
+  var cat = nuevo(), arbol = nuevo(), f1 = nuevo(), f2 = nuevo(), f3 = nuevo(), im = logo ? nuevo() : 0, info = nuevo();
+  var ids = paginas.map(function(){ return {pag: nuevo(), cont: nuevo()}; });
+  obj[cat] = '<< /Type /Catalog /Pages ' + arbol + ' 0 R >>';
+  obj[arbol] = '<< /Type /Pages /Kids [' + ids.map(function(x){ return x.pag + ' 0 R'; }).join(' ') + '] /Count ' + ids.length + ' >>';
+  [[f1, 'Helvetica'], [f2, 'Helvetica-Bold'], [f3, 'Helvetica-Oblique']].forEach(function(f){
+    obj[f[0]] = '<< /Type /Font /Subtype /Type1 /BaseFont /' + f[1] + ' /Encoding /WinAnsiEncoding >>';
+  });
+  if(logo) obj[im] = '<< /Type /XObject /Subtype /Image /Width ' + logo.w + ' /Height ' + logo.h +
+    ' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ' + logo.bin.length + ' >>\nstream\n' + logo.bin + '\nendstream';
+  obj[info] = '<< /Title (' + pdfTexto('Acuse de denuncia ambiental ' + (val('folio') || '')) + ') /Author (' +
+    pdfTexto('Secretaría del Medio Ambiente de la Ciudad de México') + ') /Producer (' + pdfTexto('Formulario de denuncia ambiental') + ') >>';
+  var recursos = '<< /Font << /F1 ' + f1 + ' 0 R /F2 ' + f2 + ' 0 R /F3 ' + f3 + ' 0 R >>' + (logo ? ' /XObject << /Im1 ' + im + ' 0 R >>' : '') + ' >>';
+  paginas.forEach(function(c, i){
+    var bytes = c;   /* el contenido ya viene en WinAnsi */
+    obj[ids[i].pag] = '<< /Type /Page /Parent ' + arbol + ' 0 R /MediaBox [0 0 ' + W + ' ' + H + '] /Resources ' + recursos +
+      ' /Contents ' + ids[i].cont + ' 0 R >>';
+    obj[ids[i].cont] = '<< /Length ' + bytes.length + ' >>\nstream\n' + bytes + '\nendstream';
+  });
+  var s = '%PDF-1.4\n%âãÏÓ\n', xref = [];
+  for(var k = 1; k <= n; k++){ xref[k] = s.length; s += k + ' 0 obj\n' + obj[k] + '\nendobj\n'; }
+  var inicio = s.length;
+  s += 'xref\n0 ' + (n + 1) + '\n0000000000 65535 f \n';
+  for(k = 1; k <= n; k++) s += String(xref[k]).padStart(10, '0') + ' 00000 n \n';
+  s += 'trailer\n<< /Size ' + (n + 1) + ' /Root ' + cat + ' 0 R /Info ' + info + ' 0 R >>\nstartxref\n' + inicio + '\n%%EOF\n';
+  var u = new Uint8Array(s.length);
+  for(k = 0; k < s.length; k++) u[k] = s.charCodeAt(k) & 255;
+  return u;
+}
+
+function descargaAcuse(b){
+  if(b){ b.disabled = true; b.textContent = 'Preparando el acuse…'; }
+  construyeAcusePdf().then(function(bytes){
+    var blob = new Blob([bytes], {type: 'application/pdf'}), url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'acuse-' + String(val('folio') || 'denuncia').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+    if(b){ b.disabled = false; b.textContent = 'Descargar de nuevo'; }
+    var n = $('notaAcuse'); if(n) n.textContent = 'Listo: revisa tus descargas. Guárdalo junto con tu folio.';
+  }).catch(function(){
+    if(b){ b.disabled = false; b.textContent = 'Descargar acuse (PDF)'; }
+    var n = $('notaAcuse'); if(n) n.textContent = 'No se pudo generar el PDF. Anota tu folio y vuelve a intentarlo.';
+  });
+}
+
 function copiaFolio(b){
   var t = val('folio');
   try{
@@ -4432,6 +4739,7 @@ function render(){
     ? '<p class="leyenda-oblig">Los campos marcados con <span class="req" aria-hidden="true">*</span> son obligatorios.</p>' : '') + h;
   if(paso===2) iniciaMapa();
   if(paso===4) pintaArchivos();
+  ajustaTextos();
   guardaBorrador();
   /* El foco se iba al principio del documento en cada cambio de paso: render()
      reemplaza todo el contenido y nadie lo recolocaba, de modo que quien navega

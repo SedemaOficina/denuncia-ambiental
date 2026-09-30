@@ -44,7 +44,7 @@ Cada botón limpia el formulario, carga un caso completo —incluida la coordena
 | **ANP federal sin convenio** | El Histórico Coyoacán · se deriva a la PROFEPA | Paso 2 |
 | **Punto fuera de la Ciudad** | Naucalpan · el formulario impide continuar | Paso 2 |
 | **Caso de otra autoridad** | Ruido de vecinos · se detiene el flujo y se orienta | Paso 1 |
-| **Hechos de hace más de un año** | Permanente · aviso del plazo del artículo 22 BIS 2 | Paso 3 |
+| **Hechos de hace más de un año** | Permanente · hechos que continúan | Paso 3 |
 | **Establecimiento de giro no listado** | «Otro» abre el campo de texto | Paso 3 |
 | **Formulario vacío con validación activa** | Muestra qué exige cada paso antes de dejar continuar | Paso 2 |
 

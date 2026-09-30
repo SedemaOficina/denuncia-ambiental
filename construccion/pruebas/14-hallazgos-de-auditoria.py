@@ -250,8 +250,8 @@ with sync_playwright() as pw:
       return {envio, acuse}; }"""); pg.wait_for_timeout(400)
     afirma('tres días hábiles y analiza el caso en diez' not in ac['envio'],
            'el aviso de envío no compromete a la PROFEPA con los plazos de la Secretaría')
-    afirma('los plazos de atención los fija esa autoridad' in ac['envio'],
-           'y dice de quién son los plazos')
+    afirma('la remite a esa autoridad' in ac['envio'] and 'plazo' not in ac['envio'],
+           'y dice que la remite, sin hablar de plazos (DEC-138)')
     afirma('de esa dirección general' not in ac['acuse'],
            'el acuse no llama dirección general de la Secretaría a la PROFEPA')
 

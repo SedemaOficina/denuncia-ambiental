@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-137 · 30 de septiembre de 2026
+**Versión:** DEC-139 · 30 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -72,8 +72,8 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Tipo de establecimiento | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Prepara la visita —qué se va a inspeccionar— y alimenta la estadística por tipo de fuente. |
 | Nombre del establecimiento | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas. |
 | Descripción de lo que ocurre | Obligatorio | No | Siempre | Objeto y alcance de la visita de inspección; es la base de la motivación del acto. |
-| Desde cuándo ocurre | Opcional | No | Siempre | Determina si la conducta es continua o aislada, lo que define la urgencia y el cómputo del plazo. |
-| Fecha en que ocurrió o inició | Opcional | No | Siempre | Cómputo del plazo de presentación y ubicación temporal de los hechos en el expediente. |
+| Desde cuándo ocurre | Opcional | No | Siempre | Determina si la conducta es continua o aislada, lo que define la urgencia de la atención. |
+| Fecha en que ocurrió o inició | Opcional | No | Siempre | Ubicación temporal de los hechos en el expediente. |
 | ¿Quién es responsable de los hechos? | Opcional | No | Siempre | Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar. |
 | Ámbito de la autoridad señalada | Opcional | No | Sólo cuando se señala a una autoridad | Encamina la recomendación del art. 331: de él depende si se dirige a una dependencia de la Ciudad, a una alcaldía o a la federación, y contra qué catálogo se propone el nombre. |
 | Dependencia, alcaldía u organismo señalado | Opcional | No | Sólo cuando se señala a una autoridad y se eligió su ámbito | Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla. |
@@ -177,7 +177,7 @@ Tampoco los escribe la persona: se le enseñan en la ficha del mapa, en la revis
 | Área protegida local concurrente | `concurrencia` | Cruce del punto con las capas del SIA | No | Cuando el punto cae a la vez en un ANP federal y en una local: abre la vía de intervención local. |
 | Punto fuera de la Ciudad | `fuera` | Cruce del punto con el límite de la Ciudad | No | Detiene la denuncia: la Secretaría sólo atiende hechos dentro de la Ciudad. |
 | Folio | `folio` | El sistema, al enviar | No | Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento. |
-| Fecha y hora de recepción | `fecha_acuse` | El sistema, al enviar | No | Desde cuándo corren los plazos de turnado y análisis. |
+| Fecha y hora de recepción | `fecha_acuse` | El sistema, al enviar | No | Fecha y hora en que la denuncia entra al expediente. |
 
 **Por cada foto adjunta**
 

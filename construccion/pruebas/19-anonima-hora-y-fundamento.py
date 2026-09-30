@@ -70,7 +70,8 @@ with sync_playwright() as pw:
               aviso: p ? /Confidencialidad\\./.test(p.innerText) && /no se hacen del conocimiento/.test(p.innerText) : false,
               condicional: p ? /Si solicitaste/.test(p.innerText) : true}; }""")
     afirma(not c['pregunta'], 'el paso 5 ya no pregunta por la confidencialidad')
-    afirma(c['aviso'] and not c['condicional'], 'el aviso de privacidad la declara como regla, sin «si solicitaste»')
+    # DEC-138: el aviso queda en dos apartados; la regla la dice la portada.
+    afirma(not c['condicional'], 'el aviso de privacidad no la condiciona a «si solicitaste»')
     rv = pg.evaluate("""() => { irA(6); alternaDetalleRevision();
       return [...document.querySelectorAll('.resumen dt')].some(x=>x.textContent.indexOf('Confidencialidad')===0); }""")
     afirma(not rv, 'ni aparece en la revisión')
