@@ -82,8 +82,31 @@ with sync_playwright() as pw:
     afirma(ay is not None and ay['abierta'] is False, 'bajo el campo hay una ayuda plegada')
     afirma(ay and 'Cómo copio' in ay['resumen'], 'que se anuncia como «%s»' % (ay or {}).get('resumen'))
     afirma(ay and 'Mantén el dedo' in ay['t'] and 'clic derecho' in ay['t'], 'explica el camino en teléfono y en computadora')
-    afirma(ay and all(x in ay['t'] for x in ['19.4326, -99.1332', '°', 'google.com/maps', '+2F', 'maps.app.goo.gl']),
+    afirma(ay and all(x in ay['t'] for x in ['19.4326, -99.1332', '°', 'google.com/maps', '+GJ', 'maps.app.goo.gl']),
            'y enumera los formatos que reconoce, y el que todavía no')
+
+    # ---- guía visual (DEC-125) ----
+    gv = pg.evaluate("""() => { const d = document.querySelector('.como-ubicar'); d.open = true;
+      const tabs = [...d.querySelectorAll('.guia-tabs .btn-sn')].map(b => b.textContent);
+      const vis = () => [...d.querySelectorAll('.guia-panel')].filter(p => !p.hidden).map(p => p.dataset.guia);
+      const antes = vis(); const mapa = document.getElementById('mapa'); if(mapa) mapa.dataset.testigo = 'mismo';
+      d.querySelectorAll('.guia-tabs .btn-sn')[2].click(); const despues = vis();
+      const svgs = [...d.querySelectorAll('.guia-panel svg')];
+      return {tabs, antes, despues, mismoMapa: !mapa || document.getElementById('mapa').dataset.testigo === 'mismo',
+              nsvg: svgs.length, sinAria: svgs.filter(s => !s.getAttribute('aria-label')).length,
+              pasos: d.querySelectorAll('.guia-panel .guia-paso').length,
+              compartir: d.querySelector('.guia-panel[data-guia="compartir"]').innerText}; }""")
+    afirma(gv['tabs'] == ['En el teléfono', 'En la computadora', 'Desde «Compartir»'], 'la guía se elige por dónde se usa Google Maps: %s' % gv['tabs'])
+    afirma(gv['antes'] == ['tel'] and gv['despues'] == ['compartir'], 'se ve una guía a la vez, y cambiar de guía no rehace la pantalla')
+    afirma(gv['mismoMapa'], 'ni reinicia el mapa')
+    afirma(gv['nsvg'] == 9 and gv['sinAria'] == 0 and gv['pasos'] == 9, 'tres pasos ilustrados por guía, cada dibujo con su descripción (%d)' % gv['nsvg'])
+    afirma('números de arriba' in gv['compartir'], 'la guía de «Compartir» dice copiar los números y no el enlace')
+    pc = pg.evaluate("t => leeCoordenadas(t)", '6R5P+GJ Ciudad de México')
+    afirma(pc and abs(pc['lat'] - 19.2088) < 0.0005 and abs(pc['lon'] + 99.1635) < 0.0005,
+           'el código plus del ejemplo cae en el lugar de la ficha (%s)' % pc)
+    pg.set_viewport_size({'width':390,'height':800})
+    anch = pg.evaluate("() => ({doc: document.documentElement.scrollWidth, vw: window.innerWidth})")
+    afirma(anch['doc'] <= anch['vw'], 'en teléfono la guía no desborda la pantalla (%s)' % anch)
     ph = pg.get_attribute('#f_coord_pegar', 'placeholder')
     afirma(ph and '19.4326' in ph, 'el campo muestra un ejemplo: %r' % ph)
 

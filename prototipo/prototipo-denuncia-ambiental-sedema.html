@@ -389,6 +389,42 @@ table.comp td.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4}
 .como-ubicar ol,.como-ubicar ul{margin:0 0 0 18px;line-height:1.55}
 .vias .como-ubicar li{padding:0 0 3px;border:none}
 .como-ubicar ol{list-style:decimal}.como-ubicar ul{list-style:disc}
+/* ---------- Guía visual para copiar la ubicación (DEC-125) ----------
+   Ilustraciones propias, esquemáticas: enseñan el gesto sin copiar la
+   pantalla de Google Maps, que cambia seguido y es de un tercero. El único
+   color de alerta es el del pin, porque así lo verá la persona. */
+.guia-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 12px}
+.guia-tabs .btn-sn{min-width:0;font-size:var(--t-sm);padding:7px 12px;min-height:36px}
+.guia-panel[hidden]{display:none}
+.guia-pasos,.como-ubicar ol.guia-pasos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:0;padding:0;list-style:none}
+.vias .como-ubicar .guia-pasos li{padding:0;border:none}
+.guia-paso{background:var(--fondo);border:1px solid var(--linea);border-radius:var(--r-ctrl);padding:10px;display:flex;flex-direction:column;gap:8px}
+.guia-paso svg{width:100%;height:auto;max-height:190px;display:block}
+.guia-paso p{margin:0;font-size:var(--t-sm);color:var(--texto);line-height:1.45}
+.guia-paso p b{color:var(--azul)}
+.guia-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--azul);color:var(--blanco);font-size:var(--t-xs);font-weight:700;margin-right:6px}
+@media (max-width:640px){
+  .guia-pasos,.como-ubicar ol.guia-pasos{grid-template-columns:1fr}
+  .guia-paso{flex-direction:row;align-items:center}
+  .guia-paso svg{width:42%;flex-shrink:0;max-height:170px}
+}
+.ilu .marco{fill:var(--blanco);stroke:var(--borde);stroke-width:1.5}
+.ilu .pantalla{fill:var(--mapa-bg)}
+.ilu .calle{fill:none;stroke:var(--blanco);stroke-width:7;stroke-linecap:round}
+.ilu .manzana{fill:var(--linea)}
+.ilu .pin{fill:var(--error)}
+.ilu .pin-c{fill:var(--error-txt)}
+.ilu .caja{fill:var(--blanco);stroke:var(--linea);stroke-width:1}
+.ilu .realce{fill:var(--azul-cl);stroke:var(--azul);stroke-width:1.2}
+.ilu .raya{fill:var(--linea)}
+.ilu .t{fill:var(--texto);font-family:'Roboto',Arial,sans-serif}
+.ilu .ta{fill:var(--azul);font-family:'Roboto',Arial,sans-serif;font-weight:700}
+.ilu .tg{fill:var(--gris-cl);font-family:'Roboto',Arial,sans-serif}
+.ilu .toque{fill:none;stroke:var(--azul);stroke-width:2}
+.ilu .dedo{fill:var(--gris-cl);opacity:.55}
+.ilu .cursor{fill:var(--texto);stroke:var(--blanco);stroke-width:1}
+.ilu .tache{stroke:var(--error);stroke-width:1.5}
+.ilu .ok{fill:none;stroke:var(--azul);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
 .como-ubicar code{font-family:inherit;background:var(--fondo);border:1px solid var(--linea);border-radius:4px;padding:0 5px;white-space:nowrap}
 
 /* Aviso de privacidad simplificado: se lee en pantalla antes de enviar, no
@@ -3667,26 +3703,138 @@ function recuperaPlus(corto, refLat, refLon){
   return d;
 }
 
-/* Nadie nace sabiendo sacar una coordenada. La ayuda va plegada bajo el campo,
-   con los tres caminos de Google Maps y los formatos que el campo reconoce.
-   Los formatos salen de leeCoordenadas(): si se agrega uno alla, se anota
-   aqui (DEC-122). */
+/* Nadie nace sabiendo sacar una coordenada. La ayuda va plegada bajo el
+   campo y enseña con dibujos el gesto en el teléfono, en la computadora y
+   en la ventana de «Compartir», que es donde la mayoría se atora: ahí las
+   coordenadas están escritas arriba del enlace corto, que todavía no se lee
+   aquí. Los dibujos son propios y esquemáticos (DEC-125). Los formatos salen
+   de leeCoordenadas(): si se agrega uno allá, se anota aquí (DEC-122). */
+var GUIA_COORD = '19.2089, -99.1640';
+
+function iluMapa(x, y, w, h){
+  return '<rect class="pantalla" x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'"/>'+
+    '<rect class="manzana" x="'+(x+6)+'" y="'+(y+8)+'" width="'+(w*0.32)+'" height="'+(h*0.22)+'" rx="2"/>'+
+    '<rect class="manzana" x="'+(x+w*0.58)+'" y="'+(y+h*0.58)+'" width="'+(w*0.34)+'" height="'+(h*0.3)+'" rx="2"/>'+
+    '<rect class="manzana" x="'+(x+w*0.62)+'" y="'+(y+6)+'" width="'+(w*0.3)+'" height="'+(h*0.18)+'" rx="2"/>'+
+    '<path class="calle" d="M'+x+' '+(y+h*0.42)+' Q'+(x+w*0.5)+' '+(y+h*0.3)+' '+(x+w)+' '+(y+h*0.5)+'"/>'+
+    '<path class="calle" d="M'+(x+w*0.45)+' '+y+' L'+(x+w*0.5)+' '+(y+h)+'"/>';
+}
+function iluPin(cx, cy, k){
+  k = k || 1;
+  return '<path class="pin" d="M'+cx+' '+cy+' C'+(cx-9*k)+' '+(cy-12*k)+' '+(cx-9*k)+' '+(cy-24*k)+' '+cx+' '+(cy-24*k)+
+    ' C'+(cx+9*k)+' '+(cy-24*k)+' '+(cx+9*k)+' '+(cy-12*k)+' '+cx+' '+cy+' Z"/>'+
+    '<circle class="pin-c" cx="'+cx+'" cy="'+(cy-16.5*k)+'" r="'+(3.2*k)+'"/>';
+}
+function iluTelefono(dentro){
+  return '<rect class="marco" x="38" y="4" width="104" height="192" rx="16"/>'+
+    '<rect class="pantalla" x="45" y="18" width="90" height="166" rx="3"/>'+ dentro;
+}
+function iluCampo(){
+  return '<rect class="caja" x="8" y="30" width="184" height="96" rx="8"/>'+
+    '<text class="t" x="20" y="54" font-size="10" font-weight="700">Pegar la ubicación…</text>'+
+    '<rect class="realce" x="20" y="64" width="160" height="26" rx="5"/>'+
+    '<text class="ta" x="30" y="81" font-size="11">'+GUIA_COORD+'</text>'+
+    iluPin(100, 118, 0.7).replace(/class="pin"/, 'class="pin" opacity=".9"')+
+    '<path class="ok" d="M150 104 l6 6 l12 -13"/>';
+}
+function iluSvg(vb, aria, cuerpo){
+  return '<svg class="ilu" viewBox="'+vb+'" role="img" aria-label="'+esc(aria)+'" focusable="false">'+cuerpo+'</svg>';
+}
+function iluPaso(n, svg, texto){
+  return '<li class="guia-paso">'+svg+'<p><span class="guia-num" aria-hidden="true">'+n+'</span>'+texto+'</p></li>';
+}
+
+function guiaTelefono(){
+  var m = iluMapa(45, 18, 90, 166);
+  return '<ol class="guia-pasos">'+
+    iluPaso(1, iluSvg('0 0 180 200', 'Teléfono con el mapa y un dedo presionando un punto',
+      iluTelefono(m+'<circle class="toque" cx="92" cy="104" r="10"/><circle class="toque" cx="92" cy="104" r="17" opacity=".5"/>'+
+        '<ellipse class="dedo" cx="100" cy="128" rx="11" ry="22" transform="rotate(-20 100 128)"/>')),
+      '<b>Mantén el dedo</b> sobre el lugar hasta que aparezca un pin rojo.')+
+    iluPaso(2, iluSvg('0 0 180 200', 'Teléfono con el pin rojo y las coordenadas escritas arriba',
+      iluTelefono(m+iluPin(92, 108)+
+        '<rect class="realce" x="50" y="24" width="80" height="18" rx="9"/><text class="ta" x="57" y="36" font-size="8.2">'+GUIA_COORD+'</text>'+
+        '<rect class="caja" x="45" y="148" width="90" height="36"/><text class="t" x="52" y="162" font-size="8" font-weight="700">Pin colocado</text>'+
+        '<text class="tg" x="52" y="175" font-size="7">'+GUIA_COORD+'</text>')),
+      'Las coordenadas aparecen <b>arriba</b> o en la ficha de abajo. <b>Tócalas</b> para copiarlas.')+
+    iluPaso(3, iluSvg('0 0 200 150', 'Campo del formulario con las coordenadas pegadas', iluCampo()),
+      '<b>Pégalas aquí</b>. El punto se coloca solo.')+
+  '</ol>';
+}
+
+function guiaComputadora(){
+  var m = iluMapa(8, 22, 184, 120);
+  var ventana = '<rect class="marco" x="4" y="4" width="192" height="142" rx="6"/><rect class="raya" x="4" y="4" width="192" height="16" rx="6"/>'+
+    '<circle class="caja" cx="14" cy="12" r="3"/><circle class="caja" cx="24" cy="12" r="3"/>'+m;
+  return '<ol class="guia-pasos">'+
+    iluPaso(1, iluSvg('0 0 200 150', 'Mapa en la computadora con el menú del clic derecho; el primer renglón son las coordenadas',
+      ventana+iluPin(76, 76)+
+      '<path class="cursor" d="M80 72 l0 16 l4 -4 l3 7 l3 -1 l-3 -7 l5 0 Z"/>'+
+      '<rect class="caja" x="92" y="60" width="96" height="78" rx="4"/>'+
+      '<rect class="realce" x="95" y="63" width="90" height="15" rx="3"/><text class="ta" x="99" y="74" font-size="7.6">19.208931, -99.163963</text>'+
+      '<rect class="raya" x="99" y="86" width="60" height="4" rx="2"/><rect class="raya" x="99" y="97" width="70" height="4" rx="2"/>'+
+      '<rect class="raya" x="99" y="108" width="52" height="4" rx="2"/><rect class="raya" x="99" y="119" width="64" height="4" rx="2"/>'),
+      'Da <b>clic derecho</b> sobre el lugar. El <b>primer renglón</b> son las coordenadas: un clic y quedan copiadas.')+
+    iluPaso(2, iluSvg('0 0 200 150', 'Mapa en la computadora con una ficha abajo que muestra la dirección y las coordenadas',
+      ventana+iluPin(98, 70)+
+      '<rect class="caja" x="30" y="100" width="140" height="38" rx="6"/>'+
+      '<text class="t" x="38" y="114" font-size="7.5" font-weight="700">C. Ahuacatitla 47</text>'+
+      '<rect class="realce" x="36" y="119" width="84" height="13" rx="3"/><text class="ta" x="40" y="128.5" font-size="7">19.209453, -99.164586</text>'),
+      'O da <b>un clic</b> sobre el sitio: abajo aparece una ficha con las coordenadas. Cópialas.')+
+    iluPaso(3, iluSvg('0 0 200 150', 'Campo del formulario con las coordenadas pegadas', iluCampo()),
+      '<b>Pégalas aquí</b>. El punto se coloca solo.')+
+  '</ol>';
+}
+
+function guiaCompartir(){
+  return '<ol class="guia-pasos">'+
+    iluPaso(1, iluSvg('0 0 200 150', 'Ventana Compartir de Google Maps: arriba las coordenadas, abajo el enlace corto tachado',
+      '<rect class="marco" x="6" y="6" width="188" height="138" rx="14"/>'+
+      '<text class="t" x="18" y="28" font-size="11">Compartir</text>'+
+      '<rect class="caja" x="16" y="38" width="168" height="66" rx="8"/>'+
+      '<rect class="pantalla" x="22" y="44" width="46" height="54" rx="4"/>'+
+      '<rect class="realce" x="74" y="46" width="106" height="16" rx="3"/><text class="ta" x="78" y="57.5" font-size="8">19.209453, -99.164586</text>'+
+      '<text class="tg" x="78" y="74" font-size="7">C. Ahuacatitla 47, Tlalpan…</text>'+
+      '<text class="tg" x="78" y="90" font-size="7.5">maps.app.goo.gl</text><line class="tache" x1="76" y1="87" x2="140" y2="87"/>'+
+      '<circle class="caja" cx="50" cy="124" r="10"/><circle class="caja" cx="80" cy="124" r="10"/><circle class="caja" cx="110" cy="124" r="10"/><circle class="caja" cx="140" cy="124" r="10"/>'),
+      'En <b>Compartir</b>, copia los <b>números de arriba</b>, no el enlace de abajo: ése todavía no se puede leer aquí.')+
+    iluPaso(2, iluSvg('0 0 200 150', 'Ficha de un lugar con el código plus junto a su símbolo de puntos',
+      '<rect class="marco" x="6" y="6" width="188" height="138" rx="8"/>'+
+      '<text class="t" x="18" y="28" font-size="11" font-weight="700">Ficha del lugar</text>'+
+      '<rect class="raya" x="18" y="40" width="150" height="5" rx="2"/><rect class="raya" x="18" y="54" width="120" height="5" rx="2"/>'+
+      '<rect class="raya" x="18" y="68" width="100" height="5" rx="2"/>'+
+      '<g class="pin-c"><circle cx="24" cy="92" r="1.8"/><circle cx="30" cy="86" r="1.8"/><circle cx="30" cy="98" r="1.8"/><circle cx="36" cy="92" r="1.8"/><circle cx="30" cy="92" r="1.8"/></g>'+
+      '<rect class="realce" x="44" y="83" width="140" height="18" rx="3"/><text class="ta" x="49" y="95.5" font-size="8">6R5P+GJ Ciudad de México</text>'+
+      '<rect class="raya" x="18" y="114" width="130" height="5" rx="2"/>'),
+      'En la ficha de un lugar, el <b>código junto al símbolo de puntos</b> también sirve. Cópialo con la ciudad.')+
+    iluPaso(3, iluSvg('0 0 200 150', 'Campo del formulario con las coordenadas pegadas', iluCampo()),
+      '<b>Pégalo aquí</b>. El punto se coloca solo.')+
+  '</ol>';
+}
+
+/* Pestañas sin rehacer la pantalla: rehacerla reiniciaría el mapa (DEC-75). */
+function cambiaGuia(k){
+  document.querySelectorAll('.guia-tabs .btn-sn').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.guia === k ? 'true' : 'false'); });
+  document.querySelectorAll('.guia-panel').forEach(function(p){ p.hidden = p.dataset.guia !== k; });
+}
+
 function ayudaUbicacion(){
+  var tabs = [['tel','En el teléfono'],['pc','En la computadora'],['compartir','Desde «Compartir»']];
   return '<details class="como-ubicar"><summary>¿Cómo copio la ubicación?</summary>'+
-    '<h4>En el teléfono, con Google Maps</h4>'+
-    '<ol><li>Mantén el dedo sobre el lugar hasta que aparezca un pin rojo.</li>'+
-      '<li>Las coordenadas aparecen arriba, en la barra de búsqueda, o en la ficha de abajo. Cópialas.</li>'+
-      '<li>Pégalas aquí.</li></ol>'+
-    '<h4>En la computadora, con Google Maps</h4>'+
-    '<ol><li>Da clic derecho sobre el lugar.</li>'+
-      '<li>El primer renglón del menú son las coordenadas: un clic y quedan copiadas.</li>'+
-      '<li>Pégalas aquí.</li></ol>'+
+    '<div class="guia-tabs" role="group" aria-label="Dónde estás usando Google Maps">'+
+      tabs.map(function(t, i){
+        return '<button type="button" class="btn-sn" data-guia="'+t[0]+'" aria-pressed="'+(i===0?'true':'false')+'" onclick="cambiaGuia(\''+t[0]+'\')">'+t[1]+'</button>';
+      }).join('')+
+    '</div>'+
+    '<div class="guia-panel" data-guia="tel">'+guiaTelefono()+'</div>'+
+    '<div class="guia-panel" data-guia="pc" hidden>'+guiaComputadora()+'</div>'+
+    '<div class="guia-panel" data-guia="compartir" hidden>'+guiaCompartir()+'</div>'+
     '<h4>Qué puedes pegar</h4>'+
     '<ul><li>Coordenadas en decimales: <code>19.4326, -99.1332</code></li>'+
       '<li>Coordenadas en grados: <code>19°25\'57.4"N 99°07\'59.5"W</code></li>'+
       '<li>El enlace completo de Google Maps, el que empieza con <code>google.com/maps</code></li>'+
-      '<li>El código plus que muestra la ficha del lugar: <code>CGM8+2F Ciudad de México</code></li></ul>'+
-    '<p style="margin:8px 0 0">El enlace corto de «Compartir» (<code>maps.app.goo.gl</code>) todavía no se puede leer aquí: ábrelo y copia la dirección completa que aparece.</p>'+
+      '<li>El código plus de la ficha del lugar: <code>6R5P+GJ Ciudad de México</code></li></ul>'+
+    '<p style="margin:8px 0 0">El enlace corto de «Compartir» (<code>maps.app.goo.gl</code>) todavía no se puede leer aquí: copia los números que aparecen arriba de él.</p>'+
   '</details>';
 }
 
