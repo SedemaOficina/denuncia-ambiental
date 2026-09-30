@@ -1215,7 +1215,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-132', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-133', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2631,9 +2631,9 @@ function pDenunciante(){
     '<div class="fila">'+
       campo('dom_alcaldia','Alcaldía o municipio','texto',esObligatorio('dom_alcaldia'),'','autocomplete="address-level2"')+
       campo('dom_entidad','Entidad federativa','texto',esObligatorio('dom_entidad'),'Ciudad de México, Estado de México, etc.','autocomplete="address-level1"')+
-    '</div>')+
-
-    '<div class="aviso aviso-ok">Tus datos personales no se difunden y sirven exclusivamente para el trámite de la denuncia.</div>';
+    '</div>');
+    /* Para qué sirven los datos y que no se difunden lo dice el aviso de
+       privacidad; repetirlo aquí era un segundo aviso sin valor legal (DEC-133). */
   }
 
   /* Estadistica. Dos preguntas al final, fuera del bloque de contacto: no
