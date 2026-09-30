@@ -41,19 +41,27 @@ with sync_playwright() as pw:
       return dt ? dt.nextElementSibling.textContent : ''; }""")
     afirma('horas' not in rv, 'y la revisión no la menciona (%r)' % rv)
 
-    # ---- 2. Paso 1 sin fundamento ----
-    f = pg.evaluate("""() => { estado={}; irA(1); guarda('fundamento','si'); render();
+    # ---- 2. Paso 1: título y subtítulo, sin detalle ni fundamento (DEC-119, DEC-122) ----
+    f = pg.evaluate("""() => { estado={}; irA(1);
       const t = document.getElementById('app').innerText;
-      return {norma: document.querySelectorAll('.fo-norma').length, det: document.querySelectorAll('.fo-det').length,
+      const filas = [...document.querySelectorAll('#listaMaterias .fila-op:not(.otra)')].map(b => ({
+        nom: (b.querySelector('.fo-nom')||{}).textContent || '', sub: (b.querySelector('.fo-desc')||{}).textContent || ''}));
+      return {det: document.querySelectorAll('.fo-det, .fo-norma, .lin-detalle').length,
               art: /\\bArts?\\.\\s*\\d|Ley Ambiental de la Ciudad|NADF-|\\[Art\\./.test(t),
-              boton: [...document.querySelectorAll('.lin-detalle button')].map(b=>b.textContent).join('')}; }""")
-    afirma(f['norma'] == 0 and not f['art'], 'con el detalle abierto, el paso 1 no muestra artículos ni leyes')
-    afirma(f['det'] > 10, 'pero sí el detalle de cada supuesto (%d)' % f['det'])
-    afirma('fundamento' not in f['boton'].lower(), 'y el botón ya no promete fundamento: %r' % f['boton'])
-    busq = pg.evaluate("""() => { guarda('fundamento',''); guarda('filtro','NADF'); render();
-      return document.querySelectorAll('#listaMaterias .fila-op').length; }""")
-    afirma(busq == 0, 'el buscador ya no encuentra por texto legal que no se ve')
-    pg.evaluate("() => { guarda('filtro',''); }")
+              boton: /Ver el detalle|Ocultar el detalle/.test(t), filas}; }""")
+    afirma(f['det'] == 0 and not f['boton'], 'el paso 1 ya no tiene detalle desplegable')
+    afirma(not f['art'], 'ni muestra artículos o leyes')
+    afirma(len(f['filas']) == 19 and all(x['nom'] and x['sub'] for x in f['filas']),
+           'los %d supuestos llevan título y subtítulo' % len(f['filas']))
+    norm = lambda x: x.lower().strip()
+    rep = [x['nom'] for x in f['filas'] if norm(x['nom']) in norm(x['sub']) or norm(x['sub']) in norm(x['nom'])]
+    afirma(rep == [], 'ningún subtítulo repite su título: %s' % rep)
+    largos = [x['sub'] for x in f['filas'] if len(x['sub']) > 60]
+    afirma(largos == [], 'los subtítulos caben en una línea corta (≤ 60 caracteres): %s' % largos)
+    busq = pg.evaluate("""() => { const n = q => { guarda('filtro', q); render(); return [...document.querySelectorAll('#listaMaterias .fila-op .fo-nom')].map(x=>x.textContent); };
+      const r = {nadf: n('NADF').length, vib: n('vibraciones')}; guarda('filtro',''); render(); return r; }""")
+    afirma(busq['nadf'] == 0, 'el buscador no encuentra por texto legal')
+    afirma(any('Ruido' in x for x in busq['vib']), 'pero sí por lo que decía el detalle: «vibraciones» lleva a %s' % busq['vib'])
 
     # ---- 3. Sin pregunta de confidencialidad ----
     c = pg.evaluate("""() => { estado={}; guarda('identificacion','nombre'); irA(5);
