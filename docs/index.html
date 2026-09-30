@@ -630,7 +630,7 @@ details.rev-bloque .resumen{padding:14px}
 .btn-esc .be-d{display:block;font-size:var(--t-xs);color:var(--gris);line-height:1.35;margin-top:2px}
 
 /* ---------- Modal ---------- */
-/* Modo revisión (DEC-153): sólo existe con ?revision=CLAVE en la liga. */
+/* Modo revisión (DEC-153, DEC-155): sólo existe con ?revision=<palabra> en la liga. */
 #revision{position:fixed;left:16px;bottom:16px;z-index:9600;font-family:'Roboto',sans-serif}
 #revision .rev-toggle{background:var(--guinda);color:var(--blanco);border:none;border-radius:var(--r-pill);padding:12px 18px;min-height:44px;font-size:var(--t-sm);font-weight:600;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2)}
 #revision .rev-toggle:hover{background:var(--guinda-osc)}
@@ -658,7 +658,10 @@ details.rev-bloque .resumen{padding:14px}
 .rev-etq{display:block;font-weight:600;margin:8px 0 4px}
 .rev-opc{font-weight:400;color:var(--gris-cl)}
 #revision textarea{width:100%;border:1px solid var(--borde);border-radius:var(--r-ctrl);padding:8px 10px;font:inherit;font-size:var(--t-md);resize:vertical;min-height:0}
-#revision textarea:focus{outline:3px solid var(--foco);outline-offset:1px}
+#revision input[type=text]{width:100%;border:1px solid var(--borde);border-radius:var(--r-ctrl);padding:8px 10px;font:inherit;font-size:var(--t-md);min-height:40px}
+#revision textarea:focus, #revision input[type=text]:focus{outline:3px solid var(--foco);outline-offset:1px}
+.rev-cab .rev-link{padding:0;min-height:0;font-size:var(--t-xs);margin-left:4px}
+.rev-filtro{display:flex;gap:6px;align-items:center;margin-bottom:8px;color:var(--gris);cursor:pointer}
 .rev-guardar{width:100%;margin-top:12px}
 .rev-msg{min-height:1.4em;margin-top:8px;color:var(--gris)}
 .rev-lista{list-style:none;margin:0 0 8px}
@@ -1339,7 +1342,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-154', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-155', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -4928,17 +4931,20 @@ document.addEventListener('keydown', function(e){
 }); })();
 
 /* =========================================================
-   MODO REVISIÓN (DEC-153)
-   Solo existe cuando la liga trae ?revision=CLAVE. Quien revisa señala un
-   texto o una parte de la pantalla y deja su observación; se guarda en la
-   hoja de Google de revisión por medio de su Apps Script (carpeta revision/).
-   Sin la clave en la liga no se pinta nada. Sin conexión con la hoja, lo
-   capturado se queda en el navegador y se descarga en CSV.
+   MODO REVISIÓN (DEC-153, DEC-155)
+   Solo existe cuando la liga trae ?revision=<palabra>. Hay una sola liga
+   para todas las personas que revisan: cada quien escribe su nombre la
+   primera vez y el navegador lo recuerda. Quien revisa señala un texto o
+   una parte de la pantalla y deja su observación; se guarda en la hoja de
+   Google de revisión por medio de su Apps Script (carpeta revision/). La
+   palabra de la liga la genera la hoja y la valida ella: aqui solo se
+   reenvia. Sin conexión con la hoja, lo capturado se queda en el
+   navegador y se descarga en CSV.
    ========================================================= */
 var REVISION = {
-  endpoint: '',          /* URL /exec del Apps Script; se llena al desplegarlo */
-  clave: '', revisor: null, conectada: false, error: '',
-  obs: [], senal: null, ultimaSel: null, senalando: false,
+  endpoint: 'https://script.google.com/macros/s/AKfycbx7SheyhsXUfijSlaAvZtOcdnBUAsKYvhDg_ULLL5Uk24rz8OBeMMmqh_CcfhP8iMfJ/exec',
+  palabra: '', nombre: '', area: '', conectada: false, error: '',
+  obs: [], senal: null, ultimaSel: null, senalando: false, soloMias: false,
   tipo: '', vista: 'nueva', borrador: {obs: '', prop: ''}
 };
 var TIPOS_REVISION = ['Corregir redacción', 'Quitar', 'Agregar', 'Error o falla', 'Duda', 'Otro'];
@@ -4947,26 +4953,26 @@ var ESTADOS_REVISION = {
   'Pendiente': 'rev-edo-pend', 'En revisión': 'rev-edo-curso', 'Para discusión': 'rev-edo-curso',
   'Atendida': 'rev-edo-ok', 'Descartada': 'rev-edo-no'
 };
+var CLAVE_REV_OBS = 'sedema.revision.obs', CLAVE_REV_QUIEN = 'sedema.revision.quien';
 
-function claveDeRevision(){
+function palabraDeRevision(){
   var m = /[?&]revision=([A-Za-z0-9-]{4,40})/.exec(location.search || '');
-  return m ? m[1].toUpperCase() : '';
+  return m ? m[1] : '';
 }
 function revCorta(t, n){ t = String(t || ''); return t.length > n ? t.slice(0, n - 1) + '…' : t; }
 function revUid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
-function revLocalLee(){
-  try{ return JSON.parse(localStorage.getItem('sedema.revision.' + REVISION.clave) || '[]') || []; }catch(e){ return []; }
-}
+function revLee(k, def){ try{ return JSON.parse(localStorage.getItem(k) || 'null') || def; }catch(e){ return def; } }
+function revEscribe(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
 /* En el navegador sólo se guarda lo que la hoja todavía no tiene. */
-function revLocalGuarda(){
-  try{ localStorage.setItem('sedema.revision.' + REVISION.clave,
-    JSON.stringify(REVISION.obs.filter(function(o){ return !o.id; }))); }catch(e){}
-}
+function revLocalGuarda(){ revEscribe(CLAVE_REV_OBS, REVISION.obs.filter(function(o){ return !o.id; })); }
+function revEsMia(o){ return String(o.revisor || '').trim().toLowerCase() === REVISION.nombre.trim().toLowerCase(); }
 
 function iniciaRevision(){
-  REVISION.clave = claveDeRevision();
-  if(!REVISION.clave || $('revision')) return;
-  REVISION.obs = revLocalLee();
+  REVISION.palabra = palabraDeRevision();
+  if(!REVISION.palabra || $('revision')) return;
+  REVISION.obs = revLee(CLAVE_REV_OBS, []);
+  var q = revLee(CLAVE_REV_QUIEN, {});
+  REVISION.nombre = q.nombre || ''; REVISION.area = q.area || '';
   var d = document.createElement('div');
   d.id = 'revision';
   d.innerHTML = '<button type="button" class="rev-toggle" onclick="alternaRevision()" aria-expanded="false" aria-controls="revCuerpo">'+
@@ -4977,6 +4983,17 @@ function iniciaRevision(){
   pintaRevision();
   if(REVISION.endpoint) revConecta();
 }
+
+/* ---- Quién revisa ---- */
+function revFijaNombre(){
+  var n = $('revNombre'), a = $('revArea'), nom = n ? n.value.replace(/\s+/g, ' ').trim() : '';
+  if(nom.length < 3){ var m = $('revMsg'); if(m) m.textContent = 'Escribe tu nombre.'; if(n) n.focus(); return; }
+  REVISION.nombre = nom.slice(0, 80);
+  REVISION.area = a ? a.value.replace(/\s+/g, ' ').trim().slice(0, 80) : '';
+  revEscribe(CLAVE_REV_QUIEN, {nombre: REVISION.nombre, area: REVISION.area});
+  pintaRevision();
+}
+function revCambiaNombre(){ REVISION.nombre = ''; pintaRevision(); }
 
 /* ---- Qué se está observando ---- */
 function revPantalla(){
@@ -5050,7 +5067,7 @@ document.addEventListener('click', function(e){
   abreRevision();
 }, true);
 document.addEventListener('keydown', function(e){
-  if(e.key !== 'Escape' || !REVISION.clave) return;
+  if(e.key !== 'Escape' || !REVISION.palabra) return;
   if(REVISION.senalando){ e.stopImmediatePropagation(); revFinSenal(); abreRevision(); return; }
   var d = $('revision');
   if(d && d.classList.contains('abierto') && !document.querySelector('.modal.abierto')) alternaRevision();
@@ -5073,25 +5090,40 @@ function alternaRevision(){
   d.querySelector('.rev-toggle').setAttribute('aria-expanded', 'false');
 }
 function vistaRevision(v){ REVISION.vista = v; pintaRevision(); if(v === 'lista' && REVISION.endpoint) revConecta(); }
-function revCuenta(){ var c = $('revCuenta'); if(c) c.textContent = REVISION.obs.length ? '· ' + REVISION.obs.length : ''; }
+function revCuenta(){
+  var c = $('revCuenta'), n = REVISION.obs.filter(revEsMia).length;
+  if(c) c.textContent = n ? '· ' + n : '';
+}
 
 function pintaRevision(){
   var c = $('revCuerpo'); if(!c) return;
-  var r = REVISION, todas = r.revisor && r.revisor.veTodas;
-  var quien = r.revisor ? esc(r.revisor.nombre) + (r.revisor.area ? ' · ' + esc(r.revisor.area) : '') : 'Clave ' + esc(r.clave);
+  var r = REVISION;
   var conexion = r.error === 'clave'
-    ? 'La clave de esta liga no está registrada o fue desactivada. Lo que guardes se queda en este navegador; pide una liga nueva a la Oficina de la Secretaría.'
+    ? 'Esta liga de revisión ya no está vigente. Lo que guardes se queda en este navegador; pide la liga nueva a la Oficina de la Secretaría.'
     : (!r.endpoint
       ? 'Esta liga aún no está conectada a la hoja de revisión: tus observaciones se guardan en este navegador. Al terminar, descárgalas en CSV y envíalas.'
       : (r.conectada ? 'Tus observaciones se guardan en la hoja de revisión de la Secretaría.'
                      : 'Sin conexión con la hoja de revisión: lo que guardes se enviará cuando vuelva la conexión.'));
-  c.innerHTML = '<div class="rev-cab"><strong>Modo revisión</strong><span>' + quien + '</span></div>'+
+  var h = '<div class="rev-cab"><strong>Modo revisión</strong>';
+  if(!r.nombre){
+    c.innerHTML = h + '</div>'+
+      '<p class="rev-ayuda">Escribe tu nombre para que la Secretaría sepa de quién es cada observación. Este navegador lo recuerda.</p>'+
+      '<label class="rev-etq" for="revNombre">Tu nombre <span class="req" aria-hidden="true">*</span></label>'+
+      '<input id="revNombre" type="text" autocomplete="name" maxlength="80">'+
+      '<label class="rev-etq" for="revArea">Área <span class="rev-opc">(opcional)</span></label>'+
+      '<input id="revArea" type="text" maxlength="80" placeholder="Por ejemplo, Dirección de Inspección">'+
+      '<button type="button" class="btn btn-primario rev-guardar" onclick="revFijaNombre()">Empezar a revisar</button>'+
+      '<p id="revMsg" class="rev-msg" aria-live="polite"></p>';
+    return;
+  }
+  var mias = r.obs.filter(revEsMia).length;
+  c.innerHTML = h + '<span>' + esc(r.nombre) + (r.area ? ' · ' + esc(r.area) : '')+
+      ' <button type="button" class="rev-link" onclick="revCambiaNombre()">Cambiar</button></span></div>'+
     '<p class="rev-conexion">' + conexion + '</p>'+
     '<div class="rev-pestanas" role="tablist">'+
       '<button type="button" role="tab" aria-selected="' + (r.vista === 'nueva') + '" onclick="vistaRevision(\'nueva\')">Nueva observación</button>'+
-      '<button type="button" role="tab" aria-selected="' + (r.vista === 'lista') + '" onclick="vistaRevision(\'lista\')">' +
-        (todas ? 'Observaciones' : 'Mis observaciones') + ' (' + r.obs.length + ')</button></div>'+
-    (r.vista === 'lista' ? revListaHtml() : revFormaHtml());
+      '<button type="button" role="tab" aria-selected="' + (r.vista === 'lista') + '" onclick="vistaRevision(\'lista\')">Observaciones (' + r.obs.length + ')</button></div>'+
+    (r.vista === 'lista' ? revListaHtml(mias) : revFormaHtml());
   revCuenta();
 }
 function revFormaHtml(){
@@ -5113,16 +5145,19 @@ function revFormaHtml(){
     '<button type="button" class="btn btn-primario rev-guardar" onclick="revGuarda()">Guardar observación</button>'+
     '<p id="revMsg" class="rev-msg" aria-live="polite"></p>';
 }
-function revListaHtml(){
-  var r = REVISION, todas = r.revisor && r.revisor.veTodas;
+function revListaHtml(mias){
+  var r = REVISION;
   var pie = '<div class="rev-fila">' + (r.endpoint ? '<button type="button" class="rev-link" onclick="revConecta()">Actualizar</button>' : '')+
     '<button type="button" class="rev-link" onclick="revCSV()">Descargar en CSV</button></div>';
-  if(!r.obs.length) return '<p class="rev-ayuda">Aún no hay observaciones.</p>' + pie;
-  return '<ol class="rev-lista">' + r.obs.slice().reverse().map(function(o){
+  var filtro = '<label class="rev-filtro"><input type="checkbox" ' + (r.soloMias ? 'checked ' : '')+
+    'onchange="REVISION.soloMias=this.checked;pintaRevision()"> Sólo las mías (' + mias + ')</label>';
+  var lista = r.obs.filter(function(o){ return !r.soloMias || revEsMia(o); });
+  if(!lista.length) return filtro + '<p class="rev-ayuda">Aún no hay observaciones.</p>' + pie;
+  return filtro + '<ol class="rev-lista">' + lista.slice().reverse().map(function(o){
     var edo = o.estado || 'Pendiente';
     return '<li><div class="rev-li-cab"><b>' + esc(o.id || 'Sin enviar') + '</b> · ' + esc(o.tipo)+
         '<span class="rev-edo ' + (ESTADOS_REVISION[edo] || 'rev-edo-pend') + '">' + esc(edo) + '</span></div>'+
-      '<p class="rev-li-donde">' + esc(o.pantalla) + (o.seccion ? ' · ' + esc(o.seccion) : '') + (todas && o.revisor ? ' · ' + esc(o.revisor) : '') + '</p>'+
+      '<p class="rev-li-donde">' + esc(o.revisor || '') + ' · ' + esc(o.pantalla) + (o.seccion ? ' · ' + esc(o.seccion) : '') + '</p>'+
       (o.texto ? '<q>' + esc(revCorta(o.texto, 160)) + '</q>' : '')+
       '<p>' + esc(o.observacion) + '</p>'+
       (o.propuesta ? '<p class="rev-li-mas"><b>Propuesta:</b> ' + esc(o.propuesta) + '</p>' : '')+
@@ -5136,10 +5171,11 @@ function revGuarda(){
   var r = REVISION, o = String(r.borrador.obs || '').trim();
   if(!o){ var m = $('revMsg'); if(m) m.textContent = 'Escribe la observación.'; var t = $('revObs'); if(t) t.focus(); return; }
   var s = r.senal || {};
-  var ob = {uid: revUid(), creada: new Date().toISOString(), version: VERSION_FORMULARIO.dec, paso: paso,
-    pantalla: revPantalla(), seccion: s.seccion || '', elemento: s.elemento || '', texto: s.texto || '',
-    tipo: r.tipo || 'Otro', observacion: o.slice(0, 4000), propuesta: String(r.borrador.prop || '').trim().slice(0, 4000),
-    materia: val('materia') || '', dispositivo: window.innerWidth + '×' + window.innerHeight + ' · ' + String(navigator.userAgent || '').slice(0, 120),
+  var ob = {uid: revUid(), creada: new Date().toISOString(), revisor: r.nombre, area: r.area,
+    version: VERSION_FORMULARIO.dec, paso: paso, pantalla: revPantalla(), seccion: s.seccion || '',
+    elemento: s.elemento || '', texto: s.texto || '', tipo: r.tipo || 'Otro', observacion: o.slice(0, 4000),
+    propuesta: String(r.borrador.prop || '').trim().slice(0, 4000), materia: val('materia') || '',
+    dispositivo: window.innerWidth + '×' + window.innerHeight + ' · ' + String(navigator.userAgent || '').slice(0, 120),
     estado: r.endpoint ? 'Por enviar' : 'Guardada en este navegador'};
   r.obs.push(ob); revLocalGuarda();
   r.borrador = {obs: '', prop: ''}; r.senal = null; r.tipo = '';
@@ -5150,7 +5186,7 @@ function revGuarda(){
 /* Texto plano y sin encabezados propios: así el navegador no pide permiso
    previo (CORS) al Apps Script. La hoja descarta un envío repetido por su uid. */
 function revEnvia(ob){
-  return fetch(REVISION.endpoint, {method: 'POST', body: JSON.stringify({accion: 'guardar', clave: REVISION.clave, obs: ob})})
+  return fetch(REVISION.endpoint, {method: 'POST', body: JSON.stringify({accion: 'guardar', palabra: REVISION.palabra, obs: ob})})
     .then(function(x){ return x.json(); })
     .then(function(j){
       if(!j || !j.ok) throw new Error((j && j.error) || 'sin respuesta');
@@ -5163,16 +5199,16 @@ function revEnvia(ob){
       if(clave) REVISION.error = 'clave'; else REVISION.conectada = false;
       revLocalGuarda(); pintaRevision();
       var m = $('revMsg'); if(m) m.textContent = clave
-        ? 'La clave de esta liga no está activa: la observación se queda en este navegador.'
+        ? 'Esta liga ya no está vigente: la observación se queda en este navegador.'
         : 'No se pudo enviar: se queda en este navegador y se reintenta al actualizar.';
     });
 }
 function revConecta(){
-  return fetch(REVISION.endpoint + '?accion=lista&clave=' + encodeURIComponent(REVISION.clave))
+  return fetch(REVISION.endpoint + '?accion=lista&palabra=' + encodeURIComponent(REVISION.palabra))
     .then(function(x){ return x.json(); })
     .then(function(j){
       if(!j || !j.ok){ REVISION.error = (j && j.error) || ''; REVISION.conectada = false; pintaRevision(); return; }
-      REVISION.conectada = true; REVISION.error = ''; REVISION.revisor = j.revisor || null;
+      REVISION.conectada = true; REVISION.error = '';
       var locales = REVISION.obs.filter(function(o){ return !o.id; });
       REVISION.obs = (j.observaciones || []).concat(locales);
       pintaRevision();
@@ -5181,15 +5217,15 @@ function revConecta(){
     .catch(function(){ REVISION.conectada = false; pintaRevision(); });
 }
 function revCSV(){
-  var cols = [['id','ID'], ['creada','Fecha'], ['version','Versión'], ['pantalla','Pantalla'], ['seccion','Sección'],
-    ['texto','Texto señalado'], ['tipo','Tipo'], ['observacion','Observación'], ['propuesta','Propuesta'],
-    ['estado','Estado'], ['respuesta','Respuesta']];
+  var cols = [['id','ID'], ['creada','Fecha'], ['revisor','Revisor'], ['version','Versión'], ['pantalla','Pantalla'],
+    ['seccion','Sección'], ['texto','Texto señalado'], ['tipo','Tipo'], ['observacion','Observación'],
+    ['propuesta','Propuesta'], ['estado','Estado'], ['respuesta','Respuesta']];
   var q = function(v){ v = String(v == null ? '' : v); if(/^[=+\-@]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; };
   var csv = '﻿' + cols.map(function(c){ return q(c[1]); }).join(',') + '\r\n' +
     REVISION.obs.map(function(o){ return cols.map(function(c){ return q(o[c[0]]); }).join(','); }).join('\r\n');
   var a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([csv], {type: 'text/csv;charset=utf-8'}));
-  a.download = 'observaciones-' + REVISION.clave + '.csv';
+  a.download = 'observaciones-revision.csv';
   document.body.appendChild(a); a.click();
   setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
 }
