@@ -66,13 +66,14 @@ with sync_playwright() as pw:
         # Tope de texto. Era 350 y la portada lo llenaba; con DEC-116 baja a
         # 160. No es un numero arbitrario: es la portada actual (138) con
         # margen para ajustes de redaccion, no para una seccion nueva.
-        # DEC-140 lo sube a 360: la portada es la primera ventana y vuelve a
-        # informar —que se puede denunciar, que se necesita, el 911—, pero
-        # sin volver a los 349 de antes con secciones que nadie lee.
-        afirma(r['palabras'] <= 360, '%s: la portada cabe en %d palabras (tope 360)' % (nom, r['palabras']))
+        # DEC-142 la deja en entrada, medios, qué necesitas y lo que la ley
+        # reconoce: fuera el 911, los temas y qué pasa después.
+        afirma(r['palabras'] <= 260, '%s: la portada cabe en %d palabras (tope 260)' % (nom, r['palabras']))
         afirma(not r['tituloPropio'], '%s: la portada no repite un título junto al del encabezado' % nom)
-        afirma(r['temas'] == r['grupos'] and r['temas'] >= 5, '%s: muestra qué se puede denunciar, un tema por grupo (%d)' % (nom, r['temas']))
-        afirma('911' in r['tarjeta'] and 'no atiende emergencias' in r['tarjeta'], '%s: dice que las emergencias van al 911' % nom)
+        afirma(r['temas'] == 0 and '911' not in r['tarjeta'] and len(r['pasos']) == 0,
+               '%s: sin temas, sin línea de emergencias y sin «qué pasa después» (DEC-142)' % nom)
+        afirma('mismo dispositivo y navegador' in r['tarjeta'], '%s: pausar se aclara: desde el mismo dispositivo y navegador' % nom)
+        afirma('BOSQUES URBANOS Y BARRANCAS' in r['persona'].upper(), '%s: la zona urbana nombra bosques urbanos y barrancas' % nom)
         afirma('Qué necesitas' in r['tarjeta'] or 'QUÉ NECESITAS' in r['tarjeta'], '%s: dice qué se necesita para denunciar' % nom)
         afirma(r['botonY'] is not None and r['botonY'] < alto,
                '%s: el botón de iniciar se ve sin desplazar (a %s px de %d)' % (nom, r['botonY'], alto))
@@ -111,13 +112,6 @@ with sync_playwright() as pw:
         afirma(all(len(x.split()) <= 10 for x in r['derechos']),
                '%s: cada derecho cabe en una frase corta' % nom)
         afirma('sin dar tu nombre' in r['tarjeta'], '%s: la portada dice que se puede denunciar sin dar el nombre (DEC-77)' % nom)
-
-        # Que pasa despues: cuatro momentos en una fila, cada titulo en un renglon.
-        afirma(len(r['pasos']) == 4, '%s: cuatro momentos de lo que pasa después' % nom)
-        filas = len(set(x['top'] for x in r['pasos']))
-        afirma(filas == 1, '%s: los cuatro van en una sola fila (%d)' % (nom, filas))
-        afirma(all(x['alto'] <= x['lh'] * 1.2 for x in r['pasos']),
-               '%s: ningún título de momento se parte en dos renglones' % nom)
 
         afirma(r['cajas'] == 0, '%s: no quedan cajas de aviso apiladas (%d)' % (nom, r['cajas']))
         afirma(not r['desborde'], '%s: sin desbordamiento horizontal' % nom)
