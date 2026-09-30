@@ -336,8 +336,17 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
   letter-spacing:.07em;text-transform:uppercase;color:var(--gris);margin:0 0 10px;padding:0;border:0}
 
 .medios{display:grid;gap:12px}
-@media (min-width:760px){ .medios{grid-template-columns:1.15fr 1fr;align-items:start} }
-.medio{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja);padding:18px}
+/* Las dos tarjetas del mismo ancho y del mismo alto; el boton de la de en
+   linea baja al pie de la tarjeta (DEC-137). */
+@media (min-width:760px){ .medios{grid-template-columns:1fr 1fr;align-items:stretch} }
+.medio{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja);padding:18px;display:flex;flex-direction:column}
+.medio-principal .btn-ancho{margin-top:auto}
+.sede{margin-top:12px;padding-top:12px;border-top:1px solid var(--linea)}
+.sede-primera{margin-top:6px;padding-top:0;border-top:0}
+.sede-zona{margin:0 0 4px;font-size:var(--t-xs);font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--guinda)}
+.sede-dato{margin:0 0 4px;font-size:var(--t-md);color:var(--gris);line-height:1.5}
+.medio-principal .medio-mini{flex-direction:column;gap:8px;margin-bottom:20px;font-size:var(--t-md)}
+.sede-area{margin:0 0 8px}
 .medio-principal{border:2px solid var(--guinda)}
 .medio-cab{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
 .medio-cab h3{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-lg);font-weight:700;color:var(--texto);margin:0}
@@ -706,20 +715,18 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
         <span>Gobierno de la Ciudad de México</span></p>
     </div>
 
+    <!-- Presentarla en persona: una columna por oficina, segun la zona de
+         los hechos. Se pintan desde SEDES, la misma fuente de la portada
+         (DEC-137). -->
     <div class="pie-bloque">
-      <h2>También en persona</h2>
-      <div id="pieEnPersona"></div>
-      <p><span class="pendiente">Teléfono de atención por confirmar</span></p>
+      <h2 id="pieZona0"></h2>
+      <div id="pieSede0"></div>
     </div>
 
     <div class="pie-bloque">
-      <h2>Quién atiende la denuncia</h2>
-      <p>Según dónde ocurran los hechos, la denuncia la atiende una de dos áreas:</p>
-      <p><strong>Dirección General de Inspección y Vigilancia Ambiental</strong><br>
-        <span>Suelo urbano y Áreas de Valor Ambiental. Atiende a través de su Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano</span></p>
-      <p><strong>Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural</strong><br>
-        <span>Suelo de conservación y Áreas Naturales Protegidas. Atiende a través de su Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas</span></p>
-      <p><span class="pendiente">Domicilios y horarios de las dos unidades, por confirmar</span></p>
+      <h2 id="pieZona1"></h2>
+      <div id="pieSede1"></div>
+      <p><span class="pendiente">Teléfono de atención por confirmar</span></p>
       <p class="pie-enlaces">
         <button type="button" class="enlace" onclick="abrePrivacidad()">Aviso de privacidad</button>
       </p>
@@ -1231,7 +1238,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-136', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-137', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1760,11 +1767,23 @@ function barra(){
 /* Los datos de la via presencial viven en un solo lugar: los pinta la portada
    y los pinta el pie. Escribirlos dos veces es como se contradijeron el
    formato en PDF y el portal (P-09), y ese domicilio sigue sin confirmarse. */
-var PRESENCIAL = {
-  lugar: 'Oficialía de Partes, interior del Bosque de San Juan de Aragón. Av. José Loreto Fabela, acceso 1, col. San Juan de Aragón, Gustavo A. Madero, C.P. 07969.',
-  horario: 'Lunes a viernes, de 9:00 a 13:30 horas.',
-  pendiente: 'Domicilio por confirmar'
-};
+/* Dos oficinas, segun la zona de los hechos (DEC-137): suelo urbano y Areas
+   de Valor Ambiental los atiende la DGIVA; suelo de conservacion y Areas
+   Naturales Protegidas, la DGCORENADR. El domicilio de la segunda no se
+   escribe hasta confirmarlo: queda el hueco a la vista (P-09). */
+var SEDES = [
+  {zona: 'Suelo urbano y Áreas de Valor Ambiental',
+   area: 'Dirección General de Inspección y Vigilancia Ambiental',
+   via:  'Atiende a través de su Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano.',
+   lugar: 'Oficialía de Partes, interior del Bosque de San Juan de Aragón. Av. José Loreto Fabela, acceso 1, col. San Juan de Aragón, Gustavo A. Madero, C.P. 07969.',
+   horario: 'Lunes a viernes, de 9:00 a 13:30 horas.',
+   pendiente: 'Domicilio por confirmar'},
+  {zona: 'Suelo de conservación y Áreas Naturales Protegidas',
+   area: 'Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural',
+   via:  'Atiende a través de su Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas.',
+   lugar: '', horario: '',
+   pendiente: 'Domicilio y horario por confirmar'}
+];
 
 /* ---- Portada (DEC-116) ----
    La portada es la elección del medio: en línea o en persona. Tenía 349
@@ -1786,7 +1805,8 @@ function pInicio(){
       '<section class="medio medio-principal" aria-labelledby="medioLinea">'+
         '<div class="medio-cab"><h3 id="medioLinea">En línea</h3><span class="medio-etq">Desde aquí</span></div>'+
         '<p>A cualquier hora, en unos diez minutos.</p>'+
-        '<ul class="medio-mini"><li>Recibes tu folio al terminar</li><li>Puedes pausar y seguir después</li></ul>'+
+        '<ul class="medio-mini"><li>Recibes tu folio al terminar</li><li>Puedes pausar y seguir después</li>'+
+          '<li>El mapa determina qué oficina la atiende</li></ul>'+
         '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
       '</section>'+
       '<section class="medio" aria-labelledby="medioPersona">'+
@@ -1818,10 +1838,20 @@ function pInicio(){
   '</div>';
 }
 
+/* Una sede. En la portada basta la zona y el domicilio: quien denuncia sabe
+   donde ocurrio, no que direccion general lo atiende. En el pie va completa. */
+function datosSede(i, completa){
+  var d = SEDES[i];
+  return (completa ? '<p class="sede-area"><strong>'+esc(d.area)+'</strong><br><span>'+esc(d.via)+'</span></p>'
+                   : '<p class="sede-zona">'+esc(d.zona)+'</p>')+
+    (!d.lugar ? '' : completa
+      ? '<dl class="medio-datos"><dt>Dónde</dt><dd>'+esc(d.lugar)+'</dd>'+
+          (d.horario ? '<dt>Cuándo</dt><dd>'+esc(d.horario)+'</dd>' : '')+'</dl>'
+      : '<p class="sede-dato">'+esc(d.lugar)+'</p>'+(d.horario ? '<p class="sede-dato">'+esc(d.horario)+'</p>' : ''))+
+    (d.pendiente ? '<p class="medio-pend"><span class="pendiente">'+esc(d.pendiente)+'</span></p>' : '');
+}
 function datosPresencial(){
-  return '<dl class="medio-datos"><dt>Dónde</dt><dd>'+esc(PRESENCIAL.lugar)+'</dd>'+
-    '<dt>Cuándo</dt><dd>'+esc(PRESENCIAL.horario)+'</dd></dl>'+
-    (PRESENCIAL.pendiente ? '<p class="medio-pend"><span class="pendiente">'+esc(PRESENCIAL.pendiente)+'</span></p>' : '');
+  return SEDES.map(function(d, i){ return '<div class="sede'+(i ? '' : ' sede-primera')+'">'+datosSede(i)+'</div>'; }).join('');
 }
 
 function pMateria(){
@@ -4442,7 +4472,10 @@ document.addEventListener('keydown', function(e){
 })();
 
 /* El pie toma la via presencial de la misma fuente que la portada. */
-(function(){ var c = document.getElementById('pieEnPersona'); if(c) c.innerHTML = datosPresencial(); })();
+(function(){ SEDES.forEach(function(d, i){
+  var z = document.getElementById('pieZona'+i), c = document.getElementById('pieSede'+i);
+  if(z) z.textContent = d.zona; if(c) c.innerHTML = datosSede(i, true);
+}); })();
 
 render();
 </script>

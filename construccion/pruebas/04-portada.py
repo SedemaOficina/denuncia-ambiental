@@ -36,7 +36,7 @@ with sync_playwright() as pw:
           const t = a.innerText.replace(/\\s+/g,' ').trim();
           const b = [...a.querySelectorAll('button')].find(x => x.textContent.includes('Iniciar'));
           const medios = [...a.querySelectorAll('.medio')];
-          const pie = document.getElementById('pieEnPersona');
+          const pie = document.getElementById('pieSede0'), pie1 = document.getElementById('pieSede1');
           return {
             palabras: t.split(' ').length,
             botonY: b ? Math.round(b.getBoundingClientRect().top + window.scrollY) : null,
@@ -47,7 +47,10 @@ with sync_playwright() as pw:
             ladoALado: medios.length > 1 && Math.abs(medios[0].getBoundingClientRect().top - medios[1].getBoundingClientRect().top) < 2,
             pend: medios.length > 1 ? !!medios[1].querySelector('.pendiente') : false,
             pieTxt: pie ? pie.innerText.replace(/\\s+/g,' ').trim() : '',
-            lugar: PRESENCIAL.lugar,
+            lugar: SEDES[0].lugar,
+            mismoAlto: medios.length > 1 && Math.abs(medios[0].getBoundingClientRect().height - medios[1].getBoundingClientRect().height) < 2,
+            zonas: SEDES.map(d => d.zona),
+            pie1Txt: pie1 ? pie1.innerText.replace(/\\s+/g,' ').trim() : '',
             mailto: document.querySelectorAll('a[href^="mailto:"]').length,
             cajas: a.querySelectorAll('.aviso').length,
             derechos: [...a.querySelectorAll('.derechos li')].map(li => li.innerText.trim()),
@@ -61,7 +64,8 @@ with sync_playwright() as pw:
         # Tope de texto. Era 350 y la portada lo llenaba; con DEC-116 baja a
         # 160. No es un numero arbitrario: es la portada actual (138) con
         # margen para ajustes de redaccion, no para una seccion nueva.
-        afirma(r['palabras'] <= 160, '%s: la portada cabe en %d palabras (tope 160)' % (nom, r['palabras']))
+        # DEC-137 lo sube a 175: en persona ahora son dos oficinas, una por zona.
+        afirma(r['palabras'] <= 175, '%s: la portada cabe en %d palabras (tope 175)' % (nom, r['palabras']))
         afirma(r['botonY'] is not None and r['botonY'] < alto,
                '%s: el botón de iniciar se ve sin desplazar (a %s px de %d)' % (nom, r['botonY'], alto))
 
@@ -78,6 +82,14 @@ with sync_playwright() as pw:
         # Mientras P-09 no se resuelva, el domicilio no puede presentarse como
         # confirmado: el PDF y el portal dicen dos cosas distintas.
         afirma(r['pend'], '%s: el domicilio lleva la marca de «por confirmar»' % nom)
+        # En persona depende de la zona: DGIVA en suelo urbano y AVA; DGCORENADR
+        # en suelo de conservacion y ANP (DEC-137).
+        afirma(all(z.upper() in r['persona'].upper() for z in r['zonas']),
+               '%s: en persona se dice a qué oficina acudir según la zona de los hechos' % nom)
+        afirma('Inspección y Vigilancia Ambiental' in r['pieTxt'] and 'Recursos Naturales' in r['pie1Txt'],
+               '%s: el pie nombra la dirección general de cada zona' % nom)
+        if esperado_lado:
+            afirma(r['mismoAlto'], '%s: las dos tarjetas tienen el mismo alto' % nom)
         # Una sola fuente: el pie dice el mismo domicilio que la portada.
         afirma(r['lugar'] in r['pieTxt'], '%s: el pie y la portada dicen el mismo domicilio' % nom)
         # El correo electronico no es una via de presentacion.

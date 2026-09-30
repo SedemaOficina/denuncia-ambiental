@@ -37,10 +37,15 @@ s = s.replace('<meta charset="UTF-8">',
               '<meta charset="UTF-8">\n<meta name="robots" content="noindex, nofollow">', 1)
 
 # 3. Aviso de version de prueba
-AVISO = ('<div class="franja" role="note"><div class="contenedor franja-int"><p>'
-         '<span class="pendiente">Versión de prueba</span> '
-         'Esta página es para revisar el formulario. <strong>No envía denuncias</strong> ni guarda datos en la Secretaría: '
-         'lo que captures se queda en este navegador. Usa datos ficticios.</p></div></div>\n')
+# Franja gris con rayas diagonales, texto blanco y una sola linea: se lee
+# como marca de entorno de prueba, no como un aviso mas del formulario
+# (DEC-137). Sus colores viven aqui y no en la paleta del prototipo, porque
+# solo existe en la version publicada.
+AVISO = ('<style>.franja-prueba{background:repeating-linear-gradient(135deg,#4A4F55 0 14px,#565B61 14px 28px);'
+         'color:#FFFFFF;font-size:15px;line-height:1.4;padding:11px 20px}'
+         '.franja-prueba p{max-width:980px;margin:0 auto}</style>'
+         '<div class="franja-prueba" role="note"><p>Versión de prueba con datos ficticios. '
+         'No envía denuncias ni guarda datos en la Secretaría.</p></div>\n')
 if s.count('<body>\n') != 1:
     sys.exit('ERROR: no se encontro <body> para poner el aviso de version de prueba.')
 s = s.replace('<body>\n', '<body>\n' + AVISO, 1)
