@@ -57,6 +57,7 @@ with sync_playwright() as pw:
             mailto: document.querySelectorAll('a[href^="mailto:"]').length,
             cajas: a.querySelectorAll('.aviso').length,
             derechos: [...a.querySelectorAll('.derechos li')].map(li => li.innerText.trim()),
+            derechosB: [...a.querySelectorAll('.derechos li b')].map(b => b.innerText.trim()),
             pasos: [...a.querySelectorAll('.despues b')].map(e => ({alto: e.getBoundingClientRect().height,
                      lh: parseFloat(getComputedStyle(e).lineHeight), top: Math.round(e.closest('li').getBoundingClientRect().top)})),
             tarjeta: t,
@@ -69,8 +70,9 @@ with sync_playwright() as pw:
         # margen para ajustes de redaccion, no para una seccion nueva.
         # DEC-142 la deja en entrada, medios, qué necesitas y lo que la ley
         # reconoce: fuera el 911, los temas y qué pasa después.
-        # DEC-143 suma las preguntas frecuentes, plegadas: cuentan sólo las preguntas.
-        afirma(r['palabras'] <= 300, '%s: la portada cabe en %d palabras (tope 300)' % (nom, r['palabras']))
+        # DEC-147 vuelve a explicar el derecho y por qué importa denunciar, con
+        # el texto que dio la Oficina de la Secretaría: el tope sube a 420.
+        afirma(r['palabras'] <= 420, '%s: la portada cabe en %d palabras (tope 420)' % (nom, r['palabras']))
         afirma(r['faq'] >= 6 and r['faqAbiertas'] == 0, '%s: preguntas frecuentes, plegadas (%d)' % (nom, r['faq']))
         afirma(not r['tituloPropio'], '%s: la portada no repite un título junto al del encabezado' % nom)
         afirma(r['temas'] == 0 and '911' not in r['tarjeta'] and len(r['pasos']) == 0,
@@ -112,16 +114,19 @@ with sync_playwright() as pw:
         afirma(len(r['derechos']) == 4, '%s: los cuatro enunciados de lo que la ley reconoce' % nom)
         afirma('Lo que la ley te reconoce' in r['tarjeta'] or 'LO QUE LA LEY TE RECONOCE' in r['tarjeta'],
                '%s: y se presentan como derechos, no como avisos' % nom)
-        afirma(all(len(x.split()) <= 10 for x in r['derechos']),
-               '%s: cada derecho cabe en una frase corta' % nom)
+        afirma(len(r['derechosB']) == 4 and all(len(x.split()) <= 8 for x in r['derechosB']),
+               '%s: cada derecho abre con una frase corta en negritas: %s' % (nom, r['derechosB']))
+        afirma('pedir que sean confidenciales' not in r['tarjeta'] and 'Tus datos son confidenciales' in r['tarjeta'],
+               '%s: la confidencialidad se dice como regla, no como algo que se pide (DEC-119)' % nom)
         afirma('sin dar tu nombre' in r['tarjeta'], '%s: la portada dice que se puede denunciar sin dar el nombre (DEC-77)' % nom)
 
         afirma(r['cajas'] == 0, '%s: no quedan cajas de aviso apiladas (%d)' % (nom, r['cajas']))
         afirma(not r['desborde'], '%s: sin desbordamiento horizontal' % nom)
         # El encabezado ya titula y describe: la portada no lo repite.
         afirma('Denuncia Ambiental' not in r['tarjeta'], '%s: la portada no repite el título del encabezado' % nom)
-        afirma('Por qué importa' not in r['tarjeta'] and 'Ten a la mano' not in r['tarjeta'],
-               '%s: no vuelven las secciones que se retiraron' % nom)
+        afirma('Ten a la mano' not in r['tarjeta'], '%s: no vuelve «Ten a la mano»; lo dice «Qué necesitas»' % nom)
+        afirma('Por qué importa que denuncies' in r['tarjeta'] or 'POR QUÉ IMPORTA QUE DENUNCIES' in r['tarjeta'],
+               '%s: la portada dice por qué importa denunciar (DEC-147)' % nom)
 
         # El aviso de denuncia sin terminar puede acortarse, pero NUNCA puede
         # perder que aun no se ha presentado: sin esa frase alguien cierra el

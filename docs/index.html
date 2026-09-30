@@ -336,12 +336,18 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
    y es la unica que se hace desde aqui. */
 .portada{padding:6px 0 10px}
 .portada-lead{font-size:var(--t-lg);line-height:1.5;color:var(--texto);max-width:64ch;margin:4px 0 24px}
-.dos-col{display:grid;gap:26px}
-@media (min-width:760px){ .dos-col{grid-template-columns:1fr 1fr} }
 .necesitas{list-style:none;margin:0;padding:0;display:grid;gap:9px}
 .necesitas li{position:relative;padding-left:18px;font-size:var(--t-base);line-height:1.45;color:var(--texto)}
 .necesitas li::before{content:'';position:absolute;left:2px;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--dorado)}
 .necesitas b{font-weight:600}
+.derechos b{font-weight:600}
+/* En el telefono la entrada y los titulos bajan un escalon, para que el
+   boton de iniciar se vea sin desplazar (DEC-147). */
+@media (max-width:560px){
+  .portada-lead{font-size:var(--t-base);margin-bottom:18px}
+  .rotulo-portada{font-size:var(--t-lg);margin-bottom:10px}
+}
+.portada-texto{margin:0;font-size:var(--t-base);line-height:1.6;color:var(--texto);max-width:72ch}
 /* Cada pregunta en su tarjeta, con triangulo guinda que gira al abrirse (DEC-144). */
 .faq{display:grid;gap:12px}
 .faq details{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja)}
@@ -1279,7 +1285,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-146', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-147', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1822,11 +1828,12 @@ var SEDES = [
    titulo propio, sin plazos y sin ofrecer el correo como via. */
 function pInicio(){
   return '<div class="portada">'+
-    /* Sin titulo propio: el encabezado ya dice «Denuncia Ambiental» y
-       repetirlo con otras palabras no informa (DEC-140). La entrada dice que
-       se puede denunciar, que la atiende y que pasa, en dos renglones. */
-    '<p class="portada-lead">Si ves humo, ruido, tala, escombro u obras que dañan el ambiente en la Ciudad de México, denúncialo aquí. '+
-      'La Secretaría turna tu denuncia al área que atiende la zona y verifica los hechos en campo.</p>'+
+    /* La entrada dice que denunciar es un derecho y a quien se le cuenta
+       (DEC-147). Su titulo afirma algo; no repite el del encabezado. */
+    '<h2 class="rotulo-portada">Denunciar el daño ambiental es tu derecho</h2>'+
+    '<p class="portada-lead">Quien vive un lugar es el primero en notar que algo anda mal: el humo que no debería estar ahí, '+
+      'el árbol que amaneció derribado, el escombro tirado en la barranca. Cuéntaselo a la Secretaría del Medio Ambiente: '+
+      'puede verificarlo en campo e iniciar el procedimiento que corresponda.</p>'+
 
     '<h2 class="rotulo-portada">Elige cómo presentarla</h2>'+
     '<div class="medios">'+
@@ -1843,26 +1850,34 @@ function pInicio(){
       '</section>'+
     '</div>'+
 
-    '<div class="portada-bloque dos-col">'+
-      '<div>'+
-        '<h2 class="rotulo-portada">Qué necesitas</h2>'+
-        '<ul class="necesitas">'+
-          '<li><b>Dónde ocurre:</b> la dirección o el punto en el mapa.</li>'+
-          '<li><b>Qué pasa</b> y desde cuándo.</li>'+
-          '<li><b>Fotos, videos o documentos,</b> si los tienes. No son obligatorios.</li>'+
-          '<li><b>Tus datos,</b> o preséntala sin dar tu nombre.</li>'+
-        '</ul>'+
-      '</div>'+
-      /* El derecho sigue enunciado (DEC-76): cambia la forma, no el contenido. */
-      '<div>'+
-        '<h2 class="rotulo-portada">Lo que la ley te reconoce</h2>'+
-        '<ul class="derechos">'+
-          '<li>Cualquier persona puede denunciar.</li>'+
-          '<li>Puedes hacerlo sin dar tu nombre.</li>'+
-          '<li>Tus datos no se dan a conocer a quien denuncias.</li>'+
-          '<li>No necesitas saber qué norma se incumple.</li>'+
-        '</ul>'+
-      '</div>'+
+    /* Lo que la ley reconoce, cada derecho con su explicacion (DEC-76,
+       DEC-147). La confidencialidad es la regla, no algo que se pide (DEC-119),
+       y la anonima deja un correo de contacto (DEC-120). */
+    '<div class="portada-bloque">'+
+      '<h2 class="rotulo-portada">Lo que la ley te reconoce</h2>'+
+      '<ul class="derechos">'+
+        '<li><b>Cualquier persona puede denunciar.</b> No necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio.</li>'+
+        '<li><b>Puedes denunciar sin dar tu nombre.</b> La Secretaría valora los hechos igual; sólo te pedimos un correo, para escribirte si hace falta aclarar algo.</li>'+
+        '<li><b>Tus datos son confidenciales.</b> Tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado.</li>'+
+        '<li><b>No necesitas saber qué norma se incumple.</b> Basta con describir lo que ocurre: clasificarlo le toca a la Secretaría.</li>'+
+      '</ul>'+
+    '</div>'+
+
+    '<div class="portada-bloque">'+
+      '<h2 class="rotulo-portada">Por qué importa que denuncies</h2>'+
+      '<p class="portada-texto">Denunciar no es pelearse con nadie: es la vía por la que la autoridad se entera. La Ciudad no tiene personal en cada calle, '+
+        'y buena parte del daño ambiental sólo se conoce porque alguien se tomó el tiempo de reportarlo. Cada denuncia queda registrada y ubicada en el mapa, '+
+        'y pasa a formar parte de la información con la que la Secretaría decide dónde inspeccionar.</p>'+
+    '</div>'+
+
+    '<div class="portada-bloque">'+
+      '<h2 class="rotulo-portada">Qué necesitas</h2>'+
+      '<ul class="necesitas">'+
+        '<li><b>Dónde ocurre:</b> la dirección o el punto en el mapa.</li>'+
+        '<li><b>Qué pasa</b> y desde cuándo.</li>'+
+        '<li><b>Fotos, videos o documentos,</b> si los tienes. No son obligatorios.</li>'+
+        '<li><b>Tus datos,</b> o preséntala sin dar tu nombre.</li>'+
+      '</ul>'+
     '</div>'+
 
     /* Lo que alguien pregunta antes de empezar. Plegadas: la portada no

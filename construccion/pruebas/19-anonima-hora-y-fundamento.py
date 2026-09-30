@@ -76,7 +76,7 @@ with sync_playwright() as pw:
       return [...document.querySelectorAll('.resumen dt')].some(x=>x.textContent.indexOf('Confidencialidad')===0); }""")
     afirma(not rv, 'ni aparece en la revisión')
     port = pg.evaluate("() => { irA(0); return document.getElementById('app').innerText; }")
-    afirma('pedir que sean confidenciales' not in port and 'no se dan a conocer' in port, 'la portada lo dice como regla')
+    afirma('pedir que sean confidenciales' not in port and 'Tus datos son confidenciales' in port, 'la portada lo dice como regla')
 
     # ---- 4. Anónima: correo obligatorio, teléfono opcional (DEC-119, DEC-120) ----
     a = pg.evaluate("""() => { estado={}; cfg.validar=true; guarda('identificacion','anonima'); guarda('privacidad','si'); irA(5);
