@@ -1262,9 +1262,9 @@ var DERIVADOS = {
   fecha_captura:  {etq:'Fecha de captura de la foto', origen:'Metadatos de la foto (EXIF)', fin:'Expediente', dp:false, se_ve:false, por:'foto',
                    uso:'Cuándo se tomó la foto; es parte de la prueba y se pierde al optimizarla.'},
   lat_captura:    {etq:'Latitud donde se tomó la foto', origen:'Metadatos de la foto (EXIF)', fin:'Expediente', dp:true, se_ve:false, por:'foto',
-                   uso:'Dónde se tomó la foto; lo dice el aviso de privacidad (DEC-121).'},
+                   uso:'Dónde se tomó la foto; el aviso de privacidad definitivo debe decirlo (DEC-121, DEC-149).'},
   lon_captura:    {etq:'Longitud donde se tomó la foto', origen:'Metadatos de la foto (EXIF)', fin:'Expediente', dp:true, se_ve:false, por:'foto',
-                   uso:'Dónde se tomó la foto; lo dice el aviso de privacidad (DEC-121).'},
+                   uso:'Dónde se tomó la foto; el aviso de privacidad definitivo debe decirlo (DEC-121, DEC-149).'},
   dimensiones:    {etq:'Dimensiones de la foto optimizada', origen:'La optimización', fin:'Expediente', dp:false, se_ve:false, por:'foto',
                    uso:'Ancho y alto en píxeles de lo que se guarda.'},
   optimizada:     {etq:'Foto optimizada', origen:'La optimización', fin:'Expediente', dp:false, se_ve:false, por:'foto',
@@ -1285,7 +1285,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-148', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-150', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2675,12 +2675,17 @@ function pEvidencia(){
    pierde la denuncia entera, porque todavía no hay nada capturado. */
 function esAnonima(){ return val('identificacion')==='anonima'; }
 
+/* El aviso conserva sus apartados, cada uno con su letrero de «Por
+   desarrollar» mientras se redacta el texto (DEC-149, corrige DEC-138). */
+var APARTADOS_PRIVACIDAD = ['Quién trata tus datos', 'Para qué se usan', 'Con qué fundamento',
+  'Cuánto tiempo se conservan', 'A quién pueden transferirse', 'Confidencialidad',
+  'Cómo ejerces tus derechos', 'Aviso integral'];
 function avisoPrivacidad(){
   return '<h3 class="sub-seccion">Aviso de privacidad</h3>'+
     '<div class="priv">'+
-      '<p><b>Quién trata tus datos.</b> La Secretaría del Medio Ambiente de la Ciudad de México, a través de la Dirección General de Inspección y Vigilancia Ambiental, es la responsable del tratamiento de los datos personales que proporciones, que quedan protegidos en el sistema de datos personales correspondiente.</p>'+
-      '<p><b>Para qué se usan.</b> Registrar tu denuncia y darle seguimiento; identificar a las personas involucradas en el expediente; notificarte las actuaciones; remitir el asunto a la autoridad competente cuando no corresponda a la Secretaría; y, en su caso, con fines estadísticos. El género y el rango de edad son opcionales y se usan únicamente para estadística. De las fotografías se conservan la fecha y el lugar en que se tomaron, como parte de la prueba.</p>'+
-      '<p><span class="pendiente">Aviso de privacidad completo, por desarrollar</span></p>'+
+      APARTADOS_PRIVACIDAD.map(function(t){
+        return '<p><b>'+esc(t)+'.</b> <span class="pendiente">Por desarrollar</span></p>';
+      }).join('')+
     '</div>';
 }
 

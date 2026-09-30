@@ -61,7 +61,7 @@ El proyecto tiene una carpeta local vinculada a esta sesión de trabajo:
 | Carpeta | Contenido |
 |---|---|
 | `prototipo/` | Prototipo navegable del formulario, en un archivo HTML autocontenido |
-| `documentacion/` | Los diecisiete documentos de este proyecto y la cédula de respuesta a la DGIVA |
+| `documentacion/` | Los dieciocho documentos de este proyecto y la cédula de respuesta a la DGIVA |
 | `capas/` | Capas del Sistema de Información Ambiental empleadas por el formulario |
 | `construccion/` | Cadena que genera la versión en línea, la de GitHub Pages y los documentos 09 y 10, y las baterías de prueba |
 | `insumos/` | Formato público vigente, propuesta de la Dirección General y Ley Ambiental |

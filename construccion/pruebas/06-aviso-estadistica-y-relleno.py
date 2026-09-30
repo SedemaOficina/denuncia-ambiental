@@ -79,9 +79,9 @@ with sync_playwright() as pw:
     }""")
     afirma(av is not None and av['visible'], 'el aviso de privacidad ocupa lugar en la pantalla')
     afirma(av and av['antesDelCheck'], 'y va antes de la casilla con la que se consiente')
-    # DEC-138: por ahora sólo quién trata los datos y para qué, y el resto por desarrollar.
-    afirma(av and av['rotulos'] == 2, 'trae sólo quién trata los datos y para qué (%s rótulos)' % (av and av['rotulos']))
-    afirma(av and av['huecos'] == 1, 'y un solo letrero de «por desarrollar» (%s)' % (av and av['huecos']))
+    # DEC-149: los apartados se conservan, cada uno «por desarrollar» mientras se redacta.
+    afirma(av and av['rotulos'] == 6, 'conserva los apartados del aviso (%s de 6 rótulos buscados)' % (av and av['rotulos']))
+    afirma(av and av['huecos'] == 8, 'y cada uno de los ocho lleva su letrero de «por desarrollar» (%s)' % (av and av['huecos']))
     afirma(av and av['alertas'] == 0, 'ya no se esconde detrás de una ventana del navegador')
 
     # ---- 3. El relato tiene que parecer un texto ----

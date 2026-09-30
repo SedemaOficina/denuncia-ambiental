@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-148 · 30 de septiembre de 2026
+**Versión:** DEC-150 · 30 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -152,8 +152,8 @@ Los calcula el formulario: la persona no los escribe ni los ve, pero llegan al e
 |---|---|---|---|---|
 | Huella SHA-256 del original | `sha256_original` | La foto, antes de optimizarla | No | Permite comprobar después que el original que presente la persona es el mismo (DEC-121). |
 | Fecha de captura de la foto | `fecha_captura` | Metadatos de la foto (EXIF) | No | Cuándo se tomó la foto; es parte de la prueba y se pierde al optimizarla. |
-| Latitud donde se tomó la foto | `lat_captura` | Metadatos de la foto (EXIF) | **Sí** | Dónde se tomó la foto; lo dice el aviso de privacidad (DEC-121). |
-| Longitud donde se tomó la foto | `lon_captura` | Metadatos de la foto (EXIF) | **Sí** | Dónde se tomó la foto; lo dice el aviso de privacidad (DEC-121). |
+| Latitud donde se tomó la foto | `lat_captura` | Metadatos de la foto (EXIF) | **Sí** | Dónde se tomó la foto; el aviso de privacidad definitivo debe decirlo (DEC-121, DEC-149). |
+| Longitud donde se tomó la foto | `lon_captura` | Metadatos de la foto (EXIF) | **Sí** | Dónde se tomó la foto; el aviso de privacidad definitivo debe decirlo (DEC-121, DEC-149). |
 | Dimensiones de la foto optimizada | `dimensiones` | La optimización | No | Ancho y alto en píxeles de lo que se guarda. |
 | Foto optimizada | `optimizada` | La optimización | No | Si la foto se optimizó o entró el original. |
 | Formato de la foto guardada | `tipo` | La optimización | No | Formato con el que se guarda la foto optimizada (JPG). |
