@@ -147,6 +147,19 @@ select{
   background-repeat:no-repeat;background-position:right 14px center;background-size:12px 8px;
 }
 select.sin-elegir{color:var(--gris-cl)}
+@supports (appearance: base-select){
+  select,select::picker(select){appearance:base-select}
+  select::picker-icon{display:none}
+  select::picker(select){margin-top:4px;padding:4px 0;background:var(--blanco);border:1px solid var(--borde);
+    border-radius:var(--r-ctrl);box-shadow:0 6px 18px rgba(0,0,0,.12);max-height:320px;overflow-y:auto;
+    scrollbar-width:thin;scrollbar-color:var(--borde) transparent}
+  select option{padding:10px 13px;font-size:var(--t-base);line-height:1.3;color:var(--texto);background:var(--blanco);cursor:pointer}
+  select option::checkmark{display:none}
+  select option:hover,select option:focus-visible{background:var(--azul-cl);outline:none}
+  select option:checked{background:var(--azul-cl);color:var(--azul)}
+  select option[value=""]{color:var(--gris-cl)}
+  select selectedcontent{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+}
 select option{color:var(--texto)}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--foco);box-shadow:0 0 0 3px rgba(26,115,199,.18)}
 /* Única excepción al alto mínimo de la regla base anterior. */
@@ -187,6 +200,12 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .combo-lista{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;margin:0;padding:4px 0;list-style:none;
   background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r-ctrl);box-shadow:0 6px 18px rgba(0,0,0,.12);max-height:320px;overflow-y:auto}
 .combo-lista[hidden]{display:none}
+/* Una sola lista desplegable en todo el formulario (DEC-126). Había tres: la
+   del <select> nativo, que pinta cada sistema a su manera; la del <datalist>,
+   que Chrome pinta en negro; y la de la colonia. Ahora la colonia y la
+   autoridad usan esta lista, y el <select> se dibuja igual donde el navegador
+   lo permite (appearance: base-select); donde no, queda el nativo en claro. */
+.combo-lista{scrollbar-width:thin;scrollbar-color:var(--borde) transparent}
 .combo-lista li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 13px;cursor:pointer;line-height:1.3}
 .combo-lista li .op-nom{color:var(--texto);overflow-wrap:anywhere}
 .combo-lista li .op-alc{flex-shrink:0;font-size:var(--t-sm);color:var(--gris-cl)}
@@ -2263,21 +2282,80 @@ function heredaEstablecimiento(){
    denuncie. Pedirle a alguien el domicilio fiscal de un talamontes, o la
    razón social de un vecino, es pedirle lo que no puede saber. */
 
-/* La lista se ofrece con <datalist>: propone mientras se escribe, acepta la
-   sigla —porque va en el propio texto de la opcion— y no impide escribir una
-   autoridad que no este catalogada, que es lo que haria un <select>. */
+/* La lista propone mientras se escribe, acepta la sigla —porque va en el
+   propio texto de la opcion— y no impide escribir una autoridad que no este
+   catalogada, que es lo que haria un <select>. Era un <datalist>, que Chrome
+   pinta en negro y distinto de todo lo demas; ahora usa la misma lista que la
+   colonia (DEC-126). */
 function bloqueAutoridad(){
   var n = val('autoridad_nivel'), lista = AUTORIDADES[n] || [];
-  var ayuda = n==='alcaldia' ? 'Escribe el nombre de la alcaldía.'
+  var ayuda = n==='alcaldia' ? 'Escribe o elige la alcaldía.'
             : n==='otra'     ? 'Escribe el nombre de la autoridad, como lo conozcas.'
             : 'Escribe el nombre o la sigla —SEDEMA, CONAGUA, PROFEPA— y elige de la lista. Si no aparece, escríbelo.';
-  return campo('autoridad_denunciada','¿Cuál?','texto',false, ayuda,
-      (lista.length ? 'list="cat_autoridad" ' : '')+'autocomplete="off"')+
-    (lista.length
-      ? '<datalist id="cat_autoridad">'+
-          lista.map(function(x){ return '<option value="'+esc(x)+'"></option>'; }).join('')+
-        '</datalist>'
-      : '');
+  return lista.length
+    ? campoLista('autoridad_denunciada','¿Cuál?', ayuda, lista)
+    : campo('autoridad_denunciada','¿Cuál?','texto',false, ayuda,'autocomplete="off"');
+}
+
+/* =========================================================
+   LISTA CON TEXTO LIBRE (DEC-126)
+   El mismo control que la colonia, sin su logica de alcaldia: al entrar
+   muestra toda la lista, al escribir la filtra (sin acentos), y lo escrito
+   se conserva aunque no este en ella.
+   ========================================================= */
+var LISTAS = {}, LISTA_ACTIVA = {};
+function campoLista(k, etq, ayuda, lista){
+  LISTAS[k] = lista;
+  return '<div class="campo" id="c_'+k+'"><label for="f_'+k+'">'+esc(etq)+marca_opc(esObligatorio(k))+'</label>'+
+    '<div class="ayuda" id="a_'+k+'">'+(ayuda ? esc(ayuda) : '')+'</div>'+
+    '<div class="combo">'+
+      '<input type="text" id="f_'+k+'" name="'+k+'" role="combobox" aria-autocomplete="list" aria-expanded="false" '+
+        'aria-controls="lista_'+k+'" autocomplete="off" aria-describedby="a_'+k+' e_'+k+'" aria-invalid="false" '+
+        'value="'+esc(val(k))+'" oninput="guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');pintaLista(\''+k+'\')" '+
+        'onfocus="pintaLista(\''+k+'\')" onkeydown="teclaLista(event,\''+k+'\')" onblur="cierraLista(\''+k+'\')">'+
+      '<ul class="combo-lista" id="lista_'+k+'" role="listbox" aria-label="'+esc(etq)+'" hidden></ul>'+
+    '</div>'+
+    '<div class="err" id="e_'+k+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
+}
+function pintaLista(k){
+  var inp = $('f_'+k), ul = $('lista_'+k); if(!inp || !ul) return;
+  var q = normaCol(inp.value);
+  var ops = (LISTAS[k] || []).filter(function(x){ return !q || normaCol(x).indexOf(q) >= 0; });
+  LISTA_ACTIVA[k] = -1; inp.removeAttribute('aria-activedescendant');
+  ul._ops = ops;
+  if(!ops.length){ ul.hidden = true; ul.innerHTML = ''; inp.setAttribute('aria-expanded','false'); return; }
+  ul.innerHTML = ops.map(function(x, i){
+    return '<li role="option" id="op_'+k+'_'+i+'" aria-selected="false" onmousedown="event.preventDefault()" '+
+      'onclick="eligeLista(\''+k+'\','+i+')"><span class="op-nom">'+esc(x)+'</span></li>';
+  }).join('');
+  ul.hidden = false; inp.setAttribute('aria-expanded','true');
+}
+function eligeLista(k, i){
+  var ul = $('lista_'+k), x = ul && ul._ops ? ul._ops[i] : null; if(x == null) return;
+  guarda(k, x); var inp = $('f_'+k); if(inp) inp.value = x;
+  limpiaError(k); cierraLista(k);
+}
+function cierraLista(k){
+  var ul = $('lista_'+k), inp = $('f_'+k);
+  if(ul){ ul.hidden = true; ul.innerHTML = ''; ul._ops = []; }
+  if(inp){ inp.setAttribute('aria-expanded','false'); inp.removeAttribute('aria-activedescendant'); }
+  LISTA_ACTIVA[k] = -1;
+}
+function marcaLista(k, n){
+  var inp = $('f_'+k); LISTA_ACTIVA[k] = n;
+  document.querySelectorAll('#lista_'+k+' li[role=option]').forEach(function(li, j){
+    li.setAttribute('aria-selected', j === n ? 'true' : 'false');
+    if(j === n) li.scrollIntoView({block:'nearest'});
+  });
+  if(inp){ if(n >= 0) inp.setAttribute('aria-activedescendant','op_'+k+'_'+n); else inp.removeAttribute('aria-activedescendant'); }
+}
+function teclaLista(e, k){
+  var ul = $('lista_'+k), abierta = !!(ul && !ul.hidden), n = abierta && ul._ops ? ul._ops.length : 0;
+  var act = LISTA_ACTIVA[k] == null ? -1 : LISTA_ACTIVA[k];
+  if(e.key === 'ArrowDown'){ if(!abierta) pintaLista(k); else if(n) marcaLista(k, Math.min(act + 1, n - 1)); e.preventDefault(); }
+  else if(e.key === 'ArrowUp' && n){ marcaLista(k, Math.max(act - 1, 0)); e.preventDefault(); }
+  else if(e.key === 'Enter' && n && act >= 0){ eligeLista(k, act); e.preventDefault(); }
+  else if(e.key === 'Escape' && abierta){ cierraLista(k); e.preventDefault(); }
 }
 
 function bloqueDenunciado(){
