@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-129 · 30 de septiembre de 2026
+**Versión:** DEC-132 · 30 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -9,7 +9,7 @@
 |---|---|
 | Campos que llena la persona | **55** |
 | Datos que viajan a la base sin verse en pantalla | **13** |
-| Datos que calcula el formulario y se muestran | 15 |
+| Datos que calcula el formulario y se muestran | 14 |
 | Datos personales | **20** (36 %) |
 | Obligatorios en este formulario | 26 de 55 |
 | Campos con obligatoriedad condicionada | 26 |
@@ -27,7 +27,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 16 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 19 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
-| **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 2 |
+| **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 12 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 3 |
 | **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 5 |
@@ -99,7 +99,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 
 | Campo | Obligatorio | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|
-| Cómo se presenta la denuncia | Obligatorio | No | Siempre | Determina qué datos se piden y qué seguimiento es posible. Con cuenta Llave CDMX la identidad queda acreditada; con datos escritos hay contacto pero no acreditación; la anónima no lleva nombre y sólo admite avisos si la persona deja un correo (DEC-119). En las tres rutas los datos son confidenciales frente a la persona denunciada. |
+| Cómo se presenta la denuncia | Obligatorio | No | Siempre | Determina qué datos se piden y qué seguimiento es posible. Con datos escritos hay nombre y contacto; la anónima no lleva nombre y sólo admite avisos si la persona deja un correo (DEC-119). En las tres rutas los datos son confidenciales frente a la persona denunciada. |
 | Nombre(s) | Obligatorio | **Sí** | Siempre | Identificación de la persona denunciante en el expediente y en el acuse. |
 | Apellido paterno | Obligatorio | **Sí** | Siempre | Identificación de la persona denunciante en el expediente y en el acuse. |
 | Apellido materno | Opcional | **Sí** | Siempre | Completa la identificación en el registro administrativo. |
@@ -171,7 +171,6 @@ Tampoco los escribe la persona: se le enseñan en la ficha del mapa, en la revis
 | Razón del turnado | `dg_razon` | Regla de turnado | No | Explica por qué la atiende otra autoridad cuando el punto cae en un Área Natural Protegida federal. |
 | Área protegida local concurrente | `concurrencia` | Cruce del punto con las capas del SIA | No | Cuando el punto cae a la vez en un ANP federal y en una local: abre la vía de intervención local. |
 | Punto fuera de la Ciudad | `fuera` | Cruce del punto con el límite de la Ciudad | No | Detiene la denuncia: la Secretaría sólo atiende hechos dentro de la Ciudad. |
-| Identidad acreditada con Llave CDMX | `sesion_llave` | La cuenta Llave CDMX | No | Distingue la identidad acreditada de los datos escritos a mano. |
 | Folio | `folio` | El sistema, al enviar | No | Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento. |
 | Fecha y hora de recepción | `fecha_acuse` | El sistema, al enviar | No | Desde cuándo corren los plazos de turnado y análisis. |
 

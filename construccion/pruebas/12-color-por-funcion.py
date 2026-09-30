@@ -33,7 +33,7 @@ afirma(not sueltos, 'ningún color escrito fuera de la paleta: %s' % dict(suelto
 
 declarados = dict(re.findall(r'--([a-z0-9-]+)\s*:\s*(#[0-9A-Fa-f]{3,6})', raiz))
 afirma(len(declarados) <= 30, 'la paleta cabe en treinta valores (%d)' % len(declarados))
-for v in ['error','pend','ok','azul','guinda','dorado']:
+for v in ['error','pend','ok','azul','guinda','dorado','beige']:
     afirma(v in declarados, 'la familia «%s» está declarada' % v)
 
 # ---- 2. El morado desapareció ----
@@ -119,6 +119,11 @@ with sync_playwright() as pw:
       return h ? getComputedStyle(h).borderTopColor === azul : null;
     }""", rgb(AZUL))
     afirma(az is True, 'la prueba de humanidad marcada usa el azul de «elegido», no el verde')
+
+    # ---- 7. Encabezado y pie en beige (DEC-132) ----
+    bg = pg.evaluate("""() => ['.barra-gobierno','header.titulo','footer'].map(q => {
+      const e = document.querySelector(q); return e ? getComputedStyle(e).backgroundColor : null; })""")
+    afirma(bg == ['rgb(255, 254, 248)'] * 3, 'barra del gobierno, encabezado y pie en beige #FFFEF8: %s' % bg)
 
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])
     pg.close(); nav.close()

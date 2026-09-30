@@ -59,6 +59,14 @@ with sync_playwright() as pw:
       colocaPorTexto(); return {lee: leeCoordenadas(val('coord_pegar')), lat: val('lat'), txt: document.getElementById('avisoPegar').innerText}; }""")
     afirma(corto['lee'] is None and not corto['lat'], 'el enlace corto de Compartir no coloca un punto inventado')
     afirma('no se puede leer aquí' in corto['txt'] and 'Ábrelo' in corto['txt'], 'y dice qué hacer mientras tanto, en una línea')
+    # DEC-131: al abrir el enlace corto el campo se vacía para pegar lo que se copie
+    va = pg.evaluate("""() => { const a = document.querySelector('#avisoPegar a');
+      if(!a) return null; a.removeAttribute('href'); a.removeAttribute('target'); a.click();
+      const i = document.getElementById('f_coord_pegar');
+      return {estado: val('coord_pegar'), campo: i.value, ph: i.placeholder, aviso: document.getElementById('avisoPegar').innerText}; }""")
+    afirma(va and va['estado']=='' and va['campo']=='' and va['aviso']=='',
+           'al hacer clic en «Ábrelo» el campo se vacía, listo para pegar las coordenadas (%s)' % va)
+    afirma(va and 'Pega aquí las coordenadas' in va['ph'], 'y su texto de ejemplo dice qué pegar')
 
     # el enlace de ficha coloca el punto en el lugar
     fi = pg.evaluate("""(u) => { guarda('coord_pegar', u); colocaPorTexto(); return [val('lat'), val('lon')]; }""", FICHA)
@@ -82,8 +90,10 @@ with sync_playwright() as pw:
     afirma(ay is not None and ay['abierta'] is False, 'bajo el campo hay una ayuda plegada')
     afirma(ay and 'Cómo copio' in ay['resumen'], 'que se anuncia como «%s»' % (ay or {}).get('resumen'))
     afirma(ay and 'Mantén el dedo' in ay['t'] and 'clic derecho' in ay['t'], 'explica el camino en teléfono y en computadora')
-    afirma(ay and all(x in ay['t'] for x in ['19.4326, -99.1332', '°', 'google.com/maps', '+GJ', 'maps.app.goo.gl']),
-           'y enumera los formatos que reconoce, y el que todavía no')
+    afirma(ay and all(x in ay['t'] for x in ['19.4326, -99.1332', '°', 'google.com/maps', '+GJ']),
+           'y enumera los formatos que reconoce')
+    # DEC-131: que el enlace corto no se lee se dice una sola vez, en el aviso
+    afirma(ay and 'todavía no se puede leer' not in ay['t'], 'la ayuda no repite que el enlace corto no se lee')
 
     # ---- guía visual (DEC-125) ----
     gv = pg.evaluate("""() => { const d = document.querySelector('.como-ubicar'); d.open = true;
@@ -107,6 +117,7 @@ with sync_playwright() as pw:
     pg.set_viewport_size({'width':390,'height':800})
     anch = pg.evaluate("() => ({doc: document.documentElement.scrollWidth, vw: window.innerWidth})")
     afirma(anch['doc'] <= anch['vw'], 'en teléfono la guía no desborda la pantalla (%s)' % anch)
+    pg.evaluate('render()'); pg.wait_for_timeout(200)
     ph = pg.get_attribute('#f_coord_pegar', 'placeholder')
     afirma(ph and '19.4326' in ph, 'el campo muestra un ejemplo: %r' % ph)
 

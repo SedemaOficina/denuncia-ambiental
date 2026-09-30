@@ -75,7 +75,7 @@ El cruce espacial deja el navegador y las geometrías simplificadas.
 
 ### Fase 4 · Versión funcional del formulario
 
-Persistencia, folio con consecutivo administrado, carga real de archivos, acuse en PDF, correo de notificación y acceso con Llave CDMX (P-15).
+Persistencia, folio con consecutivo administrado, carga real de archivos, acuse en PDF y correo de notificación.
 
 **Criterio de salida.** Prueba controlada con un grupo reducido de personas usuarias reales y con personal de la Dirección General, antes de la publicación abierta.
 

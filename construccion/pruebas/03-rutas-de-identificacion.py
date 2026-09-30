@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Bloque D: las tres rutas de identificacion."""
+"""Bloque D: las dos rutas de identificacion (DEC-130: se retira Llave CDMX)."""
 import os, pathlib
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
 RAIZ = AQUI.parent
@@ -24,14 +24,14 @@ with sync_playwright() as pw:
 
     pg.evaluate("cfg.validar=true; irA(5)"); pg.wait_for_timeout(400)
 
-    # 1. Tres opciones, y ninguna elegida de entrada
+    # 1. Dos opciones, y ninguna elegida de entrada
     o = pg.evaluate("""() => {
       const b=[...document.querySelectorAll('.opcion')];
       return {n:b.length, nombres:b.map(x=>x.querySelector('.nombre').textContent.trim()),
               elegida:b.filter(x=>x.getAttribute('aria-pressed')==='true').length,
               campos:document.querySelectorAll('#app .campo input[type=text], #app .campo input[type=email]').length};
     }""")
-    afirma(o['n']==3, 'la variante B ofrece tres rutas (%s)' % o['nombres'])
+    afirma(o['n']==2 and o['nombres']==['Escribo mis datos','Denuncia anónima'], 'se ofrecen dos rutas: datos o anónima (%s)' % o['nombres'])
     afirma(o['elegida']==0, 'ninguna viene elegida de entrada: la decisión es de la persona')
     afirma(o['campos']==0, 'mientras no se elige ruta no se pide ningún dato (%d campos)' % o['campos'])
 
@@ -44,33 +44,14 @@ with sync_playwright() as pw:
     afirma(pg.locator('#f_nombre').count()==1, 'ruta «escribo mis datos»: aparecen los campos')
     afirma(pg.evaluate("()=>valida(5)") is False, 'y con los campos vacíos no avanza')
 
-    # 4. Ruta de cuenta
-    pg.evaluate("guarda('identificacion','llave'); ['nombre','apellido_paterno','correo','telefono'].forEach(k=>guarda(k,'')); render()")
-    pg.wait_for_timeout(300)
-    antes = pg.evaluate("""() => ({campos: document.querySelectorAll('#f_nombre').length,
-      boton: [...document.querySelectorAll('button')].some(b=>b.textContent.includes('Entrar con Llave CDMX')),
-      simulada: document.getElementById('app').innerText.includes('Cuenta simulada'),
-      chip: [...document.querySelectorAll('#app .pendiente')].some(e=>e.textContent.includes('Llave CDMX'))})""")
-    afirma(antes['campos']==0, 'ruta de cuenta: antes de entrar no se piden datos')
-    afirma(antes['boton'], 'se ofrece el botón de entrar con Llave CDMX')
-    afirma(antes['simulada'], 'la pantalla advierte que la cuenta es simulada')
-    afirma(antes['chip'], 'y lo dice con la marca de pendiente, como el resto de lo que falta (DEC-94)')
-
-    pg.locator('button', has_text='Entrar con Llave CDMX').click(); pg.wait_for_timeout(400)
-    dsp = pg.evaluate("""() => ({sesion: val('sesion_llave'), nombre: val('nombre'), correo: val('correo'),
-      campos: document.querySelectorAll('#f_nombre').length,
-      salir: [...document.querySelectorAll('button')].some(b=>b.textContent.includes('Salir de la cuenta'))})""")
-    afirma(dsp['sesion']=='si' and dsp['nombre']!='', 'al entrar, los datos se llenan solos (%s)' % dsp['nombre'])
-    afirma(dsp['campos']==1, 'y quedan visibles y corregibles, no ocultos')
-    afirma(dsp['salir'], 'se puede salir de la cuenta')
-
-    r = pg.evaluate("""() => { guarda('notif_correo','si'); guarda('reserva','si'); guarda('privacidad','si');
-        return {pasa: valida(5)}; }""")
-    afirma(r['pasa'] is True, 'con la cuenta, el paso 5 se completa sin escribir nada a mano')
-
-    pg.locator('button', has_text='Salir de la cuenta').click(); pg.wait_for_timeout(350)
-    afirma(pg.evaluate("()=>val('nombre')")=='' and pg.evaluate("()=>val('sesion_llave')")=='',
-           'al salir, los datos de la cuenta no se quedan pegados')
+    # 4. La cuenta Llave CDMX ya no existe (DEC-130)
+    ll = pg.evaluate("""() => ({fn: ['conLlave','haySesion','entraConLlave','salirDeLlave'].filter(f => typeof window[f] === 'function'),
+      derivado: typeof DERIVADOS !== 'undefined' && 'sesion_llave' in DERIVADOS,
+      texto: document.getElementById('app').innerText.includes('Llave')})""")
+    afirma(ll['fn'] == [] and not ll['derivado'] and not ll['texto'], 'no queda rastro de la cuenta Llave CDMX: %s' % ll)
+    pg.evaluate("guarda('identificacion','llave'); render()"); pg.wait_for_timeout(300)
+    mig = pg.evaluate("() => ({ident: val('identificacion'), campos: document.querySelectorAll('#f_nombre').length})")
+    afirma(mig['ident']=='nombre' and mig['campos']==1, 'un borrador con la ruta retirada se abre como «Escribo mis datos» (%s)' % mig)
 
     # 5. Ruta anonima
     pg.evaluate("guarda('identificacion','anonima'); render()"); pg.wait_for_timeout(300)
@@ -96,24 +77,22 @@ with sync_playwright() as pw:
       return {n:b.length, nombres:b.map(x=>x.querySelector('.nombre').textContent.trim()),
               cfg: Object.keys(cfg)};
     }"""); pg.wait_for_timeout(300)
-    afirma(c['n']==3 and any('anónima' in x.lower() for x in c['nombres']),
-           'las tres rutas se ofrecen siempre, sin configuración que las cambie (%s)' % c['nombres'])
+    afirma(c['n']==2 and any('anónima' in x.lower() for x in c['nombres']),
+           'las dos rutas se ofrecen siempre, sin configuración que las cambie (%s)' % c['nombres'])
     afirma('ident' not in c['cfg'],
            'el panel ya no lleva la variante de identificación: %s' % c['cfg'])
 
-    # 7. El resumen dice si la identidad esta acreditada
-    pg.evaluate("""() => { guarda('identificacion','llave'); guarda('sesion_llave','si');
+    # 7. El resumen dice quién denuncia, sin hablar de acreditación (DEC-130)
+    pg.evaluate("""() => { guarda('identificacion','nombre');
         guarda('nombre','Maria'); guarda('apellido_paterno','Ramirez'); irA(6); }""")
     pg.wait_for_timeout(350)
     t = pg.locator('#app').inner_text()
-    afirma('Acreditada con cuenta Llave CDMX' in t, 'el resumen distingue la identidad acreditada')
-    pg.evaluate("guarda('identificacion','nombre'); guarda('sesion_llave',''); render()"); pg.wait_for_timeout(300)
-    afirma('sin acreditación' in pg.locator('#app').inner_text(), 'y distingue la que no lo está')
+    afirma('Maria Ramirez' in t and 'acredit' not in t.lower(), 'el resumen dice el nombre y no habla de acreditación')
 
-    # 8. Los tres escenarios de prueba
+    # 8. Los escenarios de prueba
     esc = pg.evaluate("""() => ESCENARIOS.map(e => ({n: e.nom || '', ident: (e.e||{}).identificacion}))""")
-    afirma(any(x['ident']=='llave' for x in esc) and any(x['ident']=='anonima' for x in esc) and any(x['ident']=='nombre' for x in esc),
-           'hay un escenario de prueba por cada ruta (%s)' % [x['ident'] for x in esc])
+    afirma(any(x['ident']=='anonima' for x in esc) and any(x['ident']=='nombre' for x in esc) and not any(x['ident']=='llave' for x in esc),
+           'hay un escenario de prueba por cada ruta, y ninguno con la retirada (%s)' % [x['ident'] for x in esc])
 
     # 9. Recorrido completo
     for n in range(0,8):

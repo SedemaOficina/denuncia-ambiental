@@ -1,9 +1,9 @@
 # Formulario web de Denuncia Ambiental · Variantes del formulario
 
-**Versión:** 2.0 · 22 de septiembre de 2026
+**Versión:** 2.0 · 30 de septiembre de 2026
 **Generado automáticamente** de las estructuras `BIFURCACIONES` y `ESCENARIOS` del prototipo, que son las mismas que gobiernan el panel de validación. Documento y comportamiento no pueden discrepar.
 
-El formulario no es un camino único: hay **doce puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los doce escenarios que el panel de validación carga con un toque, para recorrer cada rama sin capturar todo a mano.
+El formulario no es un camino único: hay **once puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los doce escenarios que el panel de validación carga con un toque, para recorrer cada rama sin capturar todo a mano.
 
 ---
 
@@ -17,9 +17,8 @@ El formulario no es un camino único: hay **doce puntos donde cambia de forma** 
 | 3 | **Tipo de establecimiento** | 19 giros · Otro | «Otro» abre un campo de texto para especificarlo. |
 | 3 | **¿Quién es responsable de los hechos?** | Persona · Empresa · Autoridad · No lo sé | Cambia por completo el bloque de responsables. «Autoridad» además advierte la ruta del artículo 331 y la refleja en el acuse. |
 | 3 | **Desde cuándo ocurre y fecha** | Único · Recurrente · Permanente, con fecha anterior o posterior a un año | Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único. |
-| 5 | **¿Con qué identidad se presenta?** | Cuenta Llave CDMX · Escribir los datos · Denuncia anónima | Llave CDMX llena los datos y liga el folio a la cuenta. La anónima oculta todos los datos de identificación y cambia el acuse: sin notificación. |
+| 5 | **¿Con qué identidad se presenta?** | Escribir los datos · Denuncia anónima | Con datos, se piden nombre, contacto y vía de notificación. La anónima no pide nombre ni domicilio; exige un correo para avisos y ofrece el teléfono como opcional. |
 | 5 | **¿Notificación por correo?** | Sí · No | «No» despliega los siete campos del domicilio. «Sí» los suprime. |
-| 5 | **¿Datos confidenciales?** | Sí · No | Se registra en el resumen; no cambia los campos. |
 | Todos | **Obligatoriedad** | Desactivada · Activa | Activa, cada paso exige sus campos obligatorios antes de continuar y los demás se marcan como opcionales. |
 | Todos | **Filtro de competencia** | Activo · Inactivo | Inactivo retira del paso 1 los supuestos de otra autoridad. |
 | Portada | **Borrador guardado** | Existe · No existe | Si existe, la portada ofrece retomarlo o descartarlo. |
@@ -36,7 +35,7 @@ Cada botón limpia el formulario, carga un caso completo —incluida la coordena
 
 | Escenario | Qué muestra | Abre en |
 |---|---|---|
-| **Sitio sin domicilio, con cuenta Llave CDMX** | Tala en el Bosque de Tlalpan · sin calle ni colonia · identidad acreditada · DGCORENADR | Paso 6 |
+| **Sitio sin domicilio** | Tala en el Bosque de Tlalpan · sin calle ni colonia · identificado · DGCORENADR | Paso 6 |
 | **Comercio en suelo urbano** | Emisiones de un taller · identificado · notificación por correo · DGIVA | Paso 6 |
 | **Tala en suelo de conservación, anónima** | Tala · anónima · responsable desconocido · DGCORENADR | Paso 6 |
 | **Obra de una alcaldía** | Se señala a una autoridad · ruta del artículo 331 · notificación por domicilio | Paso 6 |

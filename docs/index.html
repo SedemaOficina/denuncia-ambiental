@@ -28,6 +28,7 @@
   --linea:#DCDEE0;         /* separadores */
   --borde:#8E9295;         /* bordes de control, 3.14:1 */
   --fondo:#F4F5F6; --blanco:#FFFFFF;
+  --beige:#FFFEF8;         /* encabezado y pie (DEC-132) */
 
   /* Interacción: lo que se puede tocar y lo que quedó elegido. */
   --azul:#1A56A8; --azul-cl:#EEF3FA;
@@ -69,10 +70,10 @@ h1,h2,h3{font-family:'Cabin','Roboto',Arial,sans-serif;font-weight:600;text-wrap
 }
 
 /* ---------- Encabezado ---------- */
-.barra-gobierno{background:var(--blanco);color:var(--guinda);padding:14px 20px 12px;font-size:var(--t-xs);letter-spacing:.06em;text-transform:uppercase;border-bottom:2px solid var(--guinda)}
+.barra-gobierno{background:var(--beige);color:var(--guinda);padding:14px 20px 12px;font-size:var(--t-xs);letter-spacing:.06em;text-transform:uppercase;border-bottom:2px solid var(--guinda)}
 .barra-gobierno .contenedor{max-width:980px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
 .barra-gobierno img{height:42px;width:auto;display:block}
-header.titulo{background:var(--blanco);border-bottom:3px solid var(--dorado);padding:20px 20px 18px}
+header.titulo{background:var(--beige);border-bottom:3px solid var(--dorado);padding:20px 20px 18px}
 header.titulo .contenedor{max-width:980px;margin:0 auto}
 header.titulo h1{font-size:var(--t-2xl);color:var(--guinda);line-height:1.15}
 header.titulo p{color:var(--gris);font-size:var(--t-md);margin-top:6px;max-width:62ch}
@@ -619,7 +620,7 @@ table.comp .no{color:var(--gris-cl)}
 .fuente{font-size:var(--t-xs);color:var(--gris);font-style:italic;margin-top:9px}
 
 /* ---------- Pie ---------- */
-footer{border-top:3px solid var(--dorado);background:var(--blanco);padding:32px 20px 0;font-size:var(--t-sm);color:var(--gris)}
+footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 20px 0;font-size:var(--t-sm);color:var(--gris)}
 .pie{display:grid;grid-template-columns:1fr 1fr 1.2fr;gap:30px;align-items:start}
 .pie-bloque p span{color:var(--gris)}
 .pie h2{font-size:var(--t-sm);text-transform:uppercase;letter-spacing:.06em;color:var(--guinda);margin-bottom:8px}
@@ -1089,7 +1090,7 @@ var OBLIG = {
      uso:'Describe pruebas que la persona no puede adjuntar pero puede ofrecer.'},
   /* Paso 5 */
   identificacion:   {p:5, oblig:true,  etq:'Cómo se presenta la denuncia', dp:false, fin:'Identificación',
-     uso:'Determina qué datos se piden y qué seguimiento es posible. Con cuenta Llave CDMX la identidad queda acreditada; con datos escritos hay contacto pero no acreditación; la anónima no lleva nombre y sólo admite avisos si la persona deja un correo (DEC-119). En las tres rutas los datos son confidenciales frente a la persona denunciada.'},
+     uso:'Determina qué datos se piden y qué seguimiento es posible. Con datos escritos hay nombre y contacto; la anónima no lleva nombre y sólo admite avisos si la persona deja un correo (DEC-119). En las tres rutas los datos son confidenciales frente a la persona denunciada.'},
   nombre:           {p:5, oblig:true,  etq:'Nombre(s)', dp:true, fin:'Contacto',
      uso:'Identificación de la persona denunciante en el expediente y en el acuse.'},
   apellido_paterno: {p:5, oblig:true,  etq:'Apellido paterno', dp:true, fin:'Contacto',
@@ -1179,8 +1180,6 @@ var DERIVADOS = {
                    uso:'Detiene la denuncia: la Secretaría sólo atiende hechos dentro de la Ciudad.'},
   uga_version:    {etq:'Versión de la malla UGA', origen:'Catálogo UGA incrustado', fin:'Estadística', dp:false, se_ve:false, por:'denuncia',
                    uso:'Con qué versión de la malla se asignó la celda; el servidor la vuelve a derivar con la más reciente.'},
-  sesion_llave:   {etq:'Identidad acreditada con Llave CDMX', origen:'La cuenta Llave CDMX', fin:'Identificación', dp:false, se_ve:true, por:'denuncia',
-                   uso:'Distingue la identidad acreditada de los datos escritos a mano.'},
   folio:          {etq:'Folio', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
                    uso:'Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento.'},
   fecha_acuse:    {etq:'Fecha y hora de recepción', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
@@ -1215,7 +1214,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-129', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-132', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1269,8 +1268,8 @@ var BIFURCACIONES = [
    efecto:'Cambia por completo el bloque de responsables. «Autoridad» además advierte la ruta del artículo 331 y la refleja en el acuse.'},
   {paso:'3', pregunta:'Desde cuándo ocurre y fecha', opciones:'Único · Recurrente · Permanente, con fecha anterior o posterior a un año',
    efecto:'Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único.'},
-  {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Cuenta Llave CDMX · Escribir los datos · Denuncia anónima',
-   efecto:'Llave CDMX llena los datos y liga el folio a la cuenta. La anónima no pide nombre ni domicilio; exige un correo para avisos y ofrece el teléfono como opcional.'},
+  {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Escribir los datos · Denuncia anónima',
+   efecto:'Con datos, se piden nombre, contacto y vía de notificación. La anónima no pide nombre ni domicilio; exige un correo para avisos y ofrece el teléfono como opcional.'},
   {paso:'5', pregunta:'¿Notificación por correo?', opciones:'Sí · No',
    efecto:'«No» despliega los siete campos del domicilio. «Sí» los suprime.'},
   {paso:'Todos', pregunta:'Obligatoriedad', opciones:'Desactivada · Activa',
@@ -1282,8 +1281,8 @@ var BIFURCACIONES = [
 ];
 
 var ESCENARIOS = [
-  {id:'sin_calle', nom:'Sitio sin domicilio, con cuenta Llave CDMX',
-   d:'Tala en el Bosque de Tlalpan · sin calle ni colonia · identidad acreditada · DGCORENADR',
+  {id:'sin_calle', nom:'Sitio sin domicilio',
+   d:'Tala en el Bosque de Tlalpan · sin calle ni colonia · identificado · DGCORENADR',
    paso:6, cfg:{validar:true},
    e:{tiene_direccion:'no', materia:'tala', lat:'19.293800', lon:'-99.193000',
       nombre_lugar:'Bosque de Tlalpan', alcaldia:'Tlalpan',
@@ -1291,7 +1290,7 @@ var ESCENARIOS = [
       hechos:'Están derribando encinos adultos con motosierra dentro del bosque, fuera de cualquier sendero. Llevan tres fines de semana seguidos y sacan la madera en una camioneta de redilas por la puerta 3.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-05',
       es_estab:'no', tipo_denunciado:'desconocido', sabe_permisos:'no', reporto_antes:'no',
-      identificacion:'llave', sesion_llave:'si',
+      identificacion:'nombre',
       nombre:'María Fernanda', apellido_paterno:'Ramírez', apellido_materno:'Cortés',
       correo:'mf.ramirez@ejemplo.mx', telefono:'5555010203',
       notif_correo:'si', privacidad:'si'}},
@@ -1335,7 +1334,7 @@ var ESCENARIOS = [
       telefono:'5598765432', correo:'ejemplo2@correo.com',
       notif_correo:'no', dom_calle:'Calle Oriente 249', dom_num_ext:'14', dom_colonia:'Agrícola Oriental',
       dom_cp:'08500', dom_alcaldia:'Iztacalco', dom_entidad:'Ciudad de México',
-      privacidad:'si', identificacion:'llave', sesion_llave:'si'}},
+      privacidad:'si', identificacion:'nombre'}},
 
   {id:'ava', nom:'Afectación en Área de Valor Ambiental',
    d:'Bosque urbano · DGIVA · persona física señalada',
@@ -2554,41 +2553,22 @@ function pEvidencia(){
   return h;
 }
 
-/* Tres rutas, no dos. Escribir el nombre a mano identifica a efectos de
-   contacto, pero no acredita a nadie: la reserva de identidad frente a la
-   persona denunciada sólo tiene sentido si hay identidad, y eso lo da la
-   cuenta. Por eso Llave CDMX es una ruta propia y no un adorno de la otra
-   (DEC-50). La decisión se pide aquí, al final, y no en la primera pantalla:
+/* Dos rutas: con datos o anónima. La tercera, la cuenta Llave CDMX, se
+   retiró con DEC-130: dependía de una integración con la Agencia Digital
+   que no se va a esperar. La decisión se pide aquí, al final, y no en la
+   primera pantalla (DEC-50):
    antes de saber qué se le va a preguntar, nadie puede decidir con criterio
    cuánto quiere exponerse, y un muro de autenticación en la primera pantalla
    pierde la denuncia entera, porque todavía no hay nada capturado. */
 function esAnonima(){ return val('identificacion')==='anonima'; }
-function conLlave(){ return val('identificacion')==='llave'; }
-function haySesion(){ return conLlave() && val('sesion_llave')==='si'; }
-
-/* La integración real está pendiente (P-15): aquí se simula para poder mostrar
-   el recorrido completo en la sesión de validación. Los datos son ficticios y
-   la pantalla lo dice. */
-function entraConLlave(){
-  guarda('sesion_llave','si');
-  guarda('nombre','María Fernanda');
-  guarda('apellido_paterno','Ramírez');
-  guarda('apellido_materno','Cortés');
-  guarda('correo','mf.ramirez@ejemplo.mx');
-  guarda('telefono','5555010203');
-  ['nombre','apellido_paterno','correo','telefono'].forEach(limpiaError);
-  render();
-}
-function salirDeLlave(){
-  guarda('sesion_llave','');
-  ['nombre','apellido_paterno','apellido_materno','correo','telefono'].forEach(function(k){ guarda(k,''); });
-  render();
-}
 
 function pDenunciante(){
   var anon = esAnonima();
   var h = '<div class="tarjeta"><h2><span class="num">5</span>Tus datos</h2>';
 
+  /* Un borrador guardado antes de DEC-130 puede traer la ruta retirada: sus
+     datos eran los de «Escribo mis datos», y ahí se quedan. */
+  if(val('identificacion') === 'llave'){ guarda('identificacion','nombre'); }
   var ident = val('identificacion');
   function opcion(v,nom,desc){
     return '<button type="button" class="opcion" aria-pressed="'+(ident===v?'true':'false')+'" '+
@@ -2602,13 +2582,11 @@ function pDenunciante(){
     '<span class="etq">Elige cómo quieres presentar tu denuncia'+marca_opc(esObligatorio('identificacion'))+'</span>'+
     '<div class="ayuda"></div>'+
     '<div class="opciones">'+
-      opcion('llave','Con mi cuenta Llave CDMX',
-        'Tus datos se llenan solos y después puedes consultar el estado de tu denuncia entrando con tu cuenta, sin recordar el folio.')+
       opcion('nombre','Escribo mis datos',
         'Recibes folio y acuse, y la Secretaría puede pedirte información adicional. Para consultar el estado necesitarás el folio.')+
       opcion('anonima','Denuncia anónima',
-        'No das tu nombre. Sólo pides un correo para recibir el folio y los avisos del trámite.')+
-    '</div><div class="err" id="e_identificacion">Elige una de las tres formas para poder continuar.</div></div>';
+        'No das tu nombre. Sólo te pedimos un correo para enviarte el folio y los avisos del trámite.')+
+    '</div><div class="err" id="e_identificacion">Elige una de las dos formas para poder continuar.</div></div>';
 
   /* La anonima no pide nombre, pero si un correo: es por donde la Secretaria
      envia el folio, informa el tramite y pide lo que falte. Es obligatorio
@@ -2621,18 +2599,8 @@ function pDenunciante(){
         campo('telefono','Teléfono','tel',false,'Opcional · a diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
       '</div>';
   }
-  if(conLlave() && !haySesion()){
-    h += '<div class="aviso"><strong>Llave CDMX</strong> es la cuenta con la que la Ciudad opera sus trámites en línea. Con ella no escribes tus datos y el folio queda ligado a tu cuenta.<br><br>'+
-      '<button type="button" class="btn btn-primario" style="padding:11px 20px;font-size:14px" onclick="entraConLlave()">Entrar con Llave CDMX</button></div>'+
-      '<p class="nota-gris" style="margin:10px 0 0"><span class="pendiente">Cuenta simulada: la integración con Llave CDMX está pendiente, incluido qué datos entrega (P-15)</span></p>';
-  }
-  if(haySesion()){
-    h += '<div class="aviso aviso-ok">Entraste como <strong>'+esc([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '))+'</strong> · '+esc(val('correo'))+'. '+
-      'Estos datos vienen de tu cuenta y puedes corregirlos abajo si hiciera falta. '+
-      '<button type="button" class="enlace" onclick="salirDeLlave()">Salir de la cuenta</button></div>';
-  }
 
-  if(ident==='nombre' || haySesion()){
+  if(ident==='nombre'){
     h += '<div class="fila-3">'+
       campo('nombre','Nombre(s)','texto',esObligatorio('nombre'),'','autocomplete="given-name"')+
       campo('apellido_paterno','Apellido paterno','texto',esObligatorio('apellido_paterno'),'','autocomplete="family-name"')+
@@ -2840,9 +2808,6 @@ function pRevision(){
 
   var fQuien =
     r('Denunciante', anon ? 'Denuncia an\u00f3nima' : [val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '), 5, 'identificacion')+
-    (anon?'':r('Identificaci\u00f3n', haySesion()
-        ? 'Acreditada con cuenta Llave CDMX'
-        : (val('identificacion')==='nombre' ? 'Datos proporcionados por la persona denunciante, sin acreditaci\u00f3n' : ''), 5, 'identificacion'))+
     ((anon && !val('telefono') && !val('correo'))?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' \u00b7 '), 5, anon?'correo':'telefono'))+
     (anon?'':r('Notificaci\u00f3n', val('notif_correo')==='si'?'Por correo electr\u00f3nico':(val('notif_correo')==='no'?'Por domicilio':''), 5, 'notif_correo'))+
     (anon||val('notif_correo')==='si'?'':r('Domicilio', [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):''].filter(Boolean).join(' '),
@@ -2870,15 +2835,10 @@ function pRevision(){
   bloqueRev('lugar','D\u00f3nde ocurre', [ubic, val('capa_tipo')].filter(Boolean).join(' \u00b7 '), fUbicacion)+
   bloqueRev('hechos','Qu\u00e9 pas\u00f3 y qui\u00e9n responde', resHechos, fHechos)+
   bloqueRev('pruebas','Pruebas', (nArch? nArch+(nArch===1?' archivo adjunto':' archivos adjuntos') : 'Sin archivos adjuntos')+(val('otras_pruebas')?' \u00b7 con otras pruebas se\u00f1aladas':''), fPruebas)+
-  /* La linea de este bloque lleva tambien si la identidad esta acreditada: es
-     lo que mas pesa de el. Escribir el nombre a mano identifica a efectos de
-     contacto pero no acredita a nadie, y la reserva de identidad frente a la
-     persona denunciada solo tiene sentido si hay identidad (DEC-50). Esconderlo
-     tras un clic seria plegar justo el dato por el que se abre el bloque. */
+  /* La linea de este bloque dice quien denuncia, o que es anonima y si dejo
+     correo: es lo que mas pesa de el (DEC-113, DEC-130). */
   bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima' + (val('correo') ? ' \u00b7 Con correo para avisos' : ' \u00b7 Sin datos de contacto')
-      : ([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' ') || 'Sin nombre capturado')
-        + (haySesion() ? ' \u00b7 Acreditada con cuenta Llave CDMX'
-          : (val('identificacion')==='nombre' ? ' \u00b7 Datos sin acreditaci\u00f3n' : '')), fQuien)+
+      : ([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' ') || 'Sin nombre capturado'), fQuien)+
   (!val('lat') && !sinDireccion()
     ? '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia se registra con un folio. Como no marcaste el punto, la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
     : '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia se registra con un folio y se turna a '+
@@ -4007,7 +3967,7 @@ function guiaCompartir(){
       '<text class="tg" x="78" y="74" font-size="7">C. Ahuacatitla 47, Tlalpan…</text>'+
       '<text class="tg" x="78" y="90" font-size="7.5">maps.app.goo.gl</text><line class="tache" x1="76" y1="87" x2="140" y2="87"/>'+
       '<circle class="caja" cx="50" cy="124" r="10"/><circle class="caja" cx="80" cy="124" r="10"/><circle class="caja" cx="110" cy="124" r="10"/><circle class="caja" cx="140" cy="124" r="10"/>'),
-      'En <b>Compartir</b>, copia los <b>números de arriba</b>, no el enlace de abajo: ése todavía no se puede leer aquí.')+
+      'En <b>Compartir</b>, copia los <b>números de arriba</b>, no el enlace de abajo.')+
     iluPaso(2, iluSvg('0 0 200 150', 'Ficha de un lugar con el código plus junto a su símbolo de puntos',
       '<rect class="marco" x="6" y="6" width="188" height="138" rx="8"/>'+
       '<text class="t" x="18" y="28" font-size="11" font-weight="700">Ficha del lugar</text>'+
@@ -4044,7 +4004,6 @@ function ayudaUbicacion(){
       '<li>Coordenadas en grados: <code>19°25\'57.4"N 99°07\'59.5"W</code></li>'+
       '<li>El enlace completo de Google Maps, el que empieza con <code>google.com/maps</code></li>'+
       '<li>El código plus de la ficha del lugar: <code>6R5P+GJ Ciudad de México</code></li></ul>'+
-    '<p style="margin:8px 0 0">El enlace corto de «Compartir» (<code>maps.app.goo.gl</code>) todavía no se puede leer aquí: copia los números que aparecen arriba de él.</p>'+
   '</details>';
 }
 
@@ -4130,10 +4089,21 @@ function colocaPorTexto(){
     var url = (t.match(/https?:\/\/\S+/) || [t])[0];
     cont.innerHTML = '<div class="aviso aviso-pegar" role="status">'+
       '<strong>Ese enlace corto todavía no se puede leer aquí.</strong> '+
-      '<a target="_blank" rel="noopener noreferrer" href="'+esc(url)+'">Ábrelo</a> y copia las coordenadas que aparecen arriba del enlace.</div>';
+      '<a target="_blank" rel="noopener noreferrer" onclick="vaciaPegar()" href="'+esc(url)+'">Ábrelo</a> y copia las coordenadas que aparecen arriba del enlace.</div>';
     return;
   }
   /* No se reconocio nada: no se reprocha (DEC-93). */
+}
+
+/* Al abrir el enlace corto el campo se vacía: al volver, la persona pega las
+   coordenadas sin tener que borrar el enlace a mano, y el texto de ejemplo
+   le dice qué pegar (DEC-131). */
+function vaciaPegar(){
+  guarda('coord_pegar', '');
+  var i = $('f_coord_pegar');
+  if(i){ i.value = ''; i.placeholder = 'Pega aquí las coordenadas que copiaste'; }
+  var c = $('avisoPegar');
+  if(c) c.innerHTML = '';
 }
 
 /* Colocar el punto sin enseñarlo no sirve de nada: el mapa se acerca al
