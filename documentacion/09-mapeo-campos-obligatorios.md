@@ -7,10 +7,10 @@
 
 | | |
 |---|---|
-| Campos del formulario | **59** |
-| Datos personales | **20** (34 %) |
-| Obligatorios en este formulario | 27 de 59 |
-| Campos con obligatoriedad condicionada | 30 |
+| Campos del formulario | **60** |
+| Datos personales | **20** (33 %) |
+| Obligatorios en este formulario | 27 de 60 |
+| Campos con obligatoriedad condicionada | 31 |
 | Campos sin uso declarado | **0** |
 
 ---
@@ -22,7 +22,7 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Finalidad | Para qué | Campos |
 |---|---|---|
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 6 |
-| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 15 |
+| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 16 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 9 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
@@ -60,8 +60,9 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Calle o vialidad | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |
 | Número exterior | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Precisa el predio en la orden de visita. Obligatorio cuando el lugar tiene dirección; si el predio no tiene número se escribe «S/N», que es una respuesta válida (DEC-120). |
 | Entre qué calles | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |
-| Manzana | Opcional | No | Sólo cuando el lugar tiene calle y número | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
-| Lote | Opcional | No | Sólo cuando el lugar tiene calle y número | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
+| ¿El predio se identifica por manzana y lote? | Opcional | No | Sólo cuando el lugar tiene calle y número | Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene, en vez de enseñárselos a todos (DEC-124). |
+| Manzana | Opcional | No | Sólo cuando el predio se identifica por manzana y lote | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
+| Lote | Opcional | No | Sólo cuando el predio se identifica por manzana y lote | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
 | Nombre del lugar | Obligatorio *(condicionado)* | No | Sólo cuando el lugar no tiene calle ni número | Sustituye al domicilio en la orden de visita cuando el sitio no lo tiene. Se propone desde la capa oficial que contiene el punto. |
 | Cómo se reconoce y cómo se llega al sitio | Obligatorio *(condicionado)* | No | Obligatorio sólo cuando el lugar no tiene calle ni número; en los demás casos se pide como dato opcional | Reúne en un solo campo lo que antes se preguntaba dos veces —cómo se ve el sitio y cómo se accede a él—. Sin domicilio es lo único que permite al personal de inspección llegar, y por eso ahí se exige. |
 

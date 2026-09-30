@@ -44,16 +44,18 @@ with sync_playwright() as pw:
     pos = pg.evaluate("""() => {
       const yy = id => { const e=document.getElementById(id); return e? Math.round(e.getBoundingClientRect().top+window.scrollY):null; };
       const m = document.getElementById('mapa');
-      return {cp: yy('f_cp'), e1: yy('f_entre_calles'), refs: yy('f_referencias'),
+      return {num: yy('f_num_ext'), cp: yy('f_cp'), e1: yy('f_entre_calles'), refs: yy('f_referencias'),
               mapa: m ? Math.round(m.getBoundingClientRect().top+window.scrollY) : null,
               cajas: document.querySelectorAll('.bloque-opcional, .enc-opcional, .cuerpo-opcional').length,
               campos: ['entre_calles','referencias'].map(k=>!!document.getElementById('f_'+k))};
     }""")
     afirma(all(pos['campos']), 'los tres campos accesorios estan a la vista: %s' % pos['campos'])
     afirma(pos['cajas'] == 0, 'no quedan cajas ni encabezados de bloque plegable (%d)' % pos['cajas'])
-    afirma(pos['cp'] < pos['e1'] < pos['refs'] < pos['mapa'],
-           'van despues del codigo postal y antes del mapa: CP %s < entre calles %s < como se reconoce %s < mapa %s'
-           % (pos['cp'], pos['e1'], pos['refs'], pos['mapa']))
+    # Orden de dictado (DEC-124): entre que calles va tras el numero, y la
+    # descripcion del sitio al final, antes del mapa.
+    afirma(pos['num'] < pos['e1'] < pos['cp'] < pos['refs'] < pos['mapa'],
+           'orden de dictado: numero < entre calles %s < CP %s < como se reconoce %s < mapa %s'
+           % (pos['e1'], pos['cp'], pos['refs'], pos['mapa']))
 
     # --- 2. Aqui «opcional» si distingue, y por eso se marca ---
     marcas = pg.evaluate("""() => {

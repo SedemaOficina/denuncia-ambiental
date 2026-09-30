@@ -171,7 +171,7 @@ with sync_playwright() as pw:
     fantasmas = pg.evaluate("""() => {
       const vistos = new Set();
       const rutas = [
-        {tiene_direccion:'si', materia:'tala', tipo_denunciado:'empresa', es_estab:'si', tipo_estab:'Otro',
+        {tiene_direccion:'si', tiene_mz_lote:'si', materia:'tala', tipo_denunciado:'empresa', es_estab:'si', tipo_estab:'Otro',
          identificacion:'nombre', notif_correo:'no', sabe_permisos:'si', reporto_antes:'si', temporalidad:'unico'},
         {tiene_direccion:'no', materia:'tala', tipo_denunciado:'gobierno', autoridad_nivel:'cdmx',
          identificacion:'llave', sesion_llave:'si', notif_correo:'si'},

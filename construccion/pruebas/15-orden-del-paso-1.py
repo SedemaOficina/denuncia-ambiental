@@ -124,14 +124,19 @@ with sync_playwright() as pw:
            'elegir plásticos avanza al paso 2 y queda guardada: %s' % est)
 
     # ---------- Manzana y lote ----------
-    pg.evaluate("guarda('tiene_direccion','si'); render()"); pg.wait_for_timeout(300)
+    # Desde DEC-124 se piden sólo a quien dice que su predio va por manzana y lote.
+    pg.evaluate("guarda('tiene_direccion','si'); guarda('tiene_mz_lote',''); render()"); pg.wait_for_timeout(300)
+    oculto = pg.evaluate("() => !!document.getElementsByName('manzana')[0]")
+    afirma(not oculto and pg.locator('#c_tiene_mz_lote').count() == 1,
+           'sin responder la pregunta, manzana y lote no aparecen; la pregunta sí')
+    pg.evaluate("() => { document.querySelector('#c_tiene_mz_lote .btn-sn').click(); }"); pg.wait_for_timeout(300)
     m = pg.evaluate("""() => {
       const ids = [...document.querySelectorAll('#c_lat, .campo')].map(c => (c.querySelector('input,select,textarea')||{}).name).filter(Boolean);
       const mz = document.getElementsByName('manzana')[0], lt = document.getElementsByName('lote')[0];
       const req = c => !!(c && c.closest('.campo') && c.closest('.campo').querySelector('.req'));
       return {orden: ids, hayMz: !!mz, hayLt: !!lt, mzReq: req(mz), ltReq: req(lt)};
     }""")
-    afirma(m['hayMz'] and m['hayLt'], 'manzana y lote se piden cuando el lugar tiene domicilio')
+    afirma(m['hayMz'] and m['hayLt'], 'con «Sí», aparecen manzana y lote')
     afirma(not m['mzReq'] and not m['ltReq'], 'ninguno de los dos es obligatorio')
     o = m['orden']
     afirma(o.index('manzana') > o.index('num_ext') and o.index('manzana') < o.index('colonia'),
@@ -141,6 +146,12 @@ with sync_playwright() as pw:
     pg.evaluate("guarda('manzana','118'); guarda('lote','1'); irA(3); irA(2)"); pg.wait_for_timeout(300)
     g = pg.evaluate("() => [ (document.getElementsByName('manzana')[0]||{}).value, (document.getElementsByName('lote')[0]||{}).value ]")
     afirma(g == ['118', '1'], 'lo capturado en manzana y lote se conserva: %s' % g)
+
+    # Con «No», se retiran y lo escrito se suelta.
+    pg.evaluate("() => { document.querySelectorAll('#c_tiene_mz_lote .btn-sn')[1].click(); }"); pg.wait_for_timeout(300)
+    nn = pg.evaluate("() => ({hay: !!document.getElementsByName('manzana')[0], mz: val('manzana'), lt: val('lote'), mapa: !!document.getElementById('mapa')})")
+    afirma(not nn['hay'] and nn['mz'] == '' and nn['lt'] == '', 'con «No», manzana y lote se retiran y no viajan al expediente')
+    pg.evaluate("guarda('tiene_mz_lote','si'); guarda('manzana','118'); guarda('lote','1')")
 
     # Sin domicilio no se piden: ahí no hay manzana que valga.
     pg.evaluate("guarda('tiene_direccion','no'); render()"); pg.wait_for_timeout(300)

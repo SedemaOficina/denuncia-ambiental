@@ -238,8 +238,13 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .opcion[aria-pressed="true"]::after{content:"✓";position:absolute;top:10px;right:12px;color:var(--azul);font-weight:700;font-size:var(--t-base);line-height:1}
 .opcion .nombre{font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-base);color:var(--azul);margin-bottom:4px;display:block;line-height:1.3}
 .opcion .desc{font-size:var(--t-sm);color:var(--gris);line-height:1.45;display:block}
-.grupo-materia{font-size:var(--t-sm);text-transform:uppercase;letter-spacing:.06em;color:var(--gris);margin:24px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--linea)}
-.grupo-materia:first-of-type{margin-top:4px}
+/* Las categorías del paso 1 son el primer filtro de la persona: se leen antes
+   que las tarjetas. En guinda, con el tipo de los títulos y el filete dorado
+   de los bloques, y un punto más grandes que el título de cada tarjeta, para
+   que la jerarquía sea categoría > supuesto > descripción (DEC-124). */
+.grupo-materia{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:19px;font-weight:700;line-height:1.3;
+  color:var(--guinda);margin:34px 0 12px;padding:0 0 8px;border-bottom:2px solid var(--dorado)}
+.grupo-materia:first-of-type{margin-top:6px}
 .nota-grupo{font-size:var(--t-sm);color:var(--gris);margin:-2px 0 12px;line-height:1.5;max-width:70ch}
 .filtro-materia{display:flex;gap:9px;margin-bottom:18px}
 .filtro-materia input{flex:1}
@@ -264,7 +269,7 @@ textarea{min-height:130px;resize:vertical;line-height:1.6}
 .fila-op .fo-ico{flex-shrink:0;line-height:0;color:var(--azul)}
 .fila-op .fo-txt{flex:1;min-width:0;display:block}
 .fila-op .fo-nom{display:block;font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-base);color:var(--azul);line-height:1.25;overflow-wrap:anywhere}
-.fila-op .fo-desc{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.35;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fila-op .fo-desc{display:block;font-size:var(--t-sm);color:var(--gris);line-height:1.35;margin-top:2px}
 .fila-op .fo-flecha{flex-shrink:0;color:var(--azul);font-size:var(--t-lg);line-height:1;opacity:.55}
 .fila-op:hover .fo-flecha{opacity:1}
 .fila-op.otra .fo-nom{color:var(--gris);font-weight:500}
@@ -951,11 +956,14 @@ var OBLIG = {
      los domicilios capturados, y hoy esa referencia acaba escrita dentro del
      campo de calle, de modo que la dirección llega partida a la orden de
      visita. Dos campos propios la conservan entera (DEC-110). */
-  manzana:          {p:2, oblig:false, etq:'Manzana', dp:false, fin:'Localización',
+  tiene_mz_lote:    {p:2, oblig:false, etq:'¿El predio se identifica por manzana y lote?', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
+     uso:'Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene, en vez de enseñárselos a todos (DEC-124).'},
+  manzana:          {p:2, oblig:false, etq:'Manzana', dp:false, fin:'Localización',
+     cond:function(){ return val('tiene_direccion')!=='no' && val('tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el predio se identifica por manzana y lote',
      uso:'Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote.'},
   lote:             {p:2, oblig:false, etq:'Lote', dp:false, fin:'Localización',
-     cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
+     cond:function(){ return val('tiene_direccion')!=='no' && val('tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el predio se identifica por manzana y lote',
      uso:'Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote.'},
   veh_servicio:     {p:3, oblig:true, etq:'¿Es transporte público o de carga?', dp:false, fin:'Competencia',
      cond:function(){ return val('materia')==='vehiculo'; } , cond_txt:'Sólo cuando se denuncia un vehículo contaminante',
@@ -1762,23 +1770,26 @@ function pUbicacion(){
   /* ---- Bloque A · la dirección (sólo cuando la hay) ---- */
   if(!sinDir){
     h += '<h3 class="sub-seccion">La dirección del lugar</h3>'+
+      /* En el orden en que una persona dicta su dirección (DEC-124): la calle
+         y el número; si el predio va por manzana y lote, eso, que es lo que
+         sustituye al número; entre qué calles; y luego alcaldía, colonia y
+         código postal. La alcaldía va antes que la colonia porque la acota
+         (DEC-118). Manzana y lote sólo aparecen a quien dice que los tiene. */
       '<div class="fila-2-1">'+
         campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'')+
         campo('num_ext','Número exterior','texto',esObligatorio('num_ext'),'Si no tiene, escribe S/N','autocomplete="off"')+
       '</div>'+
-      '<div class="fila">'+
-        campo('manzana','Manzana','texto',false,'Cuando el predio se identifica por manzana y lote, y no por número.')+
-        campo('lote','Lote','texto',false,'')+
-      '</div>'+
-      /* La alcaldia va antes que la colonia porque la acota (DEC-118). */
+      campoSiNo('tiene_mz_lote','¿El predio se identifica por manzana y lote?',
+        'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote()')+
+      '<div id="mzLote">'+camposMzLote()+'</div>'+
+      campo('entre_calles','¿Entre qué calles?','texto',false,'',
+        'placeholder="Entre calle 1 y calle 2"')+
       '<div class="fila">'+
         campoSelect('alcaldia_dir','Alcaldía',ALCALDIAS_ORDEN(),esObligatorio('alcaldia_dir'),'','cambiaAlcaldiaDir()')+
         campoColonia()+
       '</div>'+
       '<div class="fila">'+
         campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
-        campo('entre_calles','¿Entre qué calles?','texto',false,'',
-          'placeholder="Entre calle 1 y calle 2"')+
       '</div>'+
       campoArea('referencias','¿Cómo se reconoce el sitio?',false,
         'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3);
@@ -2531,7 +2542,7 @@ function pRevision(){
      dirección vacía separada por comas no dice nada y el nombre del sitio sí. */
   var ubic = sinDireccion()
     ? [val('nombre_lugar'),val('alcaldia')].filter(Boolean).join(', ')
-    : [[val('calle'),val('num_ext')].filter(Boolean).join(' '),val('colonia'),val('cp')?'C.P. '+val('cp'):'',alcaldiaDeLaDireccion()].filter(Boolean).join(', ');
+    : [[val('calle'),val('num_ext'),val('manzana')?'Mz. '+val('manzana'):'',val('lote')?'Lt. '+val('lote'):''].filter(Boolean).join(' '),val('colonia'),val('cp')?'C.P. '+val('cp'):'',alcaldiaDeLaDireccion()].filter(Boolean).join(', ');
   /* Dos alcaldias, dos renglones: la de la direccion va en la direccion, y la
      que decide el turnado va aparte, dicha como del punto. Si difieren, el
      renglon lo dice: fue callar la diferencia lo que DEC-72 corrigio. */
@@ -2963,6 +2974,28 @@ function campoSiNo(k,etq,ayuda,accion){
       '<button type="button" class="btn-sn" aria-pressed="'+(v==='si'?'true':'false')+'" onclick="guarda(\''+k+'\',\'si\');'+(accion||'render()')+'">Sí</button>'+
       '<button type="button" class="btn-sn" aria-pressed="'+(v==='no'?'true':'false')+'" onclick="guarda(\''+k+'\',\'no\');'+(accion||'render()')+'">No</button>'+
     '</div><div class="err" id="e_'+k+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
+}
+
+/* Manzana y lote se pintan sin rehacer la pantalla, porque rehacerla
+   reiniciaria el mapa (DEC-75). Con «No», lo que se hubiera escrito se
+   suelta: no puede viajar al expediente un dato de una rama que ya no se
+   ve (DEC-100). */
+function camposMzLote(){
+  return val('tiene_mz_lote') === 'si'
+    ? '<div class="fila">'+
+        campo('manzana','Manzana','texto',false,'')+
+        campo('lote','Lote','texto',false,'')+
+      '</div>'
+    : '';
+}
+function actualizaMzLote(){
+  if(val('tiene_mz_lote') !== 'si'){ guarda('manzana',''); guarda('lote',''); }
+  var c = $('c_tiene_mz_lote');
+  if(c) c.querySelectorAll('.btn-sn').forEach(function(b, i){
+    b.setAttribute('aria-pressed', (i === 0) === (val('tiene_mz_lote') === 'si') && !!val('tiene_mz_lote') ? 'true' : 'false');
+  });
+  var m = $('mzLote'); if(m) m.innerHTML = camposMzLote();
+  if(val('tiene_mz_lote') === 'si' && $('f_manzana')) $('f_manzana').focus();
 }
 
 /* Hora en dos controles: horas y minutos. */
