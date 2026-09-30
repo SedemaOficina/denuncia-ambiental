@@ -1,18 +1,18 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-134 · 30 de septiembre de 2026
+**Versión:** DEC-135 · 30 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos que llena la persona | **54** |
+| Campos que llena la persona | **57** |
 | Datos que viajan a la base sin verse en pantalla | **13** |
 | Datos que calcula el formulario y se muestran | 14 |
-| Datos personales | **20** (37 %) |
-| Obligatorios en este formulario | 25 de 54 |
-| Campos con obligatoriedad condicionada | 19 |
+| Datos personales | **22** (39 %) |
+| Obligatorios en este formulario | 24 de 57 |
+| Campos con obligatoriedad condicionada | 21 |
 | Datos sin uso declarado | **0** |
 
 ---
@@ -28,7 +28,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 19 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
-| **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 12 |
+| **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 15 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 2 |
 | **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 5 |
 
@@ -108,10 +108,13 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Domicilio · calle | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Domicilio · número exterior | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Domicilio · número interior | Opcional | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| ¿El domicilio se identifica por manzana y lote? | Opcional | No | Siempre | Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene (DEC-135). |
+| Domicilio · manzana | Opcional | **Sí** | Sólo cuando el domicilio se identifica por manzana y lote | Precisa el domicilio de notificación donde no hay número exterior (DEC-135). |
+| Domicilio · lote | Opcional | **Sí** | Sólo cuando el domicilio se identifica por manzana y lote | Precisa el domicilio de notificación donde no hay número exterior (DEC-135). |
+| Domicilio · entre qué calles | Opcional | **Sí** | Siempre | Ayuda a quien notifica a encontrar el domicilio (DEC-135). |
 | Domicilio · colonia | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Domicilio · código postal | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
-| Domicilio · alcaldía o municipio | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
-| Domicilio · entidad federativa | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · alcaldía | Obligatorio | **Sí** | Siempre | Notificación por domicilio. Se elige de la lista de las dieciséis alcaldías y acota las colonias que se ofrecen (DEC-135). |
 | Género | Opcional | **Sí** | Siempre | Desagregación estadística de quién denuncia en la Ciudad. Opcional; no condiciona el trámite ni se incorpora al expediente. La identidad de género es dato sensible: sólo puede tratarse con consentimiento expreso, y por eso la pregunta admite no responder. |
 | Rango de edad | Opcional | **Sí** | Siempre | Desagregación estadística por edad. Opcional; no condiciona el trámite ni se incorpora al expediente. |
 | Protesta de decir verdad y aviso de privacidad | Obligatorio | No | Siempre | Constancia del consentimiento informado y de la protesta de decir verdad. |

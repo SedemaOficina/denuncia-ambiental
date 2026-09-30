@@ -172,7 +172,7 @@ with sync_playwright() as pw:
       const vistos = new Set();
       const rutas = [
         {tiene_direccion:'si', tiene_mz_lote:'si', materia:'tala', tipo_denunciado:'empresa', es_estab:'si', tipo_estab:'Otro',
-         identificacion:'nombre', sabe_permisos:'si', reporto_antes:'si', temporalidad:'unico'},
+         identificacion:'nombre', dom_tiene_mz_lote:'si', sabe_permisos:'si', reporto_antes:'si', temporalidad:'unico'},
         {tiene_direccion:'no', materia:'tala', tipo_denunciado:'gobierno', autoridad_nivel:'cdmx',
          identificacion:'nombre'},
         {tiene_direccion:'si', materia:'tala', tipo_denunciado:'particular', identificacion:'anonima'},

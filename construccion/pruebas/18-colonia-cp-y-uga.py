@@ -199,7 +199,7 @@ with sync_playwright() as pw:
     r = cp('cp', '1234');  afirma(r['mal'] and 'cinco dígitos' in r['msg'], 'cuatro dígitos: «%s»' % r['msg'])
     r = cp('cp', '55000'); afirma(r['mal'] and 'no es de la Ciudad' in r['msg'], 'cinco dígitos de otra entidad: «%s»' % r['msg'])
     r = cp('cp', '00100'); afirma(r['mal'], 'y 00100 tampoco')
-    afirma(not cp('dom_cp', '55000')['mal'], 'el del domicilio de la persona sí puede ser de otra entidad')
+    afirma(cp('dom_cp', '55000')['mal'], 'el del domicilio de la persona también debe ser de la Ciudad (DEC-135)')
     pg.evaluate("() => { guarda('cp',''); guarda('dom_cp',''); }")
 
     # ---------------- UGA ----------------

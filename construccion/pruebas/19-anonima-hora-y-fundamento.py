@@ -107,12 +107,46 @@ with sync_playwright() as pw:
     nd = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('identificacion','nombre'); irA(5);
       const t = document.getElementById('app').innerText;
       return {notif: !!document.getElementById('c_notif_correo'), dom: !!document.getElementById('f_dom_calle'),
-              oblig: ['dom_calle','dom_num_ext','dom_colonia','dom_cp','dom_alcaldia','dom_entidad'].every(k => esObligatorio(k)),
+              oblig: ['dom_calle','dom_num_ext','dom_colonia','dom_cp','dom_alcaldia'].every(k => esObligatorio(k)),
               promete: /recibirás el acuse|te notifique por correo|llega al correo/i.test(t),
               declarado: 'notif_correo' in OBLIG}; }""")
     afirma(not nd['notif'] and not nd['declarado'], 'ya no se pregunta si se acepta la notificación por correo')
     afirma(nd['dom'] and nd['oblig'], 'con datos, el domicilio para notificaciones se pide siempre y es obligatorio')
     afirma(not nd['promete'], 'la pantalla no promete correos automáticos')
+    # ---- 4 quater. El domicilio, con la forma de la direccion del lugar (DEC-135) ----
+    dm = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('identificacion','nombre'); irA(5);
+      const ids = [...document.querySelectorAll('#app [id^="c_dom_"]')].map(e => e.id.slice(2));
+      const sel = document.getElementById('f_dom_alcaldia'), col = document.getElementById('f_dom_colonia');
+      return {ids, select: !!sel && sel.tagName === 'SELECT' && sel.options.length === 17,
+              colDes: !!col && col.disabled, combo: !!col && col.getAttribute('role') === 'combobox',
+              entidad: !!document.getElementById('f_dom_entidad') || 'dom_entidad' in OBLIG,
+              mz: !!document.getElementById('f_dom_manzana')}; }""")
+    afirma(dm['ids'][:4] == ['dom_calle','dom_num_ext','dom_num_int','dom_tiene_mz_lote'] and
+           dm['ids'].index('dom_entre_calles') < dm['ids'].index('dom_alcaldia') < dm['ids'].index('dom_colonia') < dm['ids'].index('dom_cp'),
+           'el domicilio sigue el orden de la dirección del lugar: %s' % dm['ids'])
+    afirma(dm['select'] and dm['combo'] and dm['colDes'], 'alcaldía en lista de dieciséis y colonia del catálogo, que espera a la alcaldía')
+    afirma(not dm['entidad'], 'no se pregunta la entidad federativa: el domicilio va en la Ciudad')
+    afirma(not dm['mz'], 'manzana y lote no aparecen hasta que se dice que sí')
+    d2 = pg.evaluate("""() => { guarda('dom_tiene_mz_lote','si'); actualizaMzLote('dom_');
+      const mz = !!document.getElementById('f_dom_manzana') && !!document.getElementById('f_dom_lote');
+      const sel = document.getElementById('f_dom_alcaldia'); sel.value = 'Coyoacán'; sel.dispatchEvent(new Event('change'));
+      const col = document.getElementById('f_dom_colonia'); const hab = !col.disabled;
+      col.value = 'del carmen'; escribeColonia(col.value, 'dom_colonia');
+      const ops = [...document.querySelectorAll('#lista_dom_colonia li[role=option]')];
+      const nombres = ops.map(o => o.textContent);
+      if(ops[0]) ops[0].click();
+      const elegida = val('dom_colonia');
+      const lugarIntacto = val('colonia') === '' && val('colonia_cve') === '';
+      sel.value = 'Tlalpan'; sel.dispatchEvent(new Event('change'));
+      return {mz, hab, nombres, elegida, lugarIntacto, trasCambio: val('dom_colonia'),
+              cpFuera: FORMATO.dom_cp.re.test('54000'), cpDentro: FORMATO.dom_cp.re.test('04100')}; }""")
+    afirma(d2['mz'], 'con «Sí» aparecen manzana y lote del domicilio')
+    afirma(d2['hab'] and d2['nombres'] and d2['elegida'].startswith('Del Carmen'),
+           'con la alcaldía elegida, la colonia sugiere del catálogo y se elige de la lista (%s)' % d2['nombres'][:2])
+    afirma(d2['lugarIntacto'], 'elegir la colonia del domicilio no toca la del lugar')
+    afirma(d2['trasCambio'] == '', 'cambiar la alcaldía suelta la colonia de la otra')
+    afirma(d2['cpDentro'] and not d2['cpFuera'], 'el código postal del domicilio se admite sólo de la Ciudad')
+
     ac2 = pg.evaluate("""() => { guarda('correo','x@correo.mx'); guarda('folio','SEDEMA-PRUEBA'); irA(7); return document.getElementById('app').innerText; }""")
     afirma('Enviamos' not in ac2 and 'captura' in ac2 and 'domicilio que registraste' in ac2,
            'el acuse pide conservar el folio o una captura, y el resultado se notifica en el domicilio')

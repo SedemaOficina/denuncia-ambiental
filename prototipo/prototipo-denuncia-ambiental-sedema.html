@@ -1108,14 +1108,25 @@ var OBLIG = {
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_num_int:      {p:5, oblig:false, etq:'Domicilio · número interior', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
+  /* El domicilio se captura con la misma forma que la direccion del lugar:
+     manzana y lote a quien los tiene, entre que calles, alcaldia en lista y
+     colonia del catalogo de esa alcaldia. Solo en la Ciudad (DEC-135). */
+  dom_tiene_mz_lote:{p:5, oblig:false, etq:'¿El domicilio se identifica por manzana y lote?', dp:false, fin:'Contacto',
+     uso:'Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene (DEC-135).'},
+  dom_manzana:      {p:5, oblig:false, etq:'Domicilio · manzana', dp:true, fin:'Contacto',
+     cond:function(){ return val('dom_tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el domicilio se identifica por manzana y lote',
+     uso:'Precisa el domicilio de notificación donde no hay número exterior (DEC-135).'},
+  dom_lote:         {p:5, oblig:false, etq:'Domicilio · lote', dp:true, fin:'Contacto',
+     cond:function(){ return val('dom_tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el domicilio se identifica por manzana y lote',
+     uso:'Precisa el domicilio de notificación donde no hay número exterior (DEC-135).'},
+  dom_entre_calles: {p:5, oblig:false, etq:'Domicilio · entre qué calles', dp:true, fin:'Contacto',
+     uso:'Ayuda a quien notifica a encontrar el domicilio (DEC-135).'},
   dom_colonia:      {p:5, oblig:true,  etq:'Domicilio · colonia', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_cp:           {p:5, oblig:true,  etq:'Domicilio · código postal', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
-  dom_alcaldia:     {p:5, oblig:true,  etq:'Domicilio · alcaldía o municipio', dp:true, fin:'Contacto',
-     uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
-  dom_entidad:      {p:5, oblig:true,  etq:'Domicilio · entidad federativa', dp:true, fin:'Contacto',
-     uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
+  dom_alcaldia:     {p:5, oblig:true,  etq:'Domicilio · alcaldía', dp:true, fin:'Contacto',
+     uso:'Notificación por domicilio. Se elige de la lista de las dieciséis alcaldías y acota las colonias que se ofrecen (DEC-135).'},
   /* Estadistica. Son opcionales en las dos rutas —tambien en la anonima— porque
      no identifican a nadie: un genero y un rango de edad no son datos de
      contacto. Se declaran aqui, y no sueltos en la pantalla, para que el
@@ -1206,7 +1217,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-134', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-135', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1215,7 +1226,8 @@ var VERSION_FORMULARIO = {dec:'DEC-134', fecha:'30 de septiembre de 2026'};
 var CONTACTO_ANONIMO = ['correo','telefono'];
 var EXIGIDO_ANONIMO  = ['correo'];
 var SOLO_IDENTIFICADO = ['nombre','apellido_paterno','apellido_materno','telefono','correo',
-  'dom_calle','dom_num_ext','dom_num_int','dom_colonia','dom_cp','dom_alcaldia','dom_entidad'];
+  'dom_calle','dom_num_ext','dom_num_int','dom_tiene_mz_lote','dom_manzana','dom_lote','dom_entre_calles',
+  'dom_alcaldia','dom_colonia','dom_cp'];
 
 function esObligatorio(k){
   if(!cfg.validar) return false;
@@ -1284,7 +1296,7 @@ var ESCENARIOS = [
       nombre:'María Fernanda', apellido_paterno:'Ramírez', apellido_materno:'Cortés',
       correo:'mf.ramirez@ejemplo.mx', telefono:'5555010203',
       dom_calle:'Calzada de Tlalpan', dom_num_ext:'4820', dom_colonia:'La Joya',
-      dom_cp:'14090', dom_alcaldia:'Tlalpan', dom_entidad:'Ciudad de México',
+      dom_cp:'14090', dom_alcaldia:'Tlalpan',
       privacidad:'si'}},
   {id:'urbano', nom:'Comercio en suelo urbano',
    d:'Emisiones de un taller · identificado · DGIVA',
@@ -1299,7 +1311,7 @@ var ESCENARIOS = [
       nombre:'María Fernanda', apellido_paterno:'Ríos', apellido_materno:'Galván',
       telefono:'5512345678', correo:'ejemplo@correo.com',
       dom_calle:'Avenida Chapultepec', dom_num_ext:'452', dom_colonia:'Roma Norte',
-      dom_cp:'06700', dom_alcaldia:'Cuauhtémoc', dom_entidad:'Ciudad de México',
+      dom_cp:'06700', dom_alcaldia:'Cuauhtémoc',
       privacidad:'si', identificacion:'nombre'}},
 
   {id:'conservacion', nom:'Tala en suelo de conservación, anónima',
@@ -1327,7 +1339,7 @@ var ESCENARIOS = [
       nombre:'Jorge', apellido_paterno:'Hernández', apellido_materno:'Luna',
       telefono:'5598765432', correo:'ejemplo2@correo.com',
       dom_calle:'Calle Oriente 249', dom_num_ext:'14', dom_colonia:'Agrícola Oriental',
-      dom_cp:'08500', dom_alcaldia:'Iztacalco', dom_entidad:'Ciudad de México',
+      dom_cp:'08500', dom_alcaldia:'Iztacalco',
       privacidad:'si', identificacion:'nombre'}},
 
   {id:'ava', nom:'Afectación en Área de Valor Ambiental',
@@ -2610,19 +2622,24 @@ function pDenunciante(){
        servicio de envio automatico. El domicilio es la via de notificacion
        y se pide siempre en esta ruta (DEC-134). */
     '<h3 class="sub-seccion">Domicilio para recibir notificaciones</h3>'+
-    '<p class="ayuda" style="margin-bottom:16px">Ahí te notificará la Secretaría. Puede ser distinto del lugar de los hechos.</p>'+
+    '<p class="ayuda" style="margin-bottom:16px">Ahí te notificará la Secretaría. Debe estar en la Ciudad de México y puede ser distinto del lugar de los hechos.</p>'+
+    /* Misma forma y mismo orden que la direccion del lugar (DEC-124, DEC-135).
+       El domicilio va en la Ciudad: no se pregunta la entidad. */
     '<div class="fila-3">'+
-      campo('dom_calle','Calle','texto',esObligatorio('dom_calle'),'','autocomplete="address-line1"')+
-      campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'','autocomplete="address-line2" inputmode="numeric"')+
-      campo('dom_num_int','Número interior','texto',false,'','autocomplete="address-line3"')+
+      campo('dom_calle','Calle o vialidad','texto',esObligatorio('dom_calle'),'','autocomplete="address-line1"')+
+      campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'Si no tiene, escribe S/N','autocomplete="off"')+
+      campo('dom_num_int','Número interior','texto',false,'','autocomplete="off"')+
+    '</div>'+
+    campoSiNo('dom_tiene_mz_lote','¿Tu domicilio se identifica por manzana y lote?',
+      'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote(\'dom_\')')+
+    '<div id="dom_mzLote">'+camposMzLote('dom_')+'</div>'+
+    campo('dom_entre_calles','¿Entre qué calles?','texto',false,'','placeholder="Entre calle 1 y calle 2"')+
+    '<div class="fila">'+
+      campoSelect('dom_alcaldia','Alcaldía',ALCALDIAS_ORDEN(),esObligatorio('dom_alcaldia'),'','cambiaAlcaldiaDir(\'dom_colonia\')')+
+      campoColonia('dom_colonia')+
     '</div>'+
     '<div class="fila">'+
-      campo('dom_colonia','Colonia','texto',esObligatorio('dom_colonia'),'','autocomplete="address-level3"')+
-      campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'Cinco dígitos','autocomplete="postal-code" inputmode="numeric" maxlength="5"')+
-    '</div>'+
-    '<div class="fila">'+
-      campo('dom_alcaldia','Alcaldía o municipio','texto',esObligatorio('dom_alcaldia'),'','autocomplete="address-level2"')+
-      campo('dom_entidad','Entidad federativa','texto',esObligatorio('dom_entidad'),'Ciudad de México, Estado de México, etc.','autocomplete="address-level1"')+
+      campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'Cinco dígitos','autocomplete="off" inputmode="numeric" maxlength="5"')+
     '</div>';
     /* Para qué sirven los datos y que no se difunden lo dice el aviso de
        privacidad; repetirlo aquí era un segundo aviso sin valor legal (DEC-133). */
@@ -2802,8 +2819,11 @@ function pRevision(){
   var fQuien =
     r('Denunciante', anon ? 'Denuncia an\u00f3nima' : [val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '), 5, 'identificacion')+
     ((anon && !val('telefono') && !val('correo'))?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' \u00b7 '), 5, anon?'correo':'telefono'))+
-    (anon?'':r('Domicilio para notificaciones', [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):''].filter(Boolean).join(' '),
-                             val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'', val('dom_alcaldia'), val('dom_entidad')].filter(Boolean).join(', '), 5, 'dom_calle'))+
+    (anon?'':r('Domicilio para notificaciones', !val('dom_calle') ? '' :
+        [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):'',
+          val('dom_manzana')?'Mz. '+val('dom_manzana'):'',val('dom_lote')?'Lt. '+val('dom_lote'):''].filter(Boolean).join(' '),
+         val('dom_entre_calles')?'entre '+val('dom_entre_calles'):'',
+         val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'', val('dom_alcaldia'), 'Ciudad de M\u00e9xico'].filter(Boolean).join(', '), 5, 'dom_calle'))+
     r('Datos estad\u00edsticos', (function(){
         var g = {mujer:'Mujer',hombre:'Hombre',no_binaria:'No binaria',otro:'Otro',nd:'Prefiere no decirlo'}[val('sexo_genero')]||'';
         var e = {'-18':'Menor de 18 a\u00f1os','18-29':'18 a 29 a\u00f1os','30-44':'30 a 44 a\u00f1os',
@@ -2933,13 +2953,13 @@ function alcaldiaDeFila(r){ return CATALOGO_COLONIAS.alcaldias[r[1]]; }
 /* Todas las palabras escritas deben aparecer; primero lo que empieza igual,
    luego lo que tiene una palabra que empieza igual, luego lo demas. Dentro de
    cada grupo, primero la alcaldia del punto, si ya hay punto. */
-function sugiereColonias(q, max){
+function sugiereColonias(q, max, k){
   var nq = normaCol(q); if(nq.length < 2) return [];
   /* Con alcaldia de la direccion, solo sus colonias (DEC-118). Sin ella —solo
      en pruebas, porque el campo esta deshabilitado— todo el catalogo, con la
      alcaldia del punto primero. */
-  var dir = val('alcaldia_dir');
-  var pal = nq.split(' '), idx = indiceColonias(), filas = CATALOGO_COLONIAS.filas, alc = dir || val('alcaldia'), res = [];
+  var d = comboCol(k), dir = val(d.alc);
+  var pal = nq.split(' '), idx = indiceColonias(), filas = CATALOGO_COLONIAS.filas, alc = dir || (d.lugar ? val('alcaldia') : ''), res = [];
   for(var i=0;i<filas.length;i++){
     if(dir && alcaldiaDeFila(filas[i]) !== dir) continue;
     var t = idx[i], ok = true;
@@ -2959,83 +2979,109 @@ function ALCALDIAS_ORDEN(){
   return CATALOGO_COLONIAS.alcaldias.slice().sort(function(a,b){ return a.localeCompare(b,'es'); });
 }
 
-function campoColonia(){
-  var sinAlc = !val('alcaldia_dir');
-  return '<div class="campo" id="c_colonia"><label for="f_colonia">Colonia'+marca_opc(esObligatorio('colonia'))+'</label>'+
-    '<div class="ayuda" id="a_colonia">Escribe y elige de la lista. Si no aparece, déjala como la conoces.</div>'+
+/* El mismo combo sirve a dos campos: la colonia del lugar y la del domicilio
+   de notificacion (DEC-135). Cada uno dice de que alcaldia depende y donde
+   guarda la clave; solo el del lugar compara con el punto del mapa. */
+var COMBOS_COL = {
+  colonia:     {alc:'alcaldia_dir', cve:'colonia_cve', calc:'colonia_alcaldia', lugar:true},
+  dom_colonia: {alc:'dom_alcaldia', cve:'',            calc:'',                 lugar:false}
+};
+function comboCol(k){ return COMBOS_COL[k || 'colonia']; }
+
+function campoColonia(k){
+  k = k || 'colonia';
+  var d = comboCol(k), sinAlc = !val(d.alc), q = "'"+k+"'";
+  return '<div class="campo" id="c_'+k+'"><label for="f_'+k+'">Colonia'+marca_opc(esObligatorio(k))+'</label>'+
+    '<div class="ayuda" id="a_'+k+'">Escribe y elige de la lista. Si no aparece, déjala como la conoces.</div>'+
     '<div class="combo">'+
-      '<input type="text" id="f_colonia" name="colonia" role="combobox" aria-autocomplete="list" aria-expanded="false" '+
+      '<input type="text" id="f_'+k+'" name="'+k+'" role="combobox" aria-autocomplete="list" aria-expanded="false" '+
         (sinAlc ? 'disabled placeholder="Primero elige la alcaldía" ' : '')+
-        'aria-controls="lista_colonia" autocomplete="off" aria-describedby="a_colonia e_colonia" aria-invalid="false" '+
-        'value="'+esc(val('colonia'))+'" oninput="escribeColonia(this.value)" onkeydown="teclaColonia(event)" onblur="saleColonia();buscaDireccionSola()">'+
-      '<ul class="combo-lista" id="lista_colonia" role="listbox" aria-label="Colonias del catálogo" hidden></ul>'+
+        'aria-controls="lista_'+k+'" autocomplete="off" aria-describedby="a_'+k+' e_'+k+'" aria-invalid="false" '+
+        'value="'+esc(val(k))+'" '+
+        (d.lugar
+          ? 'oninput="escribeColonia(this.value)" onkeydown="teclaColonia(event)" onblur="saleColonia();buscaDireccionSola()">'
+          : 'oninput="escribeColonia(this.value,'+q+')" onkeydown="teclaColonia(event,'+q+')" onblur="saleColonia('+q+')">')+
+      '<ul class="combo-lista" id="lista_'+k+'" role="listbox" aria-label="Colonias del catálogo" hidden></ul>'+
     '</div>'+
-    '<div class="err" id="e_colonia">Este dato es necesario para dar trámite a la denuncia.</div></div>';
+    '<div class="err" id="e_'+k+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
 }
 
 var COL_OPCIONES = [], COL_ACTIVA = -1;
-function escribeColonia(v){
-  guarda('colonia', v);
+function prefijoOp(k){ return (k || 'colonia') === 'colonia' ? 'op_col_' : 'op_'+k+'_'; }
+function escribeColonia(v, k){
+  k = k || 'colonia'; var d = comboCol(k);
+  guarda(k, v);
   /* Lo escrito ya no es lo elegido: la clave se suelta hasta que se elija o
      se reconozca otra vez al salir. */
-  guarda('colonia_cve', ''); guarda('colonia_alcaldia', '');
-  limpiaError('colonia');
-  pintaSugerencias();
-  actualizaAvisoAlcaldia();
+  if(d.cve) guarda(d.cve, '');
+  if(d.calc) guarda(d.calc, '');
+  limpiaError(k);
+  pintaSugerencias(k);
+  if(d.lugar) actualizaAvisoAlcaldia();
 }
-function pintaSugerencias(){
-  var ul = $('lista_colonia'), inp = $('f_colonia'); if(!ul || !inp) return;
-  COL_OPCIONES = sugiereColonias(inp.value, 8); COL_ACTIVA = -1;
+function pintaSugerencias(k){
+  k = k || 'colonia'; var d = comboCol(k);
+  var ul = $('lista_'+k), inp = $('f_'+k); if(!ul || !inp) return;
+  COL_OPCIONES = sugiereColonias(inp.value, 8, k); COL_ACTIVA = -1;
   inp.removeAttribute('aria-activedescendant');
-  if(normaCol(inp.value).length < 2){ cierraColonias(); return; }
-  var filas = CATALOGO_COLONIAS.filas;
+  if(normaCol(inp.value).length < 2){ cierraColonias(k); return; }
+  var filas = CATALOGO_COLONIAS.filas, pre = prefijoOp(k), dir = val(d.alc);
   ul.innerHTML = COL_OPCIONES.length
     ? COL_OPCIONES.map(function(i,n){
-        return '<li role="option" id="op_col_'+n+'" aria-selected="false" data-fila="'+i+'" '+
-          'onmousedown="event.preventDefault()" onclick="eligeColonia('+i+')">'+
-          '<span class="op-nom">'+esc(filas[i][0])+'</span>'+(val('alcaldia_dir') ? '' : '<span class="op-alc">'+esc(alcaldiaDeFila(filas[i]))+'</span>')+'</li>';
+        return '<li role="option" id="'+pre+n+'" aria-selected="false" data-fila="'+i+'" '+
+          'onmousedown="event.preventDefault()" onclick="eligeColonia('+i+(k==='colonia'?'':",'"+k+"'")+')">'+
+          '<span class="op-nom">'+esc(filas[i][0])+'</span>'+(dir ? '' : '<span class="op-alc">'+esc(alcaldiaDeFila(filas[i]))+'</span>')+'</li>';
       }).join('')
-    : '<li class="combo-vacio" role="presentation">'+(val('alcaldia_dir')
-        ? 'No está en el catálogo de '+esc(val('alcaldia_dir'))+'. Revisa la alcaldía, o déjala como la escribiste.'
+    : '<li class="combo-vacio" role="presentation">'+(dir
+        ? 'No está en el catálogo de '+esc(dir)+'. Revisa la alcaldía, o déjala como la escribiste.'
         : 'No está en el catálogo. Puedes dejarla como la escribiste.')+'</li>';
   ul.hidden = false; inp.setAttribute('aria-expanded','true');
 }
-function cierraColonias(){
-  var ul = $('lista_colonia'), inp = $('f_colonia');
+function cierraColonias(k){
+  k = k || 'colonia';
+  var ul = $('lista_'+k), inp = $('f_'+k);
   if(ul){ ul.hidden = true; ul.innerHTML = ''; }
   if(inp){ inp.setAttribute('aria-expanded','false'); inp.removeAttribute('aria-activedescendant'); }
   COL_OPCIONES = []; COL_ACTIVA = -1;
 }
-function marcaActiva(n){
-  var inp = $('f_colonia'); COL_ACTIVA = n;
-  document.querySelectorAll('#lista_colonia li[role=option]').forEach(function(li,k){
-    li.setAttribute('aria-selected', k===n ? 'true' : 'false');
-    if(k===n) li.scrollIntoView({block:'nearest'});
+function marcaActiva(n, k){
+  k = k || 'colonia';
+  var inp = $('f_'+k), pre = prefijoOp(k); COL_ACTIVA = n;
+  document.querySelectorAll('#lista_'+k+' li[role=option]').forEach(function(li,m){
+    li.setAttribute('aria-selected', m===n ? 'true' : 'false');
+    if(m===n) li.scrollIntoView({block:'nearest'});
   });
-  if(inp){ if(n>=0) inp.setAttribute('aria-activedescendant','op_col_'+n); else inp.removeAttribute('aria-activedescendant'); }
+  if(inp){ if(n>=0) inp.setAttribute('aria-activedescendant',pre+n); else inp.removeAttribute('aria-activedescendant'); }
 }
-function teclaColonia(e){
+function teclaColonia(e, k){
+  k = k || 'colonia';
   /* Abierta es la lista visible, tenga o no sugerencias: la que solo dice
      «no esta en el catalogo» tambien se cierra con Escape. */
-  var ul = $('lista_colonia'), abierta = !!(ul && !ul.hidden), hay = COL_OPCIONES.length > 0;
-  if(e.key === 'ArrowDown'){ if(!abierta) pintaSugerencias(); else if(hay) marcaActiva(Math.min(COL_ACTIVA+1, COL_OPCIONES.length-1)); e.preventDefault(); }
-  else if(e.key === 'ArrowUp' && hay){ marcaActiva(Math.max(COL_ACTIVA-1, 0)); e.preventDefault(); }
-  else if(e.key === 'Enter' && hay && COL_ACTIVA >= 0){ eligeColonia(COL_OPCIONES[COL_ACTIVA]); e.preventDefault(); }
-  else if(e.key === 'Escape' && abierta){ cierraColonias(); e.preventDefault(); }
+  var ul = $('lista_'+k), abierta = !!(ul && !ul.hidden), hay = COL_OPCIONES.length > 0;
+  if(e.key === 'ArrowDown'){ if(!abierta) pintaSugerencias(k); else if(hay) marcaActiva(Math.min(COL_ACTIVA+1, COL_OPCIONES.length-1), k); e.preventDefault(); }
+  else if(e.key === 'ArrowUp' && hay){ marcaActiva(Math.max(COL_ACTIVA-1, 0), k); e.preventDefault(); }
+  else if(e.key === 'Enter' && hay && COL_ACTIVA >= 0){ eligeColonia(COL_OPCIONES[COL_ACTIVA], k); e.preventDefault(); }
+  else if(e.key === 'Escape' && abierta){ cierraColonias(k); e.preventDefault(); }
 }
-function eligeColonia(i){
+function eligeColonia(i, k){
+  k = k || 'colonia'; var d = comboCol(k);
   var r = CATALOGO_COLONIAS.filas[i]; if(!r) return;
-  guarda('colonia', r[0]); guarda('colonia_cve', r[2]); guarda('colonia_alcaldia', alcaldiaDeFila(r));
-  var inp = $('f_colonia'); if(inp) inp.value = r[0];
-  cierraColonias(); limpiaError('colonia');
-  actualizaAvisoAlcaldia();
+  guarda(k, r[0]);
+  if(d.cve) guarda(d.cve, r[2]);
+  if(d.calc) guarda(d.calc, alcaldiaDeFila(r));
+  var inp = $('f_'+k); if(inp) inp.value = r[0];
+  cierraColonias(k); limpiaError(k);
+  if(d.lugar) actualizaAvisoAlcaldia();
 }
 /* Al salir sin elegir —y antes de que la direccion busque el punto, que va
    detras en el mismo onblur (DEC-101)—: si lo escrito es exactamente una colonia del catalogo,
    se reconoce. Si el nombre existe en varias alcaldias, decide la del punto;
    sin punto, o si ninguna coincide, se queda sin clave: adivinar seria peor. */
-function saleColonia(){
-  cierraColonias();
+function saleColonia(k){
+  k = k || 'colonia';
+  cierraColonias(k);
+  /* El domicilio no guarda clave ni se compara con el punto: basta cerrar. */
+  if(k !== 'colonia') return;
   if(!val('colonia_cve')){
     var nq = normaCol(val('colonia')), filas = CATALOGO_COLONIAS.filas, iguales = [];
     var dir = val('alcaldia_dir');
@@ -3077,19 +3123,25 @@ function actualizaAvisoAlcaldia(){
 /* Cambiar la alcaldia de la direccion suelta la colonia elegida de otra
    alcaldia, y habilita el campo sin rehacer la pantalla, que reiniciaria el
    mapa (DEC-75). Lo escrito a mano, sin clave, se conserva. */
-function cambiaAlcaldiaDir(){
-  var inp = $('f_colonia');
-  if(val('colonia_cve') && val('colonia_alcaldia') !== val('alcaldia_dir')){
-    guarda('colonia',''); guarda('colonia_cve',''); guarda('colonia_alcaldia','');
-    if(inp) inp.value = '';
+function cambiaAlcaldiaDir(k){
+  k = k || 'colonia'; var d = comboCol(k);
+  var inp = $('f_'+k);
+  if(d.lugar){
+    if(val('colonia_cve') && val('colonia_alcaldia') !== val('alcaldia_dir')){
+      guarda('colonia',''); guarda('colonia_cve',''); guarda('colonia_alcaldia','');
+      if(inp) inp.value = '';
+    }
+  } else if(val(k)){
+    /* En el domicilio la colonia solo se escribe despues de elegir alcaldia:
+       si la alcaldia cambia, la colonia era de la otra. */
+    guarda(k, ''); if(inp) inp.value = '';
   }
   if(inp){
-    inp.disabled = !val('alcaldia_dir');
+    inp.disabled = !val(d.alc);
     if(inp.disabled) inp.setAttribute('placeholder','Primero elige la alcaldía'); else inp.removeAttribute('placeholder');
   }
-  cierraColonias();
-  actualizaAvisoAlcaldia();
-  buscaDireccionSola();
+  cierraColonias(k);
+  if(d.lugar){ actualizaAvisoAlcaldia(); buscaDireccionSola(); }
 }
 
 /* =========================================================
@@ -3176,22 +3228,25 @@ function campoSiNo(k,etq,ayuda,accion){
    reiniciaria el mapa (DEC-75). Con «No», lo que se hubiera escrito se
    suelta: no puede viajar al expediente un dato de una rama que ya no se
    ve (DEC-100). */
-function camposMzLote(){
-  return val('tiene_mz_lote') === 'si'
+function camposMzLote(p){
+  p = p || '';
+  return val(p+'tiene_mz_lote') === 'si'
     ? '<div class="fila">'+
-        campo('manzana','Manzana','texto',false,'')+
-        campo('lote','Lote','texto',false,'')+
+        campo(p+'manzana','Manzana','texto',false,'')+
+        campo(p+'lote','Lote','texto',false,'')+
       '</div>'
     : '';
 }
-function actualizaMzLote(){
-  if(val('tiene_mz_lote') !== 'si'){ guarda('manzana',''); guarda('lote',''); }
-  var c = $('c_tiene_mz_lote');
+/* p es el prefijo: '' para el lugar, 'dom_' para el domicilio (DEC-135). */
+function actualizaMzLote(p){
+  p = p || '';
+  if(val(p+'tiene_mz_lote') !== 'si'){ guarda(p+'manzana',''); guarda(p+'lote',''); }
+  var c = $('c_'+p+'tiene_mz_lote');
   if(c) c.querySelectorAll('.btn-sn').forEach(function(b, i){
-    b.setAttribute('aria-pressed', (i === 0) === (val('tiene_mz_lote') === 'si') && !!val('tiene_mz_lote') ? 'true' : 'false');
+    b.setAttribute('aria-pressed', (i === 0) === (val(p+'tiene_mz_lote') === 'si') && !!val(p+'tiene_mz_lote') ? 'true' : 'false');
   });
-  var m = $('mzLote'); if(m) m.innerHTML = camposMzLote();
-  if(val('tiene_mz_lote') === 'si' && $('f_manzana')) $('f_manzana').focus();
+  var m = $(p+'mzLote'); if(m) m.innerHTML = camposMzLote(p);
+  if(val(p+'tiene_mz_lote') === 'si' && $('f_'+p+'manzana')) $('f_'+p+'manzana').focus();
 }
 
 /* Hora en dos controles: horas y minutos. */
@@ -3310,15 +3365,15 @@ var CAMPOS_DIRECCION = ['calle','num_ext','colonia','cp'];
 var FORMATO = {
   /* El lugar esta en la Ciudad —fuera de ella la denuncia no avanza—, de modo
      que su codigo postal tiene que ser de la Ciudad: del 01000 al 16999. El
-     del domicilio de la persona no, porque puede vivir en otra entidad. */
+     del domicilio de la persona tambien: se pide en la Ciudad (DEC-135). */
   cp:       {re:/^(0[1-9]|1[0-6])\d{3}$/, msg:function(v){ return /^\d{5}$/.test(v)
                ? 'Ese código postal no es de la Ciudad de México: los de la Ciudad van del 01000 al 16999.'
                : 'El código postal va a cinco dígitos.'; }},
-  dom_cp:   {re:/^\d{5}$/, msg:'El código postal va a cinco dígitos.'},
   telefono: {re:/^\d{10}$/, limpia:function(v){ return v.replace(/\D/g,''); },
              msg:'El teléfono va a diez dígitos, con la clave de la Ciudad.'},
   correo:   {re:/^[^\s@]+@[^\s@]+\.[^\s@]+$/, msg:'Revisa el correo: le falta la arroba o el dominio.'}
-};
+};FORMATO.dom_cp = FORMATO.cp;
+
 
 /* Vacio no es mal formato: eso lo ve la obligatoriedad, que es otra cosa. */
 function formatoMal(k){
