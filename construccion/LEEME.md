@@ -35,7 +35,7 @@ python3 construccion/generar_doc10.py      # rehace el documento 10 desde las ra
 python3 construccion/publicar_pages.py     # rehace docs/index.html para GitHub Pages
 ```
 
-Las pruebas necesitan Playwright y un Chromium; la ruta al navegador se pasa en la variable `CHROMIUM` si no es la predeterminada. La batería 20 genera sus imágenes de prueba con `Pillow` y `numpy`, en una carpeta temporal.
+Las pruebas necesitan Playwright y un Chromium; la ruta al navegador se pasa en la variable `CHROMIUM` si no es la predeterminada. La batería 26 simula el Apps Script de `revision/Codigo.gs` con Node.js; sin Node, esa parte se omite con una nota. La batería 20 genera sus imágenes de prueba con `Pillow` y `numpy`, en una carpeta temporal.
 
 ## Dos reglas que costaron caro aprender
 

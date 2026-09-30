@@ -157,6 +157,9 @@ Este documento concentra las decisiones ya tomadas y **las veintidós preguntas 
 | DEC-149 | **El aviso de privacidad conserva sus ocho apartados, cada uno «por desarrollar»** | 30 sep 2026 | Corrige DEC-138, que entendió mal la instrucción: Liber Saltijeral no pidió quitar apartados sino dejar el aviso sin texto mientras se redacta. Vuelven los ocho títulos —quién trata tus datos, para qué se usan, con qué fundamento, cuánto tiempo se conservan, a quién pueden transferirse, confidencialidad, cómo ejerces tus derechos y aviso integral—, cada uno con el letrero amarillo «Por desarrollar» en lugar de su texto; también en el pie. Mientras tanto, el aviso ya no dice que de las fotografías se conservan fecha y lugar de captura (DEC-121): lo dirá el texto definitivo. **Modifica DEC-138.** Pruebas 06 y 20 ajustadas |
 | DEC-150 | **Se documenta la nomenclatura de folios** | 30 sep 2026 | Por solicitud de Liber Saltijeral: no había documento de folios, sólo el supuesto del prototipo (RN-27) y la pregunta P-13. El documento 19 propone el folio sin área —porque el turnado puede cambiar y el folio no—, con consecutivo único por año, carácter verificador y una clave de consulta aleatoria para AD-02; resuelve los casos de presentación en persona, remisión, derivación, duplicados y límite de envíos. Queda como propuesta de P-13: el prototipo no cambia hasta que se apruebe |
 | DEC-151 | **Se aprueba la nomenclatura de folios del documento 19** | 30 sep 2026 | Por aprobación de Liber Saltijeral. El folio pasa a `SEDEMA/DEN/AAAA/NNNNNN-V` —`SEDEMA/DEN/2026/000123-3`—: **sin segmento de área**, porque el turnado puede cambiar y el folio no; consecutivo único para la Secretaría, de seis dígitos, que reinicia cada año; y un **carácter verificador** Luhn sobre año y consecutivo, que permite rechazar al consultar un folio con un dígito cambiado. Se añade la **clave de consulta**: ocho caracteres aleatorios en dos grupos (`K7PM-4XQ2`), sin 0, O, 1, I ni L; la pantalla final y el acuse en PDF la muestran junto al folio y advierten que no puede reponerse. En el SIA ambos los emite el servidor al guardar y de la clave se guarda sólo la huella; en el prototipo son simulados. El área que atiende sigue en el expediente (`dg`) y en el acuse. Nuevo dato `clave_consulta`. P-13 queda resuelta. **Modifica DEC-100 y DEC-123** en lo que tocaba al folio. Pruebas 14, 22 y 25 ajustadas |
+| DEC-152 | **Signos de interrogación en los rótulos que son pregunta** | 30 sep 2026 | Por instrucción de Liber Saltijeral, que señaló dos en la portada: «¿Por qué importa que denuncies?» y «¿Qué necesitas?». Se revisaron todos los rótulos y se corrigieron los demás que también preguntan: «¿Qué sigue?» en la pantalla final y en el acuse en PDF, «¿Qué puedes hacer?» en la pantalla del límite de envíos y «¿Quién lo está haciendo?» en el paso 3. Se dejan sin signos los nombres de la barra de pasos («Qué denuncias», «Dónde ocurrió»…), que son etiquetas de navegación, y los rótulos que enuncian y no preguntan («Cómo identificar el sitio», «Dónde dar seguimiento») |
+| DEC-153 | **Modo revisión: la DGIVA deja sus observaciones sobre el formulario en una hoja de Google** | 30 sep 2026 | Por aprobación de Liber Saltijeral, para recoger la retroalimentación de la Dirección General antes del acta de validación. Una liga de la versión publicada con `?revision=CLAVE` muestra el botón «✎ Observar»: quien revisa **señala** un elemento con el ratón o el dedo, o selecciona un texto, elige el tipo —corregir redacción, quitar, agregar, error o falla, duda u otro— y escribe su observación y, si quiere, cómo debería decir. Cada observación registra la pantalla, la sección, el texto señalado y la versión del formulario, y se guarda en una **hoja de Google** por medio de un Apps Script (`revision/Codigo.gs`, instalación en `revision/LEEME.md`). La hoja numera `OBS-0001`, lleva Estado, Respuesta y «Atendida en», y quien revisa ve el estado y la respuesta en «Mis observaciones». **Cada persona tiene su clave**, que la hoja genera y puede desactivar; la hoja sólo acepta claves activas, no duplica un reintento y neutraliza textos que empiezan como fórmula. Sin la hoja conectada, o sin red, lo capturado se queda en el navegador y se descarga en CSV. Sin la clave en la liga, el formulario se ve igual que siempre. **No guarda nada de lo capturado en el formulario.** Prueba 26 (46 comprobaciones, incluida una simulación del Apps Script) |
+| DEC-154 | **Se incorpora al alcance la captura por personal (AD-03)** | 30 sep 2026 | Por indicación de Liber Saltijeral: el personal de la DGIVA debe poder registrar en el mismo sistema las denuncias que recibe por Oficialía de Partes, teléfono o correo. Se abre AD-03 en la Parte V y se ordena en la fase 5 **antes** de la bandeja y el tablero (documento 11): el 27.7 % de los registros históricos parece venir de servidores públicos que turnan denuncias captadas por otra vía (documento 17), de modo que un tablero sólo con el canal en línea mediría una fracción de la demanda. Los campos de canal y origen entran desde el contrato de datos de la fase 2 (D-19, B-06). Abre las preguntas CP-1 a CP-5 |
 
 ---
 
@@ -568,7 +571,7 @@ Esas condiciones son las que evitan la falsificación de petición del lado del 
 5. Solicitar a la Agencia Digital de Innovación Pública el catálogo de colonias y códigos postales (P-16).
 6. Construir la versión funcional y el tablero de seguimiento.
 7. Prueba controlada con un grupo reducido antes de la publicación abierta.
-8. Desarrollar el módulo de administración y seguimiento interno (AD-01) y, sobre él, el seguimiento ciudadano por folio (AD-02).
+8. Desarrollar la captura por personal (AD-03) y el módulo de administración y seguimiento interno (AD-01) y, sobre él, el seguimiento ciudadano por folio (AD-02).
 
 
 ---
@@ -634,6 +637,40 @@ AD-01 resuelve el seguimiento **interno** —la bandeja con la que el personal a
 4. Criterio de la Unidad de Transparencia sobre qué información del expediente puede mostrarse a la persona denunciante y por cuánto tiempo se conserva la consulta.
 
 **Riesgo si no se desarrolla.** Un canal que recibe denuncias y no informa su curso genera desconfianza, duplica expedientes y traslada la carga de seguimiento a la atención telefónica y a la Unidad de Transparencia. El formulario ya ofrece «seguir aportando información y documentos»: sin AD-02 esa oferta no puede cumplirse.
+
+### AD-03. Captura de denuncias por el personal
+
+**Estado: pendiente, incorporado por DEC-154. Se construye como primera parte de la fase 5, antes de la bandeja y el tablero de AD-01.**
+
+Modo del mismo formulario para que el personal de la Dirección General de Inspección y Vigilancia Ambiental registre las denuncias que **no llegan en línea**: escritos por Oficialía de Partes, llamadas, correos y comparecencias. Sin él, el sistema convive con la base en hoja de cálculo y el tablero mide sólo una parte de la demanda.
+
+**Por qué va antes del tablero.** La base histórica sugiere que más de una cuarta parte de los registros la turnan servidores públicos que la recibieron por otra vía (documento 17, PB-04). Un tablero alimentado sólo por el canal en línea subestimaría la demanda y la compararía mal con la serie histórica. Y es el módulo más barato: reutiliza pasos, catálogos, cruce espacial y folio del formulario ya validado.
+
+**Qué cambia respecto del formulario ciudadano**
+
+| Aspecto | Formulario en línea | Captura por personal |
+|---|---|---|
+| Acceso | Público | Cuenta institucional con perfil «captura» (el de AD-01) |
+| Primer paso | Elección del medio | **Canal** (Oficialía de Partes, teléfono, correo, comparecencia), **fecha y hora de recepción original**, número de volante o folio de origen (B-06) y quién recibió |
+| Soporte | Fotografías opcionales | **El escrito escaneado, el correo en PDF o la nota de la llamada**, obligatorio según el canal |
+| Datos de quien denuncia | Los escribe la persona; correo obligatorio en la anónima | Se transcriben como vienen; **puede faltar el correo o el domicilio** y se marca «no proporcionado» |
+| Ubicación | La persona marca el punto o da la dirección | Quien captura ubica con la dirección del escrito; mismo cruce y mismo turnado |
+| Controles contra el abuso | Verificación y límite de envíos | No aplican; los sustituye la bitácora de quién capturó y cuándo |
+| Folio | Serie `SEDEMA/DEN/AAAA/NNNNNN-V` | **La misma serie** (documento 19); el canal es dato del expediente |
+| Acuse y clave de consulta | La persona los descarga | Se imprimen o se envían por el mismo medio por el que llegó la denuncia |
+| Duplicados | — | Al guardar, aviso de denuncias cercanas en lugar y fecha (P-21, control 4), porque el mismo hecho puede llegar por dos vías |
+
+**Datos nuevos que deben estar en el contrato de la fase 2:** `canal`, `origen` (ciudadana directa, turno de otra autoridad, oficio, medio de comunicación: D-19), `fecha_recepcion_original`, `folio_origen`, `recibio`, `capturo`, `fecha_captura` y el archivo de soporte.
+
+**Preguntas que abre**
+
+- **CP-1.** ¿Qué fecha cuenta para los plazos: el sello de Oficialía de Partes o la captura? *Recomendación:* la de recepción original; la de captura sólo mide el rezago interno.
+- **CP-2.** ¿Quién captura: la Oficialía de Partes, la Jefatura de Unidad Departamental de Seguimiento a Denuncias o cada coordinación?
+- **CP-3.** ¿Cómo se entrega el folio y la clave de consulta a quien denunció por teléfono o por escrito sin correo?
+- **CP-4.** ¿La DGCORENADR captura en el mismo módulo lo que recibe por su canal propio? (PB-14)
+- **CP-5.** ¿Se capturan las denuncias anteriores o se migra la base histórica? *Recomendación:* migrar, no recapturar; la captura empieza el día que se publique el formulario.
+
+**Prototipo.** Conviene validarlo con la Dirección General como una variante del prototipo actual —un interruptor «modo captura» en el panel de validación— antes de escribir el contrato de la fase 2: así el canal y los campos nuevos quedan acordados con el mismo método que el formulario ciudadano.
 
 ---
 

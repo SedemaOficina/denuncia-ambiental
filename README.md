@@ -13,6 +13,7 @@ Esta carpeta está vinculada al proyecto **Denuncias Ambientales** en Claude: lo
 | `capas/` | Capas del Sistema de Información Ambiental usadas por el formulario: alcaldías, Áreas de Valor Ambiental y Áreas Naturales Protegidas, suelo de conservación y, en `originales/`, colonias del IECM 2022 y la malla UGA. |
 | `construccion/` | Lo que genera la versión en línea, la de GitHub Pages y los documentos 09 y 10, y las baterías de prueba. Ver su `LEEME.md`. |
 | `docs/` | La versión de prueba que publica GitHub Pages. Se genera; no se edita a mano. |
+| `revision/` | Apps Script de la hoja de observaciones del modo revisión (`?revision=CLAVE`) y su instalación paso a paso (DEC-153). |
 | `insumos/` | Formato público vigente, propuesta de la Dirección General de Inspección y Vigilancia Ambiental y Ley Ambiental de la Ciudad de México. |
 
 ## Cómo usar el prototipo en una sesión de validación

@@ -31,7 +31,7 @@ El canal vigente presenta cinco deficiencias que el formulario corrige:
 | Filtro previo de competencia y derivación | Sustanciación del procedimiento administrativo de inspección |
 | Georreferenciación y determinación automática del área competente | Notificación electrónica: no hay servicio de envío de correos (DEC-134) |
 | Carga de elementos probatorios | Consulta pública del estado del expediente (etapa 3) |
-| Folio y acuse en PDF que la persona descarga | Módulo de administración y seguimiento (etapa 2, diferida) |
+| Folio y acuse en PDF que la persona descarga | Captura por personal y módulo de administración y seguimiento (etapa 2, diferida) |
 | | Interoperabilidad con la PAOT o el INVEA (etapa 3) |
 
 ## 4. Actores
@@ -46,9 +46,9 @@ El canal vigente presenta cinco deficiencias que el formulario corrige:
 
 Tres etapas, en el orden que fijó la Oficina de la Secretaría. El documento 11 las desglosa en fases con criterio de salida.
 
-**Etapa 1 — Validar el formulario (en curso).** Prototipo navegable, sin servidor, con las capas del Sistema de Información Ambiental embebidas y una versión de prueba en GitHub Pages. Cierra con el acta de validación de la Dirección General de Inspección y Vigilancia Ambiental y la resolución de P-01 y P-02.
+**Etapa 1 — Validar el formulario (en curso).** Prototipo navegable, sin servidor, con las capas del Sistema de Información Ambiental embebidas y una versión de prueba en GitHub Pages. La Dirección General deja sus observaciones con el modo revisión (DEC-153). Cierra con el acta de validación de la Dirección General de Inspección y Vigilancia Ambiental y la resolución de P-01 y P-02.
 
-**Etapa 2 — Módulo de acceso de la Secretaría.** Entrada protegida para el personal, con cuentas institucionales, bandeja de denuncias y tablero de indicadores, sobre la misma base que el formulario (AD-01). Se construye sobre el modelo de datos validado en la etapa 1.
+**Etapa 2 — Módulo de acceso de la Secretaría.** Entrada protegida para el personal, con cuentas institucionales. Primero, **la captura por personal** de las denuncias que llegan por Oficialía de Partes, teléfono o correo (AD-03, DEC-154); después, bandeja de denuncias, buscadores y tablero de indicadores, sobre la misma base que el formulario (AD-01). Se construye sobre el modelo de datos validado en la etapa 1.
 
 **Etapa 3 — Implementación en el SIA.** El servidor del Sistema de Información Ambiental recibe y guarda la denuncia, emite el folio, resuelve el cruce espacial contra las capas completas, la geocodificación y los controles contra el envío masivo, y sostiene la consulta ciudadana por folio (AD-02). El detalle está en el documento «Qué resuelve el servidor del SIA».
 

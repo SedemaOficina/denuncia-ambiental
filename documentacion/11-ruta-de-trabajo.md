@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Ruta de trabajo y convenciones de código
 
-**Versión:** 1.5 · 30 de septiembre de 2026
+**Versión:** 1.6 · 30 de septiembre de 2026
 **Para qué sirve este documento.** Fija el orden en que se construye el sistema, el criterio para dar por terminada cada fase y las reglas de código que se aplican desde la maqueta. Es el documento que se consulta antes de abrir cualquier módulo nuevo.
 
 ---
@@ -31,6 +31,7 @@ Prototipo navegable, sin servidor, con los datos y las capas embebidos.
 4. Auditorías de estilo, heurística y accesibilidad aplicadas y sin hallazgos abiertos de severidad alta.
 5. **Acta de validación de la Dirección General de Inspección y Vigilancia Ambiental**, sobre una versión identificada del prototipo.
 6. Pendientes jurídicos P-01 y P-02 resueltos: sin naturaleza del canal ni aviso de privacidad no hay publicación posible.
+7. Observaciones de la hoja de revisión (DEC-153) con estado «Atendida» o «Descartada» y su respuesta; ninguna «Pendiente».
 
 ### Fase 2 · Contrato de datos y servicios
 
@@ -62,6 +63,7 @@ Se congela lo validado y se traduce a especificación técnica, **antes de escri
 - Catálogos como tablas: materias, tipos de establecimiento, tipos de denunciado, supuestos de derivación, estados del expediente.
 - Contrato de la interfaz: qué recibe y qué devuelve cada operación —alta de denuncia, consulta de estatus, carga de evidencia, cruce espacial, geocodificación—.
 - Modelo entidad-relación y política de conservación y supresión de datos personales.
+- Campos de canal y origen para la captura por personal (AD-03, DEC-154): canal, origen, fecha de recepción original, folio de origen, quién recibió, quién capturó y soporte.
 
 **Criterio de salida.** El contrato reproduce exactamente el comportamiento del prototipo validado. Si al escribirlo aparece un caso que el prototipo no resuelve, se corrige el prototipo primero y se vuelve a validar esa parte, nunca al revés.
 
@@ -81,9 +83,15 @@ Persistencia, folio con consecutivo administrado, carga real de archivos y acuse
 
 **Criterio de salida.** Prueba controlada con un grupo reducido de personas usuarias reales y con personal de la Dirección General, antes de la publicación abierta.
 
-### Fase 5 · Módulo de administración y seguimiento interno (AD-01)
+### Fase 5 · Módulo interno: captura por personal (AD-03) y seguimiento (AD-01)
 
-Bandeja, detalle, estados, asignación, indicadores y exportación.
+En este orden (DEC-154):
+
+1. **Captura por personal (AD-03).** El mismo formulario, con cuenta institucional, para registrar lo que llega por Oficialía de Partes, teléfono, correo o comparecencia. Va primero porque sin él el tablero mide sólo el canal en línea.
+2. **Bandeja y detalle (AD-01).** Estados, asignación y turnado.
+3. **Tablero, buscadores y exportación (AD-01).** Con todos los canales ya en la base.
+
+**Criterio de salida.** Una semana de operación en la que todo lo recibido por cualquier canal está en el sistema y el tablero lo distingue por canal.
 
 ### Fase 6 · Seguimiento ciudadano (AD-02)
 

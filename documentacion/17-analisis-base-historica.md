@@ -274,7 +274,7 @@ La base carece de fecha de recepción, fecha de los hechos, folio, estatus, fech
 | D-16 | Conservar las conductas de suelo de conservación en el catálogo | 1 | **Aplicada** como acuerdo de no retirarlas: anotada en el código junto a la estructura que las ordena, y sujeta por una comprobación |
 | D-17 | Folio único con segmento de área | Modelo | **Resuelta de otro modo** en DEC-151: consecutivo único, sin segmento de área |
 | D-18 | Indicador de captación en suelo de conservación | Tablero | Espera · fase 5 |
-| D-19 | Campo de origen de la denuncia | Modelo | Espera · PB-04 |
+| D-19 | Campo de origen de la denuncia | Modelo | **Incorporada** al contrato de la fase 2 con la captura por personal (AD-03, DEC-154) |
 | D-20 | Devolver folio, fechas, unidad, estatus y resolución | Modelo | Espera · PB-03 |
 
 ---

@@ -85,7 +85,7 @@ cambia(
 
 # 6. Sustituir la implementación del mapa
 mapa = open(MAPA, encoding='utf-8').read()
-cambia('\nrender();\n</script>', '\n' + mapa + '\nrender();\n</script>', 'mapa vectorial')
+cambia('\nrender();\niniciaRevision();\n</script>', '\n' + mapa + '\nrender();\niniciaRevision();\n</script>', 'mapa vectorial')
 
 open(DESTINO, 'w', encoding='utf-8').write(s)
 print('artefacto:', round(len(s)/1024,1), 'KB')
