@@ -10,7 +10,7 @@
    hacía nada. Todo eso convivía con 343 comprobaciones en verde.
 
    Esta batería mira lo que la persona ve y lo que la persona pulsa."""
-import os, pathlib, sys
+import os, pathlib, sys, re
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
 RAIZ = AQUI.parent
 RUTA = pathlib.Path(os.environ.get('ARTEFACTO', RAIZ / 'artefacto.html'))
@@ -230,16 +230,34 @@ with sync_playwright() as pw:
            'que no sobrevive al cambio de rama de responsable: %r' % sobra['despues'])
     afirma(sobra['enResumen'] == 0, 'ni reaparece en la revisión (%d veces)' % sobra['enResumen'])
 
-    # ---- 10. El folio nombra al área que atiende ----
-    fol = {}
-    for esc_id, esperado in [('urbano','DGIVA'), ('conservacion','DGCORENADR'), ('anp_federal','REM')]:
+    # ---- 10. El folio sigue el documento 19 (DEC-151) ----
+    def luhn(num):
+        t = 0
+        for i, c in enumerate(reversed(num)):
+            x = int(c)
+            if i % 2 == 0:
+                x *= 2
+                if x > 9: x -= 9
+            t += x
+        return (10 - t % 10) % 10
+    afirma(pg.evaluate("() => digitoLuhn('2026000123')") == 3, 'el carácter verificador del ejemplo del documento 19 es 3')
+    claves = set()
+    for esc_id in ('urbano', 'conservacion', 'anp_federal'):
         r = pg.evaluate("""(id) => { cargaEscenario(id); guarda('verificacion','si');
           cfg.limite = false; irA(6); enviar();
-          return {folio: val('folio'), dg: val('dg')}; }""", esc_id)
+          return {folio: val('folio'), clave: val('clave_consulta'),
+                  pantalla: document.getElementById('app').innerText}; }""", esc_id)
         pg.wait_for_timeout(300)
-        fol[esc_id] = r
-        afirma(('/'+esperado+'/') in (r['folio'] or ''),
-               '%s: el folio nombra al área que atiende (%s)' % (esc_id, r['folio']))
+        m = re.match(r'^SEDEMA/DEN/(\d{4})/(\d{6})-(\d)$', r['folio'] or '')
+        afirma(m is not None, '%s: folio SEDEMA/DEN/año/consecutivo-verificador, sin área (%s)' % (esc_id, r['folio']))
+        if m:
+            afirma(int(m.group(3)) == luhn(m.group(1) + m.group(2)), '%s: el carácter verificador cuadra' % esc_id)
+        afirma(re.match(r'^[A-HJKMNP-Z2-9]{4}-[A-HJKMNP-Z2-9]{4}$', r['clave'] or '') is not None,
+               '%s: clave de consulta de 8 caracteres sin 0, O, 1, I ni L (%s)' % (esc_id, r['clave']))
+        afirma(r['clave'] in r['pantalla'] and 'no puede reponerse' in r['pantalla'],
+               '%s: la pantalla final muestra la clave y advierte que no se repone' % esc_id)
+        claves.add(r['clave'])
+    afirma(len(claves) == 3, 'cada envío genera una clave distinta')
 
     # ---- 11. El acuse federal no promete plazos de la Secretaría ----
     ac = pg.evaluate("""() => { cargaEscenario('anp_federal'); guarda('verificacion','si');

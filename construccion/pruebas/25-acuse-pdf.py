@@ -54,6 +54,9 @@ with sync_playwright() as pw:
         txt = subprocess.run(['pdftotext', '-layout', str(ruta), '-'], capture_output=True, text=True).stdout
         folio = pg.evaluate("() => val('folio')")
         afirma(folio in txt, '%s: lleva el folio %s' % (esc, folio))
+        clave = pg.evaluate("() => val('clave_consulta')")
+        afirma(clave and clave in txt and 'Clave de consulta' in txt and 'No puede reponerse' in txt,
+               '%s: lleva la clave de consulta %s (DEC-151)' % (esc, clave))
         afirma('ACUSE DE RECEPCIÓN' in txt and 'Recibida el' in txt, '%s: título y fecha de recepción' % esc)
         afirma('SECRETARÍA DEL MEDIO AMBIENTE' in txt, '%s: membrete con acentos correctos' % esc)
         afirma('Página 1 de' in txt, '%s: numeración de páginas' % esc)

@@ -43,8 +43,9 @@ En el prototipo el cruce espacial y el folio los resuelve el navegador; en opera
 
 ## 4. Folio y acuse
 
-- **Folio.** `SEDEMA/<área>/DEN/<año>/<consecutivo de seis dígitos>`. El segmento de área es `DGIVA`, `DGCORENADR` o `REM` (remitida a una autoridad federal); sin punto en el mapa se omite hasta que se ubique el lugar (DEC-100, DEC-123). La estructura definitiva y el consecutivo están en P-13.
-- **Acuse.** PDF que la persona descarga al terminar: no se envía por correo (DEC-134, DEC-139). Lleva el folio, la fecha de recepción, todo lo revisado y las huellas de las fotografías.
+- **Folio.** `SEDEMA/DEN/AAAA/NNNNNN-V`: año de recepción, consecutivo único de seis dígitos y carácter verificador. No lleva el área: la que atiende es el dato `dg` del expediente (DEC-151, documento 19).
+- **Clave de consulta** (`clave_consulta`). Ocho caracteres aleatorios, `XXXX-XXXX`, sin 0, O, 1, I ni L. Con el folio, abre la consulta ciudadana (AD-02). El servidor guarda sólo su huella; no puede reponerse.
+- **Acuse.** PDF que la persona descarga al terminar: no se envía por correo (DEC-134, DEC-139). Lleva el folio, la clave de consulta, la fecha de recepción, todo lo revisado y las huellas de las fotografías.
 
 ## 5. Capas geográficas
 

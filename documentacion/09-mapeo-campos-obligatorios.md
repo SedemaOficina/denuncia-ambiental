@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-150 · 30 de septiembre de 2026
+**Versión:** DEC-151 · 30 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -9,7 +9,7 @@
 |---|---|
 | Campos que llena la persona | **61** |
 | Datos que viajan a la base sin verse en pantalla | **13** |
-| Datos que calcula el formulario y se muestran | 14 |
+| Datos que calcula el formulario y se muestran | 15 |
 | Datos personales | **24** (39 %) |
 | Obligatorios en este formulario | 26 de 61 |
 | Campos con obligatoriedad condicionada | 25 |
@@ -25,7 +25,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 |---|---|---|
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 17 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 17 |
-| **Expediente** | Integrar el expediente y motivar el acto de inspección | 19 |
+| **Expediente** | Integrar el expediente y motivar el acto de inspección | 20 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 18 |
@@ -142,7 +142,7 @@ Los calcula el formulario: la persona no los escribe ni los ve, pero llegan al e
 | Origen de la ubicación | `ubicacion_origen` | Lo pone el formulario al enviar, «punto» si la persona lo marcó o «dirección» si la Secretaría debe ubicar el lugar | No | Separa las denuncias que llegan con punto de las que hay que ubicar con la dirección antes de turnarlas; alimenta la bandeja «por ubicar» del módulo interno (DEC-123). |
 | Clave de la colonia (IECM) | `colonia_cve` | La pone el catálogo cuando la persona elige su colonia de la lista | No | Clave CVEUT de la unidad territorial del IECM 2022. Agrupa las denuncias por colonia sin depender de cómo se escribió el nombre. Queda vacía cuando la persona escribe una colonia que no está en el catálogo: el nombre se conserva igual (DEC-117). |
 | Celda UGA | `uga` | La asigna el punto del mapa | No | Celda de la malla hexagonal del Sistema de Información Ambiental (~1 km²) en la que cae el punto. No se muestra a la persona: queda en el expediente para la programación de operativos y la estadística territorial. Es provisional: el servidor la vuelve a derivar con la capa completa y guarda la versión de la malla (DEC-117). |
-| Clave del área que atiende | `dg` | Regla de turnado, a partir del tipo de zona | No | DGIVA, DGCORENADR o FEDERAL: enruta la denuncia en el módulo interno y arma el folio. |
+| Clave del área que atiende | `dg` | Regla de turnado, a partir del tipo de zona | No | DGIVA, DGCORENADR o FEDERAL: enruta la denuncia en el módulo interno. No forma parte del folio (DEC-151). |
 | ANP federal coadministrada | `coadmin` | Catálogo del convenio CONANP-CDMX | No | Marca si la Secretaría coadministra el ANP federal del punto; cambia el texto del turnado. |
 | Versión de la malla UGA | `uga_version` | Catálogo UGA incrustado | No | Con qué versión de la malla se asignó la celda; el servidor la vuelve a derivar con la más reciente. |
 
@@ -177,7 +177,8 @@ Tampoco los escribe la persona: se le enseñan en la ficha del mapa, en la revis
 | Razón del turnado | `dg_razon` | Regla de turnado | No | Explica por qué la atiende otra autoridad cuando el punto cae en un Área Natural Protegida federal. |
 | Área protegida local concurrente | `concurrencia` | Cruce del punto con las capas del SIA | No | Cuando el punto cae a la vez en un ANP federal y en una local: abre la vía de intervención local. |
 | Punto fuera de la Ciudad | `fuera` | Cruce del punto con el límite de la Ciudad | No | Detiene la denuncia: la Secretaría sólo atiende hechos dentro de la Ciudad. |
-| Folio | `folio` | El sistema, al enviar | No | Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento. |
+| Folio | `folio` | El sistema, al enviar | No | Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento. No lleva el área: SEDEMA/DEN/año/consecutivo-verificador (documento 19). |
+| Clave de consulta | `clave_consulta` | El sistema, al enviar | No | Con el folio, permite consultar la denuncia. Se entrega una sola vez; el servidor guarda sólo su huella y no puede reponerse. |
 | Fecha y hora de recepción | `fecha_acuse` | El sistema, al enviar | No | Fecha y hora en que la denuncia entra al expediente. |
 
 **Por cada foto adjunta**

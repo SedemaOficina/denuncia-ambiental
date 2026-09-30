@@ -124,7 +124,7 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 ## E. Acuse y seguimiento
 
-**RN-27.** Al enviarse, la denuncia recibe folio con la estructura `SEDEMA/<área>/DEN/AAAA/NNNNNN`, donde el área es la que determina el punto; sin punto, el folio no lleva segmento de área (DEC-100, DEC-123). **[pendiente]** Estructura definitiva y consecutivo (P-13).
+**RN-27.** Al enviarse, la denuncia recibe folio `SEDEMA/DEN/AAAA/NNNNNN-V`: dependencia, tipo de expediente, año de recepción, consecutivo único de seis dígitos que reinicia cada año y carácter verificador Luhn sobre año y consecutivo. **El folio no lleva el área que atiende**: el turnado puede cambiar y el área va en el expediente. Junto con el folio se entrega una **clave de consulta** de ocho caracteres, que no puede reponerse. Ambos los emite sólo el servidor al guardar; sin guardado no hay folio. Detalle en el documento 19 (DEC-151).
 
 **RN-28.** No hay envío de correos. El folio se entrega en pantalla y la persona descarga su acuse en PDF, con el folio, la fecha de recepción y todo lo que capturó (DEC-134, DEC-139).
 

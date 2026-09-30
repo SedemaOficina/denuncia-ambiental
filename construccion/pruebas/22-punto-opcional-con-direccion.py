@@ -9,8 +9,8 @@
    2. Sin dirección, el punto sigue siendo obligatorio.
    3. El bloque del mapa ya no menciona la alcaldía (va arriba, en la
       dirección) y dice que basta la dirección.
-   4. La revisión, el aviso de envío y el folio no nombran un área que
-      nadie ha determinado.
+   4. La revisión y el aviso de envío no nombran un área que nadie ha
+      determinado; el folio nunca lleva área (DEC-151).
    5. El expediente dice de dónde salió la ubicación."""
 import os, pathlib, sys, re
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
@@ -64,7 +64,7 @@ with sync_playwright() as pw:
            'el aviso de envío no nombra un área: «%s»' % rv['envio'][:90])
     pg.evaluate("() => { guarda('verificacion','si'); enviar(); }"); pg.wait_for_timeout(300)
     f = pg.evaluate("() => ({folio: val('folio'), origen: val('ubicacion_origen')})")
-    afirma(re.match(r'^SEDEMA/DEN/2026/\d{6}$', f['folio'] or '') is not None, 'el folio no lleva área: %s' % f['folio'])
+    afirma(re.match(r'^SEDEMA/DEN/\d{4}/\d{6}-\d$', f['folio'] or '') is not None, 'el folio no lleva área: %s' % f['folio'])
     afirma(f['origen'] == 'direccion', 'y el expediente registra que la ubicación sale de la dirección')
 
     # ---- con punto: como antes ----
@@ -72,8 +72,8 @@ with sync_playwright() as pw:
     pg.evaluate("() => { guarda('hechos','Tiran basura revuelta en la banqueta todas las noches desde hace un mes.'); guarda('identificacion','anonima'); guarda('correo','a@b.mx'); guarda('privacidad','si'); guarda('verificacion','si'); enviar(); }")
     pg.wait_for_timeout(300)
     f2 = pg.evaluate("() => ({folio: val('folio'), origen: val('ubicacion_origen')})")
-    afirma(re.match(r'^SEDEMA/(DGIVA|DGCORENADR|REM)/DEN/2026/\d{6}$', f2['folio'] or '') is not None and f2['origen'] == 'punto',
-           'con punto, el folio lleva el área y el origen es «punto» (%s)' % f2['folio'])
+    afirma(re.match(r'^SEDEMA/DEN/\d{4}/\d{6}-\d$', f2['folio'] or '') is not None and f2['origen'] == 'punto',
+           'con punto, el folio tampoco lleva área y el origen es «punto» (%s)' % f2['folio'])
 
     # ---- sin dirección: el punto sigue siendo obligatorio ----
     s = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('materia','tala'); guarda('tiene_direccion','no'); irA(2);

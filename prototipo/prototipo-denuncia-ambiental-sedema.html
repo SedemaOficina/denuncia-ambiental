@@ -590,6 +590,10 @@ details.rev-bloque .resumen{padding:14px}
 .folio{display:inline-flex;flex-wrap:wrap;justify-content:center;max-width:100%;align-items:center;gap:12px;background:var(--guinda);color:var(--blanco);font-family:ui-monospace,Menlo,monospace;font-size:var(--t-lg);letter-spacing:.06em;padding:12px 16px 12px 24px;border-radius:var(--r-ctrl);margin:14px 0;font-weight:600}
 .folio button{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.5);color:var(--blanco);font-family:'Cabin',sans-serif;font-size:var(--t-sm);font-weight:600;padding:8px 12px;border-radius:var(--r-ctrl);cursor:pointer;min-height:40px}
 .folio button:hover{background:rgba(255,255,255,.3)}
+.clave-consulta{display:flex;width:fit-content;margin-left:auto;margin-right:auto;flex-wrap:wrap;justify-content:center;align-items:center;gap:10px;max-width:100%;border:2px dashed var(--dorado);border-radius:var(--r-ctrl);padding:8px 12px 8px 18px;margin-top:6px;margin-bottom:6px;font-size:var(--t-sm);color:var(--gris)}
+.clave-consulta b{font-family:ui-monospace,Menlo,monospace;font-size:var(--t-lg);letter-spacing:.1em;color:var(--guinda)}
+@media (max-width:560px){.folio{font-size:var(--t-base);padding-left:16px}}
+.clave-consulta button{background:var(--blanco);border:1px solid var(--dorado);color:var(--texto);font-family:'Cabin',sans-serif;font-size:var(--t-sm);font-weight:600;padding:8px 12px;border-radius:var(--r-ctrl);cursor:pointer;min-height:40px}
 .acuse-pdf{margin:18px auto 4px;max-width:420px}
 .acuse-pdf .btn{width:100%}
 .acuse-pdf .nota-gris{margin:8px 0 0;text-align:center}
@@ -1239,7 +1243,7 @@ var DERIVADOS = {
   capa_nombre:    {etq:'Área identificada', origen:'Cruce del punto con las capas del SIA', fin:'Competencia', dp:false, se_ve:true, por:'denuncia',
                    uso:'Nombre del área protegida en la que cae el punto; precisa el lugar en la orden de visita.'},
   dg:             {etq:'Clave del área que atiende', origen:'Regla de turnado, a partir del tipo de zona', fin:'Competencia', dp:false, se_ve:false, por:'denuncia',
-                   uso:'DGIVA, DGCORENADR o FEDERAL: enruta la denuncia en el módulo interno y arma el folio.'},
+                   uso:'DGIVA, DGCORENADR o FEDERAL: enruta la denuncia en el módulo interno. No forma parte del folio (DEC-151).'},
   dg_nombre:      {etq:'Área que atiende', origen:'Regla de turnado', fin:'Competencia', dp:false, se_ve:true, por:'denuncia',
                    uso:'Nombre del área que atiende, como se dice en la ficha, la revisión y el acuse.'},
   dg_razon:       {etq:'Razón del turnado', origen:'Regla de turnado', fin:'Competencia', dp:false, se_ve:true, por:'denuncia',
@@ -1253,7 +1257,9 @@ var DERIVADOS = {
   uga_version:    {etq:'Versión de la malla UGA', origen:'Catálogo UGA incrustado', fin:'Estadística', dp:false, se_ve:false, por:'denuncia',
                    uso:'Con qué versión de la malla se asignó la celda; el servidor la vuelve a derivar con la más reciente.'},
   folio:          {etq:'Folio', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
-                   uso:'Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento.'},
+                   uso:'Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento. No lleva el área: SEDEMA/DEN/año/consecutivo-verificador (documento 19).'},
+  clave_consulta: {etq:'Clave de consulta', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
+                   uso:'Con el folio, permite consultar la denuncia. Se entrega una sola vez; el servidor guarda sólo su huella y no puede reponerse.'},
   fecha_acuse:    {etq:'Fecha y hora de recepción', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
                    uso:'Fecha y hora en que la denuncia entra al expediente.'},
   size_original:  {etq:'Peso original de la foto', origen:'La foto, al adjuntarla', fin:'Expediente', dp:false, se_ve:true, por:'foto',
@@ -1286,7 +1292,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-150', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-151', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2995,10 +3001,14 @@ function pAcuse(){
   return '<div class="tarjeta"><div class="acuse">'+
     '<div class="marca">'+svgIcono('check',40,'#fff')+'</div>'+
     '<h2>Tu denuncia fue recibida</h2>'+
-    '<p style="color:var(--gris)">Guarda tu folio y descarga tu acuse: no se envían por correo electrónico. Con el folio consultas el estado de tu denuncia.</p>'+
-    '<div class="folio"><span id="folioTxt" style="overflow-wrap:anywhere">'+esc(val('folio'))+'</span>'+
-      '<button type="button" onclick="copiaFolio(this)">Copiar</button></div>'+
+    '<p style="color:var(--gris)">Guarda tu folio y tu clave de consulta y descarga tu acuse: no se envían por correo electrónico. Con el folio y la clave consultas el estado de tu denuncia.</p>'+
+    '<div class="folio"><span id="folioTxt">'+esc(val('folio')).replace(/\//g,'/<wbr>')+'</span>'+
+      '<button type="button" onclick="copiaDato(this,\'folio\')">Copiar</button></div>'+
     '<p style="font-size:14px;color:var(--gris)">Recibida el '+esc(val('fecha_acuse'))+'</p>'+
+    /* La clave no puede reponerse: se dice aqui y en el PDF (DEC-151). */
+    '<div class="clave-consulta"><span>Clave de consulta</span><b id="claveTxt">'+esc(val('clave_consulta'))+'</b>'+
+      '<button type="button" onclick="copiaDato(this,\'clave_consulta\')">Copiar</button></div>'+
+    '<p class="nota-gris">Guárdala junto con el folio: no puede reponerse.</p>'+
     /* Sin correo, el acuse se lo lleva la persona (DEC-139). */
     '<div class="acuse-pdf">'+
       '<button type="button" class="btn btn-primario" onclick="descargaAcuse(this)">Descargar acuse (PDF)</button>'+
@@ -4383,21 +4393,42 @@ function enviar(){
     return false;
   }
   if(cfg.limite){ irA(8); return false; }
-  var n = Math.floor(Math.random()*899)+100;
-  /* El segmento de area sale del turnado, no estaba escrito: el mismo cruce
-     que manda el asunto a la DGCORENADR emitia un folio que decia DGIVA, y el
-     acuse se contradecia dos parrafos mas abajo. La estructura definitiva
-     esta a decision en P-13 (DEC-100). */
-  /* Sin punto no hay turnado todavia: el folio no nombra un area que nadie
-     ha determinado (DEC-123). */
   guarda('ubicacion_origen', val('lat') ? 'punto' : 'direccion');
-  var area = !val('lat') ? '' : (val('dg')==='DGCORENADR' ? 'DGCORENADR' : (val('dg')==='FEDERAL' ? 'REM' : 'DGIVA'));
-  guarda('folio','SEDEMA/'+(area ? area+'/' : '')+'DEN/2026/'+String(n).padStart(6,'0'));
+  /* Folio del documento 19 (DEC-151): sin area, porque el turnado puede
+     cambiar y el folio no; consecutivo unico por año y caracter verificador.
+     En el SIA lo emite el servidor al guardar; aqui el consecutivo es simulado. */
   var d = new Date();
+  var cons = String(Math.floor(Math.random()*899)+100).padStart(6,'0');
+  guarda('folio','SEDEMA/DEN/'+d.getFullYear()+'/'+cons+'-'+digitoLuhn(String(d.getFullYear())+cons));
+  guarda('clave_consulta', claveConsulta());
   var meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
   guarda('fecha_acuse', d.getDate()+' de '+meses[d.getMonth()]+' de '+d.getFullYear()+', '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+' horas');
   borraBorrador();
   irA(7);
+}
+
+/* Caracter verificador del folio: Luhn sobre año + consecutivo
+   (2026000123 -> 3). Detecta un digito mal escrito al consultar; no es
+   seguridad (documento 19, apartado 4). */
+function digitoLuhn(num){
+  var t = 0;
+  for(var i = 0; i < num.length; i++){
+    var x = +num.charAt(num.length - 1 - i);
+    if(i % 2 === 0){ x *= 2; if(x > 9) x -= 9; }
+    t += x;
+  }
+  return (10 - t % 10) % 10;
+}
+
+/* Clave de consulta: 8 caracteres aleatorios sin los que se confunden
+   (0, O, 1, I, L). El folio es predecible; la clave no. El servidor guarda
+   solo su huella (documento 19, apartado 5). */
+var ALFABETO_CLAVE = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+function claveConsulta(){
+  var a = new Uint32Array(8), c = '';
+  try{ crypto.getRandomValues(a); }catch(e){ for(var j = 0; j < 8; j++) a[j] = Math.floor(Math.random()*4294967296); }
+  for(var i = 0; i < 8; i++){ c += ALFABETO_CLAVE.charAt(a[i] % ALFABETO_CLAVE.length); if(i === 3) c += '-'; }
+  return c;
 }
 
 /* =========================================================
@@ -4582,12 +4613,16 @@ function construyeAcusePdf(){
     texto('Folio', M + 16, y - 6, 'F1', 9, GRIS);
     texto(val('folio') || '', M + 16, y - 28, 'F2', 18, GUINDA);
     texto('Recibida el ' + (val('fecha_acuse') || ''), M + 16, y - 48, 'F1', 9.5, TEXTO);
+    /* Clave de consulta a la derecha del recuadro (DEC-151) */
+    texto('Clave de consulta', M + AN - 16, y - 6, 'F1', 9, GRIS, 'der');
+    texto(val('clave_consulta') || '', M + AN - 16, y - 28, 'F2', 18, GUINDA, 'der');
+    texto('No puede reponerse', M + AN - 16, y - 48, 'F1', 9.5, TEXTO, 'der');
     y -= alto + 8;
     /* Con punto, el area que atiende va en «Dónde ocurre»; sin el, se dice
        que falta determinarla. */
     if(!val('lat')) parrafo('La Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.',
       M, AN, 'F1', 9.5, TEXTO, 4);
-    parrafo('Conserva este acuse y tu folio: con el folio consultas el estado de tu denuncia.',
+    parrafo('Conserva este acuse: con el folio y la clave de consulta puedes conocer el estado de tu denuncia.',
       M, AN, 'F2', 9.5, TEXTO, 6);
 
     /* La denuncia, como se reviso */
@@ -4694,8 +4729,8 @@ function descargaAcuse(b){
   });
 }
 
-function copiaFolio(b){
-  var t = val('folio');
+function copiaDato(b, k){
+  var t = val(k);
   try{
     navigator.clipboard.writeText(t).then(function(){ b.textContent='Copiado'; setTimeout(function(){ b.textContent='Copiar'; },1800); });
   }catch(e){

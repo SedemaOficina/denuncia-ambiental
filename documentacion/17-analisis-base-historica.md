@@ -215,7 +215,7 @@ Hay evidencia textual de que el segundo caso ocurre y se descubre tarde. Un asun
 
 **D-16 · Conservar en el catálogo las conductas de suelo de conservación aunque no tengan volumen aquí.** Terráceos, remoción de cubierta vegetal, agroquímicos y afectación a cuerpo de agua tienen cero o casi cero menciones en esta base. **Esa ausencia no mide la realidad, mide el canal.** El bloque de zonas de protección abierto en DEC-23 debe conservarse íntegro: retirarlo por falta de volumen sería confundir lo que no llega con lo que no ocurre.
 
-**D-17 · Folio único con segmento de área.** Alimenta P-13. El consecutivo debe ser único para la Secretaría, con un segmento que identifique la unidad que atiende, de modo que una denuncia turnada conserve su folio y la persona pueda seguirla con el mismo número aunque cambie de dirección general. Un consecutivo segmentado por área obligaría a reexpedir folio al turnar, que es la forma más segura de perder el seguimiento ciudadano prometido en AD-02.
+**D-17 · Folio único con segmento de área.** Alimenta P-13. El consecutivo debe ser único para la Secretaría, con un segmento que identifique la unidad que atiende, de modo que una denuncia turnada conserve su folio y la persona pueda seguirla con el mismo número aunque cambie de dirección general. Un consecutivo segmentado por área obligaría a reexpedir folio al turnar, que es la forma más segura de perder el seguimiento ciudadano prometido en AD-02. *Resolución (DEC-151):* se adopta el consecutivo único, pero sin segmento de área, por la misma razón: un folio que nombra al área contradice al expediente cuando se returna; el área va como dato propio (documento 19).
 
 **D-18 · Medir la captación en suelo de conservación como indicador propio.** Con línea base en esta serie: 4.3 % de las denuncias en las tres alcaldías de suelo de conservación, 0.2 % en Milpa Alta. Si el formulario funciona, esa proporción debe subir. Es el indicador que mide si el canal alcanzó a la mitad del territorio que hoy no lo usa.
 
@@ -272,7 +272,7 @@ La base carece de fecha de recepción, fecha de los hechos, folio, estatus, fech
 | D-14 | El acuse muestra el domicilio de la unidad que atiende | Acuse | Espera · P-09 |
 | D-15 | Regla escrita para hechos en dos tipos de suelo | Turnado | Espera · PB-16 |
 | D-16 | Conservar las conductas de suelo de conservación en el catálogo | 1 | **Aplicada** como acuerdo de no retirarlas: anotada en el código junto a la estructura que las ordena, y sujeta por una comprobación |
-| D-17 | Folio único con segmento de área | Modelo | Espera · P-13 y PB-18 |
+| D-17 | Folio único con segmento de área | Modelo | **Resuelta de otro modo** en DEC-151: consecutivo único, sin segmento de área |
 | D-18 | Indicador de captación en suelo de conservación | Tablero | Espera · fase 5 |
 | D-19 | Campo de origen de la denuncia | Modelo | Espera · PB-04 |
 | D-20 | Devolver folio, fechas, unidad, estatus y resolución | Modelo | Espera · PB-03 |

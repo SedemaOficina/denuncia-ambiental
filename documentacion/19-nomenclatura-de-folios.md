@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Nomenclatura de folios
 
-**Versión:** 1.0 · 30 de septiembre de 2026 · **Propuesta para resolver P-13**
+**Versión:** 1.1 · 30 de septiembre de 2026 · **Aprobada (DEC-151): resuelve P-13**
 **Para qué sirve este documento.** Fija cómo se forma, quién emite y cómo se usa el folio de una denuncia, y qué se entrega a la persona para consultarla. Hasta hoy sólo existía el supuesto del prototipo (RN-27) y la pregunta abierta P-13.
 
 ---
@@ -25,7 +25,7 @@ El área que atiende **no va en el folio**: va en el expediente, como dato propi
 
 ## 2. Por qué no llevar el área en el folio
 
-El prototipo pone el área en el folio (`SEDEMA/DGIVA/DEN/2026/…`, `SEDEMA/DGCORENADR/…`, `SEDEMA/REM/…`). Tiene tres problemas:
+Hasta DEC-151 el prototipo ponía el área en el folio (`SEDEMA/DGIVA/DEN/2026/…`, `SEDEMA/DGCORENADR/…`, `SEDEMA/REM/…`). Tenía tres problemas:
 
 1. **El turnado puede cambiar y el folio no.** Una denuncia sin punto se ubica después (DEC-123); una en ANP federal coadministrada está a consulta (P-22); cualquier área puede devolver un asunto que no es suyo. Un folio que nombra al área equivocada contradice al expediente para siempre.
 2. **Obliga a decidir el área antes de guardar.** Sin punto, el prototipo emite un folio sin segmento de área: dos formatos para el mismo documento.
@@ -53,7 +53,7 @@ El folio es **consecutivo y predecible**: quien tiene el 000123 puede adivinar e
 | Guardado | Sólo su huella, nunca la clave en claro |
 | Entrega | En pantalla y en el acuse en PDF, junto al folio. No puede reponerse |
 
-**Hoy el prototipo no muestra clave.** Hay que añadirla a la pantalla final y al acuse cuando se apruebe esta propuesta.
+El prototipo la muestra desde DEC-151 en la pantalla final y en el acuse en PDF, con la advertencia de que no puede reponerse. La genera el navegador sólo como simulación.
 
 ## 6. Casos particulares
 
@@ -70,13 +70,16 @@ El folio es **consecutivo y predecible**: quien tiene el 000123 puede adivinar e
 
 La base histórica registra **689 denuncias en 2024, 850 en 2025 y 636 en 2026** al 21 de septiembre (documento 17). Seis dígitos admiten 999 999 por año: margen de sobra aun si el canal en línea multiplica el volumen.
 
-## 8. Qué cambia en el prototipo al aprobarse
+## 8. Qué cambió en el prototipo (DEC-151)
 
-1. `enviar()` deja de poner el área en el folio y añade el carácter verificador.
-2. Pantalla final y acuse en PDF muestran la clave de consulta.
-3. RN-27, el documento 04 y el mapeo de campos se ajustan; P-13 pasa a resuelta.
+1. `enviar()` dejó de poner el área en el folio y añade el carácter verificador (`digitoLuhn`).
+2. La pantalla final y el acuse en PDF muestran la clave de consulta (`claveConsulta`, dato `clave_consulta`).
+3. RN-27, el documento 04 y el mapeo de campos se ajustaron; P-13 quedó resuelta.
+4. Las pruebas 14, 22 y 25 comprueban el formato, el carácter verificador y la clave.
 
-## 9. Decisión que se pide
+## 9. Decisión
+
+**Aprobada la opción A** por Liber Saltijeral el 30 de septiembre de 2026 (DEC-151). Se conserva la comparación:
 
 | Opción | Folio de ejemplo | Recomendación |
 |---|---|---|

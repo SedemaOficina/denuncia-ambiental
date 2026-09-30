@@ -1,9 +1,9 @@
 # Formulario web de Denuncia Ambiental · Documento de decisiones
 
-**Versión:** 1.3 · 20 de septiembre de 2026
+**Versión:** 1.4 · 30 de septiembre de 2026
 **Destinatario:** Dirección General de Inspección y Vigilancia Ambiental
 
-Este documento concentra las decisiones ya tomadas y **las veintidós preguntas planteadas —dieciséis de ellas todavía sin respuesta—** que deben resolverse para pasar del prototipo a la versión funcional. Cada pregunta incluye opciones y una recomendación, de modo que pueda resolverse en sesión y quede constancia de la respuesta.
+Este documento concentra las decisiones ya tomadas y **las veintidós preguntas planteadas —trece todavía sin respuesta, cuatro respondidas en parte y una retirada—** que deben resolverse para pasar del prototipo a la versión funcional. Cada pregunta incluye opciones y una recomendación, de modo que pueda resolverse en sesión y quede constancia de la respuesta.
 
 ---
 
@@ -154,8 +154,9 @@ Este documento concentra las decisiones ya tomadas y **las veintidós preguntas 
 | DEC-146 | **Auditoría de cierre: código sin restos y documentos al día** | 30 sep 2026 | Por instrucción de Liber Saltijeral. **Código.** Se buscaron funciones, constantes y clases de estilo sin uso, reglas de construcción que ya no sustituían nada y comentarios que describían versiones anteriores. Salen: la función `olvidaBusqueda`; el estilo de un título de portada que ya no existe y el comentario de «Qué pasa después»; el botón deshabilitado «Descargar acuse» con su letrero «se construye en la versión funcional», que quedó de antes de DEC-139; en `construir.py`, dos reglas que no encontraban su texto (logotipo externo y `color-scheme`), y todas las demás pasan a comprobarse: una regla que deja de encontrar su texto detiene la construcción. `avisoPlazo` se llama ahora `avisoFecha`, porque sólo revisa que la fecha no sea futura. Se corrigieron tres textos: la rama del giro decía «19 giros · Otro» y son dieciocho más «Otro»; la pantalla de límite y el acuse hablaban de una sola Oficialía de Partes; el uso declarado de la identificación mencionaba tres rutas. La página de variantes de portada de DEC-116 se retira del repositorio y queda en `_to_delete/retirados/`. **Documentos.** 01 (etapas de la Oficina de la Secretaría, alcance, insumos), 02 (RN-10, 11, 12, 17, 18, 26, 27, 28 y 29), 04 (reescrito: la lista de campos vive en el 09, generado del código; aquí quedan orígenes, rutas, catálogos, folio y capas), 11 (equivalencia de etapas y bitácora del 29 y 30 de septiembre), 12, 13, 15, 16, `README` y `LEEME`. Las auditorías 06, 07, 14 y 16 quedan como documentos fechados. El proyecto de Claude recibe las mismas versiones |
 | DEC-147 | **La portada vuelve a explicar el derecho a denunciar** | 30 sep 2026 | Por instrucción de Liber Saltijeral, con el texto que él dio. Abre «Denunciar el daño ambiental es tu derecho», con un párrafo sobre quién nota primero el daño y qué puede hacer la Secretaría con la denuncia; sigue la elección del medio. «Lo que la ley te reconoce» recupera la explicación de cada derecho y se añade «Por qué importa que denuncies». Se conservan «Qué necesitas» y las preguntas frecuentes. **Dos frases del texto se ajustaron a reglas vigentes:** «puedes pedir que sean confidenciales» pasa a «Tus datos son confidenciales», porque la confidencialidad es la regla y ya no se pide (DEC-119); y la anónima ya no dice que la Secretaría no podrá pedir una aclaración, porque deja un correo de contacto obligatorio (DEC-120). **Modifica DEC-140 y DEC-142.** Pruebas 04 y 19 ajustadas |
 | DEC-148 | **Dos frases menos en la portada** | 30 sep 2026 | Por instrucción de Liber Saltijeral: en «Lo que la ley te reconoce» sale «clasificarlo le toca a la Secretaría» (queda «Basta con describir lo que ocurre»), y en «Por qué importa que denuncies» sale la última frase, sobre el registro en el mapa y la decisión de dónde inspeccionar. **Modifica DEC-147** |
-| DEC-150 | **Se documenta la nomenclatura de folios** | 30 sep 2026 | Por solicitud de Liber Saltijeral: no había documento de folios, sólo el supuesto del prototipo (RN-27) y la pregunta P-13. El documento 19 propone el folio sin área —porque el turnado puede cambiar y el folio no—, con consecutivo único por año, carácter verificador y una clave de consulta aleatoria para AD-02; resuelve los casos de presentación en persona, remisión, derivación, duplicados y límite de envíos. Queda como propuesta de P-13: el prototipo no cambia hasta que se apruebe |
 | DEC-149 | **El aviso de privacidad conserva sus ocho apartados, cada uno «por desarrollar»** | 30 sep 2026 | Corrige DEC-138, que entendió mal la instrucción: Liber Saltijeral no pidió quitar apartados sino dejar el aviso sin texto mientras se redacta. Vuelven los ocho títulos —quién trata tus datos, para qué se usan, con qué fundamento, cuánto tiempo se conservan, a quién pueden transferirse, confidencialidad, cómo ejerces tus derechos y aviso integral—, cada uno con el letrero amarillo «Por desarrollar» en lugar de su texto; también en el pie. Mientras tanto, el aviso ya no dice que de las fotografías se conservan fecha y lugar de captura (DEC-121): lo dirá el texto definitivo. **Modifica DEC-138.** Pruebas 06 y 20 ajustadas |
+| DEC-150 | **Se documenta la nomenclatura de folios** | 30 sep 2026 | Por solicitud de Liber Saltijeral: no había documento de folios, sólo el supuesto del prototipo (RN-27) y la pregunta P-13. El documento 19 propone el folio sin área —porque el turnado puede cambiar y el folio no—, con consecutivo único por año, carácter verificador y una clave de consulta aleatoria para AD-02; resuelve los casos de presentación en persona, remisión, derivación, duplicados y límite de envíos. Queda como propuesta de P-13: el prototipo no cambia hasta que se apruebe |
+| DEC-151 | **Se aprueba la nomenclatura de folios del documento 19** | 30 sep 2026 | Por aprobación de Liber Saltijeral. El folio pasa a `SEDEMA/DEN/AAAA/NNNNNN-V` —`SEDEMA/DEN/2026/000123-3`—: **sin segmento de área**, porque el turnado puede cambiar y el folio no; consecutivo único para la Secretaría, de seis dígitos, que reinicia cada año; y un **carácter verificador** Luhn sobre año y consecutivo, que permite rechazar al consultar un folio con un dígito cambiado. Se añade la **clave de consulta**: ocho caracteres aleatorios en dos grupos (`K7PM-4XQ2`), sin 0, O, 1, I ni L; la pantalla final y el acuse en PDF la muestran junto al folio y advierten que no puede reponerse. En el SIA ambos los emite el servidor al guardar y de la clave se guarda sólo la huella; en el prototipo son simulados. El área que atiende sigue en el expediente (`dg`) y en el acuse. Nuevo dato `clave_consulta`. P-13 queda resuelta. **Modifica DEC-100 y DEC-123** en lo que tocaba al folio. Pruebas 14, 22 y 25 ajustadas |
 
 ---
 
@@ -394,7 +395,7 @@ Eso no la cancela: la **convierte en insumo de la opción B o C**. Con el catál
 
 *Supuesto del prototipo.* `SEDEMA/<área>/DEN/AAAA/NNNNNN`, con el área que determina el punto; sin punto, sin segmento de área (DEC-100, DEC-123).
 
-*Propuesta.* Documento 19, «Nomenclatura de folios»: folio sin área, consecutivo único por año y carácter verificador —`SEDEMA/DEN/2026/000123-3`—, emitido sólo por el servidor, más una **clave de consulta** aleatoria para AD-02, que el prototipo todavía no muestra.
+*Respuesta (DEC-151).* Se aprueba el documento 19, «Nomenclatura de folios»: folio sin área, consecutivo único por año y carácter verificador —`SEDEMA/DEN/2026/000123-3`—, emitido sólo por el servidor, más una **clave de consulta** aleatoria para AD-02. El prototipo ya muestra ambos en la pantalla final y en el acuse.
 
 *A quién corresponde.* Dirección General de Inspección y Vigilancia Ambiental, con el Sistema de Información Ambiental.
 
@@ -599,7 +600,7 @@ Es la herramienta interna con la que el equipo que atiende las denuncias las rec
 1. Validación del formulario de denuncia por la Dirección General de Inspección y Vigilancia Ambiental.
 2. Resolución de P-01, porque la naturaleza jurídica del canal determina los estados y los plazos que el sistema controla.
 3. Definición del catálogo de estados y de los perfiles de usuario con el área sustantiva.
-4. Confirmación de la estructura del folio (P-13).
+4. ~~Confirmación de la estructura del folio (P-13).~~ Resuelta en DEC-151.
 
 **Consideración de protección de datos.** El módulo concentra datos personales de personas denunciantes y señalamientos sobre presuntos responsables. Su diseño debe contemplar control de acceso por perfil, bitácora de consultas y criterios de conservación y supresión, en los términos que determine la Unidad de Transparencia.
 
@@ -629,7 +630,7 @@ AD-01 resuelve el seguimiento **interno** —la bandeja con la que el personal a
 
 1. AD-01 en operación, con catálogo de estados definido y efectivamente capturado.
 2. Resolución de P-01 y P-07: sin naturaleza jurídica ni plazo de atención definidos, la pantalla de consulta no puede informar cuándo debe esperarse una respuesta.
-3. Confirmación de la estructura del folio (P-13), que es la clave de consulta.
+3. ~~Confirmación de la estructura del folio (P-13).~~ Resuelta en DEC-151: la consulta pide folio y clave de consulta.
 4. Criterio de la Unidad de Transparencia sobre qué información del expediente puede mostrarse a la persona denunciante y por cuánto tiempo se conserva la consulta.
 
 **Riesgo si no se desarrolla.** Un canal que recibe denuncias y no informa su curso genera desconfianza, duplica expedientes y traslada la carga de seguimiento a la atención telefónica y a la Unidad de Transparencia. El formulario ya ofrece «seguir aportando información y documentos»: sin AD-02 esa oferta no puede cumplirse.
@@ -652,7 +653,7 @@ AD-01 resuelve el seguimiento **interno** —la bandeja con la que el personal a
 | P-10 | **En parte** · nombres y atribuciones de las dos coordinaciones; la DGSANPAVA no recibe denuncias. Falta el fundamento en ANP federales con coadministración | Manual Administrativo | 20 sep 2026 |
 | P-11 | **Resuelto en el proyecto** · normalización al ingresar la capa; el duplicado de Santa Catarina no lo era | Sistema de Información Ambiental | 20 sep 2026 |
 | P-12 | | | |
-| P-13 | **Propuesta** · documento 19: sin área, consecutivo único por año, carácter verificador y clave de consulta | Liber Saltijeral | 30 sep 2026 |
+| P-13 | **Aprobada** · documento 19: `SEDEMA/DEN/AAAA/NNNNNN-V`, sin área, consecutivo único por año, carácter verificador y clave de consulta (DEC-151) | Liber Saltijeral | 30 sep 2026 |
 | P-14 | | | |
 | P-15 | **Retirada** · la integración con Llave CDMX deja de estar prevista (DEC-130) | Liber Saltijeral | 30 sep 2026 |
 | P-16 | **En parte** · colonias del IECM 2022 incorporadas como catálogo con clave (DEC-117); el código postal se escribe a mano. Falta la relación colonia–código postal y el mecanismo de actualización | Sistema de Información Ambiental | 29 sep 2026 |
