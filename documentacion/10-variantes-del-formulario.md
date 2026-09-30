@@ -3,7 +3,7 @@
 **Versión:** 2.0 · 30 de septiembre de 2026
 **Generado automáticamente** de las estructuras `BIFURCACIONES` y `ESCENARIOS` del prototipo, que son las mismas que gobiernan el panel de validación. Documento y comportamiento no pueden discrepar.
 
-El formulario no es un camino único: hay **diez puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los doce escenarios que el panel de validación carga con un toque, para recorrer cada rama sin capturar todo a mano.
+El formulario no es un camino único: hay **once puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los doce escenarios que el panel de validación carga con un toque, para recorrer cada rama sin capturar todo a mano.
 
 ---
 
@@ -18,6 +18,7 @@ El formulario no es un camino único: hay **diez puntos donde cambia de forma** 
 | 3 | **¿Quién es responsable de los hechos?** | Persona · Empresa · Autoridad · No lo sé | Cambia por completo el bloque de responsables. «Autoridad» además advierte la ruta del artículo 331 y la refleja en el acuse. |
 | 3 | **Desde cuándo ocurre y fecha** | Único · Recurrente · Permanente, con fecha anterior o posterior a un año | Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único. |
 | 5 | **¿Con qué identidad se presenta?** | Escribir los datos · Denuncia anónima | Con datos, se piden nombre, teléfono, correo y domicilio para notificaciones. La anónima no pide nombre ni domicilio; exige un correo de contacto y ofrece el teléfono como opcional. |
+| 5 | **¿Vive fuera de la Ciudad de México?** | Casilla sin marcar · marcada | Sin marcar: alcaldía en lista, colonia del catálogo y código postal de la Ciudad. Marcada: entidad federativa en lista, municipio y colonia escritos, y cualquier código postal de cinco dígitos. |
 | Todos | **Obligatoriedad** | Desactivada · Activa | Activa, cada paso exige sus campos obligatorios antes de continuar y los demás se marcan como opcionales. |
 | Todos | **Filtro de competencia** | Activo · Inactivo | Inactivo retira del paso 1 los supuestos de otra autoridad. |
 | Portada | **Borrador guardado** | Existe · No existe | Si existe, la portada ofrece retomarlo o descartarlo. |
@@ -35,7 +36,7 @@ Cada botón limpia el formulario, carga un caso completo —incluida la coordena
 | Escenario | Qué muestra | Abre en |
 |---|---|---|
 | **Sitio sin domicilio** | Tala en el Bosque de Tlalpan · sin calle ni colonia · identificado · DGCORENADR | Paso 6 |
-| **Comercio en suelo urbano** | Emisiones de un taller · identificado · DGIVA | Paso 6 |
+| **Comercio en suelo urbano** | Emisiones de un taller · identificado, con domicilio en el Estado de México · DGIVA | Paso 6 |
 | **Tala en suelo de conservación, anónima** | Tala · anónima · responsable desconocido · DGCORENADR | Paso 6 |
 | **Obra de una alcaldía** | Se señala a una autoridad · ruta del artículo 331 · notificación por domicilio | Paso 6 |
 | **Afectación en Área de Valor Ambiental** | Bosque urbano · DGIVA · persona física señalada | Paso 2 |

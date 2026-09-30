@@ -119,13 +119,13 @@ with sync_playwright() as pw:
       const sel = document.getElementById('f_dom_alcaldia'), col = document.getElementById('f_dom_colonia');
       return {ids, select: !!sel && sel.tagName === 'SELECT' && sel.options.length === 17,
               colDes: !!col && col.disabled, combo: !!col && col.getAttribute('role') === 'combobox',
-              entidad: !!document.getElementById('f_dom_entidad') || 'dom_entidad' in OBLIG,
+              entidad: !!document.getElementById('f_dom_entidad'),
               mz: !!document.getElementById('f_dom_manzana')}; }""")
-    afirma(dm['ids'][:4] == ['dom_calle','dom_num_ext','dom_num_int','dom_tiene_mz_lote'] and
+    afirma(dm['ids'][:5] == ['dom_fuera_cdmx','dom_calle','dom_num_ext','dom_num_int','dom_tiene_mz_lote'] and
            dm['ids'].index('dom_entre_calles') < dm['ids'].index('dom_alcaldia') < dm['ids'].index('dom_colonia') < dm['ids'].index('dom_cp'),
            'el domicilio sigue el orden de la dirección del lugar: %s' % dm['ids'])
     afirma(dm['select'] and dm['combo'] and dm['colDes'], 'alcaldía en lista de dieciséis y colonia del catálogo, que espera a la alcaldía')
-    afirma(not dm['entidad'], 'no se pregunta la entidad federativa: el domicilio va en la Ciudad')
+    afirma(not dm['entidad'], 'sin la casilla no se pregunta la entidad federativa: el domicilio va en la Ciudad')
     afirma(not dm['mz'], 'manzana y lote no aparecen hasta que se dice que sí')
     d2 = pg.evaluate("""() => { guarda('dom_tiene_mz_lote','si'); actualizaMzLote('dom_');
       const mz = !!document.getElementById('f_dom_manzana') && !!document.getElementById('f_dom_lote');
@@ -146,6 +146,38 @@ with sync_playwright() as pw:
     afirma(d2['lugarIntacto'], 'elegir la colonia del domicilio no toca la del lugar')
     afirma(d2['trasCambio'] == '', 'cambiar la alcaldía suelta la colonia de la otra')
     afirma(d2['cpDentro'] and not d2['cpFuera'], 'el código postal del domicilio se admite sólo de la Ciudad')
+
+    # ---- 4 quinquies. Vivo fuera de la Ciudad (DEC-136) ----
+    fu = pg.evaluate("""() => { guarda('dom_cp','54000'); render();
+      const chk = document.getElementById('f_dom_fuera_cdmx'); const msg = msgFormato('dom_cp');
+      chk.checked = true; chk.dispatchEvent(new Event('change'));
+      const ent = document.getElementById('f_dom_entidad');
+      const r = {suelta: val('dom_alcaldia') === '' && val('dom_colonia') === '' && val('dom_cp') === '',
+        msg, conserva: val('dom_tiene_mz_lote') === 'si',
+        ent: !!ent && ent.tagName === 'SELECT' && ent.options.length === 32 && [...ent.options].every(o => o.value !== 'Ciudad de México'),
+        mun: !!document.getElementById('f_dom_municipio'),
+        colTexto: (document.getElementById('f_dom_colonia')||{}).getAttribute && document.getElementById('f_dom_colonia').getAttribute('role') !== 'combobox',
+        sinAlc: !document.getElementById('f_dom_alcaldia'),
+        oblig: esObligatorio('dom_entidad') && esObligatorio('dom_municipio') && !esObligatorio('dom_alcaldia'),
+        cp: (guarda('dom_cp','57750'), !formatoMal('dom_cp'))};
+      Object.entries({dom_calle:'Av. Pantitlán', dom_num_ext:'215', dom_entidad:'Estado de México', dom_municipio:'Nezahualcóyotl',
+        dom_colonia:'Metropolitana', nombre:'Ana', apellido_paterno:'Ruiz', telefono:'5512345678', correo:'a@b.mx', privacidad:'si',
+        dom_tiene_mz_lote:'no'}).forEach(([k,v]) => guarda(k,v));
+      r.pasa = valida(5);
+      irA(6); r.rev = document.getElementById('app').textContent;
+      return r; }""")
+    afirma('marca la casilla' in fu['msg'], 'un código postal de otra entidad sugiere marcar la casilla: «%s»' % fu['msg'])
+    afirma(fu['suelta'] and fu['conserva'], 'al marcarla se sueltan alcaldía, colonia y código postal; calle y manzana se conservan')
+    afirma(fu['ent'] and fu['mun'] and fu['colTexto'] and fu['sinAlc'],
+           'marcada: entidad en lista de 31, municipio y colonia escritos, sin alcaldía')
+    afirma(fu['oblig'], 'entidad y municipio son obligatorios; la alcaldía deja de serlo')
+    afirma(fu['cp'], 'y se admite el código postal de otra entidad')
+    afirma(fu['pasa'] is True, 'con el domicilio fuera de la Ciudad completo, el paso avanza')
+    afirma('Nezahualcóyotl, Estado de México' in fu['rev'], 'la revisión cierra con municipio y entidad: %r' % fu['rev'][fu['rev'].find('Domicilio'):][:160])
+    ds = pg.evaluate("""() => { irA(5); const chk = document.getElementById('f_dom_fuera_cdmx');
+      chk.checked = false; chk.dispatchEvent(new Event('change'));
+      return {ent: val('dom_entidad'), mun: val('dom_municipio'), alc: !!document.getElementById('f_dom_alcaldia')}; }""")
+    afirma(ds['ent'] == '' and ds['mun'] == '' and ds['alc'], 'al desmarcarla vuelve la alcaldía y no quedan entidad ni municipio')
 
     ac2 = pg.evaluate("""() => { guarda('correo','x@correo.mx'); guarda('folio','SEDEMA-PRUEBA'); irA(7); return document.getElementById('app').innerText; }""")
     afirma('Enviamos' not in ac2 and 'captura' in ac2 and 'domicilio que registraste' in ac2,

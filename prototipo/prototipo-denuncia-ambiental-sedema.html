@@ -406,6 +406,8 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
 .vias li:first-child{border-top:none}
 .vias li .campo{margin-bottom:10px}
 /* Como sacar la ubicacion: plegado, para no cargar a quien ya sabe (DEC-122). */
+.campo label.casilla{display:flex;gap:10px;align-items:center;font-weight:400;cursor:pointer;margin:0}
+.campo label.casilla input{width:18px;height:18px;margin:0;flex:none;accent-color:var(--azul)}
 .aviso-pegar{margin:-4px 0 10px;padding:10px 13px;font-size:var(--t-sm)}
 .aviso-pegar a{color:var(--azul);font-weight:600}
 .como-ubicar{margin:-2px 0 4px;font-size:var(--t-sm);color:var(--gris)}
@@ -1102,6 +1104,11 @@ var OBLIG = {
      uso:'Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119).'},
   correo:           {p:5, oblig:true,  etq:'Correo electrónico', dp:true, fin:'Contacto',
      uso:'Contacto por escrito: la Secretaría puede escribir para aclarar datos o informar el trámite. No hay envío automático de correos (DEC-134). En la denuncia anónima también es obligatorio: es la única forma de contactar a quien no da su nombre (DEC-119, DEC-120).'},
+  /* La casilla va antes que los campos: decide la forma del domicilio. En la
+     Ciudad, alcaldia en lista y colonia del catalogo; fuera, entidad en lista,
+     municipio y colonia escritos (DEC-136). */
+  dom_fuera_cdmx:   {p:5, oblig:false, etq:'Vivo fuera de la Ciudad de México', dp:false, fin:'Contacto',
+     uso:'Casilla de encaminamiento: cambia alcaldía y colonia del catálogo por entidad federativa, municipio y colonia escrita, y admite cualquier código postal (DEC-136).'},
   dom_calle:        {p:5, oblig:true,  etq:'Domicilio · calle', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_num_ext:      {p:5, oblig:true,  etq:'Domicilio · número exterior', dp:true, fin:'Contacto',
@@ -1126,7 +1133,14 @@ var OBLIG = {
   dom_cp:           {p:5, oblig:true,  etq:'Domicilio · código postal', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_alcaldia:     {p:5, oblig:true,  etq:'Domicilio · alcaldía', dp:true, fin:'Contacto',
+     cond:function(){ return val('dom_fuera_cdmx')!=='si'; } , cond_txt:'Sólo cuando el domicilio está en la Ciudad de México',
      uso:'Notificación por domicilio. Se elige de la lista de las dieciséis alcaldías y acota las colonias que se ofrecen (DEC-135).'},
+  dom_entidad:      {p:5, oblig:true,  etq:'Domicilio · entidad federativa', dp:true, fin:'Contacto',
+     cond:function(){ return val('dom_fuera_cdmx')==='si'; } , cond_txt:'Sólo cuando la persona vive fuera de la Ciudad de México',
+     uso:'Notificación por domicilio fuera de la Ciudad. Se elige de la lista de las otras treinta y una entidades (DEC-136).'},
+  dom_municipio:    {p:5, oblig:true,  etq:'Domicilio · municipio', dp:true, fin:'Contacto',
+     cond:function(){ return val('dom_fuera_cdmx')==='si'; } , cond_txt:'Sólo cuando la persona vive fuera de la Ciudad de México',
+     uso:'Notificación por domicilio fuera de la Ciudad (DEC-136).'},
   /* Estadistica. Son opcionales en las dos rutas —tambien en la anonima— porque
      no identifican a nadie: un genero y un rango de edad no son datos de
      contacto. Se declaran aqui, y no sueltos en la pantalla, para que el
@@ -1217,7 +1231,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-135', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-136', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1226,7 +1240,7 @@ var VERSION_FORMULARIO = {dec:'DEC-135', fecha:'30 de septiembre de 2026'};
 var CONTACTO_ANONIMO = ['correo','telefono'];
 var EXIGIDO_ANONIMO  = ['correo'];
 var SOLO_IDENTIFICADO = ['nombre','apellido_paterno','apellido_materno','telefono','correo',
-  'dom_calle','dom_num_ext','dom_num_int','dom_tiene_mz_lote','dom_manzana','dom_lote','dom_entre_calles',
+  'dom_fuera_cdmx','dom_entidad','dom_municipio','dom_calle','dom_num_ext','dom_num_int','dom_tiene_mz_lote','dom_manzana','dom_lote','dom_entre_calles',
   'dom_alcaldia','dom_colonia','dom_cp'];
 
 function esObligatorio(k){
@@ -1274,6 +1288,8 @@ var BIFURCACIONES = [
    efecto:'Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único.'},
   {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Escribir los datos · Denuncia anónima',
    efecto:'Con datos, se piden nombre, teléfono, correo y domicilio para notificaciones. La anónima no pide nombre ni domicilio; exige un correo de contacto y ofrece el teléfono como opcional.'},
+  {paso:'5', pregunta:'¿Vive fuera de la Ciudad de México?', opciones:'Casilla sin marcar · marcada',
+   efecto:'Sin marcar: alcaldía en lista, colonia del catálogo y código postal de la Ciudad. Marcada: entidad federativa en lista, municipio y colonia escritos, y cualquier código postal de cinco dígitos.'},
   {paso:'Todos', pregunta:'Obligatoriedad', opciones:'Desactivada · Activa',
    efecto:'Activa, cada paso exige sus campos obligatorios antes de continuar y los demás se marcan como opcionales.'},
   {paso:'Todos', pregunta:'Filtro de competencia', opciones:'Activo · Inactivo',
@@ -1299,7 +1315,7 @@ var ESCENARIOS = [
       dom_cp:'14090', dom_alcaldia:'Tlalpan',
       privacidad:'si'}},
   {id:'urbano', nom:'Comercio en suelo urbano',
-   d:'Emisiones de un taller · identificado · DGIVA',
+   d:'Emisiones de un taller · identificado, con domicilio en el Estado de México · DGIVA',
    paso:6, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'emisiones', lat:'19.432600', lon:'-99.133200',
       calle:'Avenida Chapultepec', num_ext:'440', colonia:'Centro I', alcaldia_dir:'Cuauhtémoc', cp:'06010',
@@ -1310,8 +1326,8 @@ var ESCENARIOS = [
       resp_encargado:'El encargado se identifica como Raúl',
       nombre:'María Fernanda', apellido_paterno:'Ríos', apellido_materno:'Galván',
       telefono:'5512345678', correo:'ejemplo@correo.com',
-      dom_calle:'Avenida Chapultepec', dom_num_ext:'452', dom_colonia:'Roma Norte',
-      dom_cp:'06700', dom_alcaldia:'Cuauhtémoc',
+      dom_fuera_cdmx:'si', dom_calle:'Avenida Pantitlán', dom_num_ext:'215', dom_colonia:'Metropolitana Tercera Sección',
+      dom_cp:'57750', dom_municipio:'Nezahualcóyotl', dom_entidad:'Estado de México',
       privacidad:'si', identificacion:'nombre'}},
 
   {id:'conservacion', nom:'Tala en suelo de conservación, anónima',
@@ -2622,9 +2638,14 @@ function pDenunciante(){
        servicio de envio automatico. El domicilio es la via de notificacion
        y se pide siempre en esta ruta (DEC-134). */
     '<h3 class="sub-seccion">Domicilio para recibir notificaciones</h3>'+
-    '<p class="ayuda" style="margin-bottom:16px">Ahí te notificará la Secretaría. Debe estar en la Ciudad de México y puede ser distinto del lugar de los hechos.</p>'+
+    '<p class="ayuda" style="margin-bottom:12px">Ahí te notificará la Secretaría. Puede ser distinto del lugar de los hechos.</p>'+
     /* Misma forma y mismo orden que la direccion del lugar (DEC-124, DEC-135).
-       El domicilio va en la Ciudad: no se pregunta la entidad. */
+       Quien vive fuera de la Ciudad lo marca, y la parte final cambia:
+       entidad y municipio en vez de alcaldia, colonia escrita en vez del
+       catalogo de la Ciudad (DEC-136). */
+    '<div class="campo" id="c_dom_fuera_cdmx"><label class="casilla" for="f_dom_fuera_cdmx">'+
+      '<input type="checkbox" id="f_dom_fuera_cdmx" '+(fueraCdmx()?'checked ':'')+'onchange="cambiaFueraCdmx(this.checked)">'+
+      '<span>Vivo fuera de la Ciudad de México</span></label></div>'+
     '<div class="fila-3">'+
       campo('dom_calle','Calle o vialidad','texto',esObligatorio('dom_calle'),'','autocomplete="address-line1"')+
       campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'Si no tiene, escribe S/N','autocomplete="off"')+
@@ -2634,13 +2655,22 @@ function pDenunciante(){
       'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote(\'dom_\')')+
     '<div id="dom_mzLote">'+camposMzLote('dom_')+'</div>'+
     campo('dom_entre_calles','¿Entre qué calles?','texto',false,'','placeholder="Entre calle 1 y calle 2"')+
-    '<div class="fila">'+
-      campoSelect('dom_alcaldia','Alcaldía',ALCALDIAS_ORDEN(),esObligatorio('dom_alcaldia'),'','cambiaAlcaldiaDir(\'dom_colonia\')')+
-      campoColonia('dom_colonia')+
-    '</div>'+
-    '<div class="fila">'+
-      campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'Cinco dígitos','autocomplete="off" inputmode="numeric" maxlength="5"')+
-    '</div>';
+    (fueraCdmx()
+      ? '<div class="fila">'+
+          campoSelect('dom_entidad','Entidad federativa',ENTIDADES_FUERA,esObligatorio('dom_entidad'),'')+
+          campo('dom_municipio','Municipio','texto',esObligatorio('dom_municipio'),'','autocomplete="address-level2"')+
+        '</div>'+
+        '<div class="fila">'+
+          campo('dom_colonia','Colonia','texto',esObligatorio('dom_colonia'),'','autocomplete="address-level3"')+
+          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'Cinco dígitos','autocomplete="postal-code" inputmode="numeric" maxlength="5"')+
+        '</div>'
+      : '<div class="fila">'+
+          campoSelect('dom_alcaldia','Alcaldía',ALCALDIAS_ORDEN(),esObligatorio('dom_alcaldia'),'','cambiaAlcaldiaDir(\'dom_colonia\')')+
+          campoColonia('dom_colonia')+
+        '</div>'+
+        '<div class="fila">'+
+          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'Cinco dígitos','autocomplete="off" inputmode="numeric" maxlength="5"')+
+        '</div>');
     /* Para qué sirven los datos y que no se difunden lo dice el aviso de
        privacidad; repetirlo aquí era un segundo aviso sin valor legal (DEC-133). */
   }
@@ -2823,7 +2853,9 @@ function pRevision(){
         [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):'',
           val('dom_manzana')?'Mz. '+val('dom_manzana'):'',val('dom_lote')?'Lt. '+val('dom_lote'):''].filter(Boolean).join(' '),
          val('dom_entre_calles')?'entre '+val('dom_entre_calles'):'',
-         val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'', val('dom_alcaldia'), 'Ciudad de M\u00e9xico'].filter(Boolean).join(', '), 5, 'dom_calle'))+
+         val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'']
+          .concat(fueraCdmx() ? [val('dom_municipio'), val('dom_entidad')] : [val('dom_alcaldia'), 'Ciudad de M\u00e9xico'])
+          .filter(Boolean).join(', '), 5, 'dom_calle'))+
     r('Datos estad\u00edsticos', (function(){
         var g = {mujer:'Mujer',hombre:'Hombre',no_binaria:'No binaria',otro:'Otro',nd:'Prefiere no decirlo'}[val('sexo_genero')]||'';
         var e = {'-18':'Menor de 18 a\u00f1os','18-29':'18 a 29 a\u00f1os','30-44':'30 a 44 a\u00f1os',
@@ -3228,6 +3260,22 @@ function campoSiNo(k,etq,ayuda,accion){
    reiniciaria el mapa (DEC-75). Con «No», lo que se hubiera escrito se
    suelta: no puede viajar al expediente un dato de una rama que ya no se
    ve (DEC-100). */
+/* Las otras treinta y una entidades, para quien vive fuera de la Ciudad
+   (DEC-136). */
+var ENTIDADES_FUERA = ['Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas',
+  'Chihuahua','Coahuila','Colima','Durango','Estado de México','Guanajuato','Guerrero','Hidalgo',
+  'Jalisco','Michoacán','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo',
+  'San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatán','Zacatecas'];
+function fueraCdmx(){ return val('dom_fuera_cdmx') === 'si'; }
+/* Cambiar de forma suelta lo capturado en la otra: una alcaldia no es un
+   municipio, y una colonia del catalogo de la Ciudad no vale fuera de ella
+   (DEC-100). Calle, numero y manzana y lote se conservan. */
+function cambiaFueraCdmx(si){
+  guarda('dom_fuera_cdmx', si ? 'si' : '');
+  ['dom_alcaldia','dom_colonia','dom_cp','dom_entidad','dom_municipio'].forEach(function(k){ guarda(k, ''); limpiaError(k); });
+  render();
+}
+
 function camposMzLote(p){
   p = p || '';
   return val(p+'tiene_mz_lote') === 'si'
@@ -3372,7 +3420,16 @@ var FORMATO = {
   telefono: {re:/^\d{10}$/, limpia:function(v){ return v.replace(/\D/g,''); },
              msg:'El teléfono va a diez dígitos, con la clave de la Ciudad.'},
   correo:   {re:/^[^\s@]+@[^\s@]+\.[^\s@]+$/, msg:'Revisa el correo: le falta la arroba o el dominio.'}
-};FORMATO.dom_cp = FORMATO.cp;
+};
+/* El del domicilio sigue la casilla: en la Ciudad, el intervalo de la
+   Ciudad; fuera, cinco digitos (DEC-135, DEC-136). */
+FORMATO.dom_cp = {
+  get re(){ return fueraCdmx() ? /^\d{5}$/ : FORMATO.cp.re; },
+  msg: function(v){
+    if(fueraCdmx() || !/^\d{5}$/.test(v)) return 'El código postal va a cinco dígitos.';
+    return 'Ese código postal no es de la Ciudad de México. Si vives fuera de la Ciudad, marca la casilla de arriba.';
+  }
+};
 
 
 /* Vacio no es mal formato: eso lo ve la obligatoriedad, que es otra cosa. */
