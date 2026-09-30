@@ -1774,10 +1774,10 @@ function pUbicacion(){
       '</div>'+
       '<div class="fila">'+
         campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
-        campo('entre_calles','Entre qué calles','texto',false,'',
-          'placeholder="Entre Morelos y Juárez"')+
+        campo('entre_calles','¿Entre qué calles?','texto',false,'',
+          'placeholder="Entre calle 1 y calle 2"')+
       '</div>'+
-      campoArea('referencias','Cómo se reconoce el sitio',false,
+      campoArea('referencias','¿Cómo se reconoce el sitio?',false,
         'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3);
   }
 
@@ -1820,7 +1820,7 @@ function pUbicacion(){
       (val('capa_nombre') && val('nombre_lugar')!==val('capa_nombre') ?
         '<div class="aviso" style="margin:-12px 0 18px">Según las capas de la Secretaría, el punto está en <strong>'+esc(val('capa_nombre'))+'</strong>. '+
           '<button type="button" class="enlace" onclick="usaNombreDelPunto()">Usar ese nombre</button></div>' : '')+
-      campoArea('referencias','Cómo se llega y cómo se reconoce el sitio',esObligatorio('referencias'),
+      campoArea('referencias','¿Cómo se llega y cómo se reconoce el sitio?',esObligatorio('referencias'),
         'Por dónde se entra, desde qué punto conocido y a qué distancia; y qué hay alrededor que permita reconocerlo.',3);
   }
 
