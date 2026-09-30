@@ -48,6 +48,8 @@ with sync_playwright() as pw:
             pend: medios.length > 1 ? !!medios[1].querySelector('.pendiente') : false,
             pieTxt: pie ? pie.innerText.replace(/\\s+/g,' ').trim() : '',
             lugar: SEDES[0].lugar,
+            tituloPropio: !!a.querySelector('.portada-titulo'),
+            temas: a.querySelectorAll('.temas .tema').length, grupos: GRUPOS_MATERIA.length,
             mismoAlto: medios.length > 1 && Math.abs(medios[0].getBoundingClientRect().height - medios[1].getBoundingClientRect().height) < 2,
             zonas: SEDES.map(d => d.zona),
             pie1Txt: pie1 ? pie1.innerText.replace(/\\s+/g,' ').trim() : '',
@@ -64,8 +66,14 @@ with sync_playwright() as pw:
         # Tope de texto. Era 350 y la portada lo llenaba; con DEC-116 baja a
         # 160. No es un numero arbitrario: es la portada actual (138) con
         # margen para ajustes de redaccion, no para una seccion nueva.
-        # DEC-137 lo sube a 175: en persona ahora son dos oficinas, una por zona.
-        afirma(r['palabras'] <= 175, '%s: la portada cabe en %d palabras (tope 175)' % (nom, r['palabras']))
+        # DEC-140 lo sube a 360: la portada es la primera ventana y vuelve a
+        # informar —que se puede denunciar, que se necesita, el 911—, pero
+        # sin volver a los 349 de antes con secciones que nadie lee.
+        afirma(r['palabras'] <= 360, '%s: la portada cabe en %d palabras (tope 360)' % (nom, r['palabras']))
+        afirma(not r['tituloPropio'], '%s: la portada no repite un título junto al del encabezado' % nom)
+        afirma(r['temas'] == r['grupos'] and r['temas'] >= 5, '%s: muestra qué se puede denunciar, un tema por grupo (%d)' % (nom, r['temas']))
+        afirma('911' in r['tarjeta'] and 'no atiende emergencias' in r['tarjeta'], '%s: dice que las emergencias van al 911' % nom)
+        afirma('Qué necesitas' in r['tarjeta'] or 'QUÉ NECESITAS' in r['tarjeta'], '%s: dice qué se necesita para denunciar' % nom)
         afirma(r['botonY'] is not None and r['botonY'] < alto,
                '%s: el botón de iniciar se ve sin desplazar (a %s px de %d)' % (nom, r['botonY'], alto))
 
