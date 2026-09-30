@@ -51,10 +51,13 @@ with sync_playwright() as pw:
            'la variante de identificación obligatoria ya no está: %s' % d['controles'])
     afirma('cfgEsq' not in d['controles'],
            'el conmutador de esquemas ya no está: %s' % d['controles'])
-    afirma(sorted(d['controles']) == ['cfgLimite','cfgTriage','cfgVal'],
-           'quedan tres interruptores, uno por comportamiento: %s' % sorted(d['controles']))
-    afirma(sorted(d['claves']) == ['limite','triage','validar'],
-           'y la configuración lleva exactamente esas tres claves: %s' % sorted(d['claves']))
+    # DEC-143: se retira el filtro de competencia; los supuestos de otra
+    # autoridad se muestran siempre.
+    afirma(sorted(d['controles']) == ['cfgLimite','cfgVal'],
+           'quedan dos interruptores, uno por comportamiento: %s' % sorted(d['controles']))
+    afirma(sorted(d['claves']) == ['limite','validar'],
+           'y la configuración lleva exactamente esas dos claves: %s' % sorted(d['claves']))
+    afirma('filtro previo de competencia' not in d['texto'], 'ya no se ofrece apagar el filtro de competencia')
     # «DGIVA» sigue apareciendo en la descripción de dos escenarios, y ahí es
     # correcto: nombra al área que atiende el caso, no un esquema de campos.
     afirma('Esquema DGIVA' not in d['texto'] and 'esquema' not in d['texto'].lower(),

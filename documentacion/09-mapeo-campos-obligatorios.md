@@ -1,18 +1,18 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-142 · 30 de septiembre de 2026
+**Versión:** DEC-143 · 30 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos que llena la persona | **60** |
+| Campos que llena la persona | **61** |
 | Datos que viajan a la base sin verse en pantalla | **13** |
 | Datos que calcula el formulario y se muestran | 14 |
-| Datos personales | **24** (40 %) |
-| Obligatorios en este formulario | 26 de 60 |
-| Campos con obligatoriedad condicionada | 24 |
+| Datos personales | **24** (39 %) |
+| Obligatorios en este formulario | 26 de 61 |
+| Campos con obligatoriedad condicionada | 25 |
 | Datos sin uso declarado | **0** |
 
 ---
@@ -24,7 +24,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Finalidad | Para qué | Datos |
 |---|---|---|
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 17 |
-| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 16 |
+| **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 17 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 19 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
@@ -70,6 +70,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | ¿Es transporte público o de carga? | Obligatorio *(condicionado)* | No | Sólo cuando se denuncia un vehículo contaminante | Distingue el transporte concesionado de pasajeros y el de carga del vehículo particular. El cauce de atención de cada uno con la Secretaría de Movilidad está por definirse: el dato se recoge desde ahora para no tener que volver a pedirlo. |
 | ¿Los hechos ocurren dentro de un establecimiento? | Opcional | No | Siempre | Caracteriza el sitio como fuente fija y propone al establecimiento como responsable. Se pregunta junto a la identificación del responsable, que es lo que determina. |
 | Tipo de establecimiento | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Prepara la visita —qué se va a inspeccionar— y alimenta la estadística por tipo de fuente. |
+| Tipo de establecimiento, si es otro | Opcional | No | Sólo cuando el giro elegido es «Otro» | Especifica el giro que no está en la lista (DEC-143: faltaba en el mapeo). |
 | Nombre del establecimiento | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas. |
 | Descripción de lo que ocurre | Obligatorio | No | Siempre | Objeto y alcance de la visita de inspección; es la base de la motivación del acto. |
 | Desde cuándo ocurre | Opcional | No | Siempre | Determina si la conducta es continua o aislada, lo que define la urgencia de la atención. |

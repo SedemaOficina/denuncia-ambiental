@@ -126,7 +126,7 @@ with sync_playwright() as pw:
            'el acuse dice que no hace falta ratificar, sin plazos (DEC-138)')
 
     # ---- 5. DEC-138: lupa, «Mi caso no está» aparte, textos que crecen, sin plazos ----
-    x = pg.evaluate("""() => { estado = {}; cfg.triage = true; irA(1);
+    x = pg.evaluate("""() => { estado = {}; irA(1);
       const lupa = document.querySelector('.filtro-materia .busca-lupa'), inp = document.getElementById('f_filtro');
       const otras = document.querySelector('.bloque-otras'), tarjeta = document.querySelector('#app .tarjeta');
       const cs = otras ? getComputedStyle(otras) : null;

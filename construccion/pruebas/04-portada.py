@@ -49,6 +49,7 @@ with sync_playwright() as pw:
             pieTxt: pie ? pie.innerText.replace(/\\s+/g,' ').trim() : '',
             lugar: SEDES[0].lugar,
             tituloPropio: !!a.querySelector('.portada-titulo'),
+            faq: a.querySelectorAll('.faq details').length, faqAbiertas: a.querySelectorAll('.faq details[open]').length,
             temas: a.querySelectorAll('.temas .tema').length, grupos: GRUPOS_MATERIA.length,
             mismoAlto: medios.length > 1 && Math.abs(medios[0].getBoundingClientRect().height - medios[1].getBoundingClientRect().height) < 2,
             zonas: SEDES.map(d => d.zona),
@@ -68,7 +69,9 @@ with sync_playwright() as pw:
         # margen para ajustes de redaccion, no para una seccion nueva.
         # DEC-142 la deja en entrada, medios, qué necesitas y lo que la ley
         # reconoce: fuera el 911, los temas y qué pasa después.
-        afirma(r['palabras'] <= 260, '%s: la portada cabe en %d palabras (tope 260)' % (nom, r['palabras']))
+        # DEC-143 suma las preguntas frecuentes, plegadas: cuentan sólo las preguntas.
+        afirma(r['palabras'] <= 300, '%s: la portada cabe en %d palabras (tope 300)' % (nom, r['palabras']))
+        afirma(r['faq'] >= 6 and r['faqAbiertas'] == 0, '%s: preguntas frecuentes, plegadas (%d)' % (nom, r['faq']))
         afirma(not r['tituloPropio'], '%s: la portada no repite un título junto al del encabezado' % nom)
         afirma(r['temas'] == 0 and '911' not in r['tarjeta'] and len(r['pasos']) == 0,
                '%s: sin temas, sin línea de emergencias y sin «qué pasa después» (DEC-142)' % nom)

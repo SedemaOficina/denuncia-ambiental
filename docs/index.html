@@ -342,6 +342,14 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 .necesitas li{position:relative;padding-left:18px;font-size:var(--t-base);line-height:1.45;color:var(--texto)}
 .necesitas li::before{content:'';position:absolute;left:2px;top:.6em;width:7px;height:7px;border-radius:50%;background:var(--dorado)}
 .necesitas b{font-weight:600}
+.faq details{border-bottom:1px solid var(--linea)}
+.faq details:first-child{border-top:1px solid var(--linea)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;
+  padding:13px 2px;font-size:var(--t-base);font-weight:600;color:var(--texto)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';flex:none;font-size:22px;line-height:1;color:var(--guinda)}
+.faq details[open] summary::after{content:'\2212'}
+.faq p{margin:0 2px 14px;font-size:var(--t-md);line-height:1.55;color:var(--gris);max-width:72ch}
 .rotulo-portada{font-family:'Roboto',Arial,sans-serif;font-size:var(--t-xs);font-weight:700;
   letter-spacing:.07em;text-transform:uppercase;color:var(--gris);margin:0 0 10px;padding:0;border:0}
 
@@ -784,8 +792,6 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
     <div class="grupo">
       <label><input type="checkbox" id="cfgVal" onchange="cfg.validar=this.checked;render()">
         <span><b>Exigir los campos obligatorios.</b> Apagado, el formulario se recorre y se envía vacío; encendido, cada paso valida antes de continuar.</span></label>
-      <label><input type="checkbox" id="cfgTriage" onchange="cfg.triage=this.checked;irA(0)" checked>
-        <span><b>Incluir el filtro previo de competencia.</b> Apagado, el paso 1 no muestra los supuestos de otra autoridad.</span></label>
       <label><input type="checkbox" id="cfgLimite" onchange="cfg.limite=this.checked">
         <span><b>Simular el límite de envíos alcanzado.</b> Muestra lo que ve quien agotó el número de denuncias permitido desde una misma conexión. El límite real lo cuenta el servidor (P-21).</span></label>
     </div>
@@ -797,7 +803,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
     <div class="grupo">
       <button class="btn-link" onclick="abreMapeo()">Ver el mapeo de campos</button>
       <button class="btn-link" onclick="abreVariantes()">Ver las ramas del formulario</button>
-      <button class="btn-link" onclick="irA(0);estado={};archivos=[];render()">Reiniciar el recorrido</button>
+      <button class="btn-link" onclick="borraBorrador();estado={};archivos=[];irA(0)">Reiniciar el recorrido</button>
     </div>
   </div>
 </div>
@@ -861,7 +867,7 @@ var CATALOGO_COLONIAS = {meta:{"origen": "IECM 2022, unidades territoriales", "n
    Sin backend. Toda la información se conserva en memoria.
    ========================================================= */
 
-var cfg = { triage:true, validar:false, limite:false };
+var cfg = { validar:false, limite:false };
 var estado = {};
 var archivos = [];
 var paso = 0;
@@ -1076,6 +1082,9 @@ var OBLIG = {
   tipo_estab:       {p:3, oblig:false, etq:'Tipo de establecimiento', dp:false, fin:'Localización',
      cond:function(){ return val('es_estab')==='si'; } , cond_txt:'Sólo cuando los hechos ocurren dentro de un establecimiento',
      uso:'Prepara la visita —qué se va a inspeccionar— y alimenta la estadística por tipo de fuente.'},
+  tipo_estab_otro:  {p:3, oblig:false, etq:'Tipo de establecimiento, si es otro', dp:false, fin:'Localización',
+     cond:function(){ return val('es_estab')==='si' && val('tipo_estab')==='Otro'; } , cond_txt:'Sólo cuando el giro elegido es «Otro»',
+     uso:'Especifica el giro que no está en la lista (DEC-143: faltaba en el mapeo).'},
   nombre_estab:     {p:3, oblig:false, etq:'Nombre del establecimiento', dp:false, fin:'Localización',
      cond:function(){ return val('es_estab')==='si'; } , cond_txt:'Sólo cuando los hechos ocurren dentro de un establecimiento',
      uso:'Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas.'},
@@ -1271,7 +1280,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-142', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-143', fecha:'30 de septiembre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1324,16 +1333,14 @@ var BIFURCACIONES = [
    efecto:'«Otro» abre un campo de texto para especificarlo.'},
   {paso:'3', pregunta:'¿Quién es responsable de los hechos?', opciones:'Persona · Empresa · Autoridad · No lo sé',
    efecto:'Cambia por completo el bloque de responsables. «Autoridad» además advierte la ruta del artículo 331 y la refleja en el acuse.'},
-  {paso:'3', pregunta:'Desde cuándo ocurre y fecha', opciones:'Único · Recurrente · Permanente, con fecha anterior o posterior a un año',
-   efecto:'Más de un año muestra un aviso distinto según si los hechos continúan o fueron un hecho único.'},
+  {paso:'3', pregunta:'Desde cuándo ocurre', opciones:'Una sola vez · Se repite · Permanente',
+   efecto:'Cambia el texto de la fecha que se pide. Una fecha posterior a hoy muestra un aviso para verificarla; el formulario no menciona plazos (DEC-138).'},
   {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Escribir los datos · Denuncia anónima',
    efecto:'Con datos, se piden nombre, teléfono, correo y domicilio para notificaciones. La anónima no pide nombre ni domicilio; exige un correo de contacto y ofrece el teléfono como opcional.'},
   {paso:'5', pregunta:'¿Vive fuera de la Ciudad de México?', opciones:'Casilla sin marcar · marcada',
    efecto:'Sin marcar: alcaldía en lista, colonia del catálogo y código postal de la Ciudad. Marcada: entidad federativa en lista, municipio y colonia escritos, y cualquier código postal de cinco dígitos.'},
   {paso:'Todos', pregunta:'Obligatoriedad', opciones:'Desactivada · Activa',
    efecto:'Activa, cada paso exige sus campos obligatorios antes de continuar y los demás se marcan como opcionales.'},
-  {paso:'Todos', pregunta:'Filtro de competencia', opciones:'Activo · Inactivo',
-   efecto:'Inactivo retira del paso 1 los supuestos de otra autoridad.'},
   {paso:'Portada', pregunta:'Borrador guardado', opciones:'Existe · No existe',
    efecto:'Si existe, la portada ofrece retomarlo o descartarlo.'}
 ];
@@ -1383,7 +1390,7 @@ var ESCENARIOS = [
       identificacion:'anonima', correo:'avisos.anonimos@ejemplo.mx', privacidad:'si'}},
 
   {id:'gobierno', nom:'Obra de una alcaldía',
-   d:'Se señala a una autoridad · ruta del artículo 331 · notificación por domicilio',
+   d:'Se señala a una autoridad · ruta del artículo 331',
    paso:6, cfg:{validar:false},
    e:{tiene_direccion:'si', materia:'arbolado', lat:'19.355000', lon:'-99.070000',
       calle:'Avenida Ermita Iztapalapa', num_ext:'1200', colonia:'Constitución de 1917 I', alcaldia_dir:'Iztapalapa', cp:'09260',
@@ -1422,15 +1429,8 @@ var ESCENARIOS = [
 
   {id:'derivado', nom:'Caso de otra autoridad',
    d:'Ruido de vecinos · se detiene el flujo y se orienta',
-   paso:1, cfg:{validar:false,triage:true},
+   paso:1, cfg:{validar:false},
    e:{tiene_direccion:'si', deriva:'d_ruido'}},
-
-  {id:'viejo', nom:'Hechos de hace más de un año',
-   d:'Permanente · hechos que continúan',
-   paso:3, cfg:{validar:false},
-   e:{tiene_direccion:'si', materia:'cascajo', lat:'19.240000', lon:'-99.105000', es_estab:'no',
-      hechos:'Desde hace más de dos años tiran cascajo en el borde del canal. El montón ya ganó varios metros de agua.',
-      temporalidad:'permanente', fecha_hecho:'2024-03-15', tipo_denunciado:'nose'}},
 
   {id:'otro_giro', nom:'Establecimiento de giro no listado',
    d:'«Otro» abre el campo de texto',
@@ -1461,7 +1461,6 @@ function cargaEscenario(id){
 
 function sincronizaPanel(){
   var v = $('cfgVal'); if(v) v.checked = !!cfg.validar;
-  var t = $('cfgTriage'); if(t) t.checked = cfg.triage !== false;
   var l = $('cfgLimite'); if(l) l.checked = !!cfg.limite;
 }
 
@@ -1878,6 +1877,21 @@ function pInicio(){
       '</div>'+
     '</div>'+
 
+    /* Lo que alguien pregunta antes de empezar. Plegadas: la portada no
+       crece a la vista, y cada respuesta se abre cuando hace falta (DEC-143). */
+    '<div class="portada-bloque">'+
+      '<h2 class="rotulo-portada">Preguntas frecuentes</h2>'+
+      '<div class="faq">'+
+        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí. Al final eliges si escribes tus datos o si la presentas como denuncia anónima. En la anónima sólo te pedimos un correo, para que la Secretaría pueda escribirte si necesita aclarar algo.</p></details>'+
+        '<details><summary>¿La persona o el negocio que denuncio sabrá quién fui?</summary><p>No. Tus datos no se dan a conocer a quien denuncias.</p></details>'+
+        '<details><summary>¿Qué hago si no sé la dirección exacta?</summary><p>Puedes marcar el punto en el mapa o pegar la ubicación de Google Maps. Si no puedes marcarlo, basta la dirección. Si el lugar no tiene calle ni número, como un bosque o una barranca, el formulario te pide referencias para llegar.</p></details>'+
+        '<details><summary>¿Necesito fotos o documentos?</summary><p>No son obligatorios, pero ayudan a verificar los hechos. Puedes adjuntar fotos (JPG o PNG), videos (MP4 o MOV) y documentos (Word, PDF o Excel).</p></details>'+
+        '<details><summary>¿Qué pasa si mi caso no lo atiende la Secretaría?</summary><p>Al elegir qué quieres denunciar, en «Mi caso no está en la lista» encuentras los casos que atiende otra autoridad, como la basura en la calle o el ruido de vecinos, y a dónde acudir.</p></details>'+
+        '<details><summary>¿Puedo dejarla a medias y terminarla después?</summary><p>Sí. El avance se guarda en este navegador. Para retomarla entra desde el mismo dispositivo y navegador; si borras sus datos, el avance se pierde.</p></details>'+
+        '<details><summary>¿Cómo doy seguimiento a mi denuncia?</summary><p>Con el folio que recibes al enviarla. Al terminar, descarga tu acuse en PDF y guárdalo junto con el folio.</p></details>'+
+      '</div>'+
+    '</div>'+
+
   '</div>';
 }
 
@@ -1955,7 +1969,9 @@ function pMateria(){
          '<div class="lista-op'+(lista.length===1?' sola':'')+'">'+lista.map(function(m){ return fila(m,'materia'); }).join('')+'</div>';
   });
 
-  if(cfg.triage){
+  /* Los supuestos de otra autoridad se muestran siempre: el interruptor que
+     los apagaba se retiro del panel (DEC-143). */
+  {
     var der = DERIVA.filter(coincide);
     var abierto = val('otras')==='si' || !!val('deriva') || (!!q && der.length>0);
     if(der.length){
