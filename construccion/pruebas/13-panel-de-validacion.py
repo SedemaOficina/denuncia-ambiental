@@ -99,7 +99,8 @@ with sync_playwright() as pw:
     afirma(v, 'forzar el esquema retirado no cambia lo que el formulario exige')
     m2016 = pg.evaluate("""() => { abreMapeo();
       const c = document.getElementById('modalMapeo');
-      const th = [...c.querySelectorAll('thead th')].map(x => x.textContent.trim());
+      /* Desde DEC-128 el mapeo tiene tres tablas; la de campos es la primera. */
+      const th = [...c.querySelector('table thead').querySelectorAll('th')].map(x => x.textContent.trim());
       const cols = c.querySelector('tbody tr:not([style]) td') ? 0 : 0;
       const filas = [...c.querySelectorAll('tbody tr')].map(r => r.children.length);
       const txt = c.innerText;

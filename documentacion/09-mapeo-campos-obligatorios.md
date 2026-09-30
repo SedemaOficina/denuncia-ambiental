@@ -1,38 +1,40 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** 3.0 · 30 de septiembre de 2026
+**Versión:** DEC-129 · 30 de septiembre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos del formulario | **60** |
-| Datos personales | **20** (33 %) |
-| Obligatorios en este formulario | 27 de 60 |
-| Campos con obligatoriedad condicionada | 31 |
-| Campos sin uso declarado | **0** |
+| Campos que llena la persona | **55** |
+| Datos que viajan a la base sin verse en pantalla | **13** |
+| Datos que calcula el formulario y se muestran | 15 |
+| Datos personales | **20** (36 %) |
+| Obligatorios en este formulario | 26 de 55 |
+| Campos con obligatoriedad condicionada | 26 |
+| Datos sin uso declarado | **0** |
 
 ---
 
 ## 1. Finalidades
 
-Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
+Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 
-| Finalidad | Para qué | Campos |
+| Finalidad | Para qué | Datos |
 |---|---|---|
-| **Competencia** | Determinar la competencia y turnar al área que atiende | 6 |
+| **Competencia** | Determinar la competencia y turnar al área que atiende | 17 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 16 |
-| **Expediente** | Integrar el expediente y motivar el acto de inspección | 9 |
+| **Expediente** | Integrar el expediente y motivar el acto de inspección | 19 |
 | **Responsable** | Identificar y emplazar al probable infractor | 9 |
-| **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
+| **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 2 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 12 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 3 |
-| **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 4 |
+| **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 5 |
 
 ---
 
-## 2. Campos, por paso
+## 2. Campos que llena la persona, por paso
 
 **Dato personal** marca los datos de una persona física identificada o identificable, sea la persona denunciante o un tercero señalado. **Obligatorio *(condicionado)*** significa que el campo sólo se exige en la situación que indica la última columna; fuera de ella no se pide ni se marca.
 
@@ -49,14 +51,9 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | ¿El lugar tiene calle y número? | Obligatorio | No | Siempre | Pregunta de encaminamiento, no un dato del expediente: decide cómo se captura el lugar y por eso debe responderse. Una parte de las denuncias ocurre en bosques, áreas naturales, barrancas, caminos o canales, donde no existe domicilio y exigirlo impide presentar la denuncia. |
 | Ubicación pegada: enlace, coordenadas o código de lugar | Opcional | No | Siempre | Vía de captura, no dato del expediente: de lo pegado se extrae la coordenada y lo que se conserva es el punto. Sustituye a la detección de ubicación del dispositivo, que se retiró. |
 | Punto en el mapa | Obligatorio *(condicionado)* | **Sí** | Obligatorio sólo cuando el lugar no tiene dirección; con dirección, si no se marca, la Secretaría ubica el lugar a partir de ella | Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas. Con dirección es opcional: quien no sabe usar un mapa no puede quedarse sin denunciar; entonces la Secretaría ubica el lugar con la dirección y el turnado espera a ese paso (DEC-123). |
-| Origen de la ubicación | Opcional | No | No se pregunta: «punto» si la persona lo marcó, «dirección» si la Secretaría debe ubicar el lugar | Separa las denuncias que llegan con punto de las que hay que ubicar con la dirección antes de turnarlas; alimenta la bandeja «por ubicar» del módulo interno (DEC-123). |
-| Alcaldía | Obligatorio *(condicionado)* | No | No se pregunta: la determina el punto del mapa | Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse. La dirección lleva además su propia alcaldía (`alcaldia_dir`, DEC-118), que **no la sustituye**. |
 | Alcaldía de la dirección | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Parte del domicilio del lugar en la orden de visita y filtro del catálogo de colonias: sólo se ofrecen las de la alcaldía elegida. **No decide el turnado**: quién atiende lo sigue resolviendo la alcaldía del punto (DEC-72). Si no coinciden, el formulario lo avisa y el expediente lo marca (DEC-118). |
-| Alcaldía de la dirección distinta de la del punto | Opcional | No | No se pregunta: la calcula el formulario al comparar las dos alcaldías | Marca para quien recibe la denuncia: la dirección y el punto no están en la misma alcaldía. No impide enviar, porque cerca del límite puede no haber error; sí obliga a mirar antes de programar la visita (DEC-118). |
 | Colonia | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio y estadística territorial. |
-| Clave de la colonia (IECM) | Opcional | No | No se pregunta: la pone el catálogo cuando la persona elige su colonia de la lista | Clave CVEUT de la unidad territorial del IECM 2022. Agrupa las denuncias por colonia sin depender de cómo se escribió el nombre. Queda vacía cuando la persona escribe una colonia que no está en el catálogo: el nombre se conserva igual (DEC-117). |
 | Código postal | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio; verifica la congruencia de la dirección capturada. Se escribe a mano y se admite sólo en el intervalo de la Ciudad, del 01000 al 16999 (DEC-117). |
-| Celda UGA | Opcional | No | No se pregunta ni se muestra: la asigna el punto del mapa | Celda de la malla hexagonal del Sistema de Información Ambiental (~1 km²) en la que cae el punto. No se muestra a la persona: queda en el expediente para la programación de operativos y la estadística territorial. Es provisional: el servidor la vuelve a derivar con la capa completa y guarda la versión de la malla (DEC-117). |
 | Calle o vialidad | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |
 | Número exterior | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Precisa el predio en la orden de visita. Obligatorio cuando el lugar tiene dirección; si el predio no tiene número se escribe «S/N», que es una respuesta válida (DEC-120). |
 | Entre qué calles | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |
@@ -125,6 +122,64 @@ Todo dato recabado sirve a una de estas finalidades. Ninguna otra.
 | Campo | Obligatorio | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|
 | Prueba de humanidad | Obligatorio | No | Siempre | Impide el envío automatizado masivo. La comprobación la resuelve el servidor; no identifica a la persona ni se incorpora al expediente. |
+
+---
+
+## 2 bis. Campos que viajan a la base y no se ven en pantalla
+
+Los calcula el formulario: la persona no los escribe ni los ve, pero llegan al expediente. Se declaran en `OBLIG` (marcados `oculto`) o en `DERIVADOS`, y una prueba exige que toda clave que el código guarda esté declarada en alguno de los dos o en `INTERNOS` (DEC-128).
+
+**Por denuncia**
+
+| Dato | Clave | Quién lo pone | Dato personal | Para qué sirve |
+|---|---|---|---|---|
+| Origen de la ubicación | `ubicacion_origen` | Lo pone el formulario al enviar, «punto» si la persona lo marcó o «dirección» si la Secretaría debe ubicar el lugar | No | Separa las denuncias que llegan con punto de las que hay que ubicar con la dirección antes de turnarlas; alimenta la bandeja «por ubicar» del módulo interno (DEC-123). |
+| Clave de la colonia (IECM) | `colonia_cve` | La pone el catálogo cuando la persona elige su colonia de la lista | No | Clave CVEUT de la unidad territorial del IECM 2022. Agrupa las denuncias por colonia sin depender de cómo se escribió el nombre. Queda vacía cuando la persona escribe una colonia que no está en el catálogo: el nombre se conserva igual (DEC-117). |
+| Celda UGA | `uga` | La asigna el punto del mapa | No | Celda de la malla hexagonal del Sistema de Información Ambiental (~1 km²) en la que cae el punto. No se muestra a la persona: queda en el expediente para la programación de operativos y la estadística territorial. Es provisional: el servidor la vuelve a derivar con la capa completa y guarda la versión de la malla (DEC-117). |
+| Clave del área que atiende | `dg` | Regla de turnado, a partir del tipo de zona | No | DGIVA, DGCORENADR o FEDERAL: enruta la denuncia en el módulo interno y arma el folio. |
+| ANP federal coadministrada | `coadmin` | Catálogo del convenio CONANP-CDMX | No | Marca si la Secretaría coadministra el ANP federal del punto; cambia el texto del turnado. |
+| Versión de la malla UGA | `uga_version` | Catálogo UGA incrustado | No | Con qué versión de la malla se asignó la celda; el servidor la vuelve a derivar con la más reciente. |
+
+**Por cada foto adjunta**
+
+| Dato | Clave | Quién lo pone | Dato personal | Para qué sirve |
+|---|---|---|---|---|
+| Huella SHA-256 del original | `sha256_original` | La foto, antes de optimizarla | No | Permite comprobar después que el original que presente la persona es el mismo (DEC-121). |
+| Fecha de captura de la foto | `fecha_captura` | Metadatos de la foto (EXIF) | No | Cuándo se tomó la foto; es parte de la prueba y se pierde al optimizarla. |
+| Latitud donde se tomó la foto | `lat_captura` | Metadatos de la foto (EXIF) | **Sí** | Dónde se tomó la foto; lo dice el aviso de privacidad (DEC-121). |
+| Longitud donde se tomó la foto | `lon_captura` | Metadatos de la foto (EXIF) | **Sí** | Dónde se tomó la foto; lo dice el aviso de privacidad (DEC-121). |
+| Dimensiones de la foto optimizada | `dimensiones` | La optimización | No | Ancho y alto en píxeles de lo que se guarda. |
+| Foto optimizada | `optimizada` | La optimización | No | Si la foto se optimizó o entró el original. |
+| Formato de la foto guardada | `tipo` | La optimización | No | Formato con el que se guarda la foto optimizada (JPG). |
+
+### Datos que calcula el formulario y se muestran como información
+
+Tampoco los escribe la persona: se le enseñan en la ficha del mapa, en la revisión o en el acuse.
+
+**Por denuncia**
+
+| Dato | Clave | Quién lo pone | Dato personal | Para qué sirve |
+|---|---|---|---|---|
+| Alcaldía | `alcaldia` | La determina el punto del mapa | No | Turnado, programación de operativos y estadística territorial. **No se captura**: la determina el cruce del punto contra la capa de alcaldías, que es el mismo dato con el que se resuelve el turnado, de modo que el acuse y el expediente no pueden contradecirse. La dirección lleva además su propia alcaldía (`alcaldia_dir`, DEC-118), que **no la sustituye**. |
+| Alcaldía de la dirección distinta de la del punto | `alcaldia_discrepa` | La calcula el formulario al comparar las dos alcaldías | No | Marca para quien recibe la denuncia: la dirección y el punto no están en la misma alcaldía. No impide enviar, porque cerca del límite puede no haber error; sí obliga a mirar antes de programar la visita (DEC-118). |
+| Longitud del punto | `lon` | El punto del mapa, junto con la latitud | **Sí** | Con la latitud, ubica el sitio para el cruce de capas y la visita. |
+| Tipo de zona | `capa_clase` | Cruce del punto con las capas del SIA | No | Suelo urbano, suelo de conservación o Área Natural Protegida: decide qué área atiende. |
+| Tipo de suelo | `capa_tipo` | Cruce del punto con las capas del SIA | No | Resumen del tipo de suelo que se muestra en la revisión y viaja al expediente. |
+| Categoría de la zona | `capa_categoria` | Cruce del punto con las capas del SIA | No | Categoría del Área Natural Protegida o de Valor Ambiental en la que cae el punto. |
+| Área identificada | `capa_nombre` | Cruce del punto con las capas del SIA | No | Nombre del área protegida en la que cae el punto; precisa el lugar en la orden de visita. |
+| Área que atiende | `dg_nombre` | Regla de turnado | No | Nombre del área que atiende, como se dice en la ficha, la revisión y el acuse. |
+| Razón del turnado | `dg_razon` | Regla de turnado | No | Explica por qué la atiende otra autoridad cuando el punto cae en un Área Natural Protegida federal. |
+| Área protegida local concurrente | `concurrencia` | Cruce del punto con las capas del SIA | No | Cuando el punto cae a la vez en un ANP federal y en una local: abre la vía de intervención local. |
+| Punto fuera de la Ciudad | `fuera` | Cruce del punto con el límite de la Ciudad | No | Detiene la denuncia: la Secretaría sólo atiende hechos dentro de la Ciudad. |
+| Identidad acreditada con Llave CDMX | `sesion_llave` | La cuenta Llave CDMX | No | Distingue la identidad acreditada de los datos escritos a mano. |
+| Folio | `folio` | El sistema, al enviar | No | Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento. |
+| Fecha y hora de recepción | `fecha_acuse` | El sistema, al enviar | No | Desde cuándo corren los plazos de turnado y análisis. |
+
+**Por cada foto adjunta**
+
+| Dato | Clave | Quién lo pone | Dato personal | Para qué sirve |
+|---|---|---|---|---|
+| Peso original de la foto | `size_original` | La foto, al adjuntarla | No | Se muestra junto al peso optimizado; deja constancia de la optimización. |
 
 ---
 ## 3. Hallazgos de la revisión de minimización

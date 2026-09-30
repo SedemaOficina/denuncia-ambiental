@@ -149,13 +149,12 @@ with sync_playwright() as pw:
     afirma(coherente['marca'] == 'si', 'el expediente lleva la marca de la diferencia')
 
     aviso = pg.evaluate("""() => { guarda('coord_pegar','https://maps.app.goo.gl/AbCdEf'); colocaPorTexto();
-        return document.getElementById('resBusqueda').innerText.trim(); }""")
-    # El aviso cambio con DEC-82: ya no solo explica el problema, ofrece la
-    # salida. Lo que no puede perderse es que el enlace no trae la coordenada.
-    afirma('No lleva la coordenada dentro' in aviso,
+        return (document.getElementById('avisoPegar')||{innerText:''}).innerText.trim(); }""")
+    # Desde DEC-129 el aviso es una linea, junto al campo, y dice que hacer.
+    afirma('no se puede leer aqu\u00ed' in aviso,
            'un enlace corto se explica en vez de fallar en silencio')
-    afirma('servidor de la Secretar\u00eda' in aviso,
-           'y dice qui\u00e9n lo resolver\u00e1, en vez de dejar ah\u00ed a la persona')
+    afirma('coordenadas' in aviso and len(aviso) < 160,
+           'y dice qu\u00e9 hacer, en una l\u00ednea: %r' % aviso)
     afirma(peticiones == [], 'leer el enlace no genera ninguna peticion de red: %s' % peticiones[:2])
     pg.evaluate("guarda('coord_pegar',''); guarda('lat',''); guarda('lon',''); render()")
 

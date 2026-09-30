@@ -56,9 +56,9 @@ with sync_playwright() as pw:
     # enlace corto de Compartir: no se lee y se explica
     pg.evaluate("() => { estado={}; guarda('materia','rsu'); guarda('tiene_direccion','no'); irA(2); }"); pg.wait_for_timeout(300)
     corto = pg.evaluate("""() => { guarda('coord_pegar','https://maps.app.goo.gl/bxEUL12FPAbcRFq1A https://maps.app.goo.gl/bxEUL12FPAbcRFq1A');
-      colocaPorTexto(); return {lee: leeCoordenadas(val('coord_pegar')), lat: val('lat'), txt: document.getElementById('resBusqueda').innerText}; }""")
+      colocaPorTexto(); return {lee: leeCoordenadas(val('coord_pegar')), lat: val('lat'), txt: document.getElementById('avisoPegar').innerText}; }""")
     afirma(corto['lee'] is None and not corto['lat'], 'el enlace corto de Compartir no coloca un punto inventado')
-    afirma('todavía no se puede resolver' in corto['txt'] and 'Abre el enlace' in corto['txt'], 'y dice qué hacer mientras tanto')
+    afirma('no se puede leer aquí' in corto['txt'] and 'Ábrelo' in corto['txt'], 'y dice qué hacer mientras tanto, en una línea')
 
     # el enlace de ficha coloca el punto en el lugar
     fi = pg.evaluate("""(u) => { guarda('coord_pegar', u); colocaPorTexto(); return [val('lat'), val('lon')]; }""", FICHA)

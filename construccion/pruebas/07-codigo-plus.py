@@ -67,43 +67,30 @@ with sync_playwright() as pw:
             afirma(-90 <= r['lat'] <= 90 and -180 <= r['lon'] <= 180,
                    'y la coordenada que devuelve es válida: %s' % nom)
 
-    # ---- 4. El enlace corto no es un callejon sin salida ----
+    # ---- 4. El enlace corto no es un callejon sin salida (DEC-129) ----
+    #    El aviso se acorto a una linea, junto al campo, con el enlace para
+    #    abrirlo; la guia de abajo ya dice donde estan los numeros.
     r = pg.evaluate("""() => {
       cfg.validar = true; guarda('materia','rsu'); guarda('tiene_direccion','no'); irA(2);
       guarda('coord_pegar','https://maps.app.goo.gl/4iwJgrZVKKrEHH2u8?g_st=ic');
       colocaPorTexto();
-      const c = document.getElementById('resBusqueda');
+      const c = document.getElementById('avisoPegar'), campo = document.getElementById('f_coord_pegar');
       const a = c ? c.querySelector('a[target="_blank"]') : null;
       return {texto: c ? c.innerText.replace(/\\s+/g,' ') : '',
               abre: !!a, destino: a ? a.getAttribute('href') : '',
               rel: a ? a.getAttribute('rel') : '',
-              demo: !!(c && [...c.querySelectorAll('button')].some(b => b.textContent.indexOf('funcionará') >= 0)),
-              pasos: c ? c.querySelectorAll('ol li').length : 0};
+              cerca: c && campo ? c.getBoundingClientRect().top - campo.getBoundingClientRect().bottom : 999,
+              botones: c ? c.querySelectorAll('button').length : -1,
+              pend: c ? c.querySelectorAll('.pendiente').length : -1,
+              res: (document.getElementById('resBusqueda')||{innerText:''}).innerText.trim()};
     }""")
-    afirma('No lleva la coordenada dentro' in r['texto'],
-           'el aviso explica por qué ese enlace no sirve todavía')
-    afirma('servidor de la Secretaría' in r['texto'],
-           'y dice quién lo va a resolver, en vez de culpar a la persona')
-    afirma('sin que tu navegador hable con Google' in r['texto'],
-           'y que resolverlo ahí evita que Google sepa que alguien denuncia (DEC-88)')
-    afirma(r['abre'] and r['destino'].startswith('https://maps.app.goo.gl/'),
-           'ofrece abrir el propio enlace que se pegó')
+    afirma('no se puede leer aquí' in r['texto'], 'el aviso dice que ese enlace no sirve todavía')
+    afirma(len(r['texto']) < 160, 'en una línea, no en un párrafo (%d caracteres)' % len(r['texto']))
+    afirma(r['abre'] and r['destino'].startswith('https://maps.app.goo.gl/'), 'ofrece abrir el propio enlace que se pegó')
     afirma('noopener' in r['rel'], 'la pestaña nueva se abre sin dar control sobre la nuestra')
-    afirma(r['pasos'] == 2, 'la salida son dos pasos, no un párrafo')
-    afirma(r['demo'], 'y se puede ver cómo funcionará, a petición')
-
-    # La demostración coloca un punto fijo: no puede hacerlo sin avisarlo, o
-    # alguien dará por buena una coordenada inventada.
-    d = pg.evaluate("""() => {
-      demoEnlace();
-      const c = document.getElementById('resBusqueda');
-      return {texto: c ? c.innerText.replace(/\\s+/g,' ') : '',
-              lat: val('lat'), chip: c ? c.querySelectorAll('.pendiente').length : 0};
-    }""")
-    afirma(d['lat'] != '', 'la demostración coloca el punto')
-    afirma('no se resolvió de verdad' in d['texto'],
-           'y advierte que la coordenada es de demostración')
-    afirma(d['chip'] >= 1, 'con la marca de pendiente, como el resto de lo simulado')
+    afirma(0 <= r['cerca'] < 40, 'aparece justo debajo del campo (%.0f px)' % r['cerca'])
+    afirma(r['botones'] == 0 and r['pend'] == 0, 'sin botones de demostración ni marcas internas')
+    afirma(r['res'] == '', 'y no se repite debajo de la guía')
 
     # ---- 5. Un codigo plus pegado coloca el punto ----
     r = pg.evaluate("""() => {

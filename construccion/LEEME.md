@@ -16,7 +16,7 @@ El entorno donde se publica el artefacto **bloquea todo recurso externo**. El pr
 |---|---|
 | `construir.py` | Transforma el archivo local en la versión publicable |
 | `mapa_svg.js` | El mapa vectorial que sustituye a Leaflet. Se inyecta al final, de modo que **sus definiciones sobrescriben a las del prototipo** |
-| `generar_doc09.py` | Regenera `documentacion/09-mapeo-campos-obligatorios.md` desde el catálogo `OBLIG` |
+| `generar_doc09.py` | Regenera `documentacion/09-mapeo-campos-obligatorios.md` desde `OBLIG` y `DERIVADOS`, y pone en el prototipo la versión del formulario (la última decisión del documento 05). Correrlo después de cada cambio (DEC-128) |
 | `publicar_pages.py` | Copia el prototipo a `docs/index.html` para GitHub Pages: sin la configuración local ni su clave, con aviso de versión de prueba y sin indexar en buscadores (DEC-127) |
 | `generar_catalogos.py` | Incrusta en el prototipo el catálogo de colonias (IECM 2022) y los centros de la malla UGA, a partir de `capas/originales/` (DEC-117). Idempotente |
 | `validar_catalogos.py` | Coteja los catálogos incrustados contra los polígonos completos. Requiere `shapely`; se corre al cambiar un origen |
