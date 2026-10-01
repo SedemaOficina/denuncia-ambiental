@@ -361,6 +361,9 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 .derechos b{font-weight:600}
 /* Cada pregunta en su tarjeta, con una flecha guinda que gira al abrirse (DEC-144, DEC-167). */
 .faq{display:grid;gap:8px}
+/* Tres preguntas a la vista; el resto, con el botón (DEC-185). */
+.faq-corta details:nth-of-type(n+4){display:none}
+.faq-ver{margin-top:12px}
 .faq details{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja)}
 .faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:13px 18px;
   font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-base);font-weight:700;line-height:1.35;color:var(--texto)}
@@ -1387,7 +1390,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-184', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-185', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2113,7 +2116,8 @@ function pInicio(){
        crece a la vista, y cada respuesta se abre cuando hace falta (DEC-143). */
     '<div class="portada-bloque">'+
       '<h2 class="rotulo-portada">Preguntas frecuentes</h2>'+
-      '<div class="faq">'+
+      /* A la vista, las tres primeras; el botón despliega las demás (DEC-185). */
+      '<div class="faq faq-corta" id="faqLista">'+
         /* Los cuatro derechos que antes iban en su propio bloque, «Lo que la ley
            te reconoce», viven aquí como preguntas (DEC-184). */
         '<details><summary>¿Tengo que ser la persona afectada para denunciar?</summary><p>No. Cualquier persona puede denunciar: no necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio.</p></details>'+
@@ -2126,6 +2130,9 @@ function pInicio(){
         '<details><summary>¿Puedo dejarla a medias y terminarla después?</summary><p>Sí. El avance se guarda en este navegador. Para retomarla entra desde el mismo dispositivo y navegador; si borras sus datos, el avance se pierde.</p></details>'+
         '<details><summary>¿Cómo doy seguimiento a mi denuncia?</summary><p>Con el folio y la clave de consulta que recibes al enviarla. Al terminar, descarga tu acuse en PDF y guárdalo. <span class="pendiente">Consulta del estado: por desarrollar</span></p></details>'+
       '</div>'+
+      '<button type="button" class="btn btn-secundario faq-ver" aria-expanded="false" aria-controls="faqLista" '+
+        'onclick="var f=document.getElementById(\'faqLista\'), c=f.classList.toggle(\'faq-corta\'); this.setAttribute(\'aria-expanded\', c ? \'false\' : \'true\'); '+
+        'this.textContent = c ? \'Ver todas las preguntas (\' + f.querySelectorAll(\'details\').length + \')\' : \'Ver menos preguntas\'">Ver todas las preguntas (9)</button>'+
     '</div>'+
 
   '</div>';

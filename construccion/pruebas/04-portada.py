@@ -152,6 +152,14 @@ with sync_playwright() as pw:
         afirma(len(fq) == 9 and len(set(d.split('?')[0] for d in fq)) == 9, '%s: nueve preguntas, ninguna repetida (%d)' % (nom, len(fq)))
         afirma('pedir que sean confidenciales' not in todo and 'Tus datos son confidenciales' in todo,
                '%s: la confidencialidad se dice como regla, no como algo que se pide (DEC-119)' % nom)
+        # Tres preguntas a la vista y un botón que despliega las nueve (DEC-185).
+        fv = pg.evaluate("""() => { const vis = () => [...document.querySelectorAll('#app .faq details')].filter(d => d.offsetParent !== null).length;
+          const b = document.querySelector('#app .faq-ver'); const a = vis(), t0 = b.innerText.trim(); b.click();
+          const c = vis(), t1 = b.innerText.trim(), e1 = b.getAttribute('aria-expanded'); b.click();
+          return {antes: a, despues: c, vuelve: vis(), t0: t0, t1: t1, e1: e1}; }""")
+        afirma(fv['antes'] == 3 and fv['despues'] == 9 and fv['vuelve'] == 3 and fv['t0'] == 'Ver todas las preguntas (9)'
+               and fv['t1'] == 'Ver menos preguntas' and fv['e1'] == 'true',
+               '%s: se ven tres preguntas y «Ver todas las preguntas (9)» despliega las nueve: %s' % (nom, fv))
         # En la portada el pie no repite las oficinas; en el formulario sí las muestra.
         pie = pg.evaluate("""() => { const v = () => document.getElementById('pieEnPersona').offsetParent !== null;
           const a = v(); irA(1); const b = v(); irA(0); return [a, b]; }""")
