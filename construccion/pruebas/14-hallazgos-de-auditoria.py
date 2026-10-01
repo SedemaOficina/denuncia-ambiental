@@ -304,6 +304,23 @@ with sync_playwright() as pw:
            'desde la revisión, enviar con los hechos vacíos lleva al paso 3 y no emite folio (%s)' % ob['llevaA'])
     pg.evaluate("() => { cfg.validar = false; }")
 
+    # ---- 10 quinquies. Las opciones no se mueven al elegir, con el dedo (DEC-169) ----
+    dev = dict(pw.devices['iPhone 13']); dev.pop('default_browser_type', None)
+    cm = nav.new_context(**dev); pm = cm.new_page(); pm.goto(TMP.as_uri()); pm.wait_for_timeout(600)
+    mv = pm.evaluate("""() => { estado = {}; cfg.validar = false; guarda('materia','vehiculo'); irA(3);
+      const pos = () => [...document.querySelectorAll('#c_veh_servicio .btn-sn')].map(b => { const r = b.getBoundingClientRect(); return [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)]; });
+      const antes = pos(); if(!antes.length) return null;
+      document.querySelectorAll('#c_veh_servicio .btn-sn')[2].click();
+      const despues = pos();
+      document.querySelectorAll('#c_veh_servicio .btn-sn')[0].click();
+      return {antes, despues, otra: pos(), coarse: matchMedia('(pointer: coarse)').matches}; }""")
+    afirma(mv and mv['coarse'] and mv['antes'] == mv['despues'] == mv['otra'],
+           'en pantalla táctil, elegir una opción no cambia el tamaño ni el lugar de las demás: %s' % mv)
+    fe = pm.evaluate("""() => { guarda('temporalidad','recurrente'); render(); const i = document.querySelector('#app input[type=date]');
+      if(!i) return null; const r = i.getBoundingClientRect(), c = i.closest('.tarjeta').getBoundingClientRect(); return [Math.round(r.right), Math.round(c.right)]; }""")
+    afirma(fe and fe[0] <= fe[1], 'el campo de fecha no se sale de la tarjeta: %s' % fe)
+    cm.close()
+
     # ---- 11. El acuse federal no promete plazos de la Secretaría ----
     ac = pg.evaluate("""() => { cargaEscenario('anp_federal'); guarda('verificacion','si');
       irA(6);
