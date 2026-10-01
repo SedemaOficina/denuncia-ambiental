@@ -1375,7 +1375,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-171', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-172', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2171,8 +2171,8 @@ function pUbicacion(){
          código postal. La alcaldía va antes que la colonia porque la acota
          (DEC-118). Manzana y lote sólo aparecen a quien dice que los tiene. */
       '<div class="fila-2-1">'+
-        campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'')+
-        campo('num_ext','Número exterior','texto',esObligatorio('num_ext'),'Si no tiene, escribe S/N','autocomplete="off"')+
+        campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'','autocomplete="section-lugar address-line1"')+
+        campo('num_ext','Número exterior','texto',esObligatorio('num_ext'),'Si no tiene, escribe S/N')+
       '</div>'+
       campoSiNo('tiene_mz_lote','¿El predio se identifica por manzana y lote?',
         'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote()')+
@@ -2184,7 +2184,7 @@ function pUbicacion(){
         campoColonia()+
       '</div>'+
       '<div class="fila">'+
-        campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="off"')+
+        campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="section-lugar postal-code"')+
       '</div>'+
       campoArea('referencias','¿Cómo se reconoce el sitio?',false,
         'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3);
@@ -2832,7 +2832,7 @@ function pDenunciante(){
     h += '<div class="fila-3">'+
       campo('nombre','Nombre(s)','texto',esObligatorio('nombre'),'','autocomplete="given-name"')+
       campo('apellido_paterno','Apellido paterno','texto',esObligatorio('apellido_paterno'),'','autocomplete="family-name"')+
-      campo('apellido_materno','Apellido materno','texto',false,'','autocomplete="off"')+
+      campo('apellido_materno','Apellido materno','texto',false,'')+
     '</div>'+
     '<div class="fila">'+
       campo('telefono','Teléfono','tel',esObligatorio('telefono'),'A diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
@@ -2853,8 +2853,8 @@ function pDenunciante(){
       '<span>Vivo fuera de la Ciudad de México</span></label></div>'+
     '<div class="fila-3">'+
       campo('dom_calle','Calle o vialidad','texto',esObligatorio('dom_calle'),'','autocomplete="address-line1"')+
-      campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'Si no tiene, escribe S/N','autocomplete="off"')+
-      campo('dom_num_int','Número interior','texto',false,'','autocomplete="off"')+
+      campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'Si no tiene, escribe S/N')+
+      campo('dom_num_int','Número interior','texto',false,'','autocomplete="address-line2"')+
     '</div>'+
     campoSiNo('dom_tiene_mz_lote','¿Tu domicilio se identifica por manzana y lote?',
       'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote(\'dom_\')')+
@@ -2874,7 +2874,7 @@ function pDenunciante(){
           campoColonia('dom_colonia')+
         '</div>'+
         '<div class="fila">'+
-          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'Cinco dígitos','autocomplete="off" inputmode="numeric" maxlength="5"')+
+          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'Cinco dígitos','autocomplete="postal-code" inputmode="numeric" maxlength="5"')+
         '</div>');
     /* Para qué sirven los datos y que no se difunden lo dice el aviso de
        privacidad; repetirlo aquí era un segundo aviso sin valor legal (DEC-133). */
@@ -3188,7 +3188,16 @@ function alcaldiaDeFila(r){ return CATALOGO_COLONIAS.alcaldias[r[1]]; }
    luego lo que tiene una palabra que empieza igual, luego lo demas. Dentro de
    cada grupo, primero la alcaldia del punto, si ya hay punto. */
 function sugiereColonias(q, max, k){
-  var nq = normaCol(q); if(nq.length < 2) return [];
+  var nq = normaCol(q);
+  /* Sin escribir nada, todas las de la alcaldia elegida, en orden alfabetico:
+     al tocar el campo la lista ya esta ahi, como un desplegable (DEC-172). */
+  if(!nq){
+    var da = val(comboCol(k).alc); if(!da) return [];
+    var fs = CATALOGO_COLONIAS.filas, todas = [];
+    for(var m=0;m<fs.length;m++) if(alcaldiaDeFila(fs[m]) === da) todas.push(m);
+    todas.sort(function(a,b){ return fs[a][0].localeCompare(fs[b][0],'es'); });
+    return todas.slice(0, max||400);
+  }
   /* Con alcaldia de la direccion, solo sus colonias (DEC-118). Sin ella —solo
      en pruebas, porque el campo esta deshabilitado— todo el catalogo, con la
      alcaldia del punto primero. */
@@ -3226,15 +3235,15 @@ function campoColonia(k){
   k = k || 'colonia';
   var d = comboCol(k), sinAlc = !val(d.alc), q = "'"+k+"'";
   return '<div class="campo" id="c_'+k+'"><label for="f_'+k+'">Colonia'+marca_opc(esObligatorio(k))+'</label>'+
-    '<div class="ayuda" id="a_'+k+'">Escribe y elige de la lista. Si no aparece, déjala como la conoces.</div>'+
+    '<div class="ayuda" id="a_'+k+'">Elige de la lista o escribe para buscarla. Si no aparece, déjala como la conoces.</div>'+
     '<div class="combo">'+
       '<input type="text" id="f_'+k+'" name="'+k+'" role="combobox" aria-autocomplete="list" aria-expanded="false" '+
         (sinAlc ? 'disabled placeholder="Primero elige la alcaldía" ' : '')+
         'aria-controls="lista_'+k+'" autocomplete="off" aria-describedby="a_'+k+' e_'+k+'" aria-invalid="false" '+
         'value="'+esc(val(k))+'" '+
         (d.lugar
-          ? 'oninput="escribeColonia(this.value)" onkeydown="teclaColonia(event)" onblur="saleColonia();buscaDireccionSola()">'
-          : 'oninput="escribeColonia(this.value,'+q+')" onkeydown="teclaColonia(event,'+q+')" onblur="saleColonia('+q+')">')+
+          ? 'onfocus="pintaSugerencias()" onclick="pintaSugerencias()" oninput="escribeColonia(this.value)" onkeydown="teclaColonia(event)" onblur="saleColonia();buscaDireccionSola()">'
+          : 'onfocus="pintaSugerencias('+q+')" onclick="pintaSugerencias('+q+')" oninput="escribeColonia(this.value,'+q+')" onkeydown="teclaColonia(event,'+q+')" onblur="saleColonia('+q+')">')+
       '<ul class="combo-lista" id="lista_'+k+'" role="listbox" aria-label="Colonias del catálogo" hidden></ul>'+
     '</div>'+
     '<div class="err" id="e_'+k+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
@@ -3256,9 +3265,10 @@ function escribeColonia(v, k){
 function pintaSugerencias(k){
   k = k || 'colonia'; var d = comboCol(k);
   var ul = $('lista_'+k), inp = $('f_'+k); if(!ul || !inp) return;
-  COL_OPCIONES = sugiereColonias(inp.value, 8, k); COL_ACTIVA = -1;
+  var vacio = !normaCol(inp.value);
+  COL_OPCIONES = sugiereColonias(inp.value, vacio ? 400 : 40, k); COL_ACTIVA = -1;
   inp.removeAttribute('aria-activedescendant');
-  if(normaCol(inp.value).length < 2){ cierraColonias(k); return; }
+  if(vacio && !COL_OPCIONES.length){ cierraColonias(k); return; }
   var filas = CATALOGO_COLONIAS.filas, pre = prefijoOp(k), dir = val(d.alc);
   ul.innerHTML = COL_OPCIONES.length
     ? COL_OPCIONES.map(function(i,n){
@@ -3397,11 +3407,14 @@ function celdaUga(la, lo){
   return Math.sqrt(dmin) <= m.apotema * 1.2 ? mejor : '';
 }
 
+/* El navegador ofrece lo que ya tiene guardado si sabe qué es cada campo. La
+   alcaldía y la entidad se llenan desde la dirección guardada (DEC-172). */
+var AUTOLLENADO_SELECT = {alcaldia_dir:'section-lugar address-level2', dom_alcaldia:'address-level2', dom_entidad:'address-level1'};
 function campoSelect(k,etq,ops,oblig,ayuda,alCambiar){
   var id='f_'+k, idA='a_'+k, idE='e_'+k;
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
-    '<select id="'+id+'" name="'+k+'"'+(val(k)?'':' class="sin-elegir"')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" '+
+    '<select id="'+id+'" name="'+k+'"'+(AUTOLLENADO_SELECT[k] ? ' autocomplete="'+AUTOLLENADO_SELECT[k]+'"' : '')+(val(k)?'':' class="sin-elegir"')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" '+
       'onchange="this.classList.toggle(\'sin-elegir\',!this.value);guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');'+(alCambiar||'')+'">'+
     '<option value="">Selecciona…</option>'+
     ops.map(function(o){

@@ -88,7 +88,7 @@ with sync_playwright() as pw:
     afirma(c['auto'] == 'off', 'el autocompletado del navegador no se encima con el del catálogo')
 
     escribe(pg, 'c')
-    afirma(opciones(pg) == [], 'con una sola letra no se sugiere nada')
+    afirma(len(opciones(pg)) > 0, 'desde la primera letra ya sugiere (DEC-172)')
     escribe(pg, 'chimal')
     ops = opciones(pg)
     fuera = pg.evaluate("""(noms) => noms.filter(n => !CATALOGO_COLONIAS.filas.some(r => r[0] === n && CATALOGO_COLONIAS.alcaldias[r[1]] === 'Coyoacán'))""",
@@ -242,6 +242,30 @@ with sync_playwright() as pw:
     escribe(pg, 'unidad habitacional')
     ancho = pg.evaluate("() => { const l = document.getElementById('lista_colonia').getBoundingClientRect(); return {der: l.right, vw: window.innerWidth, doc: document.documentElement.scrollWidth}; }")
     afirma(ancho['der'] <= ancho['vw'] and ancho['doc'] <= ancho['vw'], 'en teléfono la lista cabe en la pantalla (%.0f de %d px)' % (ancho['der'], ancho['vw']))
+
+    # ---- Lista al entrar y autollenado (DEC-172) ----
+    lc = pg.evaluate("""() => { estado = {}; cfg.validar = false; guarda('materia','rsu'); guarda('tiene_direccion','si'); guarda('alcaldia_dir','Coyoacán'); irA(2);
+      const i = document.getElementById('f_colonia'); i.focus();
+      const ul = document.getElementById('lista_colonia'), n0 = ul.hidden ? 0 : ul.querySelectorAll('li[role=option]').length;
+      const primeras = [...ul.querySelectorAll('.op-nom')].slice(0,3).map(x => x.textContent);
+      i.value = 'c'; escribeColonia('c'); const n1 = ul.querySelectorAll('li[role=option]').length;
+      i.value = 'chimal'; escribeColonia('chimal'); const n2 = [...ul.querySelectorAll('.op-nom')].map(x => x.textContent);
+      const ac = k => (document.getElementById('f_'+k) || {}).getAttribute ? document.getElementById('f_'+k).getAttribute('autocomplete') : null;
+      const r = {n0, primeras, n1, n2, calle: ac('calle'), cp: ac('cp'), alc: ac('alcaldia_dir'), col: ac('colonia')};
+      guarda('identificacion','nombre'); irA(5);
+      Object.assign(r, {nombre: ac('nombre'), pat: ac('apellido_paterno'), mat: ac('apellido_materno'), tel: ac('telefono'), correo: ac('correo'),
+        dcalle: ac('dom_calle'), dcp: ac('dom_cp'), dalc: ac('dom_alcaldia')});
+      return r; }""")
+    afirma(lc['n0'] > 50 and lc['primeras'] == sorted(lc['primeras'], key=lambda x: x.lower()),
+           'al tocar la colonia aparece la lista de la alcaldía, en orden alfabético (%d): %s' % (lc['n0'], lc['primeras']))
+    afirma(0 < lc['n1'] < lc['n0'] and lc['n2'] and all('Chimal' in x for x in lc['n2']),
+           'y se filtra desde la primera letra: %d con «c», %s con «chimal»' % (lc['n1'], lc['n2']))
+    afirma(lc['col'] == 'off', 'la colonia apaga el autollenado del navegador para no tapar su lista')
+    afirma(lc['calle'] == 'section-lugar address-line1' and lc['cp'] == 'section-lugar postal-code' and lc['alc'] == 'section-lugar address-level2',
+           'la dirección del lugar se ofrece al autollenado, aparte del domicilio: %s' % [lc['calle'], lc['cp'], lc['alc']])
+    afirma([lc['nombre'], lc['pat'], lc['tel'], lc['correo'], lc['dcalle'], lc['dcp'], lc['dalc']] ==
+           ['given-name', 'family-name', 'tel', 'email', 'address-line1', 'postal-code', 'address-level2'] and lc['mat'] != 'off',
+           'nombre, teléfono, correo y domicilio declaran lo que son para que el navegador los llene')
 
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])
     pg.close(); nav.close()
