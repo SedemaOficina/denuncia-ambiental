@@ -40,6 +40,7 @@ with sync_playwright() as pw:
       return {boton: !!b, texto: document.getElementById('app').innerText}; }""")
     afirma(ac['boton'], 'la pantalla final ofrece «Descargar acuse (PDF)»')
     afirma('no se envían por correo' in ac['texto'], 'y dice que el folio y el acuse no se envían por correo')
+    afirma('Consulta del estado: por desarrollar' in ac['texto'], 'la consulta del estado se marca como pendiente: todavía no existe (DEC-164)')
     fx = pg.evaluate("""() => { const f = document.querySelector('.datos-acuse'), d = document.querySelector('.acuse-pdf .btn');
       const cf = getComputedStyle(f), cd = getComputedStyle(d);
       return {etq: [...f.querySelectorAll('.dato-etq')].map(e => e.innerText.trim().toLowerCase()),
@@ -66,6 +67,7 @@ with sync_playwright() as pw:
         afirma(clave and clave in txt and 'Clave de consulta' in txt and 'No puede reponerse' in txt,
                '%s: lleva la clave de consulta %s (DEC-151)' % (esc, clave))
         afirma('ACUSE DE RECEPCIÓN' in txt and 'Recibida el' in txt, '%s: título y fecha de recepción' % esc)
+        afirma('esté disponible' in txt, '%s: el PDF no da por hecha la consulta en línea' % esc)
         afirma('SECRETARÍA DEL MEDIO AMBIENTE' in txt, '%s: membrete con acentos correctos' % esc)
         afirma('Página 1 de' in txt, '%s: numeración de páginas' % esc)
         afirma('Prototipo de validación interna' in txt and 'no tiene validez oficial' in txt, '%s: advierte que es un prototipo' % esc)

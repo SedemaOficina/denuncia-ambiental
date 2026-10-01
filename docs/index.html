@@ -1358,7 +1358,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-163', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-164', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1962,7 +1962,7 @@ function pInicio(){
         '<details><summary>¿Necesito fotos o documentos?</summary><p>No son obligatorios, pero ayudan a verificar los hechos. Puedes adjuntar fotos (JPG o PNG), videos (MP4 o MOV) y documentos (Word, PDF o Excel).</p></details>'+
         '<details><summary>¿Qué pasa si mi caso no lo atiende la Secretaría?</summary><p>Al elegir qué quieres denunciar, en «Mi caso no está en la lista» encuentras los casos que atiende otra autoridad, como la basura en la calle o el ruido de vecinos, y a dónde acudir.</p></details>'+
         '<details><summary>¿Puedo dejarla a medias y terminarla después?</summary><p>Sí. El avance se guarda en este navegador. Para retomarla entra desde el mismo dispositivo y navegador; si borras sus datos, el avance se pierde.</p></details>'+
-        '<details><summary>¿Cómo doy seguimiento a mi denuncia?</summary><p>Con el folio que recibes al enviarla. Al terminar, descarga tu acuse en PDF y guárdalo junto con el folio.</p></details>'+
+        '<details><summary>¿Cómo doy seguimiento a mi denuncia?</summary><p>Con el folio y la clave de consulta que recibes al enviarla. Al terminar, descarga tu acuse en PDF y guárdalo. <span class="pendiente">Consulta del estado: por desarrollar</span></p></details>'+
       '</div>'+
     '</div>'+
 
@@ -3076,7 +3076,7 @@ function pAcuse(){
   return '<div class="tarjeta"><div class="acuse">'+
     '<div class="marca">'+svgIcono('check',40,'#fff')+'</div>'+
     '<h2>Tu denuncia fue recibida</h2>'+
-    '<p style="color:var(--gris)">Guarda tu folio y tu clave de consulta y descarga tu acuse: no se envían por correo electrónico. Con el folio y la clave consultas el estado de tu denuncia.</p>'+
+    '<p style="color:var(--gris)">Guarda tu folio y tu clave de consulta y descarga tu acuse: no se envían por correo electrónico. Con el folio y la clave consultas el estado de tu denuncia. <span class="pendiente">Consulta del estado: por desarrollar</span></p>'+
     /* Folio y clave en una ficha clara, con rótulo y «Copiar» como enlace:
        el bloque guinda relleno se confundía con un botón (DEC-162). La clave
        no puede reponerse: se dice aquí y en el PDF (DEC-151). */
@@ -4717,7 +4717,8 @@ function construyeAcusePdf(){
        que falta determinarla. */
     if(!val('lat')) parrafo('La Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.',
       M, AN, 'F1', 9.5, TEXTO, 4);
-    parrafo('Conserva este acuse: con el folio y la clave de consulta puedes conocer el estado de tu denuncia.',
+    /* La consulta todavia no existe (AD-02): el acuse no la da por hecha (DEC-164). */
+    parrafo('Conserva este acuse: con el folio y la clave de consulta podrás conocer el estado de tu denuncia cuando la consulta en línea esté disponible.',
       M, AN, 'F2', 9.5, TEXTO, 6);
 
     /* La denuncia, como se reviso */
