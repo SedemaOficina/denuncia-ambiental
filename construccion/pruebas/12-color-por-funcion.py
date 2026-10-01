@@ -121,9 +121,13 @@ with sync_playwright() as pw:
     afirma(az is True, 'la prueba de humanidad marcada usa el azul de «elegido», no el verde')
 
     # ---- 7. Encabezado y pie en beige (DEC-132) ----
-    bg = pg.evaluate("""() => ['.barra-gobierno','header.titulo','footer'].map(q => {
+    bg = pg.evaluate("""() => ['header.titulo','footer'].map(q => {
       const e = document.querySelector(q); return e ? getComputedStyle(e).backgroundColor : null; })""")
-    afirma(bg == ['rgb(255, 254, 248)'] * 3, 'barra del gobierno, encabezado y pie en beige #FFFEF8: %s' % bg)
+    afirma(bg == ['rgb(255, 254, 248)'] * 2, 'encabezado y pie en beige #FFFEF8: %s' % bg)
+    # Un solo encabezado, con el logotipo dentro (DEC-165)
+    enc = pg.evaluate("""() => ({n: document.querySelectorAll('header.titulo').length, barra: !!document.querySelector('.barra-gobierno'),
+      logo: (document.querySelector('header.titulo .logo-inst') || {}).offsetHeight || 0})""")
+    afirma(enc['n'] == 1 and not enc['barra'] and enc['logo'] >= 60, 'un solo encabezado, con el logotipo dentro y más grande: %s' % enc)
 
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])
     pg.close(); nav.close()
