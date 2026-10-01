@@ -9,7 +9,7 @@ Esta carpeta está vinculada al proyecto **Denuncias Ambientales** en Claude: lo
 | Carpeta | Contenido |
 |---|---|
 | `prototipo/` | Prototipo navegable del formulario. Es un archivo HTML autocontenido: se abre con doble clic en el navegador. Requiere conexión a internet para el mapa base y la búsqueda por dirección. |
-| `documentacion/` | Dieciocho documentos: ficha, reglas de negocio, marco jurídico, modelo de datos, decisiones y pendientes (el de referencia), mapeo de campos y ramas —generados del código—, ruta de trabajo, auditorías fechadas, análisis de la base histórica y nomenclatura de folios. Los mismos documentos están en el proyecto de Claude. |
+| `documentacion/` | Diecinueve documentos: ficha, reglas de negocio, marco jurídico, modelo de datos, decisiones y pendientes (el de referencia), mapeo de campos y ramas —generados del código—, ruta de trabajo, auditorías fechadas, análisis de la base histórica, nomenclatura de folios y lo que resuelve el servidor del SIA al montar el formulario. Los mismos documentos están en el proyecto de Claude. |
 | `capas/` | Capas del Sistema de Información Ambiental usadas por el formulario: alcaldías, Áreas de Valor Ambiental y Áreas Naturales Protegidas, suelo de conservación y, en `originales/`, colonias del IECM 2022 y la malla UGA. |
 | `construccion/` | Lo que genera la versión en línea, la de GitHub Pages y los documentos 09 y 10, y las baterías de prueba. Ver su `LEEME.md`. |
 | `docs/` | La versión de prueba que publica GitHub Pages. Se genera; no se edita a mano. |

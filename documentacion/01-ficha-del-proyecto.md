@@ -50,7 +50,7 @@ Tres etapas, en el orden que fijó la Oficina de la Secretaría. El documento 11
 
 **Etapa 2 — Módulo de acceso de la Secretaría.** Entrada protegida para el personal, con cuentas institucionales. Primero, **la captura por personal** de las denuncias que llegan por Oficialía de Partes, teléfono o correo (AD-03, DEC-154); después, bandeja de denuncias, buscadores y tablero de indicadores, sobre la misma base que el formulario (AD-01). Se construye sobre el modelo de datos validado en la etapa 1.
 
-**Etapa 3 — Implementación en el SIA.** El servidor del Sistema de Información Ambiental recibe y guarda la denuncia, emite el folio, resuelve el cruce espacial contra las capas completas, la geocodificación y los controles contra el envío masivo, y sostiene la consulta ciudadana por folio (AD-02). El detalle está en el documento «Qué resuelve el servidor del SIA».
+**Etapa 3 — Implementación en el SIA.** El servidor del Sistema de Información Ambiental recibe y guarda la denuncia, emite el folio, resuelve el cruce espacial contra las capas completas, la geocodificación y los controles contra el envío masivo, y sostiene la consulta ciudadana por folio (AD-02). El detalle está en el documento 20, «Qué resuelve el servidor del SIA».
 
 ## 6. Ubicación de los archivos
 
@@ -61,7 +61,7 @@ El proyecto tiene una carpeta local vinculada a esta sesión de trabajo:
 | Carpeta | Contenido |
 |---|---|
 | `prototipo/` | Prototipo navegable del formulario, en un archivo HTML autocontenido |
-| `documentacion/` | Los dieciocho documentos de este proyecto y la cédula de respuesta a la DGIVA |
+| `documentacion/` | Los diecinueve documentos de este proyecto y la cédula de respuesta a la DGIVA |
 | `capas/` | Capas del Sistema de Información Ambiental empleadas por el formulario |
 | `construccion/` | Cadena que genera la versión en línea, la de GitHub Pages y los documentos 09 y 10, y las baterías de prueba |
 | `insumos/` | Formato público vigente, propuesta de la Dirección General y Ley Ambiental |

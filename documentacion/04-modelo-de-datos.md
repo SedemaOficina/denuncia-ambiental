@@ -16,7 +16,7 @@ Cada dato del expediente tiene uno de cuatro orígenes. El documento 09 los sepa
 | **Catálogo** | Sale de una lista cerrada al elegir | Clave de la colonia (IECM 2022), alcaldía de la dirección |
 | **Sistema** | Lo pone el formulario o el servidor | Folio, fecha y hora de recepción, origen de la ubicación, huella de las fotos |
 
-En el prototipo el cruce espacial y el folio los resuelve el navegador; en operación los resuelve el servidor del SIA (documento «Qué resuelve el servidor del SIA»).
+En el prototipo el cruce espacial y el folio los resuelve el navegador; en operación los resuelve el servidor del SIA (documento 20, «Qué resuelve el servidor del SIA»).
 
 ## 2. Rutas que cambian el esquema
 
