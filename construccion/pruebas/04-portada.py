@@ -40,6 +40,7 @@ with sync_playwright() as pw:
           return {
             palabras: t.split(' ').length,
             botonY: b ? Math.round(b.getBoundingClientRect().top + window.scrollY) : null,
+            tarjetaY: b ? Math.round(b.closest('.medio-principal').getBoundingClientRect().top + window.scrollY) : null,
             botonEnLinea: !!(b && b.closest('.medio-principal')),
             medios: medios.length,
             persona: medios.length > 1 ? medios[1].innerText : '',
@@ -82,8 +83,14 @@ with sync_playwright() as pw:
         afirma('mismo dispositivo y navegador' in r['tarjeta'], '%s: pausar se aclara: desde el mismo dispositivo y navegador' % nom)
         afirma('BOSQUES URBANOS Y BARRANCAS' in r['persona'].upper(), '%s: la zona urbana nombra bosques urbanos y barrancas' % nom)
         afirma('Qué necesitas' in r['tarjeta'] or 'QUÉ NECESITAS' in r['tarjeta'], '%s: dice qué se necesita para denunciar' % nom)
-        afirma(r['botonY'] is not None and r['botonY'] < alto,
-               '%s: el botón de iniciar se ve sin desplazar (a %s px de %d)' % (nom, r['botonY'], alto))
+        # En teléfono, con la entrada de dos párrafos (DEC-173), basta que la
+        # tarjeta en línea asome en la primera pantalla; en escritorio, el botón.
+        if ancho >= 760:
+            afirma(r['botonY'] is not None and r['botonY'] < alto,
+                   '%s: el botón de iniciar se ve sin desplazar (a %s px de %d)' % (nom, r['botonY'], alto))
+        else:
+            afirma(r['tarjetaY'] is not None and r['tarjetaY'] + 60 < alto,
+                   '%s: la tarjeta en línea asoma en la primera pantalla (a %s px de %d)' % (nom, r['tarjetaY'], alto))
 
         # Los dos medios son el cuerpo de la pagina.
         afirma(r['medios'] == 2, '%s: la portada ofrece los dos medios para presentar la denuncia' % nom)
@@ -132,8 +139,8 @@ with sync_playwright() as pw:
         # El encabezado ya titula y describe: la portada no lo repite.
         afirma('Denuncia Ambiental' not in r['tarjeta'], '%s: la portada no repite el título del encabezado' % nom)
         afirma('Ten a la mano' not in r['tarjeta'], '%s: no vuelve «Ten a la mano»; lo dice «Qué necesitas»' % nom)
-        afirma('Por qué importa que denuncies' in r['tarjeta'] or 'POR QUÉ IMPORTA QUE DENUNCIES' in r['tarjeta'],
-               '%s: la portada dice por qué importa denunciar (DEC-147)' % nom)
+        afirma('Denunciar no es pelearse con nadie' in r['tarjeta'] and 'Por qué importa que denuncies' not in r['tarjeta'],
+               '%s: por qué importa denunciar va en la entrada, sin título propio (DEC-173)' % nom)
 
         # El aviso de denuncia sin terminar puede acortarse, pero NUNCA puede
         # perder que aun no se ha presentado: sin esa frase alguien cierra el
