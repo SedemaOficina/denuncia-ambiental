@@ -693,6 +693,29 @@ Modo del mismo formulario para que el personal de la Dirección General de Inspe
 
 **Prototipo.** Conviene validarlo con la Dirección General como una variante del prototipo actual —un interruptor «modo captura» en el panel de validación— antes de escribir el contrato de la fase 2: así el canal y los campos nuevos quedan acordados con el mismo método que el formulario ciudadano.
 
+
+### AD-04. Croquis del acuse con calles, con el SIA conectado
+
+**Estado: pendiente, anotado por instrucción de Liber Saltijeral el 1 de octubre de 2026. Se retoma cuando el formulario se conecte a los servicios del Sistema de Información Ambiental.**
+
+El croquis de ubicación del acuse (DEC-175) se dibuja en el navegador con las capas simplificadas que trae el formulario: alcaldías, suelo de conservación, AVA y ANP, y el límite de la Ciudad. **No trae calles**, porque los mosaicos de un mapa base no pueden incrustarse en el PDF sin un servidor que los entregue con permiso de lectura entre dominios. En zona urbana, por eso, el recuadro del entorno se ve casi vacío. Por ahora el pie del croquis lo declara croquis de referencia, no cartografía oficial.
+
+**Alcance previsto**
+
+- **Mapa base con calles y nombres de vialidades** en el recuadro del entorno, servido por el SIA.
+- **Colonia del punto** con su límite, y el resto de las capas a la resolución completa del SIA, no las simplificadas del prototipo.
+- **El mismo croquis en el detalle de la denuncia de AD-01**, para que el personal inspector vea el lugar como lo vio la persona.
+
+**Opciones técnicas, por decidir con el SIA**
+
+1. **Mosaicos del servidor de mapas del SIA con acceso entre dominios habilitado**, para que el navegador pueda pasarlos al PDF.
+2. **Generar el acuse en el servidor**, con el croquis compuesto allá. Es más robusto, y el acuse queda guardado en el expediente.
+
+**Condiciones previas**
+
+1. Servicio de mapas del SIA publicado y accesible desde el dominio del formulario.
+2. Que el área responsable del SIA autorice la fuente de la red vial que se mostrará.
+
 ---
 
 ### Registro de respuestas
