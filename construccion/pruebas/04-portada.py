@@ -34,12 +34,14 @@ with sync_playwright() as pw:
         r = pg.evaluate("""() => {
           const a = document.getElementById('app');
           const t = a.innerText.replace(/\\s+/g,' ').trim();
-          const b = [...a.querySelectorAll('button')].find(x => x.textContent.includes('Iniciar'));
+          const b = [...a.querySelectorAll('.medio-principal button')].find(x => x.textContent.includes('Iniciar'));
+          const b0 = [...a.querySelectorAll('.portada-accion button')].find(x => x.textContent.includes('Iniciar'));
           const medios = [...a.querySelectorAll('.medio')];
           const pie = document.getElementById('pieSede0'), pie1 = document.getElementById('pieSede1');
           return {
             palabras: t.split(' ').length,
             botonY: b ? Math.round(b.getBoundingClientRect().top + window.scrollY) : null,
+            boton0Y: b0 ? Math.round(b0.getBoundingClientRect().bottom + window.scrollY) : null,
             tarjetaY: b ? Math.round(b.closest('.medio-principal').getBoundingClientRect().top + window.scrollY) : null,
             botonEnLinea: !!(b && b.closest('.medio-principal')),
             medios: medios.length,
@@ -90,6 +92,19 @@ with sync_playwright() as pw:
                          '¿Qué necesitas?', 'Elige cómo presentarla', 'Preguntas frecuentes'],
                '%s: la portada va en el orden instruido (DEC-179): %s' % (nom, orden))
         afirma(r['botonY'] is not None and r['botonEnLinea'], '%s: el botón de iniciar sigue en la tarjeta «En línea»' % nom)
+        # ...pero hay otro bajo la entrada, a la vista sin desplazar (DEC-180).
+        afirma(r['boton0Y'] is not None and r['boton0Y'] < alto,
+               '%s: bajo la entrada hay un botón de iniciar que se ve sin desplazar (termina a %s px de %d)' % (nom, r['boton0Y'], alto))
+        ir = pg.evaluate("""() => { const l = document.querySelector('#app .portada-ir'); if(!l) return null;
+          l.click(); return {txt: l.innerText.trim(), id: !!document.getElementById('comoPresentarla')}; }""")
+        pg.wait_for_timeout(700)
+        y = pg.evaluate("() => Math.round(document.getElementById('comoPresentarla').getBoundingClientRect().top)")
+        afirma(ir and ir['txt'] == 'Ver las formas de presentarla' and ir['id'] and y < alto * 0.5,
+               '%s: la liga «Ver las formas de presentarla» baja a los dos medios (queda a %s px del borde)' % (nom, y))
+        pg.evaluate("() => window.scrollTo(0, 0)")
+        ini = pg.evaluate("""() => { document.querySelector('#app .portada-accion .btn').click(); const p = document.querySelector('#app h2, #app h1');
+          const t = document.getElementById('app').innerText; irA(0); return t.includes('¿Qué quieres denunciar') || t.includes('Qué denuncias'); }""")
+        afirma(ini, '%s: el botón de la entrada abre el paso 1' % nom)
 
         # Los dos medios son el cuerpo de la pagina.
         afirma(r['medios'] == 2, '%s: la portada ofrece los dos medios para presentar la denuncia' % nom)

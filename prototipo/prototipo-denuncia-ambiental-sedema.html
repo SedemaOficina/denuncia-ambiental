@@ -347,6 +347,11 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 /* Ocupa el ancho de las tarjetas de abajo: con tope en caracteres se cortaba antes y se veía desalineado (DEC-166). */
 .portada-lead{font-size:var(--t-lg);line-height:1.5;color:var(--texto);margin:4px 0 24px}
 .portada-lead + .portada-lead{margin-top:-12px}
+/* Acción de la entrada (DEC-180): el botón y, a su lado, la liga a los medios. */
+.portada-accion{display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px;margin:-6px 0 4px}
+.portada-ir{background:none;border:none;padding:0;min-height:44px;font:inherit;font-size:var(--t-base);font-weight:600;color:var(--azul);text-decoration:underline;cursor:pointer}
+.portada-ir:hover{color:var(--guinda)}
+@media (max-width:560px){ .portada-accion .btn{width:100%} }
 /* Viñetas de la portada (DEC-167). Tres, cada una con un trabajo:
    palomita para lo que se afirma (ventajas y derechos), ícono para lo que
    se lleva («¿Qué necesitas?») y flecha para lo que se despliega (preguntas).
@@ -1380,7 +1385,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-179', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-180', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2059,6 +2064,13 @@ function pInicio(){
     '<p class="portada-lead">Esta es la plataforma de la Secretaría del Medio Ambiente de la Ciudad de México para recibir denuncias ambientales. '+
       'Si conoces un hecho que daña el ambiente, como una tala sin permiso, una descarga a la barranca, humo o ruido de un establecimiento '+
       'o el tiro de cascajo, repórtalo aquí. La Secretaría revisa cada denuncia y, si es de su competencia, la atiende con una visita de inspección.</p>'+
+    /* Con el orden de DEC-179 el botón de la tarjeta quedó a dos pantallas.
+       Aquí va el mismo botón, para quien ya sabe a qué viene, y una liga que
+       baja a los dos medios para quien prefiere acudir en persona (DEC-180). */
+    '<div class="portada-accion">'+
+      '<button type="button" class="btn btn-primario" onclick="irA(1)">Iniciar mi denuncia</button>'+
+      '<button type="button" class="portada-ir" onclick="var m=document.getElementById(\'comoPresentarla\'); if(m) m.scrollIntoView({behavior:\'smooth\',block:\'start\'})">Ver las formas de presentarla</button>'+
+    '</div>'+
 
     /* Las dos ideas con las que la Secretaría quiere que se lea el canal:
        cultura de la denuncia y justicia restaurativa, que es su visión de
@@ -2102,7 +2114,7 @@ function pInicio(){
     /* Orden de la portada (DEC-179): derecho, visión, lo que la ley
        reconoce, qué se necesita, y entonces cómo presentarla; al final,
        las preguntas. El botón de iniciar ya no está en la primera pantalla. */
-    '<div class="portada-bloque">'+
+    '<div class="portada-bloque" id="comoPresentarla">'+
     '<h2 class="rotulo-portada">Elige cómo presentarla</h2>'+
     '<div class="medios">'+
       '<section class="medio medio-principal" aria-labelledby="medioLinea">'+
