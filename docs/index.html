@@ -335,7 +335,7 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
    que el único elemento con peso siga siendo empezar. */
 .franja{background:var(--blanco);border-bottom:1px solid var(--linea);
   box-shadow:inset 0 3px 0 var(--dorado)}
-.franja-int{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:11px 0 12px}
+.franja-int{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px 20px 13px}
 .franja p{flex:1 1 240px;font-size:var(--t-md);color:var(--texto);line-height:1.45;margin:0}
 .franja .btn{padding:8px 15px;font-size:var(--t-md);min-height:38px}
 
@@ -348,10 +348,8 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 /* Ocupa el ancho de las tarjetas de abajo: con tope en caracteres se cortaba antes y se veía desalineado (DEC-166). */
 .portada-lead{font-size:var(--t-lg);line-height:1.5;color:var(--texto);margin:4px 0 24px}
 .portada-lead + .portada-lead{margin-top:-12px}
-/* Acción de la entrada (DEC-180): el botón y, a su lado, la liga a los medios. */
-.portada-accion{display:flex;flex-wrap:wrap;align-items:center;gap:6px 22px;margin:-6px 0 4px}
-.portada-ir{background:none;border:none;padding:0;min-height:44px;font:inherit;font-size:var(--t-base);font-weight:600;color:var(--azul);text-decoration:underline;cursor:pointer}
-.portada-ir:hover{color:var(--guinda)}
+/* Acción de la entrada (DEC-180, DEC-181): un botón que baja a los medios. */
+.portada-accion{margin:-6px 0 4px}
 @media (max-width:560px){ .portada-accion .btn{width:100%} }
 /* Viñetas de la portada (DEC-167). Tres, cada una con un trabajo:
    palomita para lo que se afirma (ventajas y derechos), ícono para lo que
@@ -647,6 +645,13 @@ details.rev-bloque .resumen{padding:14px}
 #panel .toggle{background:var(--gris);color:var(--blanco);border:none;border-radius:var(--r-pill);padding:12px 18px;min-height:44px;font-size:var(--t-sm);font-weight:600;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2)}
 #panel .cuerpo{display:none;position:absolute;right:0;bottom:56px;width:320px;background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:18px;max-height:78vh;overflow:auto}
 #panel.abierto .cuerpo{display:block}
+/* En teléfono, sólo el engrane: el rótulo tapaba el botón de la portada (DEC-181). */
+@media (max-width:560px){
+  #panel{right:12px;bottom:12px}
+  #panel .toggle{width:44px;padding:0;font-size:var(--t-lg);opacity:.9}
+  #panel .toggle-txt{display:none}
+  #panel .cuerpo{width:calc(100vw - 24px);max-width:320px}
+}
 #panel .grupo{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--linea)}
 #panel .grupo:last-child{border:none;margin-bottom:0;padding-bottom:0}
 #panel label{display:flex;gap:8px;align-items:flex-start;font-size:var(--t-sm);margin-bottom:10px;cursor:pointer;color:var(--gris)}
@@ -889,7 +894,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
 
 <!-- ============ PANEL DE VALIDACIÓN (solo prototipo) ============ -->
 <div id="panel">
-  <button class="toggle" onclick="document.getElementById('panel').classList.toggle('abierto')">⚙ Panel de validación</button>
+  <button class="toggle" aria-label="Panel de validación" onclick="document.getElementById('panel').classList.toggle('abierto')">⚙<span class="toggle-txt"> Panel de validación</span></button>
   <div class="cuerpo">
     <p class="nota-cabeza">Este panel es una herramienta de trabajo de la Secretaría: no forma parte del formulario y no se publica. Sirve para revisar en una misma sesión cómo se comporta el formulario ante distintos casos.</p>
     <div class="grupo">
@@ -1384,7 +1389,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-180', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-181', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2063,12 +2068,11 @@ function pInicio(){
     '<p class="portada-lead">Esta es la plataforma de la Secretaría del Medio Ambiente de la Ciudad de México para recibir denuncias ambientales. '+
       'Si conoces un hecho que daña el ambiente, como una tala sin permiso, una descarga a la barranca, humo o ruido de un establecimiento '+
       'o el tiro de cascajo, repórtalo aquí. La Secretaría revisa cada denuncia y, si es de su competencia, la atiende con una visita de inspección.</p>'+
-    /* Con el orden de DEC-179 el botón de la tarjeta quedó a dos pantallas.
-       Aquí va el mismo botón, para quien ya sabe a qué viene, y una liga que
-       baja a los dos medios para quien prefiere acudir en persona (DEC-180). */
+    /* Con el orden de DEC-179 la tarjeta «En línea» quedó a dos pantallas.
+       Este botón no abre el formulario: baja a «Elige cómo presentarla», donde
+       están los dos medios y el botón que sí lo abre (DEC-181). */
     '<div class="portada-accion">'+
-      '<button type="button" class="btn btn-primario" onclick="irA(1)">Iniciar mi denuncia</button>'+
-      '<button type="button" class="portada-ir" onclick="var m=document.getElementById(\'comoPresentarla\'); if(m) m.scrollIntoView({behavior:\'smooth\',block:\'start\'})">Ver las formas de presentarla</button>'+
+      '<button type="button" class="btn btn-primario" onclick="var m=document.getElementById(\'comoPresentarla\'); if(m) m.scrollIntoView({behavior:\'smooth\',block:\'start\'})">Iniciar mi denuncia</button>'+
     '</div>'+
 
     /* Las dos ideas con las que la Secretaría quiere que se lea el canal:

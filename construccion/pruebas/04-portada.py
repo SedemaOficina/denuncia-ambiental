@@ -95,16 +95,26 @@ with sync_playwright() as pw:
         # ...pero hay otro bajo la entrada, a la vista sin desplazar (DEC-180).
         afirma(r['boton0Y'] is not None and r['boton0Y'] < alto,
                '%s: bajo la entrada hay un botón de iniciar que se ve sin desplazar (termina a %s px de %d)' % (nom, r['boton0Y'], alto))
-        ir = pg.evaluate("""() => { const l = document.querySelector('#app .portada-ir'); if(!l) return null;
-          l.click(); return {txt: l.innerText.trim(), id: !!document.getElementById('comoPresentarla')}; }""")
-        pg.wait_for_timeout(700)
+        # No abre el formulario: baja a la tarjeta «En línea» (DEC-181).
+        ir = pg.evaluate("""() => { const b = document.querySelector('#app .portada-accion .btn'); b.click();
+          return {txt: b.innerText.trim(), liga: !!document.querySelector('#app .portada-ir'), enPortada: !!document.querySelector('#app .portada')}; }""")
+        pg.wait_for_timeout(800)
         y = pg.evaluate("() => Math.round(document.getElementById('comoPresentarla').getBoundingClientRect().top)")
-        afirma(ir and ir['txt'] == 'Ver las formas de presentarla' and ir['id'] and y < alto * 0.5,
-               '%s: la liga «Ver las formas de presentarla» baja a los dos medios (queda a %s px del borde)' % (nom, y))
+        yb = pg.evaluate("() => Math.round([...document.querySelectorAll('#app .medio-principal button')].find(x => x.textContent.includes('Iniciar')).getBoundingClientRect().bottom)")
+        afirma(ir['txt'] == 'Iniciar mi denuncia' and ir['enPortada'] and not ir['liga'] and y < alto * 0.5 and yb < alto,
+               '%s: el botón de la entrada baja a «Elige cómo presentarla» y deja a la vista el botón de la tarjeta (título a %s px, botón a %s de %d)' % (nom, y, yb, alto))
         pg.evaluate("() => window.scrollTo(0, 0)")
-        ini = pg.evaluate("""() => { document.querySelector('#app .portada-accion .btn').click(); const p = document.querySelector('#app h2, #app h1');
-          const t = document.getElementById('app').innerText; irA(0); return t.includes('¿Qué quieres denunciar') || t.includes('Qué denuncias'); }""")
-        afirma(ini, '%s: el botón de la entrada abre el paso 1' % nom)
+        # Holgura en teléfono: la franja del borrador no toca la orilla y el panel no tapa el botón.
+        hol = pg.evaluate("""() => { localStorage.setItem(CLAVE_BORRADOR, JSON.stringify({estado:{materia:'ava'}, paso:3, t:Date.now()})); irA(0);
+          const p = document.querySelector('#franjaBorrador p'), b = document.querySelector('#franjaBorrador .btn'), e = document.querySelector('#franjaBorrador .enlace');
+          const r = [p, b, e].map(x => x.getBoundingClientRect());
+          const t = document.querySelector('#panel .toggle').getBoundingClientRect(), a = document.querySelector('#app .portada-accion .btn').getBoundingClientRect();
+          const o = {izq: Math.min(...r.map(x => x.left)), der: innerWidth - Math.max(...r.map(x => x.right)), panelW: Math.round(t.width),
+                     tapa: !(t.left > a.right || t.right < a.left || t.top > a.bottom || t.bottom < a.top) && a.width - (a.right - t.left) < a.width * 0.75};
+          localStorage.removeItem(CLAVE_BORRADOR); irA(0); return o; }""")
+        afirma(hol['izq'] >= 16 and hol['der'] >= 16, '%s: la franja del borrador deja margen a los lados (%s y %s px)' % (nom, round(hol['izq']), round(hol['der'])))
+        if ancho < 560:
+            afirma(hol['panelW'] <= 48, '%s: el panel de validación queda en un círculo con el engrane (%s px)' % (nom, hol['panelW']))
 
         # Los dos medios son el cuerpo de la pagina.
         afirma(r['medios'] == 2, '%s: la portada ofrece los dos medios para presentar la denuncia' % nom)
