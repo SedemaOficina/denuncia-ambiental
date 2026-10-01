@@ -47,6 +47,21 @@ with sync_playwright() as pw:
     pg.fill('#f_autoridad_denunciada', 'Dirección de obras de la alcaldía'); pg.evaluate("() => document.getElementById('f_autoridad_denunciada').blur()")
     afirma(pg.evaluate("() => val('autoridad_denunciada')") == 'Dirección de obras de la alcaldía', 'y se puede escribir lo que no está en la lista')
 
+    # ---- catálogos con nombre y sigla (DEC-160) ----
+    cat = pg.evaluate("() => AUTORIDADES.cdmx.concat(AUTORIDADES.federal)")
+    malos = [x for x in cat if ' — ' in x or (x[0].isupper() and x.split(' ')[0].isupper() and len(x.split(' ')[0]) > 1)]
+    afirma(not malos, 'todas las dependencias se nombran «Nombre (SIGLA)», con el nombre primero: %s' % malos[:3])
+    pg.evaluate("() => { estado={}; guarda('materia','rsu'); guarda('tipo_denunciado','gobierno'); guarda('autoridad_nivel','federal'); irA(3); }")
+    pg.wait_for_timeout(200)
+    pg.click('#f_autoridad_denunciada'); pg.keyboard.type('conagua'); pg.wait_for_timeout(120)
+    f = pg.evaluate("() => [...document.querySelectorAll('#lista_autoridad_denunciada .op-nom')].map(x=>x.textContent)")
+    afirma(f == ['Comisión Nacional del Agua (CONAGUA)'], 'la sigla sigue encontrando la dependencia: %s' % f)
+    pg.fill('#f_autoridad_denunciada', 'Instituto Nacional de Migración'); pg.wait_for_timeout(120)
+    nota = pg.evaluate("() => { const u = document.getElementById('lista_autoridad_denunciada'); return u.hidden ? '' : u.innerText; }")
+    afirma('No está en la lista: se guarda como lo escribiste' in nota, 'si no está, la lista lo dice en vez de desaparecer')
+    pg.evaluate("() => document.getElementById('f_autoridad_denunciada').blur()")
+    afirma(pg.evaluate("() => val('autoridad_denunciada')") == 'Instituto Nacional de Migración', 'y lo escrito se conserva')
+
     # ---- mismo aspecto ----
     pg.evaluate("() => { const i=document.getElementById('f_autoridad_denunciada'); i.value=''; guarda('autoridad_denunciada',''); i.focus(); pintaLista('autoridad_denunciada'); }")
     li = pg.evaluate("""() => { const l = document.querySelector('#lista_autoridad_denunciada li'); const c = getComputedStyle(l), u = getComputedStyle(l.parentElement);

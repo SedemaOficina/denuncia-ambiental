@@ -259,6 +259,32 @@ with sync_playwright() as pw:
         claves.add(r['clave'])
     afirma(len(claves) == 3, 'cada envío genera una clave distinta')
 
+    # ---- 10 bis. Supuestos de otra autoridad (DEC-158) ----
+    dv = pg.evaluate("""() => { estado = {}; irA(1); const ids = DERIVA.map(d => d.id);
+      guarda('deriva','d_basura'); render();
+      const insts = [...document.querySelectorAll('.redir .inst')].map(e => e.innerText);
+      return {ids, insts, poda: document.getElementById('app').innerText.indexOf('Solicitar una poda') >= 0}; }""")
+    afirma('d_poda_sol' not in dv['ids'] and len(dv['ids']) == 6 and not dv['poda'], 'ya no se ofrece «Solicitar una poda o derribo»: %s' % dv['ids'])
+    alc = [x for x in dv['insts'] if x.startswith('Alcaldía')]
+    afirma(alc and 'Acude a la alcaldía donde ocurren los hechos' in alc[0] and 'Teléfono' not in alc[0],
+           'la alcaldía no lleva teléfono ni liga, sino a cuál acudir: %r' % alc)
+    afirma(any('Teléfono y liga por confirmar' in x for x in dv['insts'] if not x.startswith('Alcaldía')),
+           'las demás autoridades conservan su pendiente de teléfono y liga')
+
+    # ---- 10 ter. Atajo a Google Maps (DEC-159) ----
+    gm = pg.evaluate("""() => { estado = {}; guarda('materia','rsu'); guarda('tiene_direccion','si'); irA(2);
+      const a = document.querySelector('#c_lat .btn-maps'); if(!a) return null;
+      const r = {texto: a.innerText.trim(), target: a.target, rel: a.rel, vacio: urlGoogleMaps()};
+      guarda('calle','Avenida Chapultepec'); guarda('num_ext','440'); guarda('colonia','Centro I'); guarda('alcaldia_dir','Cuauhtémoc');
+      a.addEventListener('click', e => e.preventDefault(), {once: true}); a.click(); r.dir = a.href;
+      guarda('lat','19.4326'); guarda('lon','-99.1332'); r.punto = urlGoogleMaps(); return r; }""")
+    afirma(gm and gm['texto'] == 'Abrir Google Maps' and gm['target'] == '_blank' and 'noopener' in gm['rel'],
+           'junto a «Pegar la ubicación» hay un botón «Abrir Google Maps» que abre aparte: %s' % gm)
+    afirma(gm and '@19.4326,-99.1332' in gm['vacio'], 'sin dirección ni punto abre en la Ciudad')
+    afirma(gm and 'query=Avenida%20Chapultepec%20440' in gm['dir'] and 'Ciudad%20de%20M' in gm['dir'],
+           'con dirección escrita abre buscándola, calculada al pulsar: %s' % (gm or {}).get('dir'))
+    afirma(gm and gm['punto'].endswith('query=19.4326%2C-99.1332'), 'con punto abre en el punto')
+
     # ---- 11. El acuse federal no promete plazos de la Secretaría ----
     ac = pg.evaluate("""() => { cargaEscenario('anp_federal'); guarda('verificacion','si');
       irA(6);

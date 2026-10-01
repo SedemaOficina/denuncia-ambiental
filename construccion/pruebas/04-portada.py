@@ -47,7 +47,9 @@ with sync_playwright() as pw:
             ladoALado: medios.length > 1 && Math.abs(medios[0].getBoundingClientRect().top - medios[1].getBoundingClientRect().top) < 2,
             pend: medios.length > 1 ? !!medios[1].querySelector('.pendiente') : false,
             pieTxt: pie ? pie.innerText.replace(/\\s+/g,' ').trim() : '',
-            lugar: SEDES[0].lugar,
+            dgs: SEDES.map(d => d.area),
+            pendPersona: medios.length > 1 ? [...medios[1].querySelectorAll('.pendiente')].map(e => e.innerText.trim()) : [],
+            ordenDG: medios.length > 1 ? [...medios[1].querySelectorAll('.sede')].every(s => { const g = s.querySelector('.sede-dg'), z = s.querySelector('.sede-zona'); return g && z && (g.compareDocumentPosition(z) & 4); }) : false,
             tituloPropio: !!a.querySelector('.portada-titulo'),
             faq: a.querySelectorAll('.faq details').length, faqAbiertas: a.querySelectorAll('.faq details[open]').length,
             temas: a.querySelectorAll('.temas .tema').length, grupos: GRUPOS_MATERIA.length,
@@ -87,8 +89,11 @@ with sync_playwright() as pw:
         afirma(r['medios'] == 2, '%s: la portada ofrece los dos medios para presentar la denuncia' % nom)
         afirma(r['botonEnLinea'], '%s: el botón de iniciar vive dentro del medio en línea' % nom)
         afirma(r['enLineaPrimero'], '%s: el medio en línea va primero' % nom)
-        afirma('En persona' in r['persona'] and r['lugar'] in r['persona'],
-               '%s: el medio presencial da dónde y cuándo' % nom)
+        afirma('En persona' in r['persona'] and all(g in r['persona'] for g in r['dgs']) and r['ordenDG'],
+               '%s: en persona va el nombre de cada dirección general, arriba de su zona (DEC-157)' % nom)
+        afirma(r['pendPersona'].count('Domicilio y horario por confirmar') == 2 and r['pendPersona'].count('Teléfono por confirmar') == 2
+               and 'Aragón' not in r['persona'] and '13:30' not in r['persona'],
+               '%s: sin domicilios ni horarios: cada dirección general lleva «Domicilio y horario» y «Teléfono por confirmar» %s' % (nom, r['pendPersona']))
         esperado_lado = ancho >= 760
         afirma(r['ladoALado'] == esperado_lado,
                '%s: los dos medios van %s' % (nom, 'lado a lado' if esperado_lado else 'apilados'))
@@ -104,8 +109,10 @@ with sync_playwright() as pw:
                '%s: el pie nombra la dirección general de cada zona' % nom)
         if esperado_lado:
             afirma(r['mismoAlto'], '%s: las dos tarjetas tienen el mismo alto' % nom)
-        # Una sola fuente: el pie dice el mismo domicilio que la portada.
-        afirma(r['lugar'] in r['pieTxt'], '%s: el pie y la portada dicen el mismo domicilio' % nom)
+        # Una sola fuente: el pie marca lo mismo que la portada, sin las coordinaciones (DEC-158).
+        afirma('Domicilio y horario por confirmar' in r['pieTxt'] and 'Teléfono por confirmar' in r['pie1Txt']
+               and 'Atiende a través' not in r['pieTxt'] + r['pie1Txt'],
+               '%s: el pie marca lo mismo que la portada y ya no nombra las coordinaciones' % nom)
         # El correo electronico no es una via de presentacion.
         afirma(r['mailto'] == 0, '%s: ningún enlace ofrece el correo electrónico como vía' % nom)
         afirma('correo electrónico' not in r['tarjeta'], '%s: la portada no menciona el correo como vía' % nom)
