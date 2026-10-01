@@ -139,8 +139,12 @@ with sync_playwright() as pw:
         # El encabezado ya titula y describe: la portada no lo repite.
         afirma('Denuncia Ambiental' not in r['tarjeta'], '%s: la portada no repite el título del encabezado' % nom)
         afirma('Ten a la mano' not in r['tarjeta'], '%s: no vuelve «Ten a la mano»; lo dice «Qué necesitas»' % nom)
-        afirma('Denunciar no es pelearse con nadie' in r['tarjeta'] and 'Por qué importa que denuncies' not in r['tarjeta'],
-               '%s: por qué importa denunciar va en la entrada, sin título propio (DEC-173)' % nom)
+        afirma('Cultura de la denuncia.' in r['tarjeta'] and 'Justicia restaurativa.' in r['tarjeta'] and 'visión con la que la Secretaría' in r['tarjeta']
+               and 'Denunciar no es pelearse con nadie' not in r['tarjeta'] and 'Por qué importa que denuncies' not in r['tarjeta'],
+               '%s: cultura de la denuncia y justicia restaurativa, como visión de la Secretaría, sustituyen al párrafo de DEC-173 (DEC-178)' % nom)
+        afirma(pg.evaluate("""() => { const b = [...document.querySelectorAll('#app .portada-bloque')].find(x => x.innerText.includes('Justicia restaurativa'));
+          const m = document.querySelector('#app .medios'); return !!b && b.getBoundingClientRect().top > m.getBoundingClientRect().bottom - 1 && b.querySelectorAll('.nec-ico svg').length === 2; }"""),
+               '%s: van debajo de los medios, cada una con su ícono, sin empujar el botón de iniciar' % nom)
 
         # El aviso de denuncia sin terminar puede acortarse, pero NUNCA puede
         # perder que aun no se ha presentado: sin esa frase alguien cierra el
