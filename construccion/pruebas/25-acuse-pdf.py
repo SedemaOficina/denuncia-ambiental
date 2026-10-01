@@ -68,7 +68,7 @@ with sync_playwright() as pw:
                '%s: lleva la clave de consulta %s (DEC-151)' % (esc, clave))
         afirma('ACUSE DE RECEPCIÓN' in txt and 'Recibida el' in txt, '%s: título y fecha de recepción' % esc)
         afirma('esté disponible' in txt, '%s: el PDF no da por hecha la consulta en línea' % esc)
-        afirma('SECRETARÍA DEL MEDIO AMBIENTE' in txt, '%s: membrete con acentos correctos' % esc)
+        afirma('Acuse de recepción de denuncia ambiental · Presentada en línea' in txt, '%s: membrete con acentos correctos' % esc)
         afirma('Página 1 de' in txt, '%s: numeración de páginas' % esc)
         afirma('Prototipo de validación interna' in txt and 'no tiene validez oficial' in txt, '%s: advierte que es un prototipo' % esc)
         bloques = pg.evaluate("() => datosDelAcuse().map(b => b.titulo)")

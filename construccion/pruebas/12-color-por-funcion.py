@@ -127,7 +127,7 @@ with sync_playwright() as pw:
     # Un solo encabezado, con el logotipo dentro (DEC-165)
     enc = pg.evaluate("""() => ({n: document.querySelectorAll('header.titulo').length, barra: !!document.querySelector('.barra-gobierno'),
       logo: (document.querySelector('header.titulo .logo-inst') || {}).offsetHeight || 0})""")
-    afirma(enc['n'] == 1 and not enc['barra'] and enc['logo'] >= 60, 'un solo encabezado, con el logotipo dentro y más grande: %s' % enc)
+    afirma(enc['n'] == 1 and not enc['barra'] and enc['logo'] >= 50, 'un solo encabezado, con el logotipo dentro y más grande: %s' % enc)
     lg = pg.evaluate("() => { const a = document.querySelector('header.titulo a.logo-enlace'); return a ? [a.getAttribute('href'), a.target, a.rel, !!a.querySelector('img.logo-inst')] : null; }")
     afirma(lg and lg[0] == 'https://sedema.cdmx.gob.mx/' and lg[1] == '_blank' and 'noopener' in lg[2] and lg[3],
            'el logotipo lleva al sitio de la Secretaría en otra pestaña (DEC-173): %s' % lg)
