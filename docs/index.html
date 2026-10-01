@@ -348,9 +348,6 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 /* Ocupa el ancho de las tarjetas de abajo: con tope en caracteres se cortaba antes y se veía desalineado (DEC-166). */
 .portada-lead{font-size:var(--t-lg);line-height:1.5;color:var(--texto);margin:4px 0 24px}
 .portada-lead + .portada-lead{margin-top:-12px}
-/* Acción de la entrada (DEC-180, DEC-181): un botón que baja a los medios. */
-.portada-accion{margin:-6px 0 4px}
-@media (max-width:560px){ .portada-accion .btn{width:100%} }
 /* Viñetas de la portada (DEC-167). Tres, cada una con un trabajo:
    palomita para lo que se afirma (ventajas y derechos), ícono para lo que
    se lleva («¿Qué necesitas?») y flecha para lo que se despliega (preguntas).
@@ -364,16 +361,16 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 .necesitas b{font-weight:600}
 .derechos b{font-weight:600}
 /* Cada pregunta en su tarjeta, con una flecha guinda que gira al abrirse (DEC-144, DEC-167). */
-.faq{display:grid;gap:12px}
+.faq{display:grid;gap:8px}
 .faq details{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja)}
-.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:16px 20px;
-  font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-lg);font-weight:700;line-height:1.3;color:var(--texto)}
+.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:13px 18px;
+  font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-base);font-weight:700;line-height:1.35;color:var(--texto)}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::before{content:'';flex:none;width:8px;height:8px;margin:0 4px;border-right:2px solid var(--guinda);
   border-bottom:2px solid var(--guinda);transform:rotate(-45deg);transition:transform .15s}
 .faq details[open] summary::before{transform:rotate(45deg)}
 .faq summary:hover{background:var(--guinda-cl);border-radius:var(--r-caja)}
-.faq p{margin:0 20px 18px 42px;font-size:var(--t-base);line-height:1.6;color:var(--texto)}
+.faq p{margin:0 18px 16px 38px;font-size:var(--t-base);line-height:1.55;color:var(--texto)}
 /* Un solo estilo por nivel en la portada (DEC-145): titulos de seccion en
    Cabin guinda; titulos de tarjeta y preguntas en Cabin negro; todo el texto
    corrido en Roboto de 16 px, negro; en mayusculas pequenas solo las
@@ -1389,7 +1386,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-181', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-183', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2068,18 +2065,29 @@ function pInicio(){
     '<p class="portada-lead">Esta es la plataforma de la Secretaría del Medio Ambiente de la Ciudad de México para recibir denuncias ambientales. '+
       'Si conoces un hecho que daña el ambiente, como una tala sin permiso, una descarga a la barranca, humo o ruido de un establecimiento '+
       'o el tiro de cascajo, repórtalo aquí. La Secretaría revisa cada denuncia y, si es de su competencia, la atiende con una visita de inspección.</p>'+
-    /* Con el orden de DEC-179 la tarjeta «En línea» quedó a dos pantallas.
-       Este botón no abre el formulario: baja a «Elige cómo presentarla», donde
-       están los dos medios y el botón que sí lo abre (DEC-181). */
-    '<div class="portada-accion">'+
-      '<button type="button" class="btn btn-primario" onclick="var m=document.getElementById(\'comoPresentarla\'); if(m) m.scrollIntoView({behavior:\'smooth\',block:\'start\'})">Iniciar mi denuncia</button>'+
+
+    /* Los dos medios van inmediatamente después de la entrada, como en
+       DEC-116: es lo primero que la persona viene a hacer (DEC-183). */
+    '<h2 class="rotulo-portada">Elige cómo presentarla</h2>'+
+    '<div class="medios">'+
+      '<section class="medio medio-principal" aria-labelledby="medioLinea">'+
+        '<div class="medio-cab"><h3 id="medioLinea">En línea</h3><span class="medio-etq">Desde aquí</span></div>'+
+        '<p>A cualquier hora, en unos diez minutos.</p>'+
+        '<ul class="medio-mini"><li>Recibes tu folio al terminar</li><li>Puedes pausar y seguir después, desde el mismo dispositivo y navegador</li>'+
+          '<li>El mapa determina qué oficina la atiende</li></ul>'+
+        '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
+      '</section>'+
+      '<section class="medio" aria-labelledby="medioPersona">'+
+        '<div class="medio-cab"><h3 id="medioPersona">En persona</h3></div>'+
+        datosPresencial()+
+      '</section>'+
     '</div>'+
 
     /* Las dos ideas con las que la Secretaría quiere que se lea el canal:
        cultura de la denuncia y justicia restaurativa, que es su visión de
        trabajo y no una promesa de resultado (DEC-178). Sustituyen al párrafo
-       «Denunciar no es pelearse con nadie» de DEC-173. Van justo después
-       de la entrada, por instrucción (DEC-179). */
+       «Denunciar no es pelearse con nadie» de DEC-173. Van debajo de los
+       medios (DEC-183). */
     '<div class="portada-bloque">'+
       '<h2 class="rotulo-portada">La visión de la Secretaría</h2>'+
       '<ul class="necesitas">'+
@@ -2112,26 +2120,6 @@ function pInicio(){
         '<li><span class="nec-ico">'+svgIcono('clip',20)+'</span><span><b>Fotos, videos o documentos,</b> si los tienes. No son obligatorios.</span></li>'+
         '<li><span class="nec-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4" fill="currentColor"/><path fill="currentColor" d="M4 20.5c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5z"/></svg></span><span><b>Tus datos,</b> o preséntala sin dar tu nombre.</span></li>'+
       '</ul>'+
-    '</div>'+
-
-    /* Orden de la portada (DEC-179): derecho, visión, lo que la ley
-       reconoce, qué se necesita, y entonces cómo presentarla; al final,
-       las preguntas. El botón de iniciar ya no está en la primera pantalla. */
-    '<div class="portada-bloque" id="comoPresentarla">'+
-    '<h2 class="rotulo-portada">Elige cómo presentarla</h2>'+
-    '<div class="medios">'+
-      '<section class="medio medio-principal" aria-labelledby="medioLinea">'+
-        '<div class="medio-cab"><h3 id="medioLinea">En línea</h3><span class="medio-etq">Desde aquí</span></div>'+
-        '<p>A cualquier hora, en unos diez minutos.</p>'+
-        '<ul class="medio-mini"><li>Recibes tu folio al terminar</li><li>Puedes pausar y seguir después, desde el mismo dispositivo y navegador</li>'+
-          '<li>El mapa determina qué oficina la atiende</li></ul>'+
-        '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
-      '</section>'+
-      '<section class="medio" aria-labelledby="medioPersona">'+
-        '<div class="medio-cab"><h3 id="medioPersona">En persona</h3></div>'+
-        datosPresencial()+
-      '</section>'+
-    '</div>'+
     '</div>'+
 
     /* Lo que alguien pregunta antes de empezar. Plegadas: la portada no

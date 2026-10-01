@@ -35,13 +35,11 @@ with sync_playwright() as pw:
           const a = document.getElementById('app');
           const t = a.innerText.replace(/\\s+/g,' ').trim();
           const b = [...a.querySelectorAll('.medio-principal button')].find(x => x.textContent.includes('Iniciar'));
-          const b0 = [...a.querySelectorAll('.portada-accion button')].find(x => x.textContent.includes('Iniciar'));
           const medios = [...a.querySelectorAll('.medio')];
           const pie = document.getElementById('pieSede0'), pie1 = document.getElementById('pieSede1');
           return {
             palabras: t.split(' ').length,
             botonY: b ? Math.round(b.getBoundingClientRect().top + window.scrollY) : null,
-            boton0Y: b0 ? Math.round(b0.getBoundingClientRect().bottom + window.scrollY) : null,
             tarjetaY: b ? Math.round(b.closest('.medio-principal').getBoundingClientRect().top + window.scrollY) : null,
             botonEnLinea: !!(b && b.closest('.medio-principal')),
             medios: medios.length,
@@ -79,38 +77,33 @@ with sync_playwright() as pw:
         # el texto que dio la Oficina de la Secretaría: el tope sube a 420.
         afirma(r['palabras'] <= 420, '%s: la portada cabe en %d palabras (tope 420)' % (nom, r['palabras']))
         afirma(r['faq'] >= 6 and r['faqAbiertas'] == 0, '%s: preguntas frecuentes, plegadas (%d)' % (nom, r['faq']))
+        tam = pg.evaluate("() => getComputedStyle(document.querySelector('#app .faq summary')).fontSize")
+        afirma(tam == '16px', '%s: las preguntas frecuentes van en 16 px, no en tamaño de título (DEC-182): %s' % (nom, tam))
         afirma(not r['tituloPropio'], '%s: la portada no repite un título junto al del encabezado' % nom)
         afirma(r['temas'] == 0 and '911' not in r['tarjeta'] and len(r['pasos']) == 0,
                '%s: sin temas, sin línea de emergencias y sin «qué pasa después» (DEC-142)' % nom)
         afirma('mismo dispositivo y navegador' in r['tarjeta'], '%s: pausar se aclara: desde el mismo dispositivo y navegador' % nom)
         afirma('BOSQUES URBANOS Y BARRANCAS' in r['persona'].upper(), '%s: la zona urbana nombra bosques urbanos y barrancas' % nom)
         afirma('Qué necesitas' in r['tarjeta'] or 'QUÉ NECESITAS' in r['tarjeta'], '%s: dice qué se necesita para denunciar' % nom)
-        # El orden lo fijó la Oficina de la Secretaría (DEC-179): la persona lee
-        # primero y elige el medio después. El botón ya no va en la primera pantalla.
+        # Orden de la portada (DEC-183): los medios vuelven a ir justo después de la entrada.
         orden = pg.evaluate("""() => [...document.querySelectorAll('#app .rotulo-portada')].map(h => h.innerText.trim())""")
-        afirma(orden == ['Denunciar el daño ambiental es tu derecho', 'La visión de la Secretaría', 'Lo que la ley te reconoce',
-                         '¿Qué necesitas?', 'Elige cómo presentarla', 'Preguntas frecuentes'],
-               '%s: la portada va en el orden instruido (DEC-179): %s' % (nom, orden))
-        afirma(r['botonY'] is not None and r['botonEnLinea'], '%s: el botón de iniciar sigue en la tarjeta «En línea»' % nom)
-        # ...pero hay otro bajo la entrada, a la vista sin desplazar (DEC-180).
-        afirma(r['boton0Y'] is not None and r['boton0Y'] < alto,
-               '%s: bajo la entrada hay un botón de iniciar que se ve sin desplazar (termina a %s px de %d)' % (nom, r['boton0Y'], alto))
-        # No abre el formulario: baja a la tarjeta «En línea» (DEC-181).
-        ir = pg.evaluate("""() => { const b = document.querySelector('#app .portada-accion .btn'); b.click();
-          return {txt: b.innerText.trim(), liga: !!document.querySelector('#app .portada-ir'), enPortada: !!document.querySelector('#app .portada')}; }""")
-        pg.wait_for_timeout(800)
-        y = pg.evaluate("() => Math.round(document.getElementById('comoPresentarla').getBoundingClientRect().top)")
-        yb = pg.evaluate("() => Math.round([...document.querySelectorAll('#app .medio-principal button')].find(x => x.textContent.includes('Iniciar')).getBoundingClientRect().bottom)")
-        afirma(ir['txt'] == 'Iniciar mi denuncia' and ir['enPortada'] and not ir['liga'] and y < alto * 0.5 and yb < alto,
-               '%s: el botón de la entrada baja a «Elige cómo presentarla» y deja a la vista el botón de la tarjeta (título a %s px, botón a %s de %d)' % (nom, y, yb, alto))
-        pg.evaluate("() => window.scrollTo(0, 0)")
+        afirma(orden == ['Denunciar el daño ambiental es tu derecho', 'Elige cómo presentarla', 'La visión de la Secretaría',
+                         'Lo que la ley te reconoce', '¿Qué necesitas?', 'Preguntas frecuentes'],
+               '%s: la portada va en el orden instruido (DEC-183): %s' % (nom, orden))
+        un = pg.evaluate("() => [...document.querySelectorAll('#app button')].filter(b => b.textContent.includes('Iniciar')).length")
+        afirma(un == 1 and r['botonEnLinea'], '%s: un solo botón «Iniciar mi denuncia», el de la tarjeta «En línea» (%d)' % (nom, un))
+        if ancho >= 760:
+            afirma(r['botonY'] is not None and r['botonY'] < alto,
+                   '%s: el botón de iniciar se ve sin desplazar (a %s px de %d)' % (nom, r['botonY'], alto))
+        else:
+            afirma(r['tarjetaY'] is not None and r['tarjetaY'] + 60 < alto,
+                   '%s: la tarjeta en línea asoma en la primera pantalla (a %s px de %d)' % (nom, r['tarjetaY'], alto))
         # Holgura en teléfono: la franja del borrador no toca la orilla y el panel no tapa el botón.
         hol = pg.evaluate("""() => { localStorage.setItem(CLAVE_BORRADOR, JSON.stringify({estado:{materia:'ava'}, paso:3, t:Date.now()})); irA(0);
           const p = document.querySelector('#franjaBorrador p'), b = document.querySelector('#franjaBorrador .btn'), e = document.querySelector('#franjaBorrador .enlace');
           const r = [p, b, e].map(x => x.getBoundingClientRect());
-          const t = document.querySelector('#panel .toggle').getBoundingClientRect(), a = document.querySelector('#app .portada-accion .btn').getBoundingClientRect();
-          const o = {izq: Math.min(...r.map(x => x.left)), der: innerWidth - Math.max(...r.map(x => x.right)), panelW: Math.round(t.width),
-                     tapa: !(t.left > a.right || t.right < a.left || t.top > a.bottom || t.bottom < a.top) && a.width - (a.right - t.left) < a.width * 0.75};
+          const t = document.querySelector('#panel .toggle').getBoundingClientRect();
+          const o = {izq: Math.min(...r.map(x => x.left)), der: innerWidth - Math.max(...r.map(x => x.right)), panelW: Math.round(t.width)};
           localStorage.removeItem(CLAVE_BORRADOR); irA(0); return o; }""")
         afirma(hol['izq'] >= 16 and hol['der'] >= 16, '%s: la franja del borrador deja margen a los lados (%s y %s px)' % (nom, round(hol['izq']), round(hol['der'])))
         if ancho < 560:
