@@ -629,13 +629,16 @@ details.rev-bloque .resumen{padding:14px}
 .btn-esc .be-d{display:block;font-size:var(--t-xs);color:var(--gris);line-height:1.35;margin-top:2px}
 
 /* ---------- Modal ---------- */
-/* Modo revisión (DEC-153, DEC-155): sólo existe con ?revision=<palabra> en la liga. */
+/* Modo revisión (DEC-153, DEC-155, DEC-156): sólo existe con ?revision=<palabra> en la liga. */
 #revision{position:fixed;left:16px;bottom:16px;z-index:9600;font-family:'Roboto',sans-serif}
 #revision .rev-toggle{background:var(--guinda);color:var(--blanco);border:none;border-radius:var(--r-pill);padding:12px 18px;min-height:44px;font-size:var(--t-sm);font-weight:600;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2)}
 #revision .rev-toggle:hover{background:var(--guinda-osc)}
-#revision .rev-cuerpo{display:none;position:absolute;left:0;bottom:56px;width:380px;max-width:calc(100vw - 32px);max-height:78vh;overflow:auto;background:var(--blanco);border:1px solid var(--linea);border-top:4px solid var(--guinda);border-radius:var(--r-caja);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:16px 18px 18px;font-size:var(--t-sm);color:var(--texto)}
+#revision .rev-cuerpo{display:none;position:absolute;left:0;bottom:56px;width:380px;max-width:calc(100vw - 32px);max-height:78vh;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--blanco);border:1px solid var(--linea);border-top:4px solid var(--guinda);border-radius:var(--r-caja);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:0 18px 18px;font-size:var(--t-sm);color:var(--texto)}
 #revision.abierto .rev-cuerpo{display:block}
-.rev-cab{display:flex;flex-direction:column;gap:2px;margin-bottom:8px}
+.rev-cab{position:sticky;top:0;z-index:1;display:flex;flex-direction:column;gap:2px;background:var(--blanco);padding:12px 0 8px;margin-bottom:10px;border-bottom:1px solid var(--linea)}
+.rev-cab-tit{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.rev-min{background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r-pill);padding:6px 12px;min-height:36px;font-size:var(--t-sm);font-weight:600;color:var(--texto);cursor:pointer;white-space:nowrap}
+.rev-min:hover{background:var(--fondo)}
 .rev-cab strong{font-family:'Cabin',sans-serif;font-size:var(--t-base);color:var(--guinda)}
 .rev-cab span{color:var(--gris)}
 .rev-conexion{background:var(--aviso-bg);border-radius:var(--r-ctrl);padding:8px 10px;color:var(--gris);font-size:var(--t-xs);line-height:1.45;margin-bottom:12px}
@@ -656,8 +659,8 @@ details.rev-bloque .resumen{padding:14px}
 .rev-tipos button[aria-pressed="true"]{background:var(--azul-cl);border-color:var(--azul);color:var(--azul);font-weight:600}
 .rev-etq{display:block;font-weight:600;margin:8px 0 4px}
 .rev-opc{font-weight:400;color:var(--gris-cl)}
-#revision textarea{width:100%;border:1px solid var(--borde);border-radius:var(--r-ctrl);padding:8px 10px;font:inherit;font-size:var(--t-md);resize:vertical;min-height:0}
-#revision input[type=text]{width:100%;border:1px solid var(--borde);border-radius:var(--r-ctrl);padding:8px 10px;font:inherit;font-size:var(--t-md);min-height:40px}
+#revision textarea{width:100%;border:1px solid var(--borde);border-radius:var(--r-ctrl);padding:8px 10px;font:inherit;font-size:var(--t-base);resize:vertical;min-height:0}
+#revision input[type=text]{width:100%;border:1px solid var(--borde);border-radius:var(--r-ctrl);padding:8px 10px;font:inherit;font-size:var(--t-base);min-height:44px}
 #revision textarea:focus, #revision input[type=text]:focus{outline:3px solid var(--foco);outline-offset:1px}
 .rev-cab .rev-link{padding:0;min-height:0;font-size:var(--t-xs);margin-left:4px}
 .rev-filtro{display:flex;gap:6px;align-items:center;margin-bottom:8px;color:var(--gris);cursor:pointer}
@@ -676,10 +679,19 @@ details.rev-bloque .resumen{padding:14px}
 .rev-edo-no{text-decoration:line-through}
 .rev-edo-local{border-style:dashed}
 body.rev-senalando, body.rev-senalando *{cursor:crosshair !important}
+body.rev-senalando #revision, body.rev-senalando #panel{display:none}
 .rev-foco{outline:3px solid var(--guinda) !important;outline-offset:2px}
 .rev-aviso{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:9700;display:flex;align-items:center;gap:12px;background:var(--texto);color:var(--blanco);padding:8px 8px 8px 16px;border-radius:var(--r-pill);font-size:var(--t-sm);box-shadow:0 3px 12px rgba(0,0,0,.25);max-width:calc(100vw - 24px)}
 .rev-aviso button{background:var(--blanco);color:var(--texto);border:none;border-radius:var(--r-pill);padding:6px 12px;min-height:34px;font-weight:600;cursor:pointer}
-@media (max-width:560px){#revision .rev-cuerpo{position:fixed;left:8px;right:8px;bottom:72px;width:auto;max-width:none}}
+/* Teléfono: hoja anclada abajo, de borde a borde, que sube con el teclado;
+   mientras está abierta se ocultan las dos píldoras y se minimiza desde su cabecera. */
+@media (max-width:560px){
+  #revision{left:12px;bottom:12px}
+  #revision .rev-cuerpo{position:fixed;left:0;right:0;bottom:var(--rev-teclado,0px);width:auto;max-width:none;max-height:85vh;max-height:min(85dvh, calc(var(--rev-alto,100dvh) - 16px));border-radius:var(--r-caja) var(--r-caja) 0 0;border-left:none;border-right:none;border-bottom:none;padding:0 16px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.22)}
+  #revision.abierto .rev-toggle{display:none}
+  body.rev-abierto #panel{display:none}
+  .rev-aviso{top:auto;bottom:calc(12px + env(safe-area-inset-bottom));left:12px;right:12px;transform:none;max-width:none;justify-content:space-between;border-radius:var(--r-caja);padding:10px 10px 10px 16px}
+}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9500;padding:20px;overflow:auto}
 .modal.abierto{display:block}
 .modal .caja{max-width:900px;margin:30px auto;background:var(--blanco);border-radius:var(--r-caja);padding:30px;position:relative}
@@ -1343,7 +1355,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-155', fecha:'30 de septiembre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-156', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -4932,7 +4944,7 @@ document.addEventListener('keydown', function(e){
 }); })();
 
 /* =========================================================
-   MODO REVISIÓN (DEC-153, DEC-155)
+   MODO REVISIÓN (DEC-153, DEC-155, DEC-156)
    Solo existe cuando la liga trae ?revision=<palabra>. Hay una sola liga
    para todas las personas que revisan: cada quien escribe su nombre la
    primera vez y el navegador lo recuerda. Quien revisa señala un texto o
@@ -5044,7 +5056,8 @@ function revSenalar(){
   document.body.classList.add('rev-senalando');
   var a = document.createElement('div');
   a.id = 'revAviso'; a.className = 'rev-aviso'; a.setAttribute('role', 'status');
-  a.innerHTML = 'Haz clic o toca la parte que quieres observar <button type="button" onclick="revFinSenal();abreRevision()">Cancelar</button>';
+  var tacto = window.matchMedia && matchMedia('(pointer: coarse)').matches;
+  a.innerHTML = '<span>' + (tacto ? 'Toca' : 'Haz clic en') + ' la parte que quieres observar</span> <button type="button" onclick="revFinSenal();abreRevision()">Cancelar</button>';
   document.body.appendChild(a);
 }
 function revFinSenal(){
@@ -5080,15 +5093,31 @@ function abreRevision(){
   if(u && (!REVISION.senal || u.t > REVISION.senal.t)) REVISION.senal = u;
   REVISION.ultimaSel = null;
   var d = $('revision');
-  d.classList.add('abierto');
+  d.classList.add('abierto'); document.body.classList.add('rev-abierto');
   d.querySelector('.rev-toggle').setAttribute('aria-expanded', 'true');
   pintaRevision();
+  revAjustaTeclado();
 }
 function alternaRevision(){
   var d = $('revision');
   if(!d.classList.contains('abierto')){ abreRevision(); return; }
-  d.classList.remove('abierto');
-  d.querySelector('.rev-toggle').setAttribute('aria-expanded', 'false');
+  d.classList.remove('abierto'); document.body.classList.remove('rev-abierto');
+  var b = d.querySelector('.rev-toggle'); b.setAttribute('aria-expanded', 'false'); b.focus({preventScroll: true});
+}
+/* En teléfono el panel es una hoja anclada abajo: cuando sale el teclado,
+   sube con él en lugar de quedar debajo (visualViewport). */
+function revAjustaTeclado(){
+  var c = $('revCuerpo'), v = window.visualViewport; if(!c || !v) return;
+  c.style.setProperty('--rev-teclado', Math.max(0, Math.round(window.innerHeight - v.height - v.offsetTop)) + 'px');
+  c.style.setProperty('--rev-alto', Math.round(v.height) + 'px');
+}
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize', revAjustaTeclado);
+  window.visualViewport.addEventListener('scroll', revAjustaTeclado);
+}
+function revEligeTipo(i, b){
+  REVISION.tipo = TIPOS_REVISION[i];
+  [].forEach.call(b.parentNode.querySelectorAll('button'), function(x){ x.setAttribute('aria-pressed', String(x === b)); });
 }
 function vistaRevision(v){ REVISION.vista = v; pintaRevision(); if(v === 'lista' && REVISION.endpoint) revConecta(); }
 function revCuenta(){
@@ -5105,7 +5134,9 @@ function pintaRevision(){
       ? 'Esta liga aún no está conectada a la hoja de revisión: tus observaciones se guardan en este navegador. Al terminar, descárgalas en CSV y envíalas.'
       : (r.conectada ? 'Tus observaciones se guardan en la hoja de revisión de la Secretaría.'
                      : 'Sin conexión con la hoja de revisión: lo que guardes se enviará cuando vuelva la conexión.'));
-  var h = '<div class="rev-cab"><strong>Modo revisión</strong>';
+  var arriba = c.scrollTop;
+  var h = '<div class="rev-cab"><div class="rev-cab-tit"><strong>Modo revisión</strong>'+
+    '<button type="button" class="rev-min" onclick="alternaRevision()" aria-label="Minimizar el panel de revisión">Minimizar <span aria-hidden="true">▾</span></button></div>';
   if(!r.nombre){
     c.innerHTML = h + '</div>'+
       '<p class="rev-ayuda">Escribe tu nombre para que la Secretaría sepa de quién es cada observación. Este navegador lo recuerda.</p>'+
@@ -5125,6 +5156,7 @@ function pintaRevision(){
       '<button type="button" role="tab" aria-selected="' + (r.vista === 'nueva') + '" onclick="vistaRevision(\'nueva\')">Nueva observación</button>'+
       '<button type="button" role="tab" aria-selected="' + (r.vista === 'lista') + '" onclick="vistaRevision(\'lista\')">Observaciones (' + r.obs.length + ')</button></div>'+
     (r.vista === 'lista' ? revListaHtml(mias) : revFormaHtml());
+  c.scrollTop = arriba;
   revCuenta();
 }
 function revFormaHtml(){
@@ -5137,7 +5169,7 @@ function revFormaHtml(){
       (s ? '<button type="button" class="rev-link" onclick="REVISION.senal=null;pintaRevision()">Quitar la señal</button>' : '') + '</div>'+
     '<p class="rev-ayuda">También puedes seleccionar un texto con el ratón y después abrir este panel.</p>'+
     '<fieldset class="rev-tipos"><legend>Tipo</legend>' + TIPOS_REVISION.map(function(t, i){
-      return '<button type="button" aria-pressed="' + (r.tipo === t) + '" onclick="REVISION.tipo=TIPOS_REVISION[' + i + '];pintaRevision()">' + t + '</button>';
+      return '<button type="button" aria-pressed="' + (r.tipo === t) + '" onclick="revEligeTipo(' + i + ',this)">' + t + '</button>';
     }).join('') + '</fieldset>'+
     '<label class="rev-etq" for="revObs">Observación <span class="req" aria-hidden="true">*</span></label>'+
     '<textarea id="revObs" rows="3" oninput="REVISION.borrador.obs=this.value">' + esc(r.borrador.obs) + '</textarea>'+

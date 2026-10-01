@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Modo revisión para la DGIVA (DEC-153, DEC-155).
+"""Modo revisión para la DGIVA (DEC-153, DEC-155, DEC-156).
 
    Una sola liga, ?revision=<palabra>, abre un panel para dejar observaciones
    que llegan a una hoja de Google por su Apps Script. Cada quien escribe su
@@ -15,6 +15,8 @@
       las propias; si la hoja falla, no se pierde nada.
    6. El Apps Script (revision/Codigo.gs) valida la palabra de la liga, exige
       nombre, no duplica un reintento y neutraliza fórmulas.
+   7. En teléfono es una hoja anclada abajo que se minimiza desde su cabecera,
+      sin zoom al escribir ni arrastre de la página (DEC-156).
    La hoja real nunca se toca: toda llamada a script.google.com se intercepta."""
 import os, pathlib, sys, json, subprocess, shutil, re
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
@@ -180,12 +182,48 @@ with sync_playwright() as pw:
     pg.keyboard.press('Escape'); pg.wait_for_timeout(100)
     afirma(not pg.is_visible('#revCuerpo'), 'Escape cierra el panel')
 
-    # ---- Teléfono ----
-    ph = ctx.new_page(); ph.set_viewport_size({'width': 390, 'height': 800})
-    ph.goto(TMP.as_uri() + LIGA); ph.wait_for_timeout(600)
-    ph.click('#revision .rev-toggle'); ph.wait_for_timeout(150)
-    bx = ph.evaluate("() => { const r = document.getElementById('revCuerpo').getBoundingClientRect(); return [r.left, r.right, document.documentElement.scrollWidth]; }")
-    afirma(bx[0] >= 0 and bx[1] <= 390 and bx[2] <= 390, 'en teléfono el panel cabe en la pantalla: %s' % bx)
+    # ---- Escritorio: minimizar desde la cabecera ----
+    pg.click('#revision .rev-toggle'); pg.wait_for_timeout(150)
+    afirma(pg.is_visible('#revCuerpo .rev-min'), 'el panel trae «Minimizar» en su cabecera')
+    pg.click('#revCuerpo .rev-min'); pg.wait_for_timeout(150)
+    afirma(not pg.is_visible('#revCuerpo') and pg.is_visible('#revision .rev-toggle'), '«Minimizar» lo cierra y deja la píldora')
+
+    # ---- 7. Teléfono: hoja anclada abajo ----
+    dev = dict(pw.devices['iPhone 13']); dev.pop('default_browser_type', None)
+    cm = nav.new_context(**dev); cm.route('https://script.google.com/**', lambda r: r.abort())
+    ph = cm.new_page()
+    ph.on('pageerror', lambda e: err.append('pageerror: '+str(e)))
+    ph.goto(TMP.as_uri() + LIGA); ph.wait_for_timeout(700)
+    ph.evaluate("() => { try{ localStorage.setItem('sedema.revision.quien', JSON.stringify({nombre:'Ana Prueba', area:''})); }catch(e){} REVISION.nombre = 'Ana Prueba'; REVISION.endpoint = ''; }")
+    ph.tap('#revision .rev-toggle'); ph.wait_for_timeout(250)
+    v = ph.evaluate("""() => { const c = document.getElementById('revCuerpo'), r = c.getBoundingClientRect();
+      const vis = s => { const e = document.querySelector(s); return !!e && getComputedStyle(e).display !== 'none' && e.getBoundingClientRect().width > 0; };
+      return {r: [r.left, r.top, r.right, r.bottom], ih: innerHeight, iw: innerWidth, sw: document.documentElement.scrollWidth,
+        pildora: vis('#revision .rev-toggle'), panel: vis('#panel'), ob: getComputedStyle(c).overscrollBehaviorY,
+        cab: getComputedStyle(c.querySelector('.rev-cab')).position,
+        fuentes: [...document.querySelectorAll('#revision input, #revision textarea')].map(x => parseFloat(getComputedStyle(x).fontSize))}; }""")
+    afirma(v['r'][0] == 0 and v['r'][2] == v['iw'] and abs(v['r'][3] - v['ih']) < 1 and v['sw'] <= v['iw'],
+           'en teléfono el panel es una hoja de borde a borde, anclada abajo: %s' % v['r'])
+    afirma(v['r'][1] > 0, 'y no rebasa la parte de arriba de la pantalla')
+    afirma(not v['pildora'] and not v['panel'], 'mientras está abierta se ocultan «Observar» y «Panel de validación»')
+    afirma(v['ob'] == 'contain', 'desplazarse dentro de la hoja no arrastra la página')
+    afirma(v['cab'] == 'sticky', 'la cabecera con «Minimizar» queda siempre a la vista')
+    afirma(v['fuentes'] and min(v['fuentes']) >= 16, 'los campos usan 16 px: el iPhone no hace zoom al escribir (%s)' % v['fuentes'])
+    ph.tap('.rev-tipos button:has-text("Duda")'); ph.wait_for_timeout(100)
+    afirma(ph.evaluate("() => REVISION.tipo") == 'Duda' and ph.evaluate("() => document.querySelector('.rev-tipos [aria-pressed=true]').textContent") == 'Duda',
+           'elegir el tipo no rehace el panel')
+    ph.tap('#revCuerpo .rev-min'); ph.wait_for_timeout(200)
+    afirma(not ph.is_visible('#revCuerpo') and ph.is_visible('#revision .rev-toggle') and ph.is_visible('#panel .toggle'),
+           '«Minimizar» cierra la hoja y vuelven las dos píldoras')
+    ph.tap('#revision .rev-toggle'); ph.wait_for_timeout(200)
+    ph.tap('text=Señalar en pantalla'); ph.wait_for_timeout(200)
+    a = ph.evaluate("() => { const r = document.getElementById('revAviso').getBoundingClientRect(); return {t: document.getElementById('revAviso').innerText, b: r.bottom, ih: innerHeight, l: r.left}; }")
+    afirma(a['t'].startswith('Toca la parte') and a['b'] <= a['ih'] and a['b'] > a['ih'] - 120 and a['l'] >= 12,
+           'al señalar, la indicación «Toca…» va abajo, a la mano: %s' % a)
+    afirma(not ph.is_visible('#revision .rev-toggle') and not ph.is_visible('#panel .toggle'), 'y las píldoras no estorban')
+    ph.tap('#revAviso button'); ph.wait_for_timeout(200)
+    afirma(ph.is_visible('#revCuerpo') and not ph.is_visible('#revAviso'), '«Cancelar» vuelve a la hoja')
+    cm.close()
 
     afirma(not err, 'sin errores propios en consola: %s' % err[:3])
     nav.close()
