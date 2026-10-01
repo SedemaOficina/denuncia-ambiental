@@ -1380,7 +1380,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-178', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-179', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2060,33 +2060,18 @@ function pInicio(){
       'Si conoces un hecho que daña el ambiente, como una tala sin permiso, una descarga a la barranca, humo o ruido de un establecimiento '+
       'o el tiro de cascajo, repórtalo aquí. La Secretaría revisa cada denuncia y, si es de su competencia, la atiende con una visita de inspección.</p>'+
 
-    '<h2 class="rotulo-portada">Elige cómo presentarla</h2>'+
-    '<div class="medios">'+
-      '<section class="medio medio-principal" aria-labelledby="medioLinea">'+
-        '<div class="medio-cab"><h3 id="medioLinea">En línea</h3><span class="medio-etq">Desde aquí</span></div>'+
-        '<p>A cualquier hora, en unos diez minutos.</p>'+
-        '<ul class="medio-mini"><li>Recibes tu folio al terminar</li><li>Puedes pausar y seguir después, desde el mismo dispositivo y navegador</li>'+
-          '<li>El mapa determina qué oficina la atiende</li></ul>'+
-        '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
-      '</section>'+
-      '<section class="medio" aria-labelledby="medioPersona">'+
-        '<div class="medio-cab"><h3 id="medioPersona">En persona</h3></div>'+
-        datosPresencial()+
-      '</section>'+
-    '</div>'+
-
     /* Las dos ideas con las que la Secretaría quiere que se lea el canal:
        cultura de la denuncia y justicia restaurativa, que es su visión de
        trabajo y no una promesa de resultado (DEC-178). Sustituyen al párrafo
-       «Denunciar no es pelearse con nadie» de DEC-173 y van debajo de los
-       medios: arriba sacaban el botón de iniciar de la primera pantalla. */
+       «Denunciar no es pelearse con nadie» de DEC-173. Van justo después
+       de la entrada, por instrucción (DEC-179). */
     '<div class="portada-bloque">'+
       '<h2 class="rotulo-portada">La visión de la Secretaría</h2>'+
       '<ul class="necesitas">'+
         '<li><span class="nec-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 10v4a1 1 0 0 0 1 1h2l1.2 4.2a1 1 0 0 0 1 .8h1.3a1 1 0 0 0 1-1.3L9.4 15H11l7 4V5l-7 4H4a1 1 0 0 0-1 1zm17.5 2a3 3 0 0 0-1.5-2.6v5.2a3 3 0 0 0 1.5-2.6z"/></svg></span>'+
           '<span><b>Cultura de la denuncia.</b> La Secretaría no puede estar en cada calle: actúa cuando alguien avisa. Denunciar no es un conflicto entre vecinos, es cuidar lo que es de todos.</span></li>'+
         '<li><span class="nec-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 21v-7.2C7.6 13.6 5 10.8 5 6V5h1c3.2 0 5.3 1.5 6.3 4 .9-3.1 3.3-5 6.700-5h1v1c0 4.900-2.600 7.800-6 8.400V21z"/></svg></span>'+
-          '<span><b>Justicia restaurativa.</b> Es la visión con la que la Secretaría atiende cada caso: detener el daño, repararlo y evitar que se repita, antes que sólo imponer una multa.</span></li>'+
+          '<span><b>Justicia restaurativa.</b> Es la visión con la que la Secretaría atiende cada caso: detener el daño, repararlo y evitar que se repita, antes que sólo actuar de manera punitiva.</span></li>'+
       '</ul>'+
     '</div>'+
 
@@ -2112,6 +2097,26 @@ function pInicio(){
         '<li><span class="nec-ico">'+svgIcono('clip',20)+'</span><span><b>Fotos, videos o documentos,</b> si los tienes. No son obligatorios.</span></li>'+
         '<li><span class="nec-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4" fill="currentColor"/><path fill="currentColor" d="M4 20.5c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5z"/></svg></span><span><b>Tus datos,</b> o preséntala sin dar tu nombre.</span></li>'+
       '</ul>'+
+    '</div>'+
+
+    /* Orden de la portada (DEC-179): derecho, visión, lo que la ley
+       reconoce, qué se necesita, y entonces cómo presentarla; al final,
+       las preguntas. El botón de iniciar ya no está en la primera pantalla. */
+    '<div class="portada-bloque">'+
+    '<h2 class="rotulo-portada">Elige cómo presentarla</h2>'+
+    '<div class="medios">'+
+      '<section class="medio medio-principal" aria-labelledby="medioLinea">'+
+        '<div class="medio-cab"><h3 id="medioLinea">En línea</h3><span class="medio-etq">Desde aquí</span></div>'+
+        '<p>A cualquier hora, en unos diez minutos.</p>'+
+        '<ul class="medio-mini"><li>Recibes tu folio al terminar</li><li>Puedes pausar y seguir después, desde el mismo dispositivo y navegador</li>'+
+          '<li>El mapa determina qué oficina la atiende</li></ul>'+
+        '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
+      '</section>'+
+      '<section class="medio" aria-labelledby="medioPersona">'+
+        '<div class="medio-cab"><h3 id="medioPersona">En persona</h3></div>'+
+        datosPresencial()+
+      '</section>'+
+    '</div>'+
     '</div>'+
 
     /* Lo que alguien pregunta antes de empezar. Plegadas: la portada no

@@ -83,14 +83,13 @@ with sync_playwright() as pw:
         afirma('mismo dispositivo y navegador' in r['tarjeta'], '%s: pausar se aclara: desde el mismo dispositivo y navegador' % nom)
         afirma('BOSQUES URBANOS Y BARRANCAS' in r['persona'].upper(), '%s: la zona urbana nombra bosques urbanos y barrancas' % nom)
         afirma('Qué necesitas' in r['tarjeta'] or 'QUÉ NECESITAS' in r['tarjeta'], '%s: dice qué se necesita para denunciar' % nom)
-        # En teléfono, con la entrada de dos párrafos (DEC-173), basta que la
-        # tarjeta en línea asome en la primera pantalla; en escritorio, el botón.
-        if ancho >= 760:
-            afirma(r['botonY'] is not None and r['botonY'] < alto,
-                   '%s: el botón de iniciar se ve sin desplazar (a %s px de %d)' % (nom, r['botonY'], alto))
-        else:
-            afirma(r['tarjetaY'] is not None and r['tarjetaY'] + 60 < alto,
-                   '%s: la tarjeta en línea asoma en la primera pantalla (a %s px de %d)' % (nom, r['tarjetaY'], alto))
+        # El orden lo fijó la Oficina de la Secretaría (DEC-179): la persona lee
+        # primero y elige el medio después. El botón ya no va en la primera pantalla.
+        orden = pg.evaluate("""() => [...document.querySelectorAll('#app .rotulo-portada')].map(h => h.innerText.trim())""")
+        afirma(orden == ['Denunciar el daño ambiental es tu derecho', 'La visión de la Secretaría', 'Lo que la ley te reconoce',
+                         '¿Qué necesitas?', 'Elige cómo presentarla', 'Preguntas frecuentes'],
+               '%s: la portada va en el orden instruido (DEC-179): %s' % (nom, orden))
+        afirma(r['botonY'] is not None and r['botonEnLinea'], '%s: el botón de iniciar sigue en la tarjeta «En línea»' % nom)
 
         # Los dos medios son el cuerpo de la pagina.
         afirma(r['medios'] == 2, '%s: la portada ofrece los dos medios para presentar la denuncia' % nom)
@@ -143,8 +142,9 @@ with sync_playwright() as pw:
                and 'Denunciar no es pelearse con nadie' not in r['tarjeta'] and 'Por qué importa que denuncies' not in r['tarjeta'],
                '%s: cultura de la denuncia y justicia restaurativa, como visión de la Secretaría, sustituyen al párrafo de DEC-173 (DEC-178)' % nom)
         afirma(pg.evaluate("""() => { const b = [...document.querySelectorAll('#app .portada-bloque')].find(x => x.innerText.includes('Justicia restaurativa'));
-          const m = document.querySelector('#app .medios'); return !!b && b.getBoundingClientRect().top > m.getBoundingClientRect().bottom - 1 && b.querySelectorAll('.nec-ico svg').length === 2; }"""),
-               '%s: van debajo de los medios, cada una con su ícono, sin empujar el botón de iniciar' % nom)
+          return !!b && b.querySelectorAll('.nec-ico svg').length === 2; }""") and 'antes que sólo actuar de manera punitiva' in r['tarjeta']
+               and 'imponer una multa' not in r['tarjeta'],
+               '%s: cada idea con su ícono, y la justicia restaurativa dice «antes que sólo actuar de manera punitiva» (DEC-179)' % nom)
 
         # El aviso de denuncia sin terminar puede acortarse, pero NUNCA puede
         # perder que aun no se ha presentado: sin esa frase alguien cierra el
