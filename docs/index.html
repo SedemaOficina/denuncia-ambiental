@@ -348,14 +348,8 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
   display:flex;align-items:center;justify-content:center}
 .necesitas b{font-weight:600}
 .derechos b{font-weight:600}
-/* En el telefono la entrada y los titulos bajan un escalon, para que el
-   boton de iniciar se vea sin desplazar (DEC-147). */
-@media (max-width:560px){
-  .portada-lead{font-size:var(--t-base);margin-bottom:18px}
-  .rotulo-portada{font-size:var(--t-lg);margin-bottom:10px}
-}
 .portada-texto{margin:0;font-size:var(--t-base);line-height:1.6;color:var(--texto)}
-/* Cada pregunta en su tarjeta, con triangulo guinda que gira al abrirse (DEC-144). */
+/* Cada pregunta en su tarjeta, con una flecha guinda que gira al abrirse (DEC-144, DEC-167). */
 .faq{display:grid;gap:12px}
 .faq details{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja)}
 .faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:16px 20px;
@@ -372,6 +366,13 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
    etiquetas (zona, «Desde aquí»). */
 .rotulo-portada{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-xl);font-weight:700;color:var(--guinda);
   letter-spacing:0;text-transform:none;margin:0 0 14px;padding:0;border:0}
+/* En el telefono la entrada y los titulos bajan un escalon, para que el
+   boton de iniciar se vea sin desplazar (DEC-147). Va despues de la regla
+   general: antes estaba arriba y esta lo anulaba (DEC-168). */
+@media (max-width:560px){
+  .portada-lead{font-size:var(--t-base);line-height:1.5;margin-bottom:16px}
+  .rotulo-portada{font-size:var(--t-lg);line-height:1.25;margin-bottom:10px}
+}
 
 .medios{display:grid;gap:12px}
 /* Las dos tarjetas del mismo ancho y del mismo alto; el boton de la de en
@@ -395,6 +396,8 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
   font-size:var(--t-base);line-height:1.45;color:var(--texto)}
 .medio-mini li{position:relative;padding-left:30px}
 .medio-pend{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+/* En teléfono, tarjetas más compactas: con ellas el botón de iniciar se ve sin desplazar (DEC-168). */
+@media (max-width:560px){ .medio{padding:16px} .medio-principal .medio-mini{gap:6px;margin-bottom:16px} }
 
 .portada-bloque{margin-top:28px;padding-top:18px;border-top:1px solid var(--linea)}
 
@@ -758,9 +761,9 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
   .resumen dl{grid-template-columns:1fr}
   .resumen dt{border-radius:0}
   .tarjeta{padding:20px}
-  header.titulo{padding:14px 16px}
-  header.titulo .contenedor{flex-direction:column;align-items:flex-start;gap:12px}
-  header.titulo .logo-inst{height:48px}
+  header.titulo{padding:12px 16px}
+  header.titulo .contenedor{flex-direction:column;align-items:flex-start;gap:8px}
+  header.titulo .logo-inst{height:44px}
   header.titulo .titulo-txt{border-left:none;padding-left:0}
   header.titulo h1{font-size:var(--t-xl)}
   .progreso .etq{display:none}
@@ -1367,7 +1370,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-167', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-168', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1912,9 +1915,10 @@ function pInicio(){
     /* La entrada dice que denunciar es un derecho y a quien se le cuenta
        (DEC-147). Su titulo afirma algo; no repite el del encabezado. */
     '<h2 class="rotulo-portada">Denunciar el daño ambiental es tu derecho</h2>'+
-    '<p class="portada-lead">Quien vive un lugar es el primero en notar que algo anda mal: el humo que no debería estar ahí, '+
-      'el árbol que amaneció derribado, el escombro tirado en la barranca. Cuéntaselo a la Secretaría del Medio Ambiente: '+
-      'puede verificarlo en campo e iniciar el procedimiento que corresponda.</p>'+
+    /* Dice para que sirve la pagina y quien la opera (DEC-168). */
+    '<p class="portada-lead">Esta es la plataforma de la Secretaría del Medio Ambiente de la Ciudad de México para recibir denuncias ambientales. '+
+      'Si conoces un hecho que daña el ambiente, como una tala sin permiso, una descarga a la barranca, humo o ruido de un establecimiento '+
+      'o el tiro de cascajo, repórtalo aquí. La Secretaría revisa cada denuncia y, si es de su competencia, la atiende con una visita de inspección.</p>'+
 
     '<h2 class="rotulo-portada">Elige cómo presentarla</h2>'+
     '<div class="medios">'+
