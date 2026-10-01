@@ -855,8 +855,8 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
   <div class="cuerpo">
     <p class="nota-cabeza">Este panel es una herramienta de trabajo de la Secretaría: no forma parte del formulario y no se publica. Sirve para revisar en una misma sesión cómo se comporta el formulario ante distintos casos.</p>
     <div class="grupo">
-      <label><input type="checkbox" id="cfgVal" onchange="cfg.validar=this.checked;render()">
-        <span><b>Exigir los campos obligatorios.</b> Apagado, el formulario se recorre y se envía vacío; encendido, cada paso valida antes de continuar.</span></label>
+      <label><input type="checkbox" id="cfgVal" checked onchange="cfg.validar=this.checked;render()">
+        <span><b>Exigir los campos obligatorios.</b> Encendido, como funcionará el formulario: no se avanza ni se envía con una pregunta obligatoria sin contestar. Apágalo sólo para recorrer pantallas sin llenarlas.</span></label>
       <label><input type="checkbox" id="cfgLimite" onchange="cfg.limite=this.checked">
         <span><b>Simular el límite de envíos alcanzado.</b> Muestra lo que ve quien agotó el número de denuncias permitido desde una misma conexión. El límite real lo cuenta el servidor (P-21).</span></label>
     </div>
@@ -935,7 +935,10 @@ var CATALOGO_COLONIAS = {meta:{"origen": "IECM 2022, unidades territoriales", "n
    Sin backend. Toda la información se conserva en memoria.
    ========================================================= */
 
-var cfg = { validar:false, limite:false };
+/* La obligatoriedad viene encendida, como funcionara el formulario: no se
+   avanza ni se envia con una pregunta obligatoria sin contestar (DEC-161).
+   El panel de validacion la apaga solo para recorrer pantallas. */
+var cfg = { validar:true, limite:false };
 var estado = {};
 var archivos = [];
 var paso = 0;
@@ -1346,7 +1349,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-160', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-161', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1414,7 +1417,7 @@ var BIFURCACIONES = [
 var ESCENARIOS = [
   {id:'sin_calle', nom:'Sitio sin domicilio',
    d:'Tala en el Bosque de Tlalpan · sin calle ni colonia · identificado · DGCORENADR',
-   paso:6, cfg:{validar:true},
+   paso:6,
    e:{tiene_direccion:'no', materia:'tala', lat:'19.293800', lon:'-99.193000',
       nombre_lugar:'Bosque de Tlalpan', alcaldia:'Tlalpan',
       referencias:'Se entra por la puerta 3, sobre Camino a Santa Teresa. A unos 200 metros del estacionamiento, subiendo por la vereda de la derecha, junto a los tanques de agua.',
@@ -1429,7 +1432,7 @@ var ESCENARIOS = [
       privacidad:'si'}},
   {id:'urbano', nom:'Comercio en suelo urbano',
    d:'Emisiones de un taller · identificado, con domicilio en el Estado de México · DGIVA',
-   paso:6, cfg:{validar:false},
+   paso:6,
    e:{tiene_direccion:'si', materia:'emisiones', lat:'19.432600', lon:'-99.133200',
       calle:'Avenida Chapultepec', num_ext:'440', colonia:'Centro I', alcaldia_dir:'Cuauhtémoc', cp:'06010',
       es_estab:'si', tipo_estab:'Taller mecánico, hojalatería o pintura', nombre_estab:'Hojalatería El Volante',
@@ -1445,7 +1448,7 @@ var ESCENARIOS = [
 
   {id:'conservacion', nom:'Tala en suelo de conservación, anónima',
    d:'Tala · anónima · responsable desconocido · DGCORENADR',
-   paso:6, cfg:{validar:false},
+   paso:6,
    e:{tiene_direccion:'si', materia:'tala', lat:'19.210000', lon:'-98.995000',
       calle:'Camino a San Antonio Tecómitl', num_ext:'S/N', colonia:'San Antonio Tecómitl (Pueblo)', alcaldia_dir:'Milpa Alta', cp:'12100',
       es_estab:'no',
@@ -1457,7 +1460,7 @@ var ESCENARIOS = [
 
   {id:'gobierno', nom:'Obra de una alcaldía',
    d:'Se señala a una autoridad · ruta del artículo 331',
-   paso:6, cfg:{validar:false},
+   paso:6,
    e:{tiene_direccion:'si', materia:'arbolado', lat:'19.355000', lon:'-99.070000',
       calle:'Avenida Ermita Iztapalapa', num_ext:'1200', colonia:'Constitución de 1917 I', alcaldia_dir:'Iztapalapa', cp:'09260',
       es_estab:'no',
@@ -1473,41 +1476,41 @@ var ESCENARIOS = [
 
   {id:'ava', nom:'Afectación en Área de Valor Ambiental',
    d:'Bosque urbano · DGIVA · persona física señalada',
-   paso:2, cfg:{validar:false},
+   paso:2,
    e:{tiene_direccion:'si', materia:'ava', lat:'19.296390', lon:'-99.183480', es_estab:'no', tipo_denunciado:'particular',
       resp_nombre:'No se conoce el nombre',
       resp_senas:'Un hombre de unos cincuenta años que cerca con malla una parte del bosque y cobra el acceso.'}},
 
   {id:'anp_coadmin', nom:'ANP federal con coadministración',
    d:'Desierto de los Leones · con convenio, pero la inspección es federal (P-22)',
-   paso:2, cfg:{validar:false},
+   paso:2,
    e:{tiene_direccion:'si', materia:'asentamiento', lat:'19.306780', lon:'-99.310970', es_estab:'no'}},
 
   {id:'anp_federal', nom:'ANP federal sin convenio',
    d:'El Histórico Coyoacán · se deriva a la PROFEPA',
-   paso:2, cfg:{validar:false},
+   paso:2,
    e:{tiene_direccion:'si', materia:'ava', lat:'19.354350', lon:'-99.171610', es_estab:'no'}},
 
   {id:'fuera', nom:'Punto fuera de la Ciudad',
    d:'Naucalpan · el formulario impide continuar',
-   paso:2, cfg:{validar:false},
+   paso:2,
    e:{tiene_direccion:'si', materia:'emisiones', lat:'19.478000', lon:'-99.240000', es_estab:'no'}},
 
   {id:'derivado', nom:'Caso de otra autoridad',
    d:'Ruido de vecinos · se detiene el flujo y se orienta',
-   paso:1, cfg:{validar:false},
+   paso:1,
    e:{tiene_direccion:'si', deriva:'d_ruido'}},
 
   {id:'otro_giro', nom:'Establecimiento de giro no listado',
    d:'«Otro» abre el campo de texto',
-   paso:3, cfg:{validar:false},
+   paso:3,
    e:{tiene_direccion:'si', materia:'descargas', lat:'19.390000', lon:'-99.060000',
       calle:'Calle 5', num_ext:'27', colonia:'Pantitlán I', alcaldia_dir:'Iztacalco', cp:'08100',
       es_estab:'si', tipo_estab:'Otro', tipo_estab_otro:'Planta de lavado de garrafones'}},
 
   {id:'vacio', nom:'Formulario vacío con validación activa',
    d:'Muestra qué exige cada paso antes de dejar continuar',
-   paso:2, cfg:{validar:true},
+   paso:2,
    e:{tiene_direccion:'si', materia:'impacto'}}
 ];
 
@@ -4464,6 +4467,12 @@ function enviar(){
     if(c) c.scrollIntoView({block:'center', behavior:'smooth'});
     var h = $('chkHumano'); if(h && h.focus) h.focus({preventScroll:true});
     return false;
+  }
+  /* Llegar a la revisión no basta: la barra de pasos y el borrador pueden
+     traer a alguien aquí con un paso incompleto. Antes del folio se revisan
+     todos, y se lleva a la persona al primero que falte (DEC-161). */
+  for(var pn = 1; pn <= 5; pn++){
+    if(!valida(pn)){ irA(pn); valida(pn); return false; }
   }
   if(cfg.limite){ irA(8); return false; }
   guarda('ubicacion_origen', val('lat') ? 'punto' : 'direccion');

@@ -132,4 +132,4 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 ## F. Estado de prueba
 
-**RN-30.** Mientras el formulario se encuentre en validación, ningún campo es obligatorio: es posible recorrerlo y enviarlo vacío. La obligatoriedad se reactiva desde el panel de validación y debe quedar activa antes de la publicación.
+**RN-30.** La obligatoriedad está activa: no se avanza de paso —ni con «Continuar» ni con la barra de pasos— ni se envía la denuncia con una pregunta obligatoria sin contestar; al enviar se revisan de nuevo los pasos 1 a 5 y se lleva a la persona al primero incompleto. El panel de validación puede apagarla sólo para recorrer pantallas; el panel no se publica (DEC-161).

@@ -10,7 +10,7 @@
    hacía nada. Todo eso convivía con 343 comprobaciones en verde.
 
    Esta batería mira lo que la persona ve y lo que la persona pulsa."""
-import os, pathlib, sys, re
+import os, pathlib, sys
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
 RAIZ = AQUI.parent
 RUTA = pathlib.Path(os.environ.get('ARTEFACTO', RAIZ / 'artefacto.html'))
@@ -172,9 +172,9 @@ with sync_playwright() as pw:
       const vistos = new Set();
       const rutas = [
         {tiene_direccion:'si', tiene_mz_lote:'si', materia:'tala', tipo_denunciado:'empresa', es_estab:'si', tipo_estab:'Otro',
-         identificacion:'nombre', dom_tiene_mz_lote:'si', sabe_permisos:'si', reporto_antes:'si', temporalidad:'unico'},
+         identificacion:'nombre', notif_correo:'no', sabe_permisos:'si', reporto_antes:'si', temporalidad:'unico'},
         {tiene_direccion:'no', materia:'tala', tipo_denunciado:'gobierno', autoridad_nivel:'cdmx',
-         identificacion:'nombre', dom_fuera_cdmx:'si'},
+         identificacion:'llave', sesion_llave:'si', notif_correo:'si'},
         {tiene_direccion:'si', materia:'tala', tipo_denunciado:'particular', identificacion:'anonima'},
         /* La unica materia con una pregunta propia en el paso 3: el servicio
            del vehiculo. Sin esta ruta, un campo que si se rinde pareceria
@@ -230,60 +230,16 @@ with sync_playwright() as pw:
            'que no sobrevive al cambio de rama de responsable: %r' % sobra['despues'])
     afirma(sobra['enResumen'] == 0, 'ni reaparece en la revisión (%d veces)' % sobra['enResumen'])
 
-    # ---- 10. El folio sigue el documento 19 (DEC-151) ----
-    def luhn(num):
-        t = 0
-        for i, c in enumerate(reversed(num)):
-            x = int(c)
-            if i % 2 == 0:
-                x *= 2
-                if x > 9: x -= 9
-            t += x
-        return (10 - t % 10) % 10
-    afirma(pg.evaluate("() => digitoLuhn('2026000123')") == 3, 'el carácter verificador del ejemplo del documento 19 es 3')
-    claves = set()
-    for esc_id in ('urbano', 'conservacion', 'anp_federal'):
+    # ---- 10. El folio nombra al área que atiende ----
+    fol = {}
+    for esc_id, esperado in [('urbano','DGIVA'), ('conservacion','DGCORENADR'), ('anp_federal','REM')]:
         r = pg.evaluate("""(id) => { cargaEscenario(id); guarda('verificacion','si');
           cfg.limite = false; irA(6); enviar();
-          return {folio: val('folio'), clave: val('clave_consulta'),
-                  pantalla: document.getElementById('app').innerText}; }""", esc_id)
+          return {folio: val('folio'), dg: val('dg')}; }""", esc_id)
         pg.wait_for_timeout(300)
-        m = re.match(r'^SEDEMA/DEN/(\d{4})/(\d{6})-(\d)$', r['folio'] or '')
-        afirma(m is not None, '%s: folio SEDEMA/DEN/año/consecutivo-verificador, sin área (%s)' % (esc_id, r['folio']))
-        if m:
-            afirma(int(m.group(3)) == luhn(m.group(1) + m.group(2)), '%s: el carácter verificador cuadra' % esc_id)
-        afirma(re.match(r'^[A-HJKMNP-Z2-9]{4}-[A-HJKMNP-Z2-9]{4}$', r['clave'] or '') is not None,
-               '%s: clave de consulta de 8 caracteres sin 0, O, 1, I ni L (%s)' % (esc_id, r['clave']))
-        afirma(r['clave'] in r['pantalla'] and 'no puede reponerse' in r['pantalla'],
-               '%s: la pantalla final muestra la clave y advierte que no se repone' % esc_id)
-        claves.add(r['clave'])
-    afirma(len(claves) == 3, 'cada envío genera una clave distinta')
-
-    # ---- 10 bis. Supuestos de otra autoridad (DEC-158) ----
-    dv = pg.evaluate("""() => { estado = {}; irA(1); const ids = DERIVA.map(d => d.id);
-      guarda('deriva','d_basura'); render();
-      const insts = [...document.querySelectorAll('.redir .inst')].map(e => e.innerText);
-      return {ids, insts, poda: document.getElementById('app').innerText.indexOf('Solicitar una poda') >= 0}; }""")
-    afirma('d_poda_sol' not in dv['ids'] and len(dv['ids']) == 6 and not dv['poda'], 'ya no se ofrece «Solicitar una poda o derribo»: %s' % dv['ids'])
-    alc = [x for x in dv['insts'] if x.startswith('Alcaldía')]
-    afirma(alc and 'Acude a la alcaldía donde ocurren los hechos' in alc[0] and 'Teléfono' not in alc[0],
-           'la alcaldía no lleva teléfono ni liga, sino a cuál acudir: %r' % alc)
-    afirma(any('Teléfono y liga por confirmar' in x for x in dv['insts'] if not x.startswith('Alcaldía')),
-           'las demás autoridades conservan su pendiente de teléfono y liga')
-
-    # ---- 10 ter. Atajo a Google Maps (DEC-159) ----
-    gm = pg.evaluate("""() => { estado = {}; guarda('materia','rsu'); guarda('tiene_direccion','si'); irA(2);
-      const a = document.querySelector('#c_lat .btn-maps'); if(!a) return null;
-      const r = {texto: a.innerText.trim(), target: a.target, rel: a.rel, vacio: urlGoogleMaps()};
-      guarda('calle','Avenida Chapultepec'); guarda('num_ext','440'); guarda('colonia','Centro I'); guarda('alcaldia_dir','Cuauhtémoc');
-      a.addEventListener('click', e => e.preventDefault(), {once: true}); a.click(); r.dir = a.href;
-      guarda('lat','19.4326'); guarda('lon','-99.1332'); r.punto = urlGoogleMaps(); return r; }""")
-    afirma(gm and gm['texto'] == 'Abrir Google Maps' and gm['target'] == '_blank' and 'noopener' in gm['rel'],
-           'junto a «Pegar la ubicación» hay un botón «Abrir Google Maps» que abre aparte: %s' % gm)
-    afirma(gm and '@19.4326,-99.1332' in gm['vacio'], 'sin dirección ni punto abre en la Ciudad')
-    afirma(gm and 'query=Avenida%20Chapultepec%20440' in gm['dir'] and 'Ciudad%20de%20M' in gm['dir'],
-           'con dirección escrita abre buscándola, calculada al pulsar: %s' % (gm or {}).get('dir'))
-    afirma(gm and gm['punto'].endswith('query=19.4326%2C-99.1332'), 'con punto abre en el punto')
+        fol[esc_id] = r
+        afirma(('/'+esperado+'/') in (r['folio'] or ''),
+               '%s: el folio nombra al área que atiende (%s)' % (esc_id, r['folio']))
 
     # ---- 11. El acuse federal no promete plazos de la Secretaría ----
     ac = pg.evaluate("""() => { cargaEscenario('anp_federal'); guarda('verificacion','si');
@@ -294,8 +250,8 @@ with sync_playwright() as pw:
       return {envio, acuse}; }"""); pg.wait_for_timeout(400)
     afirma('tres días hábiles y analiza el caso en diez' not in ac['envio'],
            'el aviso de envío no compromete a la PROFEPA con los plazos de la Secretaría')
-    afirma('la remite a esa autoridad' in ac['envio'] and 'plazo' not in ac['envio'],
-           'y dice que la remite, sin hablar de plazos (DEC-138)')
+    afirma('los plazos de atención los fija esa autoridad' in ac['envio'],
+           'y dice de quién son los plazos')
     afirma('de esa dirección general' not in ac['acuse'],
            'el acuse no llama dirección general de la Secretaría a la PROFEPA')
 

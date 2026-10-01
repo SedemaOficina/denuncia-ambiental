@@ -20,7 +20,7 @@ Esta carpeta está vinculada al proyecto **Denuncias Ambientales** en Claude: lo
 
 1. Abre `prototipo/prototipo-denuncia-ambiental-sedema.html`.
 2. El botón **Panel de validación**, en la esquina inferior derecha, permite exigir los campos obligatorios, simular el límite de envíos, cargar uno de los once escenarios de prueba y abrir el mapeo de campos y las ramas del formulario.
-3. Mientras el formulario está en prueba, **ningún campo es obligatorio**: se puede recorrer completo sin llenar nada. La única regla que sí bloquea es la de competencia territorial.
+3. **Los campos obligatorios se exigen**: no se avanza de paso ni se envía con una pregunta obligatoria sin contestar (DEC-161). Para recorrer pantallas sin llenarlas, el panel de validación permite apagarlo.
 
 ## Configuración local
 

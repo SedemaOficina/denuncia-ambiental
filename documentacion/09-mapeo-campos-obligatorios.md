@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-160 · 1 de octubre de 2026
+**Versión:** DEC-161 · 1 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -221,6 +221,6 @@ Permisos y gestiones previas eran campos de texto abiertos que la mayoría de la
 
 ## 5. Interruptor de obligatoriedad
 
-Mientras el formulario está en revisión, **ningún campo es obligatorio**: se puede recorrer completo y enviarlo vacío. La obligatoriedad se activa desde el panel de validación. **Debe quedar activa antes de la publicación.**
+**La obligatoriedad está encendida** (DEC-161): no se avanza ni se envía con una pregunta obligatoria sin contestar. El panel de validación puede apagarla sólo para recorrer pantallas sin llenarlas.
 
 Hay una sola lista de campos obligatorios, la de la columna «Obligatorio» (DEC-97). La columna «Formato 2016» registra qué pedía la Ficha de Denuncia en papel y no gobierna nada: se conserva para poder responder, ante quien lo pregunte, qué dato se dejó de exigir y cuál se agregó.
