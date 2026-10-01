@@ -40,6 +40,14 @@ with sync_playwright() as pw:
       return {boton: !!b, texto: document.getElementById('app').innerText}; }""")
     afirma(ac['boton'], 'la pantalla final ofrece «Descargar acuse (PDF)»')
     afirma('no se envían por correo' in ac['texto'], 'y dice que el folio y el acuse no se envían por correo')
+    fx = pg.evaluate("""() => { const f = document.querySelector('.datos-acuse'), d = document.querySelector('.acuse-pdf .btn');
+      const cf = getComputedStyle(f), cd = getComputedStyle(d);
+      return {etq: [...f.querySelectorAll('.dato-etq')].map(e => e.innerText.trim().toLowerCase()),
+              fondoFicha: cf.backgroundColor, fondoBoton: cd.backgroundColor,
+              copiar: [...f.querySelectorAll('.btn-copiar')].map(b => getComputedStyle(b).backgroundColor)}; }""")
+    afirma(fx['etq'] == ['folio', 'clave de consulta'], 'folio y clave van rotulados en una ficha: %s' % fx['etq'])
+    afirma(fx['fondoFicha'] != fx['fondoBoton'] and all(c == 'rgba(0, 0, 0, 0)' for c in fx['copiar']),
+           'la ficha no se parece al botón de descarga y «Copiar» es un enlace (DEC-162)')
     with pg.expect_download() as d:
         pg.click('text=Descargar acuse (PDF)')
     dl = d.value

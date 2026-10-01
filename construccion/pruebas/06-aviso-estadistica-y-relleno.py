@@ -122,8 +122,8 @@ with sync_playwright() as pw:
               tresDias: t.indexOf('tres d\\u00edas h\\u00e1biles') >= 0,
               promete: t.indexOf('correo no deseado') >= 0 || t.indexOf('Enviamos') >= 0};
     }""")
-    afirma(ac['ratifica'] and not ac['tresDias'],
-           'el acuse dice que no hace falta ratificar, sin plazos (DEC-138)')
+    afirma(not ac['ratifica'] and not ac['tresDias'],
+           'el acuse ya no habla de ratificar (DEC-162) ni promete plazos (DEC-138)')
 
     # ---- 5. DEC-138: lupa, «Mi caso no está» aparte, textos que crecen, sin plazos ----
     x = pg.evaluate("""() => { estado = {}; irA(1);
