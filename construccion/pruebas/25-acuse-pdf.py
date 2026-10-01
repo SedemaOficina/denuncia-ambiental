@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""El acuse en PDF (DEC-139).
+"""El acuse en PDF (DEC-139; forma de formato institucional y croquis, DEC-175).
 
    Sin envio de correos, la persona se lleva su acuse al terminar. Se
    comprueba que el PDF se arme sin bibliotecas externas, que sea un PDF
@@ -64,11 +64,17 @@ with sync_playwright() as pw:
         folio = pg.evaluate("() => val('folio')")
         afirma(folio in txt, '%s: lleva el folio %s' % (esc, folio))
         clave = pg.evaluate("() => val('clave_consulta')")
-        afirma(clave and clave in txt and 'Clave de consulta' in txt and 'No puede reponerse' in txt,
+        afirma(clave and clave in txt and 'Clave de consulta' in txt and 'no puede reponerse' in txt,
                '%s: lleva la clave de consulta %s (DEC-151)' % (esc, clave))
-        afirma('ACUSE DE RECEPCIÓN' in txt and 'Recibida el' in txt, '%s: título y fecha de recepción' % esc)
+        afirma('ACUSE DE RECEPCIÓN DE DENUNCIA AMBIENTAL' in txt and 'Presentada en línea · Recibida el' in txt, '%s: título y fecha de recepción, con acentos correctos' % esc)
+        afirma('INFORMACIÓN PARA QUIEN DENUNCIA' in txt and '¿QUÉ SIGUE?' in txt, '%s: apartados en barra, como los formatos oficiales (DEC-175)' % esc)
+        afirma('CROQUIS DE UBICACIÓN' in txt and 'Figura 1.' in txt and 'Ver en Google Maps' in txt and 'Ciudad de México' in txt,
+               '%s: con punto, lleva croquis de ubicación con simbología y liga (DEC-175)' % esc)
+        cruda = ruta.read_bytes().decode('latin-1')
+        afirma('/URI (https://www.google.com/maps/search/?api=1&query=' in cruda and '/Subtype /Link' in cruda,
+               '%s: «Ver en Google Maps» es un enlace activo en el PDF' % esc)
+        afirma('[Art. __, fracc. __]' in txt, '%s: el fundamento sin verificar queda como hueco visible, no se inventa' % esc)
         afirma('esté disponible' in txt, '%s: el PDF no da por hecha la consulta en línea' % esc)
-        afirma('Acuse de recepción de denuncia ambiental · Presentada en línea' in txt, '%s: membrete con acentos correctos' % esc)
         afirma('Página 1 de' in txt, '%s: numeración de páginas' % esc)
         afirma('Prototipo de validación interna' in txt and 'no tiene validez oficial' in txt, '%s: advierte que es un prototipo' % esc)
         bloques = pg.evaluate("() => datosDelAcuse().map(b => b.titulo)")
@@ -81,6 +87,23 @@ with sync_playwright() as pw:
             afirma('Estado de México' in txt and 'Nezahualcóyotl' in txt, 'urbano: el domicilio fuera de la Ciudad sale completo')
         if esc == 'conservacion':
             afirma('Denuncia anónima' in txt and 'escribirá al correo' in txt, 'conservación: la anónima lo dice, y qué sigue')
+
+    # ---- 2 bis. Sin punto no hay croquis, y se dice que la Secretaría ubicará el lugar ----
+    sin = pg.evaluate("""() => { cargaEscenario('urbano'); guarda('lat',''); guarda('lon',''); guarda('verificacion','si'); irA(6); enviar();
+      return construyeAcusePdf().then(u => Array.from(u)); }""")
+    ruta = SALIDA / 'acuse-sin-punto.pdf'; ruta.write_bytes(bytes(sin))
+    afirma(subprocess.run(['qpdf', '--check', str(ruta)], capture_output=True, text=True).returncode == 0, 'sin punto: el PDF es válido')
+    txt = subprocess.run(['pdftotext', '-layout', str(ruta), '-'], capture_output=True, text=True).stdout
+    afirma('CROQUIS' not in txt and 'ubicará el lugar con la dirección' in txt, 'sin punto: no hay croquis y avisa que la Secretaría ubicará el lugar')
+
+    # ---- 2 ter. El membrete: folio y clave en casillas a la derecha del logotipo ----
+    ruta = pdf_de(pg, 'urbano')
+    bb = subprocess.run(['pdftotext', '-bbox', '-f', '1', '-l', '1', str(ruta), '-'], capture_output=True, text=True).stdout
+    import re
+    pal = [(float(m.group(1)), float(m.group(2)), m.group(3)) for m in re.finditer(r'xMin="([\d.]+)" yMin="([\d.]+)"[^>]*>([^<]*)<', bb)]
+    fol = [p for p in pal if p[2].startswith('SEDEMA/DEN/')]
+    tit = [p for p in pal if p[2] == 'ACUSE']
+    afirma(fol and tit and fol[0][0] > 306 and fol[0][1] < tit[0][1], 'el folio va arriba a la derecha, en el membrete, antes del título')
 
     # ---- 3. Un texto largo se reparte en varias paginas ----
     largo = pg.evaluate("""() => { cargaEscenario('urbano'); guarda('hechos', ('Humo denso y olor a solvente durante toda la tarde. ').repeat(90));
