@@ -851,7 +851,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
     <!-- Presentarla en persona: las dos oficinas, segun la zona de los
          hechos. Se pintan desde SEDES, la misma fuente de la portada
          (DEC-137, DEC-141). -->
-    <div class="pie-bloque">
+    <div class="pie-bloque" id="pieEnPersona">
       <h2>Presentarla en persona</h2>
       <div class="pie-sede"><p class="sede-zona" id="pieZona0"></p><div id="pieSede0"></div></div>
       <div class="pie-sede"><p class="sede-zona" id="pieZona1"></p><div id="pieSede1"></div></div>
@@ -1387,7 +1387,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-183', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-184', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2063,9 +2063,9 @@ function pInicio(){
        (DEC-147). Su titulo afirma algo; no repite el del encabezado. */
     '<h2 class="rotulo-portada">Denunciar el daño ambiental es tu derecho</h2>'+
     /* Dice para que sirve la pagina y quien la opera (DEC-168). */
-    '<p class="portada-lead">Esta es la plataforma de la Secretaría del Medio Ambiente de la Ciudad de México para recibir denuncias ambientales. '+
-      'Si conoces un hecho que daña el ambiente, como una tala sin permiso, una descarga a la barranca, humo o ruido de un establecimiento '+
-      'o el tiro de cascajo, repórtalo aquí. La Secretaría revisa cada denuncia y, si es de su competencia, la atiende con una visita de inspección.</p>'+
+    '<p class="portada-lead">Esta es la plataforma de la Secretaría del Medio Ambiente de la Ciudad de México para denunciar hechos que dañan el ambiente, '+
+      'como una tala sin permiso, una descarga a la barranca o el humo de un establecimiento. '+
+      'La Secretaría revisa cada denuncia y, si es de su competencia, la atiende con una visita de inspección.</p>'+
 
     /* Los dos medios van inmediatamente después de la entrada, como en
        DEC-116: es lo primero que la persona viene a hacer (DEC-183). */
@@ -2099,20 +2099,6 @@ function pInicio(){
       '</ul>'+
     '</div>'+
 
-    /* Lo que la ley reconoce, cada derecho con su explicacion (DEC-76,
-       DEC-147). La confidencialidad es la regla, no algo que se pide (DEC-119),
-       y la anonima deja un correo de contacto (DEC-120). */
-    '<div class="portada-bloque">'+
-      '<h2 class="rotulo-portada">Lo que la ley te reconoce</h2>'+
-      '<ul class="derechos">'+
-        '<li><b>Cualquier persona puede denunciar.</b> No necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio.</li>'+
-        '<li><b>Puedes denunciar sin dar tu nombre.</b> La Secretaría valora los hechos igual; sólo te pedimos un correo, para escribirte si hace falta aclarar algo.</li>'+
-        '<li><b>Tus datos son confidenciales.</b> Tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado.</li>'+
-        '<li><b>No necesitas saber qué norma se incumple.</b> Basta con describir lo que ocurre.</li>'+
-      '</ul>'+
-    '</div>'+
-
-
     '<div class="portada-bloque">'+
       '<h2 class="rotulo-portada">¿Qué necesitas?</h2>'+
       '<ul class="necesitas">'+
@@ -2128,8 +2114,12 @@ function pInicio(){
     '<div class="portada-bloque">'+
       '<h2 class="rotulo-portada">Preguntas frecuentes</h2>'+
       '<div class="faq">'+
-        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí. Al final eliges si escribes tus datos o si la presentas como denuncia anónima. En la anónima sólo te pedimos un correo, para que la Secretaría pueda escribirte si necesita aclarar algo.</p></details>'+
-        '<details><summary>¿La persona o el negocio que denuncio sabrá quién fui?</summary><p>No. Tus datos no se dan a conocer a quien denuncias.</p></details>'+
+        /* Los cuatro derechos que antes iban en su propio bloque, «Lo que la ley
+           te reconoce», viven aquí como preguntas (DEC-184). */
+        '<details><summary>¿Tengo que ser la persona afectada para denunciar?</summary><p>No. Cualquier persona puede denunciar: no necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio.</p></details>'+
+        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí, y la Secretaría valora los hechos igual. Al final eliges si escribes tus datos o si la presentas como denuncia anónima. En la anónima sólo te pedimos un correo, para que la Secretaría pueda escribirte si necesita aclarar algo.</p></details>'+
+        '<details><summary>¿La persona o el negocio que denuncio sabrá quién fui?</summary><p>No. Tus datos son confidenciales: tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado.</p></details>'+
+        '<details><summary>¿Necesito saber qué norma se incumple?</summary><p>No. Basta con describir lo que ocurre.</p></details>'+
         '<details><summary>¿Qué hago si no sé la dirección exacta?</summary><p>Puedes marcar el punto en el mapa o pegar la ubicación de Google Maps. Si no puedes marcarlo, basta la dirección. Si el lugar no tiene calle ni número, como un bosque o una barranca, el formulario te pide referencias para llegar.</p></details>'+
         '<details><summary>¿Necesito fotos o documentos?</summary><p>No son obligatorios, pero ayudan a verificar los hechos. Puedes adjuntar fotos (JPG o PNG), videos (MP4 o MOV) y documentos (Word, PDF o Excel).</p></details>'+
         '<details><summary>¿Qué pasa si mi caso no lo atiende la Secretaría?</summary><p>Al elegir qué quieres denunciar, en «Mi caso no está en la lista» encuentras los casos que atiende otra autoridad, como la basura en la calle o el ruido de vecinos, y a dónde acudir.</p></details>'+
@@ -5301,6 +5291,9 @@ function avisoBorrador(){
 function render(){
   barra();
   avisoBorrador();
+  /* En la portada las dos oficinas ya van en la tarjeta «En persona»; el pie
+     las muestra en el resto del formulario, donde no hay tarjeta (DEC-184). */
+  var pp = $('pieEnPersona'); if(pp) pp.style.display = (paso === 0) ? 'none' : '';
   var h='';
   if(paso===0) h=pInicio();
   else if(paso===1) h=pMateria();

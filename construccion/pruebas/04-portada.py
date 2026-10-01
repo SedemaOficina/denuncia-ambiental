@@ -88,8 +88,8 @@ with sync_playwright() as pw:
         # Orden de la portada (DEC-183): los medios vuelven a ir justo después de la entrada.
         orden = pg.evaluate("""() => [...document.querySelectorAll('#app .rotulo-portada')].map(h => h.innerText.trim())""")
         afirma(orden == ['Denunciar el daño ambiental es tu derecho', 'Elige cómo presentarla', 'La visión de la Secretaría',
-                         'Lo que la ley te reconoce', '¿Qué necesitas?', 'Preguntas frecuentes'],
-               '%s: la portada va en el orden instruido (DEC-183): %s' % (nom, orden))
+                         '¿Qué necesitas?', 'Preguntas frecuentes'],
+               '%s: la portada va en el orden instruido (DEC-183, DEC-184): %s' % (nom, orden))
         un = pg.evaluate("() => [...document.querySelectorAll('#app button')].filter(b => b.textContent.includes('Iniciar')).length")
         afirma(un == 1 and r['botonEnLinea'], '%s: un solo botón «Iniciar mi denuncia», el de la tarjeta «En línea» (%d)' % (nom, un))
         if ancho >= 760:
@@ -141,14 +141,21 @@ with sync_playwright() as pw:
         afirma(r['mailto'] == 0, '%s: ningún enlace ofrece el correo electrónico como vía' % nom)
         afirma('correo electrónico' not in r['tarjeta'], '%s: la portada no menciona el correo como vía' % nom)
 
-        # Lo que la ley reconoce sigue enunciado (DEC-76), ahora en una linea cada cosa.
-        afirma(len(r['derechos']) == 4, '%s: los cuatro enunciados de lo que la ley reconoce' % nom)
-        afirma('Lo que la ley te reconoce' in r['tarjeta'] or 'LO QUE LA LEY TE RECONOCE' in r['tarjeta'],
-               '%s: y se presentan como derechos, no como avisos' % nom)
-        afirma(len(r['derechosB']) == 4 and all(len(x.split()) <= 8 for x in r['derechosB']),
-               '%s: cada derecho abre con una frase corta en negritas: %s' % (nom, r['derechosB']))
-        afirma('pedir que sean confidenciales' not in r['tarjeta'] and 'Tus datos son confidenciales' in r['tarjeta'],
+        # Lo que la ley reconoce ya no es un bloque: sus cuatro puntos son preguntas frecuentes (DEC-184).
+        fq = pg.evaluate("""() => [...document.querySelectorAll('#app .faq details')].map(d => d.textContent.replace(/\\s+/g,' ').trim())""")
+        todo = ' | '.join(fq)
+        afirma(len(r['derechos']) == 0 and 'Lo que la ley te reconoce' not in r['tarjeta'],
+               '%s: «Lo que la ley te reconoce» ya no es un bloque de la portada (DEC-184)' % nom)
+        afirma(all(x in todo for x in ['Cualquier persona puede denunciar', 'la Secretaría valora los hechos igual',
+                                        'Tus datos son confidenciales', 'Basta con describir lo que ocurre']),
+               '%s: sus cuatro puntos siguen dichos, en las preguntas frecuentes' % nom)
+        afirma(len(fq) == 9 and len(set(d.split('?')[0] for d in fq)) == 9, '%s: nueve preguntas, ninguna repetida (%d)' % (nom, len(fq)))
+        afirma('pedir que sean confidenciales' not in todo and 'Tus datos son confidenciales' in todo,
                '%s: la confidencialidad se dice como regla, no como algo que se pide (DEC-119)' % nom)
+        # En la portada el pie no repite las oficinas; en el formulario sí las muestra.
+        pie = pg.evaluate("""() => { const v = () => document.getElementById('pieEnPersona').offsetParent !== null;
+          const a = v(); irA(1); const b = v(); irA(0); return [a, b]; }""")
+        afirma(pie == [False, True], '%s: el pie no repite las dos oficinas en la portada y sí las muestra dentro del formulario: %s' % (nom, pie))
         afirma('sin dar tu nombre' in r['tarjeta'], '%s: la portada dice que se puede denunciar sin dar el nombre (DEC-77)' % nom)
 
         afirma(r['cajas'] == 0, '%s: no quedan cajas de aviso apiladas (%d)' % (nom, r['cajas']))

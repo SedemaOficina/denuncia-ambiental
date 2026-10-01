@@ -75,7 +75,8 @@ with sync_playwright() as pw:
     rv = pg.evaluate("""() => { irA(6); alternaDetalleRevision();
       return [...document.querySelectorAll('.resumen dt')].some(x=>x.textContent.indexOf('Confidencialidad')===0); }""")
     afirma(not rv, 'ni aparece en la revisión')
-    port = pg.evaluate("() => { irA(0); return document.getElementById('app').innerText; }")
+    # Desde DEC-184 lo dice en una pregunta frecuente, plegada: se lee el texto completo.
+    port = pg.evaluate("() => { irA(0); return document.getElementById('app').textContent; }")
     afirma('pedir que sean confidenciales' not in port and 'Tus datos son confidenciales' in port, 'la portada lo dice como regla')
 
     # ---- 4. Anónima: correo obligatorio, teléfono opcional (DEC-119, DEC-120) ----
