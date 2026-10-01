@@ -1380,7 +1380,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-175', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-177', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1445,6 +1445,15 @@ var BIFURCACIONES = [
    efecto:'Si existe, la portada ofrece retomarlo o descartarlo.'}
 ];
 
+/* Escenarios del panel de validacion. Cada uno es un caso COMPLETO: llena
+   todos los campos que le aplican en los cinco pasos —tambien los opcionales—
+   para que con la obligatoriedad encendida se pueda recorrer y enviar sin
+   capturar nada (DEC-177). Abre en el paso donde se aprecia la rama; desde
+   ahi se continua hasta el acuse. Dos excepciones, a proposito: «Caso de otra
+   autoridad», que se detiene en el paso 1, y «Formulario vacio», que existe
+   para ver que exige cada paso. En «Punto fuera de la Ciudad» el paso 2 queda
+   detenido por la regla de competencia; lo demas viene lleno.
+   Los datos son ficticios. Los correos usan el dominio ejemplo.mx. */
 var ESCENARIOS = [
   {id:'sin_calle', nom:'Sitio sin domicilio',
    d:'Tala en el Bosque de Tlalpan · sin calle ni colonia · identificado · DGCORENADR',
@@ -1454,94 +1463,209 @@ var ESCENARIOS = [
       referencias:'Se entra por la puerta 3, sobre Camino a Santa Teresa. A unos 200 metros del estacionamiento, subiendo por la vereda de la derecha, junto a los tanques de agua.',
       hechos:'Están derribando encinos adultos con motosierra dentro del bosque, fuera de cualquier sendero. Llevan tres fines de semana seguidos y sacan la madera en una camioneta de redilas por la puerta 3.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-05',
-      es_estab:'no', tipo_denunciado:'desconocido', sabe_permisos:'no', reporto_antes:'no',
+      es_estab:'no', tipo_denunciado:'nose',
+      resp_senas:'Tres hombres con motosierra y casco naranja. La camioneta es de redilas, azul, sin placas visibles.',
+      sabe_permisos:'no', reporto_antes:'si',
+      gestiones:'Lo comenté a los guardabosques de la caseta de la puerta 3 el 12 de septiembre. Dijeron que darían aviso, pero siguió ocurriendo.',
+      otras_pruebas:'Tengo un video de dos minutos en el que se oye la motosierra; puedo entregarlo si me lo piden.',
       identificacion:'nombre',
       nombre:'María Fernanda', apellido_paterno:'Ramírez', apellido_materno:'Cortés',
       correo:'mf.ramirez@ejemplo.mx', telefono:'5555010203',
-      dom_calle:'Calzada de Tlalpan', dom_num_ext:'4820', dom_colonia:'La Joya',
-      dom_cp:'14090', dom_alcaldia:'Tlalpan',
+      dom_calle:'Calzada de Tlalpan', dom_num_ext:'4820', dom_num_int:'B-302', dom_entre_calles:'Entre la calle Pino y la calle Encino',
+      dom_colonia:'La Joya', dom_cp:'14090', dom_alcaldia:'Tlalpan',
+      sexo_genero:'mujer', edad_rango:'30-44',
       privacidad:'si'}},
+
   {id:'urbano', nom:'Comercio en suelo urbano',
    d:'Emisiones de un taller · identificado, con domicilio en el Estado de México · DGIVA',
    paso:6,
    e:{tiene_direccion:'si', materia:'emisiones', lat:'19.432600', lon:'-99.133200',
-      calle:'Avenida Chapultepec', num_ext:'440', colonia:'Centro I', alcaldia_dir:'Cuauhtémoc', cp:'06010',
+      calle:'Avenida Chapultepec', num_ext:'440', entre_calles:'Entre la calle Morelos y la calle Hidalgo',
+      colonia:'Centro I', alcaldia_dir:'Cuauhtémoc', cp:'06010',
+      referencias:'Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.',
       es_estab:'si', tipo_estab:'Taller mecánico, hojalatería o pintura', nombre_estab:'Hojalatería El Volante',
       hechos:'El taller pinta carrocerías en la banqueta sin cabina ni extracción. El olor a solvente entra a las viviendas de los dos edificios contiguos y dura toda la tarde.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-10',
       tipo_denunciado:'empresa', establecimiento:'Servicios Automotrices del Centro S.A. de C.V.',
       resp_encargado:'El encargado se identifica como Raúl',
+      sabe_permisos:'no', reporto_antes:'si',
+      gestiones:'Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.',
+      otras_pruebas:'Los vecinos de los dos edificios pueden dar testimonio.',
       nombre:'María Fernanda', apellido_paterno:'Ríos', apellido_materno:'Galván',
       telefono:'5512345678', correo:'ejemplo@correo.com',
-      dom_fuera_cdmx:'si', dom_calle:'Avenida Pantitlán', dom_num_ext:'215', dom_colonia:'Metropolitana Tercera Sección',
+      dom_fuera_cdmx:'si', dom_calle:'Avenida Pantitlán', dom_num_ext:'215', dom_num_int:'4',
+      dom_entre_calles:'Entre la calle 7 y la calle 9',
+      dom_colonia:'Metropolitana Tercera Sección',
       dom_cp:'57750', dom_municipio:'Nezahualcóyotl', dom_entidad:'Estado de México',
+      sexo_genero:'mujer', edad_rango:'45-59',
       privacidad:'si', identificacion:'nombre'}},
 
   {id:'conservacion', nom:'Tala en suelo de conservación, anónima',
    d:'Tala · anónima · responsable desconocido · DGCORENADR',
    paso:6,
    e:{tiene_direccion:'si', materia:'tala', lat:'19.210000', lon:'-98.995000',
-      calle:'Camino a San Antonio Tecómitl', num_ext:'S/N', colonia:'San Antonio Tecómitl (Pueblo)', alcaldia_dir:'Milpa Alta', cp:'12100',
+      calle:'Camino a San Antonio Tecómitl', num_ext:'S/N', entre_calles:'Sobre la brecha de terracería que sube al cerro',
+      colonia:'San Antonio Tecómitl (Pueblo)', alcaldia_dir:'Milpa Alta', cp:'12100',
+      referencias:'A kilómetro y medio del panteón, por la brecha que sube al monte. Hay un claro grande a la derecha.',
       es_estab:'no',
       hechos:'Cada semana entran camionetas con motosierra y sacan troncos por la brecha. Ya abrieron un claro grande donde antes había monte cerrado.',
       temporalidad:'permanente', fecha_hecho:'2026-06-01',
       tipo_denunciado:'nose',
       resp_senas:'Dos camionetas de redilas blancas, sin placas visibles. Llegan entre las seis y las ocho de la mañana, cuatro o cinco personas.',
-      identificacion:'anonima', correo:'avisos.anonimos@ejemplo.mx', privacidad:'si'}},
+      sabe_permisos:'no', reporto_antes:'no',
+      otras_pruebas:'Puedo señalar en el mapa la brecha por donde sacan la madera.',
+      identificacion:'anonima', correo:'avisos.anonimos@ejemplo.mx', telefono:'5511223344',
+      sexo_genero:'nd', edad_rango:'nd',
+      privacidad:'si'}},
 
   {id:'gobierno', nom:'Obra de una alcaldía',
    d:'Se señala a una autoridad · ruta del artículo 331',
    paso:6,
    e:{tiene_direccion:'si', materia:'arbolado', lat:'19.355000', lon:'-99.070000',
-      calle:'Avenida Ermita Iztapalapa', num_ext:'1200', colonia:'Constitución de 1917 I', alcaldia_dir:'Iztapalapa', cp:'09260',
+      calle:'Avenida Ermita Iztapalapa', num_ext:'1200', entre_calles:'En el camellón central, a la altura del número 1200',
+      colonia:'Constitución de 1917 I', alcaldia_dir:'Iztapalapa', cp:'09260',
+      referencias:'Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.',
       es_estab:'no',
       hechos:'La cuadrilla de la alcaldía derribó doce fresnos del camellón para ampliar el carril. No colocaron aviso ni exhibieron autorización.',
       temporalidad:'unico', fecha_hecho:'2026-09-15',
-      tipo_denunciado:'gobierno', autoridad_denunciada:'Alcaldía Iztapalapa, Dirección de Obras',
+      tipo_denunciado:'gobierno', autoridad_nivel:'alcaldia', autoridad_denunciada:'Iztapalapa',
       resp_area:'Cuadrilla de servicios urbanos', resp_obra:'Lona de obra sin número visible',
+      sabe_permisos:'si', permisos:'En la obra no había ningún aviso de autorización de derribo.',
+      reporto_antes:'no',
+      otras_pruebas:'Fotografías de los tocones y de la lona de la obra.',
       nombre:'Jorge', apellido_paterno:'Hernández', apellido_materno:'Luna',
       telefono:'5598765432', correo:'ejemplo2@correo.com',
-      dom_calle:'Calle Oriente 249', dom_num_ext:'14', dom_colonia:'Agrícola Oriental',
+      dom_calle:'Calle Oriente 249', dom_num_ext:'14', dom_num_int:'A',
+      dom_entre_calles:'Entre la calle Sur 20 y la calle Sur 24', dom_colonia:'Agrícola Oriental',
       dom_cp:'08500', dom_alcaldia:'Iztacalco',
+      sexo_genero:'hombre', edad_rango:'60+',
       privacidad:'si', identificacion:'nombre'}},
 
   {id:'ava', nom:'Afectación en Área de Valor Ambiental',
    d:'Bosque urbano · DGIVA · persona física señalada',
    paso:2,
-   e:{tiene_direccion:'si', materia:'ava', lat:'19.296390', lon:'-99.183480', es_estab:'no', tipo_denunciado:'particular',
+   e:{tiene_direccion:'si', materia:'ava', lat:'19.296390', lon:'-99.183480',
+      calle:'Avenida San Fernando', num_ext:'S/N', entre_calles:'Por la entrada principal del parque',
+      colonia:'Romulo Sánchez-San Fernando (Barrio)-Peña Pobre', alcaldia_dir:'Tlalpan', cp:'14060',
+      referencias:'En la parte alta del parque, junto a la barda norte, pasando la zona de juegos.',
+      es_estab:'no',
+      hechos:'Un particular cercó con malla ciclónica una franja del parque junto a la barda norte y cobra veinte pesos por entrar. Ya cortó arbustos para ampliar el paso.',
+      temporalidad:'permanente', fecha_hecho:'2026-08-20',
+      tipo_denunciado:'particular',
       resp_nombre:'No se conoce el nombre',
-      resp_senas:'Un hombre de unos cincuenta años que cerca con malla una parte del bosque y cobra el acceso.'}},
+      resp_senas:'Un hombre de unos cincuenta años que cerca con malla una parte del bosque y cobra el acceso.',
+      sabe_permisos:'no', reporto_antes:'si',
+      gestiones:'Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde.',
+      otras_pruebas:'Fotografías de la malla y del letrero con el cobro.',
+      identificacion:'nombre',
+      nombre:'Rosa Elena', apellido_paterno:'Juárez', apellido_materno:'Ortega',
+      telefono:'5522334455', correo:'re.juarez@ejemplo.mx',
+      dom_calle:'Calle Corregidora', dom_num_ext:'38', dom_num_int:'2',
+      dom_entre_calles:'Entre la calle Morelos y la calle Allende', dom_colonia:'Miguel Hidalgo',
+      dom_cp:'14250', dom_alcaldia:'Tlalpan',
+      sexo_genero:'mujer', edad_rango:'60+',
+      privacidad:'si'}},
 
   {id:'anp_coadmin', nom:'ANP federal con coadministración',
    d:'Desierto de los Leones · con convenio, pero la inspección es federal (P-22)',
    paso:2,
-   e:{tiene_direccion:'si', materia:'asentamiento', lat:'19.306780', lon:'-99.310970', es_estab:'no'}},
+   e:{tiene_direccion:'no', materia:'asentamiento', lat:'19.306780', lon:'-99.310970',
+      nombre_lugar:'Desierto de los Leones', alcaldia:'Cuajimalpa de Morelos',
+      referencias:'Sobre el camino que va del ex convento hacia Cruz Blanca, a la izquierda, unos 800 metros después del último puesto de comida.',
+      es_estab:'no',
+      hechos:'Están levantando una construcción de block con techo de lámina dentro del bosque. Ya talaron árboles alrededor y meten material en camionetas.',
+      temporalidad:'recurrente', fecha_hecho:'2026-09-01',
+      tipo_denunciado:'nose',
+      resp_senas:'Cuatro trabajadores y una camioneta de volteo blanca. Llegan entre semana por la mañana.',
+      sabe_permisos:'no', reporto_antes:'no',
+      otras_pruebas:'Puedo acompañar al personal al sitio.',
+      identificacion:'nombre',
+      nombre:'Luis Alberto', apellido_paterno:'Mendoza', apellido_materno:'Pérez',
+      telefono:'5533445566', correo:'la.mendoza@ejemplo.mx',
+      dom_calle:'Avenida Veracruz', dom_num_ext:'112', dom_num_int:'3',
+      dom_entre_calles:'Entre la calle Juárez y la calle Guerrero', dom_colonia:'Cuajimalpa',
+      dom_cp:'05000', dom_alcaldia:'Cuajimalpa de Morelos',
+      sexo_genero:'hombre', edad_rango:'30-44',
+      privacidad:'si'}},
 
   {id:'anp_federal', nom:'ANP federal sin convenio',
    d:'El Histórico Coyoacán · se deriva a la PROFEPA',
    paso:2,
-   e:{tiene_direccion:'si', materia:'ava', lat:'19.354350', lon:'-99.171610', es_estab:'no'}},
+   e:{tiene_direccion:'si', materia:'ava', lat:'19.354350', lon:'-99.171610',
+      calle:'Calle Francisco Sosa', num_ext:'150', entre_calles:'Cerca de la plaza de Santa Catarina',
+      colonia:'Del Carmen', alcaldia_dir:'Coyoacán', cp:'04100',
+      referencias:'Casona con portón de madera; la obra se ve desde la calle por encima de la barda.',
+      es_estab:'no',
+      hechos:'En el jardín interior de una casona están derribando árboles y retirando la tierra para hacer un estacionamiento. Trabajan también en fin de semana.',
+      temporalidad:'recurrente', fecha_hecho:'2026-09-12',
+      tipo_denunciado:'particular',
+      resp_nombre:'Se desconoce el nombre del propietario',
+      resp_senas:'Los trabajadores dicen que la obra es del dueño de la casa.',
+      sabe_permisos:'no', reporto_antes:'si',
+      gestiones:'Lo reporté a la alcaldía Coyoacán el 14 de septiembre y no hubo respuesta.',
+      otras_pruebas:'Fotografías de los árboles derribados tomadas desde la calle.',
+      identificacion:'nombre',
+      nombre:'Ana Sofía', apellido_paterno:'Villanueva', apellido_materno:'Ruiz',
+      telefono:'5544556677', correo:'as.villanueva@ejemplo.mx',
+      dom_calle:'Calle Pino', dom_num_ext:'25', dom_num_int:'5',
+      dom_entre_calles:'Entre la calle Fresno y la calle Cedro', dom_colonia:'Santa Catarina',
+      dom_cp:'04010', dom_alcaldia:'Coyoacán',
+      sexo_genero:'mujer', edad_rango:'18-29',
+      privacidad:'si'}},
 
   {id:'fuera', nom:'Punto fuera de la Ciudad',
    d:'Naucalpan · el formulario impide continuar',
    paso:2,
-   e:{tiene_direccion:'si', materia:'emisiones', lat:'19.478000', lon:'-99.240000', es_estab:'no'}},
+   e:{tiene_direccion:'si', materia:'emisiones', lat:'19.478000', lon:'-99.240000',
+      calle:'Avenida Industrial', num_ext:'300', entre_calles:'Frente a la zona de bodegas',
+      referencias:'Nave industrial con chimenea alta y portón azul.',
+      es_estab:'si', tipo_estab:'Industria o fábrica', nombre_estab:'Fundidora La Prueba',
+      hechos:'La chimenea de la fábrica echa humo negro todas las noches a partir de las diez. El hollín se queda en los patios y en la ropa tendida.',
+      temporalidad:'recurrente', fecha_hecho:'2026-09-03',
+      tipo_denunciado:'empresa', establecimiento:'Fundidora La Prueba S.A. de C.V.',
+      resp_encargado:'Se desconoce',
+      sabe_permisos:'no', reporto_antes:'no',
+      otras_pruebas:'Video del humo grabado de noche.',
+      identificacion:'nombre',
+      nombre:'Patricia', apellido_paterno:'Salas', apellido_materno:'Núñez',
+      telefono:'5577889900', correo:'p.salas@ejemplo.mx',
+      dom_calle:'Calle Norte 45', dom_num_ext:'60', dom_num_int:'8', dom_entre_calles:'Entre la calle Poniente 116 y la calle Poniente 118',
+      dom_colonia:'Industrial Vallejo', dom_cp:'02300', dom_alcaldia:'Azcapotzalco',
+      sexo_genero:'mujer', edad_rango:'30-44',
+      privacidad:'si'}},
 
   {id:'derivado', nom:'Caso de otra autoridad',
    d:'Ruido de vecinos · se detiene el flujo y se orienta',
-   paso:1,
+   paso:1, vacio:true,
    e:{tiene_direccion:'si', deriva:'d_ruido'}},
 
   {id:'otro_giro', nom:'Establecimiento de giro no listado',
    d:'«Otro» abre el campo de texto',
    paso:3,
    e:{tiene_direccion:'si', materia:'descargas', lat:'19.390000', lon:'-99.060000',
-      calle:'Calle 5', num_ext:'27', colonia:'Pantitlán I', alcaldia_dir:'Iztacalco', cp:'08100',
-      es_estab:'si', tipo_estab:'Otro', tipo_estab_otro:'Planta de lavado de garrafones'}},
+      calle:'Calle 5', num_ext:'27', entre_calles:'Entre la calle 4 y la calle 6',
+      colonia:'Pantitlán I', alcaldia_dir:'Iztacalco', cp:'08100',
+      referencias:'Local con cortina blanca y garrafones apilados en la entrada.',
+      es_estab:'si', tipo_estab:'Otro', tipo_estab_otro:'Planta de lavado de garrafones',
+      nombre_estab:'Lavado de Garrafones La Prueba',
+      hechos:'La planta tira el agua del lavado de garrafones directo a la coladera de la calle, con espuma y olor a cloro, todos los días por la mañana.',
+      temporalidad:'recurrente', fecha_hecho:'2026-09-08',
+      tipo_denunciado:'empresa', establecimiento:'Lavado de Garrafones La Prueba S.A. de C.V.',
+      resp_encargado:'Atiende una señora que se presenta como encargada',
+      sabe_permisos:'no', reporto_antes:'no',
+      otras_pruebas:'Fotografías de la espuma en la coladera.',
+      identificacion:'nombre',
+      nombre:'Carlos', apellido_paterno:'Domínguez', apellido_materno:'Soto',
+      telefono:'5566778899', correo:'c.dominguez@ejemplo.mx',
+      dom_calle:'Calle 7', dom_num_ext:'31', dom_num_int:'1',
+      dom_entre_calles:'Entre la calle 6 y la calle 8', dom_colonia:'Pantitlán',
+      dom_cp:'08100', dom_alcaldia:'Iztacalco',
+      sexo_genero:'hombre', edad_rango:'45-59',
+      privacidad:'si'}},
 
   {id:'vacio', nom:'Formulario vacío con validación activa',
    d:'Muestra qué exige cada paso antes de dejar continuar',
-   paso:2,
+   paso:2, vacio:true,
    e:{tiene_direccion:'si', materia:'impacto'}}
 ];
 
@@ -1549,12 +1673,18 @@ function cargaEscenario(id){
   var esc = ESCENARIOS.filter(function(x){return x.id===id;})[0];
   if(!esc) return;
   estado = {}; archivos = [];
-  Object.keys(esc.e).forEach(function(k){ estado[k] = esc.e[k]; });
+  Object.keys(esc.e).forEach(function(k){ if(esc.e[k] !== '') estado[k] = esc.e[k]; });
   Object.keys(esc.cfg||{}).forEach(function(k){ cfg[k] = esc.cfg[k]; });
   heredaEstablecimiento();
   sincronizaPanel();
   if(estado.lat) analizaCapas(estado.lat, estado.lon);
-  if(esc.paso===6 || esc.paso===7){ archivos = [{name:'evidencia-01.jpg',size:2411724},{name:'evidencia-02.jpg',size:1874509}]; }
+  /* El punto viene como si se hubiera pegado: el campo de pegar no queda vacío. */
+  if(estado.lat && !estado.coord_pegar) estado.coord_pegar = estado.lat + ', ' + estado.lon;
+  /* La colonia se reconoce en el catalogo como si se hubiera elegido de la lista. */
+  if(estado.colonia){ try{ saleColonia('colonia'); }catch(e){} }
+  /* Los casos completos traen dos pruebas simuladas: el paso 4 no las exige,
+     pero sin ellas el acuse y la revision no se ven como en un caso real. */
+  if(!esc.vacio){ archivos = [{name:'evidencia-01.jpg',size:2411724},{name:'evidencia-02.jpg',size:1874509}]; }
   var p = $('panel'); if(p) p.classList.remove('abierto');
   irA(esc.paso);
 }
