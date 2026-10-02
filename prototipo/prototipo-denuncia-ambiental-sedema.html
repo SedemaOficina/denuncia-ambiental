@@ -769,6 +769,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
 .pie-sede + .pie-sede{margin-top:14px;padding-top:12px;border-top:1px solid var(--linea)}
 .pie-cierre{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px 20px;border-top:1px solid var(--linea);
   margin-top:28px;padding-top:16px;padding-bottom:22px;font-size:var(--t-xs);color:var(--gris)}
+.pie-version{font-weight:600}
 @media(max-width:1000px){ .pie{grid-template-columns:1fr 1fr} }
 @media(max-width:700px){
   .pie{grid-template-columns:1fr;gap:26px}
@@ -892,6 +893,8 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
   <div class="contenedor pie-cierre">
     <span>Gobierno de la Ciudad de México · Secretaría del Medio Ambiente</span>
     <span>Sistema de Información Ambiental</span>
+    <!-- La versión que se está validando, a la vista de quien revisa (DEC-187). -->
+    <span class="pie-version" id="pieVersion"></span>
   </div>
 </footer>
 
@@ -1395,7 +1398,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-186', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-187', fecha:'2 de octubre de 2026', nombre:'Versión 1 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -5362,6 +5365,9 @@ document.addEventListener('keydown', function(e){
       '<span class="be-nom">'+x.nom+'</span><span class="be-d">'+x.d+'</span></button>';
   }).join('');
 })();
+
+/* La versión, al final del pie: sale de VERSION_FORMULARIO, como el resto (DEC-187). */
+(function(){ var v = document.getElementById('pieVersion'); if(v) v.textContent = VERSION_FORMULARIO.nombre; })();
 
 /* El pie toma la via presencial de la misma fuente que la portada. */
 (function(){ SEDES.forEach(function(d, i){
