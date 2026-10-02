@@ -539,7 +539,7 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
 .btn-secundario:hover{border-color:var(--gris);color:var(--texto)}
 .btn-ancho{width:100%}
 .btn-maps{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:9px 16px;margin:2px 0 10px;font-size:var(--t-md);text-decoration:none}
-.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:disabled,.btn[aria-disabled="true"]{opacity:.45;cursor:not-allowed}
 
 /* ---------- Mapa ---------- */
 /* El mapa vive en su propia capa (DEC-186). La biblioteca del mapa numera sus
@@ -759,7 +759,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
 .pie-marca img{width:100%;max-width:220px;height:auto;display:block;margin-bottom:16px}
 .pie-dir{color:var(--texto);line-height:1.6}
 .pie-redes{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;padding:0}
-.pie-redes a{display:flex;align-items:center;justify-content:center;width:36px;height:36px;
+.pie-redes a{display:flex;align-items:center;justify-content:center;width:44px;height:44px;
   border:1px solid var(--borde);border-radius:4px;color:var(--guinda);text-decoration:none}
 .pie-redes a:hover{border-color:var(--guinda);background:var(--blanco)}
 .pie-redes svg{width:20px;height:20px;fill:currentColor}
@@ -5189,7 +5189,10 @@ function pdfEnsambla(paginas, logo, W, H, enlaces){
 }
 
 function descargaAcuse(b){
-  if(b){ b.disabled = true; b.textContent = 'Preparando el acuse…'; }
+  /* aria-disabled en lugar de disabled: el boton conserva el foco y el lector
+     de pantalla sigue oyendo su estado; un segundo clic mientras prepara no hace nada. */
+  if(b && b.getAttribute('aria-disabled') === 'true') return;
+  if(b){ b.setAttribute('aria-disabled','true'); b.setAttribute('aria-busy','true'); b.textContent = 'Preparando el acuse…'; }
   var nombre = 'acuse-' + String(val('folio') || 'denuncia').replace(/[^A-Za-z0-9]+/g, '-') + '.pdf';
   construyeAcusePdf().then(function(bytes){
     var blob = new Blob([bytes], {type: 'application/pdf'});
@@ -5204,10 +5207,10 @@ function descargaAcuse(b){
       setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
     });
   }).then(function(){
-    if(b){ b.disabled = false; b.textContent = 'Descargar de nuevo'; }
+    if(b){ b.removeAttribute('aria-disabled'); b.removeAttribute('aria-busy'); b.textContent = 'Descargar de nuevo'; }
     var n = $('notaAcuse'); if(n) n.textContent = 'Listo: revisa tus descargas. Guárdalo junto con tu folio.';
   }).catch(function(){
-    if(b){ b.disabled = false; b.textContent = 'Descargar acuse (PDF)'; }
+    if(b){ b.removeAttribute('aria-disabled'); b.removeAttribute('aria-busy'); b.textContent = 'Descargar acuse (PDF)'; }
     var n = $('notaAcuse'); if(n) n.textContent = 'No se pudo generar el PDF. Anota tu folio y vuelve a intentarlo.';
   });
 }

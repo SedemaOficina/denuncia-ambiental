@@ -1049,3 +1049,15 @@ Treinta decisiones en dos días. El detalle de cada una está en el documento 05
 - **Portada y pie rehechos.** Oficina según la zona, tarjetas del mismo alto, preguntas frecuentes, un solo estilo por nivel y pie con redes sociales (DEC-137, DEC-140 a DEC-145).
 - **Versión de prueba en GitHub Pages** para la aprobación (DEC-127) y **mapeo de campos que siempre refleja la última versión**, con los datos que viajan sin verse (DEC-128).
 - **Auditoría de cierre (DEC-146).** Fuera el código sin uso y los comentarios que describían versiones anteriores; `construir.py` ya no tiene reglas que no sustituyen nada y detiene la construcción si una deja de encontrar su texto; los documentos 01, 02, 04, 11, 12, 13, 15 y 16 y el `README` quedaron al día; el proyecto de Claude recibe las mismas versiones.
+
+### 2 de octubre de 2026 · bloque «ajustes del diagnóstico contra el estándar de formularios del SIA»
+
+Diagnóstico del prototipo con las comprobaciones mecánicas del estándar de formularios del SIA (siete anchos de 320 a 1920 px, axe-core, objetivos táctiles, red): sin desplazamiento horizontal, sin violaciones de axe en 390 y 1280 px, todos los controles con etiqueta y todos los botones con nombre. Las diferencias restantes son de estructura (archivo único, manejadores en línea, `max-width`, catálogo `OBLIG` en lugar de atributos, recursos externos) y se resuelven en la Fase 4 construyendo sobre el estándar, no en el prototipo. Sólo se aplicaron los dos ajustes de pantalla que no esperan a esa fase:
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| `.pie-redes a` 36 × 36 → 44 × 44 px | CSS | Objetivo táctil mínimo de 44 px (regla FRM-62 del estándar; WCAG 2.5.8). El icono interior sigue en 20 px |
+| `descargaAcuse()`: `disabled` → `aria-disabled` + `aria-busy` | JS | El botón conserva el foco mientras prepara el PDF y el lector de pantalla oye su estado; un segundo clic durante la preparación se ignora (FRM-37) |
+| `.btn[aria-disabled="true"]` | CSS | Mismo aspecto que `:disabled`, en el mismo selector (un selector, una declaración) |
+
+**Verificación de cierre.** En Chromium a 390 px táctil: los doce enlaces del pie miden 44 × 44; al pulsar «Descargar acuse (PDF)» el botón queda con `aria-disabled="true"`, `aria-busy="true"` y el foco; un segundo clic inmediato no hace nada; al terminar vuelve a «Descargar de nuevo» sin atributos. Sin errores en consola. `construccion/construir.py` y `publicar_pages.py` regenerados (artefacto 1001.8 KB; `docs/index.html` 996.5 KB). `construccion/pruebas.py` sobre el artefacto regenerado: **todo en verde, 925 comprobaciones en 28 archivos** (incluida la 25, del acuse en PDF, que ejercita el botón modificado). Quedan fuera, por ser enlaces dentro de texto corrido (excepción de WCAG 2.5.8): los teléfonos y enlaces del pie de 16 px de alto.
