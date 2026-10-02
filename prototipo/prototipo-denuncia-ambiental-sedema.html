@@ -542,7 +542,12 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
 .btn:disabled{opacity:.45;cursor:not-allowed}
 
 /* ---------- Mapa ---------- */
-#mapa{height:330px;border:1px solid var(--linea);border-radius:var(--r-caja);margin-bottom:10px;background:var(--mapa-bg)}
+/* El mapa vive en su propia capa (DEC-186). La biblioteca del mapa numera sus
+   capas internas del 200 al 1000; sin esto se salían del mapa y, al desplazar
+   la página, el mapa y sus botones pasaban por encima de la barra fija de
+   pasos (40) y de la lista de colonias (30). */
+#mapa{height:330px;border:1px solid var(--linea);border-radius:var(--r-caja);margin-bottom:10px;background:var(--mapa-bg);
+  position:relative;z-index:0;isolation:isolate}
 .mapa-barra{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 .coords{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--t-sm);background:var(--fondo);padding:9px 12px;border-radius:var(--r-ctrl);color:var(--texto);font-weight:500;display:inline-flex;align-items:center;gap:6px}
 .mapa-sin{display:none;padding:18px;background:var(--aviso-bg);border:1px solid var(--borde);border-radius:var(--r-caja);font-size:var(--t-md);color:var(--texto);margin-bottom:12px}
@@ -1390,7 +1395,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-185', fecha:'1 de octubre de 2026'};
+var VERSION_FORMULARIO = {dec:'DEC-186', fecha:'1 de octubre de 2026'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
