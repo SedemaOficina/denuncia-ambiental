@@ -52,7 +52,8 @@ with sync_playwright() as pw:
     }""")
     afirma(r['total'] >= 20, 'la revisión resume %d renglones' % r['total'])
     afirma(r['mudos'] == [], 'ningún renglón se queda sin decir cómo se corrige: %s' % r['mudos'])
-    afirma(r['conBoton'] >= 18, 'y la mayoría se corrige desde ahí (%d con botón)' % r['conBoton'])
+    # 17 desde DEC-188: sale el renglón de la razón social, que ya no se pide.
+    afirma(r['conBoton'] >= 17, 'y la mayoría se corrige desde ahí (%d con botón)' % r['conBoton'])
     # Tres desde DEC-118: la alcaldía que atiende se dice aparte de la de la
     # dirección, como dato del punto, junto al tipo de suelo y el área.
     afirma(len(r['derivados']) == 3 and any(d.startswith('Alcaldía que atiende') for d in r['derivados']),

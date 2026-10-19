@@ -1,18 +1,18 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-187 · 2 de octubre de 2026
+**Versión:** DEC-190 · 19 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos que llena la persona | **61** |
+| Campos que llena la persona | **60** |
 | Datos que viajan a la base sin verse en pantalla | **13** |
 | Datos que calcula el formulario y se muestran | 15 |
-| Datos personales | **24** (39 %) |
-| Obligatorios en este formulario | 26 de 61 |
-| Campos con obligatoriedad condicionada | 25 |
+| Datos personales | **24** (40 %) |
+| Obligatorios en este formulario | 26 de 60 |
+| Campos con obligatoriedad condicionada | 24 |
 | Datos sin uso declarado | **0** |
 
 ---
@@ -26,7 +26,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 17 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 17 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 20 |
-| **Responsable** | Identificar y emplazar al probable infractor | 9 |
+| **Responsable** | Identificar y emplazar al probable infractor | 8 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 18 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 2 |
@@ -54,7 +54,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Alcaldía de la dirección | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Parte del domicilio del lugar en la orden de visita y filtro del catálogo de colonias: sólo se ofrecen las de la alcaldía elegida. **No decide el turnado**: quién atiende lo sigue resolviendo la alcaldía del punto (DEC-72). Si no coinciden, el formulario lo avisa y el expediente lo marca (DEC-118). |
 | Colonia | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio y estadística territorial. |
 | Código postal | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio; verifica la congruencia de la dirección capturada. Se escribe a mano y se admite sólo en el intervalo de la Ciudad, del 01000 al 16999 (DEC-117). |
-| Calle o vialidad | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |
+| Calle o avenida | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |
 | Número exterior | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Precisa el predio en la orden de visita. Obligatorio cuando el lugar tiene dirección; si el predio no tiene número se escribe «S/N», que es una respuesta válida (DEC-120). |
 | Entre qué calles | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |
 | ¿El predio se identifica por manzana y lote? | Opcional | No | Sólo cuando el lugar tiene calle y número | Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene, en vez de enseñárselos a todos (DEC-124). |
@@ -83,7 +83,6 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Persona encargada o representante | Opcional | **Sí** | Siempre | Persona con quien se entiende la diligencia (art. 283). |
 | Área o persona servidora pública | Opcional | **Sí** | Siempre | Precisa el área a la que se dirige la recomendación. |
 | Número de obra, contrato o permiso | Opcional | No | Siempre | Permite requerir el expediente de la obra pública señalada. |
-| Razón social del establecimiento | Opcional | No | Sólo cuando se denuncia a una empresa o establecimiento | Razón social del probable infractor para el emplazamiento y el cruce con licencias. |
 | ¿Sabes algo sobre los permisos? | Opcional | No | Siempre | Filtra la pregunta larga: sólo se pide el detalle a quien tiene algo que aportar. |
 | Permisos o autorizaciones | Opcional | No | Sólo cuando la persona dice saber algo sobre los permisos | Orienta la verificación documental: si existe autorización y si la obra se ajusta a sus términos. |
 | ¿Ya reportaste ante otra autoridad? | Opcional | No | Siempre | Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga. |

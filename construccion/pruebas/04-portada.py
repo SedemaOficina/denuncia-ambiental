@@ -113,11 +113,13 @@ with sync_playwright() as pw:
         afirma(r['medios'] == 2, '%s: la portada ofrece los dos medios para presentar la denuncia' % nom)
         afirma(r['botonEnLinea'], '%s: el botón de iniciar vive dentro del medio en línea' % nom)
         afirma(r['enLineaPrimero'], '%s: el medio en línea va primero' % nom)
-        afirma('En persona' in r['persona'] and all(g in r['persona'] for g in r['dgs']) and r['ordenDG'],
+        afirma('Presencial' in r['persona'] and all(g in r['persona'] for g in r['dgs']) and r['ordenDG'],
                '%s: en persona va el nombre de cada dirección general, arriba de su zona (DEC-157)' % nom)
-        afirma(r['pendPersona'].count('Domicilio y horario por confirmar') == 2 and r['pendPersona'].count('Teléfono por confirmar') == 2
-               and 'Aragón' not in r['persona'] and '13:30' not in r['persona'],
-               '%s: sin domicilios ni horarios: cada dirección general lleva «Domicilio y horario» y «Teléfono por confirmar» %s' % (nom, r['pendPersona']))
+        # La DGIVA confirmo sus datos en la revision (DEC-188); la DGCORENADR, no.
+        afirma(r['pendPersona'].count('Domicilio y horario por confirmar') == 1 and r['pendPersona'].count('Teléfono por confirmar') == 1
+               and 'San Juan de Aragón' in r['persona'] and '9:00 a 15:00' in r['persona'] and '9689 5009' in r['persona']
+               and '13:30' not in r['persona'],
+               '%s: la DGIVA muestra domicilio, horario y teléfono; la DGCORENADR conserva sus dos marcas (DEC-188) %s' % (nom, r['pendPersona']))
         esperado_lado = ancho >= 760
         afirma(r['ladoALado'] == esperado_lado,
                '%s: los dos medios van %s' % (nom, 'lado a lado' if esperado_lado else 'apilados'))
@@ -134,7 +136,7 @@ with sync_playwright() as pw:
         if esperado_lado:
             afirma(r['mismoAlto'], '%s: las dos tarjetas tienen el mismo alto' % nom)
         # Una sola fuente: el pie marca lo mismo que la portada, sin las coordinaciones (DEC-158).
-        afirma('Domicilio y horario por confirmar' in r['pieTxt'] and 'Teléfono por confirmar' in r['pie1Txt']
+        afirma('San Juan de Aragón' in r['pieTxt'] and 'por confirmar' not in r['pieTxt'] and 'Teléfono por confirmar' in r['pie1Txt']
                and 'Atiende a través' not in r['pieTxt'] + r['pie1Txt'],
                '%s: el pie marca lo mismo que la portada y ya no nombra las coordinaciones' % nom)
         # El correo electronico no es una via de presentacion.
@@ -163,8 +165,8 @@ with sync_playwright() as pw:
         # La versión que se valida va al final del pie (DEC-187).
         ver = pg.evaluate("""() => { const v = document.getElementById('pieVersion'), c = document.querySelector('footer .pie-cierre');
           return {txt: v ? v.innerText.trim() : '', ultimo: !!v && c.lastElementChild === v, visible: !!v && v.offsetParent !== null}; }""")
-        afirma(ver['txt'] == 'Versión 1 · Validación DGIVA' and ver['ultimo'] and ver['visible'],
-               '%s: hasta abajo dice «Versión 1 · Validación DGIVA»: %s' % (nom, ver))
+        afirma(ver['txt'] == 'Versión 2 · Validación DGIVA' and ver['ultimo'] and ver['visible'],
+               '%s: hasta abajo dice «Versión 2 · Validación DGIVA»: %s' % (nom, ver))
         # En la portada el pie no repite las oficinas; en el formulario sí las muestra.
         pie = pg.evaluate("""() => { const v = () => document.getElementById('pieEnPersona').offsetParent !== null;
           const a = v(); irA(1); const b = v(); irA(0); return [a, b]; }""")

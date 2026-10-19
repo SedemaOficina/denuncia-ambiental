@@ -115,8 +115,9 @@ html = io.open(ORIGEN, encoding='utf-8').read()
 # La version que muestra el mapeo del prototipo se toma de la ultima
 # decision registrada: asi no depende de acordarse de cambiarla (DEC-128).
 DEC, FECHA = ultima_decision(DEC05)
-nuevo = re.sub(r"var VERSION_FORMULARIO = \{dec:'[^']*', fecha:'[^']*'\};",
-               "var VERSION_FORMULARIO = {dec:'%s', fecha:'%s'};" % (DEC, FECHA), html, count=1)
+# El nombre de la version (DEC-187) se conserva: lo fija la Oficina, no el generador.
+nuevo = re.sub(r"var VERSION_FORMULARIO = \{dec:'[^']*', fecha:'[^']*'(, nombre:'[^']*')?\};",
+               lambda m: "var VERSION_FORMULARIO = {dec:'%s', fecha:'%s'%s};" % (DEC, FECHA, m.group(1) or ''), html, count=1)
 if nuevo == html and ("dec:'%s'" % DEC) not in html:
     sys.exit('ERROR: no se encontró VERSION_FORMULARIO en el prototipo.')
 if nuevo != html:

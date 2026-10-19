@@ -74,7 +74,7 @@ En síntesis: **la Dirección General de la Comisión de Recursos Naturales y De
 
 La determinación se hace contra el contorno de la Ciudad y no contra los polígonos de alcaldía: cuando un punto cae dentro del contorno pero sobre una franja sin cobertura —consecuencia de la simplificación de las geometrías—, se le asigna la alcaldía más próxima en lugar de tratarlo como exterior.
 
-**RN-09.** El ruido proveniente de un establecimiento es competencia de la Secretaría y no se deriva. Sólo el ruido entre particulares —vecinos, fiestas, comercio ambulante— se deriva a la Secretaría de Seguridad Ciudadana.
+**RN-09.** El ruido y las vibraciones de una fuente fija en materia de industria son competencia de la Secretaría y no se derivan. El ruido de establecimientos mercantiles y de servicios —comercios, bares, restaurantes, salones de fiestas— se deriva al Instituto de Verificación Administrativa, según confirmó la DGIVA (DEC-190). El ruido entre particulares —vecinos, fiestas, comercio ambulante— se deriva a la Secretaría de Seguridad Ciudadana.
 
 ## B. Ubicación del hecho
 
@@ -116,7 +116,7 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 **RN-24 ter.** El **sitio** y el **sujeto** son datos distintos y ninguno sustituye al otro. La pregunta del paso 2 —«Los hechos ocurren dentro de un establecimiento»— tiene finalidad **locativa**: permite al personal de inspección reconocer y caracterizar el lugar en campo, y alimenta la estadística por tipo de fuente. La pregunta del paso 3 —«Quién es responsable de los hechos»— identifica al **sujeto imputable** y determina la vía del procedimiento conforme a RN-24 bis. Los dos datos divergen con frecuencia: una obra en construcción cuyo responsable es una alcaldía, una descarga en la vía pública atribuible a una empresa, un taller cuyo responsable es la persona propietaria del predio.
 
-**RN-24 quater.** Para que la persona denunciante no conteste dos veces lo mismo, la respuesta del paso 2 se **hereda** en el paso 3: cuando señala que los hechos ocurren dentro de un establecimiento, el formulario preselecciona «Una empresa o negocio», lo declara de manera expresa en pantalla, ofrece regresar a corregir el establecimiento y permite cambiar la respuesta sin restricción. El nombre comercial no se vuelve a pedir y la razón social se solicita indicando que puede dejarse vacía si sólo se conoce el nombre comercial. La obligatoriedad de la razón social depende del **sujeto** elegido, no del sitio.
+**RN-24 quater.** Para que la persona denunciante no conteste dos veces lo mismo, la respuesta del paso 2 se **hereda** en el paso 3: cuando señala que los hechos ocurren dentro de un establecimiento, el formulario preselecciona «Una empresa o negocio», lo declara de manera expresa en pantalla, ofrece regresar a corregir el establecimiento y permite cambiar la respuesta sin restricción. El nombre comercial no se vuelve a pedir. La razón social ya no se solicita (DEC-188): repetía el nombre comercial y obligaba a consultar documentos de un tercero.
 
 **RN-25.** La carga de elementos probatorios es opcional. **[pendiente]** Confirmar el límite de archivos y de peso; el prototipo asume diez archivos de hasta 25 MB.
 

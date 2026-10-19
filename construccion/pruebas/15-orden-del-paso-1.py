@@ -111,10 +111,10 @@ with sync_playwright() as pw:
     print('ORDEN de las cinco primeras: %s' % ' · '.join(v['nombres'][:5]))
 
     # El buscador encuentra la materia nueva por una palabra de la calle.
-    pg.evaluate("guarda('filtro','globos'); renderMaterias()"); pg.wait_for_timeout(200)
+    pg.evaluate("guarda('filtro','charolas'); renderMaterias()"); pg.wait_for_timeout(200)
     f = pg.evaluate("""() => [...document.querySelectorAll('#listaMaterias .fo-nom')].map(x => x.textContent.trim())""")
     afirma(f == ['Plásticos de un solo uso'],
-           'buscar «globos» lleva a la materia de plásticos: %s' % f)
+           'buscar «charolas» lleva a la materia de plásticos (DEC-188): %s' % f)
     pg.evaluate("guarda('filtro',''); render()"); pg.wait_for_timeout(200)
 
     # ---------- Elegir plásticos avanza y se conserva ----------

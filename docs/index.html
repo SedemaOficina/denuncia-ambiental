@@ -410,6 +410,9 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
   font-size:var(--t-base);line-height:1.45;color:var(--texto)}
 .medio-mini li{position:relative;padding-left:30px}
 .medio-pend{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px}
+.sede-dato{margin:6px 0 0;font-size:14px;line-height:1.45}
+.sede-tel{white-space:nowrap}
+.sede-dato a{color:var(--guinda)}
 /* En teléfono, tarjetas más compactas: con ellas el botón de iniciar se ve sin desplazar (DEC-168). */
 @media (max-width:560px){ .medio{padding:16px} .medio-principal .medio-mini{gap:6px;margin-bottom:16px} }
 
@@ -863,7 +866,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
          hechos. Se pintan desde SEDES, la misma fuente de la portada
          (DEC-137, DEC-141). -->
     <div class="pie-bloque" id="pieEnPersona">
-      <h2>Presentarla en persona</h2>
+      <h2>Presentarla de forma presencial</h2>
       <div class="pie-sede"><p class="sede-zona" id="pieZona0"></p><div id="pieSede0"></div></div>
       <div class="pie-sede"><p class="sede-zona" id="pieZona1"></p><div id="pieSede1"></div></div>
     </div>
@@ -1031,24 +1034,24 @@ var MATERIAS = [
    desc:'Obras o actividades que requieren evaluación de impacto ambiental y se realizan sin ella, o que incumplen las medidas que les fueron impuestas.',
    norma:'Arts. 25 y 50, Ley Ambiental de la Ciudad de México; Reglamento de Impacto Ambiental y Riesgo de la Ciudad de México'},
   /* --- Aire, ruido y vehículos --- */
-  {id:'emisiones', g:'aire', c:'Humo, polvo, gases u olores de una empresa o comercio', k:'humo polvo gases vapores olor peste chimenea fabrica taller pintura solvente hollin caldera', ico:'emisiones', nom:'Emisiones a la atmósfera', formal:'Emisiones a la atmósfera de fuentes fijas',
-   desc:'Humo, polvo, gases, vapores u olores que despide un establecimiento industrial o mercantil.',
+  {id:'emisiones', g:'aire', c:'Humo, polvo o gases de una empresa o comercio', k:'humo polvo gases vapores chimenea fabrica taller pintura solvente hollin caldera', ico:'emisiones', nom:'Emisiones a la atmósfera', formal:'Emisiones a la atmósfera de fuentes fijas',
+   desc:'Humo, polvo, gases o vapores que despide un establecimiento industrial o mercantil.',
    norma:'Arts. 196 y 200, Ley Ambiental de la Ciudad de México'},
-  {id:'ruido', g:'aire', c:'De un negocio; también vibraciones o luz excesiva', k:'ruido bocina musica sonido vibracion escandalo anuncio espectacular luz reflector alumbrado olor', ico:'ruido', nom:'Ruido, olores o anuncios', formal:'Ruido, vibraciones, olores y contaminación visual y lumínica',
-   desc:'Ruido, vibraciones, olores, contaminación visual o lumínica.',
+  {id:'ruido', g:'aire', c:'De una industria o fábrica', k:'ruido sonido vibracion vibraciones industria fabrica nave industrial maquinaria compresor planta', ico:'ruido', nom:'Ruido o vibraciones', formal:'Ruido y vibraciones de fuentes fijas industriales',
+   desc:'Ruido o vibraciones que genera una fuente fija en materia de industria.',
    norma:'Arts. 214 y 215, fracción I, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-005-AMBT-2013'},
   {id:'quema', g:'aire', c:'Basura, llantas, pastizales u otros materiales', k:'quema fuego incendio llantas basura quemada fogata pastizal', ico:'quema', nom:'Quema a cielo abierto', formal:'Quema de residuos o materiales a cielo abierto',
    desc:'Quema de basura, llantas, pastizales o cualquier material al aire libre.',
    norma:'Art. 213, Ley Ambiental de la Ciudad de México'},
-  {id:'vehiculo', g:'aire', c:'Humo visible o ruido excesivo', k:'vehiculo camion autobus microbus combi coche auto humo negro transporte carga diesel', ico:'vehiculo', nom:'Vehículo contaminante', formal:'Vehículo ostensiblemente contaminante',
-   desc:'Vehículo automotor que despide humo visible o ruido excesivo.',
+  {id:'vehiculo', g:'aire', c:'Humo visible', k:'vehiculo camion autobus microbus combi coche auto humo negro transporte carga diesel', ico:'vehiculo', nom:'Vehículo contaminante', formal:'Vehículo ostensiblemente contaminante',
+   desc:'Vehículo automotor que despide humo visible.',
    norma:'Arts. 205, 208 y 216, Ley Ambiental de la Ciudad de México'},
   {id:'verificacion', g:'aire', c:'Cobros indebidos o aprobación sin verificar', k:'verificentro verificacion holograma engomado corrupcion cobro', ico:'verificacion', nom:'Verificentro irregular', formal:'Irregularidades en un centro de verificación vehicular',
    desc:'Cobros indebidos, aprobación de vehículos sin verificar, alteración de equipos o cualquier irregularidad en un verificentro autorizado.',
    norma:'Arts. 255, 258 y 279, Ley Ambiental de la Ciudad de México'},
   /* --- Agua, suelo y residuos --- */
-  {id:'plasticos', g:'residuos', c:'Bolsas, popotes, unicel o globos metálicos en comercios', k:'plastico plasticos bolsa bolsas globo globos metalico metalizado popote popotes unicel desechable desechables vaso vasos cubiertos recipiente sucursal tienda supermercado comercio', ico:'rsu', nom:'Plásticos de un solo uso', formal:'Comercialización, distribución o entrega de plásticos de un solo uso',
-   desc:'Venta, distribución o entrega de bolsas, globos metálicos, popotes, vasos, cubiertos o recipientes de plástico de un solo uso por un establecimiento mercantil.',
+  {id:'plasticos', g:'residuos', c:'Bolsas, popotes, vasos, charolas o platos en comercios', k:'plastico plasticos bolsa bolsas popote popotes unicel desechable desechables vaso vasos charola charolas plato platos hisopo hisopos bastoncillo bastoncillos cubiertos recipiente sucursal tienda supermercado comercio', ico:'rsu', nom:'Plásticos de un solo uso', formal:'Comercialización, distribución o entrega de plásticos de un solo uso',
+   desc:'Venta, distribución o entrega de bolsas, popotes, vasos, charolas, platos, cubiertos, hisopos, bastoncillos o recipientes de plástico de un solo uso por un establecimiento mercantil.',
    norma:'[Art. __, fracc. __] de la Ley de Residuos Sólidos del Distrito Federal — fundamento por verificar contra el texto vigente (PB-09)'},
   {id:'rsu', g:'residuos', c:'Mal manejo o sin separar orgánicos e inorgánicos', k:'basura residuos organico inorganico separacion tiradero contenedor bolsa', ico:'rsu', nom:'Residuos de un establecimiento', formal:'Residuos sólidos urbanos de fuentes fijas',
    desc:'Manejo indebido de residuos generados por un establecimiento industrial, mercantil o de servicios; por ejemplo, mezcla de residuos orgánicos e inorgánicos.',
@@ -1056,10 +1059,10 @@ var MATERIAS = [
   {id:'descargas', g:'residuos', c:'Aguas sucias de un negocio al drenaje o a un río', k:'agua drenaje aguas negras residuales descarga alcantarilla coladera aceite grasa lavado', ico:'descargas', nom:'Descargas al drenaje', formal:'Descargas de aguas residuales al drenaje',
    desc:'Descargas de aguas residuales de establecimientos industriales, mercantiles o de servicios a los cuerpos de agua o al sistema de drenaje y alcantarillado.',
    norma:'Arts. 223, 226 y 227, Ley Ambiental de la Ciudad de México'},
-  {id:'construccion', g:'residuos', c:'Una obra maneja o desecha mal su escombro', k:'escombro cascajo obra demolicion material varilla concreto', ico:'construccion', nom:'Residuos de la construcción', formal:'Residuos de la construcción y la demolición',
+  {id:'construccion', g:'residuos', c:'Mal manejo en una obra o demolición', k:'escombro cascajo obra demolicion material varilla concreto', ico:'construccion', nom:'Residuos de la construcción', formal:'Residuos de la construcción y la demolición',
    desc:'Manejo o disposición final indebida de materiales de construcción y demolición procedentes de una obra.',
    norma:'Arts. 24, fracción III Bis, 25, fracciones I, II y IV, y 26 de la Ley de Residuos Sólidos del Distrito Federal; Art. 237, Ley Ambiental de la Ciudad de México'},
-  {id:'cascajo', g:'residuos', c:'Tiran escombro en un predio o barranca', k:'cascajo escombro tiro relleno barranca camion de volteo', ico:'cascajo', nom:'Depósito de cascajo', formal:'Depósito de residuos de la construcción',
+  {id:'cascajo', g:'residuos', c:'En un predio, barranca o área verde', k:'cascajo escombro tiro relleno barranca camion de volteo', ico:'cascajo', nom:'Depósito de residuos de la construcción', formal:'Depósito de residuos de la construcción',
    desc:'Tiro de residuos de la industria de la construcción en un predio, barranca o zona de conservación.',
    norma:'Art. 237, Ley Ambiental de la Ciudad de México; Arts. 25, fracciones I, IV y IX, y 26 de la Ley de Residuos Sólidos del Distrito Federal; Art. 344 del Código Penal para el Distrito Federal'},
   /* --- Arbolado y áreas verdes --- */
@@ -1070,7 +1073,7 @@ var MATERIAS = [
    desc:'Pavimentación, ocupación, relleno o cualquier obra que reduzca o deteriore la superficie de un área verde pública.',
    norma:'Arts. 105 y 113, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-006-RNAT-2016'},
   /* --- Zonas de protección: AVA, suelo de conservación y ANP --- */
-  {id:'tala', g:'zonas', c:'En bosque, suelo de conservación o área protegida', k:'tala talamontes desmonte deforestacion monte bosque arboles derribo motosierra incendio provocado', ico:'tala', nom:'Tala o desmonte de vegetación', formal:'Derribo o remoción de vegetación forestal en zona de protección',
+  {id:'tala', g:'zonas', c:'En bosque, suelo de conservación o área protegida', k:'tala talamontes desmonte deforestacion monte bosque arboles derribo motosierra incendio provocado', ico:'tala', nom:'Derribo o desmonte de vegetación', formal:'Derribo o remoción de vegetación forestal en zona de protección',
    desc:'Derribo de árboles, desmonte o remoción de vegetación forestal en suelo de conservación, en un Área de Valor Ambiental o en un Área Natural Protegida.',
    norma:'Arts. 7, fracción XVII, 98, 108 y 109, Ley Ambiental de la Ciudad de México; Art. 345 BIS del Código Penal para el Distrito Federal'},
   {id:'agua_zona', g:'zonas', c:'Rellenan, desvían o contaminan un canal o manantial', k:'canal manantial rio arroyo laguna humedal chinampa xochimilco relleno desecacion agua entubada presa bordo', ico:'agua_zona', nom:'Afectación a un cuerpo de agua', formal:'Interrupción o afectación del sistema hidrológico en zona de protección',
@@ -1097,7 +1100,11 @@ var DERIVA = [
          {n:'Alcaldía correspondiente', d:'Si los residuos se encuentran en vialidad secundaria.', alc:true}]},
   {id:'d_ruido', c:'Vecinos, fiestas o ambulantes', k:'vecino vecinos fiesta ambulante musica bocina perifoneo', ico:'d_ruido', nom:'Ruido de vecinos o fiestas', formal:'Ruido de vecinos, fiestas o comercio ambulante',
    inst:[{n:'Secretaría de Seguridad Ciudadana (SSC)', d:'Presenta ante el Juez Cívico a quienes ocasionen ruidos que atenten notoriamente contra la tranquilidad de los vecinos, conforme a la Ley de Cultura Cívica.'}],
-   ojo:'Si el ruido proviene de un <strong>establecimiento</strong> —industrial, mercantil o de servicios— sí es competencia de la Secretaría: regresa y elige «Ruido, vibraciones u olores de un establecimiento».'},
+   ojo:'Si el ruido proviene de una <strong>industria o fábrica</strong>, sí es competencia de la Secretaría: regresa y elige «Ruido o vibraciones». Si proviene de un comercio, bar, restaurante o salón, elige «Ruido de un comercio».'},
+  /* La DGIVA confirmó que el ruido de establecimientos mercantiles y de
+     servicios lo atiende el INVEA (OBS-0004, DEC-190). */
+  {id:'d_ruido_comercio', c:'Bares, restaurantes, salones o tiendas', k:'ruido bar bares antro cantina restaurante salon de fiestas tienda comercio negocio musica bocina karaoke sonido', ico:'d_ruido', nom:'Ruido de un comercio', formal:'Ruido de establecimientos mercantiles y de servicios',
+   inst:[{n:'Instituto de Verificación Administrativa (INVEA)', d:'Instancia competente para atender la denuncia.'}]},
   {id:'d_mascotas', c:'Perros, gatos y otros', k:'perro perros gato gatos mascota maltrato animal abandono', ico:'d_mascotas', nom:'Maltrato de animales domésticos', formal:'Maltrato de animales domésticos',
    inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:''},
          {n:'Brigada de Vigilancia Animal de la Secretaría de Seguridad Ciudadana (SSC)', d:''},
@@ -1108,6 +1115,12 @@ var DERIVA = [
   {id:'d_uso_suelo', c:'Giro no permitido en un predio', k:'uso de suelo giro negocio bar antro bodega vivienda', ico:'d_uso_suelo', nom:'Uso de suelo', formal:'Uso de suelo no permitido en un predio',
    inst:[{n:'Instituto de Verificación Administrativa (INVEA)', d:'Instancia competente para atender la denuncia.'},
          {n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'También puede recibir la denuncia.'}]},
+  /* Salen de la tarjeta de ruido a petición de la DGIVA (OBS-0003, OBS-0004,
+     DEC-189). La instancia receptora la confirma la DGIVA. */
+  {id:'d_olores', c:'De un negocio, una obra o un predio', k:'olor olores peste mal olor hedor apesta', ico:'emisiones', nom:'Malos olores', formal:'Olores',
+   inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'Puede recibir la denuncia.'}]},
+  {id:'d_visual', c:'Espectaculares, letreros o iluminación molesta', k:'anuncio anuncios espectacular publicidad letrero luz luces reflector alumbrado iluminacion', ico:'d_uso_suelo', nom:'Anuncios o luz excesiva', formal:'Contaminación visual y lumínica',
+   inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'Puede recibir la denuncia.'}]},
   {id:'d_peligrosos', c:'Químicos, aceites, biológicos', k:'peligroso quimico toxico aceite usado solvente hospital biologico infeccioso', ico:'d_peligrosos', nom:'Residuos peligrosos', formal:'Manejo o disposición de residuos peligrosos',
    inst:[{n:'Procuraduría Federal de Protección al Ambiente (PROFEPA)', d:'La materia es de competencia federal.'}]}
 ];
@@ -1163,7 +1176,7 @@ var OBLIG = {
   uga:              {p:2, oblig:false, etq:'Celda UGA', dp:false, oculto:true, fin:'Estadística',
      cond:function(){ return !!val('lat'); } , cond_txt:'No se pregunta ni se muestra: la asigna el punto del mapa',
      uso:'Celda de la malla hexagonal del Sistema de Información Ambiental (~1 km²) en la que cae el punto. No se muestra a la persona: queda en el expediente para la programación de operativos y la estadística territorial. Es provisional: el servidor la vuelve a derivar con la capa completa y guarda la versión de la malla (DEC-117).'},
-  calle:            {p:2, oblig:true,  etq:'Calle o vialidad', dp:false, fin:'Localización',
+  calle:            {p:2, oblig:true,  etq:'Calle o avenida', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Domicilio del lugar de los hechos en la orden de visita (art. 281).'},
   num_ext:          {p:2, oblig:true,  etq:'Número exterior', dp:false, fin:'Localización',
@@ -1235,9 +1248,6 @@ var OBLIG = {
      uso:'Precisa el área a la que se dirige la recomendación.'},
   resp_obra:        {p:3, oblig:false, etq:'Número de obra, contrato o permiso', dp:false, fin:'Responsable',
      uso:'Permite requerir el expediente de la obra pública señalada.'},
-  establecimiento:  {p:3, oblig:false, etq:'Razón social del establecimiento', dp:false, fin:'Responsable',
-     cond:function(){ return val('tipo_denunciado')==='empresa'; } , cond_txt:'Sólo cuando se denuncia a una empresa o establecimiento',
-     uso:'Razón social del probable infractor para el emplazamiento y el cruce con licencias.'},
   sabe_permisos:    {p:3, oblig:false, etq:'¿Sabes algo sobre los permisos?', dp:false, fin:'Expediente',
    uso:'Filtra la pregunta larga: sólo se pide el detalle a quien tiene algo que aportar.'},
   permisos:         {p:3, oblig:false, etq:'Permisos o autorizaciones', dp:false, fin:'Expediente',
@@ -1397,7 +1407,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-187', fecha:'2 de octubre de 2026', nombre:'Versión 1 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-190', fecha:'19 de octubre de 2026', nombre:'Versión 2 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1503,7 +1513,7 @@ var ESCENARIOS = [
       es_estab:'si', tipo_estab:'Taller mecánico, hojalatería o pintura', nombre_estab:'Hojalatería El Volante',
       hechos:'El taller pinta carrocerías en la banqueta sin cabina ni extracción. El olor a solvente entra a las viviendas de los dos edificios contiguos y dura toda la tarde.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-10',
-      tipo_denunciado:'empresa', establecimiento:'Servicios Automotrices del Centro S.A. de C.V.',
+      tipo_denunciado:'empresa',
       resp_encargado:'El encargado se identifica como Raúl',
       sabe_permisos:'no', reporto_antes:'si',
       gestiones:'Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.',
@@ -1639,7 +1649,7 @@ var ESCENARIOS = [
       es_estab:'si', tipo_estab:'Industria o fábrica', nombre_estab:'Fundidora La Prueba',
       hechos:'La chimenea de la fábrica echa humo negro todas las noches a partir de las diez. El hollín se queda en los patios y en la ropa tendida.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-03',
-      tipo_denunciado:'empresa', establecimiento:'Fundidora La Prueba S.A. de C.V.',
+      tipo_denunciado:'empresa',
       resp_encargado:'Se desconoce',
       sabe_permisos:'no', reporto_antes:'no',
       otras_pruebas:'Video del humo grabado de noche.',
@@ -1667,7 +1677,7 @@ var ESCENARIOS = [
       nombre_estab:'Lavado de Garrafones La Prueba',
       hechos:'La planta tira el agua del lavado de garrafones directo a la coladera de la calle, con espuma y olor a cloro, todos los días por la mañana.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-08',
-      tipo_denunciado:'empresa', establecimiento:'Lavado de Garrafones La Prueba S.A. de C.V.',
+      tipo_denunciado:'empresa',
       resp_encargado:'Atiende una señora que se presenta como encargada',
       sabe_permisos:'no', reporto_antes:'no',
       otras_pruebas:'Fotografías de la espuma en la coladera.',
@@ -2053,13 +2063,17 @@ function barra(){
    escribe hasta confirmarlo: queda el hueco a la vista (P-09). */
 var SEDES = [
   {zona: 'Suelo urbano y Áreas de Valor Ambiental (Bosques urbanos y Barrancas)',
-   area: 'Dirección General de Inspección y Vigilancia Ambiental'},
+   area: 'Dirección General de Inspección y Vigilancia Ambiental',
+   /* Confirmados por la propia DGIVA en la revisión (OBS-0008, DEC-188). */
+   domicilio: 'Interior del Bosque de San Juan de Aragón, Av. José Loreto Fabela, acceso 1, col. San Juan de Aragón, alcaldía Gustavo A. Madero, C.P. 07969, Ciudad de México',
+   horario: 'Lunes a viernes, de 9:00 a 15:00 horas',
+   tel: '55 9689 5009', ext: '1000', telHref: 'tel:+525596895009,1000'},
   {zona: 'Suelo de conservación y Áreas Naturales Protegidas',
    area: 'Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural'}
 ];
 /* Domicilio, horario y telefono los da cada direccion general; mientras
-   tanto no se publica ninguno (DEC-157, DEC-158). Cuando lleguen, se agregan
-   a cada sede y salen de esta lista. */
+   tanto no se publica ninguno (DEC-157, DEC-158). La sede que ya tiene sus
+   datos los muestra y deja de llevar estas marcas (DEC-188). */
 var SEDE_PENDIENTES = ['Domicilio y horario por confirmar', 'Teléfono por confirmar'];
 
 /* ---- Portada (DEC-116, DEC-140 a DEC-145) ----
@@ -2074,7 +2088,7 @@ function pInicio(){
     '<h2 class="rotulo-portada">Denunciar el daño ambiental es tu derecho</h2>'+
     /* Dice para que sirve la pagina y quien la opera (DEC-168). */
     '<p class="portada-lead">Esta es la plataforma de la Secretaría del Medio Ambiente de la Ciudad de México para denunciar hechos que dañan el ambiente, '+
-      'como una tala sin permiso, una descarga a la barranca o el humo de un establecimiento. '+
+      'como un derribo de árboles sin permiso, una descarga a la barranca o el humo de un establecimiento. '+
       'La Secretaría revisa cada denuncia y, si es de su competencia, la atiende con una visita de inspección.</p>'+
 
     /* Los dos medios van inmediatamente después de la entrada, como en
@@ -2083,13 +2097,13 @@ function pInicio(){
     '<div class="medios">'+
       '<section class="medio medio-principal" aria-labelledby="medioLinea">'+
         '<div class="medio-cab"><h3 id="medioLinea">En línea</h3><span class="medio-etq">Desde aquí</span></div>'+
-        '<p>A cualquier hora, en unos diez minutos.</p>'+
+        '<p>Disponible las 24 horas, todos los días.</p>'+
         '<ul class="medio-mini"><li>Recibes tu folio al terminar</li><li>Puedes pausar y seguir después, desde el mismo dispositivo y navegador</li>'+
-          '<li>El mapa determina qué oficina la atiende</li></ul>'+
+          '<li>La ubicación determina qué unidad administrativa competente la atiende</li></ul>'+
         '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
       '</section>'+
       '<section class="medio" aria-labelledby="medioPersona">'+
-        '<div class="medio-cab"><h3 id="medioPersona">En persona</h3></div>'+
+        '<div class="medio-cab"><h3 id="medioPersona">Presencial</h3></div>'+
         datosPresencial()+
       '</section>'+
     '</div>'+
@@ -2153,7 +2167,10 @@ function datosSede(i, completa){
   var d = SEDES[i];
   return (completa ? '<p class="sede-area"><strong>'+esc(d.area)+'</strong></p>'
                    : '<p class="sede-dg">'+esc(d.area)+'</p><p class="sede-zona">'+esc(d.zona)+'</p>')+
-    '<p class="medio-pend">'+SEDE_PENDIENTES.map(function(t){ return '<span class="pendiente">'+esc(t)+'</span>'; }).join('')+'</p>';
+    (d.domicilio
+      ? '<p class="sede-dato">'+esc(d.domicilio)+'</p>'+
+        '<p class="sede-dato">'+esc(d.horario)+' · <span class="sede-tel">Tel. <a href="'+d.telHref+'">'+esc(d.tel)+'</a> ext. '+esc(d.ext)+'</span></p>'
+      : '<p class="medio-pend">'+SEDE_PENDIENTES.map(function(t){ return '<span class="pendiente">'+esc(t)+'</span>'; }).join('')+'</p>');
 }
 function datosPresencial(){
   return SEDES.map(function(d, i){ return '<div class="sede'+(i ? '' : ' sede-primera')+'">'+datosSede(i)+'</div>'; }).join('');
@@ -2329,7 +2346,7 @@ function pUbicacion(){
          código postal. La alcaldía va antes que la colonia porque la acota
          (DEC-118). Manzana y lote sólo aparecen a quien dice que los tiene. */
       '<div class="fila-2-1">'+
-        campo('calle','Calle o vialidad','texto',esObligatorio('calle'),'','autocomplete="section-lugar address-line1"')+
+        campo('calle','Calle o avenida','texto',esObligatorio('calle'),'','autocomplete="section-lugar address-line1"')+
         campo('num_ext','Número exterior','texto',esObligatorio('num_ext'),'Si no tiene, escribe S/N')+
       '</div>'+
       campoSiNo('tiene_mz_lote','¿El predio se identifica por manzana y lote?',
@@ -2658,7 +2675,7 @@ function pHechos(){
      El ejemplo sale del catálogo de materias, así que corresponde a lo que la
      persona eligió denunciar y no es una frase genérica. */
   campoArea('hechos','Cuenta qué pasó o qué está pasando',esObligatorio('hechos'),'',6,
-    'Qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce: humo, olor, ruido, derrame, tala, tiro de material.')+
+    'Qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce: humo, ruido, descarga, derrame, derribo, poda, tiro de residuos.')+
 
   /* La descripción de la tarjeta dice sólo lo que se ve —humo o ruido— porque
      es lo que sirve para elegir la categoría (DEC-107). Pero el dato de si la
@@ -2756,7 +2773,7 @@ function avisoFecha(){
    se puede ver ni corregir (DEC-100). */
 var CLAVES_RESP = {
   particular:  ['resp_nombre','resp_senas'],
-  empresa:     ['establecimiento','resp_encargado'],
+  empresa:     ['resp_encargado'],
   gobierno:    ['autoridad_denunciada','resp_area','resp_obra'],
   desconocido: ['resp_senas'],
   nose:        ['resp_senas']
@@ -2876,11 +2893,9 @@ function bloqueDenunciado(){
   }
 
   if(t==='empresa'){
-    return campo('establecimiento','Razón social','texto',esObligatorio('establecimiento'),
-        val('es_estab')==='si'
-          ? 'Como aparece en su licencia o su comprobante fiscal. Si sólo conoces el nombre comercial, deja este campo vacío: ya lo capturaste en el paso anterior.'
-          : 'Como aparece en su licencia o su comprobante fiscal, si la conoces')+
-      (val('es_estab')!=='si' ? campo('resp_nombre','Nombre del negocio o del lugar','texto',false,'Por ejemplo: Taller Automotriz Hernández, Bodega La Central') : '')+
+    /* Ya no se pide la razón social: repetía el nombre comercial y empujaba a
+       buscar documentos de un tercero (OBS-0026, DEC-188). */
+    return (val('es_estab')!=='si' ? campo('resp_nombre','Nombre del negocio o del lugar','texto',false,'Por ejemplo: Taller Automotriz Hernández, Bodega La Central') : '')+
       campo('resp_encargado','Persona encargada o representante','texto',false,'Quién atiende o dirige, si lo sabes');
   }
 
@@ -2970,7 +2985,7 @@ function pDenunciante(){
       opcion('nombre','Escribo mis datos',
         'Recibes folio y acuse, y la Secretaría puede pedirte información adicional. Para consultar el estado necesitarás el folio.')+
       opcion('anonima','Denuncia anónima',
-        'No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda escribirte.')+
+        'No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda ponerse en contacto contigo.')+
     '</div><div class="err" id="e_identificacion">Elige una de las dos formas para poder continuar.</div></div>';
 
   /* La anonima no pide nombre, pero si un correo: es por donde la Secretaria
@@ -2979,7 +2994,7 @@ function pDenunciante(){
      (DEC-120); el telefono sigue opcional. Los dos, si se escriben, se
      revisan en su forma (DEC-119). */
   if(anon){
-    h += '<p class="ayuda" style="margin:4px 0 14px">No te pedimos tu nombre. Sólo necesitamos un correo para que la Secretaría pueda escribirte si necesita aclarar algo. El teléfono es opcional.</p>'+
+    h += '<p class="ayuda" style="margin:4px 0 14px">No te pedimos tu nombre. Sólo necesitamos un correo para que la Secretaría pueda ponerse en contacto contigo si necesita aclarar algo. El teléfono es opcional.</p>'+
       '<div class="fila">'+
         campo('correo','Correo electrónico de contacto','email',esObligatorio('correo'),'','autocomplete="email" inputmode="email"')+
         campo('telefono','Teléfono','tel',false,'Opcional · a diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
@@ -3010,7 +3025,7 @@ function pDenunciante(){
       '<input type="checkbox" id="f_dom_fuera_cdmx" '+(fueraCdmx()?'checked ':'')+'onchange="cambiaFueraCdmx(this.checked)">'+
       '<span>Vivo fuera de la Ciudad de México</span></label></div>'+
     '<div class="fila-3">'+
-      campo('dom_calle','Calle o vialidad','texto',esObligatorio('dom_calle'),'','autocomplete="address-line1"')+
+      campo('dom_calle','Calle o avenida','texto',esObligatorio('dom_calle'),'','autocomplete="address-line1"')+
       campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'Si no tiene, escribe S/N')+
       campo('dom_num_int','Número interior','texto',false,'','autocomplete="address-line2"')+
     '</div>'+
@@ -3181,13 +3196,12 @@ function pRevision(){
     r('Hechos denunciados', val('hechos'), 3, 'hechos')+
     (val('materia')==='vehiculo' ? r('Tipo de servicio', (SERVICIO_VEHICULO.filter(function(x){return x.v===val('veh_servicio');})[0]||{}).t||'', 3, 'veh_servicio') : '')+
     r('Temporalidad', [temp,val('fecha_hecho')].filter(Boolean).join(' \u00b7 '), 3, 'temporalidad')+
-    r('Establecimiento', val('establecimiento'), 3, 'establecimiento')+
     r('A qui\u00e9n se denuncia', (function(){
         var t = TIPOS_DENUNCIADO.filter(function(x){return x.v===val('tipo_denunciado');})[0];
         if(!t) return '';
         return t.t + (val('tipo_denunciado')==='gobierno' && val('autoridad_denunciada') ? ' \u00b7 '+val('autoridad_denunciada') : '');
       })(), 3, 'tipo_denunciado')+
-    r('Datos del responsable', [val('establecimiento'),val('resp_nombre'),val('autoridad_denunciada'),
+    r('Datos del responsable', [val('resp_nombre'),val('autoridad_denunciada'),
         val('resp_area'),val('resp_encargado'),val('resp_obra'),val('resp_senas')]
         .filter(Boolean).join('\n'), 3, 'resp_nombre')+
     r('Permisos o autorizaciones', val('permisos'), 3, 'sabe_permisos')+
@@ -3287,8 +3301,9 @@ function pAcuse(){
       (val('dg')==='FEDERAL'
         ? 'La Secretaría registró tu denuncia y la remite a esa autoridad; el seguimiento del asunto corre por cuenta de ella. '
         : 'Quien responde a tus preguntas sobre el avance es la <strong>Jefatura de Unidad Departamental de Seguimiento a Denuncias</strong> de esa dirección general. ')+
-      'Con tu folio también puedes acudir a la oficina que atiende la zona, señalada al pie de esta página. '+
-      '<span class="pendiente">Domicilio, horario y teléfono de esta unidad, por confirmar</span></p>'+
+      'Con tu folio también puedes acudir a la unidad administrativa que atiende la zona, señalada al pie de esta página. '+
+      /* La DGIVA confirmó sus datos (DEC-188); la DGCORENADR, todavía no. */
+      ((val('dg')==='DGCORENADR' || val('dg')==='FEDERAL') ? '<span class="pendiente">Domicilio, horario y teléfono de esta unidad, por confirmar</span>' : '')+'</p>'+
     '</div>'+
     '</div></div>';
 }
@@ -4652,7 +4667,7 @@ function pLimite(){
     '<h3 class="sub-seccion">¿Qué puedes hacer?</h3>'+
     '<ul class="derechos">'+
       '<li><b>Esperar e intentar de nuevo.</b> El límite se libera solo al cabo de un rato y tu denuncia sigue aquí.</li>'+
-      '<li><b>Presentarla en persona.</b> Las oficinas, según la zona de los hechos, están al pie de esta página.</li>'+
+      '<li><b>Presentarla de forma presencial.</b> Las unidades administrativas que la reciben, según la zona de los hechos, están al pie de esta página.</li>'+
     '</ul>'+
     '<p class="nota-gris" style="margin-top:14px"><span class="pendiente">Límite por origen y ventana de tiempo: lo cuenta el servidor (P-21)</span></p>'+
     '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(6)"><span class="fl" aria-hidden="true">‹</span>Volver a mi denuncia</button></div>'+

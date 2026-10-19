@@ -218,14 +218,16 @@ with sync_playwright() as pw:
     # ---- 9. Lo capturado en una rama de responsable no sobrevive a la otra ----
     sobra = pg.evaluate("""() => {
       cargaEscenario('urbano'); irA(3);
-      const antes = val('establecimiento');
+      const sinRazon = !document.getElementById('f_establecimiento') && !('establecimiento' in OBLIG);
+      const antes = val('resp_encargado');
       guarda('tipo_denunciado','particular'); limpiaResponsable(); render();
       irA(6);
       const resumen = document.getElementById('app').innerText;
-      return {antes, despues: val('establecimiento'),
+      return {sinRazon, antes, despues: val('resp_encargado'),
               enResumen: antes ? resumen.split(antes).length - 1 : 0};
     }"""); pg.wait_for_timeout(400)
-    afirma(sobra['antes'] != '', 'el escenario captura una razón social')
+    afirma(sobra['sinRazon'], 'la razón social ya no se pide ni existe en OBLIG (DEC-188)')
+    afirma(sobra['antes'] != '', 'el escenario captura a la persona encargada')
     afirma(sobra['despues'] == '',
            'que no sobrevive al cambio de rama de responsable: %r' % sobra['despues'])
     afirma(sobra['enResumen'] == 0, 'ni reaparece en la revisión (%d veces)' % sobra['enResumen'])
@@ -264,7 +266,8 @@ with sync_playwright() as pw:
       guarda('deriva','d_basura'); render();
       const insts = [...document.querySelectorAll('.redir .inst')].map(e => e.innerText);
       return {ids, insts, poda: document.getElementById('app').innerText.indexOf('Solicitar una poda') >= 0}; }""")
-    afirma('d_poda_sol' not in dv['ids'] and len(dv['ids']) == 6 and not dv['poda'], 'ya no se ofrece «Solicitar una poda o derribo»: %s' % dv['ids'])
+    # Nueve desde DEC-190: malos olores, anuncios o luz excesiva (DEC-189) y ruido de un comercio.
+    afirma('d_poda_sol' not in dv['ids'] and len(dv['ids']) == 9 and 'd_ruido_comercio' in dv['ids'] and 'd_olores' in dv['ids'] and 'd_visual' in dv['ids'] and not dv['poda'], 'ya no se ofrece «Solicitar una poda o derribo»: %s' % dv['ids'])
     alc = [x for x in dv['insts'] if x.startswith('Alcaldía')]
     afirma(alc and 'Acude a la alcaldía donde ocurren los hechos' in alc[0] and 'Teléfono' not in alc[0],
            'la alcaldía no lleva teléfono ni liga, sino a cuál acudir: %r' % alc)

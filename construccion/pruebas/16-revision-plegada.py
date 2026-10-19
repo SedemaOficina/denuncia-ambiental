@@ -87,7 +87,8 @@ with sync_playwright() as pw:
     }""")
     afirma(r['total'] >= 20, 'el detalle sigue resumiendo %d renglones: no se perdió nada' % r['total'])
     afirma(r['mudos'] == [], 'y ninguno se quedó sin decir cómo se corrige: %s' % r['mudos'])
-    afirma(r['conBoton'] >= 18, 'con %d botones de corregir dentro de los bloques' % r['conBoton'])
+    # 17 desde DEC-188: sale el renglón de la razón social, que ya no se pide.
+    afirma(r['conBoton'] >= 17, 'con %d botones de corregir dentro de los bloques' % r['conBoton'])
 
     # La salida para leerlo todo.
     t0 = pg.evaluate("() => (document.getElementById('btnRevTodo')||{}).textContent")
