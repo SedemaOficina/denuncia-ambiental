@@ -172,10 +172,10 @@ with sync_playwright() as pw:
       const vistos = new Set();
       const rutas = [
         {tiene_direccion:'si', tiene_mz_lote:'si', materia:'tala', tipo_denunciado:'empresa', es_estab:'si', tipo_estab:'Otro',
-         identificacion:'nombre', dom_tiene_mz_lote:'si', sabe_permisos:'si', reporto_antes:'si', temporalidad:'unico'},
+         identificacion:'nombre', dom_tiene_mz_lote:'si', reporto_antes:'si', temporalidad:'unico'},
         {tiene_direccion:'no', materia:'tala', tipo_denunciado:'gobierno', autoridad_nivel:'cdmx',
          identificacion:'nombre', dom_fuera_cdmx:'si'},
-        {tiene_direccion:'si', materia:'tala', tipo_denunciado:'particular', identificacion:'anonima'},
+        {tiene_direccion:'si', materia:'tala', tipo_denunciado:'particular', identificacion:'anonima', fecha_nosabe:'si'},
         /* La unica materia con una pregunta propia en el paso 3: el servicio
            del vehiculo. Sin esta ruta, un campo que si se rinde pareceria
            fantasma solo porque ninguna de las otras tres lo recorre. */

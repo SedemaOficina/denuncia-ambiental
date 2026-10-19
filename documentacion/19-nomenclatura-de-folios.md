@@ -1,6 +1,8 @@
 # Formulario web de Denuncia Ambiental · Nomenclatura de folios
 
 **Versión:** 1.1 · 30 de septiembre de 2026 · **Aprobada (DEC-151): resuelve P-13**
+
+> **Nota · 19 de octubre de 2026 (DEC-191).** En pantalla, en el acuse y en el PDF el folio se presenta como **«número de registro»**, a petición de la COJUMIVA (OBS-0023): la DGIVA ya maneja sus propias numeraciones (SAD, SUAC, SAC, AP) y el identificador del formulario no debe confundirse con ellas. La estructura `SEDEMA/DEN/AAAA/NNNNNN-V` y la clave de consulta no cambian; en el código el dato sigue llamándose `folio`.
 **Para qué sirve este documento.** Fija cómo se forma, quién emite y cómo se usa el folio de una denuncia, y qué se entrega a la persona para consultarla. Hasta hoy sólo existía el supuesto del prototipo (RN-27) y la pregunta abierta P-13.
 
 ---

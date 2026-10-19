@@ -70,8 +70,9 @@ with sync_playwright() as pw:
       cfg.validar = prev; render();
       return r;
     }""")
-    afirma(marcas == ['obligatorio','opcional','opcional'],
-           'la calle lleva asterisco y los accesorios no llevan marca: %s' % marcas)
+    # Desde DEC-191 lo opcional también se dice: los accesorios llevan «(opcional)».
+    afirma(marcas == ['obligatorio','DICE OPCIONAL','DICE OPCIONAL'],
+           'la calle lleva asterisco y los accesorios dicen «(opcional)»: %s' % marcas)
 
     # --- 3. Lo capturado se conserva al volver al paso ---
     pg.fill('#f_referencias', 'Frente a la escuela primaria')

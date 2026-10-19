@@ -165,8 +165,8 @@ with sync_playwright() as pw:
         # La versión que se valida va al final del pie (DEC-187).
         ver = pg.evaluate("""() => { const v = document.getElementById('pieVersion'), c = document.querySelector('footer .pie-cierre');
           return {txt: v ? v.innerText.trim() : '', ultimo: !!v && c.lastElementChild === v, visible: !!v && v.offsetParent !== null}; }""")
-        afirma(ver['txt'] == 'Versión 2 · Validación DGIVA' and ver['ultimo'] and ver['visible'],
-               '%s: hasta abajo dice «Versión 2 · Validación DGIVA»: %s' % (nom, ver))
+        afirma(ver['txt'] == 'Versión 3 · Validación DGIVA' and ver['ultimo'] and ver['visible'],
+               '%s: hasta abajo dice «Versión 3 · Validación DGIVA»: %s' % (nom, ver))
         # En la portada el pie no repite las oficinas; en el formulario sí las muestra.
         pie = pg.evaluate("""() => { const v = () => document.getElementById('pieEnPersona').offsetParent !== null;
           const a = v(); irA(1); const b = v(); irA(0); return [a, b]; }""")

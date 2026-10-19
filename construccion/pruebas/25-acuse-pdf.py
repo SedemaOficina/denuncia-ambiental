@@ -46,7 +46,7 @@ with sync_playwright() as pw:
       return {etq: [...f.querySelectorAll('.dato-etq')].map(e => e.innerText.trim().toLowerCase()),
               fondoFicha: cf.backgroundColor, fondoBoton: cd.backgroundColor,
               copiar: [...f.querySelectorAll('.btn-copiar')].map(b => getComputedStyle(b).backgroundColor)}; }""")
-    afirma(fx['etq'] == ['folio', 'clave de consulta'], 'folio y clave van rotulados en una ficha: %s' % fx['etq'])
+    afirma(fx['etq'] == ['número de registro', 'clave de consulta'], 'número de registro y clave van rotulados en una ficha (DEC-191): %s' % fx['etq'])
     afirma(fx['fondoFicha'] != fx['fondoBoton'] and all(c == 'rgba(0, 0, 0, 0)' for c in fx['copiar']),
            'la ficha no se parece al botón de descarga y «Copiar» es un enlace (DEC-162)')
     with pg.expect_download() as d:

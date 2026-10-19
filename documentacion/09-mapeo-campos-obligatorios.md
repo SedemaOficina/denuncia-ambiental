@@ -1,18 +1,18 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-190 · 19 de octubre de 2026
+**Versión:** DEC-191 · 19 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos que llena la persona | **60** |
+| Campos que llena la persona | **61** |
 | Datos que viajan a la base sin verse en pantalla | **13** |
 | Datos que calcula el formulario y se muestran | 15 |
-| Datos personales | **24** (40 %) |
-| Obligatorios en este formulario | 26 de 60 |
-| Campos con obligatoriedad condicionada | 24 |
+| Datos personales | **24** (39 %) |
+| Obligatorios en este formulario | 26 de 61 |
+| Campos con obligatoriedad condicionada | 26 |
 | Datos sin uso declarado | **0** |
 
 ---
@@ -25,7 +25,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 |---|---|---|
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 17 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 17 |
-| **Expediente** | Integrar el expediente y motivar el acto de inspección | 20 |
+| **Expediente** | Integrar el expediente y motivar el acto de inspección | 21 |
 | **Responsable** | Identificar y emplazar al probable infractor | 8 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 18 |
@@ -74,7 +74,10 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Nombre del establecimiento | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas. |
 | Descripción de lo que ocurre | Obligatorio | No | Siempre | Objeto y alcance de la visita de inspección; es la base de la motivación del acto. |
 | Desde cuándo ocurre | Opcional | No | Siempre | Determina si la conducta es continua o aislada, lo que define la urgencia de la atención. |
-| Fecha en que ocurrió o inició | Opcional | No | Siempre | Ubicación temporal de los hechos en el expediente. |
+| Fecha en que ocurrió o inició | Opcional | No | Sólo cuando la persona conoce la fecha exacta | Ubicación temporal de los hechos en el expediente. |
+| No sé la fecha exacta | Opcional | No | Siempre | Permite dar una fecha aproximada a quien no conoce el día exacto (OBS-0016, DEC-191). |
+| Mes aproximado | Opcional | No | Sólo cuando la persona no sabe la fecha exacta | Ubicación temporal aproximada de los hechos en el expediente. |
+| Año aproximado | Opcional | No | Sólo cuando la persona no sabe la fecha exacta | Ubicación temporal aproximada de los hechos en el expediente. |
 | ¿Quién es responsable de los hechos? | Opcional | No | Siempre | Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar. |
 | Ámbito de la autoridad señalada | Opcional | No | Sólo cuando se señala a una autoridad | Encamina la recomendación del art. 331: de él depende si se dirige a una dependencia de la Ciudad, a una alcaldía o a la federación, y contra qué catálogo se propone el nombre. |
 | Dependencia, alcaldía u organismo señalado | Opcional | No | Sólo cuando se señala a una autoridad y se eligió su ámbito | Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla. |
@@ -83,8 +86,6 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Persona encargada o representante | Opcional | **Sí** | Siempre | Persona con quien se entiende la diligencia (art. 283). |
 | Área o persona servidora pública | Opcional | **Sí** | Siempre | Precisa el área a la que se dirige la recomendación. |
 | Número de obra, contrato o permiso | Opcional | No | Siempre | Permite requerir el expediente de la obra pública señalada. |
-| ¿Sabes algo sobre los permisos? | Opcional | No | Siempre | Filtra la pregunta larga: sólo se pide el detalle a quien tiene algo que aportar. |
-| Permisos o autorizaciones | Opcional | No | Sólo cuando la persona dice saber algo sobre los permisos | Orienta la verificación documental: si existe autorización y si la obra se ajusta a sus términos. |
 | ¿Ya reportaste ante otra autoridad? | Opcional | No | Siempre | Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga. |
 | Gestiones previas | Opcional | No | Sólo cuando la persona dice haberlo reportado antes | Evita duplicar expedientes con otras autoridades y gradúa la gravedad por reincidencia. |
 
@@ -176,7 +177,7 @@ Tampoco los escribe la persona: se le enseñan en la ficha del mapa, en la revis
 | Razón del turnado | `dg_razon` | Regla de turnado | No | Explica por qué la atiende otra autoridad cuando el punto cae en un Área Natural Protegida federal. |
 | Área protegida local concurrente | `concurrencia` | Cruce del punto con las capas del SIA | No | Cuando el punto cae a la vez en un ANP federal y en una local: abre la vía de intervención local. |
 | Punto fuera de la Ciudad | `fuera` | Cruce del punto con el límite de la Ciudad | No | Detiene la denuncia: la Secretaría sólo atiende hechos dentro de la Ciudad. |
-| Folio | `folio` | El sistema, al enviar | No | Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento. No lleva el área: SEDEMA/DEN/año/consecutivo-verificador (documento 19). |
+| Número de registro | `folio` | El sistema, al enviar | No | Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento. No lleva el área: SEDEMA/DEN/año/consecutivo-verificador (documento 19). |
 | Clave de consulta | `clave_consulta` | El sistema, al enviar | No | Con el folio, permite consultar la denuncia. Se entrega una sola vez; el servidor guarda sólo su huella y no puede reponerse. |
 | Fecha y hora de recepción | `fecha_acuse` | El sistema, al enviar | No | Fecha y hora en que la denuncia entra al expediente. |
 

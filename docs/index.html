@@ -412,6 +412,7 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 .medio-pend{margin:10px 0 0;display:flex;flex-wrap:wrap;gap:6px}
 .sede-dato{margin:6px 0 0;font-size:14px;line-height:1.45}
 .sede-tel{white-space:nowrap}
+.opc{font-weight:400;color:var(--gris-cl);font-size:.88em;white-space:nowrap}
 .sede-dato a{color:var(--guinda)}
 /* En teléfono, tarjetas más compactas: con ellas el botón de iniciar se ve sin desplazar (DEC-168). */
 @media (max-width:560px){ .medio{padding:16px} .medio-principal .medio-mini{gap:6px;margin-bottom:16px} }
@@ -1228,7 +1229,16 @@ var OBLIG = {
   temporalidad:     {p:3, oblig:false, etq:'Desde cuándo ocurre', dp:false, fin:'Expediente',
      uso:'Determina si la conducta es continua o aislada, lo que define la urgencia de la atención.'},
   fecha_hecho:      {p:3, oblig:false, etq:'Fecha en que ocurrió o inició', dp:false, fin:'Expediente',
+     cond:function(){ return val('fecha_nosabe')!=='si'; } , cond_txt:'Sólo cuando la persona conoce la fecha exacta',
      uso:'Ubicación temporal de los hechos en el expediente.'},
+  fecha_nosabe:     {p:3, oblig:false, etq:'No sé la fecha exacta', dp:false, fin:'Expediente',
+     uso:'Permite dar una fecha aproximada a quien no conoce el día exacto (OBS-0016, DEC-191).'},
+  fecha_mes:        {p:3, oblig:false, etq:'Mes aproximado', dp:false, fin:'Expediente',
+     cond:function(){ return val('fecha_nosabe')==='si'; } , cond_txt:'Sólo cuando la persona no sabe la fecha exacta',
+     uso:'Ubicación temporal aproximada de los hechos en el expediente.'},
+  fecha_anio:       {p:3, oblig:false, etq:'Año aproximado', dp:false, fin:'Expediente',
+     cond:function(){ return val('fecha_nosabe')==='si'; } , cond_txt:'Sólo cuando la persona no sabe la fecha exacta',
+     uso:'Ubicación temporal aproximada de los hechos en el expediente.'},
   tipo_denunciado:  {p:3, oblig:false, etq:'¿Quién es responsable de los hechos?', dp:false, fin:'Responsable',
      uso:'Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar.'},
   autoridad_nivel:  {p:3, oblig:false, etq:'Ámbito de la autoridad señalada', dp:false, fin:'Responsable',
@@ -1248,11 +1258,6 @@ var OBLIG = {
      uso:'Precisa el área a la que se dirige la recomendación.'},
   resp_obra:        {p:3, oblig:false, etq:'Número de obra, contrato o permiso', dp:false, fin:'Responsable',
      uso:'Permite requerir el expediente de la obra pública señalada.'},
-  sabe_permisos:    {p:3, oblig:false, etq:'¿Sabes algo sobre los permisos?', dp:false, fin:'Expediente',
-   uso:'Filtra la pregunta larga: sólo se pide el detalle a quien tiene algo que aportar.'},
-  permisos:         {p:3, oblig:false, etq:'Permisos o autorizaciones', dp:false, fin:'Expediente',
-     cond:function(){ return val('sabe_permisos')==='si'; } , cond_txt:'Sólo cuando la persona dice saber algo sobre los permisos',
-     uso:'Orienta la verificación documental: si existe autorización y si la obra se ajusta a sus términos.'},
   reporto_antes:    {p:3, oblig:false, etq:'¿Ya reportaste ante otra autoridad?', dp:false, fin:'Expediente',
    uso:'Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga.'},
   gestiones:        {p:3, oblig:false, etq:'Gestiones previas', dp:false, fin:'Expediente',
@@ -1371,7 +1376,7 @@ var DERIVADOS = {
                    uso:'Detiene la denuncia: la Secretaría sólo atiende hechos dentro de la Ciudad.'},
   uga_version:    {etq:'Versión de la malla UGA', origen:'Catálogo UGA incrustado', fin:'Estadística', dp:false, se_ve:false, por:'denuncia',
                    uso:'Con qué versión de la malla se asignó la celda; el servidor la vuelve a derivar con la más reciente.'},
-  folio:          {etq:'Folio', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
+  folio:          {etq:'Número de registro', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
                    uso:'Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento. No lleva el área: SEDEMA/DEN/año/consecutivo-verificador (documento 19).'},
   clave_consulta: {etq:'Clave de consulta', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
                    uso:'Con el folio, permite consultar la denuncia. Se entrega una sola vez; el servidor guarda sólo su huella y no puede reponerse.'},
@@ -1407,7 +1412,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-190', fecha:'19 de octubre de 2026', nombre:'Versión 2 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-191', fecha:'19 de octubre de 2026', nombre:'Versión 3 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1492,7 +1497,7 @@ var ESCENARIOS = [
       temporalidad:'recurrente', fecha_hecho:'2026-09-05',
       es_estab:'no', tipo_denunciado:'nose',
       resp_senas:'Tres hombres con motosierra y casco naranja. La camioneta es de redilas, azul, sin placas visibles.',
-      sabe_permisos:'no', reporto_antes:'si',
+      reporto_antes:'si',
       gestiones:'Lo comenté a los guardabosques de la caseta de la puerta 3 el 12 de septiembre. Dijeron que darían aviso, pero siguió ocurriendo.',
       otras_pruebas:'Tengo un video de dos minutos en el que se oye la motosierra; puedo entregarlo si me lo piden.',
       identificacion:'nombre',
@@ -1515,7 +1520,7 @@ var ESCENARIOS = [
       temporalidad:'recurrente', fecha_hecho:'2026-09-10',
       tipo_denunciado:'empresa',
       resp_encargado:'El encargado se identifica como Raúl',
-      sabe_permisos:'no', reporto_antes:'si',
+      reporto_antes:'si',
       gestiones:'Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.',
       otras_pruebas:'Los vecinos de los dos edificios pueden dar testimonio.',
       nombre:'María Fernanda', apellido_paterno:'Ríos', apellido_materno:'Galván',
@@ -1539,7 +1544,7 @@ var ESCENARIOS = [
       temporalidad:'permanente', fecha_hecho:'2026-06-01',
       tipo_denunciado:'nose',
       resp_senas:'Dos camionetas de redilas blancas, sin placas visibles. Llegan entre las seis y las ocho de la mañana, cuatro o cinco personas.',
-      sabe_permisos:'no', reporto_antes:'no',
+      reporto_antes:'no',
       otras_pruebas:'Puedo señalar en el mapa la brecha por donde sacan la madera.',
       identificacion:'anonima', correo:'avisos.anonimos@ejemplo.mx', telefono:'5511223344',
       sexo_genero:'nd', edad_rango:'nd',
@@ -1557,7 +1562,6 @@ var ESCENARIOS = [
       temporalidad:'unico', fecha_hecho:'2026-09-15',
       tipo_denunciado:'gobierno', autoridad_nivel:'alcaldia', autoridad_denunciada:'Iztapalapa',
       resp_area:'Cuadrilla de servicios urbanos', resp_obra:'Lona de obra sin número visible',
-      sabe_permisos:'si', permisos:'En la obra no había ningún aviso de autorización de derribo.',
       reporto_antes:'no',
       otras_pruebas:'Fotografías de los tocones y de la lona de la obra.',
       nombre:'Jorge', apellido_paterno:'Hernández', apellido_materno:'Luna',
@@ -1581,7 +1585,7 @@ var ESCENARIOS = [
       tipo_denunciado:'particular',
       resp_nombre:'No se conoce el nombre',
       resp_senas:'Un hombre de unos cincuenta años que cerca con malla una parte del bosque y cobra el acceso.',
-      sabe_permisos:'no', reporto_antes:'si',
+      reporto_antes:'si',
       gestiones:'Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde.',
       otras_pruebas:'Fotografías de la malla y del letrero con el cobro.',
       identificacion:'nombre',
@@ -1604,7 +1608,7 @@ var ESCENARIOS = [
       temporalidad:'recurrente', fecha_hecho:'2026-09-01',
       tipo_denunciado:'nose',
       resp_senas:'Cuatro trabajadores y una camioneta de volteo blanca. Llegan entre semana por la mañana.',
-      sabe_permisos:'no', reporto_antes:'no',
+      reporto_antes:'no',
       otras_pruebas:'Puedo acompañar al personal al sitio.',
       identificacion:'nombre',
       nombre:'Luis Alberto', apellido_paterno:'Mendoza', apellido_materno:'Pérez',
@@ -1628,7 +1632,7 @@ var ESCENARIOS = [
       tipo_denunciado:'particular',
       resp_nombre:'Se desconoce el nombre del propietario',
       resp_senas:'Los trabajadores dicen que la obra es del dueño de la casa.',
-      sabe_permisos:'no', reporto_antes:'si',
+      reporto_antes:'si',
       gestiones:'Lo reporté a la alcaldía Coyoacán el 14 de septiembre y no hubo respuesta.',
       otras_pruebas:'Fotografías de los árboles derribados tomadas desde la calle.',
       identificacion:'nombre',
@@ -1651,7 +1655,7 @@ var ESCENARIOS = [
       temporalidad:'recurrente', fecha_hecho:'2026-09-03',
       tipo_denunciado:'empresa',
       resp_encargado:'Se desconoce',
-      sabe_permisos:'no', reporto_antes:'no',
+      reporto_antes:'no',
       otras_pruebas:'Video del humo grabado de noche.',
       identificacion:'nombre',
       nombre:'Patricia', apellido_paterno:'Salas', apellido_materno:'Núñez',
@@ -1679,7 +1683,7 @@ var ESCENARIOS = [
       temporalidad:'recurrente', fecha_hecho:'2026-09-08',
       tipo_denunciado:'empresa',
       resp_encargado:'Atiende una señora que se presenta como encargada',
-      sabe_permisos:'no', reporto_antes:'no',
+      reporto_antes:'no',
       otras_pruebas:'Fotografías de la espuma en la coladera.',
       identificacion:'nombre',
       nombre:'Carlos', apellido_paterno:'Domínguez', apellido_materno:'Soto',
@@ -1736,7 +1740,6 @@ var ETAPAS = ['Qué denuncias','Dónde ocurrió','Qué ocurrió','Pruebas','Tus 
    el máximo, que el expediente siga siendo manejable. */
 var LIMITES = {
   hechos:        {min:40, max:4000},
-  permisos:      {max:1000},
   gestiones:     {max:1000},
   referencias:   {max:1200},
   otras_pruebas: {max:1000},
@@ -2098,7 +2101,7 @@ function pInicio(){
       '<section class="medio medio-principal" aria-labelledby="medioLinea">'+
         '<div class="medio-cab"><h3 id="medioLinea">En línea</h3><span class="medio-etq">Desde aquí</span></div>'+
         '<p>Disponible las 24 horas, todos los días.</p>'+
-        '<ul class="medio-mini"><li>Recibes tu folio al terminar</li><li>Puedes pausar y seguir después, desde el mismo dispositivo y navegador</li>'+
+        '<ul class="medio-mini"><li>Recibes tu número de registro al terminar</li><li>Puedes pausar y seguir después, desde el mismo dispositivo y navegador</li>'+
           '<li>La ubicación determina qué unidad administrativa competente la atiende</li></ul>'+
         '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
       '</section>'+
@@ -2143,13 +2146,13 @@ function pInicio(){
            te reconoce», viven aquí como preguntas (DEC-184). */
         '<details><summary>¿Tengo que ser la persona afectada para denunciar?</summary><p>No. Cualquier persona puede denunciar: no necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio.</p></details>'+
         '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí, y la Secretaría valora los hechos igual. Al final eliges si escribes tus datos o si la presentas como denuncia anónima. En la anónima sólo te pedimos un correo, para que la Secretaría pueda escribirte si necesita aclarar algo.</p></details>'+
-        '<details><summary>¿La persona o el negocio que denuncio sabrá quién fui?</summary><p>No. Tus datos son confidenciales: tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado.</p></details>'+
+        '<details><summary>¿La persona o el negocio que denuncio sabrá quién fui?</summary><p>No. Tus datos son confidenciales: tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado. Están protegidos por la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México.</p></details>'+
         '<details><summary>¿Necesito saber qué norma se incumple?</summary><p>No. Basta con describir lo que ocurre.</p></details>'+
         '<details><summary>¿Qué hago si no sé la dirección exacta?</summary><p>Puedes marcar el punto en el mapa o pegar la ubicación de Google Maps. Si no puedes marcarlo, basta la dirección. Si el lugar no tiene calle ni número, como un bosque o una barranca, el formulario te pide referencias para llegar.</p></details>'+
         '<details><summary>¿Necesito fotos o documentos?</summary><p>No son obligatorios, pero ayudan a verificar los hechos. Puedes adjuntar fotos (JPG o PNG), videos (MP4 o MOV) y documentos (Word, PDF o Excel).</p></details>'+
         '<details><summary>¿Qué pasa si mi caso no lo atiende la Secretaría?</summary><p>Al elegir qué quieres denunciar, en «Mi caso no está en la lista» encuentras los casos que atiende otra autoridad, como la basura en la calle o el ruido de vecinos, y a dónde acudir.</p></details>'+
         '<details><summary>¿Puedo dejarla a medias y terminarla después?</summary><p>Sí. El avance se guarda en este navegador. Para retomarla entra desde el mismo dispositivo y navegador; si borras sus datos, el avance se pierde.</p></details>'+
-        '<details><summary>¿Cómo doy seguimiento a mi denuncia?</summary><p>Con el folio y la clave de consulta que recibes al enviarla. Al terminar, descarga tu acuse en PDF y guárdalo. <span class="pendiente">Consulta del estado: por desarrollar</span></p></details>'+
+        '<details><summary>¿Cómo doy seguimiento a mi denuncia?</summary><p>Con el número de registro y la clave de consulta que recibes al enviarla. Al terminar, descarga tu acuse en PDF y guárdalo. <span class="pendiente">Consulta del estado: por desarrollar</span></p></details>'+
       '</div>'+
       '<button type="button" class="btn btn-secundario faq-ver" aria-expanded="false" aria-controls="faqLista" '+
         'onclick="var f=document.getElementById(\'faqLista\'), c=f.classList.toggle(\'faq-corta\'); this.setAttribute(\'aria-expanded\', c ? \'false\' : \'true\'); '+
@@ -2697,9 +2700,16 @@ function pHechos(){
       return '<button type="button" class="opcion" aria-pressed="'+(val('temporalidad')===p[0]?'true':'false')+'" onclick="guarda(\'temporalidad\',\''+p[0]+'\');render()"><span class="nombre">'+p[1]+'</span></button>';
     }).join('')+
   '</div></div>'+
+  /* Quien no sabe el día exacto da el mes y el año (OBS-0016, DEC-191). */
   '<div class="fila">'+
-    campo('fecha_hecho','Fecha en que ocurrió o inició','fecha',esObligatorio('fecha_hecho'),'Elige la fecha en el calendario','max="'+hoyISO()+'"')+
+    (val('fecha_nosabe')==='si'
+      ? campoSelect('fecha_mes','Mes aproximado',MESES,esObligatorio('fecha_mes'),'')+
+        campoSelect('fecha_anio','Año aproximado',aniosAtras(),esObligatorio('fecha_anio'),'')
+      : campo('fecha_hecho','Fecha en que ocurrió o inició','fecha',esObligatorio('fecha_hecho'),'Elige la fecha en el calendario','max="'+hoyISO()+'"'))+
   '</div>'+
+  '<div class="campo" id="c_fecha_nosabe"><label class="casilla" for="f_fecha_nosabe">'+
+    '<input type="checkbox" id="f_fecha_nosabe" '+(val('fecha_nosabe')==='si'?'checked ':'')+'onchange="cambiaFechaNoSabe(this.checked)">'+
+    '<span>No sé la fecha exacta</span></label></div>'+
   '<div id="avisoFecha">'+avisoFecha()+'</div>'+
 
   '<h3 class="sub-seccion">¿Quién lo está haciendo?</h3>'+
@@ -2726,12 +2736,8 @@ function pHechos(){
     'Si no lo sabes, elige «No lo sé»: no impide presentar la denuncia.','limpiaResponsable();render()')+
   bloqueDenunciado()+
 
-  '<h3 class="sub-seccion">Permisos o autorizaciones</h3>'+
-  campoSiNo('sabe_permisos','¿Sabes algo sobre los permisos de esa obra o actividad?','Por ejemplo, que tiene una autorización, que se amparó en un permiso vencido, o que se realiza sin ninguno. Si no lo sabes, responde «No»: no hace falta para denunciar.')+
-  (val('sabe_permisos')==='si'
-    ? campoArea('permisos','¿Qué sabes al respecto?',esObligatorio('permisos'),'Indica si existe autorización, de quién, o si la obra se realiza sin ella.',2)
-    : '')+
-
+  /* Sin la pregunta de permisos: verificarlos le toca a la inspección, y
+     pedirlos empujaba a buscar documentos de un tercero (OBS-0027, DEC-191). */
   '<h3 class="sub-seccion">Gestiones previas</h3>'+
   campoSiNo('reporto_antes','¿Ya reportaste estos hechos ante otra autoridad?','A la alcaldía, a la Procuraduría Ambiental, a la policía o a cualquier otra instancia.')+
   (val('reporto_antes')==='si'
@@ -2749,6 +2755,25 @@ function hoyISO(){
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
 
+var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+function aniosAtras(){
+  var a = new Date().getFullYear(), r = [];
+  for(var i = 0; i < 10; i++) r.push(String(a - i));
+  return r;
+}
+/* Cambiar de forma suelta lo capturado en la otra (DEC-100). */
+function cambiaFechaNoSabe(si){
+  guarda('fecha_nosabe', si ? 'si' : '');
+  if(si){ guarda('fecha_hecho', ''); } else { guarda('fecha_mes', ''); guarda('fecha_anio', ''); }
+  render();
+}
+function fechaTexto(){
+  if(val('fecha_nosabe')==='si'){
+    var t = [val('fecha_mes'), val('fecha_anio')].filter(Boolean).join(' de ').toLowerCase();
+    return t ? 'Aproximada: ' + t : 'Sin fecha exacta';
+  }
+  return val('fecha_hecho');
+}
 function avisoFecha(){
   var f = val('fecha_hecho');
   if(!f) return '';
@@ -2921,7 +2946,7 @@ function bloqueDenunciado(){
 function pEvidencia(){
   var h = '<div class="tarjeta"><h2><span class="num" aria-hidden="true">4</span>Fotos, videos o documentos'+marca_opc(esObligatorio('archivos'))+'</h2>'+
   '<p class="sub">Las fotografías y videos son el insumo más útil para programar una inspección.</p>'+
-  '<div class="aviso aviso-ok"><strong>Si no tienes las pruebas ahora, no esperes.</strong> Presenta tu denuncia hoy y después podrás seguir aportando fotografías, videos o documentos con tu número de folio.</div>'+
+  '<div class="aviso aviso-ok"><strong>Si no tienes las pruebas ahora, no esperes.</strong> Presenta tu denuncia hoy y después podrás seguir aportando fotografías, videos o documentos con tu número de registro.</div>'+
   '<div class="campo" id="c_archivos">'+
   '<button type="button" class="zona-carga" onclick="$(\'inputArch\').click()" '+
     'ondragover="event.preventDefault();this.classList.add(\'encima\')" '+
@@ -2983,7 +3008,7 @@ function pDenunciante(){
     '<div class="ayuda"></div>'+
     '<div class="opciones">'+
       opcion('nombre','Escribo mis datos',
-        'Recibes folio y acuse, y la Secretaría puede pedirte información adicional. Para consultar el estado necesitarás el folio.')+
+        'Recibes número de registro y acuse, y la Secretaría puede pedirte información adicional. Para consultar el estado necesitarás el número de registro.')+
       opcion('anonima','Denuncia anónima',
         'No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda ponerse en contacto contigo.')+
     '</div><div class="err" id="e_identificacion">Elige una de las dos formas para poder continuar.</div></div>';
@@ -3195,7 +3220,7 @@ function pRevision(){
     r('\u00bfDentro de un establecimiento?', estab, 3, 'es_estab')+
     r('Hechos denunciados', val('hechos'), 3, 'hechos')+
     (val('materia')==='vehiculo' ? r('Tipo de servicio', (SERVICIO_VEHICULO.filter(function(x){return x.v===val('veh_servicio');})[0]||{}).t||'', 3, 'veh_servicio') : '')+
-    r('Temporalidad', [temp,val('fecha_hecho')].filter(Boolean).join(' \u00b7 '), 3, 'temporalidad')+
+    r('Temporalidad', [temp,fechaTexto()].filter(Boolean).join(' \u00b7 '), 3, 'temporalidad')+
     r('A qui\u00e9n se denuncia', (function(){
         var t = TIPOS_DENUNCIADO.filter(function(x){return x.v===val('tipo_denunciado');})[0];
         if(!t) return '';
@@ -3204,7 +3229,6 @@ function pRevision(){
     r('Datos del responsable', [val('resp_nombre'),val('autoridad_denunciada'),
         val('resp_area'),val('resp_encargado'),val('resp_obra'),val('resp_senas')]
         .filter(Boolean).join('\n'), 3, 'resp_nombre')+
-    r('Permisos o autorizaciones', val('permisos'), 3, 'sabe_permisos')+
     r('Gestiones previas', val('gestiones'), 3, 'reporto_antes');
 
   var fPruebas =
@@ -3249,8 +3273,8 @@ function pRevision(){
   bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima' + (val('correo') ? ' \u00b7 Con correo de contacto' : ' \u00b7 Sin datos de contacto')
       : ([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' ') || 'Sin nombre capturado'), fQuien)+
   (!val('lat') && !sinDireccion()
-    ? '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia se registra con un folio. Como no marcaste el punto, la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
-    : '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia se registra con un folio y se turna a '+
+    ? '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia recibe un número de registro. Como no marcaste el punto, la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
+    : '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia recibe un número de registro y se turna a '+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+
     (val('dg')==='FEDERAL'
       ? '. Como el punto se ubica en un Área Natural Protegida de competencia federal, la Secretaría la recibe y la remite a esa autoridad.</div>'
@@ -3266,24 +3290,24 @@ function pAcuse(){
   return '<div class="tarjeta"><div class="acuse">'+
     '<div class="marca">'+svgIcono('check',40,'#fff')+'</div>'+
     '<h2>Tu denuncia fue recibida</h2>'+
-    '<p style="color:var(--gris)">Guarda tu folio y tu clave de consulta y descarga tu acuse: no se envían por correo electrónico. Con el folio y la clave consultas el estado de tu denuncia. <span class="pendiente">Consulta del estado: por desarrollar</span></p>'+
+    '<p style="color:var(--gris)">Guarda tu número de registro y tu clave de consulta y descarga tu acuse: no se envían por correo electrónico. Con el número de registro y la clave consultas el estado de tu denuncia. <span class="pendiente">Consulta del estado: por desarrollar</span></p>'+
     /* Folio y clave en una ficha clara, con rótulo y «Copiar» como enlace:
        el bloque guinda relleno se confundía con un botón (DEC-162). La clave
        no puede reponerse: se dice aquí y en el PDF (DEC-151). */
     '<div class="datos-acuse">'+
-      '<div class="dato-acuse"><span class="dato-etq">Folio</span>'+
+      '<div class="dato-acuse"><span class="dato-etq">Número de registro</span>'+
         '<div class="dato-fila"><span class="dato-valor" id="folioTxt">'+esc(val('folio')).replace(/\//g,'/<wbr>')+'</span>'+
-        '<button type="button" class="btn-copiar" aria-label="Copiar el folio" onclick="copiaDato(this,\'folio\')">Copiar</button></div></div>'+
+        '<button type="button" class="btn-copiar" aria-label="Copiar el número de registro" onclick="copiaDato(this,\'folio\')">Copiar</button></div></div>'+
       '<div class="dato-acuse"><span class="dato-etq">Clave de consulta</span>'+
         '<div class="dato-fila"><span class="dato-valor" id="claveTxt">'+esc(val('clave_consulta'))+'</span>'+
         '<button type="button" class="btn-copiar" aria-label="Copiar la clave de consulta" onclick="copiaDato(this,\'clave_consulta\')">Copiar</button></div>'+
-        '<span class="dato-nota">Guárdala junto con el folio: no puede reponerse.</span></div>'+
+        '<span class="dato-nota">Guárdala junto con el número de registro: no puede reponerse.</span></div>'+
     '</div>'+
     '<p style="font-size:14px;color:var(--gris)">Recibida el '+esc(val('fecha_acuse'))+'</p>'+
     /* Sin correo, el acuse se lo lleva la persona (DEC-139). */
     '<div class="acuse-pdf">'+
       '<button type="button" class="btn btn-primario" onclick="descargaAcuse(this)">Descargar acuse (PDF)</button>'+
-      '<p id="notaAcuse" class="nota-gris" aria-live="polite">Incluye tu folio, la fecha y todo lo que capturaste.</p>'+
+      '<p id="notaAcuse" class="nota-gris" aria-live="polite">Incluye tu número de registro, la fecha y todo lo que capturaste.</p>'+
     '</div>'+
     '<div class="pasos-sig"><h3 style="font-size:16px;color:var(--guinda);margin-bottom:10px">¿Qué sigue?</h3><ol>'+
       '<li>La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.</li>'+
@@ -3294,14 +3318,14 @@ function pAcuse(){
     (val('tipo_denunciado')==='gobierno' ?
       '<div class="aviso" style="text-align:left">Señalaste a una autoridad. La Secretaría valorará los hechos y, de resultar procedente, emitirá las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección. <span class="pendiente">Vía de respuesta por confirmar</span></div>' : '')+
     '<h3 class="sub-seccion sub-seccion-sm">Puedes seguir aportando información</h3>'+
-    '<p class="nota-gris">Si más adelante consigues fotografías, videos o documentos que fortalezcan tu denuncia, puedes enviarlos con tu número de folio. No hace falta presentar una denuncia nueva. <span class="pendiente">Vía para aportar información, por confirmar</span></p>'+
+    '<p class="nota-gris">Si más adelante consigues fotografías, videos o documentos que fortalezcan tu denuncia, puedes enviarlos con tu número de registro. No hace falta presentar una denuncia nueva. <span class="pendiente">Vía para aportar información, por confirmar</span></p>'+
     '<h3 class="sub-seccion sub-seccion-sm">Dónde dar seguimiento</h3>'+
     '<p class="nota-gris">Tu denuncia la atiende '+
       '<strong>'+esc(val('dg_nombre')||'la Secretaría del Medio Ambiente')+'</strong>. '+
       (val('dg')==='FEDERAL'
         ? 'La Secretaría registró tu denuncia y la remite a esa autoridad; el seguimiento del asunto corre por cuenta de ella. '
         : 'Quien responde a tus preguntas sobre el avance es la <strong>Jefatura de Unidad Departamental de Seguimiento a Denuncias</strong> de esa dirección general. ')+
-      'Con tu folio también puedes acudir a la unidad administrativa que atiende la zona, señalada al pie de esta página. '+
+      'Con tu número de registro también puedes acudir a la unidad administrativa que atiende la zona, señalada al pie de esta página. '+
       /* La DGIVA confirmó sus datos (DEC-188); la DGCORENADR, todavía no. */
       ((val('dg')==='DGCORENADR' || val('dg')==='FEDERAL') ? '<span class="pendiente">Domicilio, horario y teléfono de esta unidad, por confirmar</span>' : '')+'</p>'+
     '</div>'+
@@ -3313,8 +3337,12 @@ function pAcuse(){
    control y error—, aunque alguna vaya vacía. Así los campos que
    comparten renglón alinean sus controles con subgrid y no se
    desfasan cuando uno tiene ayuda y el otro no. */
+/* Lo opcional también se dice: la DGIVA no notó que la fecha y las gestiones
+   previas ya eran opcionales (OBS-0016, OBS-0030, DEC-191). Con la
+   obligatoriedad apagada desde el panel no se marca ni lo uno ni lo otro. */
 function marca_opc(oblig){
-  return oblig ? ' <span class="req" aria-hidden="true">*</span><span class="solo-lector"> (obligatorio)</span>' : '';
+  if(oblig) return ' <span class="req" aria-hidden="true">*</span><span class="solo-lector"> (obligatorio)</span>';
+  return cfg.validar ? ' <span class="opc">(opcional)</span>' : '';
 }
 
 function campo(k,etq,tipo,oblig,ayuda,extra){
@@ -4869,7 +4897,7 @@ function construyeAcusePdf(){
         var wLogo = logo ? Math.min(AN - cajaW - etqW - 14, 34 * logo.w / logo.h) : 0, hLogo = logo ? wLogo * logo.h / logo.w : 0;
         var top = H - M + 10;
         if(logo) cs += 'q ' + wLogo.toFixed(2) + ' 0 0 ' + hLogo.toFixed(2) + ' ' + M + ' ' + (top - altoCab / 2 - hLogo / 2).toFixed(2) + ' cm /Im1 Do Q\n';
-        [['Folio', val('folio') || '', GUINDA], ['Clave de consulta', val('clave_consulta') || '', GUINDA]].forEach(function(r, i){
+        [['Número de registro', val('folio') || '', GUINDA], ['Clave de consulta', val('clave_consulta') || '', GUINDA]].forEach(function(r, i){
           var yc = top - 4 - i * 19;
           caja(xCaja, yc - 15, cajaW, 15, CASILLA);
           texto(r[0], xCaja - 6, yc - 10.6, 'F2', 7.5, GRIS, 'der');
@@ -4880,7 +4908,7 @@ function construyeAcusePdf(){
         y -= 22;
       } else {
         texto('Acuse de recepción de denuncia ambiental', M, H - M + 8, 'F1', 8, GRIS);
-        texto('Folio ' + val('folio'), W - M, H - M + 8, 'F1', 8, GRIS, 'der');
+        texto('Registro ' + val('folio'), W - M, H - M + 8, 'F1', 8, GRIS, 'der');
         y = H - M;
         cs += GUINDA + ' RG 1 w ' + M + ' ' + y + ' m ' + (W - M) + ' ' + y + ' l S\n';
         y -= 16;
@@ -4939,9 +4967,9 @@ function construyeAcusePdf(){
 
     seccion('Información para quien denuncia');
     /* La consulta todavia no existe (AD-02): el acuse no la da por hecha (DEC-164). */
-    parrafo('Conserva este acuse: con el folio y la clave de consulta podrás conocer el estado de tu denuncia cuando la consulta en línea esté disponible.',
+    parrafo('Conserva este acuse: con el número de registro y la clave de consulta podrás conocer el estado de tu denuncia cuando la consulta en línea esté disponible.',
       M, AN, 'F1', 9, TEXTO, 2);
-    parrafo('La clave de consulta es personal y no puede reponerse: guárdala junto con el folio.', M, AN, 'F2', 9, TEXTO, 2);
+    parrafo('La clave de consulta es personal y no puede reponerse: guárdala junto con el número de registro.', M, AN, 'F2', 9, TEXTO, 2);
     /* Con punto, el area que atiende va en «Dónde ocurre»; sin el, se dice
        que falta determinarla. */
     if(!val('lat')) parrafo('La Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.', M, AN, 'F1', 9, TEXTO, 2);
@@ -5225,10 +5253,10 @@ function descargaAcuse(b){
     });
   }).then(function(){
     if(b){ b.removeAttribute('aria-disabled'); b.removeAttribute('aria-busy'); b.textContent = 'Descargar de nuevo'; }
-    var n = $('notaAcuse'); if(n) n.textContent = 'Listo: revisa tus descargas. Guárdalo junto con tu folio.';
+    var n = $('notaAcuse'); if(n) n.textContent = 'Listo: revisa tus descargas. Guárdalo junto con tu número de registro.';
   }).catch(function(){
     if(b){ b.removeAttribute('aria-disabled'); b.removeAttribute('aria-busy'); b.textContent = 'Descargar acuse (PDF)'; }
-    var n = $('notaAcuse'); if(n) n.textContent = 'No se pudo generar el PDF. Anota tu folio y vuelve a intentarlo.';
+    var n = $('notaAcuse'); if(n) n.textContent = 'No se pudo generar el PDF. Anota tu número de registro y vuelve a intentarlo.';
   });
 }
 

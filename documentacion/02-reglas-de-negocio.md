@@ -110,7 +110,7 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 **RN-23.** La temporalidad se captura tipificada —hecho único, recurrente o permanente— y no como texto libre.
 
-**RN-24.** Los presuntos responsables y la información sobre permisos o autorizaciones se capturan en campos propios, separados de los elementos probatorios.
+**RN-24.** Los presuntos responsables se capturan en campos propios, separados de los elementos probatorios. Ya no se pregunta por permisos o autorizaciones (DEC-191): verificarlos corresponde a la inspección.
 
 **RN-24 bis.** El formulario pregunta **a quién se denuncia** —una persona, una empresa o negocio, una autoridad de gobierno, o «no lo sé»—. No es un dato estadístico: cuando los hechos son atribuibles a una autoridad, el artículo 331 de la Ley Ambiental de la Ciudad de México dispone que la Secretaría **emita las recomendaciones necesarias** para promover ante ella la ejecución de las acciones procedentes, en lugar de instaurar un procedimiento de inspección y sanción. Al elegir esa opción el formulario lo advierte, pide precisar la dependencia, alcaldía u organismo, y el acuse informa que la vía será la recomendación. Responder «no lo sé» no impide presentar la denuncia.
 

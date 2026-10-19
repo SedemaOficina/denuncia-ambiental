@@ -42,7 +42,9 @@ with sync_playwright() as pw:
     b = pg.evaluate("""() => { const c = document.getElementById('c_lat'); const h = c.querySelector('h3').innerText, a = c.querySelector('.ayuda').innerText;
       return {h, a, ast: !!c.querySelector('h3 .req'), oblig: esObligatorio('lat'), caja: document.getElementById('panelCapas').innerText, pasa: valida(2)}; }""")
     afirma(b['oblig'] is False and not b['ast'], 'con dirección, el punto no es obligatorio ni lleva asterisco')
-    afirma(b['h'].strip() == 'Marca el lugar en el mapa', 'el título es el mismo con o sin dirección (DEC-171): «%s»' % b['h'])
+    # Desde DEC-191, con dirección el título añade «(opcional)»; las palabras no cambian (DEC-171).
+    afirma(b['h'].replace('(opcional)','').strip() == 'Marca el lugar en el mapa' and '(opcional)' in b['h'],
+           'el título es el mismo con o sin dirección y aquí dice «(opcional)» (DEC-171, DEC-191): «%s»' % b['h'])
     afirma('basta la dirección' in b['a'], 'y la ayuda dice que basta la dirección')
     afirma('alcald' not in b['a'].lower(), 'sin volver a mencionar la alcaldía, que ya se escribió arriba')
     afirma('Ubicar en el mapa' not in b['caja'] and 'Puedes continuar' in b['caja'],

@@ -85,10 +85,11 @@ with sync_playwright() as pw:
               mudos: dts.filter(d => !d.querySelector('button.editar') && !d.querySelector('.derivado')).map(d => d.textContent.trim()),
               conBoton: dts.filter(d => d.querySelector('button.editar')).length};
     }""")
-    afirma(r['total'] >= 20, 'el detalle sigue resumiendo %d renglones: no se perdió nada' % r['total'])
+    # 19 renglones y 16 botones desde DEC-191: sale el renglón de permisos.
+    afirma(r['total'] >= 19, 'el detalle sigue resumiendo %d renglones: no se perdió nada' % r['total'])
     afirma(r['mudos'] == [], 'y ninguno se quedó sin decir cómo se corrige: %s' % r['mudos'])
     # 17 desde DEC-188: sale el renglón de la razón social, que ya no se pide.
-    afirma(r['conBoton'] >= 17, 'con %d botones de corregir dentro de los bloques' % r['conBoton'])
+    afirma(r['conBoton'] >= 16, 'con %d botones de corregir dentro de los bloques' % r['conBoton'])
 
     # La salida para leerlo todo.
     t0 = pg.evaluate("() => (document.getElementById('btnRevTodo')||{}).textContent")
