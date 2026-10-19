@@ -176,6 +176,7 @@ with sync_playwright() as pw:
         {tiene_direccion:'no', materia:'tala', tipo_denunciado:'gobierno', autoridad_nivel:'cdmx',
          identificacion:'nombre', dom_fuera_cdmx:'si'},
         {tiene_direccion:'si', materia:'tala', tipo_denunciado:'particular', identificacion:'anonima', fecha_nosabe:'si'},
+        {tiene_direccion:'si', materia:'ruido', tipo_denunciado:'empresa', identificacion:'nombre'},
         /* La unica materia con una pregunta propia en el paso 3: el servicio
            del vehiculo. Sin esta ruta, un campo que si se rinde pareceria
            fantasma solo porque ninguna de las otras tres lo recorre. */
@@ -219,11 +220,13 @@ with sync_playwright() as pw:
     sobra = pg.evaluate("""() => {
       cargaEscenario('urbano'); irA(3);
       const sinRazon = !document.getElementById('f_establecimiento') && !('establecimiento' in OBLIG);
-      const antes = val('resp_encargado');
-      guarda('tipo_denunciado','particular'); limpiaResponsable(); render();
+      const antes = val('resp_senas');
+      /* Desde DEC-192 persona y empresa comparten un solo campo; lo que no
+         debe sobrevivir es el paso a autoridad, que no lo tiene. */
+      guarda('tipo_denunciado','gobierno'); limpiaResponsable(); render();
       irA(6);
       const resumen = document.getElementById('app').innerText;
-      return {sinRazon, antes, despues: val('resp_encargado'),
+      return {sinRazon, antes, despues: val('resp_senas'),
               enResumen: antes ? resumen.split(antes).length - 1 : 0};
     }"""); pg.wait_for_timeout(400)
     afirma(sobra['sinRazon'], 'la razón social ya no se pide ni existe en OBLIG (DEC-188)')

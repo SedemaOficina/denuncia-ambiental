@@ -1,18 +1,18 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-191 · 19 de octubre de 2026
+**Versión:** DEC-192 · 19 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos que llena la persona | **61** |
+| Campos que llena la persona | **60** |
 | Datos que viajan a la base sin verse en pantalla | **13** |
 | Datos que calcula el formulario y se muestran | 15 |
-| Datos personales | **24** (39 %) |
-| Obligatorios en este formulario | 26 de 61 |
-| Campos con obligatoriedad condicionada | 26 |
+| Datos personales | **22** (37 %) |
+| Obligatorios en este formulario | 26 de 60 |
+| Campos con obligatoriedad condicionada | 27 |
 | Datos sin uso declarado | **0** |
 
 ---
@@ -26,9 +26,9 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 17 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 17 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 21 |
-| **Responsable** | Identificar y emplazar al probable infractor | 8 |
+| **Responsable** | Identificar y emplazar al probable infractor | 6 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
-| **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 18 |
+| **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 19 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 2 |
 | **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 5 |
 
@@ -81,9 +81,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | ¿Quién es responsable de los hechos? | Opcional | No | Siempre | Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar. |
 | Ámbito de la autoridad señalada | Opcional | No | Sólo cuando se señala a una autoridad | Encamina la recomendación del art. 331: de él depende si se dirige a una dependencia de la Ciudad, a una alcaldía o a la federación, y contra qué catálogo se propone el nombre. |
 | Dependencia, alcaldía u organismo señalado | Opcional | No | Sólo cuando se señala a una autoridad y se eligió su ámbito | Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla. |
-| Nombre de la persona o del negocio | Opcional | **Sí** | Siempre | Emplazamiento del probable infractor (art. 289). |
-| Cómo se identifica al responsable | Opcional | **Sí** | Siempre | Identificación del responsable en campo cuando no se conoce su nombre. |
-| Persona encargada o representante | Opcional | **Sí** | Siempre | Persona con quien se entiende la diligencia (art. 283). |
+| Datos del responsable | Opcional | **Sí** | Siempre | Lo que la persona sabe de quien realiza los hechos —nombre, papel en el lugar, señas—: sirve al emplazamiento del probable infractor (art. 289) y a identificar con quién se entiende la diligencia (art. 283). |
 | Área o persona servidora pública | Opcional | **Sí** | Siempre | Precisa el área a la que se dirige la recomendación. |
 | Número de obra, contrato o permiso | Opcional | No | Siempre | Permite requerir el expediente de la obra pública señalada. |
 | ¿Ya reportaste ante otra autoridad? | Opcional | No | Siempre | Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga. |
@@ -106,6 +104,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Apellido materno | Opcional | **Sí** | Siempre | Completa la identificación en el registro administrativo. |
 | Teléfono | Obligatorio | **Sí** | Siempre | Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119). |
 | Correo electrónico | Obligatorio | **Sí** | Siempre | Contacto por escrito: la Secretaría puede escribir para aclarar datos o informar el trámite. No hay envío automático de correos (DEC-134). En la denuncia anónima también es obligatorio: es la única forma de contactar a quien no da su nombre (DEC-119, DEC-120). |
+| Acepta que la medición se haga desde su domicilio | Opcional | No | Sólo en denuncias de ruido presentadas con datos | Permite programar la medición de ruido desde el domicilio de quien denuncia, que es donde se percibe. |
 | Vivo fuera de la Ciudad de México | Opcional | No | Siempre | Casilla de encaminamiento: cambia alcaldía y colonia del catálogo por entidad federativa, municipio y colonia escrita, y admite cualquier código postal (DEC-136). |
 | Domicilio · calle | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Domicilio · número exterior | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |

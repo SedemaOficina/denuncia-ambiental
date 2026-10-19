@@ -1248,12 +1248,10 @@ var OBLIG = {
      cond:function(){ return val('tipo_denunciado')==='gobierno' && !!val('autoridad_nivel'); } ,
      cond_txt:'Sólo cuando se señala a una autoridad y se eligió su ámbito',
      uso:'Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla.'},
-  resp_nombre:      {p:3, oblig:false, etq:'Nombre de la persona o del negocio', dp:true, fin:'Responsable',
-     uso:'Emplazamiento del probable infractor (art. 289).'},
-  resp_senas:       {p:3, oblig:false, etq:'Cómo se identifica al responsable', dp:true, fin:'Responsable',
-     uso:'Identificación del responsable en campo cuando no se conoce su nombre.'},
-  resp_encargado:   {p:3, oblig:false, etq:'Persona encargada o representante', dp:true, fin:'Responsable',
-     uso:'Persona con quien se entiende la diligencia (art. 283).'},
+  /* Un solo campo abierto para persona, empresa o «no lo sé»: sustituye al
+     nombre y a la persona encargada (OBS-0025, OBS-0029, DEC-192). */
+  resp_senas:       {p:3, oblig:false, etq:'Datos del responsable', dp:true, fin:'Responsable',
+     uso:'Lo que la persona sabe de quien realiza los hechos —nombre, papel en el lugar, señas—: sirve al emplazamiento del probable infractor (art. 289) y a identificar con quién se entiende la diligencia (art. 283).'},
   resp_area:        {p:3, oblig:false, etq:'Área o persona servidora pública', dp:true, fin:'Responsable',
      uso:'Precisa el área a la que se dirige la recomendación.'},
   resp_obra:        {p:3, oblig:false, etq:'Número de obra, contrato o permiso', dp:false, fin:'Responsable',
@@ -1283,6 +1281,11 @@ var OBLIG = {
      uso:'Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119).'},
   correo:           {p:5, oblig:true,  etq:'Correo electrónico', dp:true, fin:'Contacto',
      uso:'Contacto por escrito: la Secretaría puede escribir para aclarar datos o informar el trámite. No hay envío automático de correos (DEC-134). En la denuncia anónima también es obligatorio: es la única forma de contactar a quien no da su nombre (DEC-119, DEC-120).'},
+  /* La medición de ruido se hace donde se percibe: se pregunta sólo en ruido
+     y sólo a quien da sus datos (OBS-0032, DEC-192). */
+  ruido_medicion:   {p:5, oblig:false, etq:'Acepta que la medición se haga desde su domicilio', dp:false, fin:'Contacto',
+     cond:function(){ return val('materia')==='ruido' && val('identificacion')==='nombre'; } , cond_txt:'Sólo en denuncias de ruido presentadas con datos',
+     uso:'Permite programar la medición de ruido desde el domicilio de quien denuncia, que es donde se percibe.'},
   /* La casilla va antes que los campos: decide la forma del domicilio. En la
      Ciudad, alcaldia en lista y colonia del catalogo; fuera, entidad en lista,
      municipio y colonia escritos (DEC-136). */
@@ -1412,7 +1415,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-191', fecha:'19 de octubre de 2026', nombre:'Versión 3 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-192', fecha:'19 de octubre de 2026', nombre:'Versión 4 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1422,7 +1425,7 @@ var CONTACTO_ANONIMO = ['correo','telefono'];
 var EXIGIDO_ANONIMO  = ['correo'];
 var SOLO_IDENTIFICADO = ['nombre','apellido_paterno','apellido_materno','telefono','correo',
   'dom_fuera_cdmx','dom_entidad','dom_municipio','dom_calle','dom_num_ext','dom_num_int','dom_tiene_mz_lote','dom_manzana','dom_lote','dom_entre_calles',
-  'dom_alcaldia','dom_colonia','dom_cp'];
+  'dom_alcaldia','dom_colonia','dom_cp','ruido_medicion'];
 
 function esObligatorio(k){
   if(!cfg.validar) return false;
@@ -1519,7 +1522,7 @@ var ESCENARIOS = [
       hechos:'El taller pinta carrocerías en la banqueta sin cabina ni extracción. El olor a solvente entra a las viviendas de los dos edificios contiguos y dura toda la tarde.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-10',
       tipo_denunciado:'empresa',
-      resp_encargado:'El encargado se identifica como Raúl',
+      resp_senas:'El encargado se identifica como Raúl',
       reporto_antes:'si',
       gestiones:'Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.',
       otras_pruebas:'Los vecinos de los dos edificios pueden dar testimonio.',
@@ -1583,7 +1586,6 @@ var ESCENARIOS = [
       hechos:'Un particular cercó con malla ciclónica una franja del parque junto a la barda norte y cobra veinte pesos por entrar. Ya cortó arbustos para ampliar el paso.',
       temporalidad:'permanente', fecha_hecho:'2026-08-20',
       tipo_denunciado:'particular',
-      resp_nombre:'No se conoce el nombre',
       resp_senas:'Un hombre de unos cincuenta años que cerca con malla una parte del bosque y cobra el acceso.',
       reporto_antes:'si',
       gestiones:'Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde.',
@@ -1630,7 +1632,6 @@ var ESCENARIOS = [
       hechos:'En el jardín interior de una casona están derribando árboles y retirando la tierra para hacer un estacionamiento. Trabajan también en fin de semana.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-12',
       tipo_denunciado:'particular',
-      resp_nombre:'Se desconoce el nombre del propietario',
       resp_senas:'Los trabajadores dicen que la obra es del dueño de la casa.',
       reporto_antes:'si',
       gestiones:'Lo reporté a la alcaldía Coyoacán el 14 de septiembre y no hubo respuesta.',
@@ -1654,7 +1655,7 @@ var ESCENARIOS = [
       hechos:'La chimenea de la fábrica echa humo negro todas las noches a partir de las diez. El hollín se queda en los patios y en la ropa tendida.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-03',
       tipo_denunciado:'empresa',
-      resp_encargado:'Se desconoce',
+      resp_senas:'Se desconoce',
       reporto_antes:'no',
       otras_pruebas:'Video del humo grabado de noche.',
       identificacion:'nombre',
@@ -1682,7 +1683,7 @@ var ESCENARIOS = [
       hechos:'La planta tira el agua del lavado de garrafones directo a la coladera de la calle, con espuma y olor a cloro, todos los días por la mañana.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-08',
       tipo_denunciado:'empresa',
-      resp_encargado:'Atiende una señora que se presenta como encargada',
+      resp_senas:'Atiende una señora que se presenta como encargada',
       reporto_antes:'no',
       otras_pruebas:'Fotografías de la espuma en la coladera.',
       identificacion:'nombre',
@@ -2797,8 +2798,8 @@ function avisoFecha(){
    en la version funcional habria viajado al expediente. Se limpia lo que ya no
    se puede ver ni corregir (DEC-100). */
 var CLAVES_RESP = {
-  particular:  ['resp_nombre','resp_senas'],
-  empresa:     ['resp_encargado'],
+  particular:  ['resp_senas'],
+  empresa:     ['resp_senas'],
   gobierno:    ['autoridad_denunciada','resp_area','resp_obra'],
   desconocido: ['resp_senas'],
   nose:        ['resp_senas']
@@ -2912,16 +2913,18 @@ function bloqueDenunciado(){
        que denuncia una media filiación y un domicilio: el tono era el de un
        parte, no el de una denuncia ambiental. Lo que la visita de inspección
        necesita saber es qué papel tiene esa persona en el lugar (DEC-105). */
-    return campo('resp_nombre','Nombre de la persona','texto',false,'Si no lo sabes, deja el campo vacío y responde lo de abajo')+
-      campoArea('resp_senas','¿Qué relación tiene con el lugar?',false,
-        'Por ejemplo: es el dueño del predio, es quien encargó la obra, es el encargado del negocio, es un vecino, es quien opera la maquinaria. Si no lo sabes, escribe cómo lo reconocerías.',3);
+    /* Un solo campo abierto (OBS-0025, OBS-0029, DEC-192). */
+    return campoArea('resp_senas','¿Qué sabes de quien lo hace?',false,
+        'Su nombre, si lo conoces, y qué relación tiene con el lugar: es el dueño del predio, quien encargó la obra, quien opera la maquinaria. Si no lo sabes, déjalo en blanco.',3);
   }
 
   if(t==='empresa'){
     /* Ya no se pide la razón social: repetía el nombre comercial y empujaba a
        buscar documentos de un tercero (OBS-0026, DEC-188). */
-    return (val('es_estab')!=='si' ? campo('resp_nombre','Nombre del negocio o del lugar','texto',false,'Por ejemplo: Taller Automotriz Hernández, Bodega La Central') : '')+
-      campo('resp_encargado','Persona encargada o representante','texto',false,'Quién atiende o dirige, si lo sabes');
+    return campoArea('resp_senas','¿Qué sabes de la empresa o negocio?',false,
+        (val('es_estab')==='si'
+          ? 'Quién lo atiende o lo dirige, o lo que sepas de él. Si no lo sabes, déjalo en blanco.'
+          : 'Su nombre, quién lo atiende o lo dirige, o lo que sepas de él. Si no lo sabes, déjalo en blanco.'),3);
   }
 
   if(t==='gobierno'){
@@ -3076,7 +3079,14 @@ function pDenunciante(){
         '</div>');
     /* Para qué sirven los datos y que no se difunden lo dice el aviso de
        privacidad; repetirlo aquí era un segundo aviso sin valor legal (DEC-133). */
+    if(val('materia')==='ruido')
+      h += campoSiNo('ruido_medicion','¿Aceptas que la medición del ruido se haga desde tu domicilio?',
+        'El ruido se mide desde el lugar donde se percibe. Si aceptas, personal de la Secretaría podría acudir a tu domicilio para hacer la medición.');
   }
+  /* En la anónima no hay domicilio: se dice, para que quien quiera la
+     medición en su casa sepa qué elegir (OBS-0032, DEC-192). */
+  if(anon && val('materia')==='ruido')
+    h += '<div class="aviso">En una denuncia anónima no hay domicilio, por lo que la medición del ruido no podrá hacerse desde tu casa. Si quieres que se mida ahí, elige «Escribo mis datos».</div>';
 
   /* Estadistica. Dos preguntas al final, fuera del bloque de contacto: no
      sirven para identificar a nadie ni entran al expediente, y por eso se
@@ -3226,9 +3236,9 @@ function pRevision(){
         if(!t) return '';
         return t.t + (val('tipo_denunciado')==='gobierno' && val('autoridad_denunciada') ? ' \u00b7 '+val('autoridad_denunciada') : '');
       })(), 3, 'tipo_denunciado')+
-    r('Datos del responsable', [val('resp_nombre'),val('autoridad_denunciada'),
-        val('resp_area'),val('resp_encargado'),val('resp_obra'),val('resp_senas')]
-        .filter(Boolean).join('\n'), 3, 'resp_nombre')+
+    r('Datos del responsable', [val('autoridad_denunciada'),
+        val('resp_area'),val('resp_obra'),val('resp_senas')]
+        .filter(Boolean).join('\n'), 3, val('tipo_denunciado')==='gobierno' ? 'resp_area' : 'resp_senas')+
     r('Gestiones previas', val('gestiones'), 3, 'reporto_antes');
 
   var fPruebas =
@@ -3245,6 +3255,7 @@ function pRevision(){
          val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'']
           .concat(fueraCdmx() ? [val('dom_municipio'), val('dom_entidad')] : [val('dom_alcaldia'), 'Ciudad de M\u00e9xico'])
           .filter(Boolean).join(', '), 5, 'dom_calle'))+
+    ((anon || val('materia')!=='ruido') ? '' : r('Medici\u00f3n del ruido desde su domicilio', {si:'Acepta', no:'No acepta'}[val('ruido_medicion')]||'', 5, 'ruido_medicion'))+
     r('Datos estad\u00edsticos', (function(){
         var g = {mujer:'Mujer',hombre:'Hombre',no_binaria:'No binaria',otro:'Otro',nd:'Prefiere no decirlo'}[val('sexo_genero')]||'';
         var e = {'-18':'Menor de 18 a\u00f1os','18-29':'18 a 29 a\u00f1os','30-44':'30 a 44 a\u00f1os',
