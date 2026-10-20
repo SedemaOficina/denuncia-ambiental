@@ -33,7 +33,7 @@ obs = [  # (revisor, área, pantalla, lo que se pidió, decisión)
  (DG, 'Paso 1', 'Redactar «Una obra realiza un mal manejo de sus residuos de la construcción o demolición».', 'Aceptada con ajuste'),
  (DG, 'Paso 2', 'Cambiar «Calle o vialidad» por «Calle o avenida».', 'Aceptada'),
  (DG, 'Paso 3', 'Ejemplos de hechos: humo, ruido, descarga, derrame, derribo, poda, tiro de residuos.', 'Aceptada'),
- (DG, 'Paso 3', 'Permitir dar la fecha sin precisar el día exacto.', 'Aceptada'),
+ (DG, 'Paso 3', 'Permitir dar la fecha sin precisar el día exacto.', 'En discusión'),
  (CJ, 'Portada', 'No prometer un tiempo de llenado («diez minutos»).', 'Aceptada'),
  (CJ, 'Portada', 'Sustituir «oficina» por «Dirección General» o «unidad competente».', 'Aceptada con ajuste'),
  (CJ, 'Portada', 'Reescribir la pregunta de la denuncia anónima en «usted» e incluir el envío del informe de acciones por correo.', 'Aceptada con ajuste'),
@@ -60,6 +60,8 @@ preguntas = [
   'Con el cruce espacial del formulario, el punto cae en suelo de conservación (La Magdalena Contreras).'),
  ('OBS-0024', 'Giros fuera de competencia', '¿Qué giros de la lista «Tipo de establecimiento» quedan fuera de la competencia de la CIVASU?',
   'Lista actual: obra en construcción o demolición; taller mecánico, hojalatería o pintura; industria o fábrica; bodega o almacén; restaurante, fonda o cocina económica; bar, cantina, salón de fiestas o antro; tienda, abarrotes u otro comercio; panadería o tortillería; carnicería, pollería o pescadería; lavandería o tintorería; gasolinera o estación de servicio; estacionamiento o pensión; hospital, clínica, consultorio o laboratorio; escuela, oficina o edificio público; banco de materiales, mina o tiro de tierra; centro de acopio o reciclaje; vivero, granja, establo o rastro; espectáculo público, feria o evento; otro.'),
+ ('OBS-0016', 'Fecha aproximada', '¿Basta con registrar que la persona no conoce la fecha, o se necesita una fecha aproximada (mes y año)?',
+  'Desde DEC-206 el formulario pregunta «¿Conoces la fecha en que ocurrió o inició?»; con «No» no se pide fecha y ya no se registra una aproximada, que era lo que pedía la observación.'),
  ('OBS-0020', 'Casos de otra autoridad', '¿Qué autoridad atiende el arbolado en vía pública y los hechos dentro de viviendas, condominios o unidades habitacionales? ¿Qué casos de arbolado sí atiende la Secretaría?',
   'El formulario tiene la tarjeta «Daño a arbolado urbano» como competencia de la Secretaría; en 2026, el 40.7 % de las denuncias de arbolado se declararon incompetencia.'),
  ('P-09', 'Datos de la DGCORENADR', 'Domicilio, horario de atención y teléfono de la Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas (DGCORENADR).',
@@ -109,7 +111,7 @@ banda(r, 'Validación de observaciones · Formulario de Denuncia Ambiental',
 r.column_dimensions['A'].width = 34; r.column_dimensions['B'].width = 16
 r.column_dimensions['C'].width = 34; r.column_dimensions['D'].width = 16
 datos = [
- ('Versión del formulario', 'Versión 6 · Validación DGIVA'),
+ ('Versión del formulario', 'Versión 15 · Validación DGIVA'),
  ('Liga de la versión publicada', 'https://sedemaoficina.github.io/denuncia-ambiental/'),
  ('Observaciones registradas', '32 (19 de la Dirección General, 11 de la COJUMIVA, 1 nominal y 1 de prueba)'),
  ('Periodo de revisión', 'Del 2 al 19 de octubre de 2026'),
@@ -170,7 +172,7 @@ o = wb.create_sheet('Observaciones')
 o.sheet_view.showGridLines = False
 cols = ['ID', 'Revisor', 'Área', 'Pantalla', 'Lo que se pidió', 'Decisión', 'Cómo quedó en el formulario', 'Versión', 'Estado en la hoja', 'Validación DGIVA', 'Comentario DGIVA']
 anchos = [10, 20, 12, 10, 42, 15, 62, 14, 14, 16, 34]
-banda(o, 'Observaciones de la revisión y su atención', 'Tabla 1. Observaciones registradas en la hoja de revisión, decisión de la Secretaría y texto vigente en la versión 5.', len(cols))
+banda(o, 'Observaciones de la revisión y su atención', 'Tabla 1. Observaciones registradas en la hoja de revisión, decisión de la Secretaría y texto vigente en la versión 15.', len(cols))
 encabezado(o, 5, cols, anchos)
 for i, ((rev, area), pant, pidio, dec) in enumerate(obs):
     fl = 6 + i
@@ -188,7 +190,7 @@ dv.error, dv.errorTitle = 'Elige una opción de la lista.', 'Validación DGIVA'
 o.add_data_validation(dv); dv.add('J6:J37')
 for txt, col in (('"En discusión"', 'FFF3CD'), ('"Descartada"', 'EEEEEE')):
     o.conditional_formatting.add('F6:F37', FormulaRule(formula=['$F6=%s' % txt], fill=relleno(col)))
-fn = o.cell(row=39, column=1, value='Fuente: hoja «Revisión · Formulario de Denuncia Ambiental» (modo revisión del formulario) y documento 05 «Decisiones y pendientes», DEC-188 a DEC-196. '
+fn = o.cell(row=39, column=1, value='Fuente: hoja «Revisión · Formulario de Denuncia Ambiental» (modo revisión del formulario) y documento 05 «Decisiones y pendientes», DEC-188 a DEC-210. '
             'Nota: las columnas en color crema son para llenado de la DGIVA.')
 o.merge_cells('A39:K39'); fn.font = f(8, color=GRIS, italic=True); fn.alignment = Alignment(wrap_text=True); o.row_dimensions[39].height = 24
 o.freeze_panes = 'B6'
