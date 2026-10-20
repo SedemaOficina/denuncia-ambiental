@@ -1494,7 +1494,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-223', fecha:'20 de octubre de 2026', nombre:'Versión 26 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-224', fecha:'20 de octubre de 2026', nombre:'Versión 27 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -3817,6 +3817,7 @@ function campoArea(k,etq,oblig,ayuda,filas,marcador){
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
     '<textarea id="'+id+'" name="'+k+'" rows="'+(filas||4)+'"'+((LIMITES[k]&&LIMITES[k].max)?' maxlength="'+LIMITES[k].max+'"':'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false"'+((marcador||MARCADORES[k])?' placeholder="'+esc(marcador||MARCADORES[k])+'"':'')+' style="min-height:'+((filas||4)*26+16)+'px" '+
+      (FORMATO[k] ? 'onblur="avisaFormato(\''+k+'\')" ' : '')+
       'oninput="autoAlto(this);guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');document.getElementById(\''+idN+'\').textContent=contadorTxt(\''+k+'\')">'+esc(val(k))+'</textarea>'+
     '<div class="contador" id="'+idN+'">'+esc(contadorTxt(k))+'</div>'+
     '<div class="err" id="'+idE+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
@@ -4007,6 +4008,34 @@ function pareceTexto(x){
   }).length;
 }
 
+/* Letras al azar en un campo de texto libre (DEC-224). pareceTexto() exige
+   un relato completo y sirve sólo para «Cuenta qué pasó»; los demás campos
+   admiten respuestas cortas —«Portón negro», «Mz. 3, Lt. 12»—, así que aquí
+   no se mide la extensión: sólo se detecta lo que no puede ser español. */
+function pareceRelleno(x){
+  x = String(x||'').trim(); if(!x) return false;
+  if(/([a-záéíóúüñ!?])\1{3,}/i.test(x)) return true;          /* aaaa, !!!!; no las cifras: 10000 */
+  var palabras = x.toLowerCase().split(/[^a-záéíóúüñ]+/).filter(Boolean);
+  var malas = palabras.filter(function(p){
+    return p.length > 22                                      /* ninguna palabra común es tan larga */
+      || /[bcdfghjklmnñpqrstvwxz]{5,}/.test(p)               /* cinco consonantes seguidas */
+      || (p.length >= 5 && !/[aeiouáéíóúüy]/.test(p))         /* palabra larga sin vocal */
+      || /qwe|wert|erty|rtyu|tyui|yuio|uiop|asd|sdf|dfgh|fghj|ghjk|hjkl|zxc|xcvb|cvbn|vbnm/.test(p);   /* filas del teclado */
+  });
+  if(malas.length) return true;
+  /* La misma palabra tres veces seguidas: «hola hola hola». */
+  for(var i = 2; i < palabras.length; i++){
+    if(palabras[i] === palabras[i-1] && palabras[i] === palabras[i-2]) return true;
+  }
+  var letras = palabras.join('');
+  if(letras.length >= 15){
+    var voc = (letras.match(/[aeiouáéíóú]/g) || []).length / letras.length;
+    if(voc < 0.25 || voc > 0.72) return true;
+  }
+  return false;
+}
+var NO_SE_ENTIENDE = 'No se entiende lo que escribiste. Escríbelo con tus palabras.';
+
 /* Cuando el problema no es que el dato falte sino lo que dice, el mensaje no
    puede ser «este dato es necesario». */
 var MOTIVO = {};
@@ -4029,7 +4058,14 @@ var FORMATO = {
                : 'El código postal va a cinco dígitos.'; }},
   telefono: {re:/^\d{10}$/, limpia:function(v){ return v.replace(/\D/g,''); },
              msg:'El teléfono va a diez dígitos, con la clave de la Ciudad.'},
-  correo:   {re:/^[^\s@]+@[^\s@]+\.[^\s@]+$/, msg:'Revisa el correo: le falta la arroba o el dominio.'}
+  correo:   {re:/^[^\s@]+@[^\s@]+\.[^\s@]+$/, msg:'Revisa el correo: le falta la arroba o el dominio.'},
+  /* Textos libres: que no sean letras al azar (DEC-224). */
+  referencias:     {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  nombre_lugar:    {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  tipo_estab_otro: {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  resp_senas:      {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  gestiones:       {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  otras_pruebas:   {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE}
 };
 /* El del domicilio sigue la casilla: en la Ciudad, el intervalo de la
    Ciudad; fuera, cinco digitos (DEC-135, DEC-136). */
@@ -4046,6 +4082,7 @@ FORMATO.dom_cp = {
 function formatoMal(k){
   var f = FORMATO[k]; if(!f) return false;
   var v = String(val(k) || '').trim(); if(!v) return false;
+  if(f.prueba) return !f.prueba(v);
   return !f.re.test(f.limpia ? f.limpia(v) : v);
 }
 
@@ -4101,7 +4138,7 @@ function valida(n){
     MOTIVO.hechos = 'La descripción es demasiado corta: faltan '+(40-val('hechos').trim().length)+' caracteres.';
     empuja(faltan,'hechos');
   }
-  if(n===3 && val('hechos').trim().length>=40 && !pareceTexto(val('hechos'))){
+  if(n===3 && val('hechos').trim().length>=40 && (!pareceTexto(val('hechos')) || pareceRelleno(val('hechos')))){
     MOTIVO.hechos = 'El texto no se entiende. Describe con tus palabras qué está ocurriendo.';
     empuja(faltan,'hechos');
   }

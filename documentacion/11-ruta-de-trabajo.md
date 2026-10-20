@@ -1176,3 +1176,9 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 
 **Qué cambió.** Viviendas, condominios, unidades habitacionales y vía pública: la DGIVA recibe, inspecciona y, si corresponde, deriva a la alcaldía; construcción, siempre la DGIVA. El formulario no cambia. Hoja de control y Excel de validación al día; quedan para discusión OBS-0024 y OBS-0027.
 
+### 20 de octubre de 2026 · textos libres sin relleno (DEC-224)
+
+**Qué cambió.** `pareceRelleno()` revisa los seis campos de texto libre además del relato; entra en la tabla `FORMATO` con una función de prueba en lugar de expresión regular, así que el aviso al salir y la validación al continuar no pueden decir cosas distintas. Batería 34 nueva: detección, ausencia de falsos positivos sobre los escenarios y respuestas cortas reales, bloqueo en obligatorio y en opcional con relleno, campo opcional vacío, aviso al salir y relato con relleno intercalado.
+
+**Verificación de cierre.** Batería completa en verde.
+
