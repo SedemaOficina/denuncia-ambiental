@@ -148,10 +148,10 @@ with sync_playwright() as pw:
         todo = ' | '.join(fq)
         afirma(len(r['derechos']) == 0 and 'Lo que la ley te reconoce' not in r['tarjeta'],
                '%s: «Lo que la ley te reconoce» ya no es un bloque de la portada (DEC-184)' % nom)
-        afirma(all(x in todo for x in ['Cualquier persona puede denunciar', 'Secretaría valora los hechos con el mismo rigor',
+        afirma(all(x in todo for x in ['Cualquier persona puede denunciar', 'Se atiende con el mismo rigor',
                                         'Tus datos son confidenciales', 'Basta con describir lo que ocurre']),
                '%s: sus cuatro puntos siguen dichos, en las preguntas frecuentes' % nom)
-        afirma(len(fq) == 9 and len(set(d.split('?')[0] for d in fq)) == 9, '%s: nueve preguntas, ninguna repetida (%d)' % (nom, len(fq)))
+        afirma(len(fq) == 8 and len(set(d.split('?')[0] for d in fq)) == 8, '%s: ocho preguntas, ninguna repetida; sin «¿Necesito fotos o documentos?» (DEC-220) (%d)' % (nom, len(fq)))
         afirma('pedir que sean confidenciales' not in todo and 'Tus datos son confidenciales' in todo,
                '%s: la confidencialidad se dice como regla, no como algo que se pide (DEC-119)' % nom)
         # Tres preguntas a la vista y un botón que despliega las nueve (DEC-185).
@@ -159,9 +159,9 @@ with sync_playwright() as pw:
           const b = document.querySelector('#app .faq-ver'); const a = vis(), t0 = b.innerText.trim(); b.click();
           const c = vis(), t1 = b.innerText.trim(), e1 = b.getAttribute('aria-expanded'); b.click();
           return {antes: a, despues: c, vuelve: vis(), t0: t0, t1: t1, e1: e1}; }""")
-        afirma(fv['antes'] == 3 and fv['despues'] == 9 and fv['vuelve'] == 3 and fv['t0'] == 'Ver todas las preguntas (9)'
+        afirma(fv['antes'] == 3 and fv['despues'] == 8 and fv['vuelve'] == 3 and fv['t0'] == 'Ver todas las preguntas (8)'
                and fv['t1'] == 'Ver menos preguntas' and fv['e1'] == 'true',
-               '%s: se ven tres preguntas y «Ver todas las preguntas (9)» despliega las nueve: %s' % (nom, fv))
+               '%s: se ven tres preguntas y «Ver todas las preguntas (8)» despliega las ocho: %s' % (nom, fv))
         # La versión que se valida va al final del pie (DEC-187).
         ver = pg.evaluate("""() => { const v = document.getElementById('pieVersion'), c = document.querySelector('footer .pie-cierre');
           return {txt: v ? v.innerText.trim() : '', nombre: VERSION_FORMULARIO.nombre, ultimo: !!v && c.lastElementChild === v, visible: !!v && v.offsetParent !== null}; }""")
@@ -180,14 +180,14 @@ with sync_playwright() as pw:
         # El encabezado ya titula y describe: la portada no lo repite.
         afirma('Denuncia Ambiental' not in r['tarjeta'], '%s: la portada no repite el título del encabezado' % nom)
         afirma('Ten a la mano' not in r['tarjeta'], '%s: no vuelve «Ten a la mano»; lo dice «Qué necesitas»' % nom)
-        afirma('Cultura de la denuncia.' in r['tarjeta'] and 'Justicia restaurativa.' in r['tarjeta'] and 'visión con la que la Secretaría' in r['tarjeta']
+        afirma('Cultura de la denuncia.' in r['tarjeta'] and 'Justicia restaurativa.' in r['tarjeta'] and 'no sólo sancionar' in r['tarjeta']
                and 'Denunciar no es pelearse con nadie' not in r['tarjeta'] and 'Por qué importa que denuncies' not in r['tarjeta'],
                '%s: cultura de la denuncia y justicia restaurativa, como visión de la Secretaría, sustituyen al párrafo de DEC-173 (DEC-178)' % nom)
         afirma('visita de inspección' not in r['tarjeta'], '%s: la entrada ya no promete una visita de inspección (DEC-219)' % nom)
         afirma(pg.evaluate("""() => { const b = [...document.querySelectorAll('#app .portada-bloque')].find(x => x.innerText.includes('Justicia restaurativa'));
-          return !!b && b.querySelectorAll('li').length === 2 && b.querySelectorAll('svg').length === 0; }""") and 'antes que sólo actuar de manera punitiva' in r['tarjeta']
+          return !!b && b.querySelectorAll('li').length === 2 && b.querySelectorAll('svg').length === 0; }""") and 'no sólo sancionar' in r['tarjeta']
                and 'imponer una multa' not in r['tarjeta'],
-               '%s: las dos ideas van en viñetas, sin ícono (DEC-215), y la justicia restaurativa dice «antes que sólo actuar de manera punitiva» (DEC-179)' % nom)
+               '%s: las dos ideas van en viñetas, sin ícono (DEC-215), y la justicia restaurativa, simplificada, dice «no sólo sancionar» (DEC-220)' % nom)
         vin = pg.evaluate("""() => { const b = [...document.querySelectorAll('#app .portada-bloque')].find(x => x.innerText.includes('¿Qué necesitas?'));
           const li = b ? b.querySelector('li') : null, cs = li ? getComputedStyle(li) : null;
           const faq = document.querySelector('#app .faq');

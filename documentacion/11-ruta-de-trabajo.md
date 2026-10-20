@@ -36,6 +36,7 @@ Prototipo navegable, sin servidor, con los datos y las capas embebidos.
 ### Fase 2 · Contrato de datos y servicios
 
 > **Antes de abrir esta fase: cambiar el entorno de trabajo a Claude Code.**
+> **Acordado (DEC-221, 20 oct 2026).** Primera tarea de la fase: instalar Claude Code en la computadora de Liber. Con eso el commit y el `push` dejan de ser manuales; hasta entonces se sigue con «Push origin» en GitHub Desktop.
 > Hasta aquí el trabajo ha sido un archivo y unos documentos, y la app de escritorio basta.
 > De la fase 2 en adelante hay muchos archivos que correr y probar, migraciones, y trabajo
 > continuo con el repositorio: eso pertenece a una herramienta que vive en la máquina, con
@@ -1158,4 +1159,10 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 ### 20 de octubre de 2026 · entrada de la portada (DEC-219)
 
 **Qué cambió.** Se quita la frase de la visita de inspección del párrafo de entrada. Prueba 04 comprueba que no vuelva. Batería completa en verde.
+
+### 20 de octubre de 2026 · textos simplificados (DEC-220) y Claude Code en la fase 2 (DEC-221)
+
+**Qué cambió.** Se revisó el texto visible de todas las pantallas y variantes; Liber aceptó las propuestas salvo dos. Pruebas 01, 04, 25 y 29 reescritas contra los textos nuevos; la hoja de control de observaciones registra el cambio en OBS-0007, OBS-0018 y OBS-0019. Se dejó acordado el paso a Claude Code al abrir la fase 2 (nota en la fase 2).
+
+**Verificación de cierre.** Batería completa en verde.
 

@@ -39,7 +39,7 @@ with sync_playwright() as pw:
       const b = [...document.querySelectorAll('#app button')].find(x => x.textContent.includes('Descargar acuse'));
       return {boton: !!b, texto: document.getElementById('app').innerText}; }""")
     afirma(ac['boton'], 'la pantalla final ofrece «Descargar acuse (PDF)»')
-    afirma('no se envían por correo' in ac['texto'], 'y dice que el folio y el acuse no se envían por correo')
+    afirma('no te llegarán por correo' in ac['texto'], 'y dice que el número de registro y el acuse no llegan por correo')
     afirma('Consulta del estado: por desarrollar' in ac['texto'], 'la consulta del estado se marca como pendiente: todavía no existe (DEC-164)')
     fx = pg.evaluate("""() => { const f = document.querySelector('.datos-acuse'), d = document.querySelector('.acuse-pdf .btn');
       const cf = getComputedStyle(f), cd = getComputedStyle(d);

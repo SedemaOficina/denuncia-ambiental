@@ -25,7 +25,7 @@ with sync_playwright() as pw:
     p = pg.evaluate("() => document.getElementById('app').innerText")
     afirma('Presencial' in p and 'En persona' not in p, 'la tarjeta dice «Presencial» (OBS-0001)')
     afirma('Disponible las 24 horas, todos los días' in p and 'diez minutos' not in p, 'sin promesa de tiempo (OBS-0006, OBS-0017)')
-    afirma('unidad administrativa competente' in p and 'qué oficina' not in p, '«unidad administrativa competente», no «oficina» (OBS-0007, OBS-0018)')
+    afirma('qué oficina' not in p and 'La ubicación determina' not in p, 'sin «oficina» y sin la viñeta de la ubicación, retirada al simplificar (OBS-0007, OBS-0018, DEC-220)')
     afirma('San Juan de Aragón' in p and '9689 5009' in p, 'domicilio y teléfono de la DGIVA (OBS-0008)')
     afirma(' tala ' not in p, 'la entrada ya no dice «tala» (OBS-0002)')
     fq = pg.evaluate("() => [...document.querySelectorAll('#app .faq details')].map(d => d.textContent).join(' ')")
@@ -33,7 +33,7 @@ with sync_playwright() as pw:
            and 'Ley General' not in fq, 'la confidencialidad se conserva y cita la ley local, no la General (OBS-0012)')
     afirma('ni vivir en el lugar' in fq and 'En ruido, la medición se hace desde donde se percibe' in fq,
            'se conserva «ni vivir en el lugar» y se precisa el caso del ruido (OBS-0011)')
-    afirma('con el mismo rigor, des o no tu nombre' in fq and 'unidad administrativa que atiende tu denuncia pueda ponerse en contacto contigo' in fq
+    afirma('Se atiende con el mismo rigor' in fq and 'sólo te pedimos un correo por si hay que aclarar algo' in fq
            and 'informe de acciones' not in fq, 'la denuncia anónima, con lo propuesto y sin prometer informe por correo (OBS-0019)')
     afirma('se guarda automáticamente' in fq and 'el historial o los datos de navegación' in fq, 'dejarla a medias advierte del historial (OBS-0021, OBS-0022)')
 

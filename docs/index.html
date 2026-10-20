@@ -1496,7 +1496,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-219', fecha:'20 de octubre de 2026', nombre:'Versión 24 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-221', fecha:'20 de octubre de 2026', nombre:'Versión 25 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2213,7 +2213,7 @@ function pInicio(){
        (DEC-147). Su titulo afirma algo; no repite el del encabezado. */
     '<h2 class="rotulo-portada">Denunciar el daño ambiental es tu derecho</h2>'+
     /* Dice para que sirve la pagina y quien la opera (DEC-168). */
-    '<p class="portada-lead">Esta es la plataforma de la Secretaría del Medio Ambiente de la Ciudad de México para denunciar hechos que dañan el ambiente, '+
+    '<p class="portada-lead">Denuncia aquí hechos que dañan el ambiente, '+
       'como un derribo de árboles sin permiso, una descarga a la barranca o el humo de un establecimiento.</p>'+
     /* Sin «La Secretaría revisa cada denuncia y … la atiende con una visita
        de inspección» (DEC-219): prometía una vía de atención antes de valorar
@@ -2227,7 +2227,7 @@ function pInicio(){
         '<div class="medio-cab"><h3 id="medioLinea">En línea</h3><span class="medio-etq">Desde aquí</span></div>'+
         '<p>Disponible las 24 horas, todos los días.</p>'+
         '<ul class="medio-mini"><li>Recibes tu número de registro al terminar</li><li>Puedes pausar y seguir después, desde el mismo dispositivo y navegador</li>'+
-          '<li>La ubicación determina qué unidad administrativa competente la atiende</li></ul>'+
+          '</ul>'+
         '<button type="button" class="btn btn-primario btn-ancho" onclick="irA(1)">Iniciar mi denuncia</button>'+
       '</section>'+
       '<section class="medio" aria-labelledby="medioPersona">'+
@@ -2245,9 +2245,9 @@ function pInicio(){
       '<h2 class="rotulo-portada">La visión de la Secretaría</h2>'+
       '<ul class="necesitas">'+
         '<li>'+
-          '<span><b>Cultura de la denuncia.</b> La Secretaría no puede estar en cada calle: actúa cuando alguien avisa. Denunciar no es un conflicto entre vecinos, es cuidar lo que es de todos.</span></li>'+
+          '<span><b>Cultura de la denuncia.</b> La Secretaría actúa cuando alguien avisa. Denunciar es cuidar lo que es de todos.</span></li>'+
         '<li>'+
-          '<span><b>Justicia restaurativa.</b> Es la visión con la que la Secretaría atiende cada caso: detener el daño, repararlo y evitar que se repita, antes que sólo actuar de manera punitiva.</span></li>'+
+          '<span><b>Justicia restaurativa.</b> Detener el daño, repararlo y evitar que se repita, no sólo sancionar.</span></li>'+
       '</ul>'+
     '</div>'+
 
@@ -2270,18 +2270,17 @@ function pInicio(){
         /* Los cuatro derechos que antes iban en su propio bloque, «Lo que la ley
            te reconoce», viven aquí como preguntas (DEC-184). */
         '<details><summary>¿Tengo que ser la persona afectada para denunciar?</summary><p>No. Cualquier persona puede denunciar: no necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio. En ruido, la medición se hace desde donde se percibe; por eso conviene que vivas o trabajes cerca.</p></details>'+
-        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí. La Secretaría valora los hechos con el mismo rigor, des o no tu nombre. Al final eliges si escribes tus datos o si la presentas como denuncia anónima. En la anónima sólo te pedimos un correo, para que la unidad administrativa que atiende tu denuncia pueda ponerse en contacto contigo si necesita aclarar algo.</p></details>'+
+        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí. Al final eliges presentarla anónima; sólo te pedimos un correo por si hay que aclarar algo. Se atiende con el mismo rigor.</p></details>'+
         '<details><summary>¿La persona o el negocio que denuncio sabrá quién fui?</summary><p>No. Tus datos son confidenciales: tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado. Están protegidos por la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México.</p></details>'+
         '<details><summary>¿Necesito saber qué norma se incumple?</summary><p>No. Basta con describir lo que ocurre.</p></details>'+
-        '<details><summary>¿Qué hago si no sé la dirección exacta?</summary><p>Puedes marcar el punto en el mapa o pegar la ubicación de Google Maps. Si no puedes marcarlo, basta la dirección. Si el lugar no tiene calle ni número, como un bosque o una barranca, el formulario te pide referencias para llegar.</p></details>'+
-        '<details><summary>¿Necesito fotos o documentos?</summary><p>No son obligatorios, pero ayudan a verificar los hechos. Puedes adjuntar fotos (JPG o PNG), videos (MP4 o MOV) y documentos (Word, PDF o Excel).</p></details>'+
+        '<details><summary>¿Qué hago si no sé la dirección exacta?</summary><p>Marca el punto en el mapa o pega la ubicación de Google Maps. Si el lugar no tiene calle ni número, te pedimos cómo llegar.</p></details>'+
         '<details><summary>¿Qué pasa si mi caso no lo atiende la Secretaría?</summary><p>Al elegir qué quieres denunciar, en «Mi caso no está en la lista» encuentras los casos que atiende otra autoridad, como la basura en la calle o el ruido de vecinos, y a dónde acudir.</p></details>'+
         '<details><summary>¿Puedo dejarla a medias y terminarla después?</summary><p>Sí. El avance se guarda automáticamente en este navegador. Para retomarla, entra desde el mismo dispositivo y navegador. Si borras el historial o los datos de navegación, el avance se pierde.</p></details>'+
         '<details><summary>¿Cómo doy seguimiento a mi denuncia?</summary><p>Con el número de registro y la clave de consulta que recibes al enviarla. Al terminar, descarga tu acuse en PDF y guárdalo. <span class="pendiente">Consulta del estado: por desarrollar</span></p></details>'+
       '</div>'+
       '<button type="button" class="btn btn-secundario faq-ver" aria-expanded="false" aria-controls="faqLista" '+
         'onclick="var f=document.getElementById(\'faqLista\'), c=f.classList.toggle(\'faq-corta\'); this.setAttribute(\'aria-expanded\', c ? \'false\' : \'true\'); '+
-        'this.textContent = c ? \'Ver todas las preguntas (\' + f.querySelectorAll(\'details\').length + \')\' : \'Ver menos preguntas\'">Ver todas las preguntas (9)</button>'+
+        'this.textContent = c ? \'Ver todas las preguntas (\' + f.querySelectorAll(\'details\').length + \')\' : \'Ver menos preguntas\'">Ver todas las preguntas (8)</button>'+
     '</div>'+
 
   '</div>';
@@ -2335,7 +2334,7 @@ function pMateria(){
   }
 
   var h = '<div class="tarjeta"><h2><span class="num">1</span>¿Qué quieres denunciar?</h2>'+
-    '<p class="sub">Elige el supuesto que más se parezca a lo que ocurre; al elegirlo pasas al siguiente paso.</p>'+
+    '<p class="sub">Elige el que más se parezca a lo que ocurre.</p>'+
     '<div class="filtro-materia">'+
       '<label class="solo-lector" for="f_filtro">Buscar entre los supuestos</label>'+
       '<div class="busca">'+
@@ -2375,7 +2374,7 @@ function pMateria(){
           '<span>Mi caso no está en la lista</span>'+
           '<span class="fo-flecha" aria-hidden="true">'+(abierto?'⌃':'⌄')+'</span>'+
         '</button>'+
-        (abierto ? '<p class="sub" style="margin:12px 0 8px">Estos supuestos los atiende otra autoridad. Selecciónalo para conocer a dónde acudir.</p>'+
+        (abierto ? '<p class="sub" style="margin:12px 0 8px">Elige uno para ver a dónde acudir.</p>'+
           /* A dónde acudir se abre justo debajo del supuesto elegido, no al
              final de la lista: en teléfono quedaba fuera de la pantalla y
              nadie bajaba a buscarlo (DEC-216). */
@@ -2398,8 +2397,8 @@ function pMateria(){
 }
 
 function fichaDeriva(d){
-  var h = '<div class="redir" id="fichaDeriva" role="alert"><h3 id="fichaDerivaTit" tabindex="-1">Esta denuncia debe presentarse ante otra autoridad</h3>'+
-      '<p class="nota-gris">El supuesto «'+esc(d.nom)+'» no es competencia de la Secretaría del Medio Ambiente. Acude a:</p>';
+  var h = '<div class="redir" id="fichaDeriva" role="alert"><h3 id="fichaDerivaTit" tabindex="-1">Esto lo atiende otra autoridad</h3>'+
+      '<p class="nota-gris">Acude a:</p>';
     d.inst.forEach(function(i){
       /* La alcaldia es una de dieciseis: no lleva telefono ni liga, sino a
          cual acudir (DEC-158). */
@@ -2410,7 +2409,7 @@ function fichaDeriva(d){
                   : '<div class="dato"><span class="pendiente">Teléfono y liga por confirmar con la DGIVA</span></div>')+'</div>';
     });
     if(d.ojo) h += '<div class="aviso" style="margin-top:16px">'+d.ojo+'</div>';
-    h += '<p style="margin-top:16px;font-size:var(--t-md);color:var(--gris)">Si tu caso también incluye un hecho de competencia de esta Secretaría, elígelo en la lista de arriba.</p></div>';
+    h += '<p style="margin-top:16px;font-size:var(--t-md);color:var(--gris)">Si además hay algo que atiende la Secretaría, elígelo en la lista de arriba.</p></div>';
   return h;
 }
 
@@ -2471,7 +2470,7 @@ function pUbicacion(){
   if(!contestada){
     return h +
       campoSiNo('tiene_direccion','¿El lugar tiene calle y número?',
-        'Responde «No» si ocurre en un área natural protegida, una barranca, un bosque urbano, un terreno forestal o de cultivo, un camino o un canal.',
+        'Responde «No» si es un bosque, barranca, área natural, terreno de cultivo, camino o canal.',
         'render()')+
       '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(1)">'+
       '<span class="fl" aria-hidden="true">\u2039</span>Regresar</button></div></div>';
@@ -2482,7 +2481,7 @@ function pUbicacion(){
      dice su bloque: el del mapa, que el punto decide quién atiende; el del
      sitio sin domicilio, que permite al personal llegar. */
   h +=     campoSiNo('tiene_direccion','¿El lugar tiene calle y número?',
-      'Responde «No» si ocurre en un área natural protegida, una barranca, un bosque urbano, un terreno forestal o de cultivo, un camino o un canal.',
+      'Responde «No» si es un bosque, barranca, área natural, terreno de cultivo, camino o canal.',
       'render()');
 
   /* ---- Bloque A · la dirección (sólo cuando la hay) ---- */
@@ -2524,13 +2523,13 @@ function pUbicacion(){
     '<p class="ayuda" style="margin-bottom:14px">'+
       (sinDir
         ? 'Como el sitio no tiene dirección, el punto es la única forma de saber dónde está. De él depende qué área de la Secretaría atiende tu denuncia.'
-        : 'Con el punto se sabe desde ahora qué área atiende tu denuncia. <strong>Si no puedes marcarlo, basta la dirección</strong>: la Secretaría ubicará el lugar con ella. '+
+        : 'Con el punto sabemos desde ahora qué área la atiende. <strong>Si no puedes marcarlo, basta la dirección.</strong> '+
           '<span class="solo-local">Al terminar de escribir la dirección, el punto se coloca solo; si quedó fuera de lugar, arrástralo.</span>')+'</p>'+
 
     '<ul class="vias">'+
       '<li>'+
         campo('coord_pegar','Pegar la ubicación de Google Maps o las coordenadas','texto',false,
-          'Al pegarla, el punto se coloca solo. También puedes dar un clic sobre el mapa, y arrastrar el punto para ajustarlo.',
+          'También puedes tocar el mapa y arrastrar el punto.',
           'placeholder="Por ejemplo: 19.4326, -99.1332" '+
           'onpaste="setTimeout(colocaPorTexto,0)" onblur="colocaPorTexto()"')+
         /* Atajo para ir por la ubicacion sin salir a buscar la aplicacion (DEC-159). */
@@ -2555,9 +2554,8 @@ function pUbicacion(){
   /* ---- Bloque C · sin domicilio, cómo se identifica y cómo se llega ---- */
   if(sinDir){
     h += '<h3 class="sub-seccion">Cómo identificar el sitio</h3>'+
-      '<p class="ayuda" style="margin-bottom:16px">Esto sustituye al domicilio: es lo que permite al personal de inspección llegar.</p>'+
       campo('nombre_lugar','Nombre del lugar','texto',esObligatorio('nombre_lugar'),
-        'El paraje, la comunidad, el canal, el camino. Si el punto cae en un área que la Secretaría tiene registrada, se propone su nombre.')+
+        'Paraje, comunidad, canal o camino.')+
       (val('capa_nombre') && val('nombre_lugar')!==val('capa_nombre') ?
         '<div class="aviso" style="margin:-12px 0 18px">Según las capas de la Secretaría, el punto está en <strong>'+esc(val('capa_nombre'))+'</strong>. '+
           '<button type="button" class="enlace" onclick="usaNombreDelPunto()">Usar ese nombre</button></div>' : '')+
@@ -2858,7 +2856,7 @@ function pHechos(){
     'if(val(\'conoce_fecha\')===\'no\')guarda(\'fecha_hecho\',\'\');render()')+
   (val('conoce_fecha')==='si'
     ? anidado('<div class="fila">'+
-        campo('fecha_hecho','Fecha en que ocurrió o inició','fecha',esObligatorio('fecha_hecho'),'Elige la fecha en el calendario. Si no la sabes con exactitud, puede ser aproximada.','max="'+hoyISO()+'"')+
+        campo('fecha_hecho','Fecha','fecha',esObligatorio('fecha_hecho'),'Puede ser aproximada.','max="'+hoyISO()+'"')+
       '</div>')
     : '')+
   '<div id="avisoFecha">'+avisoFecha()+'</div>'+
@@ -2894,9 +2892,9 @@ function pHechos(){
   /* Sin la pregunta de permisos: verificarlos le toca a la inspección, y
      pedirlos empujaba a buscar documentos de un tercero (OBS-0027, DEC-191). */
   '<h3 class="sub-seccion">Gestiones previas</h3>'+
-  campoSiNo('reporto_antes','¿Ya reportaste estos hechos ante otra autoridad?','A la alcaldía, a la Procuraduría Ambiental, a la policía o a cualquier otra instancia.')+
+  campoSiNo('reporto_antes','¿Ya reportaste estos hechos ante otra autoridad?','Alcaldía, PAOT, policía u otra.')+
   (val('reporto_antes')==='si'
-    ? anidado(campoArea('gestiones','¿Ante quién, cuándo y qué respuesta recibiste?',false,'Este dato distingue el caso de quien ya acudió y no obtuvo respuesta.',2))
+    ? anidado(campoArea('gestiones','¿Ante quién, cuándo y qué respuesta recibiste?',false,'',2))
     : '')+
 
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(2)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
@@ -2968,9 +2966,9 @@ function heredaEstablecimiento(){
    colonia (DEC-126). */
 function bloqueAutoridad(){
   var n = val('autoridad_nivel'), lista = AUTORIDADES[n] || [];
-  var ayuda = n==='alcaldia' ? 'Escribe o elige la alcaldía. Si no sabes cuál, déjalo en blanco.'
-            : n==='otra'     ? 'Escríbela como la conozcas. Si no la sabes, déjalo en blanco.'
-            : 'Nombre o sigla, como SEDEMA o CONAGUA. Si no sabes cuál, déjalo en blanco.';
+  var ayuda = n==='alcaldia' ? 'Escribe o elige la alcaldía.'
+            : n==='otra'     ? 'Escríbela como la conozcas.'
+            : 'Nombre o sigla, como SEDEMA o CONAGUA.';
   return lista.length
     ? campoLista('autoridad_denunciada','¿Cuál?', ayuda, lista)
     : campo('autoridad_denunciada','¿Cuál?','texto',esObligatorio('autoridad_denunciada'), ayuda,'autocomplete="off"');
@@ -3086,14 +3084,14 @@ function bloqueDenunciado(){
   }
 
   // No lo sé
-  return '<div class="aviso">No saber quién es el responsable <strong>no impide denunciar</strong>. El personal de inspección lo identifica en la visita. Describe lo que hayas observado: es lo que permite reconocerlo en campo.</div>'+
-    campoArea('resp_senas','¿Qué has observado de quien lo hace?',false,'Vehículos y sus placas, uniformes o logotipos, cuántas personas son, en qué horario llegan, si siempre son los mismos.',3);
+  /* Sin el aviso «No saber quién es el responsable…» (DEC-220): lo dice la
+     ayuda de la pregunta y la del campo dice qué observar. */
+  return campoArea('resp_senas','¿Qué has observado de quien lo hace?',false,'Vehículos y sus placas, uniformes o logotipos, cuántas personas son, en qué horario llegan, si siempre son los mismos.',3);
 }
 
 function pEvidencia(){
   var h = '<div class="tarjeta"><h2><span class="num" aria-hidden="true">4</span>Fotos, videos o documentos'+marca_opc(esObligatorio('archivos'))+'</h2>'+
-  '<p class="sub">Las fotografías y videos son el insumo más útil para programar una inspección.</p>'+
-  '<div class="aviso aviso-ok"><strong>Si no tienes las pruebas ahora, no esperes.</strong> Presenta tu denuncia hoy y después podrás seguir aportando fotografías, videos o documentos con tu número de registro.</div>'+
+  '<div class="aviso aviso-ok"><strong>¿No las tienes ahora?</strong> Presenta tu denuncia y envíalas después con tu número de registro.</div>'+
   '<div class="campo" id="c_archivos">'+
   '<button type="button" class="zona-carga" onclick="$(\'inputArch\').click()" '+
     'ondragover="event.preventDefault();this.classList.add(\'encima\')" '+
@@ -3173,7 +3171,7 @@ function pDenunciante(){
     '<div class="ayuda"></div>'+
     '<div class="opciones">'+
       opcion('nombre','Escribo mis datos',
-        'Recibes número de registro y acuse, y la Secretaría puede pedirte información adicional. Para consultar el estado necesitarás el número de registro.')+
+        'La Secretaría te notifica en tu domicilio.')+
       opcion('anonima','Denuncia anónima',
         'No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda ponerse en contacto contigo.')+
     '</div><div class="err" id="e_identificacion">Elige una de las dos formas para poder continuar.</div></div>';
@@ -3184,10 +3182,9 @@ function pDenunciante(){
      (DEC-120); el telefono sigue opcional. Los dos, si se escriben, se
      revisan en su forma (DEC-119). */
   if(anon){
-    h += '<p class="ayuda" style="margin:4px 0 14px">No te pedimos tu nombre. Sólo necesitamos un correo para que la Secretaría pueda ponerse en contacto contigo si necesita aclarar algo. El teléfono es opcional.</p>'+
-      '<div class="fila">'+
+    h += '<div class="fila">'+
         campo('correo','Correo electrónico de contacto','email',esObligatorio('correo'),'','autocomplete="email" inputmode="email"')+
-        campo('telefono','Teléfono','tel',false,'Opcional · a diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
+        campo('telefono','Teléfono','tel',false,'A diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
       '</div>';
   }
 
@@ -3206,7 +3203,7 @@ function pDenunciante(){
        servicio de envio automatico. El domicilio es la via de notificacion
        y se pide siempre en esta ruta (DEC-134). */
     '<h3 class="sub-seccion">Domicilio para recibir notificaciones</h3>'+
-    '<p class="ayuda" style="margin-bottom:12px">Ahí te notificará la Secretaría. Puede ser distinto del lugar de los hechos.</p>'+
+    '<p class="ayuda" style="margin-bottom:12px">Puede ser distinto del lugar de los hechos.</p>'+
     /* Misma forma y mismo orden que la direccion del lugar (DEC-124, DEC-135).
        Quien vive fuera de la Ciudad lo marca, y la parte final cambia:
        entidad y municipio en vez de alcaldia, colonia escrita en vez del
@@ -3431,7 +3428,7 @@ function pRevision(){
   if(resHechos.length > 95) resHechos = resHechos.slice(0,95).replace(/\s+\S*$/,'') + '\u2026';
 
   var h = '<div class="tarjeta"><h2><span class="num">6</span>Revisa antes de enviar</h2>'+
-  '<p class="sub">Cada bloque muestra lo principal. Abre el que quieras revisar a detalle; ah\u00ed puedes corregir dato por dato.</p>'+
+  '<p class="sub">Abre un bloque para ver el detalle o corregirlo.</p>'+
   '<div class="rev-acciones"><button type="button" class="rev-todo" id="btnRevTodo" onclick="alternaDetalleRevision()">Ver todo el detalle</button></div>'+
   bloqueRev('materia','Qu\u00e9 se denuncia', m?(m.formal||m.nom):'', r('Materia', m?(m.formal||m.nom):'', 1))+
   /* En la linea va la direccion y el tipo de suelo, no el area que atiende:
@@ -3464,7 +3461,7 @@ function pAcuse(){
   return '<div class="tarjeta"><div class="acuse">'+
     '<div class="marca">'+svgIcono('check',40,'#fff')+'</div>'+
     '<h2>Tu denuncia fue recibida</h2>'+
-    '<p style="color:var(--gris)">Guarda tu número de registro y tu clave de consulta y descarga tu acuse: no se envían por correo electrónico. Con el número de registro y la clave consultas el estado de tu denuncia. <span class="pendiente">Consulta del estado: por desarrollar</span></p>'+
+    '<p style="color:var(--gris)">Guarda tu número de registro y tu clave y descarga tu acuse: no te llegarán por correo. Con ambos consultas el estado de tu denuncia. <span class="pendiente">Consulta del estado: por desarrollar</span></p>'+
     /* Folio y clave en una ficha clara, con rótulo y «Copiar» como enlace:
        el bloque guinda relleno se confundía con un botón (DEC-162). La clave
        no puede reponerse: se dice aquí y en el PDF (DEC-151). */
@@ -3486,7 +3483,7 @@ function pAcuse(){
     '<div class="pasos-sig"><h3 style="font-size:16px;color:var(--guinda);margin-bottom:10px">¿Qué sigue?</h3><ol>'+
       '<li>La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.</li>'+
       '<li>Si procede, se integra el expediente y se programa la visita de inspección.</li>'+
-      '<li>El inspector ambiental, autorizado por la Secretaría, practica la visita y levanta el acta correspondiente.</li>'+
+      '<li>Personal de inspección visita el lugar y levanta un acta.</li>'+
       '<li>'+(anon ? 'Si la Secretaría necesita algo más, te escribirá al correo que dejaste.' : 'Se te notifica el resultado en el domicilio que registraste.')+'</li>'+
     '</ol>'+
     (val('tipo_denunciado')==='gobierno' ?
@@ -3498,8 +3495,7 @@ function pAcuse(){
       '<strong>'+esc(val('dg_nombre')||'la Secretaría del Medio Ambiente')+'</strong>. '+
       (val('dg')==='FEDERAL'
         ? 'La Secretaría registró tu denuncia y la remite a esa autoridad; el seguimiento del asunto corre por cuenta de ella. '
-        : 'Quien responde a tus preguntas sobre el avance es la <strong>Jefatura de Unidad Departamental de Seguimiento a Denuncias</strong> de esa dirección general. ')+
-      'Con tu número de registro también puedes acudir a la unidad administrativa que atiende la zona, señalada al pie de esta página. '+
+        : 'Para preguntar por el avance, comunícate con la <strong>Jefatura de Unidad Departamental de Seguimiento a Denuncias</strong> de esa dirección general, con tu número de registro. ')+
       /* La DGIVA confirmó sus datos (DEC-188); la DGCORENADR, todavía no. */
       ((val('dg')==='DGCORENADR' || val('dg')==='FEDERAL') ? '<span class="pendiente">Domicilio, horario y teléfono de esta unidad, por confirmar</span>' : '')+'</p>'+
     '</div>'+
@@ -3832,7 +3828,7 @@ function campoArea(k,etq,oblig,ayuda,filas,marcador){
    pantalla, para no reiniciar el mapa ni perder el punto colocado. */
 function selTipoEstab(){
   return campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,esObligatorio('tipo_estab'),
-    'Si ninguna opción encaja, elige «Otro» al final de la lista y escríbelo.','actualizaOtroEstab()');
+    'Si no encaja ninguna, elige «Otro».','actualizaOtroEstab()');
 }
 function campoOtroEstab(){
   return campo('tipo_estab_otro','Especifica el tipo de establecimiento','texto',esObligatorio('tipo_estab_otro'),'');
@@ -5193,7 +5189,7 @@ function construyeAcusePdf(){
     var anon = esAnonima();
     ['La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.',
      'Si procede, se integra el expediente y se programa la visita de inspección.',
-     'El inspector ambiental, autorizado por la Secretaría, practica la visita y levanta el acta correspondiente.',
+     'Personal de inspección visita el lugar y levanta un acta.',
      anon ? 'Si la Secretaría necesita algo más, te escribirá al correo que dejaste.'
           : 'Se te notifica el resultado en el domicilio que registraste.'].forEach(function(t, i){
       var lins = pdfCortar(t, 'F1', 9, AN - 38 - 10), h = lins.length * 11.6 + 7.4;

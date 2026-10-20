@@ -318,7 +318,7 @@ with sync_playwright() as pw:
     # ahi si aplica. Lo que no debe aparecer es la promesa sobre la direccion.
     afirma('Con la direcci' not in txt and 'no tiene dirección' in txt,
            'sin domicilio, no se promete que la direccion coloque el punto')
-    afirma('clic sobre el mapa' in txt and 'Google Maps' in txt,
+    afirma('tocar el mapa' in txt and 'Google Maps' in txt,
            'y se ofrecen las dos vias que si funcionan ahi')
 
     afirma(errores == [], 'sin errores de consola en el recorrido principal: %s' % errores[:3])
