@@ -48,7 +48,8 @@ with sync_playwright() as pw:
         afirma(palabra not in m['t'].lower(), 'el paso 1 ya no dice «%s»' % palabra)
     afirma(m['ruido'] == 'Ruido o vibraciones · De una industria o fábrica', 'la tarjeta de ruido es la de la industria (OBS-0004): %s' % m['ruido'])
     afirma('INVEA' in m['inv'], 'el ruido de comercios se deriva al INVEA (DEC-190)')
-    afirma(all(x in m['ids'] for x in ['d_olores', 'd_visual', 'd_ruido_comercio']), 'olores, anuncios y ruido de comercios están en «Mi caso no está en la lista»')
+    afirma('d_ruido_comercio' in m['ids'] and not any(x in m['ids'] for x in ['d_olores', 'd_visual']),
+           'el ruido de comercios está en «Mi caso no está en la lista»; olores y anuncios no se mencionan (DEC-222)')
 
     # ---- Paso 2 y 3 ----
     t2 = pg.evaluate("() => { cargaEscenario('urbano'); irA(2); return document.getElementById('app').innerText; }")

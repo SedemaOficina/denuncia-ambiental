@@ -19,9 +19,7 @@ ESPERA = {
   'd_peligrosos':     {'profepa': ['haz_tu_denuncia.html']},
   'd_ruido_comercio': {'invea':   ['tel:+525547377700', 'atencion.invea@cdmx.gob.mx', 'Carolina 132', 'invea.cdmx.gob.mx', 'viernes de 9:00 a 15:00']},
   'd_uso_suelo':      {'invea':   ['Carolina 132'], 'paot': ['inicia-tu-denuncia.php', 'tel:+525552650780', 'Medellín 202', '15430']},
-  'd_olores':         {'paot':    ['inicia-tu-denuncia.php', 'Disponible las 24 horas']},
-  'd_visual':         {'paot':    ['inicia-tu-denuncia.php']},
-  'd_mascotas':       {'paot':    ['Medellín 202']},
+  'd_mascotas':       {'paot':    ['Medellín 202', 'inicia-tu-denuncia.php', 'Disponible las 24 horas']},
 }
 with sync_playwright() as pw:
     nav = pw.chromium.launch(executable_path=CHROMIUM)

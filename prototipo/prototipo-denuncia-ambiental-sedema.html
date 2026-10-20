@@ -1194,12 +1194,10 @@ var DERIVA = [
   {id:'d_uso_suelo', c:'Giro no permitido en un predio', k:'uso de suelo giro negocio bar antro bodega vivienda', ico:'d_uso_suelo', nom:'Uso de suelo', formal:'Uso de suelo no permitido en un predio',
    inst:[{n:'Instituto de Verificación Administrativa (INVEA)', d:'Instancia competente para atender la denuncia.', ref:'invea'},
          {n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'También puede recibir la denuncia.', ref:'paot'}]},
-  /* Salen de la tarjeta de ruido a petición de la DGIVA (OBS-0003, OBS-0004,
-     DEC-189). La instancia receptora la confirma la DGIVA. */
-  {id:'d_olores', c:'De un negocio, una obra o un predio', k:'olor olores peste mal olor hedor apesta', ico:'emisiones', nom:'Malos olores', formal:'Olores',
-   inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'Puede recibir la denuncia.', ref:'paot'}]},
-  {id:'d_visual', c:'Espectaculares, letreros o iluminación molesta', k:'anuncio anuncios espectacular publicidad letrero luz luces reflector alumbrado iluminacion', ico:'d_uso_suelo', nom:'Anuncios o luz excesiva', formal:'Contaminación visual y lumínica',
-   inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'Puede recibir la denuncia.', ref:'paot'}]},
+  /* Olores, anuncios y luz excesiva salieron de la tarjeta de ruido (OBS-0003,
+     OBS-0004, DEC-189) y tampoco se orientan aquí (DEC-222): no hay norma
+     aplicable que permita decir a dónde acudir, y el formulario no los
+     menciona. */
   {id:'d_peligrosos', c:'Químicos, aceites, biológicos', k:'peligroso quimico toxico aceite usado solvente hospital biologico infeccioso', ico:'d_peligrosos', nom:'Residuos peligrosos', formal:'Manejo o disposición de residuos peligrosos',
    inst:[{n:'Procuraduría Federal de Protección al Ambiente (PROFEPA)', d:'La materia es de competencia federal.', ref:'profepa'}]}
 ];
@@ -1497,7 +1495,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-221', fecha:'20 de octubre de 2026', nombre:'Versión 25 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-222', fecha:'20 de octubre de 2026', nombre:'Versión 26 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).

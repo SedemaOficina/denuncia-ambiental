@@ -269,8 +269,8 @@ with sync_playwright() as pw:
       guarda('deriva','d_basura'); render();
       const insts = [...document.querySelectorAll('.redir .inst')].map(e => e.innerText);
       return {ids, insts, poda: document.getElementById('app').innerText.indexOf('Solicitar una poda') >= 0}; }""")
-    # Nueve desde DEC-190: malos olores, anuncios o luz excesiva (DEC-189) y ruido de un comercio.
-    afirma('d_poda_sol' not in dv['ids'] and len(dv['ids']) == 9 and 'd_ruido_comercio' in dv['ids'] and 'd_olores' in dv['ids'] and 'd_visual' in dv['ids'] and not dv['poda'], 'ya no se ofrece «Solicitar una poda o derribo»: %s' % dv['ids'])
+    # Siete desde DEC-222: salen olores y anuncios o luz excesiva; queda el ruido de un comercio (DEC-190).
+    afirma('d_poda_sol' not in dv['ids'] and len(dv['ids']) == 7 and 'd_ruido_comercio' in dv['ids'] and 'd_olores' not in dv['ids'] and 'd_visual' not in dv['ids'] and not dv['poda'], 'ya no se ofrece «Solicitar una poda o derribo»: %s' % dv['ids'])
     alc = [x for x in dv['insts'] if x.startswith('Alcaldía')]
     afirma(alc and 'Acude a la alcaldía donde ocurren los hechos' in alc[0] and 'Teléfono' not in alc[0],
            'la alcaldía no lleva teléfono ni liga, sino a cuál acudir: %r' % alc)

@@ -1166,3 +1166,9 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 
 **Verificación de cierre.** Batería completa en verde.
 
+### 20 de octubre de 2026 · reunión con la DGIVA, primeras respuestas (DEC-222)
+
+**Qué cambió.** OBS-0004: se retiran olores y anuncios o luz excesiva de «Mi caso no está en la lista» (quedan siete casos). OBS-0016 atendida tal como está. OBS-0020: el arbolado urbano es de la DGIVA; queda abierta la parte de viviendas y condominios. P-17: el teléfono sigue obligatorio. Pruebas 14, 29 y 30 ajustadas; hoja de control y Excel de validación al día.
+
+**Verificación de cierre.** Batería completa en verde.
+

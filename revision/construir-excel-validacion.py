@@ -54,16 +54,12 @@ obs = [  # (revisor, área, pantalla, lo que se pidió, decisión)
 assert len(obs) == 32
 
 preguntas = [
- ('OBS-0004', 'Instancia para olores, anuncios y luz', '¿La PAOT es la instancia correcta para orientar las denuncias de malos olores y de anuncios o luz excesiva?',
-  'Esos supuestos salieron de la tarjeta de ruido y ahora aparecen en «Mi caso no está en la lista» remitiendo a la PAOT.'),
  ('OBS-0027', 'Caso de Los Dinamos', '¿Coinciden en turnar a la DGCORENADR el caso del restaurante en Los Dinamos? ¿Quién atiende el uso de leña sin legal procedencia?',
   'Con el cruce espacial del formulario, el punto cae en suelo de conservación (La Magdalena Contreras).'),
  ('OBS-0024', 'Giros fuera de competencia', '¿Qué giros de la lista «Tipo de establecimiento» quedan fuera de la competencia de la CIVASU?',
   'Lista actual: obra en construcción o demolición; taller mecánico, hojalatería o pintura; industria o fábrica; bodega o almacén; restaurante, fonda o cocina económica; bar, cantina, salón de fiestas o antro; tienda, abarrotes u otro comercio; panadería o tortillería; carnicería, pollería o pescadería; lavandería o tintorería; gasolinera o estación de servicio; estacionamiento o pensión; hospital, clínica, consultorio o laboratorio; escuela, oficina o edificio público; banco de materiales, mina o tiro de tierra; centro de acopio o reciclaje; vivero, granja, establo o rastro; espectáculo público, feria o evento; otro.'),
- ('OBS-0016', 'Fecha aproximada', '¿Basta con registrar que la persona no conoce la fecha, o se necesita una fecha aproximada (mes y año)?',
-  'Desde DEC-206 el formulario pregunta «¿Conoces la fecha en que ocurrió o inició?»; con «No» no se pide fecha y ya no se registra una aproximada, que era lo que pedía la observación.'),
- ('OBS-0020', 'Casos de otra autoridad', '¿Qué autoridad atiende el arbolado en vía pública y los hechos dentro de viviendas, condominios o unidades habitacionales? ¿Qué casos de arbolado sí atiende la Secretaría?',
-  'El formulario tiene la tarjeta «Daño a arbolado urbano» como competencia de la Secretaría; en 2026, el 40.7 % de las denuncias de arbolado se declararon incompetencia.'),
+ ('OBS-0020', 'Viviendas, condominios y unidades habitacionales', '¿Qué autoridad atiende los hechos que ocurren dentro de viviendas, condominios o unidades habitacionales?',
+  'El arbolado ya está resuelto: la DGIVA atiende todo el arbolado urbano en suelo urbano y en las áreas de valor ambiental (20 oct 2026), y el formulario lo trata como competencia de la Secretaría.'),
  ('P-09', 'Datos de la DGCORENADR', 'Domicilio, horario de atención y teléfono de la Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas (DGCORENADR).',
   'La tarjeta «Presencial» los muestra todavía como «por confirmar».'),
  ('P-07', 'Plazo para informar', '¿En cuántos días hábiles se responde a quien consulta el estado de su denuncia?',
@@ -111,7 +107,7 @@ banda(r, 'Validación de observaciones · Formulario de Denuncia Ambiental',
 r.column_dimensions['A'].width = 34; r.column_dimensions['B'].width = 16
 r.column_dimensions['C'].width = 34; r.column_dimensions['D'].width = 16
 datos = [
- ('Versión del formulario', 'Versión 25 · Validación DGIVA'),
+ ('Versión del formulario', 'Versión 26 · Validación DGIVA'),
  ('Liga de la versión publicada', 'https://sedemaoficina.github.io/denuncia-ambiental/'),
  ('Observaciones registradas', '32 (19 de la Dirección General, 11 de la COJUMIVA, 1 nominal y 1 de prueba)'),
  ('Periodo de revisión', 'Del 2 al 19 de octubre de 2026'),
