@@ -1095,3 +1095,11 @@ Las pruebas 01, 02 y 19 fijaban el comportamiento anterior (búsqueda que espera
 
 **Verificación de cierre.** **1 074 comprobaciones en verde en 32 baterías**, con una nueva: `32-campos-anidados-y-cp.py`, en teléfono y escritorio. Revisión visual de los pasos 2 y 3. Documento 09 regenerado: 59 campos. Versión publicada al día.
 
+### 20 de octubre de 2026 · bloque «obligatorias del paso 3 y responsable en lista» (DEC-202 y DEC-203)
+
+Pasan a obligatorias la referencia del sitio (también con dirección), la temporalidad, la pregunta del establecimiento con su tipo y su especificación, la del responsable, el ámbito y el nombre de la autoridad, y la de gestiones previas. Eran opcionales desde DEC-97; DEC-191 sólo las rotuló. El ámbito suma «No lo sé», que no pregunta «¿Cuál?». «¿Quién es responsable de los hechos?» pasa a lista desplegable. La temporalidad gana su renglón de error. Dos constructores dejaban la obligatoriedad escrita a mano como `false` (referencias con dirección y «Especifica el tipo»): ahora la leen de `OBLIG`.
+
+Las pruebas 01, 02, 22 y 29 fijaban esos campos como opcionales y se ajustaron; la 32 suma ocho comprobaciones.
+
+**Verificación de cierre.** **1 074 comprobaciones en verde en 32 baterías** antes de ampliar la 32, que pasa completa. Revisión visual del paso 3. Documento 09 regenerado y versión publicada al día.
+

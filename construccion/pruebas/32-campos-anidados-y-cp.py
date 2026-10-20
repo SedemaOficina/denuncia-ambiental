@@ -53,6 +53,30 @@ with sync_playwright() as pw:
     obra = pg.evaluate("""() => { estado = {}; guarda('materia','rsu'); guarda('tipo_denunciado','gobierno'); irA(3);
       return {campo: !!document.getElementById('f_resp_obra'), oblig: 'resp_obra' in OBLIG, texto: document.getElementById('app').innerText.includes('Número de obra')}; }""")
     afirma(not obra['campo'] and not obra['oblig'] and not obra['texto'], 'ya no se pregunta «Número de obra, contrato o permiso»')
+
+    # ---- DEC-202: obligatorias del paso 3 y la referencia del sitio; «No lo sé» en el ámbito ----
+    ob = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('materia','rsu'); guarda('tiene_direccion','si');
+      guarda('es_estab','si'); guarda('tipo_estab','Otro'); guarda('tipo_denunciado','gobierno'); guarda('autoridad_nivel','cdmx');
+      return ['referencias','temporalidad','es_estab','tipo_estab','tipo_estab_otro','tipo_denunciado','autoridad_nivel','autoridad_denunciada','reporto_antes']
+        .filter(k => !esObligatorio(k)); }""")
+    afirma(ob == [], 'las preguntas del paso 3 y la referencia del sitio son obligatorias (DEC-202); opcionales todavía: %s' % ob)
+    op = pg.evaluate("""() => ({fecha: esObligatorio('fecha_hecho'), nombre: esObligatorio('nombre_estab'), area: esObligatorio('resp_area'), gest: (guarda('reporto_antes','si'), esObligatorio('gestiones'))})""")
+    afirma(not any(op.values()), 'siguen opcionales la fecha, el nombre del establecimiento, el área y el detalle de gestiones: %s' % op)
+    ns = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('materia','rsu'); guarda('tipo_denunciado','gobierno'); irA(3);
+      const tiene = NIVELES_AUTORIDAD.some(n => n.v === 'nose' && n.t === 'No lo sé');
+      guarda('autoridad_nivel','nose'); render();
+      return {tiene, cual: !!document.getElementById('c_autoridad_denunciada'), oblig: esObligatorio('autoridad_denunciada')}; }""")
+    afirma(ns['tiene'] and not ns['cual'] and not ns['oblig'], 'el ámbito ofrece «No lo sé» y con él no se pregunta «¿Cuál?»: %s' % ns)
+    tp = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('materia','rsu'); irA(3);
+      const c = document.getElementById('c_tipo_denunciado'); const sel = document.getElementById('f_tipo_denunciado');
+      const r = {select: !!sel && sel.tagName === 'SELECT', botones: c ? c.querySelectorAll('.btn-sn').length : -1, opciones: sel ? sel.options.length : 0, err: !!document.getElementById('e_tipo_denunciado')};
+      if (sel) { sel.value = 'nose'; sel.dispatchEvent(new Event('change')); }
+      r.abre = !!document.getElementById('f_resp_senas'); return r; }""")
+    afirma(tp['select'] and tp['botones'] == 0 and tp['opciones'] == 5 and tp['err'] and tp['abre'],
+           '«¿Quién es responsable?» es lista desplegable con sus cuatro respuestas y al elegir abre lo suyo (DEC-203): %s' % tp)
+    t3 = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('materia','rsu'); irA(3); valida(3);
+      return !!document.querySelector('#c_temporalidad.invalido') && !!document.getElementById('e_temporalidad'); }""")
+    afirma(t3, 'sin contestar, la temporalidad marca su error en su propio renglón')
     nav.close()
 try: TMP.unlink()
 except OSError: pass

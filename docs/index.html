@@ -1252,12 +1252,12 @@ var OBLIG = {
   veh_servicio:     {p:3, oblig:true, etq:'¿Es transporte público o de carga?', dp:false, fin:'Competencia',
      cond:function(){ return val('materia')==='vehiculo'; } , cond_txt:'Sólo cuando se denuncia un vehículo contaminante',
      uso:'Distingue el transporte concesionado de pasajeros y el de carga del vehículo particular. El cauce de atención de cada uno con la Secretaría de Movilidad está por definirse: el dato se recoge desde ahora para no tener que volver a pedirlo.'},
-  es_estab:         {p:3, oblig:false, etq:'¿Los hechos ocurren dentro de un establecimiento?', dp:false, fin:'Localización',
+  es_estab:         {p:3, oblig:true,  etq:'¿Los hechos ocurren dentro de un establecimiento?', dp:false, fin:'Localización',
      uso:'Caracteriza el sitio como fuente fija y propone al establecimiento como responsable. Se pregunta junto a la identificación del responsable, que es lo que determina.'},
-  tipo_estab:       {p:3, oblig:false, etq:'Tipo de establecimiento', dp:false, fin:'Localización',
+  tipo_estab:       {p:3, oblig:true,  etq:'Tipo de establecimiento', dp:false, fin:'Localización',
      cond:function(){ return val('es_estab')==='si'; } , cond_txt:'Sólo cuando los hechos ocurren dentro de un establecimiento',
      uso:'Prepara la visita —qué se va a inspeccionar— y alimenta la estadística por tipo de fuente.'},
-  tipo_estab_otro:  {p:3, oblig:false, etq:'Tipo de establecimiento, si es otro', dp:false, fin:'Localización',
+  tipo_estab_otro:  {p:3, oblig:true,  etq:'Tipo de establecimiento, si es otro', dp:false, fin:'Localización',
      cond:function(){ return val('es_estab')==='si' && val('tipo_estab')==='Otro'; } , cond_txt:'Sólo cuando el giro elegido es «Otro»',
      uso:'Especifica el giro que no está en la lista (DEC-143: faltaba en el mapeo).'},
   nombre_estab:     {p:3, oblig:false, etq:'Nombre del establecimiento', dp:false, fin:'Localización',
@@ -1266,13 +1266,14 @@ var OBLIG = {
   nombre_lugar:     {p:2, oblig:true,  etq:'Nombre del lugar', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')==='no'; } , cond_txt:'Sólo cuando el lugar no tiene calle ni número',
      uso:'Sustituye al domicilio en la orden de visita cuando el sitio no lo tiene. Se propone desde la capa oficial que contiene el punto.'},
+  /* Obligatorio en las dos rutas desde DEC-202: con dirección también es lo
+     que deja al personal de inspección reconocer el sitio al llegar. */
   referencias:      {p:2, oblig:true,  etq:'Cómo se reconoce y cómo se llega al sitio', dp:false, fin:'Localización',
-     cond:function(){ return sinDireccion(); } , cond_txt:'Obligatorio sólo cuando el lugar no tiene calle ni número; en los demás casos se pide como dato opcional',
      uso:'Reúne en un solo campo lo que antes se preguntaba dos veces —cómo se ve el sitio y cómo se accede a él—. Sin domicilio es lo único que permite al personal de inspección llegar, y por eso ahí se exige.'},
   /* Paso 3 */
   hechos:           {p:3, oblig:true,  etq:'Descripción de lo que ocurre', dp:false, fin:'Expediente',
      uso:'Objeto y alcance de la visita de inspección; es la base de la motivación del acto.'},
-  temporalidad:     {p:3, oblig:false, etq:'Desde cuándo ocurre', dp:false, fin:'Expediente',
+  temporalidad:     {p:3, oblig:true,  etq:'Desde cuándo ocurre', dp:false, fin:'Expediente',
      uso:'Determina si la conducta es continua o aislada, lo que define la urgencia de la atención.'},
   fecha_hecho:      {p:3, oblig:false, etq:'Fecha en que ocurrió o inició', dp:false, fin:'Expediente',
      cond:function(){ return val('fecha_nosabe')!=='si'; } , cond_txt:'Sólo cuando la persona conoce la fecha exacta',
@@ -1285,13 +1286,13 @@ var OBLIG = {
   fecha_anio:       {p:3, oblig:false, etq:'Año aproximado', dp:false, fin:'Expediente',
      cond:function(){ return val('fecha_nosabe')==='si'; } , cond_txt:'Sólo cuando la persona no sabe la fecha exacta',
      uso:'Ubicación temporal aproximada de los hechos en el expediente.'},
-  tipo_denunciado:  {p:3, oblig:false, etq:'¿Quién es responsable de los hechos?', dp:false, fin:'Responsable',
+  tipo_denunciado:  {p:3, oblig:true,  etq:'¿Quién es responsable de los hechos?', dp:false, fin:'Responsable',
      uso:'Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar.'},
-  autoridad_nivel:  {p:3, oblig:false, etq:'Ámbito de la autoridad señalada', dp:false, fin:'Responsable',
+  autoridad_nivel:  {p:3, oblig:true,  etq:'Ámbito de la autoridad señalada', dp:false, fin:'Responsable',
      cond:function(){ return val('tipo_denunciado')==='gobierno'; } , cond_txt:'Sólo cuando se señala a una autoridad',
      uso:'Encamina la recomendación del art. 331: de él depende si se dirige a una dependencia de la Ciudad, a una alcaldía o a la federación, y contra qué catálogo se propone el nombre.'},
-  autoridad_denunciada: {p:3, oblig:false, etq:'Dependencia, alcaldía u organismo señalado', dp:false, fin:'Responsable',
-     cond:function(){ return val('tipo_denunciado')==='gobierno' && !!val('autoridad_nivel'); } ,
+  autoridad_denunciada: {p:3, oblig:true,  etq:'Dependencia, alcaldía u organismo señalado', dp:false, fin:'Responsable',
+     cond:function(){ return val('tipo_denunciado')==='gobierno' && !!val('autoridad_nivel') && val('autoridad_nivel')!=='nose'; } ,
      cond_txt:'Sólo cuando se señala a una autoridad y se eligió su ámbito',
      uso:'Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla.'},
   /* Sólo queda cuando no se sabe quién es el responsable: para persona y
@@ -1301,7 +1302,7 @@ var OBLIG = {
      uso:'Señas de quien realiza los hechos —vehículos, uniformes, horarios— para reconocerlo en la visita de inspección.'},
   resp_area:        {p:3, oblig:false, etq:'Área o persona servidora pública', dp:true, fin:'Responsable',
      uso:'Precisa el área a la que se dirige la recomendación.'},
-  reporto_antes:    {p:3, oblig:false, etq:'¿Ya reportaste ante otra autoridad?', dp:false, fin:'Expediente',
+  reporto_antes:    {p:3, oblig:true,  etq:'¿Ya reportaste ante otra autoridad?', dp:false, fin:'Expediente',
    uso:'Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga.'},
   gestiones:        {p:3, oblig:false, etq:'Gestiones previas', dp:false, fin:'Expediente',
      cond:function(){ return val('reporto_antes')==='si'; } , cond_txt:'Sólo cuando la persona dice haberlo reportado antes',
@@ -1460,7 +1461,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-201', fecha:'20 de octubre de 2026', nombre:'Versión 10 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-203', fecha:'20 de octubre de 2026', nombre:'Versión 12 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1846,7 +1847,10 @@ var NIVELES_AUTORIDAD = [
   {v:'cdmx',     t:'Gobierno de la Ciudad de México'},
   {v:'alcaldia', t:'Una alcaldía'},
   {v:'federal',  t:'Autoridad federal'},
-  {v:'otra',     t:'Otra'}
+  {v:'otra',     t:'Otra'},
+  /* Quien no sabe el ámbito no tiene que adivinarlo; no se pregunta «¿Cuál?»
+     y la Secretaría la identifica al turnar (DEC-202). */
+  {v:'nose',     t:'No lo sé'}
 ];
 
 var AUTORIDADES = {
@@ -2421,7 +2425,7 @@ function pUbicacion(){
       '<div class="fila">'+
         campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="section-lugar postal-code"')+
       '</div>'+
-      campoArea('referencias','¿Cómo se reconoce el sitio?',false,
+      campoArea('referencias','¿Cómo se reconoce el sitio?',esObligatorio('referencias'),
         'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3);
   }
 
@@ -2751,13 +2755,15 @@ function pHechos(){
         'Fíjate en la placa o en el rótulo de la unidad. Si no alcanzaste a verlos, «No lo sé» basta.')
     : '')+
 
-  '<h3 class="sub-seccion" id="c_temporalidad">¿Desde cuándo ocurre?'+marca_opc(esObligatorio('temporalidad'))+'</h3>'+
-  '<div class="campo"><div class="opciones">'+
+  /* La temporalidad es obligatoria (DEC-202): su título va dentro del campo
+     para que el error tenga dónde mostrarse, como en los demás. */
+  '<div class="campo" id="c_temporalidad"><h3 class="sub-seccion">¿Desde cuándo ocurre?'+marca_opc(esObligatorio('temporalidad'))+'</h3>'+
+  '<div class="opciones" role="group" aria-label="¿Desde cuándo ocurre?">'+
     ['unico|Ocurrió una sola vez','recurrente|Ocurre de forma repetida','permanente|Es permanente o continuo'].map(function(o){
       var p=o.split('|');
       return '<button type="button" class="opcion" aria-pressed="'+(val('temporalidad')===p[0]?'true':'false')+'" onclick="guarda(\'temporalidad\',\''+p[0]+'\');render()"><span class="nombre">'+p[1]+'</span></button>';
     }).join('')+
-  '</div></div>'+
+  '</div><div class="err" id="e_temporalidad">Este dato es necesario para dar trámite a la denuncia.</div></div>'+
   /* Quien no sabe el día exacto da el mes y el año (OBS-0016, DEC-191). */
   '<div class="fila">'+
     (val('fecha_nosabe')==='si'
@@ -2790,8 +2796,13 @@ function pHechos(){
       campo('nombre_estab','Nombre del establecimiento','texto',esObligatorio('nombre_estab'),'Por ejemplo: Taller Automotriz Hernández, Escuela Primaria Benito Juárez')+
       '<div id="otroEstab" class="en-fila">'+campoOtroEstab()+'</div>'+
     '</div>') : '')+
-  campoOpciones('tipo_denunciado','¿Quién es responsable de los hechos?', TIPOS_DENUNCIADO,
+  /* Lista desplegable y no botones (DEC-203): son cuatro respuestas de un
+     mismo tipo y en lista ocupan un renglón. Media columna, como los demás
+     desplegables. */
+  '<div class="fila">'+
+  campoSelect('tipo_denunciado','¿Quién es responsable de los hechos?', TIPOS_DENUNCIADO, esObligatorio('tipo_denunciado'),
     'Si no lo sabes, elige «No lo sé»: no impide presentar la denuncia.','limpiaResponsable();render()')+
+  '</div>'+
   anidado(bloqueDenunciado())+
 
   /* Sin la pregunta de permisos: verificarlos le toca a la inspección, y
@@ -2891,7 +2902,7 @@ function bloqueAutoridad(){
             : 'Escribe el nombre o la sigla —SEDEMA, CONAGUA, PROFEPA— y elige de la lista. Si no aparece, escríbelo como lo conozcas: se guarda tal cual.';
   return lista.length
     ? campoLista('autoridad_denunciada','¿Cuál?', ayuda, lista)
-    : campo('autoridad_denunciada','¿Cuál?','texto',false, ayuda,'autocomplete="off"');
+    : campo('autoridad_denunciada','¿Cuál?','texto',esObligatorio('autoridad_denunciada'), ayuda,'autocomplete="off"');
 }
 
 /* =========================================================
@@ -2990,9 +3001,9 @@ function bloqueDenunciado(){
         'emite las recomendaciones necesarias para promover ante ella la ejecución de las acciones que procedan.'+
       '</div>'+
       campoOpciones('autoridad_nivel','¿De qué ámbito es la autoridad?', NIVELES_AUTORIDAD,
-        'Si no estás seguro, elige el que más se acerque: la Secretaría lo verifica al turnar.',
+        'Si no lo sabes, elige «No lo sé»: la Secretaría lo verifica al turnar.',
         'cambiaNivelAutoridad()')+
-      (val('autoridad_nivel') ? bloqueAutoridad() : '')+
+      (val('autoridad_nivel') && val('autoridad_nivel')!=='nose' ? bloqueAutoridad() : '')+
       campo('resp_area','Área o persona servidora pública','texto',false,'Si la conoces');
       /* Sin «Número de obra, contrato o permiso» (DEC-201). */
   }
@@ -3715,7 +3726,7 @@ function campoArea(k,etq,oblig,ayuda,filas,marcador){
    pantalla, para no reiniciar el mapa ni perder el punto colocado. */
 function campoOtroEstab(){
   return val('tipo_estab')==='Otro'
-    ? campo('tipo_estab_otro','Especifica el tipo de establecimiento','texto',false,'Por ejemplo: taller de serigrafía')
+    ? campo('tipo_estab_otro','Especifica el tipo de establecimiento','texto',esObligatorio('tipo_estab_otro'),'Por ejemplo: taller de serigrafía')
     : '';
 }
 function actualizaOtroEstab(){

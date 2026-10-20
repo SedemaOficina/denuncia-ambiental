@@ -71,8 +71,9 @@ with sync_playwright() as pw:
       return r;
     }""")
     # Desde DEC-191 lo opcional también se dice: los accesorios llevan «(opcional)».
-    afirma(marcas == ['obligatorio','DICE OPCIONAL','DICE OPCIONAL'],
-           'la calle lleva asterisco y los accesorios dicen «(opcional)»: %s' % marcas)
+    # Desde DEC-202 «¿Cómo se reconoce el sitio?» es obligatorio también con dirección.
+    afirma(marcas == ['obligatorio','DICE OPCIONAL','obligatorio'],
+           'la calle y cómo se reconoce el sitio llevan asterisco; entre calles dice «(opcional)»: %s' % marcas)
 
     # --- 3. Lo capturado se conserva al volver al paso ---
     pg.fill('#f_referencias', 'Frente a la escuela primaria')
@@ -84,7 +85,7 @@ with sync_playwright() as pw:
     # --- 4. Ninguno es obligatorio cuando hay direccion ---
     oblig = pg.evaluate("ks => ks.filter(k => OBLIG[k] && esObligatorio(k))",
                         ['entre_calles','referencias'])
-    afirma(oblig == [], 'con direccion, ninguno es obligatorio (lo son: %s)' % oblig)
+    afirma(oblig == ['referencias'], 'con direccion, entre calles es opcional y la referencia del sitio obligatoria (DEC-202): %s' % oblig)
 
     # --- 5. Coordenadas o enlace de mapa pegados (DEC-67, DEC-69) ---
     # La deteccion de ubicacion del dispositivo se retiro por completo: el

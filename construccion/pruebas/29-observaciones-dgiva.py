@@ -59,7 +59,8 @@ with sync_playwright() as pw:
     afirma('derribo, poda, tiro de residuos' in pg.evaluate("() => document.getElementById('f_hechos').placeholder"), 'los ejemplos de hechos son los de la DGIVA (OBS-0015)')
     op = pg.evaluate("""() => ['fecha_hecho','reporto_antes','temporalidad'].map(k => {
       const c = document.getElementById('c_'+k); return c ? c.innerText.includes('(opcional)') : null; })""")
-    afirma(op == [True, True, True], 'la fecha, las gestiones previas y la temporalidad dicen «(opcional)» (OBS-0016, OBS-0030): %s' % op)
+    # Desde DEC-202 la temporalidad y la pregunta de gestiones previas son obligatorias; la fecha sigue opcional.
+    afirma(op == [True, False, False], 'la fecha dice «(opcional)»; la temporalidad y «¿Ya reportaste…?» son obligatorias (DEC-202): %s' % op)
     apag = pg.evaluate("() => { cfg.validar = false; render(); const r = document.getElementById('app').innerText.includes('(opcional)'); cfg.validar = true; render(); return r; }")
     afirma(not apag, 'con la obligatoriedad apagada no se marca nada como opcional')
 

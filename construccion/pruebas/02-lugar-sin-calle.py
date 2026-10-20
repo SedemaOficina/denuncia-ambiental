@@ -73,8 +73,8 @@ with sync_playwright() as pw:
            'con dirección: calle y colonia vuelven a ser obligatorios; el CP es opcional (DEC-200)')
     afirma(c['antes']['nombre'] is True and c['despues']['nombre'] is False,
            'el nombre del lugar sólo es obligatorio en la ruta sin dirección')
-    afirma(c['antes']['refs'] is True and c['despues']['refs'] is False,
-           'el campo de acceso sólo es obligatorio en la ruta sin dirección')
+    afirma(c['antes']['refs'] is True and c['despues']['refs'] is True,
+           'el campo de acceso es obligatorio en las dos rutas (DEC-202)')
 
     cond = pg.evaluate("""() => {
       const con = Object.keys(OBLIG).filter(k => OBLIG[k].cond);
