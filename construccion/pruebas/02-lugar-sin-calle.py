@@ -96,7 +96,7 @@ with sync_playwright() as pw:
       const vacio = valida(2);
       /* La alcaldia de la direccion se pregunta desde DEC-118. */
       /* Y el numero exterior desde DEC-120. */
-      guarda('calle','Av. Rio Churubusco'); guarda('num_ext','100'); guarda('alcaldia_dir','Coyoacán'); guarda('colonia','Del Carmen'); guarda('cp','04100');
+      guarda('calle','Av. Rio Churubusco'); guarda('num_ext','100'); guarda('tiene_mz_lote','no');  /* obligatoria desde DEC-198 */ guarda('alcaldia_dir','Coyoacán'); guarda('colonia','Del Carmen'); guarda('cp','04100');
       guarda('punto_confirmado','si');
       const lleno = valida(2);
       return {vacio, lleno};

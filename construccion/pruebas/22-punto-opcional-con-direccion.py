@@ -25,7 +25,7 @@ EXTERNO = ('ERR_TUNNEL_CONNECTION_FAILED','net::ERR_','Failed to load resource')
 fallos, notas = [], []
 def afirma(c, m): (notas if c else fallos).append(('OK  ' if c else 'FALLA ') + m)
 
-DIR = """() => { estado = {}; archivos = []; cfg.validar = true; guarda('materia','rsu'); guarda('tiene_direccion','si');
+DIR = """() => { estado = {}; archivos = []; cfg.validar = true; guarda('materia','rsu'); guarda('tiene_direccion','si'); guarda('tiene_mz_lote','no');  /* obligatoria desde DEC-198 */
   guarda('calle','Calle 5'); guarda('num_ext','27'); guarda('alcaldia_dir','Iztacalco');
   guarda('colonia','Pantitlán I'); guarda('cp','08100'); irA(2); }"""
 

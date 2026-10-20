@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-197 · 20 de octubre de 2026
+**Versión:** DEC-198 · 20 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -11,7 +11,7 @@
 | Datos que viajan a la base sin verse en pantalla | **13** |
 | Datos que calcula el formulario y se muestran | 15 |
 | Datos personales | **22** (37 %) |
-| Obligatorios en este formulario | 26 de 60 |
+| Obligatorios en este formulario | 32 de 60 |
 | Campos con obligatoriedad condicionada | 28 |
 | Datos sin uso declarado | **0** |
 
@@ -57,9 +57,9 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Calle o avenida | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |
 | Número exterior | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Precisa el predio en la orden de visita. Obligatorio cuando el lugar tiene dirección; si el predio no tiene número se escribe «S/N», que es una respuesta válida (DEC-120). |
 | Entre qué calles | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |
-| ¿El predio se identifica por manzana y lote? | Opcional | No | Sólo cuando el lugar tiene calle y número | Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene, en vez de enseñárselos a todos (DEC-124). |
-| Manzana | Opcional | No | Sólo cuando el predio se identifica por manzana y lote | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
-| Lote | Opcional | No | Sólo cuando el predio se identifica por manzana y lote | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
+| ¿El predio se identifica por manzana y lote? | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene, en vez de enseñárselos a todos (DEC-124). |
+| Manzana | Obligatorio *(condicionado)* | No | Sólo cuando el predio se identifica por manzana y lote | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
+| Lote | Obligatorio *(condicionado)* | No | Sólo cuando el predio se identifica por manzana y lote | Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote. |
 | Nombre del lugar | Obligatorio *(condicionado)* | No | Sólo cuando el lugar no tiene calle ni número | Sustituye al domicilio en la orden de visita cuando el sitio no lo tiene. Se propone desde la capa oficial que contiene el punto. |
 | Cómo se reconoce y cómo se llega al sitio | Obligatorio *(condicionado)* | No | Obligatorio sólo cuando el lugar no tiene calle ni número; en los demás casos se pide como dato opcional | Reúne en un solo campo lo que antes se preguntaba dos veces —cómo se ve el sitio y cómo se accede a él—. Sin domicilio es lo único que permite al personal de inspección llegar, y por eso ahí se exige. |
 
@@ -109,9 +109,9 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Domicilio · calle | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Domicilio · número exterior | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Domicilio · número interior | Opcional | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
-| ¿El domicilio se identifica por manzana y lote? | Opcional | No | Siempre | Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene (DEC-135). |
-| Domicilio · manzana | Opcional | **Sí** | Sólo cuando el domicilio se identifica por manzana y lote | Precisa el domicilio de notificación donde no hay número exterior (DEC-135). |
-| Domicilio · lote | Opcional | **Sí** | Sólo cuando el domicilio se identifica por manzana y lote | Precisa el domicilio de notificación donde no hay número exterior (DEC-135). |
+| ¿El domicilio se identifica por manzana y lote? | Obligatorio | No | Siempre | Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene (DEC-135). |
+| Domicilio · manzana | Obligatorio *(condicionado)* | **Sí** | Sólo cuando el domicilio se identifica por manzana y lote | Precisa el domicilio de notificación donde no hay número exterior (DEC-135). |
+| Domicilio · lote | Obligatorio *(condicionado)* | **Sí** | Sólo cuando el domicilio se identifica por manzana y lote | Precisa el domicilio de notificación donde no hay número exterior (DEC-135). |
 | Domicilio · entre qué calles | Opcional | **Sí** | Siempre | Ayuda a quien notifica a encontrar el domicilio (DEC-135). |
 | Domicilio · colonia | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Domicilio · código postal | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |

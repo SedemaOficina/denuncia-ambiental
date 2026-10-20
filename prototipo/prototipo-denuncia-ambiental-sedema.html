@@ -1228,13 +1228,16 @@ var OBLIG = {
      los domicilios capturados, y hoy esa referencia acaba escrita dentro del
      campo de calle, de modo que la dirección llega partida a la orden de
      visita. Dos campos propios la conservan entera (DEC-110). */
-  tiene_mz_lote:    {p:2, oblig:false, etq:'¿El predio se identifica por manzana y lote?', dp:false, fin:'Localización',
+  /* La pregunta es obligatoria: sin respuesta no se sabe si el predio lleva
+     numero o manzana y lote, y la direccion llega incompleta a la orden de
+     visita. Quien responde «Si» da las dos (DEC-198). */
+  tiene_mz_lote:    {p:2, oblig:true,  etq:'¿El predio se identifica por manzana y lote?', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene, en vez de enseñárselos a todos (DEC-124).'},
-  manzana:          {p:2, oblig:false, etq:'Manzana', dp:false, fin:'Localización',
+  manzana:          {p:2, oblig:true,  etq:'Manzana', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no' && val('tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el predio se identifica por manzana y lote',
      uso:'Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote.'},
-  lote:             {p:2, oblig:false, etq:'Lote', dp:false, fin:'Localización',
+  lote:             {p:2, oblig:true,  etq:'Lote', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no' && val('tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el predio se identifica por manzana y lote',
      uso:'Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote.'},
   veh_servicio:     {p:3, oblig:true, etq:'¿Es transporte público o de carga?', dp:false, fin:'Competencia',
@@ -1335,12 +1338,12 @@ var OBLIG = {
   /* El domicilio se captura con la misma forma que la direccion del lugar:
      manzana y lote a quien los tiene, entre que calles, alcaldia en lista y
      colonia del catalogo de esa alcaldia. Solo en la Ciudad (DEC-135). */
-  dom_tiene_mz_lote:{p:5, oblig:false, etq:'¿El domicilio se identifica por manzana y lote?', dp:false, fin:'Contacto',
+  dom_tiene_mz_lote:{p:5, oblig:true,  etq:'¿El domicilio se identifica por manzana y lote?', dp:false, fin:'Contacto',
      uso:'Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene (DEC-135).'},
-  dom_manzana:      {p:5, oblig:false, etq:'Domicilio · manzana', dp:true, fin:'Contacto',
+  dom_manzana:      {p:5, oblig:true,  etq:'Domicilio · manzana', dp:true, fin:'Contacto',
      cond:function(){ return val('dom_tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el domicilio se identifica por manzana y lote',
      uso:'Precisa el domicilio de notificación donde no hay número exterior (DEC-135).'},
-  dom_lote:         {p:5, oblig:false, etq:'Domicilio · lote', dp:true, fin:'Contacto',
+  dom_lote:         {p:5, oblig:true,  etq:'Domicilio · lote', dp:true, fin:'Contacto',
      cond:function(){ return val('dom_tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el domicilio se identifica por manzana y lote',
      uso:'Precisa el domicilio de notificación donde no hay número exterior (DEC-135).'},
   dom_entre_calles: {p:5, oblig:false, etq:'Domicilio · entre qué calles', dp:true, fin:'Contacto',
@@ -1450,7 +1453,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-197', fecha:'20 de octubre de 2026', nombre:'Versión 6 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-198', fecha:'20 de octubre de 2026', nombre:'Versión 7 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1541,7 +1544,7 @@ var ESCENARIOS = [
       identificacion:'nombre',
       nombre:'María Fernanda', apellido_paterno:'Ramírez', apellido_materno:'Cortés',
       correo:'mf.ramirez@ejemplo.mx', telefono:'5555010203',
-      dom_calle:'Calzada de Tlalpan', dom_num_ext:'4820', dom_num_int:'B-302', dom_entre_calles:'Entre la calle Pino y la calle Encino',
+      dom_tiene_mz_lote:'no', dom_calle:'Calzada de Tlalpan', dom_num_ext:'4820', dom_num_int:'B-302', dom_entre_calles:'Entre la calle Pino y la calle Encino',
       dom_colonia:'La Joya', dom_cp:'14090', dom_alcaldia:'Tlalpan',
       sexo_genero:'mujer', edad_rango:'30-44',
       privacidad:'si'}},
@@ -1549,7 +1552,7 @@ var ESCENARIOS = [
   {id:'urbano', nom:'Comercio en suelo urbano',
    d:'Emisiones de un taller · identificado, con domicilio en el Estado de México · DGIVA',
    paso:6,
-   e:{tiene_direccion:'si', materia:'emisiones', lat:'19.432600', lon:'-99.133200',
+   e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'emisiones', lat:'19.432600', lon:'-99.133200',
       calle:'Avenida Chapultepec', num_ext:'440', entre_calles:'Entre la calle Morelos y la calle Hidalgo',
       colonia:'Centro I', alcaldia_dir:'Cuauhtémoc', cp:'06010',
       referencias:'Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.',
@@ -1562,7 +1565,7 @@ var ESCENARIOS = [
       otras_pruebas:'Los vecinos de los dos edificios pueden dar testimonio.',
       nombre:'María Fernanda', apellido_paterno:'Ríos', apellido_materno:'Galván',
       telefono:'5512345678', correo:'ejemplo@correo.com',
-      dom_fuera_cdmx:'si', dom_calle:'Avenida Pantitlán', dom_num_ext:'215', dom_num_int:'4',
+      dom_fuera_cdmx:'si', dom_tiene_mz_lote:'no', dom_calle:'Avenida Pantitlán', dom_num_ext:'215', dom_num_int:'4',
       dom_entre_calles:'Entre la calle 7 y la calle 9',
       dom_colonia:'Metropolitana Tercera Sección',
       dom_cp:'57750', dom_municipio:'Nezahualcóyotl', dom_entidad:'Estado de México',
@@ -1572,7 +1575,7 @@ var ESCENARIOS = [
   {id:'conservacion', nom:'Tala en suelo de conservación, anónima',
    d:'Tala · anónima · responsable desconocido · DGCORENADR',
    paso:6,
-   e:{tiene_direccion:'si', materia:'tala', lat:'19.210000', lon:'-98.995000',
+   e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'tala', lat:'19.210000', lon:'-98.995000',
       calle:'Camino a San Antonio Tecómitl', num_ext:'S/N', entre_calles:'Sobre la brecha de terracería que sube al cerro',
       colonia:'San Antonio Tecómitl (Pueblo)', alcaldia_dir:'Milpa Alta', cp:'12100',
       referencias:'A kilómetro y medio del panteón, por la brecha que sube al monte. Hay un claro grande a la derecha.',
@@ -1590,7 +1593,7 @@ var ESCENARIOS = [
   {id:'gobierno', nom:'Obra de una alcaldía',
    d:'Se señala a una autoridad · ruta del artículo 331',
    paso:6,
-   e:{tiene_direccion:'si', materia:'arbolado', lat:'19.355000', lon:'-99.070000',
+   e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'arbolado', lat:'19.355000', lon:'-99.070000',
       calle:'Avenida Ermita Iztapalapa', num_ext:'1200', entre_calles:'En el camellón central, a la altura del número 1200',
       colonia:'Constitución de 1917 I', alcaldia_dir:'Iztapalapa', cp:'09260',
       referencias:'Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.',
@@ -1603,7 +1606,7 @@ var ESCENARIOS = [
       otras_pruebas:'Fotografías de los tocones y de la lona de la obra.',
       nombre:'Jorge', apellido_paterno:'Hernández', apellido_materno:'Luna',
       telefono:'5598765432', correo:'ejemplo2@correo.com',
-      dom_calle:'Calle Oriente 249', dom_num_ext:'14', dom_num_int:'A',
+      dom_tiene_mz_lote:'no', dom_calle:'Calle Oriente 249', dom_num_ext:'14', dom_num_int:'A',
       dom_entre_calles:'Entre la calle Sur 20 y la calle Sur 24', dom_colonia:'Agrícola Oriental',
       dom_cp:'08500', dom_alcaldia:'Iztacalco',
       sexo_genero:'hombre', edad_rango:'60+',
@@ -1612,7 +1615,7 @@ var ESCENARIOS = [
   {id:'ava', nom:'Afectación en Área de Valor Ambiental',
    d:'Bosque urbano · DGIVA · persona física señalada',
    paso:2,
-   e:{tiene_direccion:'si', materia:'ava', lat:'19.296390', lon:'-99.183480',
+   e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'ava', lat:'19.296390', lon:'-99.183480',
       calle:'Avenida San Fernando', num_ext:'S/N', entre_calles:'Por la entrada principal del parque',
       colonia:'Romulo Sánchez-San Fernando (Barrio)-Peña Pobre', alcaldia_dir:'Tlalpan', cp:'14060',
       referencias:'En la parte alta del parque, junto a la barda norte, pasando la zona de juegos.',
@@ -1626,7 +1629,7 @@ var ESCENARIOS = [
       identificacion:'nombre',
       nombre:'Rosa Elena', apellido_paterno:'Juárez', apellido_materno:'Ortega',
       telefono:'5522334455', correo:'re.juarez@ejemplo.mx',
-      dom_calle:'Calle Corregidora', dom_num_ext:'38', dom_num_int:'2',
+      dom_tiene_mz_lote:'no', dom_calle:'Calle Corregidora', dom_num_ext:'38', dom_num_int:'2',
       dom_entre_calles:'Entre la calle Morelos y la calle Allende', dom_colonia:'Miguel Hidalgo',
       dom_cp:'14250', dom_alcaldia:'Tlalpan',
       sexo_genero:'mujer', edad_rango:'60+',
@@ -1648,7 +1651,7 @@ var ESCENARIOS = [
       identificacion:'nombre',
       nombre:'Luis Alberto', apellido_paterno:'Mendoza', apellido_materno:'Pérez',
       telefono:'5533445566', correo:'la.mendoza@ejemplo.mx',
-      dom_calle:'Avenida Veracruz', dom_num_ext:'112', dom_num_int:'3',
+      dom_tiene_mz_lote:'no', dom_calle:'Avenida Veracruz', dom_num_ext:'112', dom_num_int:'3',
       dom_entre_calles:'Entre la calle Juárez y la calle Guerrero', dom_colonia:'Cuajimalpa',
       dom_cp:'05000', dom_alcaldia:'Cuajimalpa de Morelos',
       sexo_genero:'hombre', edad_rango:'30-44',
@@ -1657,7 +1660,7 @@ var ESCENARIOS = [
   {id:'anp_federal', nom:'ANP federal sin convenio',
    d:'El Histórico Coyoacán · se deriva a la PROFEPA',
    paso:2,
-   e:{tiene_direccion:'si', materia:'ava', lat:'19.354350', lon:'-99.171610',
+   e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'ava', lat:'19.354350', lon:'-99.171610',
       calle:'Calle Francisco Sosa', num_ext:'150', entre_calles:'Cerca de la plaza de Santa Catarina',
       colonia:'Del Carmen', alcaldia_dir:'Coyoacán', cp:'04100',
       referencias:'Casona con portón de madera; la obra se ve desde la calle por encima de la barda.',
@@ -1671,7 +1674,7 @@ var ESCENARIOS = [
       identificacion:'nombre',
       nombre:'Ana Sofía', apellido_paterno:'Villanueva', apellido_materno:'Ruiz',
       telefono:'5544556677', correo:'as.villanueva@ejemplo.mx',
-      dom_calle:'Calle Pino', dom_num_ext:'25', dom_num_int:'5',
+      dom_tiene_mz_lote:'no', dom_calle:'Calle Pino', dom_num_ext:'25', dom_num_int:'5',
       dom_entre_calles:'Entre la calle Fresno y la calle Cedro', dom_colonia:'Santa Catarina',
       dom_cp:'04010', dom_alcaldia:'Coyoacán',
       sexo_genero:'mujer', edad_rango:'18-29',
@@ -1680,7 +1683,7 @@ var ESCENARIOS = [
   {id:'fuera', nom:'Punto fuera de la Ciudad',
    d:'Naucalpan · el formulario impide continuar',
    paso:2,
-   e:{tiene_direccion:'si', materia:'emisiones', lat:'19.478000', lon:'-99.240000',
+   e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'emisiones', lat:'19.478000', lon:'-99.240000',
       calle:'Avenida Industrial', num_ext:'300', entre_calles:'Frente a la zona de bodegas',
       referencias:'Nave industrial con chimenea alta y portón azul.',
       es_estab:'si', tipo_estab:'Industria o fábrica', nombre_estab:'Fundidora La Prueba',
@@ -1692,7 +1695,7 @@ var ESCENARIOS = [
       identificacion:'nombre',
       nombre:'Patricia', apellido_paterno:'Salas', apellido_materno:'Núñez',
       telefono:'5577889900', correo:'p.salas@ejemplo.mx',
-      dom_calle:'Calle Norte 45', dom_num_ext:'60', dom_num_int:'8', dom_entre_calles:'Entre la calle Poniente 116 y la calle Poniente 118',
+      dom_tiene_mz_lote:'no', dom_calle:'Calle Norte 45', dom_num_ext:'60', dom_num_int:'8', dom_entre_calles:'Entre la calle Poniente 116 y la calle Poniente 118',
       dom_colonia:'Industrial Vallejo', dom_cp:'02300', dom_alcaldia:'Azcapotzalco',
       sexo_genero:'mujer', edad_rango:'30-44',
       privacidad:'si'}},
@@ -1705,7 +1708,7 @@ var ESCENARIOS = [
   {id:'otro_giro', nom:'Establecimiento de giro no listado',
    d:'«Otro» abre el campo de texto',
    paso:3,
-   e:{tiene_direccion:'si', materia:'descargas', lat:'19.390000', lon:'-99.060000',
+   e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'descargas', lat:'19.390000', lon:'-99.060000',
       calle:'Calle 5', num_ext:'27', entre_calles:'Entre la calle 4 y la calle 6',
       colonia:'Pantitlán I', alcaldia_dir:'Iztacalco', cp:'08100',
       referencias:'Local con cortina blanca y garrafones apilados en la entrada.',
@@ -1719,7 +1722,7 @@ var ESCENARIOS = [
       identificacion:'nombre',
       nombre:'Carlos', apellido_paterno:'Domínguez', apellido_materno:'Soto',
       telefono:'5566778899', correo:'c.dominguez@ejemplo.mx',
-      dom_calle:'Calle 7', dom_num_ext:'31', dom_num_int:'1',
+      dom_tiene_mz_lote:'no', dom_calle:'Calle 7', dom_num_ext:'31', dom_num_int:'1',
       dom_entre_calles:'Entre la calle 6 y la calle 8', dom_colonia:'Pantitlán',
       dom_cp:'08100', dom_alcaldia:'Iztacalco',
       sexo_genero:'hombre', edad_rango:'45-59',
@@ -3762,8 +3765,8 @@ function camposMzLote(p){
   p = p || '';
   return val(p+'tiene_mz_lote') === 'si'
     ? '<div class="fila">'+
-        campo(p+'manzana','Manzana','texto',false,'')+
-        campo(p+'lote','Lote','texto',false,'')+
+        campo(p+'manzana','Manzana','texto',esObligatorio(p+'manzana'),'')+
+        campo(p+'lote','Lote','texto',esObligatorio(p+'lote'),'')+
       '</div>'
     : '';
 }

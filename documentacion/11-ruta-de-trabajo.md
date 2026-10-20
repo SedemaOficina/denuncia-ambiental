@@ -1074,3 +1074,9 @@ Versiones 2 a 6 del formulario (DEC-188 a DEC-197), a partir de la revisión de 
 
 **Verificación de cierre.** **1 031 comprobaciones en verde en treinta baterías**, con una nueva: `30-medios-de-otras-autoridades.py`, en teléfono y escritorio. Sintaxis correcta. Revisión visual de la derivación de uso de suelo a 390 px. Documento 09 regenerado y versión publicada al día.
 
+### 20 de octubre de 2026 · manzana y lote, obligatoria (DEC-198)
+
+«¿El predio se identifica por manzana y lote?» pasa a obligatoria en el lugar y en el domicilio; con «Sí», manzana y lote también. `camposMzLote()` dejaba la obligatoriedad escrita como `false` en la llamada a `campo()`: ahora la lee de `OBLIG`, que es la regla 3.1. Los once escenarios responden «No». Tres pruebas anteriores (02, 15 y 22) llenaban una dirección sin contestar la pregunta o exigían que fuera opcional: se ajustaron al cambio, que fue deliberado.
+
+**Verificación de cierre.** **1 055 comprobaciones en verde en 31 baterías**, con una nueva: `31-manzana-y-lote-obligatoria.py`, en teléfono y escritorio. Documento 09 regenerado y versión publicada al día.
+
