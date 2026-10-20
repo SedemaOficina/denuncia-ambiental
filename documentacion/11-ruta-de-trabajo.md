@@ -1172,3 +1172,7 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 
 **Verificación de cierre.** Batería completa en verde.
 
+### 20 de octubre de 2026 · OBS-0020 atendida (DEC-223)
+
+**Qué cambió.** Viviendas, condominios, unidades habitacionales y vía pública: la DGIVA recibe, inspecciona y, si corresponde, deriva a la alcaldía; construcción, siempre la DGIVA. El formulario no cambia. Hoja de control y Excel de validación al día; quedan para discusión OBS-0024 y OBS-0027.
+

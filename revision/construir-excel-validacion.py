@@ -58,8 +58,6 @@ preguntas = [
   'Con el cruce espacial del formulario, el punto cae en suelo de conservación (La Magdalena Contreras).'),
  ('OBS-0024', 'Giros fuera de competencia', '¿Qué giros de la lista «Tipo de establecimiento» quedan fuera de la competencia de la CIVASU?',
   'Lista actual: obra en construcción o demolición; taller mecánico, hojalatería o pintura; industria o fábrica; bodega o almacén; restaurante, fonda o cocina económica; bar, cantina, salón de fiestas o antro; tienda, abarrotes u otro comercio; panadería o tortillería; carnicería, pollería o pescadería; lavandería o tintorería; gasolinera o estación de servicio; estacionamiento o pensión; hospital, clínica, consultorio o laboratorio; escuela, oficina o edificio público; banco de materiales, mina o tiro de tierra; centro de acopio o reciclaje; vivero, granja, establo o rastro; espectáculo público, feria o evento; otro.'),
- ('OBS-0020', 'Viviendas, condominios y unidades habitacionales', '¿Qué autoridad atiende los hechos que ocurren dentro de viviendas, condominios o unidades habitacionales?',
-  'El arbolado ya está resuelto: la DGIVA atiende todo el arbolado urbano en suelo urbano y en las áreas de valor ambiental (20 oct 2026), y el formulario lo trata como competencia de la Secretaría.'),
  ('P-09', 'Datos de la DGCORENADR', 'Domicilio, horario de atención y teléfono de la Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas (DGCORENADR).',
   'La tarjeta «Presencial» los muestra todavía como «por confirmar».'),
  ('P-07', 'Plazo para informar', '¿En cuántos días hábiles se responde a quien consulta el estado de su denuncia?',
