@@ -126,7 +126,7 @@ with sync_playwright() as pw:
     afirma(pg.evaluate("() => archivos.length") == 0, 'si se quita mientras se optimiza, no reaparece')
 
     # ---- el aviso de privacidad lo dice ----
-    pv = pg.evaluate("() => { irA(5); const p = document.querySelector('.priv'); return p ? p.innerText : ''; }")
+    pv = pg.evaluate("() => { irA(5); const pl = document.querySelector('.priv-plegable'); if(pl) pl.open = true; const p = document.querySelector('.priv'); return p ? p.innerText : ''; }")
     # DEC-210: el aviso dice que se conservan la fecha y el lugar de captura de las fotos.
     afirma('fecha y el lugar de captura' in pv, 'el aviso de privacidad dice que se conservan fecha y lugar de captura')
 

@@ -92,7 +92,7 @@ with sync_playwright() as pw:
     afirma(not au['nose']['cual'] and not au['nose']['area'] and au['nose']['suelta'], 'con «No lo sé», no se pregunta cuál ni el área, y se suelta lo escrito: %s' % au['nose'])
     # ---- DEC-210: aviso de privacidad con su texto ----
     av = pg.evaluate("""() => { estado = {}; guarda('materia','rsu'); guarda('identificacion','nombre'); irA(5);
-      const p = document.querySelector('.priv'); return p ? {t: p.innerText, huecos: [...p.querySelectorAll('.pendiente')].map(x => x.textContent)} : null; }""")
+      const pl = document.querySelector('.priv-plegable'); if(pl) pl.open = true; const p = document.querySelector('.priv'); return p ? {t: p.innerText, huecos: [...p.querySelectorAll('.pendiente')].map(x => x.textContent)} : null; }""")
     afirma(av and 'Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México' in av['t'] and 'ARCOP' in av['t'] and 'Por desarrollar' not in av['t'],
            'el aviso del paso 5 tiene su texto y ya no dice «Por desarrollar»')
     afirma(av and av['huecos'] == ['[nombre del sistema registrado]', '[fundamento de esta transferencia por confirmar]', '[dirección electrónica]'],

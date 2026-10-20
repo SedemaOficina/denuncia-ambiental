@@ -183,10 +183,20 @@ with sync_playwright() as pw:
         afirma('Cultura de la denuncia.' in r['tarjeta'] and 'Justicia restaurativa.' in r['tarjeta'] and 'visión con la que la Secretaría' in r['tarjeta']
                and 'Denunciar no es pelearse con nadie' not in r['tarjeta'] and 'Por qué importa que denuncies' not in r['tarjeta'],
                '%s: cultura de la denuncia y justicia restaurativa, como visión de la Secretaría, sustituyen al párrafo de DEC-173 (DEC-178)' % nom)
+        afirma('visita de inspección' not in r['tarjeta'], '%s: la entrada ya no promete una visita de inspección (DEC-219)' % nom)
         afirma(pg.evaluate("""() => { const b = [...document.querySelectorAll('#app .portada-bloque')].find(x => x.innerText.includes('Justicia restaurativa'));
-          return !!b && b.querySelectorAll('.nec-ico svg').length === 2; }""") and 'antes que sólo actuar de manera punitiva' in r['tarjeta']
+          return !!b && b.querySelectorAll('li').length === 2 && b.querySelectorAll('svg').length === 0; }""") and 'antes que sólo actuar de manera punitiva' in r['tarjeta']
                and 'imponer una multa' not in r['tarjeta'],
-               '%s: cada idea con su ícono, y la justicia restaurativa dice «antes que sólo actuar de manera punitiva» (DEC-179)' % nom)
+               '%s: las dos ideas van en viñetas, sin ícono (DEC-215), y la justicia restaurativa dice «antes que sólo actuar de manera punitiva» (DEC-179)' % nom)
+        vin = pg.evaluate("""() => { const b = [...document.querySelectorAll('#app .portada-bloque')].find(x => x.innerText.includes('¿Qué necesitas?'));
+          const li = b ? b.querySelector('li') : null, cs = li ? getComputedStyle(li) : null;
+          const faq = document.querySelector('#app .faq');
+          return {iconos: b ? b.querySelectorAll('svg').length : -1, items: b ? b.querySelectorAll('li').length : 0,
+                  borde: cs ? cs.borderTopStyle : '', vineta: li ? getComputedStyle(li, '::before').backgroundColor : '',
+                  faqGap: faq ? parseFloat(getComputedStyle(faq).rowGap) : 0}; }""")
+        afirma(vin['iconos'] == 0 and vin['items'] == 4 and vin['borde'] == 'none' and vin['vineta'] not in ('', 'rgba(0, 0, 0, 0)'),
+               '%s: «¿Qué necesitas?» son cuatro viñetas, sin tarjeta ni ícono (DEC-215)' % nom)
+        afirma(vin['faqGap'] >= 12, '%s: las preguntas frecuentes llevan aire entre sí (%s px)' % (nom, vin['faqGap']))
 
         # El aviso de denuncia sin terminar puede acortarse, pero NUNCA puede
         # perder que aun no se ha presentado: sin esa frase alguien cierra el

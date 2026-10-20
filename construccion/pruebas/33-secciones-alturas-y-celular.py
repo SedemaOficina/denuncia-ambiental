@@ -169,6 +169,62 @@ with sync_playwright() as pw:
     afirma(foco['dedoOtro'] == 'f_tipo_estab_otro' and foco['ratonOtro'] == 'f_tipo_estab_otro',
            'con «Otro», el foco pasa al campo para especificarlo')
     pg.close()
+    # ---- DEC-216: la ficha de otra autoridad se abre bajo el supuesto y a la vista ----
+    for ancho in (390, 1100):
+        pg = nav.new_context(viewport={'width':ancho,'height':800}).new_page()
+        pg.goto(TMP.as_uri()); pg.wait_for_timeout(600)
+        pg.evaluate("() => { estado = {}; guarda('otras','si'); irA(1); }")
+        botones = pg.locator('.bloque-otras .fila-op')
+        n = botones.count()
+        botones.nth(n - 1).click(); pg.wait_for_timeout(900)
+        fd = pg.evaluate("""() => { const f = document.getElementById('fichaDeriva'); if(!f) return null;
+          const r = f.getBoundingClientRect(), b = f.previousElementSibling;
+          return {debajo: !!b && b.classList.contains('fila-op') && b.getAttribute('aria-pressed') === 'true',
+                  visible: r.top >= 0 && r.top < innerHeight - 80, foco: document.activeElement && document.activeElement.id,
+                  ancho: Math.round(r.width), lista: Math.round(f.parentElement.getBoundingClientRect().width)}; }""")
+        afirma(fd is not None and fd['debajo'], '%d px: la ficha de otra autoridad va justo debajo del supuesto elegido' % ancho)
+        afirma(fd and fd['visible'], '%d px: al elegir el último supuesto, la ficha queda a la vista sin bajar a mano' % ancho)
+        afirma(fd and fd['foco'] == 'fichaDerivaTit', '%d px: el foco pasa al título de la ficha, para lectores de pantalla' % ancho)
+        afirma(fd and fd['ancho'] == fd['lista'], '%d px: la ficha ocupa el ancho de la lista' % ancho)
+        pg.locator('.bloque-otras .fila-op[aria-pressed="true"]').click(); pg.wait_for_timeout(300)
+        afirma(pg.evaluate("() => !document.getElementById('fichaDeriva')"), '%d px: tocar otra vez el supuesto cierra la ficha' % ancho)
+        pg.close()
+
+    # ---- DEC-217: la fecha vacía muestra un marcador, también en iPhone ----
+    pg = nav.new_context(viewport={'width':390,'height':900}).new_page()
+    pg.goto(TMP.as_uri()); pg.wait_for_timeout(600)
+    fe = pg.evaluate("""() => { cargaEscenario('urbano'); guarda('conoce_fecha','si'); guarda('fecha_hecho',''); irA(3);
+      const i = document.getElementById('f_fecha_hecho'), m = i.parentElement.querySelector('.fecha-marcador');
+      const vis = () => !!m && getComputedStyle(m).display !== 'none';
+      const r = {vacia: i.classList.contains('vacia'), marcador: vis(), texto: m ? m.textContent : '',
+                 oculto: getComputedStyle(i).color === 'rgba(0, 0, 0, 0)'};
+      i.value = '2026-09-15'; i.dispatchEvent(new Event('input'));
+      r.conFecha = vis(); r.guardada = val('fecha_hecho'); r.colorCon = getComputedStyle(i).color;
+      return r; }""")
+    afirma(fe['vacia'] and fe['marcador'] and fe['texto'] == 'dd/mm/aaaa' and fe['oculto'],
+           'la fecha vacía muestra «dd/mm/aaaa» en lugar de quedar en blanco (DEC-217)')
+    afirma(not fe['conFecha'] and fe['guardada'] == '2026-09-15' and fe['colorCon'] != 'rgba(0, 0, 0, 0)',
+           'al elegir la fecha, el marcador se va y la fecha se ve y se guarda')
+    pg.screenshot(path=str(AQUI / '_fecha33.png')); pg.close()
+    (AQUI / '_fecha33.png').unlink()
+
+    # ---- DEC-218: paso 5 en teléfono: casilla visible, aviso plegado, estadística breve ----
+    pg = nav.new_context(viewport={'width':390,'height':900}).new_page()
+    pg.goto(TMP.as_uri()); pg.wait_for_timeout(600)
+    p5 = pg.evaluate("""() => { cargaEscenario('urbano'); irA(5);
+      const c = document.getElementById('chkPriv').getBoundingClientRect(), pl = document.querySelector('.priv-plegable');
+      const est = [...document.querySelectorAll('#app h3')].find(h => h.innerText.indexOf('estadística') >= 0);
+      const ay = est ? est.nextElementSibling.innerText : '';
+      const opciones = [...document.querySelectorAll('#f_sexo_genero option, #f_edad_rango option')].map(o => o.text);
+      return {casilla: [Math.round(c.width), Math.round(c.height)], plegado: !!pl && !pl.open,
+              resumen: pl ? pl.querySelector('summary').innerText : '', ayuda: ay,
+              noDecir: opciones.some(t => t.indexOf('no decirlo') >= 0)}; }""")
+    afirma(min(p5['casilla']) >= 20, 'la casilla de consentimiento se ve en teléfono: %s px' % p5['casilla'])
+    afirma(p5['plegado'] and p5['resumen'] == 'Leer el aviso de privacidad', 'el aviso de privacidad llega plegado, con «Leer el aviso de privacidad»')
+    afirma(0 < len(p5['ayuda']) <= 110 and 'Opcionales' in p5['ayuda'], 'el texto de la estadística es breve (%d caracteres)' % len(p5['ayuda']))
+    afirma(not p5['noDecir'], 'ni género ni edad ofrecen «Prefiero no decirlo»')
+    pg.close()
+
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])
     nav.close()
 

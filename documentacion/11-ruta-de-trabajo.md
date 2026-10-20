@@ -1137,3 +1137,25 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 
 **Verificación de cierre.** Batería 33 ampliada (37 comprobaciones): espacio tras un renglón igual al de un campo suelto, campos en bloque en teléfono, marcador de la colonia antes y después de elegir alcaldía, sin «Denuncia sobre». Batería completa en verde. Lo de Safari sólo se confirma en el iPhone de Liber.
 
+### 20 de octubre de 2026 · portada en teléfono (DEC-215)
+
+**Qué cambió.** «La visión de la Secretaría» y «¿Qué necesitas?» pasan de tarjetas con ícono a listas con viñeta; las preguntas frecuentes ganan separación y relleno. Prueba 04 reescrita: ya no exige un ícono por idea, exige viñetas sin ícono y aire entre preguntas.
+
+**Verificación de cierre.** Batería completa en verde; revisión visual de la portada a 390 px.
+
+### 20 de octubre de 2026 · ficha de otra autoridad a la vista (DEC-216)
+
+**Qué cambió.** La ficha de derivación se genera dentro de la lista, inmediatamente después del supuesto elegido (`fichaDeriva()`), y `eligeDeriva()` la lleva a la vista y le pasa el foco. Batería 33 ampliada: ficha debajo del supuesto, visible sin desplazarse al elegir el último de la lista, foco en su título, ancho de la lista y cierre al tocar de nuevo, a 390 y 1 100 px.
+
+**Verificación de cierre.** Batería completa en verde; revisión visual en teléfono y escritorio.
+
+### 20 de octubre de 2026 · fecha, aviso, estadística y casilla (DEC-217 y DEC-218)
+
+**Qué cambió.** Marcador sobrepuesto en el campo de fecha; aviso de privacidad plegado; ayuda de estadística en una línea; fuera «Prefiero no decirlo»; una sola regla para las casillas. Pruebas 06, 19, 20 y 32 abren el aviso antes de leerlo; la 06 comprueba que llegue plegado y que no exista «Prefiero no decirlo»; la 33 suma fecha vacía con marcador, casilla de 20 px en teléfono, aviso plegado y estadística breve. El escenario «conservación» contesta ahora género y edad con valores de la lista.
+
+**Verificación de cierre.** Batería completa en verde; revisión visual del paso 5 a 390 px.
+
+### 20 de octubre de 2026 · entrada de la portada (DEC-219)
+
+**Qué cambió.** Se quita la frase de la visita de inspección del párrafo de entrada. Prueba 04 comprueba que no vuelva. Batería completa en verde.
+

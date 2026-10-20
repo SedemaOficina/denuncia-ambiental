@@ -45,12 +45,12 @@ with sync_playwright() as pw:
                   opcionesG: g ? g.options.length : 0,
                   opcionesE: e ? e.options.length : 0,
                   asterisco: (et('sexo_genero')+et('edad_rango')).indexOf('*') >= 0,
-                  noResponde: g ? [...g.options].some(o => o.text.indexOf('no decirlo') >= 0) : false};
+                  noResponde: g ? ![...g.options].some(o => o.text.indexOf('no decirlo') >= 0) : false};
         }""", ruta)
         afirma(r['hay'], 'ruta %s: se preguntan género y edad' % nom)
         afirma(not r['asterisco'], 'ruta %s: ninguna de las dos lleva asterisco' % nom)
-        afirma(r['noResponde'], 'ruta %s: el género admite no responder' % nom)
-        afirma(r['opcionesG'] >= 6 and r['opcionesE'] >= 7,
+        afirma(r['noResponde'], 'ruta %s: sin «Prefiero no decirlo»: no contestar es dejarla en blanco (DEC-218)' % nom)
+        afirma(r['opcionesG'] >= 5 and r['opcionesE'] >= 6,
                'ruta %s: las dos listas tienen todas sus opciones (%d y %d)' % (nom, r['opcionesG'], r['opcionesE']))
 
     # Sin responderlas, el paso 5 se completa.
@@ -61,15 +61,17 @@ with sync_playwright() as pw:
     }""")
     afirma(pasa is True, 'sin responder género ni edad, el paso 5 se completa')
 
-    # ---- 2. El aviso de privacidad se lee en pantalla ----
+    # ---- 2. El aviso de privacidad está en la pantalla, plegado (DEC-218) ----
     av = pg.evaluate("""() => {
       irA(5);
-      const p = document.querySelector('.priv');
-      if(!p) return null;
+      const pl = document.querySelector('.priv-plegable'), p = document.querySelector('.priv');
+      if(!pl || !p) return null;
+      const plegado = !pl.open && (p.checkVisibility ? !p.checkVisibility() : p.offsetParent === null);
+      pl.open = true;
       const chk = document.getElementById('chkPriv');
       const t = p.innerText;
-      return {visible: p.getBoundingClientRect().height > 60,
-              antesDelCheck: !!chk && p.getBoundingClientRect().top < chk.getBoundingClientRect().top,
+      return {plegado: plegado, visible: p.getBoundingClientRect().height > 60,
+              antesDelCheck: !!chk && pl.getBoundingClientRect().top < chk.getBoundingClientRect().top,
               rotulos: ['es la Responsable del tratamiento','ser\\u00e1n utilizados con la finalidad','podr\\u00e1n ser transferidos',
                         'se solicitar\\u00e1n los siguientes datos','derechos ARCOP','aviso de privacidad integral']
                        .filter(x => t.indexOf(x) >= 0).length,
@@ -77,7 +79,8 @@ with sync_playwright() as pw:
               alertas: [...document.querySelectorAll('#app [onclick]')]
                         .filter(b => (b.getAttribute('onclick')||'').indexOf('Aviso de privacidad integral') >= 0).length};
     }""")
-    afirma(av is not None and av['visible'], 'el aviso de privacidad ocupa lugar en la pantalla')
+    afirma(av is not None and av['plegado'], 'el aviso de privacidad llega plegado (DEC-218)')
+    afirma(av is not None and av['visible'], 'y al abrirlo se lee en la misma pantalla')
     afirma(av and av['antesDelCheck'], 'y va antes de la casilla con la que se consiente')
     # DEC-210: el aviso tiene su texto; lo que falta queda como hueco visible.
     afirma(av and av['rotulos'] == 6, 'el aviso dice responsable, finalidades, transferencias, datos, derechos y aviso integral (%s de 6)' % (av and av['rotulos']))

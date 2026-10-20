@@ -150,10 +150,22 @@ input[type=text],input[type=tel],input[type=email],input[type=date],select,texta
   width:100%;padding:12px 13px;border:1px solid var(--borde);border-radius:var(--r-ctrl);
   font-family:inherit;font-size:var(--t-base);background:var(--blanco);color:var(--texto);transition:border-color .15s,box-shadow .15s;min-height:46px;
 }
+/* Una sola casilla para todo el formulario (DEC-218). La de privacidad
+   llevaba width:auto en línea y, junto a un texto largo, Safari la encogía
+   hasta casi desaparecer. Tamaño fijo y sin encogerse. */
+input[type=checkbox]{width:20px;height:20px;min-height:0;margin:0;flex:none;accent-color:var(--azul);cursor:pointer}
 /* En iPhone el campo de fecha trae un ancho mínimo propio y se salía de la
    tarjeta; sin la apariencia del sistema respeta el ancho de la columna (DEC-169). */
 input[type=date]{-webkit-appearance:none;appearance:none;display:block;min-width:0;max-width:100%;text-align:left}
 input[type=date]::-webkit-date-and-time-value{text-align:left}
+/* El campo de fecha no admite marcador y en iPhone se veía en blanco. Se le
+   sobrepone uno, igual en todos los navegadores: el texto propio del campo se
+   oculta mientras esté vacío y sin foco (DEC-217). */
+.fecha-caja{position:relative}
+.fecha-marcador{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--gris-cl);font-size:var(--t-base);pointer-events:none}
+input[type=date].vacia{color:transparent}
+input[type=date].vacia:focus{color:var(--texto)}
+input[type=date]:not(.vacia) + .fecha-marcador,input[type=date]:focus + .fecha-marcador{display:none}
 /* El select traia el control del sistema y se veia distinto de los demas campos
    —otro tipo de letra, otra altura, otra flecha—. Se le quita esa apariencia y
    se le dibuja la flecha, de modo que la columna de campos queda pareja. */
@@ -370,32 +382,29 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 /* Ocupa el ancho de las tarjetas de abajo: con tope en caracteres se cortaba antes y se veía desalineado (DEC-166). */
 .portada-lead{font-size:var(--t-lg);line-height:1.5;color:var(--texto);margin:4px 0 24px}
 .portada-lead + .portada-lead{margin-top:-12px}
-/* Viñetas de la portada (DEC-167). Tres, cada una con un trabajo:
-   palomita para lo que se afirma (ventajas y derechos), ícono para lo que
-   se lleva («¿Qué necesitas?») y flecha para lo que se despliega (preguntas).
-   La secuencia numerada vive en el acuse. */
-.necesitas{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-@media (max-width:560px){.necesitas{grid-template-columns:1fr}}
-.necesitas li{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--blanco);border:1px solid var(--linea);
-  border-radius:var(--r-caja);font-size:var(--t-base);line-height:1.45;color:var(--texto)}
-.nec-ico{flex:none;width:36px;height:36px;margin-top:-3px;border-radius:var(--r-pill);background:var(--guinda-cl);color:var(--guinda);
-  display:flex;align-items:center;justify-content:center}
+/* Listas de la portada: viñeta guinda, sin tarjeta ni ícono (DEC-215). Con
+   un ícono en círculo por renglón, la visión y «¿Qué necesitas?» hacían seis
+   tarjetas seguidas y mucho ruido en el teléfono. La flecha queda sólo para
+   lo que se despliega (preguntas); la secuencia numerada vive en el acuse. */
+.necesitas{list-style:none;margin:0;padding:0;display:grid;gap:10px;max-width:75ch}
+.necesitas li{position:relative;padding-left:22px;font-size:var(--t-base);line-height:1.5;color:var(--texto)}
+.necesitas li::before{content:'';position:absolute;left:4px;top:.6em;width:7px;height:7px;border-radius:var(--r-pill);background:var(--guinda)}
 .necesitas b{font-weight:600}
 .derechos b{font-weight:600}
 /* Cada pregunta en su tarjeta, con una flecha guinda que gira al abrirse (DEC-144, DEC-167). */
-.faq{display:grid;gap:8px}
+.faq{display:grid;gap:12px}
 /* Tres preguntas a la vista; el resto, con el botón (DEC-185). */
 .faq-corta details:nth-of-type(n+4){display:none}
 .faq-ver{margin-top:12px}
-.faq details{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja)}
-.faq summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:13px 18px;
+.faq details,.priv-plegable{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja)}
+.faq summary,.priv-plegable summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:16px 18px;
   font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-base);font-weight:700;line-height:1.35;color:var(--texto)}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary::before{content:'';flex:none;width:8px;height:8px;margin:0 4px;border-right:2px solid var(--guinda);
+.faq summary::-webkit-details-marker,.priv-plegable summary::-webkit-details-marker{display:none}
+.faq summary::before,.priv-plegable summary::before{content:'';flex:none;width:8px;height:8px;margin:0 4px;border-right:2px solid var(--guinda);
   border-bottom:2px solid var(--guinda);transform:rotate(-45deg);transition:transform .15s}
-.faq details[open] summary::before{transform:rotate(45deg)}
-.faq summary:hover{background:var(--guinda-cl);border-radius:var(--r-caja)}
-.faq p{margin:0 18px 16px 38px;font-size:var(--t-base);line-height:1.55;color:var(--texto)}
+.faq details[open] summary::before,.priv-plegable[open] summary::before{transform:rotate(45deg)}
+.faq summary:hover,.priv-plegable summary:hover{background:var(--guinda-cl);border-radius:var(--r-caja)}
+.faq p{margin:4px 18px 18px 38px;font-size:var(--t-base);line-height:1.55;color:var(--texto)}
 /* Un solo estilo por nivel en la portada (DEC-145): titulos de seccion en
    Cabin guinda; titulos de tarjeta y preguntas en Cabin negro; todo el texto
    corrido en Roboto de 16 px, negro; en mayusculas pequenas solo las
@@ -469,7 +478,8 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
 .vias li .campo{margin-bottom:10px}
 /* Como sacar la ubicacion: plegado, para no cargar a quien ya sabe (DEC-122). */
 .campo label.casilla{display:flex;gap:10px;align-items:center;font-weight:400;cursor:pointer;margin:0}
-.campo label.casilla input{width:18px;height:18px;margin:0;flex:none;accent-color:var(--azul)}
+.campo label.casilla-larga{align-items:flex-start}
+.campo label.casilla-larga input{margin-top:3px}
 .aviso-pegar{margin:-4px 0 10px;padding:10px 13px;font-size:var(--t-sm)}
 .aviso-pegar a{color:var(--azul);font-weight:600}
 .como-ubicar{margin:-2px 0 4px;font-size:var(--t-sm);color:var(--gris)}
@@ -519,8 +529,9 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
 /* Aviso de privacidad simplificado: se lee en pantalla antes de enviar, no
    detras de un enlace que nadie abre. Tipografia menor que la del formulario,
    para que informe sin competir con las preguntas (DEC-79). */
-.priv{border:1px solid var(--linea);border-radius:var(--r-caja);background:var(--blanco);
-  padding:16px 18px;margin:4px 0 18px}
+.priv{padding:4px 18px 16px 38px}
+/* El aviso va dentro de su plegable, que pone la tarjeta (DEC-218). */
+.priv-plegable{margin:4px 0 18px}
 .priv p{font-size:var(--t-md);line-height:1.55;color:var(--texto);margin:0 0 10px}
 .priv p:last-child{margin-bottom:0}
 .priv b{color:var(--guinda);font-weight:600}
@@ -531,7 +542,7 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
    sino que lo comprueba el sistema (DEC-86). */
 .humano{display:flex;align-items:flex-start;gap:11px;border:1px solid var(--borde);
   border-radius:var(--r-caja);background:var(--blanco);padding:15px 17px;margin:6px 0 4px}
-.humano input{width:auto;min-height:0;margin-top:3px;flex-shrink:0}
+.humano input{margin-top:3px}
 .humano .h-txt{flex:1;min-width:0}
 .humano .h-nom{display:block;font-weight:600;font-size:var(--t-base);line-height:1.35;color:var(--texto)}
 .humano .h-ayuda{display:block;font-size:var(--t-sm);color:var(--gris-cl);line-height:1.45;margin-top:3px}
@@ -666,6 +677,11 @@ details.rev-bloque .resumen{padding:14px}
 
 /* ---------- Derivación ---------- */
 .redir{border:1px solid var(--dorado);border-radius:var(--r-caja);padding:22px;background:var(--redir-bg)}
+/* La ficha de otra autoridad ocupa el ancho de la lista, bajo el renglón del
+   supuesto elegido; el vecino de al lado sube a llenar su lugar (DEC-216). */
+.lista-op > .redir{grid-column:1/-1;margin-bottom:6px}
+.bloque-otras .lista-op{grid-auto-flow:row dense}
+.redir h3:focus{outline:none}
 .redir h3{color:var(--texto);font-size:var(--t-lg);margin-bottom:10px}
 .redir .inst{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-ctrl);padding:15px;margin-top:14px}
 .redir .inst .nom{font-family:'Cabin',sans-serif;font-weight:700;color:var(--guinda);font-size:var(--t-base);display:block;margin-bottom:5px}
@@ -1480,7 +1496,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-214', fecha:'20 de octubre de 2026', nombre:'Versión 19 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-219', fecha:'20 de octubre de 2026', nombre:'Versión 24 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1614,7 +1630,7 @@ var ESCENARIOS = [
       reporto_antes:'no',
       otras_pruebas:'Puedo señalar en el mapa la brecha por donde sacan la madera.',
       identificacion:'anonima', correo:'avisos.anonimos@ejemplo.mx', telefono:'5511223344',
-      sexo_genero:'nd', edad_rango:'nd',
+      sexo_genero:'hombre', edad_rango:'30-44',
       privacidad:'si'}},
 
   {id:'gobierno', nom:'Obra de una alcaldía',
@@ -2198,8 +2214,10 @@ function pInicio(){
     '<h2 class="rotulo-portada">Denunciar el daño ambiental es tu derecho</h2>'+
     /* Dice para que sirve la pagina y quien la opera (DEC-168). */
     '<p class="portada-lead">Esta es la plataforma de la Secretaría del Medio Ambiente de la Ciudad de México para denunciar hechos que dañan el ambiente, '+
-      'como un derribo de árboles sin permiso, una descarga a la barranca o el humo de un establecimiento. '+
-      'La Secretaría revisa cada denuncia y, si es de su competencia, la atiende con una visita de inspección.</p>'+
+      'como un derribo de árboles sin permiso, una descarga a la barranca o el humo de un establecimiento.</p>'+
+    /* Sin «La Secretaría revisa cada denuncia y … la atiende con una visita
+       de inspección» (DEC-219): prometía una vía de atención antes de valorar
+       el caso. */
 
     /* Los dos medios van inmediatamente después de la entrada, como en
        DEC-116: es lo primero que la persona viene a hacer (DEC-183). */
@@ -2226,9 +2244,9 @@ function pInicio(){
     '<div class="portada-bloque">'+
       '<h2 class="rotulo-portada">La visión de la Secretaría</h2>'+
       '<ul class="necesitas">'+
-        '<li><span class="nec-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 10v4a1 1 0 0 0 1 1h2l1.2 4.2a1 1 0 0 0 1 .8h1.3a1 1 0 0 0 1-1.3L9.4 15H11l7 4V5l-7 4H4a1 1 0 0 0-1 1zm17.5 2a3 3 0 0 0-1.5-2.6v5.2a3 3 0 0 0 1.5-2.6z"/></svg></span>'+
+        '<li>'+
           '<span><b>Cultura de la denuncia.</b> La Secretaría no puede estar en cada calle: actúa cuando alguien avisa. Denunciar no es un conflicto entre vecinos, es cuidar lo que es de todos.</span></li>'+
-        '<li><span class="nec-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 21v-7.2C7.6 13.6 5 10.8 5 6V5h1c3.2 0 5.3 1.5 6.3 4 .9-3.1 3.3-5 6.700-5h1v1c0 4.900-2.600 7.800-6 8.400V21z"/></svg></span>'+
+        '<li>'+
           '<span><b>Justicia restaurativa.</b> Es la visión con la que la Secretaría atiende cada caso: detener el daño, repararlo y evitar que se repita, antes que sólo actuar de manera punitiva.</span></li>'+
       '</ul>'+
     '</div>'+
@@ -2236,10 +2254,10 @@ function pInicio(){
     '<div class="portada-bloque">'+
       '<h2 class="rotulo-portada">¿Qué necesitas?</h2>'+
       '<ul class="necesitas">'+
-        '<li><span class="nec-ico">'+svgIcono('pin',20)+'</span><span><b>Dónde ocurre:</b> la dirección o el punto en el mapa.</span></li>'+
-        '<li><span class="nec-ico">'+svgIcono('info',20)+'</span><span><b>Qué pasa</b> y desde cuándo.</span></li>'+
-        '<li><span class="nec-ico">'+svgIcono('clip',20)+'</span><span><b>Fotos, videos o documentos,</b> si los tienes. No son obligatorios.</span></li>'+
-        '<li><span class="nec-ico"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="4" fill="currentColor"/><path fill="currentColor" d="M4 20.5c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5z"/></svg></span><span><b>Tus datos,</b> o preséntala sin dar tu nombre.</span></li>'+
+        '<li><span><b>Dónde ocurre:</b> la dirección o el punto en el mapa.</span></li>'+
+        '<li><span><b>Qué pasa</b> y desde cuándo.</span></li>'+
+        '<li><span><b>Fotos, videos o documentos,</b> si los tienes. No son obligatorios.</span></li>'+
+        '<li><span><b>Tus datos,</b> o preséntala sin dar tu nombre.</span></li>'+
       '</ul>'+
     '</div>'+
 
@@ -2305,7 +2323,7 @@ function pMateria(){
     var sel = tipo==='materia' ? val('materia')===o.id : val('deriva')===o.id;
     var acc = tipo==='materia'
       ? "eligeMateria('"+o.id+"')"
-      : "guarda('deriva','"+o.id+"');guarda('materia','');render()";
+      : "eligeDeriva('"+o.id+"')";
     return '<button type="button" class="fila-op'+(tipo==='deriva'?' otra':'')+'" aria-pressed="'+(sel?'true':'false')+'" onclick="'+acc+'">'+
       '<span class="fo-ico">'+svgIcono(o.ico,24)+'</span>'+
       '<span class="fo-txt">'+
@@ -2358,7 +2376,12 @@ function pMateria(){
           '<span class="fo-flecha" aria-hidden="true">'+(abierto?'⌃':'⌄')+'</span>'+
         '</button>'+
         (abierto ? '<p class="sub" style="margin:12px 0 8px">Estos supuestos los atiende otra autoridad. Selecciónalo para conocer a dónde acudir.</p>'+
-          '<div class="lista-op">'+der.map(function(d){ return fila(d,'deriva'); }).join('')+'</div>' : '')+
+          /* A dónde acudir se abre justo debajo del supuesto elegido, no al
+             final de la lista: en teléfono quedaba fuera de la pantalla y
+             nadie bajaba a buscarlo (DEC-216). */
+          '<div class="lista-op">'+der.map(function(d){
+            return fila(d,'deriva') + (val('deriva')===d.id ? fichaDeriva(d) : '');
+          }).join('')+'</div>' : '')+
       '</div>';
     }
   }
@@ -2369,9 +2392,13 @@ function pMateria(){
   }
   h += '</div></div>';   /* cierra #listaMaterias y su contenedor #c_materia */
 
-  if(val('deriva')){
-    var d = DERIVA.filter(function(x){return x.id===val('deriva');})[0];
-    h += '<div class="redir" role="alert" style="margin-top:22px"><h3>Esta denuncia debe presentarse ante otra autoridad</h3>'+
+  h += '<div class="acciones" style="justify-content:flex-start">'+
+       '<button type="button" class="btn-atras" onclick="irA(0)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button></div></div>';
+  return h;
+}
+
+function fichaDeriva(d){
+  var h = '<div class="redir" id="fichaDeriva" role="alert"><h3 id="fichaDerivaTit" tabindex="-1">Esta denuncia debe presentarse ante otra autoridad</h3>'+
       '<p class="nota-gris">El supuesto «'+esc(d.nom)+'» no es competencia de la Secretaría del Medio Ambiente. Acude a:</p>';
     d.inst.forEach(function(i){
       /* La alcaldia es una de dieciseis: no lleva telefono ni liga, sino a
@@ -2384,11 +2411,21 @@ function pMateria(){
     });
     if(d.ojo) h += '<div class="aviso" style="margin-top:16px">'+d.ojo+'</div>';
     h += '<p style="margin-top:16px;font-size:var(--t-md);color:var(--gris)">Si tu caso también incluye un hecho de competencia de esta Secretaría, elígelo en la lista de arriba.</p></div>';
-  }
-
-  h += '<div class="acciones" style="justify-content:flex-start">'+
-       '<button type="button" class="btn-atras" onclick="irA(0)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button></div></div>';
   return h;
+}
+
+/* Elegir un supuesto de otra autoridad abre su ficha debajo de él y la lleva
+   a la vista; tocarlo otra vez la cierra (DEC-216). */
+function eligeDeriva(id){
+  var cerrar = val('deriva') === id;
+  guarda('deriva', cerrar ? '' : id); guarda('materia','');
+  render();
+  if(cerrar) return;
+  var f = $('fichaDeriva'), t = $('fichaDerivaTit');
+  var quieto = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var boton = f && f.previousElementSibling;
+  if(boton) boton.scrollIntoView({block:'start', behavior: quieto ? 'auto' : 'smooth'});
+  if(t) t.focus({preventScroll:true});
 }
 
 function eligeMateria(id){
@@ -3102,11 +3139,14 @@ function avisoPrivacidad(){
   var hueco = function(t){
     return esc(t).replace(/\[([^\]]+)\]/g, '<span class="pendiente">[$1]</span>');
   };
+  /* Plegado (DEC-218): el texto completo ocupaba varias pantallas en el
+     teléfono antes de la casilla de consentimiento. Se abre al tocarlo. */
   return '<h3 class="sub-seccion">Aviso de privacidad</h3>'+
+    '<details class="priv-plegable"><summary>Leer el aviso de privacidad</summary>'+
     '<div class="priv">'+
       '<p><b>'+esc(AVISO_PRIVACIDAD.titulo)+'</b></p>'+
       AVISO_PRIVACIDAD.parrafos.map(function(t){ return '<p>'+hueco(t)+'</p>'; }).join('')+
-    '</div>';
+    '</div></details>';
 }
 
 function pDenunciante(){
@@ -3116,6 +3156,9 @@ function pDenunciante(){
   /* Un borrador guardado antes de DEC-130 puede traer la ruta retirada: sus
      datos eran los de «Escribo mis datos», y ahí se quedan. */
   if(val('identificacion') === 'llave'){ guarda('identificacion','nombre'); }
+  /* Y uno anterior a DEC-218 puede traer «Prefiero no decirlo», que ya no es
+     opción: equivale a dejar la pregunta en blanco. */
+  ['sexo_genero','edad_rango'].forEach(function(k){ if(val(k) === 'nd') guarda(k, ''); });
   var ident = val('identificacion');
   function opcion(v,nom,desc){
     return '<button type="button" class="opcion" aria-pressed="'+(ident===v?'true':'false')+'" '+
@@ -3210,21 +3253,24 @@ function pDenunciante(){
      piden igual en la ruta anonima. Van en desplegable, no en botones, para
      que se lean como lo que son: secundarias y opcionales (DEC-78). */
   h += '<h3 class="sub-seccion">Dos preguntas para la estadística</h3>'+
-    '<p class="ayuda" style="margin-bottom:16px">Son opcionales y puedes dejarlas en blanco. Sirven para saber quién denuncia en la Ciudad y dónde hace falta acercar el servicio. No se usan para identificarte, no forman parte del expediente y no cambian el trámite de tu denuncia.</p>'+
+    /* Texto corto (DEC-218): lo que importa es que son opcionales y que no
+       identifican a nadie. Sin «Prefiero no decirlo»: dejarla en blanco es
+       la manera de no contestar. */
+    '<p class="ayuda" style="margin-bottom:16px">Opcionales. No te identifican ni forman parte de tu denuncia.</p>'+
     campoSelect('sexo_genero','¿Con qué género te identificas?',
       [{v:'mujer',t:'Mujer'},{v:'hombre',t:'Hombre'},{v:'no_binaria',t:'No binaria'},
-       {v:'otro',t:'Otro'},{v:'nd',t:'Prefiero no decirlo'}],false,'')+
+       {v:'otro',t:'Otro'}],false,'')+
     campoSelect('edad_rango','¿En qué rango de edad estás?',
       [{v:'-18',t:'Menor de 18 años'},{v:'18-29',t:'18 a 29 años'},{v:'30-44',t:'30 a 44 años'},
-       {v:'45-59',t:'45 a 59 años'},{v:'60+',t:'60 años o más'},{v:'nd',t:'Prefiero no decirlo'}],false,'')+
+       {v:'45-59',t:'45 a 59 años'},{v:'60+',t:'60 años o más'}],false,'')+
 
   /* El aviso se lee en pantalla antes de enviar —como lo hace la PAOT en su
      formulario— y no detras de un enlace (DEC-79). Por ahora solo quien trata
      los datos y para que; el resto queda por desarrollar (DEC-138). */
     avisoPrivacidad()+
 
-    '<div class="campo" id="c_privacidad"><label for="chkPriv" style="display:flex;gap:9px;align-items:flex-start;font-weight:400">'+
-    '<input type="checkbox" id="chkPriv" style="width:auto;margin-top:4px" '+(val('privacidad')==='si'?'checked':'')+' onchange="guarda(\'privacidad\',this.checked?\'si\':\'\');limpiaError(\'privacidad\')">'+
+    '<div class="campo" id="c_privacidad"><label class="casilla casilla-larga" for="chkPriv">'+
+    '<input type="checkbox" id="chkPriv" '+(val('privacidad')==='si'?'checked':'')+' onchange="guarda(\'privacidad\',this.checked?\'si\':\'\');limpiaError(\'privacidad\')">'+
     '<span>He leído el aviso de privacidad y consiento el tratamiento de mis datos personales. Manifiesto <strong>bajo protesta de decir verdad</strong> que los hechos que denuncio son ciertos.'+marca_opc(esObligatorio('privacidad'))+'</span></label>'+
     '<div class="err" id="e_privacidad">Debes aceptar para poder enviar la denuncia.</div></div>'+
 
@@ -3486,10 +3532,16 @@ function campo(k,etq,tipo,oblig,ayuda,extra){
   if(FORMATO[k]) alSalir.push('avisaFormato(\''+k+'\')');
   if(CAMPOS_DIRECCION.indexOf(k) >= 0) alSalir.push('buscaDireccionSola()');
   if(alSalir.length) extra = (extra||'') + ' onblur="'+alSalir.join(';')+'"';
+  var esFecha = t === 'date';
+  var control = '<input type="'+t+'" id="'+id+'" name="'+k+'" '+(extra||'')+marcadorDe(k,extra)+
+      (esFecha && !val(k) ? ' class="vacia"' : '')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" value="'+esc(val(k))+'" '+
+      'oninput="guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');'+(esFecha ? 'this.classList.toggle(\'vacia\',!this.value);' : '')+
+      'if(document.getElementById(\'avisoFecha\'))document.getElementById(\'avisoFecha\').innerHTML=avisoFecha();"'+
+      (esFecha ? ' onchange="this.classList.toggle(\'vacia\',!this.value)"' : '')+'>';
+  if(esFecha) control = '<div class="fecha-caja">'+control+'<span class="fecha-marcador" aria-hidden="true">dd/mm/aaaa</span></div>';
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
-    '<input type="'+t+'" id="'+id+'" name="'+k+'" '+(extra||'')+marcadorDe(k,extra)+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" value="'+esc(val(k))+'" '+
-      'oninput="guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');if(document.getElementById(\'avisoFecha\'))document.getElementById(\'avisoFecha\').innerHTML=avisoFecha();">'+
+    control+
     '<div class="err" id="'+idE+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
 }
 

@@ -65,7 +65,7 @@ with sync_playwright() as pw:
 
     # ---- 3. Sin pregunta de confidencialidad ----
     c = pg.evaluate("""() => { estado={}; guarda('identificacion','nombre'); irA(5);
-      const t = document.getElementById('app').innerText, p = document.querySelector('.priv');
+      const pl = document.querySelector('.priv-plegable'); if(pl) pl.open = true; const t = document.getElementById('app').innerText, p = document.querySelector('.priv');
       return {pregunta: !!document.getElementById('c_reserva') || /mantengan confidenciales/.test(t),
               aviso: p ? /no se dar\\u00e1n a conocer a la persona, empresa o autoridad denunciada/.test(p.innerText) : false,
               condicional: p ? /Si solicitaste/.test(p.innerText) : true}; }""")
