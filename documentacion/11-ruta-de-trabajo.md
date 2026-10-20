@@ -1231,3 +1231,5 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué.** CLAUDE.md pide que la batería quede en verde antes de cada commit; en Windows no arrancaba.
 
 **Verificación de cierre.** Batería completa en verde: 1 175 comprobaciones en 36 baterías, las mismas que en el entorno anterior.
+
+**Corrección.** El primer commit del bloque incluyó por error veintidós páginas temporales que dejan las baterías (`construccion/pruebas/_paginaNN.html`): `.gitignore` sólo excluía `_pagina.html`. Se retiraron del repositorio y la exclusión cubre ahora `_pagina*.html`. Se comprobó que ninguna contenía la clave del mapa base.
