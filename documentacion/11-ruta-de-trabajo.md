@@ -19,7 +19,9 @@ Ninguna fase inicia sin que la anterior cumpla su criterio de salida. El criteri
 
 **Equivalencia con las tres etapas de la Oficina de la Secretaría** (documento 01): la etapa 1, validar el formulario, es la fase 1; la etapa 2, el módulo de acceso de la Secretaría, es la fase 5 y su tablero; la etapa 3, la implementación en el SIA, reúne las fases 2, 3, 4 y 6.
 
-### Fase 1 · Maqueta del formulario ciudadano *(en curso)*
+### Fase 1 · Maqueta del formulario ciudadano *(cerrada el 20 de octubre de 2026, DEC-228)*
+
+> **Cierre.** Acta de validación de la DGIVA recibida y mapeo de campos validado; criterios 2 a 7 cumplidos. Pasan a la fase 2, como pendientes de contenido que no cambian la estructura de los datos: el fundamento de «Plásticos de un solo uso» (criterio 1, hueco visible «[Art. __, fracc. __]»), la respuesta a OBS-0024 y la versión sobre la que se firmó el acta, con la relación de cambios posteriores. Los tres datos del aviso de privacidad (P-02) siguen pendientes para publicar.
 
 Prototipo navegable, sin servidor, con los datos y las capas embebidos.
 
@@ -33,7 +35,7 @@ Prototipo navegable, sin servidor, con los datos y las capas embebidos.
 6. Pendientes jurídicos P-01 y P-02 resueltos: sin naturaleza del canal ni aviso de privacidad no hay publicación posible.
 7. Observaciones de la hoja de revisión (DEC-153) con estado «Atendida» o «Descartada» y su respuesta; ninguna «Pendiente».
 
-### Fase 2 · Contrato de datos y servicios
+### Fase 2 · Contrato de datos y servicios *(en curso desde el 20 de octubre de 2026)*
 
 > **Antes de abrir esta fase: cambiar el entorno de trabajo a Claude Code.**
 > **Acordado (DEC-221, 20 oct 2026).** Primera tarea de la fase: instalar Claude Code en la computadora de Liber. Con eso el commit y el `push` dejan de ser manuales; hasta entonces se sigue con «Push origin» en GitHub Desktop.
@@ -1199,4 +1201,8 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Qué cambió.** Se corrigieron una línea muerta, dos nombres de función repetidos, cinco selectores duplicados, dos colores fuera de `:root`, dos `!important`, treinta y ocho selectores por identificador y seis estilos en línea repetidos. La auditoría quedó como la batería 35, que corre sobre el prototipo y el artefacto.
 
 **Verificación de cierre.** Batería completa en verde (35 baterías). Revisión visual del mapa, del panel de validación y del modo revisión.
+
+### 20 de octubre de 2026 · cierre de la fase 1 (DEC-228)
+
+**Qué cambió.** Se da por cerrada la fase 1 y se abre la fase 2. Pendientes que pasan: fundamento de «Plásticos de un solo uso», OBS-0024, versión del acta y cambios posteriores (oficio a la DGIVA), y P-02 para publicar. Primeras tareas de la fase 2: enviar los commits pendientes, instalar Claude Code (DEC-221) y empezar el diccionario de datos con los catálogos —incluido el de estados del expediente, que espera P-14—.
 
