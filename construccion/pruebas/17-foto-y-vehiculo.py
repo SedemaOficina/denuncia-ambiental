@@ -51,11 +51,11 @@ with sync_playwright() as pw:
     PREP = """(m) => { archivos.length = 0; cfg.validar = true; guarda('materia', m); guarda('veh_servicio','');
       guarda('hechos','Un microbus de la ruta pasa todas las mananas echando humo negro por la avenida principal.');
       guarda('temporalidad','recurrente'); guarda('tipo_denunciado','nose'); guarda('es_estab','no');
-      guarda('sabe_permisos','no'); guarda('reporto_antes','no'); irA(3); }"""
+      guarda('sabe_permisos','no'); guarda('reporto_antes','no'); guarda('conoce_fecha','no'); irA(3); }"""
     pg.evaluate(PREP, 'vehiculo'); pg.wait_for_timeout(350)
     v = pg.evaluate("""() => {
       const c = document.getElementById('c_veh_servicio');
-      return {existe: !!c, ops: c ? [...c.querySelectorAll('button.btn-sn')].map(b => b.textContent) : [],
+      return {existe: !!c, ops: c ? [...c.querySelectorAll('select option')].filter(o => o.value).map(o => o.textContent) : [],  /* lista desde DEC-208 */
               marca: c ? !!c.querySelector('.req') : false,
               ayuda: c ? (c.querySelector('.ayuda')||{}).textContent : ''};
     }""")

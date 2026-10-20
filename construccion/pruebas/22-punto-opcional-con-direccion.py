@@ -55,7 +55,7 @@ with sync_playwright() as pw:
            'en esta versión de prueba no se promete que la dirección coloque el punto')
 
     # ---- revisión, envío y folio ----
-    pg.evaluate("() => { guarda('hechos','Tiran basura revuelta en la banqueta todas las noches desde hace un mes.'); guarda('temporalidad','recurrente'); guarda('es_estab','no'); guarda('tipo_denunciado','nose'); guarda('reporto_antes','no'); guarda('identificacion','anonima'); guarda('correo','a@b.mx'); guarda('privacidad','si'); irA(6); alternaDetalleRevision(); }")
+    pg.evaluate("() => { guarda('hechos','Tiran basura revuelta en la banqueta todas las noches desde hace un mes.'); guarda('temporalidad','recurrente'); guarda('es_estab','no'); guarda('tipo_denunciado','nose'); guarda('reporto_antes','no'); guarda('conoce_fecha','no'); guarda('identificacion','anonima'); guarda('correo','a@b.mx'); guarda('privacidad','si'); irA(6); alternaDetalleRevision(); }")
     pg.wait_for_timeout(300)
     rv = pg.evaluate("""() => { const v = t => { const dt=[...document.querySelectorAll('.resumen dt')].find(x=>x.textContent.indexOf(t)===0); return dt ? dt.nextElementSibling.textContent : null; };
       return {coord: v('Coordenadas'), alc: v('Alcaldía que atiende'), suelo: v('Tipo de suelo'),
@@ -71,7 +71,7 @@ with sync_playwright() as pw:
 
     # ---- con punto: como antes ----
     pg.evaluate(DIR); pg.evaluate("() => ponMarcador(19.4100, -99.0700)"); pg.wait_for_timeout(300)
-    pg.evaluate("() => { guarda('hechos','Tiran basura revuelta en la banqueta todas las noches desde hace un mes.'); guarda('temporalidad','recurrente'); guarda('es_estab','no'); guarda('tipo_denunciado','nose'); guarda('reporto_antes','no'); guarda('identificacion','anonima'); guarda('correo','a@b.mx'); guarda('privacidad','si'); guarda('verificacion','si'); enviar(); }")
+    pg.evaluate("() => { guarda('hechos','Tiran basura revuelta en la banqueta todas las noches desde hace un mes.'); guarda('temporalidad','recurrente'); guarda('es_estab','no'); guarda('tipo_denunciado','nose'); guarda('reporto_antes','no'); guarda('conoce_fecha','no'); guarda('identificacion','anonima'); guarda('correo','a@b.mx'); guarda('privacidad','si'); guarda('verificacion','si'); enviar(); }")
     pg.wait_for_timeout(300)
     f2 = pg.evaluate("() => ({folio: val('folio'), origen: val('ubicacion_origen')})")
     afirma(re.match(r'^SEDEMA/DEN/\d{4}/\d{6}-\d$', f2['folio'] or '') is not None and f2['origen'] == 'punto',

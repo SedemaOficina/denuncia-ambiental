@@ -1103,3 +1103,21 @@ Las pruebas 01, 02, 22 y 29 fijaban esos campos como opcionales y se ajustaron; 
 
 **Verificación de cierre.** **1 074 comprobaciones en verde en 32 baterías** antes de ampliar la 32, que pasa completa. Revisión visual del paso 3. Documento 09 regenerado y versión publicada al día.
 
+### 20 de octubre de 2026 · bloque «dirección en un renglón, fecha, establecimiento, listas, autoridad y aviso» (DEC-205 a DEC-210)
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| Alcaldía · colonia · código postal | Un renglón, sin ayudas | La ayuda de dos líneas sólo en la colonia desfasaba los controles (DEC-205) |
+| `conoce_fecha` | Pregunta nueva | Pide la fecha sólo a quien la conoce (DEC-206) |
+| `fecha_nosabe`, `fecha_mes`, `fecha_anio`, `cambiaFechaNoSabe()`, `aniosAtras()`, `MESES` | Retirados | Sustituidos por la pregunta de sí o no |
+| `selTipoEstab()`, `campoNombreEstab()` | Añadidos | Con «Otro», especifica al lado del tipo (DEC-207) |
+| `.en-fila` | Retirada | Quedó sin uso |
+| `campoOpciones()` y `.si-no.envolver` | Retirados | Tres o más respuestas, en lista desplegable (DEC-208) |
+| `autoridad_denunciada` | Obligatoria → opcional | Quien sabe el ámbito y no la institución no se detiene (DEC-209) |
+| `resp_area` | Condicionada | No aparece con ámbito «No lo sé» |
+| `APARTADOS_PRIVACIDAD` → `AVISO_PRIVACIDAD` | Sustituido | El aviso simplificado con su texto y tres huecos visibles (DEC-210) |
+
+Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32) y se reescribieron contra el nuevo; la 32 suma la autoridad y el aviso.
+
+**Verificación de cierre.** **1 084 comprobaciones en verde en 32 baterías.** Revisión visual de la dirección, la fecha y el aviso. Documento 09 regenerado: 57 campos. Versión publicada al día.
+

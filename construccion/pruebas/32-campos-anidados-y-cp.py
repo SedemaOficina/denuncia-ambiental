@@ -82,6 +82,21 @@ with sync_playwright() as pw:
       const t = document.querySelector('#app .tarjeta'); const h2 = t.querySelector('h2'); const q = document.getElementById('c_tiene_direccion');
       return {sinParrafo: !t.innerText.includes('Este paso pide'), seguida: h2.nextElementSibling === q}; })""")
     afirma(all(x['sinParrafo'] and x['seguida'] for x in pp), 'al contestar si tiene calle y número, nada aparece entre el título y la pregunta (DEC-204): %s' % pp)
+    # ---- DEC-209: autoridad — «¿Cuál?» opcional; con «No lo sé», ni «¿Cuál?» ni área ----
+    au = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('materia','rsu'); guarda('tipo_denunciado','gobierno'); guarda('autoridad_nivel','cdmx'); irA(3);
+      const r = {cualOpc: !esObligatorio('autoridad_denunciada') && !!document.getElementById('c_autoridad_denunciada'), area: !!document.getElementById('f_resp_area')};
+      guarda('resp_area','Dirección de obras'); const s = document.getElementById('f_autoridad_nivel'); s.value = 'nose'; s.dispatchEvent(new Event('change'));
+      r.nose = {cual: !!document.getElementById('c_autoridad_denunciada'), area: !!document.getElementById('f_resp_area'), suelta: !val('resp_area')};
+      return r; }""")
+    afirma(au['cualOpc'] and au['area'], 'con ámbito conocido, «¿Cuál?» aparece y es opcional, y se ofrece el área: %s' % au)
+    afirma(not au['nose']['cual'] and not au['nose']['area'] and au['nose']['suelta'], 'con «No lo sé», no se pregunta cuál ni el área, y se suelta lo escrito: %s' % au['nose'])
+    # ---- DEC-210: aviso de privacidad con su texto ----
+    av = pg.evaluate("""() => { estado = {}; guarda('materia','rsu'); guarda('identificacion','nombre'); irA(5);
+      const p = document.querySelector('.priv'); return p ? {t: p.innerText, huecos: [...p.querySelectorAll('.pendiente')].map(x => x.textContent)} : null; }""")
+    afirma(av and 'Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México' in av['t'] and 'ARCOP' in av['t'] and 'Por desarrollar' not in av['t'],
+           'el aviso del paso 5 tiene su texto y ya no dice «Por desarrollar»')
+    afirma(av and av['huecos'] == ['[nombre del sistema registrado]', '[fundamento de esta transferencia por confirmar]', '[dirección electrónica]'],
+           'los tres huecos quedan marcados como pendientes: %s' % (av and av['huecos']))
     nav.close()
 try: TMP.unlink()
 except OSError: pass

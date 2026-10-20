@@ -195,13 +195,10 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
    regla del mismo selector fue el error que este bloque deja resuelto. */
 @supports (grid-template-rows: subgrid){
   .fila,.fila-3,.fila-2-1{grid-template-rows:auto auto auto auto;grid-auto-rows:auto}
-  .fila > .campo,.fila-3 > .campo,.fila-2-1 > .campo,.fila > .en-fila > .campo{
+  .fila > .campo,.fila-3 > .campo,.fila-2-1 > .campo{
     display:grid;grid-template-rows:subgrid;grid-row:span 4;gap:0;align-content:start}
 }
 .campo .ayuda:empty{margin:0}
-/* Contenedor que se rehace sin rehacer la pantalla y cuyo campo es una
-   columna mas del renglon: no ocupa lugar propio en la rejilla (DEC-120). */
-.en-fila{display:contents}
 /* ---------- Colonia con catalogo (DEC-117) ----------
    La lista se abre bajo el campo y lo cubre todo a lo ancho; cada sugerencia
    dice la alcaldia, porque 59 nombres se repiten en dos alcaldias o mas. */
@@ -232,10 +229,6 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 .anidado{margin:-6px 0 18px 6px;padding:4px 0 0 16px;border-left:3px solid var(--dorado)}
 .anidado > .campo:last-child,.anidado > .fila:last-child .campo{margin-bottom:6px}
 @media (max-width:620px){.anidado{margin-left:2px;padding-left:12px}}
-.si-no.envolver{flex-wrap:wrap}
-/* Con más de dos opciones, rejilla fija: el renglón no se reacomoda al elegir (DEC-169). */
-.si-no.envolver{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-.si-no.envolver .btn-sn{min-width:0}
 .btn-sn{flex:0 0 auto;min-width:78px;min-height:40px;padding:9px 18px;
   background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r-ctrl);
   font-family:'Cabin',sans-serif;font-size:var(--t-md);font-weight:600;color:var(--gris);cursor:pointer}
@@ -1275,23 +1268,19 @@ var OBLIG = {
      uso:'Objeto y alcance de la visita de inspección; es la base de la motivación del acto.'},
   temporalidad:     {p:3, oblig:true,  etq:'Desde cuándo ocurre', dp:false, fin:'Expediente',
      uso:'Determina si la conducta es continua o aislada, lo que define la urgencia de la atención.'},
-  fecha_hecho:      {p:3, oblig:false, etq:'Fecha en que ocurrió o inició', dp:false, fin:'Expediente',
-     cond:function(){ return val('fecha_nosabe')!=='si'; } , cond_txt:'Sólo cuando la persona conoce la fecha exacta',
+  conoce_fecha:     {p:3, oblig:true,  etq:'¿Conoces la fecha en que ocurrió o inició?', dp:false, fin:'Expediente',
+     uso:'Pregunta de encaminamiento: pide la fecha sólo a quien la conoce (DEC-206).'},
+  fecha_hecho:      {p:3, oblig:true,  etq:'Fecha en que ocurrió o inició', dp:false, fin:'Expediente',
+     cond:function(){ return val('conoce_fecha')==='si'; } , cond_txt:'Sólo cuando la persona conoce la fecha',
      uso:'Ubicación temporal de los hechos en el expediente.'},
-  fecha_nosabe:     {p:3, oblig:false, etq:'No sé la fecha exacta', dp:false, fin:'Expediente',
-     uso:'Permite dar una fecha aproximada a quien no conoce el día exacto (OBS-0016, DEC-191).'},
-  fecha_mes:        {p:3, oblig:false, etq:'Mes aproximado', dp:false, fin:'Expediente',
-     cond:function(){ return val('fecha_nosabe')==='si'; } , cond_txt:'Sólo cuando la persona no sabe la fecha exacta',
-     uso:'Ubicación temporal aproximada de los hechos en el expediente.'},
-  fecha_anio:       {p:3, oblig:false, etq:'Año aproximado', dp:false, fin:'Expediente',
-     cond:function(){ return val('fecha_nosabe')==='si'; } , cond_txt:'Sólo cuando la persona no sabe la fecha exacta',
-     uso:'Ubicación temporal aproximada de los hechos en el expediente.'},
   tipo_denunciado:  {p:3, oblig:true,  etq:'¿Quién es responsable de los hechos?', dp:false, fin:'Responsable',
      uso:'Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar.'},
   autoridad_nivel:  {p:3, oblig:true,  etq:'Ámbito de la autoridad señalada', dp:false, fin:'Responsable',
      cond:function(){ return val('tipo_denunciado')==='gobierno'; } , cond_txt:'Sólo cuando se señala a una autoridad',
      uso:'Encamina la recomendación del art. 331: de él depende si se dirige a una dependencia de la Ciudad, a una alcaldía o a la federación, y contra qué catálogo se propone el nombre.'},
-  autoridad_denunciada: {p:3, oblig:true,  etq:'Dependencia, alcaldía u organismo señalado', dp:false, fin:'Responsable',
+  /* Opcional (DEC-209): quien sabe que es del Gobierno de la Ciudad pero no
+     qué institución no tiene que inventarla; la Secretaría la identifica. */
+  autoridad_denunciada: {p:3, oblig:false, etq:'Dependencia, alcaldía u organismo señalado', dp:false, fin:'Responsable',
      cond:function(){ return val('tipo_denunciado')==='gobierno' && !!val('autoridad_nivel') && val('autoridad_nivel')!=='nose'; } ,
      cond_txt:'Sólo cuando se señala a una autoridad y se eligió su ámbito',
      uso:'Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla.'},
@@ -1301,6 +1290,8 @@ var OBLIG = {
      cond:function(){ return val('tipo_denunciado')==='nose' || val('tipo_denunciado')==='desconocido'; } , cond_txt:'Sólo cuando la persona no sabe quién es el responsable',
      uso:'Señas de quien realiza los hechos —vehículos, uniformes, horarios— para reconocerlo en la visita de inspección.'},
   resp_area:        {p:3, oblig:false, etq:'Área o persona servidora pública', dp:true, fin:'Responsable',
+     cond:function(){ return val('tipo_denunciado')==='gobierno' && !!val('autoridad_nivel') && val('autoridad_nivel')!=='nose'; } ,
+     cond_txt:'Sólo cuando se señala a una autoridad y se conoce su ámbito',
      uso:'Precisa el área a la que se dirige la recomendación.'},
   reporto_antes:    {p:3, oblig:true,  etq:'¿Ya reportaste ante otra autoridad?', dp:false, fin:'Expediente',
    uso:'Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga.'},
@@ -1461,7 +1452,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-204', fecha:'20 de octubre de 2026', nombre:'Versión 13 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-210', fecha:'20 de octubre de 2026', nombre:'Versión 15 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1543,7 +1534,7 @@ var ESCENARIOS = [
       nombre_lugar:'Bosque de Tlalpan', alcaldia:'Tlalpan',
       referencias:'Se entra por la puerta 3, sobre Camino a Santa Teresa. A unos 200 metros del estacionamiento, subiendo por la vereda de la derecha, junto a los tanques de agua.',
       hechos:'Están derribando encinos adultos con motosierra dentro del bosque, fuera de cualquier sendero. Llevan tres fines de semana seguidos y sacan la madera en una camioneta de redilas por la puerta 3.',
-      temporalidad:'recurrente', fecha_hecho:'2026-09-05',
+      temporalidad:'recurrente', conoce_fecha:'si', fecha_hecho:'2026-09-05',
       es_estab:'no', tipo_denunciado:'nose',
       resp_senas:'Tres hombres con motosierra y casco naranja. La camioneta es de redilas, azul, sin placas visibles.',
       reporto_antes:'si',
@@ -1566,7 +1557,7 @@ var ESCENARIOS = [
       referencias:'Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.',
       es_estab:'si', tipo_estab:'Taller mecánico, hojalatería o pintura', nombre_estab:'Hojalatería El Volante',
       hechos:'El taller pinta carrocerías en la banqueta sin cabina ni extracción. El olor a solvente entra a las viviendas de los dos edificios contiguos y dura toda la tarde.',
-      temporalidad:'recurrente', fecha_hecho:'2026-09-10',
+      temporalidad:'recurrente', conoce_fecha:'si', fecha_hecho:'2026-09-10',
       tipo_denunciado:'empresa',
       reporto_antes:'si',
       gestiones:'Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.',
@@ -1589,7 +1580,7 @@ var ESCENARIOS = [
       referencias:'A kilómetro y medio del panteón, por la brecha que sube al monte. Hay un claro grande a la derecha.',
       es_estab:'no',
       hechos:'Cada semana entran camionetas con motosierra y sacan troncos por la brecha. Ya abrieron un claro grande donde antes había monte cerrado.',
-      temporalidad:'permanente', fecha_hecho:'2026-06-01',
+      temporalidad:'permanente', conoce_fecha:'si', fecha_hecho:'2026-06-01',
       tipo_denunciado:'nose',
       resp_senas:'Dos camionetas de redilas blancas, sin placas visibles. Llegan entre las seis y las ocho de la mañana, cuatro o cinco personas.',
       reporto_antes:'no',
@@ -1607,7 +1598,7 @@ var ESCENARIOS = [
       referencias:'Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.',
       es_estab:'no',
       hechos:'La cuadrilla de la alcaldía derribó doce fresnos del camellón para ampliar el carril. No colocaron aviso ni exhibieron autorización.',
-      temporalidad:'unico', fecha_hecho:'2026-09-15',
+      temporalidad:'unico', conoce_fecha:'si', fecha_hecho:'2026-09-15',
       tipo_denunciado:'gobierno', autoridad_nivel:'alcaldia', autoridad_denunciada:'Iztapalapa',
       resp_area:'Cuadrilla de servicios urbanos',
       reporto_antes:'no',
@@ -1629,7 +1620,7 @@ var ESCENARIOS = [
       referencias:'En la parte alta del parque, junto a la barda norte, pasando la zona de juegos.',
       es_estab:'no',
       hechos:'Un particular cercó con malla ciclónica una franja del parque junto a la barda norte y cobra veinte pesos por entrar. Ya cortó arbustos para ampliar el paso.',
-      temporalidad:'permanente', fecha_hecho:'2026-08-20',
+      temporalidad:'permanente', conoce_fecha:'si', fecha_hecho:'2026-08-20',
       tipo_denunciado:'particular',
       reporto_antes:'si',
       gestiones:'Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde.',
@@ -1651,7 +1642,7 @@ var ESCENARIOS = [
       referencias:'Sobre el camino que va del ex convento hacia Cruz Blanca, a la izquierda, unos 800 metros después del último puesto de comida.',
       es_estab:'no',
       hechos:'Están levantando una construcción de block con techo de lámina dentro del bosque. Ya talaron árboles alrededor y meten material en camionetas.',
-      temporalidad:'recurrente', fecha_hecho:'2026-09-01',
+      temporalidad:'recurrente', conoce_fecha:'si', fecha_hecho:'2026-09-01',
       tipo_denunciado:'nose',
       resp_senas:'Cuatro trabajadores y una camioneta de volteo blanca. Llegan entre semana por la mañana.',
       reporto_antes:'no',
@@ -1674,7 +1665,7 @@ var ESCENARIOS = [
       referencias:'Casona con portón de madera; la obra se ve desde la calle por encima de la barda.',
       es_estab:'no',
       hechos:'En el jardín interior de una casona están derribando árboles y retirando la tierra para hacer un estacionamiento. Trabajan también en fin de semana.',
-      temporalidad:'recurrente', fecha_hecho:'2026-09-12',
+      temporalidad:'recurrente', conoce_fecha:'si', fecha_hecho:'2026-09-12',
       tipo_denunciado:'particular',
       reporto_antes:'si',
       gestiones:'Lo reporté a la alcaldía Coyoacán el 14 de septiembre y no hubo respuesta.',
@@ -1696,7 +1687,7 @@ var ESCENARIOS = [
       referencias:'Nave industrial con chimenea alta y portón azul.',
       es_estab:'si', tipo_estab:'Industria o fábrica', nombre_estab:'Fundidora La Prueba',
       hechos:'La chimenea de la fábrica echa humo negro todas las noches a partir de las diez. El hollín se queda en los patios y en la ropa tendida.',
-      temporalidad:'recurrente', fecha_hecho:'2026-09-03',
+      temporalidad:'recurrente', conoce_fecha:'si', fecha_hecho:'2026-09-03',
       tipo_denunciado:'empresa',
       reporto_antes:'no',
       otras_pruebas:'Video del humo grabado de noche.',
@@ -1723,7 +1714,7 @@ var ESCENARIOS = [
       es_estab:'si', tipo_estab:'Otro', tipo_estab_otro:'Planta de lavado de garrafones',
       nombre_estab:'Lavado de Garrafones La Prueba',
       hechos:'La planta tira el agua del lavado de garrafones directo a la coladera de la calle, con espuma y olor a cloro, todos los días por la mañana.',
-      temporalidad:'recurrente', fecha_hecho:'2026-09-08',
+      temporalidad:'recurrente', conoce_fecha:'si', fecha_hecho:'2026-09-08',
       tipo_denunciado:'empresa',
       reporto_antes:'no',
       otras_pruebas:'Fotografías de la espuma en la coladera.',
@@ -1918,6 +1909,7 @@ var AUTORIDADES = {
    «autoridad federal». */
 function cambiaNivelAutoridad(){
   guarda('autoridad_denunciada','');
+  if(!val('autoridad_nivel') || val('autoridad_nivel')==='nose') guarda('resp_area','');
   render();
 }
 
@@ -2418,12 +2410,14 @@ function pUbicacion(){
       '<div id="mzLote">'+camposMzLote()+'</div>'+
       campo('entre_calles','¿Entre qué calles?','texto',false,'',
         'placeholder="Entre calle 1 y calle 2"')+
-      '<div class="fila">'+
+      /* Alcaldía, colonia y código postal en un renglón y sin ayudas
+         (DEC-205): con ayuda en uno solo, los controles se desfasaban. Lo que
+         decían va en el marcador del campo y en la lista de colonias, que ya
+         avisa cuando una no está en el catálogo. */
+      '<div class="fila-3">'+
         campoSelect('alcaldia_dir','Alcaldía',ALCALDIAS_ORDEN(),esObligatorio('alcaldia_dir'),'','cambiaAlcaldiaDir()')+
         campoColonia()+
-      '</div>'+
-      '<div class="fila">'+
-        campo('cp','Código postal','texto',esObligatorio('cp'),'Cinco dígitos','inputmode="numeric" maxlength="5" autocomplete="section-lugar postal-code"')+
+        campo('cp','Código postal','texto',esObligatorio('cp'),'','inputmode="numeric" maxlength="5" placeholder="Cinco dígitos" autocomplete="section-lugar postal-code"')+
       '</div>'+
       campoArea('referencias','¿Cómo se reconoce el sitio?',esObligatorio('referencias'),
         'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3);
@@ -2751,8 +2745,8 @@ function pHechos(){
      tener que volver a pedirlo. Preguntado aquí y no en la tarjeta, la primera
      pantalla no se alarga y el expediente no pierde el dato. */
   (val('materia')==='vehiculo'
-    ? campoOpciones('veh_servicio','¿Es transporte público o de carga?', SERVICIO_VEHICULO,
-        'Fíjate en la placa o en el rótulo de la unidad. Si no alcanzaste a verlos, «No lo sé» basta.')
+    ? '<div class="fila">'+campoSelect('veh_servicio','¿Es transporte público o de carga?', SERVICIO_VEHICULO, esObligatorio('veh_servicio'),
+        'Fíjate en la placa o en el rótulo de la unidad. Si no alcanzaste a verlos, «No lo sé» basta.')+'</div>'
     : '')+
 
   /* La temporalidad es obligatoria (DEC-202): su título va dentro del campo
@@ -2764,16 +2758,16 @@ function pHechos(){
       return '<button type="button" class="opcion" aria-pressed="'+(val('temporalidad')===p[0]?'true':'false')+'" onclick="guarda(\'temporalidad\',\''+p[0]+'\');render()"><span class="nombre">'+p[1]+'</span></button>';
     }).join('')+
   '</div><div class="err" id="e_temporalidad">Este dato es necesario para dar trámite a la denuncia.</div></div>'+
-  /* Quien no sabe el día exacto da el mes y el año (OBS-0016, DEC-191). */
-  '<div class="fila">'+
-    (val('fecha_nosabe')==='si'
-      ? campoSelect('fecha_mes','Mes aproximado',MESES,esObligatorio('fecha_mes'),'')+
-        campoSelect('fecha_anio','Año aproximado',aniosAtras(),esObligatorio('fecha_anio'),'')
-      : campo('fecha_hecho','Fecha en que ocurrió o inició','fecha',esObligatorio('fecha_hecho'),'Elige la fecha en el calendario','max="'+hoyISO()+'"'))+
-  '</div>'+
-  '<div class="campo" id="c_fecha_nosabe"><label class="casilla" for="f_fecha_nosabe">'+
-    '<input type="checkbox" id="f_fecha_nosabe" '+(val('fecha_nosabe')==='si'?'checked ':'')+'onchange="cambiaFechaNoSabe(this.checked)">'+
-    '<span>No sé la fecha exacta</span></label></div>'+
+  /* Primero se pregunta si se conoce la fecha; sólo con «Sí» se pide
+     (DEC-206). Sustituye a la casilla «No sé la fecha exacta» y al mes y año
+     aproximados de DEC-191. Con «No», lo capturado se suelta (DEC-100). */
+  campoSiNo('conoce_fecha','¿Conoces la fecha en que ocurrió o inició?','',
+    'if(val(\'conoce_fecha\')===\'no\')guarda(\'fecha_hecho\',\'\');render()')+
+  (val('conoce_fecha')==='si'
+    ? anidado('<div class="fila">'+
+        campo('fecha_hecho','Fecha en que ocurrió o inició','fecha',esObligatorio('fecha_hecho'),'Elige la fecha en el calendario','max="'+hoyISO()+'"')+
+      '</div>')
+    : '')+
   '<div id="avisoFecha">'+avisoFecha()+'</div>'+
 
   '<h3 class="sub-seccion">¿Quién lo está haciendo?</h3>'+
@@ -2786,16 +2780,13 @@ function pHechos(){
     'Un negocio, fábrica, taller, obra en construcción, local o bodega.',
     'heredaEstablecimiento();render()')+
   (val('es_estab')==='si' ? anidado(
-    /* Tipo y nombre en un renglón (DEC-201). «Especifica», que sólo aparece
-       con «Otro», cae en el renglón siguiente bajo el tipo: su contenedor no
-       ocupa lugar propio en la rejilla (display:contents, DEC-120) y se rehace
-       sin rehacer la pantalla. */
-    '<div class="fila">'+
-      campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,esObligatorio('tipo_estab'),
-        'Si ninguna opción encaja, elige «Otro» al final de la lista y escríbelo.','actualizaOtroEstab()')+
-      campo('nombre_estab','Nombre del establecimiento','texto',esObligatorio('nombre_estab'),'Por ejemplo: Taller Automotriz Hernández, Escuela Primaria Benito Juárez')+
-      '<div id="otroEstab" class="en-fila">'+campoOtroEstab()+'</div>'+
-    '</div>') : '')+
+    /* Con «Otro», «Especifica» va al lado del tipo, que es lo que precisa, y
+       el nombre en el renglón siguiente; sin «Otro», tipo y nombre comparten
+       renglón (DEC-207, que corrige el orden de DEC-201). */
+    (val('tipo_estab')==='Otro'
+      ? '<div class="fila">'+selTipoEstab()+campoOtroEstab()+'</div>'+
+        '<div class="fila">'+campoNombreEstab()+'</div>'
+      : '<div class="fila">'+selTipoEstab()+campoNombreEstab()+'</div>')) : '')+
   /* Lista desplegable y no botones (DEC-203): son cuatro respuestas de un
      mismo tipo y en lista ocupan un renglón. Media columna, como los demás
      desplegables. */
@@ -2824,23 +2815,8 @@ function hoyISO(){
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
 
-var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-function aniosAtras(){
-  var a = new Date().getFullYear(), r = [];
-  for(var i = 0; i < 10; i++) r.push(String(a - i));
-  return r;
-}
-/* Cambiar de forma suelta lo capturado en la otra (DEC-100). */
-function cambiaFechaNoSabe(si){
-  guarda('fecha_nosabe', si ? 'si' : '');
-  if(si){ guarda('fecha_hecho', ''); } else { guarda('fecha_mes', ''); guarda('fecha_anio', ''); }
-  render();
-}
 function fechaTexto(){
-  if(val('fecha_nosabe')==='si'){
-    var t = [val('fecha_mes'), val('fecha_anio')].filter(Boolean).join(' de ').toLowerCase();
-    return t ? 'Aproximada: ' + t : 'Sin fecha exacta';
-  }
+  if(val('conoce_fecha')==='no') return 'No se conoce la fecha';
   return val('fecha_hecho');
 }
 function avisoFecha(){
@@ -2897,9 +2873,9 @@ function heredaEstablecimiento(){
    colonia (DEC-126). */
 function bloqueAutoridad(){
   var n = val('autoridad_nivel'), lista = AUTORIDADES[n] || [];
-  var ayuda = n==='alcaldia' ? 'Escribe o elige la alcaldía.'
-            : n==='otra'     ? 'Escribe el nombre de la autoridad, como lo conozcas.'
-            : 'Escribe el nombre o la sigla —SEDEMA, CONAGUA, PROFEPA— y elige de la lista. Si no aparece, escríbelo como lo conozcas: se guarda tal cual.';
+  var ayuda = n==='alcaldia' ? 'Escribe o elige la alcaldía. Si no sabes cuál, déjalo en blanco.'
+            : n==='otra'     ? 'Escribe el nombre de la autoridad, como lo conozcas. Si no lo sabes, déjalo en blanco.'
+            : 'Escribe el nombre o la sigla —SEDEMA, CONAGUA, PROFEPA— y elige de la lista. Si no sabes cuál, déjalo en blanco.';
   return lista.length
     ? campoLista('autoridad_denunciada','¿Cuál?', ayuda, lista)
     : campo('autoridad_denunciada','¿Cuál?','texto',esObligatorio('autoridad_denunciada'), ayuda,'autocomplete="off"');
@@ -3000,11 +2976,17 @@ function bloqueDenunciado(){
         'La Secretaría no sanciona a otra autoridad: conforme al artículo 331 de la Ley Ambiental de la Ciudad de México, '+
         'emite las recomendaciones necesarias para promover ante ella la ejecución de las acciones que procedan.'+
       '</div>'+
-      campoOpciones('autoridad_nivel','¿De qué ámbito es la autoridad?', NIVELES_AUTORIDAD,
+      /* Lista desplegable, como «¿Quién es responsable?» (DEC-208): una regla
+         para todo el formulario — sí o no en botones; tres o más respuestas
+         de una lista, en lista desplegable. */
+      '<div class="fila">'+campoSelect('autoridad_nivel','¿De qué ámbito es la autoridad?', NIVELES_AUTORIDAD, esObligatorio('autoridad_nivel'),
         'Si no lo sabes, elige «No lo sé»: la Secretaría lo verifica al turnar.',
-        'cambiaNivelAutoridad()')+
-      (val('autoridad_nivel') && val('autoridad_nivel')!=='nose' ? bloqueAutoridad() : '')+
-      campo('resp_area','Área o persona servidora pública','texto',false,'Si la conoces');
+        'cambiaNivelAutoridad()')+'</div>'+
+      /* Con «No lo sé» no se pregunta cuál ni el área: quien no sabe el ámbito
+         no sabe lo demás (DEC-209). */
+      (val('autoridad_nivel') && val('autoridad_nivel')!=='nose'
+        ? bloqueAutoridad()+campo('resp_area','Área o persona servidora pública','texto',esObligatorio('resp_area'),'Si la conoces')
+        : '');
       /* Sin «Número de obra, contrato o permiso» (DEC-201). */
   }
 
@@ -3043,17 +3025,29 @@ function pEvidencia(){
    pierde la denuncia entera, porque todavía no hay nada capturado. */
 function esAnonima(){ return val('identificacion')==='anonima'; }
 
-/* El aviso conserva sus apartados, cada uno con su letrero de «Por
-   desarrollar» mientras se redacta el texto (DEC-149, corrige DEC-138). */
-var APARTADOS_PRIVACIDAD = ['Quién trata tus datos', 'Para qué se usan', 'Con qué fundamento',
-  'Cuánto tiempo se conservan', 'A quién pueden transferirse', 'Confidencialidad',
-  'Cómo ejerces tus derechos', 'Aviso integral'];
+/* Aviso de privacidad simplificado, con el texto que proporcionó Liber
+   Saltijeral el 20 de octubre de 2026 (DEC-210). Una sola fuente: lo pintan
+   el paso 5 y la ventana del pie. Lo que falta queda a la vista entre
+   corchetes, con la marca de pendiente: no se completa con aproximaciones. */
+var AVISO_PRIVACIDAD = {
+ "titulo": "Denuncia ambiental ciudadana en línea",
+ "parrafos": [
+  "La Secretaría del Medio Ambiente de la Ciudad de México (SEDEMA) es la Responsable del tratamiento de los datos personales que proporcione, los cuales serán protegidos de conformidad con la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México, artículos 1, 2, fracciones I, II, III, IV, V, VI, VII y VIII; 3, fracciones XXX, XXXIV y XXXVII; 7; 8; 9; 10; 24; 25; 26; 38; 39; 43; 44; 45; 46; 47 y 48, y serán incorporados al Sistema de Datos Personales [nombre del sistema registrado].",
+  "Los datos personales que recabemos serán utilizados con la finalidad de: recibir y registrar su denuncia y asignarle un número de registro y una clave de consulta; determinar, a partir de la ubicación de los hechos, la autoridad competente y turnar la denuncia al área de la Secretaría que corresponda; localizar el sitio y, en su caso, realizar los actos de inspección y vigilancia procedentes; integrar el expediente y sustanciar el procedimiento administrativo que derive de la denuncia; identificar y localizar a la persona probable responsable de los hechos; establecer contacto con usted para aclarar la información o coordinar el acceso al sitio, y practicar las notificaciones en el domicilio que señale; remitir la denuncia a la autoridad competente cuando los hechos no sean competencia de la Secretaría; permitirle consultar el estado de su denuncia mediante el número de registro y la clave de consulta; prevenir el envío automatizado o abusivo de denuncias, y generar estadísticas, en las cuales la información no estará asociada con la persona titular. Sus datos de identificación y contacto no se darán a conocer a la persona, empresa o autoridad denunciada.",
+  "Los datos personales podrán ser transferidos a los Órganos Jurisdiccionales Locales y Federales, para la sustanciación de los procesos jurisdiccionales tramitados ante ellos; a la Comisión de Derechos Humanos de la Ciudad de México, para la investigación de quejas y denuncias por presuntas violaciones a los derechos humanos; a la Secretaría de la Contraloría General de la Ciudad de México, para el ejercicio de sus atribuciones en materia de vigilancia y control de la Administración Pública; al Instituto de Transparencia, Acceso a la Información Pública, Protección de Datos Personales y Rendición de Cuentas de la Ciudad de México, para la sustanciación de recursos de revisión, denuncias y procedimientos para determinar el probable incumplimiento de la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México; a la Auditoría Superior de la Ciudad de México, para el ejercicio de sus funciones de fiscalización, y a la Procuraduría Federal de Protección al Ambiente y a las demás autoridades que resulten competentes, para la atención de los hechos denunciados que no sean competencia de la Secretaría [fundamento de esta transferencia por confirmar]; para las cuales no requerimos su consentimiento, en apego a lo que establece el artículo 15 de la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México.",
+  "Para las finalidades antes señaladas, se solicitarán los siguientes datos personales: nombre completo, teléfono, correo electrónico y domicilio para recibir notificaciones (calle, número exterior e interior, manzana y lote, entre qué calles, colonia, código postal y alcaldía o, si reside fuera de la Ciudad de México, entidad federativa y municipio). Si opta por presentar la denuncia de forma anónima, únicamente se solicitará un correo electrónico de contacto y, de manera opcional, un teléfono. Se recabarán además la ubicación del lugar de los hechos (dirección y coordenadas geográficas), que constituye un dato personal cuando corresponde a un domicilio particular; las fotografías, videos y documentos que aporte como prueba, incluidos la fecha y el lugar de captura que contengan sus metadatos, y la dirección de red (IP) desde la que se presenta la denuncia. De manera opcional y únicamente con fines estadísticos, se le preguntará su género y su rango de edad; estos datos no condicionan la presentación de la denuncia ni se incorporan al expediente. El género es un dato personal sensible, por lo que sólo se tratará con su consentimiento expreso. La denuncia puede contener también datos personales de terceros, como las señas de quien realiza los hechos o el nombre de la persona servidora pública señalada, que se tratarán exclusivamente para la atención de la denuncia y no se harán públicos.",
+  "Usted podrá manifestar la negativa al tratamiento de sus datos personales y ejercer sus derechos de Acceso, Rectificación, Cancelación, Oposición y Portabilidad (derechos ARCOP), así como la revocación del consentimiento, directamente ante la Unidad de Transparencia de la Secretaría del Medio Ambiente de la Ciudad de México, ubicada en Plaza de la Constitución número 1, Piso 3, Col. Centro, Alcaldía Cuauhtémoc, C.P. 06000, Ciudad de México, con número telefónico 55 5345 8187 y 88, ext. 129; en el correo electrónico smaoip@gmail.com; a través de la Plataforma Nacional de Transparencia (http://www.plataformadetransparencia.org.mx/), o bien mediante el número de TEL INFO 55 5636 4636.",
+  "Puede consultar el aviso de privacidad integral en [dirección electrónica]."
+ ]
+};
 function avisoPrivacidad(){
+  var hueco = function(t){
+    return esc(t).replace(/\[([^\]]+)\]/g, '<span class="pendiente">[$1]</span>');
+  };
   return '<h3 class="sub-seccion">Aviso de privacidad</h3>'+
     '<div class="priv">'+
-      APARTADOS_PRIVACIDAD.map(function(t){
-        return '<p><b>'+esc(t)+'.</b> <span class="pendiente">Por desarrollar</span></p>';
-      }).join('')+
+      '<p><b>'+esc(AVISO_PRIVACIDAD.titulo)+'</b></p>'+
+      AVISO_PRIVACIDAD.parrafos.map(function(t){ return '<p>'+hueco(t)+'</p>'; }).join('')+
     '</div>';
 }
 
@@ -3135,14 +3129,12 @@ function pDenunciante(){
         '</div>'+
         '<div class="fila">'+
           campo('dom_colonia','Colonia','texto',esObligatorio('dom_colonia'),'','autocomplete="address-level3"')+
-          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'Cinco dígitos','autocomplete="postal-code" inputmode="numeric" maxlength="5"')+
+          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'','autocomplete="postal-code" inputmode="numeric" maxlength="5" placeholder="Cinco dígitos"')+
         '</div>'
-      : '<div class="fila">'+
+      : '<div class="fila-3">'+
           campoSelect('dom_alcaldia','Alcaldía',ALCALDIAS_ORDEN(),esObligatorio('dom_alcaldia'),'','cambiaAlcaldiaDir(\'dom_colonia\')')+
           campoColonia('dom_colonia')+
-        '</div>'+
-        '<div class="fila">'+
-          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'Cinco dígitos','autocomplete="postal-code" inputmode="numeric" maxlength="5"')+
+          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'','autocomplete="postal-code" inputmode="numeric" maxlength="5" placeholder="Cinco dígitos"')+
         '</div>');
     /* Para qué sirven los datos y que no se difunden lo dice el aviso de
        privacidad; repetirlo aquí era un segundo aviso sin valor legal (DEC-133). */
@@ -3514,10 +3506,10 @@ function campoColonia(k){
   k = k || 'colonia';
   var d = comboCol(k), sinAlc = !val(d.alc), q = "'"+k+"'";
   return '<div class="campo" id="c_'+k+'"><label for="f_'+k+'">Colonia'+marca_opc(esObligatorio(k))+'</label>'+
-    '<div class="ayuda" id="a_'+k+'">Elige de la lista o escribe para buscarla. Si no aparece, déjala como la conoces.</div>'+
+    '<div class="ayuda" id="a_'+k+'"></div>'+
     '<div class="combo">'+
       '<input type="text" id="f_'+k+'" name="'+k+'" role="combobox" aria-autocomplete="list" aria-expanded="false" '+
-        (sinAlc ? 'disabled placeholder="Primero elige la alcaldía" ' : '')+
+        (sinAlc ? 'disabled placeholder="Primero elige la alcaldía" ' : 'placeholder="Elige o escribe para buscarla" ')+
         'aria-controls="lista_'+k+'" autocomplete="off" aria-describedby="a_'+k+' e_'+k+'" aria-invalid="false" '+
         'value="'+esc(val(k))+'" '+
         (d.lugar
@@ -3724,28 +3716,26 @@ function campoArea(k,etq,oblig,ayuda,filas,marcador){
 
 /* «Otro» abre un campo de texto. Se actualiza sin reconstruir la
    pantalla, para no reiniciar el mapa ni perder el punto colocado. */
-function campoOtroEstab(){
-  return val('tipo_estab')==='Otro'
-    ? campo('tipo_estab_otro','Especifica el tipo de establecimiento','texto',esObligatorio('tipo_estab_otro'),'Por ejemplo: taller de serigrafía')
-    : '';
+function selTipoEstab(){
+  return campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,esObligatorio('tipo_estab'),
+    'Si ninguna opción encaja, elige «Otro» al final de la lista y escríbelo.','actualizaOtroEstab()');
 }
+function campoOtroEstab(){
+  return campo('tipo_estab_otro','Especifica el tipo de establecimiento','texto',esObligatorio('tipo_estab_otro'),'Por ejemplo: taller de serigrafía');
+}
+function campoNombreEstab(){
+  return campo('nombre_estab','Nombre del establecimiento','texto',esObligatorio('nombre_estab'),'Por ejemplo: Taller Automotriz Hernández, Escuela Primaria Benito Juárez');
+}
+/* Rehace el paso, porque el acomodo cambia con «Otro», y devuelve el foco a
+   donde sigue: la especificación si apareció, el tipo si no. Al dejar «Otro»
+   se suelta lo escrito (DEC-100). */
 function actualizaOtroEstab(){
-  var e = $('otroEstab');
-  if(e) e.innerHTML = campoOtroEstab();
+  if(val('tipo_estab')!=='Otro') guarda('tipo_estab_otro','');
+  render();
+  var e = $('f_tipo_estab_otro') || $('f_tipo_estab');
+  if(e) e.focus();
 }
 
-/* Pregunta de opción única, en botones. */
-function campoOpciones(k,etq,ops,ayuda,accion){
-  var v = val(k);
-  return '<div class="campo" id="c_'+k+'"><span class="etq">'+esc(etq)+marca_opc(esObligatorio(k))+'</span>'+
-    '<div class="ayuda">'+(ayuda?esc(ayuda):'')+'</div>'+
-    '<div class="si-no envolver" role="group" aria-label="'+esc(etq)+'">'+
-      ops.map(function(o){
-        return '<button type="button" class="btn-sn" aria-pressed="'+(v===o.v?'true':'false')+'" '+
-          'onclick="guarda(\''+k+'\',\''+o.v+'\');'+(accion||'render()')+'">'+esc(o.t)+'</button>';
-      }).join('')+
-    '</div><div class="err">Este dato es necesario para dar trámite a la denuncia.</div></div>';
-}
 
 /* Pregunta de sí o no, en dos botones. */
 /* Ejemplo de descripción, tomado de la materia que la persona eligió. */

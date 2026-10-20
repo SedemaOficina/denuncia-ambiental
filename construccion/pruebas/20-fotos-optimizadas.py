@@ -127,8 +127,8 @@ with sync_playwright() as pw:
 
     # ---- el aviso de privacidad lo dice ----
     pv = pg.evaluate("() => { irA(5); const p = document.querySelector('.priv'); return p ? p.innerText : ''; }")
-    # DEC-149: el aviso está por desarrollar; su texto definitivo debe decirlo.
-    afirma('Por desarrollar' in pv and 'Para qué se usan' in pv, 'el aviso de privacidad tiene el apartado donde irá, por desarrollar')
+    # DEC-210: el aviso dice que se conservan la fecha y el lugar de captura de las fotos.
+    afirma('fecha y el lugar de captura' in pv, 'el aviso de privacidad dice que se conservan fecha y lugar de captura')
 
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])
     pg.close(); nav.close()

@@ -175,7 +175,7 @@ with sync_playwright() as pw:
          identificacion:'nombre', dom_tiene_mz_lote:'si', reporto_antes:'si', temporalidad:'unico'},
         {tiene_direccion:'no', materia:'tala', tipo_denunciado:'gobierno', autoridad_nivel:'cdmx',
          identificacion:'nombre', dom_fuera_cdmx:'si'},
-        {tiene_direccion:'si', materia:'tala', tipo_denunciado:'particular', identificacion:'anonima', fecha_nosabe:'si'},
+        {tiene_direccion:'si', materia:'tala', tipo_denunciado:'particular', identificacion:'anonima', conoce_fecha:'si'},
         {tiene_direccion:'si', materia:'ruido', tipo_denunciado:'empresa', identificacion:'nombre'},
         /* La unica materia con una pregunta propia en el paso 3: el servicio
            del vehiculo. Sin esta ruta, un campo que si se rinde pareceria
@@ -311,18 +311,20 @@ with sync_playwright() as pw:
     pg.evaluate("() => { cfg.validar = false; }")
 
     # ---- 10 quinquies. Las opciones no se mueven al elegir, con el dedo (DEC-169) ----
+    #    Desde DEC-208 las preguntas de tres o más respuestas son listas
+    #    desplegables: la regla vale ahora para los botones de sí o no.
     dev = dict(pw.devices['iPhone 13']); dev.pop('default_browser_type', None)
     cm = nav.new_context(**dev); pm = cm.new_page(); pm.goto(TMP.as_uri()); pm.wait_for_timeout(600)
     mv = pm.evaluate("""() => { estado = {}; cfg.validar = false; guarda('materia','vehiculo'); irA(3);
-      const pos = () => [...document.querySelectorAll('#c_veh_servicio .btn-sn')].map(b => { const r = b.getBoundingClientRect(); return [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)]; });
+      const pos = () => [...document.querySelectorAll('#c_es_estab .btn-sn')].map(b => { const r = b.getBoundingClientRect(); return [Math.round(r.left), Math.round(r.top), Math.round(r.width), Math.round(r.height)]; });
       const antes = pos(); if(!antes.length) return null;
-      document.querySelectorAll('#c_veh_servicio .btn-sn')[2].click();
+      guarda('es_estab','no'); render();
       const despues = pos();
-      document.querySelectorAll('#c_veh_servicio .btn-sn')[0].click();
-      return {antes, despues, otra: pos(), coarse: matchMedia('(pointer: coarse)').matches}; }""")
-    afirma(mv and mv['coarse'] and mv['antes'] == mv['despues'] == mv['otra'],
-           'en pantalla táctil, elegir una opción no cambia el tamaño ni el lugar de las demás: %s' % mv)
-    fe = pm.evaluate("""() => { guarda('temporalidad','recurrente'); render(); const i = document.querySelector('#app input[type=date]');
+      guarda('es_estab',''); render();
+      return {antes, despues, otra: pos(), coarse: matchMedia('(pointer: coarse)').matches, sinBotonesDeTres: !document.querySelector('#c_veh_servicio .btn-sn') && !!document.querySelector('#c_veh_servicio select')}; }""")
+    afirma(mv and mv['coarse'] and mv['antes'] == mv['despues'] == mv['otra'] and mv['sinBotonesDeTres'],
+           'en pantalla táctil, elegir sí o no no mueve los botones; las de más respuestas son listas: %s' % mv)
+    fe = pm.evaluate("""() => { guarda('temporalidad','recurrente'); guarda('conoce_fecha','si'); render(); const i = document.querySelector('#app input[type=date]');
       if(!i) return null; const r = i.getBoundingClientRect(), c = i.closest('.tarjeta').getBoundingClientRect(); return [Math.round(r.right), Math.round(c.right)]; }""")
     afirma(fe and fe[0] <= fe[1], 'el campo de fecha no se sale de la tarjeta: %s' % fe)
     cm.close()

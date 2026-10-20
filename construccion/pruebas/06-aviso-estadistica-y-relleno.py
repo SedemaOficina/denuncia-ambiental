@@ -70,8 +70,8 @@ with sync_playwright() as pw:
       const t = p.innerText;
       return {visible: p.getBoundingClientRect().height > 60,
               antesDelCheck: !!chk && p.getBoundingClientRect().top < chk.getBoundingClientRect().top,
-              rotulos: ['Qui\\u00e9n trata tus datos','Para qu\\u00e9 se usan','Con qu\\u00e9 fundamento',
-                        'Cu\\u00e1nto tiempo','A qui\\u00e9n pueden transferirse','C\\u00f3mo ejerces tus derechos']
+              rotulos: ['es la Responsable del tratamiento','ser\\u00e1n utilizados con la finalidad','podr\\u00e1n ser transferidos',
+                        'se solicitar\\u00e1n los siguientes datos','derechos ARCOP','aviso de privacidad integral']
                        .filter(x => t.indexOf(x) >= 0).length,
               huecos: p.querySelectorAll('.pendiente').length,
               alertas: [...document.querySelectorAll('#app [onclick]')]
@@ -79,9 +79,9 @@ with sync_playwright() as pw:
     }""")
     afirma(av is not None and av['visible'], 'el aviso de privacidad ocupa lugar en la pantalla')
     afirma(av and av['antesDelCheck'], 'y va antes de la casilla con la que se consiente')
-    # DEC-149: los apartados se conservan, cada uno «por desarrollar» mientras se redacta.
-    afirma(av and av['rotulos'] == 6, 'conserva los apartados del aviso (%s de 6 rótulos buscados)' % (av and av['rotulos']))
-    afirma(av and av['huecos'] == 8, 'y cada uno de los ocho lleva su letrero de «por desarrollar» (%s)' % (av and av['huecos']))
+    # DEC-210: el aviso tiene su texto; lo que falta queda como hueco visible.
+    afirma(av and av['rotulos'] == 6, 'el aviso dice responsable, finalidades, transferencias, datos, derechos y aviso integral (%s de 6)' % (av and av['rotulos']))
+    afirma(av and av['huecos'] == 3, 'y sus tres huecos —sistema de datos, fundamento de la transferencia, aviso integral— quedan a la vista (%s)' % (av and av['huecos']))
     afirma(av and av['alertas'] == 0, 'ya no se esconde detrás de una ventana del navegador')
 
     # ---- 3. El relato tiene que parecer un texto ----

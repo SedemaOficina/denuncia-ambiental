@@ -29,7 +29,7 @@ with sync_playwright() as pw:
     pg.goto(TMP.as_uri()); pg.wait_for_timeout(700)
 
     # ---- 1. Sin hora ----
-    h = pg.evaluate("""() => { estado={}; archivos=[]; guarda('materia','rsu'); irA(3);
+    h = pg.evaluate("""() => { estado={}; archivos=[]; guarda('materia','rsu'); guarda('conoce_fecha','si'); irA(3);
       const t = document.getElementById('app').innerText;
       return {campo: !!document.getElementById('f_hora_h'), texto: /Hora aproximada|m\\u00e1s frecuente/.test(t),
               oblig: 'hora_h' in OBLIG, fecha: !!document.getElementById('f_fecha_hecho')}; }""")
@@ -67,7 +67,7 @@ with sync_playwright() as pw:
     c = pg.evaluate("""() => { estado={}; guarda('identificacion','nombre'); irA(5);
       const t = document.getElementById('app').innerText, p = document.querySelector('.priv');
       return {pregunta: !!document.getElementById('c_reserva') || /mantengan confidenciales/.test(t),
-              aviso: p ? /Confidencialidad\\./.test(p.innerText) && /no se hacen del conocimiento/.test(p.innerText) : false,
+              aviso: p ? /no se dar\\u00e1n a conocer a la persona, empresa o autoridad denunciada/.test(p.innerText) : false,
               condicional: p ? /Si solicitaste/.test(p.innerText) : true}; }""")
     afirma(not c['pregunta'], 'el paso 5 ya no pregunta por la confidencialidad')
     # DEC-138: el aviso queda en dos apartados; la regla la dice la portada.
@@ -217,18 +217,21 @@ with sync_playwright() as pw:
     sd = pg.evaluate("() => { guarda('tiene_direccion','no'); return esObligatorio('num_ext'); }")
     afirma(sd is False, 'sin dirección no se exige')
 
-    # ---- 6. Establecimiento: tipo y nombre en un renglón; «Especifica» debajo del tipo (DEC-201, antes DEC-120) ----
+    # ---- 6. Establecimiento: con «Otro», «Especifica» al lado del tipo y el nombre después; sin «Otro», tipo y nombre juntos (DEC-207) ----
     pg.set_viewport_size({'width':1100,'height':900})
     e = pg.evaluate("""() => { estado={}; guarda('materia','rsu'); guarda('es_estab','si'); guarda('tipo_estab','Otro'); irA(3);
       const r = id => { const x=document.getElementById(id); return x ? x.getBoundingClientRect() : null; };
       const t=r('f_tipo_estab'), o=r('f_tipo_estab_otro'), n=r('f_nombre_estab');
-      return t&&o&&n ? {mismaFila: Math.abs(t.top-n.top)<2, alLado: n.left>t.right, debajo: o.top>Math.max(t.bottom,n.bottom) && Math.abs(o.left-t.left)<2} : null; }""")
-    afirma(e and e['mismaFila'] and e['alLado'], 'en escritorio, el nombre del establecimiento va al lado del tipo')
-    afirma(e and e['debajo'], 'y «Especifica el tipo» va en el renglón siguiente, bajo el tipo')
+      const con = t&&o&&n ? {mismaFila: Math.abs(t.top-o.top)<2 && o.left>t.right, nombreDebajo: n.top>Math.max(t.bottom,o.bottom) && Math.abs(n.left-t.left)<2} : null;
+      guarda('tipo_estab', TIPOS_ESTAB[0]); guarda('tipo_estab_otro',''); render();
+      const t2=r('f_tipo_estab'), n2=r('f_nombre_estab');
+      return {con, sin: t2&&n2 ? Math.abs(t2.top-n2.top)<2 && n2.left>t2.right : null, sinOtro: !document.getElementById('f_tipo_estab_otro')}; }""")
+    afirma(e['con'] and e['con']['mismaFila'] and e['con']['nombreDebajo'], 'con «Otro», «Especifica» va al lado del tipo y el nombre en el renglón siguiente: %s' % e)
+    afirma(e['sin'] and e['sinOtro'], 'sin «Otro», tipo y nombre comparten renglón')
     pg.set_viewport_size({'width':390,'height':800})
-    e2 = pg.evaluate("""() => { const r=id=>document.getElementById(id).getBoundingClientRect();
-      return r('f_tipo_estab').bottom < r('f_nombre_estab').top && r('f_nombre_estab').bottom < r('f_tipo_estab_otro').top; }""")
-    afirma(e2, 'en teléfono quedan en ese orden: tipo, nombre, especifica')
+    e2 = pg.evaluate("""() => { guarda('tipo_estab','Otro'); render(); const r=id=>document.getElementById(id).getBoundingClientRect();
+      return r('f_tipo_estab').bottom < r('f_tipo_estab_otro').top && r('f_tipo_estab_otro').bottom < r('f_nombre_estab').top; }""")
+    afirma(e2, 'en teléfono quedan en ese orden: tipo, especifica, nombre')
     e3 = pg.evaluate("""() => { const s=document.getElementById('f_tipo_estab'); s.value=TIPOS_ESTAB[0].v||TIPOS_ESTAB[0]; s.dispatchEvent(new Event('change'));
       return !document.getElementById('f_tipo_estab_otro') && !!document.getElementById('f_nombre_estab'); }""")
     afirma(e3, 'con otro tipo, «Especifica» se retira y el nombre se queda')

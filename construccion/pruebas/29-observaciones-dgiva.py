@@ -57,10 +57,10 @@ with sync_playwright() as pw:
     afirma('permisos' not in t3.lower(), 'el paso 3 ya no pregunta por permisos (OBS-0027)')
     afirma('Razón social' not in t3, 'ni por la razón social (OBS-0026)')
     afirma('derribo, poda, tiro de residuos' in pg.evaluate("() => document.getElementById('f_hechos').placeholder"), 'los ejemplos de hechos son los de la DGIVA (OBS-0015)')
-    op = pg.evaluate("""() => ['fecha_hecho','reporto_antes','temporalidad'].map(k => {
-      const c = document.getElementById('c_'+k); return c ? c.innerText.includes('(opcional)') : null; })""")
-    # Desde DEC-202 la temporalidad y la pregunta de gestiones previas son obligatorias; la fecha sigue opcional.
-    afirma(op == [True, False, False], 'la fecha dice «(opcional)»; la temporalidad y «¿Ya reportaste…?» son obligatorias (DEC-202): %s' % op)
+    op = pg.evaluate("""() => { guarda('conoce_fecha','si'); render(); return ['fecha_hecho','reporto_antes','temporalidad'].map(k => {
+      const c = document.getElementById('c_'+k); return c ? c.innerText.includes('(opcional)') : null; }); }""")
+    # Desde DEC-202 la temporalidad y «¿Ya reportaste…?» son obligatorias; desde DEC-206, también la fecha cuando se dice conocerla.
+    afirma(op == [False, False, False], 'con «Sí conozco la fecha», la fecha, la temporalidad y «¿Ya reportaste…?» son obligatorias (DEC-202, DEC-206): %s' % op)
     apag = pg.evaluate("() => { cfg.validar = false; render(); const r = document.getElementById('app').innerText.includes('(opcional)'); cfg.validar = true; render(); return r; }")
     afirma(not apag, 'con la obligatoriedad apagada no se marca nada como opcional')
 
@@ -72,20 +72,17 @@ with sync_playwright() as pw:
     afirma('resp_area' in rs[2]['campos'] and 'autoridad_nivel' in rs[2]['campos'], 'la autoridad conserva sus campos (art. 331)')
     pg.evaluate("() => { cargaEscenario('urbano'); }")
 
-    # ---- Fecha aproximada (OBS-0016) ----
+    # ---- Fecha: primero se pregunta si se conoce (DEC-206, sustituye la fecha aproximada de DEC-191) ----
     f = pg.evaluate("""() => { irA(3); const antes = val('fecha_hecho');
-      cambiaFechaNoSabe(true);
-      const sel = !!document.getElementById('f_fecha_mes') && !!document.getElementById('f_fecha_anio'), cal = !!document.getElementById('f_fecha_hecho');
-      guarda('fecha_mes','Agosto'); guarda('fecha_anio','2026');
-      const pasa = valida(3); irA(6); const rev = document.getElementById('app').textContent;
-      irA(3); cambiaFechaNoSabe(false);
-      return {antes, sel, cal, pasa, rev: rev.includes('Aproximada: agosto de 2026'), suelta: !val('fecha_mes') && !val('fecha_anio'),
-              anios: document.getElementById('f_fecha_hecho') ? aniosAtras().length : 0}; }""")
-    afirma(f['antes'] != '', 'el escenario trae una fecha exacta')
-    afirma(f['sel'] and not f['cal'], '«No sé la fecha exacta» cambia el calendario por mes y año')
-    afirma(f['pasa'], 'y sin fecha exacta se puede continuar')
-    afirma(f['rev'], 'la revisión dice «Aproximada: agosto de 2026»')
-    afirma(f['suelta'] and f['anios'] == 10, 'al volver a la fecha exacta se suelta lo aproximado; el año ofrece diez opciones')
+      guarda('conoce_fecha','no'); guarda('fecha_hecho',''); render();
+      const sinCal = !document.getElementById('f_fecha_hecho'), pasa = valida(3); irA(6); const rev = document.getElementById('app').textContent;
+      irA(3); guarda('conoce_fecha','si'); render(); const cal = !!document.getElementById('f_fecha_hecho'), exige = esObligatorio('fecha_hecho');
+      return {antes, sinCal, pasa, rev: rev.includes('No se conoce la fecha'), cal, exige, viejo: typeof cambiaFechaNoSabe === 'undefined' && !('fecha_nosabe' in OBLIG)}; }""")
+    afirma(f['antes'] != '', 'el escenario trae una fecha')
+    afirma(f['sinCal'] and f['pasa'], 'con «No», no se pide la fecha y se puede continuar')
+    afirma(f['rev'], 'la revisión dice «No se conoce la fecha»')
+    afirma(f['cal'] and f['exige'], 'con «Sí», aparece la fecha y se exige')
+    afirma(f['viejo'], 'ya no existen la casilla ni el mes y año aproximados')
 
     # ---- Medición del ruido desde el domicilio (OBS-0032) ----
     rm = pg.evaluate("""() => { cargaEscenario('urbano'); guarda('materia','ruido'); guarda('identificacion','nombre'); irA(5);

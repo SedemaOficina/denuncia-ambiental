@@ -1,18 +1,18 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-204 · 20 de octubre de 2026
+**Versión:** DEC-210 · 20 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos que llena la persona | **59** |
+| Campos que llena la persona | **57** |
 | Datos que viajan a la base sin verse en pantalla | **13** |
 | Datos que calcula el formulario y se muestran | 15 |
-| Datos personales | **22** (37 %) |
-| Obligatorios en este formulario | 36 de 59 |
-| Campos con obligatoriedad condicionada | 27 |
+| Datos personales | **22** (39 %) |
+| Obligatorios en este formulario | 37 de 57 |
+| Campos con obligatoriedad condicionada | 26 |
 | Datos sin uso declarado | **0** |
 
 ---
@@ -25,7 +25,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 |---|---|---|
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 17 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 17 |
-| **Expediente** | Integrar el expediente y motivar el acto de inspección | 21 |
+| **Expediente** | Integrar el expediente y motivar el acto de inspección | 19 |
 | **Responsable** | Identificar y emplazar al probable infractor | 5 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 19 |
@@ -74,15 +74,13 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Nombre del establecimiento | Opcional | No | Sólo cuando los hechos ocurren dentro de un establecimiento | Identifica el establecimiento en campo y permite cruzarlo con el padrón de fuentes fijas. |
 | Descripción de lo que ocurre | Obligatorio | No | Siempre | Objeto y alcance de la visita de inspección; es la base de la motivación del acto. |
 | Desde cuándo ocurre | Obligatorio | No | Siempre | Determina si la conducta es continua o aislada, lo que define la urgencia de la atención. |
-| Fecha en que ocurrió o inició | Opcional | No | Sólo cuando la persona conoce la fecha exacta | Ubicación temporal de los hechos en el expediente. |
-| No sé la fecha exacta | Opcional | No | Siempre | Permite dar una fecha aproximada a quien no conoce el día exacto (OBS-0016, DEC-191). |
-| Mes aproximado | Opcional | No | Sólo cuando la persona no sabe la fecha exacta | Ubicación temporal aproximada de los hechos en el expediente. |
-| Año aproximado | Opcional | No | Sólo cuando la persona no sabe la fecha exacta | Ubicación temporal aproximada de los hechos en el expediente. |
+| ¿Conoces la fecha en que ocurrió o inició? | Obligatorio | No | Siempre | Pregunta de encaminamiento: pide la fecha sólo a quien la conoce (DEC-206). |
+| Fecha en que ocurrió o inició | Obligatorio *(condicionado)* | No | Sólo cuando la persona conoce la fecha | Ubicación temporal de los hechos en el expediente. |
 | ¿Quién es responsable de los hechos? | Obligatorio | No | Siempre | Define la vía del procedimiento: señalar a una autoridad activa el art. 331, que manda recomendar y no sancionar. |
 | Ámbito de la autoridad señalada | Obligatorio *(condicionado)* | No | Sólo cuando se señala a una autoridad | Encamina la recomendación del art. 331: de él depende si se dirige a una dependencia de la Ciudad, a una alcaldía o a la federación, y contra qué catálogo se propone el nombre. |
-| Dependencia, alcaldía u organismo señalado | Obligatorio *(condicionado)* | No | Sólo cuando se señala a una autoridad y se eligió su ámbito | Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla. |
+| Dependencia, alcaldía u organismo señalado | Opcional | No | Sólo cuando se señala a una autoridad y se eligió su ámbito | Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla. |
 | Lo que se ha observado de quien lo hace | Opcional | **Sí** | Sólo cuando la persona no sabe quién es el responsable | Señas de quien realiza los hechos —vehículos, uniformes, horarios— para reconocerlo en la visita de inspección. |
-| Área o persona servidora pública | Opcional | **Sí** | Siempre | Precisa el área a la que se dirige la recomendación. |
+| Área o persona servidora pública | Opcional | **Sí** | Sólo cuando se señala a una autoridad y se conoce su ámbito | Precisa el área a la que se dirige la recomendación. |
 | ¿Ya reportaste ante otra autoridad? | Obligatorio | No | Siempre | Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga. |
 | Gestiones previas | Opcional | No | Sólo cuando la persona dice haberlo reportado antes | Evita duplicar expedientes con otras autoridades y gradúa la gravedad por reincidencia. |
 
