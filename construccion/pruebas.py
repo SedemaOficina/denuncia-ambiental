@@ -10,7 +10,8 @@ es lo que avisa cuando un cambio nuevo rompe algo viejo. Si una falla porque
 el formulario cambio a proposito, se actualiza la prueba y se anota por que;
 nunca se borra para que deje de molestar.
 
-Variables de entorno: ARTEFACTO (ruta del archivo a probar) y CHROMIUM.
+Variables de entorno: ARTEFACTO (ruta del archivo a probar) y CHROMIUM (sin
+ella se usa el Chromium que instala Playwright).
 """
 import os, sys, glob, subprocess, pathlib
 
@@ -26,8 +27,10 @@ if not archivos:
 total, fallidos = 0, []
 for f in archivos:
     nombre = os.path.basename(f)
-    r = subprocess.run([sys.executable, f], capture_output=True, text=True,
-                       env=dict(os.environ, ARTEFACTO=str(ARTE)))
+    # En Windows Python lee y escribe por omision en cp1252; las baterias y lo
+    # que leen de pdftotext van en UTF-8, y sin esto se pierden acentos.
+    r = subprocess.run([sys.executable, f], capture_output=True, text=True, encoding='utf-8',
+                       env=dict(os.environ, ARTEFACTO=str(ARTE), PYTHONUTF8='1'))
     salida = (r.stdout or '') + (r.stderr or '')
     verdes = salida.count('\nOK ') + (1 if salida.startswith('OK ') else 0)
     total += verdes

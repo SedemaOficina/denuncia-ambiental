@@ -58,11 +58,12 @@ Los documentos 09 y 10 **se generan** del prototipo; no se editan a mano sus apa
 - **Datos y promesas al ciudadano:** no hay servicio de correo; el formulario no promete notificaciones ni acuses por correo, y el correo no es vía de presentación. La denuncia anónima se admite, se atiende y no se notifica.
 - **Claves:** `prototipo/configuracion-local.js` tiene la clave del mapa base y no se versiona. No la copies a ningún otro archivo.
 
-## Primera sesión en esta computadora
+## Entorno en esta computadora (Windows)
 
-1. Instala lo que piden las pruebas: `pip install playwright pillow numpy` y `python -m playwright install chromium`. Node.js es opcional (batería 26).
-2. Las 34 baterías con navegador leen la ruta de Chromium de la variable `CHROMIUM`, con una ruta de Linux por omisión. En Windows esa ruta no existe. Corrige el arranque una sola vez, en un bloque cerrado: que sin `CHROMIUM` se use el Chromium que instala Playwright. Corre la batería completa para confirmar que todo queda en verde.
-3. Registra el cambio de entorno en el documento 05. Adelanta lo que acordó DEC-221, que preveía pasar a Claude Code al abrir la fase 2.
+Preparado en la primera sesión (DEC-231): Playwright con su Chromium, Pillow, numpy, Node.js, `qpdf` y Poppler (`pdftotext`, `pdfinfo`). Sin la variable `CHROMIUM`, las baterías usan el Chromium de Playwright.
+
+- **Corre la cadena desde PowerShell, no desde Bash.** La terminal Bash de Git trae un `pdftotext` antiguo (Xpdf 4.00) que tapa al de Poppler y hace fallar la batería 25.
+- Si `qpdf` o `pdftotext` no aparecen, la terminal se abrió antes de instalarlos: refresca el PATH (`$env:Path = [Environment]::GetEnvironmentVariable('Path','Machine') + ';' + [Environment]::GetEnvironmentVariable('Path','User')`).
 
 ## Lo que vive fuera del repositorio
 

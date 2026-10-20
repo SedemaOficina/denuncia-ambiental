@@ -23,7 +23,7 @@ RAIZ = AQUI.parent
 RUTA = pathlib.Path(os.environ.get('ARTEFACTO', RAIZ / 'artefacto.html'))
 UGA  = RAIZ.parent / 'capas' / 'originales' / 'UGA_CDMX.geojson'
 TMP  = AQUI / '_pagina18.html'
-CHROMIUM = os.environ.get('CHROMIUM', '/opt/pw-browsers/chromium-1194/chrome-linux/chrome')
+CHROMIUM = os.environ.get('CHROMIUM')  # sin la variable, Playwright usa el Chromium que él mismo instala
 from playwright.sync_api import sync_playwright
 
 TMP.write_text('<!doctype html><html lang="es"><head><meta charset="utf-8">' +

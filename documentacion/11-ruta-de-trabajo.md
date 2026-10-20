@@ -1223,3 +1223,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 ### 20 de octubre de 2026 · versión del acta registrada (DEC-230)
 
 **Qué cambió.** El acta de validación se firmó sobre la «Versión 30 · Validación DGIVA», que es la vigente. El criterio 5 queda cumplido y A-15 se atiende sin oficio, porque después de esa versión no cambió ninguna pantalla. Desde aquí, todo cambio visible sale como «Versión 31» o posterior y se informa a la DGIVA.
+
+### 20 de octubre de 2026 · Claude Code y pruebas en Windows (DEC-231)
+
+**Qué cambió.** Primera sesión con Claude Code en la computadora de Liber, antes de abrir la fase 2 (adelanta DEC-221). Las 34 baterías con navegador usan el Chromium de Playwright cuando no se da la variable `CHROMIUM`, en lugar de una ruta de Linux. `pruebas.py` lee y corre las baterías en UTF-8. La batería 25 pide a `pdftotext` salida en UTF-8. Se instalaron Chromium de Playwright, `qpdf` y Poppler. `construccion/LEEME.md` dice qué necesita la batería y desde qué terminal correrla. El formulario no cambia; no hay versión nueva.
+
+**Por qué.** CLAUDE.md pide que la batería quede en verde antes de cada commit; en Windows no arrancaba.
+
+**Verificación de cierre.** Batería completa en verde: 1 175 comprobaciones en 36 baterías, las mismas que en el entorno anterior.

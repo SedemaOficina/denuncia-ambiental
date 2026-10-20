@@ -10,7 +10,7 @@ AQUI = pathlib.Path(os.path.abspath(__file__)).parent
 RAIZ = AQUI.parent
 RUTA = pathlib.Path(os.environ.get('ARTEFACTO', RAIZ / 'artefacto.html'))
 TMP  = AQUI / '_pagina.html'
-CHROMIUM = os.environ.get('CHROMIUM', '/opt/pw-browsers/chromium-1194/chrome-linux/chrome')
+CHROMIUM = os.environ.get('CHROMIUM')  # sin la variable, Playwright usa el Chromium que él mismo instala
 from playwright.sync_api import sync_playwright
 TMP.write_text('<!doctype html><html lang="es"><head><meta charset="utf-8">' +
                RUTA.read_text(encoding='utf-8') + '</body></html>', encoding='utf-8')
@@ -60,7 +60,7 @@ with sync_playwright() as pw:
         ruta = pdf_de(pg, esc)
         chk = subprocess.run(['qpdf', '--check', str(ruta)], capture_output=True, text=True)
         afirma(chk.returncode == 0, '%s: el PDF es válido (qpdf)' % esc)
-        txt = subprocess.run(['pdftotext', '-layout', str(ruta), '-'], capture_output=True, text=True).stdout
+        txt = subprocess.run(['pdftotext', '-enc', 'UTF-8', '-layout', str(ruta), '-'], capture_output=True, text=True).stdout
         folio = pg.evaluate("() => val('folio')")
         afirma(folio in txt, '%s: lleva el folio %s' % (esc, folio))
         clave = pg.evaluate("() => val('clave_consulta')")
@@ -93,12 +93,12 @@ with sync_playwright() as pw:
       return construyeAcusePdf().then(u => Array.from(u)); }""")
     ruta = SALIDA / 'acuse-sin-punto.pdf'; ruta.write_bytes(bytes(sin))
     afirma(subprocess.run(['qpdf', '--check', str(ruta)], capture_output=True, text=True).returncode == 0, 'sin punto: el PDF es válido')
-    txt = subprocess.run(['pdftotext', '-layout', str(ruta), '-'], capture_output=True, text=True).stdout
+    txt = subprocess.run(['pdftotext', '-enc', 'UTF-8', '-layout', str(ruta), '-'], capture_output=True, text=True).stdout
     afirma('CROQUIS' not in txt and 'ubicará el lugar con la dirección' in txt, 'sin punto: no hay croquis y avisa que la Secretaría ubicará el lugar')
 
     # ---- 2 ter. El membrete: folio y clave en casillas a la derecha del logotipo ----
     ruta = pdf_de(pg, 'urbano')
-    bb = subprocess.run(['pdftotext', '-bbox', '-f', '1', '-l', '1', str(ruta), '-'], capture_output=True, text=True).stdout
+    bb = subprocess.run(['pdftotext', '-enc', 'UTF-8', '-bbox', '-f', '1', '-l', '1', str(ruta), '-'], capture_output=True, text=True).stdout
     import re
     pal = [(float(m.group(1)), float(m.group(2)), m.group(3)) for m in re.finditer(r'xMin="([\d.]+)" yMin="([\d.]+)"[^>]*>([^<]*)<', bb)]
     fol = [p for p in pal if p[2].startswith('SEDEMA/DEN/')]
@@ -111,7 +111,7 @@ with sync_playwright() as pw:
     ruta = SALIDA / 'acuse-largo.pdf'; ruta.write_bytes(bytes(largo))
     info = subprocess.run(['pdfinfo', str(ruta)], capture_output=True, text=True).stdout
     pags = int([l for l in info.splitlines() if l.startswith('Pages:')][0].split()[-1])
-    txt = subprocess.run(['pdftotext', str(ruta), '-'], capture_output=True, text=True).stdout
+    txt = subprocess.run(['pdftotext', '-enc', 'UTF-8', str(ruta), '-'], capture_output=True, text=True).stdout
     afirma(pags >= 2 and ('Página %d de %d' % (pags, pags)) in txt, 'una descripción larga pasa a otra página y numera «de %d»' % pags)
 
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])
