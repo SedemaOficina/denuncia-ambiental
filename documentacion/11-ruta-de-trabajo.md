@@ -182,7 +182,9 @@ Una regla nueva se coloca en su bloque, **no al final del archivo**. Añadir al 
 
 **Verificación, en cada cierre de bloque de cambios**
 
-1. Ningún selector declarado dos veces fuera de `@media` y `@supports`; las excepciones deliberadas, comentadas.
+1. Ningún selector declarado dos veces fuera de `@media` y `@supports`; las excepciones deliberadas, comentadas: `textarea`, `select` e `input[type=date]`, que tienen la regla común de los campos y una propia (DEC-227).
+
+*Desde DEC-227 esta verificación la corre la batería 35 en cada cambio, sobre el prototipo y el artefacto.*
 2. Ninguna propiedad declarada dos veces para el mismo selector.
 3. Ningún `!important` fuera del bloque de movimiento reducido.
 4. Ninguna clase declarada y no usada, considerando también las que se construyen por concatenación en el código.
@@ -1191,4 +1193,10 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Qué cambió.** La DGIVA validó el mapeo de campos y entregó el acta firmada, en físico. P-01, P-05 y P-22 resueltas; P-12 retirada. En el formulario: la denuncia anónima dice que se atiende pero no se notifica, y en las Áreas Naturales Protegidas federales la DGCORENADR recibe y remite a la PROFEPA, sin aviso de criterio provisional. Pruebas 11 y 14 reescritas contra la regla resuelta.
 
 **Para cerrar la fase 1 quedan:** el fundamento de «Plásticos de un solo uso» (criterio 1), la auditoría de código sobre la versión validada (criterio 4) y la respuesta a OBS-0024 (criterio 7). Los tres datos que faltan en el aviso de privacidad (P-02) no impiden cerrar la fase, pero sí publicar.
+
+### 20 de octubre de 2026 · auditoría de código y estilos (DEC-227, criterio 4)
+
+**Qué cambió.** Se corrigieron una línea muerta, dos nombres de función repetidos, cinco selectores duplicados, dos colores fuera de `:root`, dos `!important`, treinta y ocho selectores por identificador y seis estilos en línea repetidos. La auditoría quedó como la batería 35, que corre sobre el prototipo y el artefacto.
+
+**Verificación de cierre.** Batería completa en verde (35 baterías). Revisión visual del mapa, del panel de validación y del modo revisión.
 

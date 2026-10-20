@@ -41,14 +41,14 @@ cambia('<title>Denuncia Ambiental en línea — Prototipo SEDEMA</title>',
 
 # 4. Estilos del mapa vectorial
 estilos = """
-/* ---- Mapa vectorial (artefacto) ---- */
-#mapa{position:relative;background:var(--mapa-bg);overflow:hidden;touch-action:none;height:440px}
-#svgmapa{width:100%;height:100%;display:block;cursor:crosshair}
-#contorno{fill:var(--blanco);stroke:var(--guinda)}
-#alcaldias .alc{fill:transparent;stroke:var(--linea)}
-#etiquetas text{fill:var(--gris-cl);font-family:'Roboto',Arial,sans-serif;pointer-events:none;letter-spacing:.0002px}
-#zona path{pointer-events:none}
-#punto .pin{cursor:grab}
+/* ---- Mapa vectorial (artefacto) ----
+   Por clase, no por identificador (Regla 3, DEC-227). */
+.svgmapa{width:100%;height:100%;display:block;cursor:crosshair}
+.svg-contorno{fill:var(--blanco);stroke:var(--guinda)}
+.svg-alcaldias .alc{fill:transparent;stroke:var(--linea)}
+.svg-etiquetas text{fill:var(--gris-cl);font-family:'Roboto',Arial,sans-serif;pointer-events:none;letter-spacing:.0002px}
+.svg-zona path{pointer-events:none}
+.svg-punto .pin{cursor:grab}
 .traza{stroke-linejoin:round}
 .mapa-ctrl{position:absolute;right:10px;top:10px;display:flex;flex-direction:column;gap:6px}
 .mapa-ctrl button{background:var(--blanco);border:1px solid var(--linea);border-radius:6px;padding:5px 9px;font-size:14px;font-family:'Cabin',sans-serif;font-weight:600;color:var(--guinda);cursor:pointer;line-height:1.2}
@@ -56,6 +56,11 @@ estilos = """
 .mapa-ctrl button:last-child{font-size:11px;padding:5px 8px}
 """
 cambia('.mapa-sin{display:none;', estilos + '.mapa-sin{display:none;', 'estilos del mapa')
+# El lienzo del mapa vectorial es más alto y no se desplaza con el dedo: se
+# reescribe la regla del prototipo en lugar de declarar el selector dos veces
+# (DEC-227).
+cambia('.mapa-lienzo{height:330px;border:1px solid var(--linea);border-radius:var(--r-caja);margin-bottom:10px;background:var(--mapa-bg);\n  position:relative;z-index:0;isolation:isolate}',
+       '.mapa-lienzo{height:440px;border:1px solid var(--linea);border-radius:var(--r-caja);margin-bottom:10px;background:var(--mapa-bg);\n  position:relative;z-index:0;isolation:isolate;overflow:hidden;touch-action:none}', 'lienzo del mapa')
 
 # 4 bis y 4 ter se retiraron en DEC-146: el logotipo ya va incrustado y
 #        «color-scheme: light» ya esta en el origen; no sustituian nada.
@@ -64,7 +69,7 @@ cambia('.mapa-sin{display:none;', estilos + '.mapa-sin{display:none;', 'estilos 
 #    conserva: «Los hechos ocurren donde estoy ahora» sigue escribiendo ahí.
 cambia(
  """  '<div id="resBusqueda"></div>'+""",
- """  '<p class="nota-gris" style="margin:0 0 12px"><span class="pendiente">Versión en línea: dibuja la Ciudad con las capas del Sistema de Información Ambiental, sin mapa de calles de fondo y sin el servicio que ubica la dirección a partir del texto</span></p>'+
+ """  '<p class="nota-gris separa-abajo"><span class="pendiente">Versión en línea: dibuja la Ciudad con las capas del Sistema de Información Ambiental, sin mapa de calles de fondo y sin el servicio que ubica la dirección a partir del texto</span></p>'+
   '<div id="resBusqueda"></div>'+""", 'nota de alcance')
 
 # 5 bis. En el artefacto no hay servicio de geocodificación: se retira el botón

@@ -68,12 +68,12 @@ function iniciaMapa(){
   }).join('');
 
   div.innerHTML =
-    '<svg id="svgmapa" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mapa de la Ciudad de México">'+
-      '<path id="contorno" class="traza" data-w="0.0022" d="'+dDeGeom(CDMX_BORDE)+'"/>'+
-      '<g id="alcaldias">'+alc+'</g>'+
-      '<g id="etiquetas">'+etiquetas+'</g>'+
-      '<g id="zona"></g>'+
-      '<g id="punto"></g>'+
+    '<svg id="svgmapa" class="svgmapa" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Mapa de la Ciudad de México">'+
+      '<path id="contorno" class="traza svg-contorno" data-w="0.0022" d="'+dDeGeom(CDMX_BORDE)+'"/>'+
+      '<g id="alcaldias" class="svg-alcaldias">'+alc+'</g>'+
+      '<g id="etiquetas" class="svg-etiquetas">'+etiquetas+'</g>'+
+      '<g id="zona" class="svg-zona"></g>'+
+      '<g id="punto" class="svg-punto"></g>'+
     '</svg>'+
     '<div class="mapa-ctrl">'+
       '<button type="button" onclick="zoom(0.7)" aria-label="Acercar">+</button>'+

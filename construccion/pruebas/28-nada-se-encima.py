@@ -120,7 +120,7 @@ with sync_playwright() as pw:
 fuente = (RAIZ.parent / 'prototipo' / 'prototipo-denuncia-ambiental-sedema.html')
 if fuente.exists():
     t = fuente.read_text(encoding='utf-8')
-    i = t.find('#mapa{height:330px')
+    i = t.find('.mapa-lienzo{height:330px')
     afirma(i > 0 and 'isolation:isolate' in t[i:i+400] and 'z-index:0' in t[i:i+400],
            'la versión con mapa de calles declara el mapa en su propia capa')
 

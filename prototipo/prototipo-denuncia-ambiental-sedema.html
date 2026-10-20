@@ -22,6 +22,10 @@
 :root{
   color-scheme: light;
 
+  /* Sombras con color: el foco de los campos y el realce de las filas (DEC-227) */
+  --sombra-foco: rgba(26,115,199,.18);
+  --sombra-guinda: rgba(157,33,72,.12);
+
   /* Identidad */
   --guinda:#9D2148; --guinda-osc:#7A1A38; --guinda-cl:#F7F1F3;
   --dorado:#B28E5C;        /* sólo filetes y rellenos, nunca texto */
@@ -78,9 +82,8 @@ header.titulo{background:var(--beige);border-bottom:3px solid var(--dorado);padd
 /* El logotipo es ancho (Gobierno · Secretaría · SIA): va en su renglón y el
    título debajo (DEC-174). */
 header.titulo .contenedor{max-width:980px;margin:0 auto;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
-header.titulo .logo-enlace{display:block;flex-shrink:0;border-radius:var(--r-ctrl)}
+header.titulo .logo-enlace{display:block;flex-shrink:0;border-radius:var(--r-ctrl);max-width:100%}
 header.titulo .logo-enlace:focus-visible{outline:3px solid var(--foco);outline-offset:4px}
-header.titulo .logo-enlace{max-width:100%}
 header.titulo .logo-inst{display:block;width:auto;height:auto;max-width:100%;max-height:56px}
 header.titulo .titulo-txt{border-top:1px solid var(--linea);padding-top:10px;width:100%}
 header.titulo h1{font-size:var(--t-2xl);color:var(--guinda);line-height:1.15}
@@ -182,9 +185,9 @@ select{
 }
 select.sin-elegir{color:var(--gris-cl)}
 @supports (appearance: base-select){
-  select,select::picker(select){appearance:base-select}
+  select{appearance:base-select}
   select::picker-icon{display:none}
-  select::picker(select){margin-top:4px;padding:4px 0;background:var(--blanco);border:1px solid var(--borde);
+  select::picker(select){appearance:base-select;margin-top:4px;padding:4px 0;background:var(--blanco);border:1px solid var(--borde);
     border-radius:var(--r-ctrl);box-shadow:0 6px 18px rgba(0,0,0,.12);max-height:320px;overflow-y:auto;
     scrollbar-width:thin;scrollbar-color:var(--borde) transparent}
   select option{padding:10px 13px;font-size:var(--t-base);line-height:1.3;color:var(--texto);background:var(--blanco);cursor:pointer}
@@ -195,7 +198,7 @@ select.sin-elegir{color:var(--gris-cl)}
   select selectedcontent{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 }
 select option{color:var(--texto)}
-input:focus,select:focus,textarea:focus{outline:none;border-color:var(--foco);box-shadow:0 0 0 3px rgba(26,115,199,.18)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--foco);box-shadow:0 0 0 3px var(--sombra-foco)}
 /* Única excepción al alto mínimo de la regla base anterior. */
 textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 /* ---------- Renglones de campos ----------
@@ -237,14 +240,13 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
    dice la alcaldia, porque 59 nombres se repiten en dos alcaldias o mas. */
 .combo{position:relative}
 .combo-lista{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;margin:0;padding:4px 0;list-style:none;
-  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r-ctrl);box-shadow:0 6px 18px rgba(0,0,0,.12);max-height:320px;overflow-y:auto}
+  background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r-ctrl);box-shadow:0 6px 18px rgba(0,0,0,.12);max-height:320px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--borde) transparent}
 .combo-lista[hidden]{display:none}
 /* Una sola lista desplegable en todo el formulario (DEC-126). Había tres: la
    del <select> nativo, que pinta cada sistema a su manera; la del <datalist>,
    que Chrome pinta en negro; y la de la colonia. Ahora la colonia y la
    autoridad usan esta lista, y el <select> se dibuja igual donde el navegador
    lo permite (appearance: base-select); donde no, queda el nativo en claro. */
-.combo-lista{scrollbar-width:thin;scrollbar-color:var(--borde) transparent}
 .combo-lista li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:10px 13px;cursor:pointer;line-height:1.3}
 .combo-lista li .op-nom{color:var(--texto);overflow-wrap:anywhere}
 .combo-lista li .op-alc{flex-shrink:0;font-size:var(--t-sm);color:var(--gris-cl)}
@@ -330,7 +332,7 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
   background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-ctrl);
   padding:12px 14px;min-height:58px;cursor:pointer;font:inherit;color:inherit;
   transition:border-color .12s,background .12s,box-shadow .12s}
-.fila-op:hover{border-color:var(--azul);background:var(--azul-cl);box-shadow:0 1px 4px rgba(157,33,72,.12)}
+.fila-op:hover{border-color:var(--azul);background:var(--azul-cl);box-shadow:0 1px 4px var(--sombra-guinda)}
 .fila-op[aria-pressed="true"]{border-color:var(--azul);border-width:2px;background:var(--azul-cl);padding:11px 13px}
 .fila-op .fo-ico{flex-shrink:0;line-height:0;color:var(--azul)}
 .fila-op .fo-txt{flex:1;min-width:0;display:block}
@@ -395,7 +397,7 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 /* Tres preguntas a la vista; el resto, con el botón (DEC-185). */
 .faq-corta details:nth-of-type(n+4){display:none}
 .faq-ver{margin-top:12px}
-.faq details,.priv-plegable{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja)}
+.faq details{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja)}
 .faq summary,.priv-plegable summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:10px;padding:16px 18px;
   font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-base);font-weight:700;line-height:1.35;color:var(--texto)}
 .faq summary::-webkit-details-marker,.priv-plegable summary::-webkit-details-marker{display:none}
@@ -464,6 +466,8 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 /* Columna de uso declarado en el comparativo de campos: texto largo y secundario. */
 table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:var(--gris);line-height:1.4;font-weight:400}
 .mapeo-version{font-size:var(--t-sm);color:var(--gris);margin:6px 0 0}
+/* Separación de una nota respecto del bloque anterior (DEC-227). */
+.separa-arriba{margin-top:14px}
 .mapeo-sec{font-family:'Cabin','Roboto',Arial,sans-serif;font-size:var(--t-base);color:var(--guinda);margin:22px 0 4px}
 .mapeo-clave{font-size:var(--t-xs);color:var(--gris-cl);background:var(--fondo);border-radius:3px;padding:0 4px}
 .enlace{background:none;border:none;color:var(--azul);text-decoration:underline;cursor:pointer;
@@ -484,9 +488,10 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
 .como-ubicar{margin:-2px 0 4px;font-size:var(--t-sm);color:var(--gris)}
 .como-ubicar summary{cursor:pointer;color:var(--azul);font-weight:600;text-decoration:underline;padding:6px 0;min-height:36px;display:inline-flex;align-items:center}
 .como-ubicar h4{font-size:var(--t-sm);color:var(--texto);margin:12px 0 4px}
-.como-ubicar ol,.como-ubicar ul{margin:0 0 0 18px;line-height:1.55}
+.como-ubicar ol{margin:0 0 0 18px;line-height:1.55;list-style:decimal}
+.como-ubicar ul{margin:0 0 0 18px;line-height:1.55;list-style:disc}
 .vias .como-ubicar li{padding:0 0 3px;border:none}
-.como-ubicar ol{list-style:decimal}.como-ubicar ul{list-style:disc}
+
 /* ---------- Guía visual para copiar la ubicación (DEC-125) ----------
    Ilustraciones propias, esquemáticas: enseñan el gesto sin copiar la
    pantalla de Google Maps, que cambia seguido y es de un tercero. El único
@@ -530,7 +535,7 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
    para que informe sin competir con las preguntas (DEC-79). */
 .priv{padding:4px 18px 16px 38px}
 /* El aviso va dentro de su plegable, que pone la tarjeta (DEC-218). */
-.priv-plegable{margin:4px 0 18px}
+.priv-plegable{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja);margin:4px 0 18px}
 .priv p{font-size:var(--t-md);line-height:1.55;color:var(--texto);margin:0 0 10px}
 .priv p:last-child{margin-bottom:0}
 .priv b{color:var(--guinda);font-weight:600}
@@ -562,10 +567,20 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
 /* Rojo sólo donde algo impide continuar. */
 .aviso-bloqueo{border-left-color:var(--error);background:var(--error-bg);color:var(--error-txt)}
 .aviso-bloqueo strong{color:var(--error)}
+/* Avisos pegados a lo que explican: la ficha del cruce y la alcaldía de la
+   dirección (antes, el mismo estilo en línea tres veces; DEC-227). */
+.aviso-pegado{margin:12px 0 0}
+/* El aviso de envío se separa de la revisión que lo precede (DEC-227). */
+.aviso-envio{margin-top:20px}
+/* Separación respecto del bloque siguiente; después de .aviso para ganarle
+   en el orden (DEC-227). */
+.separa-abajo{margin:0 0 12px}
 
 /* ---------- Botones ---------- */
 .acciones{display:flex;gap:12px;justify-content:space-between;margin-top:26px;padding-top:20px;border-top:1px solid var(--linea)}
 .btn{padding:13px 26px;min-height:48px;border:none;border-radius:var(--r-ctrl);font-family:'Cabin',sans-serif;font-size:var(--t-base);font-weight:600;cursor:pointer;transition:background .15s,border-color .15s}
+/* Botón de una confirmación en línea, más bajo que los de navegación (DEC-227). */
+.btn-compacto{padding:10px 18px;min-height:44px}
 .btn-primario{background:var(--guinda);color:var(--blanco)}
 .btn-primario:hover{background:var(--guinda-osc)}
 .btn-secundario{background:var(--blanco);color:var(--gris);border:1px solid var(--borde)}
@@ -584,7 +599,7 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
    capas internas del 200 al 1000; sin esto se salían del mapa y, al desplazar
    la página, el mapa y sus botones pasaban por encima de la barra fija de
    pasos (40) y de la lista de colonias (30). */
-#mapa{height:330px;border:1px solid var(--linea);border-radius:var(--r-caja);margin-bottom:10px;background:var(--mapa-bg);
+.mapa-lienzo{height:330px;border:1px solid var(--linea);border-radius:var(--r-caja);margin-bottom:10px;background:var(--mapa-bg);
   position:relative;z-index:0;isolation:isolate}
 .mapa-barra{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
 .coords{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:var(--t-sm);background:var(--fondo);padding:9px 12px;border-radius:var(--r-ctrl);color:var(--texto);font-weight:500;display:inline-flex;align-items:center;gap:6px}
@@ -690,24 +705,24 @@ details.rev-bloque .resumen{padding:14px}
 .pendiente{background:var(--pend-bg);border:1px dashed var(--pend);color:var(--pend-txt);padding:2px 7px;border-radius:4px;font-size:var(--t-xs);font-weight:600;font-style:normal}
 
 /* ---------- Panel del prototipo ---------- */
-#panel{position:fixed;right:16px;bottom:16px;z-index:9000;font-family:'Roboto',sans-serif}
-#panel .toggle{background:var(--gris);color:var(--blanco);border:none;border-radius:var(--r-pill);padding:12px 18px;min-height:44px;font-size:var(--t-sm);font-weight:600;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2)}
-#panel .cuerpo{display:none;position:absolute;right:0;bottom:56px;width:320px;background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:18px;max-height:78vh;overflow:auto}
-#panel.abierto .cuerpo{display:block}
+.panel-val{position:fixed;right:16px;bottom:16px;z-index:9000;font-family:'Roboto',sans-serif}
+.panel-val .toggle{background:var(--gris);color:var(--blanco);border:none;border-radius:var(--r-pill);padding:12px 18px;min-height:44px;font-size:var(--t-sm);font-weight:600;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2)}
+.panel-val .cuerpo{display:none;position:absolute;right:0;bottom:56px;width:320px;background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-caja);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:18px;max-height:78vh;overflow:auto}
+.panel-val.abierto .cuerpo{display:block}
 /* En teléfono, sólo el engrane: el rótulo tapaba el botón de la portada (DEC-181). */
 @media (max-width:560px){
-  #panel{right:12px;bottom:12px}
-  #panel .toggle{width:44px;padding:0;font-size:var(--t-lg);opacity:.9}
-  #panel .toggle-txt{display:none}
-  #panel .cuerpo{width:calc(100vw - 24px);max-width:320px}
+  .panel-val{right:12px;bottom:12px}
+  .panel-val .toggle{width:44px;padding:0;font-size:var(--t-lg);opacity:.9}
+  .panel-val .toggle-txt{display:none}
+  .panel-val .cuerpo{width:calc(100vw - 24px);max-width:320px}
 }
-#panel .grupo{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--linea)}
-#panel .grupo:last-child{border:none;margin-bottom:0;padding-bottom:0}
-#panel label{display:flex;gap:8px;align-items:flex-start;font-size:var(--t-sm);margin-bottom:10px;cursor:pointer;color:var(--gris)}
-#panel label input{margin-top:3px;flex-shrink:0;width:auto;min-height:0}
-#panel .nota{font-size:var(--t-xs);color:var(--gris-cl);line-height:1.45}
-#panel .nota-cabeza{font-size:var(--t-xs);color:var(--gris);line-height:1.5;background:var(--aviso-bg);border-radius:var(--r-ctrl);padding:10px 12px;margin-bottom:16px}
-#panel .btn-link{display:block;width:100%;background:none;border:none;color:var(--azul);font-size:var(--t-sm);font-weight:600;cursor:pointer;text-decoration:underline;padding:6px 0;text-align:left;min-height:34px}
+.panel-val .grupo{margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid var(--linea)}
+.panel-val .grupo:last-child{border:none;margin-bottom:0;padding-bottom:0}
+.panel-val label{display:flex;gap:8px;align-items:flex-start;font-size:var(--t-sm);margin-bottom:10px;cursor:pointer;color:var(--gris)}
+.panel-val label input{margin-top:3px;flex-shrink:0;width:auto;min-height:0}
+.panel-val .nota{font-size:var(--t-xs);color:var(--gris-cl);line-height:1.45}
+.panel-val .nota-cabeza{font-size:var(--t-xs);color:var(--gris);line-height:1.5;background:var(--aviso-bg);border-radius:var(--r-ctrl);padding:10px 12px;margin-bottom:16px}
+.panel-val .btn-link{display:block;width:100%;background:none;border:none;color:var(--azul);font-size:var(--t-sm);font-weight:600;cursor:pointer;text-decoration:underline;padding:6px 0;text-align:left;min-height:34px}
 
 .btn-esc{display:block;width:100%;text-align:left;background:var(--blanco);border:1px solid var(--linea);
   border-radius:var(--r-ctrl);padding:9px 11px;margin-bottom:6px;cursor:pointer;font:inherit;min-height:44px}
@@ -717,11 +732,11 @@ details.rev-bloque .resumen{padding:14px}
 
 /* ---------- Modal ---------- */
 /* Modo revisión (DEC-153, DEC-155, DEC-156): sólo existe con ?revision=<palabra> en la liga. */
-#revision{position:fixed;left:16px;bottom:16px;z-index:9600;font-family:'Roboto',sans-serif}
-#revision .rev-toggle{background:var(--guinda);color:var(--blanco);border:none;border-radius:var(--r-pill);padding:12px 18px;min-height:44px;font-size:var(--t-sm);font-weight:600;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2)}
-#revision .rev-toggle:hover{background:var(--guinda-osc)}
-#revision .rev-cuerpo{display:none;position:absolute;left:0;bottom:56px;width:380px;max-width:calc(100vw - 32px);max-height:78vh;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--blanco);border:1px solid var(--linea);border-top:4px solid var(--guinda);border-radius:var(--r-caja);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:0 18px 18px;font-size:var(--t-sm);color:var(--texto)}
-#revision.abierto .rev-cuerpo{display:block}
+.rev-panel{position:fixed;left:16px;bottom:16px;z-index:9600;font-family:'Roboto',sans-serif}
+.rev-panel .rev-toggle{background:var(--guinda);color:var(--blanco);border:none;border-radius:var(--r-pill);padding:12px 18px;min-height:44px;font-size:var(--t-sm);font-weight:600;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,.2)}
+.rev-panel .rev-toggle:hover{background:var(--guinda-osc)}
+.rev-panel .rev-cuerpo{display:none;position:absolute;left:0;bottom:56px;width:380px;max-width:calc(100vw - 32px);max-height:78vh;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--blanco);border:1px solid var(--linea);border-top:4px solid var(--guinda);border-radius:var(--r-caja);box-shadow:0 8px 30px rgba(0,0,0,.18);padding:0 18px 18px;font-size:var(--t-sm);color:var(--texto)}
+.rev-panel.abierto .rev-cuerpo{display:block}
 .rev-cab{position:sticky;top:0;z-index:1;display:flex;flex-direction:column;gap:2px;background:var(--blanco);padding:12px 0 8px;margin-bottom:10px;border-bottom:1px solid var(--linea)}
 .rev-cab-tit{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .rev-min{background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r-pill);padding:6px 12px;min-height:36px;font-size:var(--t-sm);font-weight:600;color:var(--texto);cursor:pointer;white-space:nowrap}
@@ -736,7 +751,7 @@ details.rev-bloque .resumen{padding:14px}
 .rev-donde dt{color:var(--gris);font-size:var(--t-xs);text-transform:uppercase;letter-spacing:.04em;padding-top:2px}
 .rev-donde dd{margin:0}
 .rev-sec{display:block;font-weight:600;margin-bottom:2px}
-#revision q{display:block;quotes:"«" "»";font-style:italic;color:var(--gris);border-left:3px solid var(--dorado);padding-left:8px;margin:2px 0 4px}
+.rev-panel q{display:block;quotes:"«" "»";font-style:italic;color:var(--gris);border-left:3px solid var(--dorado);padding-left:8px;margin:2px 0 4px}
 .rev-fila{display:flex;flex-wrap:wrap;gap:4px 16px}
 .rev-link{background:none;border:none;color:var(--azul);font-size:var(--t-sm);font-weight:600;cursor:pointer;text-decoration:underline;padding:6px 0;min-height:34px}
 .rev-ayuda{color:var(--gris-cl);font-size:var(--t-xs);margin:2px 0 10px}
@@ -746,9 +761,9 @@ details.rev-bloque .resumen{padding:14px}
 .rev-tipos button[aria-pressed="true"]{background:var(--azul-cl);border-color:var(--azul);color:var(--azul);font-weight:600}
 .rev-etq{display:block;font-weight:600;margin:8px 0 4px}
 .rev-opc{font-weight:400;color:var(--gris-cl)}
-#revision textarea{width:100%;border:1px solid var(--borde);border-radius:var(--r-ctrl);padding:8px 10px;font:inherit;font-size:var(--t-base);resize:vertical;min-height:0}
-#revision input[type=text]{width:100%;border:1px solid var(--borde);border-radius:var(--r-ctrl);padding:8px 10px;font:inherit;font-size:var(--t-base);min-height:44px}
-#revision textarea:focus, #revision input[type=text]:focus{outline:3px solid var(--foco);outline-offset:1px}
+.rev-panel textarea{width:100%;border:1px solid var(--borde);border-radius:var(--r-ctrl);padding:8px 10px;font:inherit;font-size:var(--t-base);resize:vertical;min-height:0}
+.rev-panel input[type=text]{width:100%;border:1px solid var(--borde);border-radius:var(--r-ctrl);padding:8px 10px;font:inherit;font-size:var(--t-base);min-height:44px}
+.rev-panel textarea:focus, .rev-panel input[type=text]:focus{outline:3px solid var(--foco);outline-offset:1px}
 .rev-cab .rev-link{padding:0;min-height:0;font-size:var(--t-xs);margin-left:4px}
 .rev-filtro{display:flex;gap:6px;align-items:center;margin-bottom:8px;color:var(--gris);cursor:pointer}
 .rev-guardar{width:100%;margin-top:12px}
@@ -765,18 +780,18 @@ details.rev-bloque .resumen{padding:14px}
 .rev-edo-ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok-txt)}
 .rev-edo-no{text-decoration:line-through}
 .rev-edo-local{border-style:dashed}
-body.rev-senalando, body.rev-senalando *{cursor:crosshair !important}
-body.rev-senalando #revision, body.rev-senalando #panel{display:none}
-.rev-foco{outline:3px solid var(--guinda) !important;outline-offset:2px}
+body.rev-senalando, body.rev-senalando *{cursor:crosshair}
+body.rev-senalando .rev-panel, body.rev-senalando .panel-val{display:none}
+.rev-foco,.rev-foco:focus{outline:3px solid var(--guinda);outline-offset:2px}
 .rev-aviso{position:fixed;top:12px;left:50%;transform:translateX(-50%);z-index:9700;display:flex;align-items:center;gap:12px;background:var(--texto);color:var(--blanco);padding:8px 8px 8px 16px;border-radius:var(--r-pill);font-size:var(--t-sm);box-shadow:0 3px 12px rgba(0,0,0,.25);max-width:calc(100vw - 24px)}
 .rev-aviso button{background:var(--blanco);color:var(--texto);border:none;border-radius:var(--r-pill);padding:6px 12px;min-height:34px;font-weight:600;cursor:pointer}
 /* Teléfono: hoja anclada abajo, de borde a borde, que sube con el teclado;
    mientras está abierta se ocultan las dos píldoras y se minimiza desde su cabecera. */
 @media (max-width:560px){
-  #revision{left:12px;bottom:12px}
-  #revision .rev-cuerpo{position:fixed;left:0;right:0;bottom:var(--rev-teclado,0px);width:auto;max-width:none;max-height:85vh;max-height:min(85dvh, calc(var(--rev-alto,100dvh) - 16px));border-radius:var(--r-caja) var(--r-caja) 0 0;border-left:none;border-right:none;border-bottom:none;padding:0 16px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.22)}
-  #revision.abierto .rev-toggle{display:none}
-  body.rev-abierto #panel{display:none}
+  .rev-panel{left:12px;bottom:12px}
+  .rev-panel .rev-cuerpo{position:fixed;left:0;right:0;bottom:var(--rev-teclado,0px);width:auto;max-width:none;/* respaldo para navegadores sin dvh */max-height:85vh;max-height:min(85dvh, calc(var(--rev-alto,100dvh) - 16px));border-radius:var(--r-caja) var(--r-caja) 0 0;border-left:none;border-right:none;border-bottom:none;padding:0 16px calc(16px + env(safe-area-inset-bottom));box-shadow:0 -8px 30px rgba(0,0,0,.22)}
+  .rev-panel.abierto .rev-toggle{display:none}
+  body.rev-abierto .panel-val{display:none}
   .rev-aviso{top:auto;bottom:calc(12px + env(safe-area-inset-bottom));left:12px;right:12px;transform:none;max-width:none;justify-content:space-between;border-radius:var(--r-caja);padding:10px 10px 10px 16px}
 }
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9500;padding:20px;overflow:auto}
@@ -788,6 +803,8 @@ body.rev-senalando #revision, body.rev-senalando #panel{display:none}
 table.comp{width:100%;border-collapse:collapse;font-size:var(--t-sm);margin-top:16px}
 table.comp th{background:var(--guinda);color:var(--blanco);padding:9px 11px;text-align:left;font-family:'Cabin',sans-serif;font-weight:600;font-size:var(--t-sm)}
 table.comp td{padding:9px 11px;border-bottom:1px solid var(--linea);vertical-align:top}
+/* Renglón que agrupa: «Paso 2», «Por denuncia» (DEC-227). */
+table.comp td.comp-grupo{background:var(--guinda-cl);font-weight:600;color:var(--guinda)}
 table.comp tbody tr:nth-child(even) td{background:var(--guinda-cl)}
 table.comp .si{color:var(--ok);font-weight:600}
 table.comp .no{color:var(--gris-cl)}
@@ -854,7 +871,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
   .acciones{flex-direction:column-reverse}
   .btn{width:100%}
   .btn-atras{align-self:center}
-  #panel .cuerpo{width:calc(100vw - 32px)}
+  .panel-val .cuerpo{width:calc(100vw - 32px)}
   .capas-fila{flex-direction:column;gap:2px}
   .capas-etq{width:auto}
 }
@@ -950,7 +967,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
 </footer>
 
 <!-- ============ PANEL DE VALIDACIÓN (solo prototipo) ============ -->
-<div id="panel">
+<div id="panel" class="panel-val">
   <button class="toggle" aria-label="Panel de validación" onclick="document.getElementById('panel').classList.toggle('abierto')">⚙<span class="toggle-txt"> Panel de validación</span></button>
   <div class="cuerpo">
     <p class="nota-cabeza">Este panel es una herramienta de trabajo de la Secretaría: no forma parte del formulario y no se publica. Sirve para revisar en una misma sesión cómo se comporta el formulario ante distintos casos.</p>
@@ -1495,7 +1512,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-226', fecha:'20 de octubre de 2026', nombre:'Versión 29 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-227', fecha:'20 de octubre de 2026', nombre:'Versión 30 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2103,7 +2120,7 @@ function abreMapeo(){
   [1,2,3,4,5,6].forEach(function(n){
     var ks = camposDelPaso(n).filter(function(k){ return !esCalculado(k); });
     if(!ks.length) return;
-    h += '<tr><td colspan="4" style="background:var(--guinda-cl);font-weight:600;color:var(--guinda)">Paso '+pasos[n]+'</td></tr>';
+    h += '<tr><td colspan="4" class="comp-grupo">Paso '+pasos[n]+'</td></tr>';
     ks.forEach(function(k){
       var o = OBLIG[k];
       h += '<tr><td>'+esc(o.etq)+'</td>'+oblig(k)+dp(o.dp)+'<td class="uso-campo">'+esc(o.uso||'')+'</td></tr>';
@@ -2118,7 +2135,7 @@ function abreMapeo(){
     ['denuncia','foto'].forEach(function(por){
       var xs = lista.filter(function(x){ return x.por === por; });
       if(!xs.length) return;
-      r += '<tr><td colspan="4" style="background:var(--guinda-cl);font-weight:600;color:var(--guinda)">'+(por==='foto' ? 'Por cada foto adjunta' : 'Por denuncia')+'</td></tr>';
+      r += '<tr><td colspan="4" class="comp-grupo">'+(por==='foto' ? 'Por cada foto adjunta' : 'Por denuncia')+'</td></tr>';
       xs.forEach(function(x){
         r += '<tr><td>'+esc(x.etq)+'<br><code class="mapeo-clave">'+esc(x.k)+'</code></td><td class="uso-campo">'+esc(x.origen)+'</td>'+dp(x.dp)+
           '<td class="uso-campo">'+esc(x.uso||'')+'</td></tr>';
@@ -2133,7 +2150,7 @@ function abreMapeo(){
 
   var todos = m.llena.map(function(k){ return {dp:OBLIG[k].dp, uso:OBLIG[k].uso}; }).concat(m.ocultos, m.visibles);
   var sinUso = todos.filter(function(x){ return !x.uso; }).length;
-  h += '<p class="mapeo-version" style="margin-top:14px">Totales: '+todos.length+' datos, de ellos '+
+  h += '<p class="mapeo-version separa-arriba">Totales: '+todos.length+' datos, de ellos '+
     todos.filter(function(x){ return x.dp; }).length+' personales. '+
     (sinUso ? '<strong>'+sinUso+' sin uso declarado.</strong>' : 'Ninguno sin uso declarado.')+'</p>';
   $('tablaMapeo').innerHTML = h;
@@ -2545,7 +2562,7 @@ function pUbicacion(){
       '<span class="coords" id="coords">'+(val('lat')?svgIcono('pin',15)+' '+esc(val('lat'))+', '+esc(val('lon')):'Sin punto seleccionado')+'</span>'+
     '</div>'+
     '<div class="mapa-sin" id="mapaSin"><strong>No fue posible cargar el mapa.</strong> Lo que hayas capturado se conserva; el personal de la Secretaría georreferenciará el sitio al recibir la denuncia.</div>'+
-    '<div id="mapa" tabindex="-1" aria-label="Mapa para colocar el punto"></div>'+
+    '<div id="mapa" class="mapa-lienzo" tabindex="-1" aria-label="Mapa para colocar el punto"></div>'+
     '<div class="err" id="e_lat">Coloca el punto donde ocurren los hechos: de él dependen la alcaldía y el área que atiende.</div>'+
     '</div>'+
     '<div id="panelCapas">'+cajaCapas()+'</div>'+
@@ -2584,7 +2601,7 @@ function cajaCapas(){
   if(val('fuera')==='si'){
     return '<div class="capas capas-fuera" role="alert">'+
       '<div class="capas-fila"><span class="capas-etq">Ubicación</span><span class="capas-val">Fuera de la Ciudad de México</span></div>'+
-      '<div class="aviso aviso-bloqueo" role="alert" style="margin:12px 0 0"><strong>El punto se encuentra fuera de los límites de la Ciudad de México.</strong> La Secretaría sólo puede atender denuncias por hechos ocurridos dentro de la Ciudad. Mueve el punto al lugar de los hechos para continuar; si el hecho ocurrió en otra entidad, preséntalo ante la autoridad ambiental que corresponda.</div>'+
+      '<div class="aviso aviso-bloqueo aviso-pegado" role="alert"><strong>El punto se encuentra fuera de los límites de la Ciudad de México.</strong> La Secretaría sólo puede atender denuncias por hechos ocurridos dentro de la Ciudad. Mueve el punto al lugar de los hechos para continuar; si el hecho ocurrió en otra entidad, preséntalo ante la autoridad ambiental que corresponda.</div>'+
     '</div>';
   }
   /* Un solo panel, neutro: el area que atiende lo dicen las letras, no el
@@ -2602,7 +2619,7 @@ function cajaCapas(){
     /* P-22 resuelta (DEC-226): la DGCORENADR recibe y remite a la PROFEPA, sin
        limitar el envío. La cláusula SEGUNDA del convenio deja a salvo las
        facultades federales de inspección (DEC-89). */
-    h += '<div class="aviso" style="margin:12px 0 0">'+
+    h += '<div class="aviso aviso-pegado">'+
       'Esta Área Natural Protegida es de competencia federal. Puedes presentar aquí tu denuncia: la recibe la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural y la remite a la PROFEPA. '+
       'También puedes presentarla directamente ante la PROFEPA:'+
       ' <a href="'+esc(CONTACTOS.profepa.sitio.url)+'" target="_blank" rel="noopener noreferrer">'+esc(CONTACTOS.profepa.sitio.txt)+'</a>.'+
@@ -2807,7 +2824,6 @@ function analizaCapas(la,lo){
     if(c.fuera){ btn.setAttribute('disabled',''); btn.title='Coloca el punto dentro de la Ciudad de México para continuar'; }
     else { btn.removeAttribute('disabled'); btn.removeAttribute('title'); }
   }
-  var sel = $('f_alcaldia'); if(sel) sel.value = c.alcaldia;
 }
 
 
@@ -3442,8 +3458,8 @@ function pRevision(){
   bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima' + (val('correo') ? ' \u00b7 Con correo de contacto' : ' \u00b7 Sin datos de contacto')
       : ([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' ') || 'Sin nombre capturado'), fQuien)+
   (!val('lat') && !sinDireccion()
-    ? '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia recibe un número de registro. Como no marcaste el punto, la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
-    : '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia recibe un número de registro y se turna a '+
+    ? '<div class="aviso aviso-envio">Al enviar, la denuncia recibe un número de registro. Como no marcaste el punto, la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
+    : '<div class="aviso aviso-envio">Al enviar, la denuncia recibe un número de registro y se turna a '+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+
     (val('dg')==='FEDERAL'
       ? ', porque el punto se ubica en un Área Natural Protegida de competencia federal.</div>'
@@ -3731,7 +3747,7 @@ function discrepaAlcaldia(){
 }
 function avisoColonia(){
   if(!discrepaAlcaldia()) return '';
-  return '<div class="aviso" role="status" style="margin:12px 0 0">La dirección está en <strong>'+esc(alcaldiaDeLaDireccion())+
+  return '<div class="aviso aviso-pegado" role="status">La dirección está en <strong>'+esc(alcaldiaDeLaDireccion())+
     '</strong>, pero el punto cae en <strong>'+esc(val('alcaldia'))+'</strong>. '+
     'Revisa la alcaldía o el punto; quién atiende lo decide el punto. Cerca del límite entre alcaldías puede pasar sin que haya error.</div>';
 }
@@ -4825,7 +4841,7 @@ function colocaPorTexto(){
     vaA(c.lat, c.lon);
     /* Sólo «@»: marca el centro de la pantalla, no el lugar. El aviso va junto
        al mapa, que es a donde se lleva la vista al colocar el punto. */
-    if(c.vista && $('resBusqueda')) $('resBusqueda').innerHTML = '<div class="aviso" role="status" style="margin:0 0 12px">'+
+    if(c.vista && $('resBusqueda')) $('resBusqueda').innerHTML = '<div class="aviso separa-abajo" role="status">'+
       'Ese enlace marca el <strong>centro de la pantalla</strong>, no el lugar. Revisa el punto y arrástralo si hace falta.</div>';
     return;
   }
@@ -4919,7 +4935,7 @@ function pLimite(){
       '<li><b>Esperar e intentar de nuevo.</b> El límite se libera solo al cabo de un rato y tu denuncia sigue aquí.</li>'+
       '<li><b>Presentarla de forma presencial.</b> Las unidades administrativas que la reciben, según la zona de los hechos, están al pie de esta página.</li>'+
     '</ul>'+
-    '<p class="nota-gris" style="margin-top:14px"><span class="pendiente">Límite por origen y ventana de tiempo: lo cuenta el servidor (P-21)</span></p>'+
+    '<p class="nota-gris separa-arriba"><span class="pendiente">Límite por origen y ventana de tiempo: lo cuenta el servidor (P-21)</span></p>'+
     '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(6)"><span class="fl" aria-hidden="true">‹</span>Volver a mi denuncia</button></div>'+
   '</div>';
 }
@@ -5160,7 +5176,7 @@ function construyeAcusePdf(){
     }
     /* Renglon de formato: etiqueta a la izquierda y el dato en su casilla
        gris. Un dato largo se parte entre paginas, cada tramo en su casilla. */
-    function fila(et, v, tono){
+    function filaDato(et, v, tono){
       var cE = 150, xB = M + cE, wB = AN - cE, pad = 4.2, ld = 11.4;
       var lE = pdfCortar(et, 'F2', 8, cE - 12), lV = pdfCortar(v, 'F1', 9, wB - 2 * pad);
       var fondo = tono === 'pend' ? PEND : CASILLA, letra = tono === 'pend' ? PEND_T : TEXTO;
@@ -5208,7 +5224,7 @@ function construyeAcusePdf(){
     datosDelAcuse().forEach(function(b){
       if(lugarVisto) intentaCroquis();
       seccion(b.titulo);
-      b.filas.forEach(function(f){ fila(f[0], f[1]); });
+      b.filas.forEach(function(f){ filaDato(f[0], f[1]); });
       if(b.filas.some(function(f){ return f[0] === 'Coordenadas'; })) lugarVisto = true;
     });
     intentaCroquis(true);
@@ -5217,7 +5233,7 @@ function construyeAcusePdf(){
     var conHuella = archivos.filter(function(a){ return a.sha256_original; });
     if(conHuella.length){
       seccion('Huellas de las fotografías');
-      conHuella.forEach(function(a){ fila(a.name, 'SHA-256 ' + a.sha256_original); });
+      conHuella.forEach(function(a){ filaDato(a.name, 'SHA-256 ' + a.sha256_original); });
     }
 
     seccion('¿Qué sigue?', 40);
@@ -5240,7 +5256,7 @@ function construyeAcusePdf(){
        resuelta (P-01). No se escribe un articulo sin verificar: el hueco queda
        a la vista, en el amarillo de lo pendiente. */
     seccion('Fundamento');
-    fila('Fundamento jurídico', 'Ley Ambiental de la Ciudad de México, [Art. __, fracc. __]. Por confirmar: depende de la naturaleza jurídica del canal de recepción.', 'pend');
+    filaDato('Fundamento jurídico', 'Ley Ambiental de la Ciudad de México, [Art. __, fracc. __]. Por confirmar: depende de la naturaleza jurídica del canal de recepción.', 'pend');
     paginas.push(cs); enlaces.push(ligas);
 
     /* Pie de cada pagina: filete dorado, folio y numeracion */
@@ -5302,8 +5318,8 @@ function construyeAcusePdf(){
       /* Recuadro del entorno sobre la Ciudad, y el punto en los dos */
       var a = vL.px([vE.bb[0], vE.bb[1]]), b = vL.px([vE.bb[2], vE.bb[3]]);
       cs += GUINDA + ' RG 0.9 w ' + a[0].toFixed(2) + ' ' + a[1].toFixed(2) + ' ' + (b[0] - a[0]).toFixed(2) + ' ' + (b[1] - a[1]).toFixed(2) + ' re S\n';
-      marca(vL.px([lo, la]), 2.6);
-      marca(vE.px([lo, la]), 5.5);
+      marcaPunto(vL.px([lo, la]), 2.6);
+      marcaPunto(vE.px([lo, la]), 5.5);
       /* Alcaldia del punto, rotulada en el entorno */
       /* Rotulo: alcaldia del punto y, si cae dentro, el AVA o ANP */
       var rot = [];
@@ -5323,7 +5339,7 @@ function construyeAcusePdf(){
       var xs = M;
       [['punto', 'Punto señalado'], ['linea', 'Límite de alcaldía', pdfColor('#8E9193')], ['linea', 'Límite de la Ciudad', GUINDA],
        ['area', 'Suelo de conservación', pdfColor('#E6EFDD')], ['area', 'AVA o ANP', pdfColor('#BFD8B3')]].forEach(function(s){
-        if(s[0] === 'punto') marca([xs + 4, y - 3], 3.2);
+        if(s[0] === 'punto') marcaPunto([xs + 4, y - 3], 3.2);
         else if(s[0] === 'linea') cs += s[2] + ' RG 1.2 w ' + xs + ' ' + (y - 3) + ' m ' + (xs + 12) + ' ' + (y - 3) + ' l S\n';
         else caja(xs, y - 7, 12, 8, s[2], GRIS);
         texto(s[1], xs + 16, y - 5.6, 'F1', 7.5, TEXTO);
@@ -5389,7 +5405,7 @@ function construyeAcusePdf(){
         (x - r).toFixed(2) + ' ' + (yy - k).toFixed(2) + ' ' + (x - k).toFixed(2) + ' ' + (yy - r).toFixed(2) + ' ' + x.toFixed(2) + ' ' + (yy - r).toFixed(2) + ' c ' +
         (x + k).toFixed(2) + ' ' + (yy - r).toFixed(2) + ' ' + (x + r).toFixed(2) + ' ' + (yy - k).toFixed(2) + ' ' + (x + r).toFixed(2) + ' ' + yy.toFixed(2) + ' c h\n';
     }
-    function marca(c, r){
+    function marcaPunto(c, r){
       cs += BLANCO + ' rg ' + circulo(c, r + 1.6) + 'f\n';
       cs += GUINDA + ' rg ' + circulo(c, r) + 'f\n';
       cs += BLANCO + ' rg ' + circulo(c, r * 0.38) + 'f\n';
@@ -5540,8 +5556,8 @@ function pideBorrar(){
   d.className = 'confirma';
   d.setAttribute('role','alert');
   d.innerHTML = '<strong>¿Descartar lo capturado?</strong> Se perderá lo que llevas escrito y no se puede recuperar.<br><br>'+
-    '<button type="button" class="btn btn-secundario" style="padding:10px 18px;min-height:44px" onclick="borraBorrador();render()">Sí, descartar</button> '+
-    '<button type="button" class="btn btn-secundario" style="padding:10px 18px;min-height:44px" onclick="document.getElementById(\'confirmaBorrar\').remove()">Conservarlo</button>';
+    '<button type="button" class="btn btn-secundario btn-compacto" onclick="borraBorrador();render()">Sí, descartar</button> '+
+    '<button type="button" class="btn btn-secundario btn-compacto" onclick="document.getElementById(\'confirmaBorrar\').remove()">Conservarlo</button>';
   cont.appendChild(d);
   d.scrollIntoView({block:'center',behavior:'smooth'});
 }
@@ -5683,7 +5699,7 @@ function iniciaRevision(){
   var q = revLee(CLAVE_REV_QUIEN, {});
   REVISION.nombre = q.nombre || ''; REVISION.area = q.area || '';
   var d = document.createElement('div');
-  d.id = 'revision';
+  d.id = 'revision'; d.className = 'rev-panel';
   d.innerHTML = '<button type="button" class="rev-toggle" onclick="alternaRevision()" aria-expanded="false" aria-controls="revCuerpo">'+
     '✎ Observar <span id="revCuenta"></span></button>'+
     '<div class="rev-cuerpo" id="revCuerpo" role="dialog" aria-label="Modo revisión"></div>';

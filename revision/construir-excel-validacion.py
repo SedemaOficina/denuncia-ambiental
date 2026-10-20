@@ -103,7 +103,7 @@ banda(r, 'Validación de observaciones · Formulario de Denuncia Ambiental',
 r.column_dimensions['A'].width = 34; r.column_dimensions['B'].width = 16
 r.column_dimensions['C'].width = 34; r.column_dimensions['D'].width = 16
 datos = [
- ('Versión del formulario', 'Versión 29 · Validación DGIVA'),
+ ('Versión del formulario', 'Versión 30 · Validación DGIVA'),
  ('Liga de la versión publicada', 'https://sedemaoficina.github.io/denuncia-ambiental/'),
  ('Observaciones registradas', '32 (19 de la Dirección General, 11 de la COJUMIVA, 1 nominal y 1 de prueba)'),
  ('Periodo de revisión', 'Del 2 al 19 de octubre de 2026'),
