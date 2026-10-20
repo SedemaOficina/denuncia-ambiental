@@ -92,6 +92,9 @@ main{max-width:980px;margin:0 auto;padding:24px 20px 96px}
 .tarjeta h2{font-size:var(--t-xl);font-weight:700;color:var(--guinda);margin-bottom:6px;letter-spacing:-.2px}
 .tarjeta h2 .num{display:inline-block;background:var(--guinda);color:var(--blanco);font-size:var(--t-sm);width:26px;height:26px;line-height:26px;text-align:center;border-radius:var(--r-pill);margin-right:8px;vertical-align:2px;font-family:'Roboto',sans-serif;font-weight:700}
 .sub{color:var(--gris);font-size:var(--t-md);margin-bottom:20px;max-width:70ch}
+/* Cuando la primera pregunta sigue directo al título del paso —sin texto de
+   entrada—, el título no queda encima de ella (DEC-214). */
+.tarjeta h2 + .campo{margin-top:16px}
 
 /* ---------- Progreso ---------- */
 /* Con la barra fija arriba, todo desplazamiento automático —el foco al abrir un
@@ -190,9 +193,9 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
    del renglón se metía entre la etiqueta, la ayuda y el control, y los campos
    en renglón se veían más sueltos que los sueltos —en teléfono, la etiqueta
    lejos de su campo (DEC-213)—. Cada campo trae su propio margen inferior. */
-.fila{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-items:start}
-.fila-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 16px;align-items:start}
-.fila-2-1{display:grid;grid-template-columns:2fr 1fr;gap:0 16px;align-items:start}
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-items:start;margin-bottom:18px}
+.fila-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 16px;align-items:start;margin-bottom:18px}
+.fila-2-1{display:grid;grid-template-columns:2fr 1fr;gap:0 16px;align-items:start;margin-bottom:18px}
 .contador{font-size:var(--t-xs);color:var(--gris-cl);text-align:right;margin-top:4px}
 .err{color:var(--error);font-size:var(--t-sm);margin-top:5px;display:none;font-weight:500}
 .campo.invalido input,.campo.invalido select,.campo.invalido textarea{border-color:var(--error);border-width:2px;background:var(--error-bg)}
@@ -210,7 +213,11 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 @supports (grid-template-rows: subgrid){
   .fila,.fila-3,.fila-2-1{grid-template-rows:auto auto auto auto;grid-auto-rows:auto}
   .fila > .campo,.fila-3 > .campo,.fila-2-1 > .campo{
-    display:grid;grid-template-rows:subgrid;grid-row:span 4;gap:0;align-content:start}
+    display:grid;grid-template-rows:subgrid;grid-row:span 4;gap:0;align-content:start;
+    /* El espacio bajo el renglón lo pone el renglón: Safari en iPhone no
+       respeta el margen de un campo con subgrid y los campos quedaban
+       pegados (DEC-214). */
+    margin-bottom:0}
 }
 .campo .ayuda:empty{margin:0}
 /* ---------- Colonia con catalogo (DEC-117) ----------
@@ -241,7 +248,7 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
    bloque (DEC-200). Sólo para preguntas que agregan campos; las que cambian
    la ruta ocultan lo que sigue (DEC-60). */
 .anidado{margin:-6px 0 18px 6px;padding:4px 0 0 16px;border-left:3px solid var(--dorado)}
-.anidado > .campo:last-child,.anidado > .fila:last-child .campo{margin-bottom:6px}
+.anidado > .campo:last-child,.anidado > .fila:last-child{margin-bottom:6px}
 @media (max-width:620px){.anidado{margin-left:2px;padding-left:12px}}
 .btn-sn{flex:0 0 auto;min-width:78px;min-height:40px;padding:9px 18px;
   background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r-ctrl);
@@ -807,7 +814,11 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
 @media(max-width:700px){
   /* En teléfono, un campo por renglón: «Número exterior» en un tercio de
      pantalla partía la etiqueta en dos líneas (DEC-213). */
-  .fila,.fila-3,.fila-2-1{grid-template-columns:1fr}
+  .fila,.fila-3,.fila-2-1{grid-template-columns:1fr;grid-template-rows:none;row-gap:18px}
+  /* Con un campo por renglón no hace falta alinear columnas: sin subgrid,
+     cada campo es un bloque y la separación entre ellos es la del renglón,
+     igual en Chrome y en Safari (DEC-214). */
+  .fila > .campo,.fila-3 > .campo,.fila-2-1 > .campo{display:block;grid-row:auto}
   .resumen dl{grid-template-columns:1fr}
   .resumen dt{border-radius:0}
   .tarjeta{padding:20px}
@@ -1470,7 +1481,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-213', fecha:'20 de octubre de 2026', nombre:'Versión 18 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-214', fecha:'20 de octubre de 2026', nombre:'Versión 19 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1810,6 +1821,9 @@ var MARCADORES = {
   dom_lote:'Ej. 12',                       dom_municipio:'Ej. Naucalpan de Juárez',
   dom_colonia:'Ej. Centro'
 };
+function marcadorColonia(sinAlcaldia){
+  return sinAlcaldia ? 'Primero elige la alcaldía' : 'Escribe o elige de la lista';
+}
 function marcadorDe(k, extra){
   return (MARCADORES[k] && (extra||'').indexOf('placeholder=') < 0) ? ' placeholder="'+esc(MARCADORES[k])+'"' : '';
 }
@@ -2767,9 +2781,9 @@ function analizaCapas(la,lo){
 
 
 function pHechos(){
-  var m = MATERIAS.filter(function(x){return x.id===val('materia');})[0];
     return '<div class="tarjeta"><h2><span class="num">3</span>¿Qué ocurre?</h2>'+
-  '<p class="sub">Denuncia sobre: <strong style="color:var(--guinda)">'+(m?esc(m.formal||m.nom):'')+'</strong></p>'+
+  /* Sin «Denuncia sobre: …» (DEC-214): la materia ya está a la vista en la
+     franja fija de arriba, con su liga para cambiarla. */
 
   /* Una caja en blanco es el campo más difícil de un formulario: quien no sabe
      cuánto escribir, escribe poco, y una descripción pobre da un expediente débil.
@@ -3556,7 +3570,7 @@ function campoColonia(k){
     '<div class="ayuda" id="a_'+k+'"></div>'+
     '<div class="combo">'+
       '<input type="text" id="f_'+k+'" name="'+k+'" role="combobox" aria-autocomplete="list" aria-expanded="false" '+
-        (sinAlc ? 'disabled placeholder="Primero elige la alcaldía" ' : 'placeholder="Elige o escribe para buscarla" ')+
+        'placeholder="'+marcadorColonia(sinAlc)+'" '+(sinAlc ? 'disabled ' : '')+
         'aria-controls="lista_'+k+'" autocomplete="off" aria-describedby="a_'+k+' e_'+k+'" aria-invalid="false" '+
         'value="'+esc(val(k))+'" '+
         (d.lugar
@@ -3700,7 +3714,9 @@ function cambiaAlcaldiaDir(k){
   }
   if(inp){
     inp.disabled = !val(d.alc);
-    if(inp.disabled) inp.setAttribute('placeholder','Primero elige la alcaldía'); else inp.removeAttribute('placeholder');
+    /* Al habilitarse se quitaba el marcador y la colonia quedaba en blanco
+       (DEC-214). */
+    inp.setAttribute('placeholder', marcadorColonia(inp.disabled));
   }
   cierraColonias(k);
   if(d.lugar){ actualizaAvisoAlcaldia(); buscaDireccionSola(); }
@@ -5739,7 +5755,7 @@ function pintaRevision(){
     c.innerHTML = h + '</div>'+
       '<p class="rev-ayuda">Escribe tu nombre para que la Secretaría sepa de quién es cada observación. Este navegador lo recuerda.</p>'+
       '<label class="rev-etq" for="revNombre">Tu nombre <span class="req" aria-hidden="true">*</span></label>'+
-      '<input id="revNombre" type="text" autocomplete="name" maxlength="80">'+
+      '<input id="revNombre" type="text" autocomplete="name" maxlength="80" placeholder="Por ejemplo, Ana Martínez">'+
       '<label class="rev-etq" for="revArea">Área <span class="rev-opc">(opcional)</span></label>'+
       '<input id="revArea" type="text" maxlength="80" placeholder="Por ejemplo, Dirección de Inspección">'+
       '<button type="button" class="btn btn-primario rev-guardar" onclick="revFijaNombre()">Empezar a revisar</button>'+
@@ -5770,9 +5786,9 @@ function revFormaHtml(){
       return '<button type="button" aria-pressed="' + (r.tipo === t) + '" onclick="revEligeTipo(' + i + ',this)">' + t + '</button>';
     }).join('') + '</fieldset>'+
     '<label class="rev-etq" for="revObs">Observación <span class="req" aria-hidden="true">*</span></label>'+
-    '<textarea id="revObs" rows="3" oninput="REVISION.borrador.obs=this.value">' + esc(r.borrador.obs) + '</textarea>'+
+    '<textarea id="revObs" rows="3" placeholder="Por ejemplo, la pregunta no deja claro si se refiere al domicilio o al lugar de los hechos" oninput="REVISION.borrador.obs=this.value">' + esc(r.borrador.obs) + '</textarea>'+
     '<label class="rev-etq" for="revProp">Cómo debería decir <span class="rev-opc">(opcional)</span></label>'+
-    '<textarea id="revProp" rows="2" oninput="REVISION.borrador.prop=this.value">' + esc(r.borrador.prop) + '</textarea>'+
+    '<textarea id="revProp" rows="2" placeholder="Por ejemplo, ¿Dónde ocurren los hechos?" oninput="REVISION.borrador.prop=this.value">' + esc(r.borrador.prop) + '</textarea>'+
     '<button type="button" class="btn btn-primario rev-guardar" onclick="revGuarda()">Guardar observación</button>'+
     '<p id="revMsg" class="rev-msg" aria-live="polite"></p>';
 }

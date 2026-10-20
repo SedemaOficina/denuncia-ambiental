@@ -96,7 +96,7 @@ with sync_playwright() as pw:
           document.querySelectorAll('#app label > .req, #app .etq > .req').forEach(r => {
             const t = r.previousSibling;
             if(!t || t.nodeType !== 3) return;
-            const txt = t.textContent.replace(/[\s\u00a0]+$/, '');
+            const txt = t.textContent.replace(/[\\s\\u00a0]+$/, '');
             if(!txt) return;
             const rg = document.createRange(); rg.setStart(t, txt.length - 1); rg.setEnd(t, txt.length);
             const u = rg.getBoundingClientRect(), rr = r.getBoundingClientRect();
@@ -114,6 +114,36 @@ with sync_playwright() as pw:
             afirma(col['apilados'] and col['anchoNum'] == col['anchoCalle'],
                    'teléfono: calle y número exterior van uno debajo del otro, a todo lo ancho')
             afirma(col['ws'] == 'nowrap', 'teléfono: lo elegido en una lista ocupa un solo renglón')
+
+        # ---- DEC-214: el espacio bajo un campo en renglón no depende del subgrid ----
+        esp = pg.evaluate("""() => { cargaEscenario('urbano'); irA(2);
+          const b = id => document.getElementById(id).getBoundingClientRect();
+          const etq = k => document.querySelector('#c_'+k+' label').getBoundingClientRect();
+          const cs = getComputedStyle(document.getElementById('c_calle'));
+          return {calleNum: Math.round(etq('num_ext').top - b('f_calle').bottom),
+                  numMz: Math.round(document.querySelector('#c_tiene_mz_lote .etq').getBoundingClientRect().top - b('f_num_ext').bottom),
+                  cpRef: Math.round(etq('referencias').top - b('f_cp').bottom),
+                  suelto: Math.round(etq('alcaldia_dir').top - b('f_entre_calles').bottom),
+                  margenCampo: cs.marginBottom, display: cs.display}; }""")
+        if tel:
+            afirma(esp['display'] == 'block', 'teléfono: en un renglón, cada campo es un bloque, sin subgrid (%s)' % esp['display'])
+            afirma(esp['calleNum'] >= 16, 'teléfono: entre calle y número exterior hay aire (%s px)' % esp['calleNum'])
+        else:
+            afirma(esp['margenCampo'] == '0px', 'escritorio: el espacio bajo el renglón lo pone el renglón, no el campo')
+        afirma(esp['numMz'] >= 16 and esp['cpRef'] >= 16 and abs(esp['cpRef'] - esp['suelto']) <= 2,
+               '%s: tras un renglón queda el mismo aire que tras un campo suelto %s' % (nom, esp))
+
+        # ---- DEC-214: la colonia conserva su marcador al elegir alcaldía ----
+        col2 = pg.evaluate("""() => { cargaEscenario('urbano'); guarda('alcaldia_dir',''); guarda('colonia',''); irA(2);
+          const antes = document.getElementById('f_colonia').placeholder;
+          const s = document.getElementById('f_alcaldia_dir'); s.value = 'Azcapotzalco'; s.dispatchEvent(new Event('change'));
+          return [antes, document.getElementById('f_colonia').placeholder]; }""")
+        afirma(col2[0] != '' and col2[1] != '' and col2[0] != col2[1],
+               '%s: la colonia trae marcador antes y después de elegir alcaldía %s' % (nom, col2))
+
+        # ---- DEC-214: sin «Denuncia sobre» en el paso 3 ----
+        ds = pg.evaluate("() => { cargaEscenario('urbano'); irA(3); return document.getElementById('app').innerText.indexOf('Denuncia sobre') >= 0; }")
+        afirma(not ds, '%s: el paso 3 ya no repite la materia bajo el título' % nom)
         pg.close()
 
     # ---- Con el dedo, la lista no se vuelve a enfocar (en iPhone se reabría) ----

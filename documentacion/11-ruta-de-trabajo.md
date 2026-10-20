@@ -1131,3 +1131,9 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 
 **Verificación de cierre.** Batería completa en verde (33 baterías); revisión visual de los pasos 2 a 5 a 390 px de ancho. Lo que sólo puede confirmarse en un iPhone real —que la lista ya no se reabra y que las colonias no salgan subrayadas— queda para la siguiente prueba de Liber en su teléfono.
 
+### 20 de octubre de 2026 · segunda prueba en iPhone (DEC-214)
+
+**Qué cambió.** En la Versión 18 publicada, Liber vio en iPhone los campos de un renglón pegados entre sí y la colonia sin marcador después de elegir alcaldía; pidió además quitar «Denuncia sobre» del paso 3. Causa del primero: Safari no aplica el margen inferior de un elemento con subgrid, y DEC-213 había retirado la separación de filas de la rejilla; Chrome sí lo aplicaba, por eso la revisión en la nube no lo mostró. Ahora el espacio no depende de ese margen. Causa del segundo: al habilitar la colonia se borraba el atributo del marcador.
+
+**Verificación de cierre.** Batería 33 ampliada (37 comprobaciones): espacio tras un renglón igual al de un campo suelto, campos en bloque en teléfono, marcador de la colonia antes y después de elegir alcaldía, sin «Denuncia sobre». Batería completa en verde. Lo de Safari sólo se confirma en el iPhone de Liber.
+
