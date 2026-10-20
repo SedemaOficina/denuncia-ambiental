@@ -751,7 +751,7 @@ El croquis de ubicación del acuse (DEC-175) se dibuja en el navegador con las c
 | P-06 | | | |
 | P-07 | **En parte** · plazos del procedimiento, del Manual Administrativo; falta el plazo para informar a quien pregunta por su folio | Manual Administrativo | 20 sep 2026 |
 | P-08 | | | |
-| P-09 | | | |
+| P-09 | **En parte** · la DGIVA confirmó domicilio, horario y teléfono (DEC-188); falta la DGCORENADR | DGIVA | 19 oct 2026 |
 | P-10 | **En parte** · nombres y atribuciones de las dos coordinaciones; la DGSANPAVA no recibe denuncias. Falta el fundamento en ANP federales con coadministración | Manual Administrativo | 20 sep 2026 |
 | P-11 | **Resuelto en el proyecto** · normalización al ingresar la capa; el duplicado de Santa Catarina no lo era | Sistema de Información Ambiental | 20 sep 2026 |
 | P-12 | | | |
