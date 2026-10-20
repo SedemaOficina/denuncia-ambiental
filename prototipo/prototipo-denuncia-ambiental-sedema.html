@@ -3,6 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- En iPhone, Safari y Chrome subrayaban con puntos colonias como «19 de Mayo»
+     o «1ra Victoria», tomándolas por fechas o direcciones, y parecían ligas.
+     Los teléfonos que deben marcarse ya van como liga tel: (DEC-213). -->
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+<meta name="chrome" content="nointentdetection">
 <title>Denuncia Ambiental en línea — Prototipo SEDEMA</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -151,6 +156,12 @@ input[type=date]::-webkit-date-and-time-value{text-align:left}
 select{
   appearance:none;-webkit-appearance:none;-moz-appearance:none;
   padding-right:40px;cursor:pointer;
+  /* Lo elegido en un renglón, con puntos suspensivos si no cabe: en teléfono
+     «Gobierno de la Ciudad de México» partía el control en dos (DEC-213). */
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  /* Interlineado de campo, no de párrafo: con el del cuerpo medía 51 px y los
+     campos de texto 46, y en un mismo renglón se veían de distinta altura (DEC-212). */
+  line-height:1.25;
   background-image:url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2355585A' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 14px center;background-size:12px 8px;
 }
@@ -175,9 +186,13 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 /* ---------- Renglones de campos ----------
    Cada selector se declara una sola vez. La alineación entre columnas
    vive en el bloque @supports de más abajo y no se repite aquí. */
-.fila{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-.fila-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;align-items:start}
-.fila-2-1{display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:start}
+/* Sólo separación entre columnas. Entre filas no: con subgrid, la separación
+   del renglón se metía entre la etiqueta, la ayuda y el control, y los campos
+   en renglón se veían más sueltos que los sueltos —en teléfono, la etiqueta
+   lejos de su campo (DEC-213)—. Cada campo trae su propio margen inferior. */
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:0 16px;align-items:start}
+.fila-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0 16px;align-items:start}
+.fila-2-1{display:grid;grid-template-columns:2fr 1fr;gap:0 16px;align-items:start}
 .contador{font-size:var(--t-xs);color:var(--gris-cl);text-align:right;margin-top:4px}
 .err{color:var(--error);font-size:var(--t-sm);margin-top:5px;display:none;font-weight:500}
 .campo.invalido input,.campo.invalido select,.campo.invalido textarea{border-color:var(--error);border-width:2px;background:var(--error-bg)}
@@ -790,7 +805,9 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
 .solo-lector{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
 @media(max-width:700px){
-  .fila,.fila-3{grid-template-columns:1fr}
+  /* En teléfono, un campo por renglón: «Número exterior» en un tercio de
+     pantalla partía la etiqueta en dos líneas (DEC-213). */
+  .fila,.fila-3,.fila-2-1{grid-template-columns:1fr}
   .resumen dl{grid-template-columns:1fr}
   .resumen dt{border-radius:0}
   .tarjeta{padding:20px}
@@ -1453,7 +1470,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-211', fecha:'20 de octubre de 2026', nombre:'Versión 16 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-213', fecha:'20 de octubre de 2026', nombre:'Versión 18 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1505,7 +1522,7 @@ var BIFURCACIONES = [
   {paso:'3', pregunta:'Tipo de establecimiento', opciones:'18 giros · Otro',
    efecto:'«Otro» abre un campo de texto para especificarlo.'},
   {paso:'3', pregunta:'¿Quién es responsable de los hechos?', opciones:'Persona · Empresa · Autoridad · No lo sé',
-   efecto:'Cambia por completo el bloque de responsables. «Autoridad» además advierte la ruta del artículo 331 y la refleja en el acuse.'},
+   efecto:'Cambia por completo el bloque de responsables. «Autoridad» pide el ámbito y cuál, en un renglón; la ruta del artículo 331 sólo se menciona en el acuse (DEC-212).'},
   {paso:'3', pregunta:'Desde cuándo ocurre', opciones:'Una sola vez · Se repite · Permanente',
    efecto:'Cambia el texto de la fecha que se pide. Una fecha posterior a hoy muestra un aviso para verificarla; el formulario no menciona plazos (DEC-138).'},
   {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Escribir los datos · Denuncia anónima',
@@ -1772,6 +1789,30 @@ var ETAPAS = ['Qué denuncias','Dónde ocurrió','Qué ocurrió','Pruebas','Tus 
 
 /* Límites de captura. El mínimo protege la utilidad del dato para el acta;
    el máximo, que el expediente siga siendo manejable. */
+/* Texto de ejemplo dentro de cada campo de texto (DEC-213). Es ejemplo, no
+   instrucción: lo que la persona debe saber para contestar sigue en la ayuda,
+   porque el marcador desaparece al escribir. Un solo lugar para todos. */
+var MARCADORES = {
+  calle:'Ej. Av. Insurgentes Sur',        num_ext:'Ej. 125 o S/N',
+  manzana:'Ej. 3',                         lote:'Ej. 12',
+  nombre_lugar:'Ej. Barranca de Tarango',
+  referencias:'Ej. Portón negro junto a la tienda de la esquina',
+  tipo_estab_otro:'Ej. Taller de serigrafía', nombre_estab:'Ej. Taller Automotriz Hernández',
+  resp_area:'Ej. Dirección de Obras',
+  resp_senas:'Ej. Llegan en una camioneta blanca por las noches',
+  gestiones:'Ej. Llamé a la alcaldía en agosto; me dieron folio, pero nadie vino',
+  otras_pruebas:'Ej. Un documento en original o el testimonio de una vecina',
+  nombre:'Ej. María Fernanda',             apellido_paterno:'Ej. López',
+  apellido_materno:'Ej. Hernández',        telefono:'Ej. 55 1234 5678',
+  correo:'Ej. nombre@correo.com',
+  dom_calle:'Ej. Av. Insurgentes Sur',     dom_num_ext:'Ej. 125 o S/N',
+  dom_num_int:'Ej. 4B',                    dom_manzana:'Ej. 3',
+  dom_lote:'Ej. 12',                       dom_municipio:'Ej. Naucalpan de Juárez',
+  dom_colonia:'Ej. Centro'
+};
+function marcadorDe(k, extra){
+  return (MARCADORES[k] && (extra||'').indexOf('placeholder=') < 0) ? ' placeholder="'+esc(MARCADORES[k])+'"' : '';
+}
 var LIMITES = {
   hechos:        {min:40, max:4000},
   gestiones:     {max:1000},
@@ -2404,7 +2445,7 @@ function pUbicacion(){
          (DEC-118). Manzana y lote sólo aparecen a quien dice que los tiene. */
       '<div class="fila-2-1">'+
         campo('calle','Calle o avenida','texto',esObligatorio('calle'),'','autocomplete="section-lugar address-line1"')+
-        campo('num_ext','Número exterior','texto',esObligatorio('num_ext'),'Si no tiene, escribe S/N')+
+        campo('num_ext','Número exterior','texto',esObligatorio('num_ext'),'')+
       '</div>'+
       campoSiNo('tiene_mz_lote','¿El predio se identifica por manzana y lote?',
         'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote()')+
@@ -2752,7 +2793,8 @@ function pHechos(){
 
   /* La temporalidad es obligatoria (DEC-202): su título va dentro del campo
      para que el error tenga dónde mostrarse, como en los demás. */
-  '<div class="campo" id="c_temporalidad"><h3 class="sub-seccion">¿Desde cuándo ocurre?'+marca_opc(esObligatorio('temporalidad'))+'</h3>'+
+  '<h3 class="sub-seccion">Cuándo ocurre</h3>'+
+  '<div class="campo" id="c_temporalidad"><span class="etq">¿Desde cuándo ocurre?'+marca_opc(esObligatorio('temporalidad'))+'</span>'+
   '<div class="opciones" role="group" aria-label="¿Desde cuándo ocurre?">'+
     ['unico|Ocurrió una sola vez','recurrente|Ocurre de forma repetida','permanente|Es permanente o continuo'].map(function(o){
       var p=o.split('|');
@@ -2771,7 +2813,9 @@ function pHechos(){
     : '')+
   '<div id="avisoFecha">'+avisoFecha()+'</div>'+
 
-  '<h3 class="sub-seccion">¿Quién lo está haciendo?</h3>'+
+  /* Los títulos de sección nombran el tema; las preguntas son los campos
+     (DEC-212). */
+  '<h3 class="sub-seccion">Responsable de los hechos</h3>'+
   /* La pregunta del establecimiento vivía al final del paso anterior, entre los
      datos del lugar, y necesitaba un aviso que explicara aquí lo contestado
      allá. No es un detalle del lugar: es la primera pregunta sobre quién
@@ -2875,8 +2919,8 @@ function heredaEstablecimiento(){
 function bloqueAutoridad(){
   var n = val('autoridad_nivel'), lista = AUTORIDADES[n] || [];
   var ayuda = n==='alcaldia' ? 'Escribe o elige la alcaldía. Si no sabes cuál, déjalo en blanco.'
-            : n==='otra'     ? 'Escribe el nombre de la autoridad, como lo conozcas. Si no lo sabes, déjalo en blanco.'
-            : 'Escribe el nombre o la sigla —SEDEMA, CONAGUA, PROFEPA— y elige de la lista. Si no sabes cuál, déjalo en blanco.';
+            : n==='otra'     ? 'Escríbela como la conozcas. Si no la sabes, déjalo en blanco.'
+            : 'Nombre o sigla, como SEDEMA o CONAGUA. Si no sabes cuál, déjalo en blanco.';
   return lista.length
     ? campoLista('autoridad_denunciada','¿Cuál?', ayuda, lista)
     : campo('autoridad_denunciada','¿Cuál?','texto',esObligatorio('autoridad_denunciada'), ayuda,'autocomplete="off"');
@@ -2895,7 +2939,7 @@ function campoLista(k, etq, ayuda, lista){
     '<div class="ayuda" id="a_'+k+'">'+(ayuda ? esc(ayuda) : '')+'</div>'+
     '<div class="combo">'+
       '<input type="text" id="f_'+k+'" name="'+k+'" role="combobox" aria-autocomplete="list" aria-expanded="false" '+
-        'aria-controls="lista_'+k+'" autocomplete="off" aria-describedby="a_'+k+' e_'+k+'" aria-invalid="false" '+
+        'aria-controls="lista_'+k+'" autocomplete="off" placeholder="Escribe o elige de la lista" aria-describedby="a_'+k+' e_'+k+'" aria-invalid="false" '+
         'value="'+esc(val(k))+'" oninput="guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');pintaLista(\''+k+'\')" '+
         'onfocus="pintaLista(\''+k+'\')" onkeydown="teclaLista(event,\''+k+'\')" onblur="cierraLista(\''+k+'\')">'+
       '<ul class="combo-lista" id="lista_'+k+'" role="listbox" aria-label="'+esc(etq)+'" hidden></ul>'+
@@ -2972,21 +3016,21 @@ function bloqueDenunciado(){
   }
 
   if(t==='gobierno'){
-    return '<div class="aviso" role="alert">'+
-        '<strong>Cuando la denuncia señala a una autoridad, el procedimiento es distinto.</strong> '+
-        'La Secretaría no sanciona a otra autoridad: conforme al artículo 331 de la Ley Ambiental de la Ciudad de México, '+
-        'emite las recomendaciones necesarias para promover ante ella la ejecución de las acciones que procedan.'+
-      '</div>'+
+    /* Sin el aviso del artículo 331 (DEC-212): la recomendación en lugar de
+       la sanción es asunto del procedimiento, no de quien denuncia. */
+    return ''+
       /* Lista desplegable, como «¿Quién es responsable?» (DEC-208): una regla
          para todo el formulario — sí o no en botones; tres o más respuestas
          de una lista, en lista desplegable. */
+      /* Ámbito y «¿Cuál?» en un renglón (DEC-212). Con «No lo sé» no se
+         pregunta cuál ni el área: quien no sabe el ámbito no sabe lo demás (DEC-209). */
       '<div class="fila">'+campoSelect('autoridad_nivel','¿De qué ámbito es la autoridad?', NIVELES_AUTORIDAD, esObligatorio('autoridad_nivel'),
-        'Si no lo sabes, elige «No lo sé»: la Secretaría lo verifica al turnar.',
-        'cambiaNivelAutoridad()')+'</div>'+
-      /* Con «No lo sé» no se pregunta cuál ni el área: quien no sabe el ámbito
-         no sabe lo demás (DEC-209). */
+        'Si no lo sabes, elige «No lo sé».',
+        'cambiaNivelAutoridad()')+
+        (val('autoridad_nivel') && val('autoridad_nivel')!=='nose' ? bloqueAutoridad() : '')+
+      '</div>'+
       (val('autoridad_nivel') && val('autoridad_nivel')!=='nose'
-        ? bloqueAutoridad()+campo('resp_area','Área o persona servidora pública','texto',esObligatorio('resp_area'),'Si la conoces')
+        ? campo('resp_area','Área o persona servidora pública','texto',esObligatorio('resp_area'),'')
         : '');
       /* Sin «Número de obra, contrato o permiso» (DEC-201). */
   }
@@ -3011,7 +3055,7 @@ function pEvidencia(){
   '<input type="file" id="inputArch" multiple class="oculto" accept="'+ARCHIVOS.exts.map(function(e){return '.'+e;}).join(',')+'" onchange="agregaArchivos(this.files)">'+
   '<div class="lista-arch" id="listaArch" aria-live="polite"></div>'+
   '<div class="err" id="e_archivos">Espera a que terminen de optimizarse las fotos.</div></div>'+
-  campoArea('otras_pruebas','Describe otras pruebas que no puedas adjuntar',false,'Por ejemplo, documentos en original o testimonios.',2)+
+  campoArea('otras_pruebas','Describe otras pruebas que no puedas adjuntar',false,'',2)+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(3)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
   '<button type="button" class="btn btn-primario" onclick="valida(4)&&irA(5)">Continuar</button></div></div>';
   return h;
@@ -3116,7 +3160,7 @@ function pDenunciante(){
       '<span>Vivo fuera de la Ciudad de México</span></label></div>'+
     '<div class="fila-3">'+
       campo('dom_calle','Calle o avenida','texto',esObligatorio('dom_calle'),'','autocomplete="address-line1"')+
-      campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'Si no tiene, escribe S/N')+
+      campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'')+
       campo('dom_num_int','Número interior','texto',false,'','autocomplete="address-line2"')+
     '</div>'+
     campoSiNo('dom_tiene_mz_lote','¿Tu domicilio se identifica por manzana y lote?',
@@ -3412,7 +3456,9 @@ function pAcuse(){
    previas ya eran opcionales (OBS-0016, OBS-0030, DEC-191). Con la
    obligatoriedad apagada desde el panel no se marca ni lo uno ni lo otro. */
 function marca_opc(oblig){
-  if(oblig) return ' <span class="req" aria-hidden="true">*</span><span class="solo-lector"> (obligatorio)</span>';
+  /* Espacio de no separación: en teléfono el asterisco quedaba solo en el
+     renglón siguiente (DEC-213). */
+  if(oblig) return '&nbsp;<span class="req" aria-hidden="true">*</span><span class="solo-lector"> (obligatorio)</span>';
   return cfg.validar ? ' <span class="opc">(opcional)</span>' : '';
 }
 
@@ -3429,7 +3475,7 @@ function campo(k,etq,tipo,oblig,ayuda,extra){
   if(alSalir.length) extra = (extra||'') + ' onblur="'+alSalir.join(';')+'"';
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
-    '<input type="'+t+'" id="'+id+'" name="'+k+'" '+(extra||'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" value="'+esc(val(k))+'" '+
+    '<input type="'+t+'" id="'+id+'" name="'+k+'" '+(extra||'')+marcadorDe(k,extra)+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" value="'+esc(val(k))+'" '+
       'oninput="guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');if(document.getElementById(\'avisoFecha\'))document.getElementById(\'avisoFecha\').innerHTML=avisoFecha();">'+
     '<div class="err" id="'+idE+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
 }
@@ -3709,7 +3755,7 @@ function campoArea(k,etq,oblig,ayuda,filas,marcador){
   var id='f_'+k, idA='a_'+k, idE='e_'+k, idN='n_'+k;
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
-    '<textarea id="'+id+'" name="'+k+'" rows="'+(filas||4)+'"'+((LIMITES[k]&&LIMITES[k].max)?' maxlength="'+LIMITES[k].max+'"':'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false"'+(marcador?' placeholder="'+esc(marcador)+'"':'')+' style="min-height:'+((filas||4)*26+16)+'px" '+
+    '<textarea id="'+id+'" name="'+k+'" rows="'+(filas||4)+'"'+((LIMITES[k]&&LIMITES[k].max)?' maxlength="'+LIMITES[k].max+'"':'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false"'+((marcador||MARCADORES[k])?' placeholder="'+esc(marcador||MARCADORES[k])+'"':'')+' style="min-height:'+((filas||4)*26+16)+'px" '+
       'oninput="autoAlto(this);guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');document.getElementById(\''+idN+'\').textContent=contadorTxt(\''+k+'\')">'+esc(val(k))+'</textarea>'+
     '<div class="contador" id="'+idN+'">'+esc(contadorTxt(k))+'</div>'+
     '<div class="err" id="'+idE+'">Este dato es necesario para dar trámite a la denuncia.</div></div>';
@@ -3722,10 +3768,10 @@ function selTipoEstab(){
     'Si ninguna opción encaja, elige «Otro» al final de la lista y escríbelo.','actualizaOtroEstab()');
 }
 function campoOtroEstab(){
-  return campo('tipo_estab_otro','Especifica el tipo de establecimiento','texto',esObligatorio('tipo_estab_otro'),'Por ejemplo: taller de serigrafía');
+  return campo('tipo_estab_otro','Especifica el tipo de establecimiento','texto',esObligatorio('tipo_estab_otro'),'');
 }
 function campoNombreEstab(){
-  return campo('nombre_estab','Nombre del establecimiento','texto',esObligatorio('nombre_estab'),'Por ejemplo: Taller Automotriz Hernández, Escuela Primaria Benito Juárez');
+  return campo('nombre_estab','Nombre del establecimiento','texto',esObligatorio('nombre_estab'),'');
 }
 /* Rehace el paso, porque el acomodo cambia con «Otro», y devuelve el foco a
    donde sigue: la especificación si apareció, el tipo si no. Al dejar «Otro»
@@ -3733,8 +3779,15 @@ function campoNombreEstab(){
 function actualizaOtroEstab(){
   if(val('tipo_estab')!=='Otro') guarda('tipo_estab_otro','');
   render();
-  var e = $('f_tipo_estab_otro') || $('f_tipo_estab');
-  if(e) e.focus();
+  if($('f_tipo_estab_otro')) $('f_tipo_estab_otro').focus();
+  else vuelveAlSelect('f_tipo_estab');
+}
+/* Tras reconstruir la pantalla, el teclado vuelve a la lista que se usó; con
+   el dedo no: en iPhone, enfocar un <select> por código lo abre otra vez y la
+   lista parecía abrirse dos veces (DEC-213). */
+function vuelveAlSelect(id){
+  var e = $(id);
+  if(e && !(window.matchMedia && matchMedia('(pointer: coarse)').matches)) e.focus({preventScroll:true});
 }
 
 

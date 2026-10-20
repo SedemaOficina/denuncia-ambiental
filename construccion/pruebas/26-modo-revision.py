@@ -119,13 +119,13 @@ with sync_playwright() as pw:
     afirma(pg.evaluate("() => REVISION.obs.length") == 1 and 'Escribe la observación' in pg.inner_text('#revMsg'), 'sin texto no se guarda')
 
     pg.evaluate("() => { cargaEscenario('urbano'); irA(3); }"); pg.wait_for_timeout(300)
-    pg.evaluate("""() => { const h = [...document.querySelectorAll('#app h3')].find(x => x.textContent.indexOf('Quién lo está haciendo') >= 0);
+    pg.evaluate("""() => { const h = [...document.querySelectorAll('#app h3')].find(x => x.textContent.indexOf('Responsable de los hechos') >= 0);
       const r = document.createRange(); r.selectNodeContents(h); const s = getSelection(); s.removeAllRanges(); s.addRange(r); }""")
     pg.wait_for_timeout(100)
     pg.click('#revision .rev-toggle'); pg.wait_for_timeout(100)
     pg.click('#revision .rev-toggle'); pg.wait_for_timeout(150)
     t = pg.inner_text('#revCuerpo')
-    afirma('Paso 3' in t and '¿Quién lo está haciendo?' in t, 'un texto seleccionado se toma como la parte señalada, con su paso')
+    afirma('Paso 3' in t and 'Responsable de los hechos' in t, 'un texto seleccionado se toma como la parte señalada, con su paso')
     pg.fill('#revObs', 'Con «=» al inicio: =HYPERLINK("x")')
     pg.click('text=Guardar observación'); pg.wait_for_timeout(150)
     pg.evaluate("() => abrePrivacidad()"); pg.wait_for_timeout(100)

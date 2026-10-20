@@ -1121,3 +1121,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 
 **Verificación de cierre.** **1 084 comprobaciones en verde en 32 baterías.** Revisión visual de la dirección, la fecha y el aviso. Documento 09 regenerado: 57 campos. Versión publicada al día.
 
+### 20 de octubre de 2026 · bloque «fecha aproximada, secciones, autoridad y alturas» (DEC-211 y DEC-212)
+
+**Qué cambió.** La ayuda de la fecha admite que sea aproximada (DEC-211, Versión 16). Después (DEC-212, Versión 17): los títulos de sección dejan de tener forma de pregunta —«Responsable de los hechos», «Cuándo ocurre»— y «¿Desde cuándo ocurre?» queda como pregunta con la tipografía de las demás; se retira el aviso del artículo 331 del paso 3; ámbito y «¿Cuál?» comparten renglón; las listas desplegables toman interlineado de campo y miden 46 px, como los campos de texto.
+
+**Verificación de cierre.** Medición en navegador: alcaldía, colonia, código postal, calle, ámbito y «¿Cuál?» miden 46 px; ámbito y «¿Cuál?» en el mismo renglón; títulos del paso 3: «Cuándo ocurre», «Responsable de los hechos», «Gestiones previas».
+
+**Revisión en teléfono (DEC-213, Versión 18).** Liber probó en iPhone y encontró: la lista del tipo de establecimiento se abría dos veces, «Número exterior» partido en dos líneas, colonias subrayadas como ligas y campos sin ejemplo. Se corrigió la causa de cada uno (foco devuelto a un `<select>` tras reconstruir la pantalla; renglón 2:1 sin colapsar en pantallas angostas; separación de filas de la rejilla metida entre etiqueta y control; detección de fechas y direcciones del sistema) y se agregó una tabla única de marcadores. Batería 33 nueva: secciones, alturas y teléfono, en escritorio y a 390 px.
+
+**Verificación de cierre.** Batería completa en verde (33 baterías); revisión visual de los pasos 2 a 5 a 390 px de ancho. Lo que sólo puede confirmarse en un iPhone real —que la lista ya no se reabra y que las colonias no salgan subrayadas— queda para la siguiente prueba de Liber en su teléfono.
+
