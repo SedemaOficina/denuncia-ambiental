@@ -1061,3 +1061,16 @@ Diagnóstico del prototipo con las comprobaciones mecánicas del estándar de fo
 | `.btn[aria-disabled="true"]` | CSS | Mismo aspecto que `:disabled`, en el mismo selector (un selector, una declaración) |
 
 **Verificación de cierre.** En Chromium a 390 px táctil: los doce enlaces del pie miden 44 × 44; al pulsar «Descargar acuse (PDF)» el botón queda con `aria-disabled="true"`, `aria-busy="true"` y el foco; un segundo clic inmediato no hace nada; al terminar vuelve a «Descargar de nuevo» sin atributos. Sin errores en consola. `construccion/construir.py` y `publicar_pages.py` regenerados (artefacto 1001.8 KB; `docs/index.html` 996.5 KB). `construccion/pruebas.py` sobre el artefacto regenerado: **todo en verde, 925 comprobaciones en 28 archivos** (incluida la 25, del acuse en PDF, que ejercita el botón modificado). Quedan fuera, por ser enlaces dentro de texto corrido (excepción de WCAG 2.5.8): los teléfonos y enlaces del pie de 16 px de alto.
+
+### 19 y 20 de octubre de 2026 · bloque «observaciones de la DGIVA y medios de otras autoridades»
+
+Versiones 2 a 6 del formulario (DEC-188 a DEC-197), a partir de la revisión de la DGIVA en la hoja de observaciones: 27 de 32 observaciones atendidas, 1 descartada y 4 en discusión. El 20 de octubre se cerró OBS-0012 con la ley de datos personales de la Ciudad (DEC-196) y se incorporaron los medios de la PROFEPA, la PAOT y el INVEA a las derivaciones (DEC-197).
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| «Teléfono y liga por confirmar con la DGIVA» en PROFEPA, PAOT e INVEA | Retirado | Sustituido por sus medios, tomados de `CONTACTOS` |
+| `CONTACTOS` y `mediosDe()` | Añadidos | Una sola fuente por autoridad; la derivación y la ficha del ANP federal los leen de ahí |
+| Texto fijo «Versión 5» en la prueba 04 | Sustituido | Se compara contra `VERSION_FORMULARIO`: la prueba se rompía en cada versión nueva sin que nada estuviera roto |
+
+**Verificación de cierre.** **1 031 comprobaciones en verde en treinta baterías**, con una nueva: `30-medios-de-otras-autoridades.py`, en teléfono y escritorio. Sintaxis correcta. Revisión visual de la derivación de uso de suelo a 390 px. Documento 09 regenerado y versión publicada al día.
+

@@ -521,6 +521,7 @@ table.comp td.uso-campo,table.comp span.uso-campo{font-size:var(--t-sm);color:va
    Antes el mismo amarillo servía para advertir a la persona y para marcar un
    pendiente de la DGIVA, que no se parecen en nada (DEC-95). */
 .aviso{border-left:4px solid var(--borde);background:var(--aviso-bg);padding:14px 16px;border-radius:0 var(--r-ctrl) var(--r-ctrl) 0;font-size:var(--t-md);margin:16px 0;color:var(--texto)}
+.aviso a{color:var(--azul);font-weight:600}
 .aviso strong{color:var(--texto)}
 /* El verde vive en una sola pantalla: la que dice que la denuncia se recibió.
    Fuera de ella, un aviso de confirmación es un aviso como los demás. */
@@ -647,6 +648,8 @@ details.rev-bloque .resumen{padding:14px}
 .redir .inst{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-ctrl);padding:15px;margin-top:14px}
 .redir .inst .nom{font-family:'Cabin',sans-serif;font-weight:700;color:var(--guinda);font-size:var(--t-base);display:block;margin-bottom:5px}
 .redir .inst .dato{font-size:var(--t-md);color:var(--gris);margin-top:3px}
+.redir .inst .medios{margin:8px 0 0;padding-left:18px;font-size:var(--t-md);color:var(--texto);display:grid;gap:4px}
+.redir .inst a{color:var(--azul);font-weight:600}
 .pendiente{background:var(--pend-bg);border:1px dashed var(--pend);color:var(--pend-txt);padding:2px 7px;border-radius:4px;font-size:var(--t-xs);font-weight:600;font-style:normal}
 
 /* ---------- Panel del prototipo ---------- */
@@ -1094,6 +1097,36 @@ var MATERIAS = [
    norma:'Arts. 98, 123 y 138, Ley Ambiental de la Ciudad de México'}
 ];
 
+/* --- Medios de las autoridades a las que se deriva ---
+   Una sola fuente por autoridad: la pantalla de derivacion y la ficha del
+   Area Natural Protegida federal los toman de aqui (DEC-197). PROFEPA, de su
+   pagina «Denuncia ante la PROFEPA»; INVEA, de su material de Atencion
+   Ciudadana; PAOT, de «Inicia tu denuncia». Los proporciono Liber Saltijeral el 20 de octubre de 2026. */
+var CONTACTOS = {
+  profepa: {
+    sitio: {txt:'Cómo presentar una denuncia ante la PROFEPA', url:'https://www.gob.mx/profepa/articulos/denuncia-ante-la-profepa?state=published'},
+    medios: [
+      {rot:'En línea', txt:'Llena el ', liga:'formulario de denuncia de la PROFEPA', url:'https://www.profepa.gob.mx/innovaportal/v/1156/1/mx/haz_tu_denuncia.html'},
+      {rot:'Por teléfono', tel:'800 PROFEPA (800 776 3372)', telHref:'tel:8007763372', txt:', de 9:00 a 18:00 horas. Por esta vía tienes 3 días hábiles para ratificar tu denuncia.'},
+      {rot:'Presencial', txt:'Oficialía de partes de las oficinas centrales: Av. Félix Cuevas 6, col. Tlacoquemécatl del Valle, alcaldía Benito Juárez, C.P. 03200, Ciudad de México, de 9:00 a 18:00 horas. En los estados, en el módulo de Atención Ciudadana de su Oficina de Representación.'},
+      {rot:'Correo electrónico', correo:'denuncias@profepa.gob.mx'}
+    ]},
+  paot: {
+    sitio: {txt:'Iniciar una denuncia ante la PAOT', url:'https://paot.org.mx/denunciantes/inicia-tu-denuncia.php'},
+    medios: [
+      {rot:'En línea', txt:'Llena el ', liga:'formulario de denuncia de la PAOT', url:'https://paot.org.mx/denunciantes/inicia-tu-denuncia.php', fin:' Disponible las 24 horas, todos los días.'},
+      {rot:'Por teléfono', tel:'55 5265 0780', telHref:'tel:+525552650780', txt:' (opción *) o extensiones 15430, 15440, 15450 y 15410. Lunes a jueves de 9:00 a 18:00 horas; viernes de 9:00 a 15:00 horas.'},
+      {rot:'Presencial', txt:'Medellín 202, planta baja, col. Roma, alcaldía Cuauhtémoc, Ciudad de México. Lunes a jueves de 9:00 a 18:00 horas; viernes de 9:00 a 15:00 horas.'}
+    ]},
+  invea: {
+    sitio: {txt:'Sitio del INVEA', url:'https://www.invea.cdmx.gob.mx/'},
+    medios: [
+      {rot:'Por teléfono', tel:'55 4737 7700', telHref:'tel:+525547377700', txt:', área de Atención Ciudadana.'},
+      {rot:'Presencial', txt:'Carolina 132, col. Noche Buena, alcaldía Benito Juárez, C.P. 03720, Ciudad de México. Lunes a jueves de 9:00 a 18:00 horas; viernes de 9:00 a 15:00 horas.'},
+      {rot:'Correo electrónico', correo:'atencion.invea@cdmx.gob.mx'}
+    ]}
+};
+
 /* --- Supuestos que NO son competencia de la Secretaría --- */
 var DERIVA = [
   {id:'d_basura', c:'Falta de recolección', k:'basura en la calle recoleccion camion de basura tiradero esquina', ico:'d_basura', nom:'Basura en la calle', formal:'Recolección de residuos en vía pública',
@@ -1105,25 +1138,25 @@ var DERIVA = [
   /* La DGIVA confirmó que el ruido de establecimientos mercantiles y de
      servicios lo atiende el INVEA (OBS-0004, DEC-190). */
   {id:'d_ruido_comercio', c:'Bares, restaurantes, salones o tiendas', k:'ruido bar bares antro cantina restaurante salon de fiestas tienda comercio negocio musica bocina karaoke sonido', ico:'d_ruido', nom:'Ruido de un comercio', formal:'Ruido de establecimientos mercantiles y de servicios',
-   inst:[{n:'Instituto de Verificación Administrativa (INVEA)', d:'Instancia competente para atender la denuncia.'}]},
+   inst:[{n:'Instituto de Verificación Administrativa (INVEA)', d:'Instancia competente para atender la denuncia.', ref:'invea'}]},
   {id:'d_mascotas', c:'Perros, gatos y otros', k:'perro perros gato gatos mascota maltrato animal abandono', ico:'d_mascotas', nom:'Maltrato de animales domésticos', formal:'Maltrato de animales domésticos',
-   inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:''},
+   inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'', ref:'paot'},
          {n:'Brigada de Vigilancia Animal de la Secretaría de Seguridad Ciudadana (SSC)', d:''},
          {n:'Agencia de Atención Animal (AGATAN)', d:''},
          {n:'Alcaldía correspondiente', d:'', alc:true}]},
   {id:'d_silvestre', c:'Venta o daño de fauna', k:'pajaro ave venta de animales silvestre iguana loro tortuga trafico', ico:'d_silvestre', nom:'Fauna silvestre', formal:'Venta, posesión o daño de fauna silvestre',
-   inst:[{n:'Procuraduría Federal de Protección al Ambiente (PROFEPA)', d:'La materia es de competencia federal.'}]},
+   inst:[{n:'Procuraduría Federal de Protección al Ambiente (PROFEPA)', d:'La materia es de competencia federal.', ref:'profepa'}]},
   {id:'d_uso_suelo', c:'Giro no permitido en un predio', k:'uso de suelo giro negocio bar antro bodega vivienda', ico:'d_uso_suelo', nom:'Uso de suelo', formal:'Uso de suelo no permitido en un predio',
-   inst:[{n:'Instituto de Verificación Administrativa (INVEA)', d:'Instancia competente para atender la denuncia.'},
-         {n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'También puede recibir la denuncia.'}]},
+   inst:[{n:'Instituto de Verificación Administrativa (INVEA)', d:'Instancia competente para atender la denuncia.', ref:'invea'},
+         {n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'También puede recibir la denuncia.', ref:'paot'}]},
   /* Salen de la tarjeta de ruido a petición de la DGIVA (OBS-0003, OBS-0004,
      DEC-189). La instancia receptora la confirma la DGIVA. */
   {id:'d_olores', c:'De un negocio, una obra o un predio', k:'olor olores peste mal olor hedor apesta', ico:'emisiones', nom:'Malos olores', formal:'Olores',
-   inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'Puede recibir la denuncia.'}]},
+   inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'Puede recibir la denuncia.', ref:'paot'}]},
   {id:'d_visual', c:'Espectaculares, letreros o iluminación molesta', k:'anuncio anuncios espectacular publicidad letrero luz luces reflector alumbrado iluminacion', ico:'d_uso_suelo', nom:'Anuncios o luz excesiva', formal:'Contaminación visual y lumínica',
-   inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'Puede recibir la denuncia.'}]},
+   inst:[{n:'Procuraduría Ambiental y del Ordenamiento Territorial (PAOT)', d:'Puede recibir la denuncia.', ref:'paot'}]},
   {id:'d_peligrosos', c:'Químicos, aceites, biológicos', k:'peligroso quimico toxico aceite usado solvente hospital biologico infeccioso', ico:'d_peligrosos', nom:'Residuos peligrosos', formal:'Manejo o disposición de residuos peligrosos',
-   inst:[{n:'Procuraduría Federal de Protección al Ambiente (PROFEPA)', d:'La materia es de competencia federal.'}]}
+   inst:[{n:'Procuraduría Federal de Protección al Ambiente (PROFEPA)', d:'La materia es de competencia federal.', ref:'profepa'}]}
 ];
 
 
@@ -1416,7 +1449,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-196', fecha:'20 de octubre de 2026', nombre:'Versión 5 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-197', fecha:'20 de octubre de 2026', nombre:'Versión 6 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1915,6 +1948,21 @@ if (typeof CFG_LOCAL !== 'undefined' && CFG_LOCAL && CFG_LOCAL.mapa) {
 
 /* ================= Utilidades ================= */
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+
+/* Medios de una autoridad de CONTACTOS, como lista (DEC-197). Las ligas
+   abren en otra pestana para no perder la denuncia a medias. */
+function mediosDe(ref){
+  var c = CONTACTOS[ref]; if(!c) return '';
+  var ext = ' target="_blank" rel="noopener noreferrer"';
+  return '<ul class="medios">'+c.medios.map(function(m){
+      return '<li><strong>'+esc(m.rot)+':</strong> '+
+        (m.liga ? esc(m.txt)+'<a href="'+esc(m.url)+'"'+ext+'>'+esc(m.liga)+'</a>.'+esc(m.fin||'') : '')+
+        (m.tel ? '<a href="'+esc(m.telHref)+'">'+esc(m.tel)+'</a>'+esc(m.txt||'') : '')+
+        (m.correo ? '<a href="mailto:'+esc(m.correo)+'">'+esc(m.correo)+'</a>' : '')+
+        (!m.liga && !m.tel && !m.correo ? esc(m.txt) : '')+'</li>';
+    }).join('')+'</ul>'+
+    '<div class="dato"><a href="'+esc(c.sitio.url)+'"'+ext+'>'+esc(c.sitio.txt)+'</a></div>';
+}
 function $(id){ return document.getElementById(id); }
 function guarda(k,v){ estado[k]=v; }
 function val(k){ return estado[k]||''; }
@@ -2269,6 +2317,7 @@ function pMateria(){
       h += '<div class="inst"><span class="nom">'+esc(i.n)+'</span>'+
            (i.d?'<div class="dato">'+esc(i.d)+'</div>':'')+
            (i.alc ? '<div class="dato">Acude a la alcaldía donde ocurren los hechos.</div>'
+            : i.ref ? mediosDe(i.ref)
                   : '<div class="dato"><span class="pendiente">Teléfono y liga por confirmar con la DGIVA</span></div>')+'</div>';
     });
     if(d.ojo) h += '<div class="aviso" style="margin-top:16px">'+d.ojo+'</div>';
@@ -2461,6 +2510,7 @@ function cajaCapas(){
       (val('coadmin')==='si'
         ? 'Esta Área Natural Protegida es de competencia federal y la Secretaría coadyuva en su administración conforme al convenio con la CONANP. Está por resolverse si la denuncia debe atenderse aquí o ante la PROFEPA: mientras tanto, el formulario asume la competencia federal.'
         : 'Esta Área Natural Protegida es de competencia federal y la Secretaría no participa en su administración. Presenta la denuncia ante la PROFEPA.')+
+      ' <a href="'+esc(CONTACTOS.profepa.sitio.url)+'" target="_blank" rel="noopener noreferrer">'+esc(CONTACTOS.profepa.sitio.txt)+'</a>.'+
       ' <span class="pendiente">Criterio provisional, a consulta de las áreas (P-22)</span>'+
       (val('concurrencia')?'<br><br>El punto también se encuentra dentro del Área Natural Protegida local «'+esc(val('concurrencia'))+'», por lo que existe concurrencia de competencias y la Secretaría puede intervenir en el ámbito local.':'')+'</div>';
   }
