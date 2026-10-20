@@ -1080,3 +1080,4 @@ Versiones 2 a 6 del formulario (DEC-188 a DEC-197), a partir de la revisión de 
 
 **Verificación de cierre.** **1 055 comprobaciones en verde en 31 baterías**, con una nueva: `31-manzana-y-lote-obligatoria.py`, en teléfono y escritorio. Documento 09 regenerado y versión publicada al día.
 
+**Ajuste el mismo día (DEC-199).** Con «Sí», sólo la manzana es obligatoria; el lote queda opcional. Pruebas 15 y 31 ajustadas.

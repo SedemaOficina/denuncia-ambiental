@@ -1230,14 +1230,15 @@ var OBLIG = {
      visita. Dos campos propios la conservan entera (DEC-110). */
   /* La pregunta es obligatoria: sin respuesta no se sabe si el predio lleva
      numero o manzana y lote, y la direccion llega incompleta a la orden de
-     visita. Quien responde «Si» da las dos (DEC-198). */
+     visita. Quien responde «Si» da al menos la manzana; el lote es opcional
+     (DEC-198, DEC-199). */
   tiene_mz_lote:    {p:2, oblig:true,  etq:'¿El predio se identifica por manzana y lote?', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene, en vez de enseñárselos a todos (DEC-124).'},
   manzana:          {p:2, oblig:true,  etq:'Manzana', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no' && val('tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el predio se identifica por manzana y lote',
      uso:'Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote.'},
-  lote:             {p:2, oblig:true,  etq:'Lote', dp:false, fin:'Localización',
+  lote:             {p:2, oblig:false, etq:'Lote', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no' && val('tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el predio se identifica por manzana y lote',
      uso:'Identifica el predio en la orden de visita donde no hay número exterior y la referencia usual es manzana y lote.'},
   veh_servicio:     {p:3, oblig:true, etq:'¿Es transporte público o de carga?', dp:false, fin:'Competencia',
@@ -1343,7 +1344,7 @@ var OBLIG = {
   dom_manzana:      {p:5, oblig:true,  etq:'Domicilio · manzana', dp:true, fin:'Contacto',
      cond:function(){ return val('dom_tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el domicilio se identifica por manzana y lote',
      uso:'Precisa el domicilio de notificación donde no hay número exterior (DEC-135).'},
-  dom_lote:         {p:5, oblig:true,  etq:'Domicilio · lote', dp:true, fin:'Contacto',
+  dom_lote:         {p:5, oblig:false, etq:'Domicilio · lote', dp:true, fin:'Contacto',
      cond:function(){ return val('dom_tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el domicilio se identifica por manzana y lote',
      uso:'Precisa el domicilio de notificación donde no hay número exterior (DEC-135).'},
   dom_entre_calles: {p:5, oblig:false, etq:'Domicilio · entre qué calles', dp:true, fin:'Contacto',
@@ -1453,7 +1454,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-198', fecha:'20 de octubre de 2026', nombre:'Versión 7 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-199', fecha:'20 de octubre de 2026', nombre:'Versión 8 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).

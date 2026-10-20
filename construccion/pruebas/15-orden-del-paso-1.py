@@ -138,7 +138,7 @@ with sync_playwright() as pw:
     }""")
     afirma(m['hayMz'] and m['hayLt'], 'con «Sí», aparecen manzana y lote')
     # Desde DEC-198, quien responde «Sí» debe dar manzana y lote.
-    afirma(m['mzReq'] and m['ltReq'], 'con «Sí», los dos son obligatorios (DEC-198)')
+    afirma(m['mzReq'] and not m['ltReq'], 'con «Sí», la manzana es obligatoria y el lote opcional (DEC-199)')
     o = m['orden']
     afirma(o.index('manzana') > o.index('num_ext') and o.index('manzana') < o.index('colonia'),
            'van después del número exterior y antes de la colonia: %s' % ' → '.join(o[:8]))

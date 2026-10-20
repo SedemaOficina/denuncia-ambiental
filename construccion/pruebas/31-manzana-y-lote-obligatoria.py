@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """La pregunta de manzana y lote es obligatoria, en el lugar y en el domicilio (DEC-198).
-   Sin respuesta no se avanza; con «Sí» se piden manzana y lote; con «No», no.
+   Sin respuesta no se avanza; con «Sí» se exige al menos la manzana y el lote
+   es opcional (DEC-199); con «No», ninguno.
    Se comprueba en pantalla (marca y error) y en la validación del paso."""
 import os, pathlib, sys
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
@@ -32,8 +33,8 @@ with sync_playwright() as pw:
               guarda(k, 'si'); guarda(pre + 'manzana', ''); guarda(pre + 'lote', ''); render();
               const mzMarca = ['manzana', 'lote'].map(x => { const e = document.getElementById('c_' + pre + x); return !!e && !!e.querySelector('.req'); });
               const siVacio = valida(paso);
-              guarda(pre + 'manzana', '118'); guarda(pre + 'lote', '7'); render();
-              const siLleno = valida(paso);
+              guarda(pre + 'manzana', '118'); render();
+              const siLleno = valida(paso);   /* sin lote: opcional desde DEC-199 */
               guarda(k, 'no'); actualizaMzLote(pre); render();
               const no = valida(paso);
               return {marca, sinResp, conError, mzMarca, siVacio, siLleno, no, sueltos: [val(pre + 'manzana'), val(pre + 'lote')]};
@@ -41,8 +42,8 @@ with sync_playwright() as pw:
             lugar = 'lugar' if not pre else 'domicilio'
             afirma(r['marca'], '%d px · %s: la pregunta lleva asterisco y no dice «(opcional)»' % (ancho, lugar))
             afirma(r['sinResp'] is False and 'invalido' in r['conError'], '%d px · %s: sin respuesta no se avanza y el campo marca el error (%s)' % (ancho, lugar, r['conError']))
-            afirma(r['mzMarca'] == [True, True], '%d px · %s: con «Sí», manzana y lote llevan asterisco' % (ancho, lugar))
-            afirma(r['siVacio'] is False and r['siLleno'] is True, '%d px · %s: con «Sí» se exigen manzana y lote' % (ancho, lugar))
+            afirma(r['mzMarca'] == [True, False], '%d px · %s: con «Sí», la manzana lleva asterisco y el lote no (DEC-199)' % (ancho, lugar))
+            afirma(r['siVacio'] is False and r['siLleno'] is True, '%d px · %s: con «Sí» se exige la manzana; el lote no' % (ancho, lugar))
             afirma(r['no'] is True and r['sueltos'] == ['', ''], '%d px · %s: con «No» se avanza y manzana y lote se sueltan' % (ancho, lugar))
         sin = pg.evaluate("""() => { cargaEscenario('sin_calle'); cfg.validar = true; irA(2); return {pide: !!document.getElementById('c_tiene_mz_lote'), pasa: valida(2)}; }""")
         afirma(not sin['pide'] and sin['pasa'], '%d px: sin domicilio la pregunta no aparece ni se exige' % ancho)
