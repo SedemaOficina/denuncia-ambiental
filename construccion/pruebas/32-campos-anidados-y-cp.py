@@ -77,6 +77,11 @@ with sync_playwright() as pw:
     t3 = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('materia','rsu'); irA(3); valida(3);
       return !!document.querySelector('#c_temporalidad.invalido') && !!document.getElementById('e_temporalidad'); }""")
     afirma(t3, 'sin contestar, la temporalidad marca su error en su propio renglón')
+    # ---- DEC-204: nada aparece arriba de la pregunta del domicilio al contestarla ----
+    pp = pg.evaluate("""() => ['si','no'].map(v => { estado = {}; guarda('materia','rsu'); guarda('tiene_direccion', v); irA(2);
+      const t = document.querySelector('#app .tarjeta'); const h2 = t.querySelector('h2'); const q = document.getElementById('c_tiene_direccion');
+      return {sinParrafo: !t.innerText.includes('Este paso pide'), seguida: h2.nextElementSibling === q}; })""")
+    afirma(all(x['sinParrafo'] and x['seguida'] for x in pp), 'al contestar si tiene calle y número, nada aparece entre el título y la pregunta (DEC-204): %s' % pp)
     nav.close()
 try: TMP.unlink()
 except OSError: pass

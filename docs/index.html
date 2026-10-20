@@ -1461,7 +1461,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-203', fecha:'20 de octubre de 2026', nombre:'Versión 12 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-204', fecha:'20 de octubre de 2026', nombre:'Versión 13 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2393,11 +2393,11 @@ function pUbicacion(){
       '<span class="fl" aria-hidden="true">\u2039</span>Regresar</button></div></div>';
   }
 
-  /* El reparto de trabajo, dicho una vez: es lo que vuelve explicable el paso. */
-  h += '<p class="sub">'+(sinDir
-    ? 'Este paso pide dos cosas: <strong>marcar el sitio en el mapa</strong>, que es lo que decide qué área de la Secretaría atiende la denuncia, y <strong>decir cómo se llega</strong>, que es lo que permite al personal de inspección encontrarlo.'
-    : 'Este paso pide dos cosas: <strong>la dirección</strong>, que es lo que permite al personal de inspección llegar, y <strong>el punto en el mapa</strong>, que es lo que decide qué área de la Secretaría atiende la denuncia.')+'</p>'+
-    campoSiNo('tiene_direccion','¿El lugar tiene calle y número?',
+  /* Sin párrafo de entrada (DEC-204): aparecía arriba de la pregunta justo
+     después de contestarla, donde ya no se lee. El propósito de cada parte lo
+     dice su bloque: el del mapa, que el punto decide quién atiende; el del
+     sitio sin domicilio, que permite al personal llegar. */
+  h +=     campoSiNo('tiene_direccion','¿El lugar tiene calle y número?',
       'Responde «No» si ocurre en un área natural protegida, una barranca, un bosque urbano, un terreno forestal o de cultivo, un camino o un canal.',
       'render()');
 
