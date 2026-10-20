@@ -19,9 +19,16 @@ Ninguna fase inicia sin que la anterior cumpla su criterio de salida. El criteri
 
 **Equivalencia con las tres etapas de la Oficina de la Secretaría** (documento 01): la etapa 1, validar el formulario, es la fase 1; la etapa 2, el módulo de acceso de la Secretaría, es la fase 5 y su tablero; la etapa 3, la implementación en el SIA, reúne las fases 2, 3, 4 y 6.
 
-### Fase 1 · Maqueta del formulario ciudadano *(cerrada el 20 de octubre de 2026, DEC-228)*
+### Fase 1 · Maqueta del formulario ciudadano *(en cierre, DEC-229)*
 
-> **Cierre.** Acta de validación de la DGIVA recibida y mapeo de campos validado; criterios 2 a 7 cumplidos. Pasan a la fase 2, como pendientes de contenido que no cambian la estructura de los datos: el fundamento de «Plásticos de un solo uso» (criterio 1, hueco visible «[Art. __, fracc. __]»), la respuesta a OBS-0024 y la versión sobre la que se firmó el acta, con la relación de cambios posteriores. Los tres datos del aviso de privacidad (P-02) siguen pendientes para publicar.
+> **Estado de cierre.** DEC-228 la dio por cerrada con los criterios 5, 6 y 7 sin cumplir; la auditoría del 20 de octubre de 2026 lo señaló y DEC-229 la devuelve a «en cierre». Cumplidos: 2, 3 y 4. Falta, para cerrarla:
+>
+> - **Criterio 1.** Fundamento de «Plásticos de un solo uso», hoy hueco visible «[Art. __, fracc. __]».
+> - **Criterio 5.** Registrar sobre qué versión se firmó el acta y obtener la conformidad de la DGIVA sobre los cambios posteriores (oficio, A-15).
+> - **Criterio 6.** P-02: los tres datos del aviso de privacidad.
+> - **Criterio 7.** Respuesta a OBS-0024.
+>
+> El trabajo de la fase 2 que no depende de estos puntos —diccionario de datos y catálogos— puede adelantarse; la fase 1 no se declara cerrada hasta que los cuatro estén cumplidos.
 
 Prototipo navegable, sin servidor, con los datos y las capas embebidos.
 
@@ -35,7 +42,7 @@ Prototipo navegable, sin servidor, con los datos y las capas embebidos.
 6. Pendientes jurídicos P-01 y P-02 resueltos: sin naturaleza del canal ni aviso de privacidad no hay publicación posible.
 7. Observaciones de la hoja de revisión (DEC-153) con estado «Atendida» o «Descartada» y su respuesta; ninguna «Pendiente».
 
-### Fase 2 · Contrato de datos y servicios *(en curso desde el 20 de octubre de 2026)*
+### Fase 2 · Contrato de datos y servicios *(preparación adelantada; abre al cerrar la fase 1, DEC-229)*
 
 > **Antes de abrir esta fase: cambiar el entorno de trabajo a Claude Code.**
 > **Acordado (DEC-221, 20 oct 2026).** Primera tarea de la fase: instalar Claude Code en la computadora de Liber. Con eso el commit y el `push` dejan de ser manuales; hasta entonces se sigue con «Push origin» en GitHub Desktop.
@@ -74,7 +81,7 @@ Se congela lo validado y se traduce a especificación técnica, **antes de escri
 
 El cruce espacial deja el navegador y las geometrías simplificadas.
 
-- Servicio propio de cruce contra las capas completas, en servidor (P-12).
+- Servicio propio de cruce contra las capas completas, en servidor (SIA-05 del documento 20; antes P-12).
 - Catálogo oficial de colonias y códigos postales (P-16).
 - Normalización de las categorías de la capa de origen (P-11).
 
@@ -1206,3 +1213,9 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 
 **Qué cambió.** Se da por cerrada la fase 1 y se abre la fase 2. Pendientes que pasan: fundamento de «Plásticos de un solo uso», OBS-0024, versión del acta y cambios posteriores (oficio a la DGIVA), y P-02 para publicar. Primeras tareas de la fase 2: enviar los commits pendientes, instalar Claude Code (DEC-221) y empezar el diccionario de datos con los catálogos —incluido el de estados del expediente, que espera P-14—.
 
+
+### 20 de octubre de 2026 · la fase 1 vuelve a «en cierre» (DEC-229)
+
+**Qué cambió.** La auditoría profesional del mismo día (documento 24) encontró que DEC-228 cerró la fase con tres criterios de salida sin cumplir: el 5 (acta sobre una versión identificada), el 6 (P-02) y el 7 (OBS-0024). La fase 1 queda «en cierre» y la fase 2 sólo adelanta trabajo que no depende de esos puntos. Se ordenó el documento 05: columna de estado en la tabla de decisiones, DEC-90 a DEC-93 registradas, conteo de preguntas corregido y P-12 retirada con su razón. Los textos que aún llamaban «provisional» al turnado de las Áreas Naturales Protegidas federales se alinearon con P-22. Nueva batería 36, de coherencia documental.
+
+**Por qué.** Un criterio de salida que se da por cumplido sin estarlo deja de ser verificable, y ese es el único valor del criterio.

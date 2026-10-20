@@ -29,7 +29,7 @@ El área que atiende **no va en el folio**: va en el expediente, como dato propi
 
 Hasta DEC-151 el prototipo ponía el área en el folio (`SEDEMA/DGIVA/DEN/2026/…`, `SEDEMA/DGCORENADR/…`, `SEDEMA/REM/…`). Tenía tres problemas:
 
-1. **El turnado puede cambiar y el folio no.** Una denuncia sin punto se ubica después (DEC-123); una en ANP federal coadministrada está a consulta (P-22); cualquier área puede devolver un asunto que no es suyo. Un folio que nombra al área equivocada contradice al expediente para siempre.
+1. **El turnado puede cambiar y el folio no.** Una denuncia sin punto se ubica después (DEC-123); una en ANP federal la recibe la DGCORENADR y la remite a la PROFEPA (P-22); cualquier área puede devolver un asunto que no es suyo. Un folio que nombra al área equivocada contradice al expediente para siempre.
 2. **Obliga a decidir el área antes de guardar.** Sin punto, el prototipo emite un folio sin segmento de área: dos formatos para el mismo documento.
 3. **No aporta nada que no diga el expediente.** Quien atiende ve el área en la bandeja (AD-01); quien denuncia la ve en el acuse.
 

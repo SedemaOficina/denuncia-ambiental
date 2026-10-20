@@ -95,7 +95,7 @@ El proveedor de mosaicos y su clave salieron del código a `prototipo/configurac
 
 **B-10 · Proveedores externos — mitad resuelta** *(§6.8)*
 **Mapa base: resuelto.** Se adoptó CARTO con clave propia (DEC-36). Su capa gratuita admite cinco millones de peticiones de mosaico al mes, lo que sí cubre el uso de un portal público, y la atribución a CARTO y a OpenStreetMap —obligatoria por licencia— quedó en el mapa.
-**Geocodificación: sigue abierta.** El prototipo consulta `nominatim.openstreetmap.org`, cuyo servicio no está abierto al uso sistemático de producción. La salida es P-12 y P-16 —servicio propio y catálogo de colonias de la ADIP—.
+**Geocodificación: sigue abierta.** El prototipo consulta `nominatim.openstreetmap.org`, cuyo servicio no está abierto al uso sistemático de producción. La salida es SIA-06 del documento 20 (antes P-12) y P-16 —servicio propio y catálogo de colonias de la ADIP—.
 **Pendiente de verificación:** el formato del parámetro de la clave no pudo comprobarse desde el entorno de trabajo, porque la política de salida de red no alcanza al proveedor. Si el mapa aparece con la marca de agua «API key required», hay que sustituir la dirección por la que CARTO entregó al emitir la clave.
 
 ## 4. Auditorías del catálogo que nunca se han corrido
@@ -114,7 +114,7 @@ El proveedor de mosaicos y su clave salieron del código a `prototipo/configurac
 1. `alcaldias.geojson` **no declara proyección**. Las coordenadas son correctas, pero el archivo no lo dice: la norma pide que no se adivine.
 2. `suelo_conservacion.geojson` **conserva los atributos crudos del shapefile de origen** —`OBJECTID`, `AREA`, `PERIMETER`, `DESCRIP`, `SUECON0009`—, con los nombres truncados a diez caracteres que impone ese formato. No están normalizados y **no hay clave estable declarada** para la unión.
 3. **Ninguna de las tres tiene verificada la validez topológica.** Es la comprobación que más importa, porque una geometría inválida no falla: responde mal en silencio, y de este cruce depende a qué dirección general se turna el expediente.
-4. **Sólo existe la capa simplificada.** No está documentado dónde vive la capa completa contra la que deberá resolverse el cruce en la versión funcional *(§6.4, P-12)*.
+4. **Sólo existe la capa simplificada.** No está documentado dónde vive la capa completa contra la que deberá resolverse el cruce en la versión funcional *(§6.4, SIA-05 del documento 20; antes P-12)*.
 5. `geometrias.geojson` **sí** trae fuente, proyección, versión y fecha de consolidación. Las otras dos deben igualarlo.
 
 ---

@@ -59,7 +59,7 @@ Listado con folio, fecha de recepción, canal, materia, alcaldía, tipo de zona,
 | Posible duplicado | Misma materia, punto cercano y fechas próximas | P-21, control 4; D-12 |
 | Marcadas para revisión | Prueba de humanidad sin verificar, ráfaga o baja completitud | Documento 15; SIA-15, SIA-26 |
 | Alcaldía que no coincide | La alcaldía de la dirección difiere de la del punto | DEC-118 |
-| Área Natural Protegida federal | Por remitir a la PROFEPA, criterio provisional | DEC-89, P-22 |
+| Área Natural Protegida federal | La DGCORENADR la recibe y la remite a la PROFEPA | DEC-226, P-22 |
 | Autoridad señalada como responsable | Siguen la vía de recomendación del artículo 331 de la Ley Ambiental | RN-24 bis |
 | Anónimas | Sin nombre ni domicilio, con correo de contacto | RN-17 |
 

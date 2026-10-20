@@ -73,7 +73,7 @@ Nueve archivos no seguían la convención del proyecto —`NN_NOMBRE_AAAAMMDD.pd
 | **NADF-001-RNAT-2015 (18)** | Poda, derribo y trasplante | Materia de arbolado |
 | **NADF-005-AMBT-2013 (20)** | Emisiones sonoras: límites permisibles | Materia de ruido, pendiente de aprovechar |
 | **Código Penal (10)** | Artículo 344 Bis, citado en tres materias | Pendiente de verificar el texto vigente |
-| **Ley de Datos Personales (09)** | Base del aviso de privacidad | **P-19**, pendiente de trabajar |
+| **Ley de Datos Personales (09)** | Base del aviso de privacidad | **P-02**, que absorbió P-19 (DEC-225); faltan tres datos del aviso |
 
 ---
 
@@ -86,7 +86,7 @@ Nueve archivos no seguían la convención del proyecto —`NN_NOMBRE_AAAAMMDD.pd
 | **Ley de Procedimiento Administrativo de la Ciudad de México** | Supletoria del procedimiento de inspección | Plazos y notificaciones |
 | **Ley de Cultura Cívica** | Sustenta la derivación del ruido entre particulares a la Secretaría de Seguridad Ciudadana | Derivación |
 | **Ley del Instituto de Verificación Administrativa** | Sustenta la vía de solicitar al INVEA la visita en establecimientos mercantiles | Derivación |
-| **Lineamientos en materia de datos personales** del órgano garante | Formato y contenido exigibles del aviso, y registro del sistema de datos personales | **P-19**, **P-02** |
+| **Lineamientos en materia de datos personales** del órgano garante | Formato y contenido exigibles del aviso, y registro del sistema de datos personales | **P-02**, que absorbió P-19 |
 | **Decretos de las AVA y de las ANP locales** | Verificar nombres, superficies y categorías contra `geometrias.geojson` | Capas |
 | **Catálogo de giros o padrón de fuentes fijas** | Sustituir el catálogo provisional de tipos de establecimiento | Paso 3 |
 | **Formatos vigentes** de orden de visita y acta de inspección | Alinear lo capturado con lo que el acta necesita | Etapa 2 |

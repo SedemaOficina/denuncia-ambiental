@@ -59,7 +59,7 @@ Es la bifurcación con más consecuencia, porque decide quién atiende y qué pr
 | Área de Valor Ambiental | DGIVA | Inspección y, en su caso, sanción |
 | Área Natural Protegida local | DGCORENADR · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas | Inspección y, en su caso, sanción |
 | Suelo de conservación | DGCORENADR · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas | Inspección y, en su caso, sanción |
-| Área Natural Protegida federal, **con convenio o sin él** | PROFEPA, provisionalmente | La Secretaría la recibe y la remite. Con convenio queda enterada por su papel en la administración del parque. **Criterio a consulta de las áreas (P-22)** |
+| Área Natural Protegida federal, **con convenio o sin él** | La DGCORENADR la recibe y la remite a la PROFEPA | El formulario no limita el envío. Con convenio, la Secretaría queda enterada por su papel en la administración del parque (P-22, DEC-226) |
 | Fuera de la Ciudad de México | Ninguna | Se impide continuar |
 
 A esto se superpone una ruta que no depende del territorio sino de a quién se señala: **si se denuncia a una autoridad**, el artículo 331 de la Ley Ambiental manda emitir recomendaciones en lugar de sancionar, y el acuse lo advierte.

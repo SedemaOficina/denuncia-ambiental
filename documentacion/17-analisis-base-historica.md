@@ -158,7 +158,7 @@ No es una zona gris. El Reglamento Interior lo reparte y el Manual Administrativ
 |---|---|---|
 | Suelo urbano y Áreas de Valor Ambiental | DGIVA · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano | Art. 191, fr. III y XVI, del Reglamento Interior |
 | Suelo de conservación y Áreas Naturales Protegidas locales | DGCORENADR · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas | Art. 188, fr. XXXVIII a XLI |
-| Áreas Naturales Protegidas federales, con y sin convenio | PROFEPA, de manera provisional | DEC-89, a consulta en P-22 |
+| Áreas Naturales Protegidas federales, con y sin convenio | La DGCORENADR la recibe y la remite a la PROFEPA | DEC-226, P-22 resuelta |
 
 La consecuencia práctica: **una barranca es AVA y por tanto es DGIVA; un ANP local o el suelo de conservación no lo son**. Esa distinción —que el ciudadano no puede hacer y el mapa sí— es la que el formulario ya resuelve por cruce espacial desde DEC-04, y la que DEC-72 blindó al suprimir la alcaldía capturada en favor de la del punto.
 
