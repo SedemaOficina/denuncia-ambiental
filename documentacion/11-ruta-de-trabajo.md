@@ -21,14 +21,13 @@ Ninguna fase inicia sin que la anterior cumpla su criterio de salida. El criteri
 
 ### Fase 1 · Maqueta del formulario ciudadano *(en cierre, DEC-229)*
 
-> **Estado de cierre.** DEC-228 la dio por cerrada con los criterios 5, 6 y 7 sin cumplir; la auditoría del 20 de octubre de 2026 lo señaló y DEC-229 la devuelve a «en cierre». Cumplidos: 2, 3 y 4. Falta, para cerrarla:
+> **Estado de cierre.** DEC-228 la dio por cerrada con los criterios 5, 6 y 7 sin cumplir; la auditoría del 20 de octubre de 2026 lo señaló y DEC-229 la devuelve a «en cierre». Cumplidos: 2, 3, 4 y 5 —el acta se firmó sobre la «Versión 30 · Validación DGIVA» (DEC-230)—. Falta, para cerrarla:
 >
 > - **Criterio 1.** Fundamento de «Plásticos de un solo uso», hoy hueco visible «[Art. __, fracc. __]».
-> - **Criterio 5.** Registrar sobre qué versión se firmó el acta y obtener la conformidad de la DGIVA sobre los cambios posteriores (oficio, A-15).
 > - **Criterio 6.** P-02: los tres datos del aviso de privacidad.
 > - **Criterio 7.** Respuesta a OBS-0024.
 >
-> El trabajo de la fase 2 que no depende de estos puntos —diccionario de datos y catálogos— puede adelantarse; la fase 1 no se declara cerrada hasta que los cuatro estén cumplidos.
+> Los tres dependen de otras áreas, no de código. El trabajo de la fase 2 que no depende de ellos —diccionario de datos y catálogos— puede adelantarse; la fase 1 no se declara cerrada hasta que los tres estén cumplidos. **Todo cambio visible desde aquí sale como «Versión 31» o posterior y se informa a la DGIVA (DEC-230).**
 
 Prototipo navegable, sin servidor, con los datos y las capas embebidos.
 
@@ -1219,3 +1218,8 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Qué cambió.** La auditoría profesional del mismo día (documento 24) encontró que DEC-228 cerró la fase con tres criterios de salida sin cumplir: el 5 (acta sobre una versión identificada), el 6 (P-02) y el 7 (OBS-0024). La fase 1 queda «en cierre» y la fase 2 sólo adelanta trabajo que no depende de esos puntos. Se ordenó el documento 05: columna de estado en la tabla de decisiones, DEC-90 a DEC-93 registradas, conteo de preguntas corregido y P-12 retirada con su razón. Los textos que aún llamaban «provisional» al turnado de las Áreas Naturales Protegidas federales se alinearon con P-22. Nueva batería 36, de coherencia documental.
 
 **Por qué.** Un criterio de salida que se da por cumplido sin estarlo deja de ser verificable, y ese es el único valor del criterio.
+
+
+### 20 de octubre de 2026 · versión del acta registrada (DEC-230)
+
+**Qué cambió.** El acta de validación se firmó sobre la «Versión 30 · Validación DGIVA», que es la vigente. El criterio 5 queda cumplido y A-15 se atiende sin oficio, porque después de esa versión no cambió ninguna pantalla. Desde aquí, todo cambio visible sale como «Versión 31» o posterior y se informa a la DGIVA.
