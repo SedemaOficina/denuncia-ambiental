@@ -80,7 +80,7 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 **RN-10.** La coordenada geográfica es el dato rector de la ubicación: la alcaldía que decide el turnado la determina el punto por cruce con `alcaldias.geojson` (DEC-72). La dirección lleva además su propia alcaldía, elegida de una lista, que acota las colonias que se ofrecen (DEC-118). Si la alcaldía de la dirección y la del punto no coinciden, se avisa y se marca en el expediente; no se corrige, porque cerca del límite puede no haber error.
 
-**RN-11.** La colonia se elige del catálogo del IECM 2022 de la alcaldía elegida, y se admite escrita si no aparece; el código postal se escribe y sólo se admite del 01000 al 16999 (DEC-117). El número exterior es obligatorio, con «S/N» como respuesta válida (DEC-120). Manzana y lote aparecen sólo a quien dice que su predio se identifica así (DEC-124).
+**RN-11.** La colonia se elige del catálogo del IECM 2022 de la alcaldía elegida, y se admite escrita si no aparece; el código postal es **opcional**; si se escribe, sólo se admite del 01000 al 16999 (DEC-117, DEC-200). Alcaldía, colonia y código postal van en un renglón (DEC-205). El número exterior es obligatorio, con «S/N» como respuesta válida (DEC-120). La pregunta «¿El predio se identifica por manzana y lote?» es obligatoria; con «Sí» se exige la manzana y el lote es opcional (DEC-198, DEC-199). «¿Cómo se reconoce el sitio?» es obligatorio también con dirección (DEC-202).
 
 **RN-12.** El lugar de los hechos es independiente de la ubicación física de la persona denunciante y de su domicilio para notificaciones. El punto se coloca de tres maneras: a partir de la dirección escrita, pegando la ubicación de Google Maps —enlace, coordenadas o código plus— o con un clic sobre el mapa; se ajusta arrastrándolo. **No se pide permiso de ubicación al navegador** (DEC-67). **Con dirección, el punto es opcional**: sin él, la Secretaría ubica el lugar con la dirección y el folio no nombra área hasta hacerlo (DEC-123). Sin dirección, el punto es obligatorio.
 
@@ -96,7 +96,7 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 **RN-17.** Se admite la denuncia anónima. No pide nombre ni domicilio, pero sí un **correo de contacto, obligatorio**, para que la Secretaría pueda pedir lo que falte; el teléfono es opcional (DEC-119, DEC-120).
 
-**RN-18.** Cuando la persona se identifica, el nombre se captura desagregado en nombre, apellido paterno y apellido materno. El **domicilio para notificaciones se pide siempre y es obligatorio** (DEC-134), con la misma forma que la dirección del lugar (DEC-135): en la Ciudad, alcaldía en lista, colonia del catálogo y código postal de la Ciudad; con la casilla «Vivo fuera de la Ciudad de México», entidad en lista, municipio y colonia escritos (DEC-136).
+**RN-18.** Cuando la persona se identifica, el nombre se captura desagregado en nombre, apellido paterno y apellido materno. El **domicilio para notificaciones se pide siempre y es obligatorio** (DEC-134), con la misma forma que la dirección del lugar (DEC-135): en la Ciudad, alcaldía en lista, colonia del catálogo y código postal opcional de la Ciudad (DEC-200); con la casilla «Vivo fuera de la Ciudad de México», entidad en lista, municipio y colonia escritos (DEC-136).
 
 **RN-19.** Los datos personales de la persona denunciante no se hacen del conocimiento de la persona denunciada ni se difunden.
 
@@ -108,9 +108,9 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 **RN-22.** La descripción de los hechos es el campo sustantivo del formulario y cuenta con guía de redacción en pantalla: qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce.
 
-**RN-23.** La temporalidad se captura tipificada —hecho único, recurrente o permanente— y no como texto libre.
+**RN-23.** La temporalidad se captura tipificada —hecho único, recurrente o permanente— y no como texto libre, y es obligatoria (DEC-202). Después se pregunta «¿Conoces la fecha en que ocurrió o inició?»: con «Sí» se exige la fecha; con «No» no se pide (DEC-206). **[pendiente]** Confirmar con la DGIVA si se necesita una fecha aproximada (OBS-0016).
 
-**RN-24.** Los presuntos responsables se capturan en campos propios, separados de los elementos probatorios. Ya no se pregunta por permisos o autorizaciones (DEC-191): verificarlos corresponde a la inspección.
+**RN-24.** Los presuntos responsables se capturan en campos propios, separados de los elementos probatorios. Ya no se pregunta por permisos o autorizaciones (DEC-191): verificarlos corresponde a la inspección. Son obligatorias las preguntas del establecimiento (con su tipo y, con «Otro», su especificación), del responsable y de gestiones previas (DEC-202). Con una autoridad, su ámbito es obligatorio y admite «No lo sé»; «¿Cuál?» y el área son opcionales y no se preguntan con «No lo sé» (DEC-209). Las preguntas de sí o no van en botones; las de tres o más respuestas, en lista desplegable (DEC-208).
 
 **RN-24 bis.** El formulario pregunta **a quién se denuncia** —una persona, una empresa o negocio, una autoridad de gobierno, o «no lo sé»—. No es un dato estadístico: cuando los hechos son atribuibles a una autoridad, el artículo 331 de la Ley Ambiental de la Ciudad de México dispone que la Secretaría **emita las recomendaciones necesarias** para promover ante ella la ejecución de las acciones procedentes, en lugar de instaurar un procedimiento de inspección y sanción. Al elegir esa opción el formulario lo advierte, pide precisar la dependencia, alcaldía u organismo, y el acuse informa que la vía será la recomendación. Responder «no lo sé» no impide presentar la denuncia.
 
