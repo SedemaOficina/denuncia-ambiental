@@ -1182,3 +1182,7 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 
 **Verificación de cierre.** Batería completa en verde.
 
+### 20 de octubre de 2026 · limpieza de pendientes (DEC-225)
+
+**Qué cambió.** Se retiró «antro» de los tipos de establecimiento; OBS-0027 atendida; P-20 resuelta; P-19 consolidada en P-02. En el seguimiento, las acciones duplicadas se fundieron en la pregunta o el criterio al que servían, y lo resuelto quedó cerrado. Queda abierta, de las observaciones, sólo OBS-0024 (otros giros fuera de la CIVASU).
+

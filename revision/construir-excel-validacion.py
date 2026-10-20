@@ -54,10 +54,8 @@ obs = [  # (revisor, área, pantalla, lo que se pidió, decisión)
 assert len(obs) == 32
 
 preguntas = [
- ('OBS-0027', 'Caso de Los Dinamos', '¿Coinciden en turnar a la DGCORENADR el caso del restaurante en Los Dinamos? ¿Quién atiende el uso de leña sin legal procedencia?',
-  'Con el cruce espacial del formulario, el punto cae en suelo de conservación (La Magdalena Contreras).'),
  ('OBS-0024', 'Giros fuera de competencia', '¿Qué giros de la lista «Tipo de establecimiento» quedan fuera de la competencia de la CIVASU?',
-  'Lista actual: obra en construcción o demolición; taller mecánico, hojalatería o pintura; industria o fábrica; bodega o almacén; restaurante, fonda o cocina económica; bar, cantina, salón de fiestas o antro; tienda, abarrotes u otro comercio; panadería o tortillería; carnicería, pollería o pescadería; lavandería o tintorería; gasolinera o estación de servicio; estacionamiento o pensión; hospital, clínica, consultorio o laboratorio; escuela, oficina o edificio público; banco de materiales, mina o tiro de tierra; centro de acopio o reciclaje; vivero, granja, establo o rastro; espectáculo público, feria o evento; otro.'),
+  'Lista actual: obra en construcción o demolición; taller mecánico, hojalatería o pintura; industria o fábrica; bodega o almacén; restaurante, fonda o cocina económica; bar, cantina o salón de fiestas («antro» ya se retiró); tienda, abarrotes u otro comercio; panadería o tortillería; carnicería, pollería o pescadería; lavandería o tintorería; gasolinera o estación de servicio; estacionamiento o pensión; hospital, clínica, consultorio o laboratorio; escuela, oficina o edificio público; banco de materiales, mina o tiro de tierra; centro de acopio o reciclaje; vivero, granja, establo o rastro; espectáculo público, feria o evento; otro.'),
  ('P-09', 'Datos de la DGCORENADR', 'Domicilio, horario de atención y teléfono de la Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas (DGCORENADR).',
   'La tarjeta «Presencial» los muestra todavía como «por confirmar».'),
  ('P-07', 'Plazo para informar', '¿En cuántos días hábiles se responde a quien consulta el estado de su denuncia?',
@@ -105,7 +103,7 @@ banda(r, 'Validación de observaciones · Formulario de Denuncia Ambiental',
 r.column_dimensions['A'].width = 34; r.column_dimensions['B'].width = 16
 r.column_dimensions['C'].width = 34; r.column_dimensions['D'].width = 16
 datos = [
- ('Versión del formulario', 'Versión 27 · Validación DGIVA'),
+ ('Versión del formulario', 'Versión 28 · Validación DGIVA'),
  ('Liga de la versión publicada', 'https://sedemaoficina.github.io/denuncia-ambiental/'),
  ('Observaciones registradas', '32 (19 de la Dirección General, 11 de la COJUMIVA, 1 nominal y 1 de prueba)'),
  ('Periodo de revisión', 'Del 2 al 19 de octubre de 2026'),
