@@ -1081,3 +1081,17 @@ Versiones 2 a 6 del formulario (DEC-188 a DEC-197), a partir de la revisión de 
 **Verificación de cierre.** **1 055 comprobaciones en verde en 31 baterías**, con una nueva: `31-manzana-y-lote-obligatoria.py`, en teléfono y escritorio. Documento 09 regenerado y versión publicada al día.
 
 **Ajuste el mismo día (DEC-199).** Con «Sí», sólo la manzana es obligatoria; el lote queda opcional. Pruebas 15 y 31 ajustadas.
+
+### 20 de octubre de 2026 · bloque «campos anidados, código postal y establecimiento» (DEC-200 y DEC-201)
+
+| Cambio | Naturaleza | Motivo |
+|---|---|---|
+| `.anidado` y `anidado()` | Añadidos | Los campos que abre una respuesta van sangrados y con filete dorado bajo su pregunta: manzana y lote (lugar y domicilio), establecimiento, autoridad o señas del responsable, gestiones previas |
+| `cp`, `dom_cp` | Obligatorio → opcional | Mucha gente no lo sabe; la colonia y su alcaldía ya ubican. Si se escribe, se revisa |
+| Tipo y nombre del establecimiento | Reacomodados | En un renglón; «Especifica» debajo del tipo |
+| `resp_obra` | Retirado | De `OBLIG`, pantalla, revisión y escenario |
+
+Las pruebas 01, 02 y 19 fijaban el comportamiento anterior (búsqueda que esperaba el CP, CP obligatorio, «Especifica» al lado del tipo) y se reescribieron contra el nuevo.
+
+**Verificación de cierre.** **1 074 comprobaciones en verde en 32 baterías**, con una nueva: `32-campos-anidados-y-cp.py`, en teléfono y escritorio. Revisión visual de los pasos 2 y 3. Documento 09 regenerado: 59 campos. Versión publicada al día.
+

@@ -109,7 +109,7 @@ with sync_playwright() as pw:
     nd = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('identificacion','nombre'); irA(5);
       const t = document.getElementById('app').innerText;
       return {notif: !!document.getElementById('c_notif_correo'), dom: !!document.getElementById('f_dom_calle'),
-              oblig: ['dom_calle','dom_num_ext','dom_colonia','dom_cp','dom_alcaldia'].every(k => esObligatorio(k)),
+              oblig: ['dom_calle','dom_num_ext','dom_colonia','dom_alcaldia'].every(k => esObligatorio(k)) && !esObligatorio('dom_cp'),  /* CP opcional desde DEC-200 */
               promete: /recibirás el acuse|te notifique por correo|llega al correo/i.test(t),
               declarado: 'notif_correo' in OBLIG}; }""")
     afirma(not nd['notif'] and not nd['declarado'], 'ya no se pregunta si se acepta la notificación por correo')
@@ -217,18 +217,18 @@ with sync_playwright() as pw:
     sd = pg.evaluate("() => { guarda('tiene_direccion','no'); return esObligatorio('num_ext'); }")
     afirma(sd is False, 'sin dirección no se exige')
 
-    # ---- 6. Establecimiento: «Especifica» al lado del tipo, el nombre después (DEC-120) ----
+    # ---- 6. Establecimiento: tipo y nombre en un renglón; «Especifica» debajo del tipo (DEC-201, antes DEC-120) ----
     pg.set_viewport_size({'width':1100,'height':900})
     e = pg.evaluate("""() => { estado={}; guarda('materia','rsu'); guarda('es_estab','si'); guarda('tipo_estab','Otro'); irA(3);
       const r = id => { const x=document.getElementById(id); return x ? x.getBoundingClientRect() : null; };
       const t=r('f_tipo_estab'), o=r('f_tipo_estab_otro'), n=r('f_nombre_estab');
-      return t&&o&&n ? {mismaFila: Math.abs(t.top-o.top)<2, alLado: o.left>t.right, debajo: n.top>Math.max(t.bottom,o.bottom)} : null; }""")
-    afirma(e and e['mismaFila'] and e['alLado'], 'en escritorio, «Especifica el tipo» va al lado del tipo de establecimiento')
-    afirma(e and e['debajo'], 'y el nombre del establecimiento va después de los dos')
+      return t&&o&&n ? {mismaFila: Math.abs(t.top-n.top)<2, alLado: n.left>t.right, debajo: o.top>Math.max(t.bottom,n.bottom) && Math.abs(o.left-t.left)<2} : null; }""")
+    afirma(e and e['mismaFila'] and e['alLado'], 'en escritorio, el nombre del establecimiento va al lado del tipo')
+    afirma(e and e['debajo'], 'y «Especifica el tipo» va en el renglón siguiente, bajo el tipo')
     pg.set_viewport_size({'width':390,'height':800})
     e2 = pg.evaluate("""() => { const r=id=>document.getElementById(id).getBoundingClientRect();
-      return r('f_tipo_estab').bottom < r('f_tipo_estab_otro').top && r('f_tipo_estab_otro').bottom < r('f_nombre_estab').top; }""")
-    afirma(e2, 'en teléfono quedan en ese orden: tipo, especifica, nombre')
+      return r('f_tipo_estab').bottom < r('f_nombre_estab').top && r('f_nombre_estab').bottom < r('f_tipo_estab_otro').top; }""")
+    afirma(e2, 'en teléfono quedan en ese orden: tipo, nombre, especifica')
     e3 = pg.evaluate("""() => { const s=document.getElementById('f_tipo_estab'); s.value=TIPOS_ESTAB[0].v||TIPOS_ESTAB[0]; s.dispatchEvent(new Event('change'));
       return !document.getElementById('f_tipo_estab_otro') && !!document.getElementById('f_nombre_estab'); }""")
     afirma(e3, 'con otro tipo, «Especifica» se retira y el nombre se queda')

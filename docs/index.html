@@ -225,6 +225,13 @@ textarea{min-height:130px;resize:none;overflow:hidden;line-height:1.6}
 
 /* ---------- Sí / No ---------- */
 .si-no{display:flex;gap:10px}
+/* Campos que aparecen al contestar una pregunta: van sangrados y con filete
+   dorado, para que se lean como respuesta a ella y no como el siguiente
+   bloque (DEC-200). Sólo para preguntas que agregan campos; las que cambian
+   la ruta ocultan lo que sigue (DEC-60). */
+.anidado{margin:-6px 0 18px 6px;padding:4px 0 0 16px;border-left:3px solid var(--dorado)}
+.anidado > .campo:last-child,.anidado > .fila:last-child .campo{margin-bottom:6px}
+@media (max-width:620px){.anidado{margin-left:2px;padding-left:12px}}
 .si-no.envolver{flex-wrap:wrap}
 /* Con más de dos opciones, rejilla fija: el renglón no se reacomoda al elegir (DEC-169). */
 .si-no.envolver{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
@@ -1204,7 +1211,9 @@ var OBLIG = {
   colonia_cve:      {p:2, oblig:false, etq:'Clave de la colonia (IECM)', dp:false, oculto:true, fin:'Estadística',
      cond:function(){ return !!val('colonia_cve'); } , cond_txt:'No se pregunta: la pone el catálogo cuando la persona elige su colonia de la lista',
      uso:'Clave CVEUT de la unidad territorial del IECM 2022. Agrupa las denuncias por colonia sin depender de cómo se escribió el nombre. Queda vacía cuando la persona escribe una colonia que no está en el catálogo: el nombre se conserva igual (DEC-117).'},
-  cp:               {p:2, oblig:true,  etq:'Código postal', dp:false, fin:'Localización',
+  /* Opcional: mucha gente no lo sabe y la colonia con su alcaldía ya ubican
+     el lugar. Si se escribe, se revisa que sea de la Ciudad (DEC-200). */
+  cp:               {p:2, oblig:false, etq:'Código postal', dp:false, fin:'Localización',
      cond:function(){ return val('tiene_direccion')!=='no'; } , cond_txt:'Sólo cuando el lugar tiene calle y número',
      uso:'Localización del sitio; verifica la congruencia de la dirección capturada. Se escribe a mano y se admite sólo en el intervalo de la Ciudad, del 01000 al 16999 (DEC-117).'},
   uga:              {p:2, oblig:false, etq:'Celda UGA', dp:false, oculto:true, fin:'Estadística',
@@ -1292,8 +1301,6 @@ var OBLIG = {
      uso:'Señas de quien realiza los hechos —vehículos, uniformes, horarios— para reconocerlo en la visita de inspección.'},
   resp_area:        {p:3, oblig:false, etq:'Área o persona servidora pública', dp:true, fin:'Responsable',
      uso:'Precisa el área a la que se dirige la recomendación.'},
-  resp_obra:        {p:3, oblig:false, etq:'Número de obra, contrato o permiso', dp:false, fin:'Responsable',
-     uso:'Permite requerir el expediente de la obra pública señalada.'},
   reporto_antes:    {p:3, oblig:false, etq:'¿Ya reportaste ante otra autoridad?', dp:false, fin:'Expediente',
    uso:'Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga.'},
   gestiones:        {p:3, oblig:false, etq:'Gestiones previas', dp:false, fin:'Expediente',
@@ -1350,7 +1357,7 @@ var OBLIG = {
      uso:'Ayuda a quien notifica a encontrar el domicilio (DEC-135).'},
   dom_colonia:      {p:5, oblig:true,  etq:'Domicilio · colonia', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
-  dom_cp:           {p:5, oblig:true,  etq:'Domicilio · código postal', dp:true, fin:'Contacto',
+  dom_cp:           {p:5, oblig:false, etq:'Domicilio · código postal', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_alcaldia:     {p:5, oblig:true,  etq:'Domicilio · alcaldía', dp:true, fin:'Contacto',
      cond:function(){ return val('dom_fuera_cdmx')!=='si'; } , cond_txt:'Sólo cuando el domicilio está en la Ciudad de México',
@@ -1453,7 +1460,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-199', fecha:'20 de octubre de 2026', nombre:'Versión 8 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-201', fecha:'20 de octubre de 2026', nombre:'Versión 10 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1601,7 +1608,7 @@ var ESCENARIOS = [
       hechos:'La cuadrilla de la alcaldía derribó doce fresnos del camellón para ampliar el carril. No colocaron aviso ni exhibieron autorización.',
       temporalidad:'unico', fecha_hecho:'2026-09-15',
       tipo_denunciado:'gobierno', autoridad_nivel:'alcaldia', autoridad_denunciada:'Iztapalapa',
-      resp_area:'Cuadrilla de servicios urbanos', resp_obra:'Lona de obra sin número visible',
+      resp_area:'Cuadrilla de servicios urbanos',
       reporto_antes:'no',
       otras_pruebas:'Fotografías de los tocones y de la lona de la obra.',
       nombre:'Jorge', apellido_paterno:'Hernández', apellido_materno:'Luna',
@@ -2772,27 +2779,27 @@ function pHechos(){
   campoSiNo('es_estab','¿Los hechos ocurren dentro de un establecimiento?',
     'Un negocio, fábrica, taller, obra en construcción, local o bodega.',
     'heredaEstablecimiento();render()')+
-  (val('es_estab')==='si' ?
-    /* «Especifica» va al lado del tipo, que es lo que precisa, y el nombre
-       después (DEC-120). El contenedor no ocupa lugar propio en la rejilla
-       (display:contents): su campo es la segunda columna del renglón y se
-       alinea con el tipo por la misma regla que los demás pares. */
+  (val('es_estab')==='si' ? anidado(
+    /* Tipo y nombre en un renglón (DEC-201). «Especifica», que sólo aparece
+       con «Otro», cae en el renglón siguiente bajo el tipo: su contenedor no
+       ocupa lugar propio en la rejilla (display:contents, DEC-120) y se rehace
+       sin rehacer la pantalla. */
     '<div class="fila">'+
       campoSelect('tipo_estab','Tipo de establecimiento',TIPOS_ESTAB,esObligatorio('tipo_estab'),
         'Si ninguna opción encaja, elige «Otro» al final de la lista y escríbelo.','actualizaOtroEstab()')+
+      campo('nombre_estab','Nombre del establecimiento','texto',esObligatorio('nombre_estab'),'Por ejemplo: Taller Automotriz Hernández, Escuela Primaria Benito Juárez')+
       '<div id="otroEstab" class="en-fila">'+campoOtroEstab()+'</div>'+
-    '</div>'+
-    campo('nombre_estab','Nombre del establecimiento','texto',esObligatorio('nombre_estab'),'Por ejemplo: Taller Automotriz Hernández, Escuela Primaria Benito Juárez, Bodega La Central') : '')+
+    '</div>') : '')+
   campoOpciones('tipo_denunciado','¿Quién es responsable de los hechos?', TIPOS_DENUNCIADO,
     'Si no lo sabes, elige «No lo sé»: no impide presentar la denuncia.','limpiaResponsable();render()')+
-  bloqueDenunciado()+
+  anidado(bloqueDenunciado())+
 
   /* Sin la pregunta de permisos: verificarlos le toca a la inspección, y
      pedirlos empujaba a buscar documentos de un tercero (OBS-0027, DEC-191). */
   '<h3 class="sub-seccion">Gestiones previas</h3>'+
   campoSiNo('reporto_antes','¿Ya reportaste estos hechos ante otra autoridad?','A la alcaldía, a la Procuraduría Ambiental, a la policía o a cualquier otra instancia.')+
   (val('reporto_antes')==='si'
-    ? campoArea('gestiones','¿Ante quién, cuándo y qué respuesta recibiste?',false,'Este dato distingue el caso de quien ya acudió y no obtuvo respuesta.',2)
+    ? anidado(campoArea('gestiones','¿Ante quién, cuándo y qué respuesta recibiste?',false,'Este dato distingue el caso de quien ya acudió y no obtuvo respuesta.',2))
     : '')+
 
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(2)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
@@ -2850,7 +2857,7 @@ function avisoFecha(){
 var CLAVES_RESP = {
   particular:  [],
   empresa:     [],
-  gobierno:    ['autoridad_denunciada','resp_area','resp_obra'],
+  gobierno:    ['autoridad_denunciada','resp_area'],
   desconocido: ['resp_senas'],
   nose:        ['resp_senas']
 };
@@ -2986,8 +2993,8 @@ function bloqueDenunciado(){
         'Si no estás seguro, elige el que más se acerque: la Secretaría lo verifica al turnar.',
         'cambiaNivelAutoridad()')+
       (val('autoridad_nivel') ? bloqueAutoridad() : '')+
-      campo('resp_area','Área o persona servidora pública','texto',false,'Si la conoces')+
-      campo('resp_obra','Número de obra, contrato o permiso','texto',false,'Si se trata de una obra pública y el dato aparece en la lona o el letrero');
+      campo('resp_area','Área o persona servidora pública','texto',false,'Si la conoces');
+      /* Sin «Número de obra, contrato o permiso» (DEC-201). */
   }
 
   // No lo sé
@@ -3286,7 +3293,7 @@ function pRevision(){
         return t.t + (val('tipo_denunciado')==='gobierno' && val('autoridad_denunciada') ? ' \u00b7 '+val('autoridad_denunciada') : '');
       })(), 3, 'tipo_denunciado')+
     r('Datos del responsable', [val('autoridad_denunciada'),
-        val('resp_area'),val('resp_obra'),(val('tipo_denunciado')==='nose' ? val('resp_senas') : '')]
+        val('resp_area'),(val('tipo_denunciado')==='nose' ? val('resp_senas') : '')]
         .filter(Boolean).join('\n'), 3, val('tipo_denunciado')==='gobierno' ? 'resp_area' : (val('tipo_denunciado')==='nose' ? 'resp_senas' : 'tipo_denunciado'))+
     r('Gestiones previas', val('gestiones'), 3, 'reporto_antes');
 
@@ -3761,13 +3768,15 @@ function cambiaFueraCdmx(si){
   render();
 }
 
+/* Envuelve los campos que abre una respuesta (DEC-200). Vacío si no hay nada. */
+function anidado(h){ return h ? '<div class="anidado">'+h+'</div>' : ''; }
 function camposMzLote(p){
   p = p || '';
   return val(p+'tiene_mz_lote') === 'si'
-    ? '<div class="fila">'+
+    ? anidado('<div class="fila">'+
         campo(p+'manzana','Manzana','texto',esObligatorio(p+'manzana'),'')+
         campo(p+'lote','Lote','texto',esObligatorio(p+'lote'),'')+
-      '</div>'
+      '</div>')
     : '';
 }
 /* p es el prefijo: '' para el lugar, 'dom_' para el domicilio (DEC-135). */

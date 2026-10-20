@@ -1,17 +1,17 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-199 · 20 de octubre de 2026
+**Versión:** DEC-201 · 20 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos que llena la persona | **60** |
+| Campos que llena la persona | **59** |
 | Datos que viajan a la base sin verse en pantalla | **13** |
 | Datos que calcula el formulario y se muestran | 15 |
 | Datos personales | **22** (37 %) |
-| Obligatorios en este formulario | 30 de 60 |
+| Obligatorios en este formulario | 28 de 59 |
 | Campos con obligatoriedad condicionada | 28 |
 | Datos sin uso declarado | **0** |
 
@@ -26,7 +26,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 17 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 17 |
 | **Expediente** | Integrar el expediente y motivar el acto de inspección | 21 |
-| **Responsable** | Identificar y emplazar al probable infractor | 6 |
+| **Responsable** | Identificar y emplazar al probable infractor | 5 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 19 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 2 |
@@ -53,7 +53,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Punto en el mapa | Obligatorio *(condicionado)* | **Sí** | Obligatorio sólo cuando el lugar no tiene dirección; con dirección, si no se marca, la Secretaría ubica el lugar a partir de ella | Resuelve por cruce espacial el área que atiende y permite al personal inspector llegar al sitio. El art. 282 de la Ley Ambiental admite identificar el lugar por coordenadas. Con dirección es opcional: quien no sabe usar un mapa no puede quedarse sin denunciar; entonces la Secretaría ubica el lugar con la dirección y el turnado espera a ese paso (DEC-123). |
 | Alcaldía de la dirección | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Parte del domicilio del lugar en la orden de visita y filtro del catálogo de colonias: sólo se ofrecen las de la alcaldía elegida. **No decide el turnado**: quién atiende lo sigue resolviendo la alcaldía del punto (DEC-72). Si no coinciden, el formulario lo avisa y el expediente lo marca (DEC-118). |
 | Colonia | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio y estadística territorial. |
-| Código postal | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Localización del sitio; verifica la congruencia de la dirección capturada. Se escribe a mano y se admite sólo en el intervalo de la Ciudad, del 01000 al 16999 (DEC-117). |
+| Código postal | Opcional | No | Sólo cuando el lugar tiene calle y número | Localización del sitio; verifica la congruencia de la dirección capturada. Se escribe a mano y se admite sólo en el intervalo de la Ciudad, del 01000 al 16999 (DEC-117). |
 | Calle o avenida | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Domicilio del lugar de los hechos en la orden de visita (art. 281). |
 | Número exterior | Obligatorio *(condicionado)* | No | Sólo cuando el lugar tiene calle y número | Precisa el predio en la orden de visita. Obligatorio cuando el lugar tiene dirección; si el predio no tiene número se escribe «S/N», que es una respuesta válida (DEC-120). |
 | Entre qué calles | Opcional | No | Siempre | Permite ubicar el predio cuando no hay número visible. |
@@ -83,7 +83,6 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Dependencia, alcaldía u organismo señalado | Opcional | No | Sólo cuando se señala a una autoridad y se eligió su ámbito | Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla. |
 | Lo que se ha observado de quien lo hace | Opcional | **Sí** | Sólo cuando la persona no sabe quién es el responsable | Señas de quien realiza los hechos —vehículos, uniformes, horarios— para reconocerlo en la visita de inspección. |
 | Área o persona servidora pública | Opcional | **Sí** | Siempre | Precisa el área a la que se dirige la recomendación. |
-| Número de obra, contrato o permiso | Opcional | No | Siempre | Permite requerir el expediente de la obra pública señalada. |
 | ¿Ya reportaste ante otra autoridad? | Opcional | No | Siempre | Detecta reincidencia y evita duplicar expedientes con otra autoridad; filtra la pregunta larga. |
 | Gestiones previas | Opcional | No | Sólo cuando la persona dice haberlo reportado antes | Evita duplicar expedientes con otras autoridades y gradúa la gravedad por reincidencia. |
 
@@ -114,7 +113,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Domicilio · lote | Opcional | **Sí** | Sólo cuando el domicilio se identifica por manzana y lote | Precisa el domicilio de notificación donde no hay número exterior (DEC-135). |
 | Domicilio · entre qué calles | Opcional | **Sí** | Siempre | Ayuda a quien notifica a encontrar el domicilio (DEC-135). |
 | Domicilio · colonia | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
-| Domicilio · código postal | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · código postal | Opcional | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Domicilio · alcaldía | Obligatorio *(condicionado)* | **Sí** | Sólo cuando el domicilio está en la Ciudad de México | Notificación por domicilio. Se elige de la lista de las dieciséis alcaldías y acota las colonias que se ofrecen (DEC-135). |
 | Domicilio · entidad federativa | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona vive fuera de la Ciudad de México | Notificación por domicilio fuera de la Ciudad. Se elige de la lista de las otras treinta y una entidades (DEC-136). |
 | Domicilio · municipio | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona vive fuera de la Ciudad de México | Notificación por domicilio fuera de la Ciudad (DEC-136). |

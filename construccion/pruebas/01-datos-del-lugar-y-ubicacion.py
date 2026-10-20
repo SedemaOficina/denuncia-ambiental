@@ -291,12 +291,15 @@ with sync_playwright() as pw:
       return out;
     }"""); pg.wait_for_timeout(200)
     afirma(caut['soloCalle'] == 0, 'con la calle sola no consulta (%d)' % caut['soloCalle'])
-    afirma(caut['sinCP'] == 0, 'ni con la direccion todavia incompleta (%d)' % caut['sinCP'])
-    afirma(caut['completa'] == 1,
-           'al completarse la direccion consulta, y una sola vez (%d)' % caut['completa'])
-    afirma(caut['trasCuatroSalidas'] == 1,
+    # Desde DEC-200 el codigo postal es opcional: calle, numero y colonia ya
+    # completan lo exigible y se consulta; escribir el CP despues es otra
+    # direccion, mas precisa, y consulta una vez mas.
+    afirma(caut['sinCP'] == 1, 'con calle, numero y colonia ya consulta: el CP es opcional (%d)' % caut['sinCP'])
+    afirma(caut['completa'] == 2,
+           'al escribir el CP consulta una vez mas, con la direccion mas precisa (%d)' % caut['completa'])
+    afirma(caut['trasCuatroSalidas'] == 2,
            'salir de los cuatro campos no multiplica la consulta (%d)' % caut['trasCuatroSalidas'])
-    afirma(caut['trasCorregir'] == 2,
+    afirma(caut['trasCorregir'] == 3,
            'corregir la direccion si vuelve a consultar: es otra direccion (%d)' % caut['trasCorregir'])
     afirma(caut['sinNumero'] == 0,
            'sin numero exterior la direccion no esta completa y no consulta (%d)' % caut['sinNumero'])

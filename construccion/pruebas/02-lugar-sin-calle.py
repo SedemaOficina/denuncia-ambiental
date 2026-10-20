@@ -69,8 +69,8 @@ with sync_playwright() as pw:
     }""")
     afirma(c['antes']['calle'] is False and c['antes']['colonia'] is False and c['antes']['cp'] is False,
            'sin dirección: calle, colonia y CP NO son obligatorios')
-    afirma(c['despues']['calle'] is True and c['despues']['colonia'] is True and c['despues']['cp'] is True,
-           'con dirección: calle, colonia y CP vuelven a ser obligatorios')
+    afirma(c['despues']['calle'] is True and c['despues']['colonia'] is True and c['despues']['cp'] is False,
+           'con dirección: calle y colonia vuelven a ser obligatorios; el CP es opcional (DEC-200)')
     afirma(c['antes']['nombre'] is True and c['despues']['nombre'] is False,
            'el nombre del lugar sólo es obligatorio en la ruta sin dirección')
     afirma(c['antes']['refs'] is True and c['despues']['refs'] is False,
