@@ -15,7 +15,7 @@ def afirma(c, m): (notas if c else fallos).append(('OK  ' if c else 'FALLA ') + 
 CASOS = [  # (paso, preparación, campo que debe ir dentro de .anidado, pregunta que lo abre)
   (2, "guarda('tiene_direccion','si'); guarda('tiene_mz_lote','si')", 'f_manzana', 'c_tiene_mz_lote'),
   (3, "guarda('es_estab','si')", 'f_nombre_estab', 'c_es_estab'),
-  (3, "guarda('tipo_denunciado','gobierno')", 'f_resp_area', 'c_tipo_denunciado'),
+  (3, "guarda('tipo_denunciado','gobierno'); guarda('autoridad_nivel','cdmx')", 'f_resp_area', 'c_tipo_denunciado'),
   (3, "guarda('tipo_denunciado','nose')", 'f_resp_senas', 'c_tipo_denunciado'),
   (3, "guarda('reporto_antes','si')", 'f_gestiones', 'c_reporto_antes'),
   (5, "guarda('identificacion','nombre'); guarda('dom_tiene_mz_lote','si')", 'f_dom_manzana', 'c_dom_tiene_mz_lote'),
@@ -57,7 +57,7 @@ with sync_playwright() as pw:
     # ---- DEC-202: obligatorias del paso 3 y la referencia del sitio; «No lo sé» en el ámbito ----
     ob = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('materia','rsu'); guarda('tiene_direccion','si');
       guarda('es_estab','si'); guarda('tipo_estab','Otro'); guarda('tipo_denunciado','gobierno'); guarda('autoridad_nivel','cdmx');
-      return ['referencias','temporalidad','es_estab','tipo_estab','tipo_estab_otro','tipo_denunciado','autoridad_nivel','autoridad_denunciada','reporto_antes']
+      return ['referencias','temporalidad','es_estab','tipo_estab','tipo_estab_otro','tipo_denunciado','autoridad_nivel','reporto_antes']  /* «¿Cuál?» es opcional desde DEC-209 */
         .filter(k => !esObligatorio(k)); }""")
     afirma(ob == [], 'las preguntas del paso 3 y la referencia del sitio son obligatorias (DEC-202); opcionales todavía: %s' % ob)
     op = pg.evaluate("""() => ({fecha: esObligatorio('fecha_hecho'), nombre: esObligatorio('nombre_estab'), area: esObligatorio('resp_area'), gest: (guarda('reporto_antes','si'), esObligatorio('gestiones'))})""")

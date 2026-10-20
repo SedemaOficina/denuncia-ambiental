@@ -65,7 +65,7 @@ with sync_playwright() as pw:
     afirma(not apag, 'con la obligatoriedad apagada no se marca nada como opcional')
 
     # ---- Responsable en un solo campo (OBS-0025, OBS-0029) ----
-    rs = pg.evaluate("""() => ['particular','empresa','gobierno'].map(v => { guarda('tipo_denunciado', v); render();
+    rs = pg.evaluate("""() => ['particular','empresa','gobierno'].map(v => { guarda('tipo_denunciado', v); guarda('autoridad_nivel', v === 'gobierno' ? 'cdmx' : ''); render();
       return {v, campos: ['resp_nombre','resp_encargado','resp_senas','resp_area','autoridad_nivel'].filter(k => document.getElementById('c_'+k))}; })""")
     afirma(rs[0]['campos'] == [] and rs[1]['campos'] == [],
            'persona y empresa ya no abren ninguna pregunta (DEC-193): %s' % rs[:2])
