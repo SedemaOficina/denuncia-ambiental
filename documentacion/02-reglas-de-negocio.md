@@ -108,7 +108,7 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 **RN-22.** La descripción de los hechos es el campo sustantivo del formulario y cuenta con guía de redacción en pantalla: qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce.
 
-**RN-23.** La temporalidad se captura tipificada —hecho único, recurrente o permanente— y no como texto libre, y es obligatoria (DEC-202). Después se pregunta «¿Conoces la fecha en que ocurrió o inició?»: con «Sí» se exige la fecha; con «No» no se pide (DEC-206). **[pendiente]** Confirmar con la DGIVA si se necesita una fecha aproximada (OBS-0016).
+**RN-23.** La temporalidad se captura tipificada —hecho único, recurrente o permanente— y no como texto libre, y es obligatoria (DEC-202). Después se pregunta «¿Conoces la fecha en que ocurrió o inició?»: con «Sí» se exige la fecha, que puede ser aproximada; con «No» no se pide (DEC-206, DEC-211). **[pendiente]** Confirmar con la DGIVA si se necesita una fecha aproximada (OBS-0016).
 
 **RN-24.** Los presuntos responsables se capturan en campos propios, separados de los elementos probatorios. Ya no se pregunta por permisos o autorizaciones (DEC-191): verificarlos corresponde a la inspección. Son obligatorias las preguntas del establecimiento (con su tipo y, con «Otro», su especificación), del responsable y de gestiones previas (DEC-202). Con una autoridad, su ámbito es obligatorio y admite «No lo sé»; «¿Cuál?» y el área son opcionales y no se preguntan con «No lo sé» (DEC-209). Las preguntas de sí o no van en botones; las de tres o más respuestas, en lista desplegable (DEC-208).
 
