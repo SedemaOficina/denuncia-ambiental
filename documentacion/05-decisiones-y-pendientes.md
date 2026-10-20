@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Documento de decisiones
 
-**Versión:** 2.7 · 20 de octubre de 2026
+**Versión:** 2.8 · 20 de octubre de 2026
 **Destinatario:** Dirección General de Inspección y Vigilancia Ambiental
 
 Este documento concentra las decisiones ya tomadas y **las veintidós preguntas planteadas —trece todavía sin respuesta, cuatro respondidas en parte y una retirada—** que deben resolverse para pasar del prototipo a la versión funcional. Cada pregunta incluye opciones y una recomendación, de modo que pueda resolverse en sesión y quede constancia de la respuesta.
@@ -231,6 +231,7 @@ Este documento concentra las decisiones ya tomadas y **las veintidós preguntas 
 | DEC-223 | **Viviendas, condominios, unidades habitacionales y vía pública: los recibe la Secretaría (OBS-0020 atendida)** | 20 oct 2026 | Respuesta registrada por Liber Saltijeral en la reunión con la DGIVA. En estos casos la DGIVA recibe la denuncia, realiza la inspección y, cuando el asunto es de la alcaldía, se lo deriva; lo relacionado con construcción lo atiende siempre la DGIVA. Por eso no se agregan a «Mi caso no está en la lista»: el formulario los recibe como competencia de la Secretaría, como ya hacía. El formulario no cambia. | Vigente |
 | DEC-224 | **Ningún campo de texto libre acepta letras al azar: «Versión 27 · Validación DGIVA»** | 20 oct 2026 | Por observación de Liber Saltijeral: «¿Cómo se reconoce el sitio?» aceptaba «ASFSAFASFDSF…». DEC-80 sólo revisaba «Cuenta qué pasó», con una regla que exige un relato completo y no sirve para respuestas cortas. Se agrega una revisión que no mide extensión y sólo detecta lo que no puede ser español: palabras de más de 22 letras, cinco consonantes seguidas, palabras largas sin vocal, secuencias del teclado (qwe, asd, zxc…), una letra repetida cuatro veces, la misma palabra tres veces seguidas y una proporción de vocales imposible. Se aplica a «¿Cómo se reconoce el sitio?», «Nombre del lugar», «Especifica el tipo de establecimiento», «¿Qué has observado de quien lo hace?», «¿Ante quién, cuándo y qué respuesta recibiste?», «Describe otras pruebas» y, además de DEC-80, a «Cuenta qué pasó». Avisa al salir del campo y al continuar, desde la misma tabla de formatos (DEC-91); un campo opcional en blanco no se revisa. Se probó contra los 54 textos de los escenarios y respuestas cortas reales («Portón negro», «Mz. 3, Lt. 12», «IMSS ISSSTE»): ninguno se rechaza. No detecta palabras reales sin sentido («prueba»): eso queda para la revisión del personal. | Vigente |
 | DEC-225 | **Fuera «antro» de los tipos de establecimiento, OBS-0027 atendida y pendientes consolidados: «Versión 28 · Validación DGIVA»** | 20 oct 2026 | Por instrucción de Liber Saltijeral. (1) **OBS-0024, en parte.** «Bar, cantina, salón de fiestas o antro» pasa a «Bar, cantina o salón de fiestas»: el funcionamiento de un antro es materia del INVEA. Sigue abierta la pregunta de qué otros giros quedan fuera de la CIVASU. (2) **OBS-0027.** El restaurante en Los Dinamos se turna a la DGCORENADR, como ya hace el cruce espacial (respuesta registrada en el seguimiento). (3) **P-20.** Se acepta la opción A: se preguntan género y edad, opcionales, con el aviso de privacidad que lo dice. (4) **P-19 se consolida en P-02**: los dos piden lo mismo a la Unidad de Transparencia —los datos que faltan en el aviso de privacidad—. (5) En el seguimiento, las acciones que repetían una pregunta o un criterio se funden en ella: la nota a la Titular en P-01; la solicitud del aviso en P-02; los datos de la DGCORENADR en P-09; los medios de SOBSE, SSC y AGATAN en P-08; el fundamento de plásticos en el criterio 1; la auditoría de código en el criterio 4; la emisión de la versión y el acta en el criterio 5. | Vigente |
+| DEC-226 | **Respuestas de la DGIVA y de Liber Saltijeral del 20 de octubre: P-01, P-05, P-12 y P-22 resueltas; acta de validación y mapeo de campos recibidos: «Versión 29 · Validación DGIVA»** | 20 oct 2026 | Respuestas registradas por Liber Saltijeral en el seguimiento. (1) **Mapeo de campos (criterio 3):** la DGIVA lo validó. (2) **Acta de validación (criterio 5):** la DGIVA la entregó firmada, en físico. (3) **P-01:** se cuenta con el fundamento: la Secretaría recibe como denuncia ciudadana (opción A). (4) **P-05:** se adopta la recomendación: la denuncia anónima se admite siempre como insumo de actuación de oficio, se inspecciona si la descripción y la ubicación bastan, y se atiende pero no se notifica. El formulario lo dice en la opción «Denuncia anónima» y en su pregunta frecuente. (5) **P-12:** se retira. (6) **P-22:** en un Área Natural Protegida federal, coadministrada o no, la DGCORENADR recibe la denuncia y después la remite a la PROFEPA; el formulario no limita el envío. Se retira el aviso «criterio provisional, a consulta de las áreas»: la ficha del cruce dice que puede presentarse aquí y ofrece también la PROFEPA; el turnado, el aviso de envío y el acuse nombran a la DGCORENADR como quien la recibe y la remite. | Vigente |
 
 ---
 
@@ -772,18 +773,18 @@ El croquis de ubicación del acuse (DEC-175) se dibuja en el navegador con las c
 
 | Clave | Respuesta | Quién decidió | Fecha |
 |---|---|---|---|
-| P-01 | | | |
+| P-01 | **A** · se cuenta con el fundamento: la Secretaría recibe como denuncia ciudadana (DEC-226) | Liber Saltijeral | 20 oct 2026 |
 | P-02 | **En parte** · texto del aviso simplificado incorporado al formulario (DEC-210); faltan el nombre del sistema de datos personales, el fundamento de la transferencia a otras autoridades y la dirección del aviso integral | Liber Saltijeral | 20 oct 2026 |
 | P-03 | **A** · El Histórico Coyoacán no está en el convenio: todo el polígono es federal | Liber Saltijeral | 20 sep 2026 |
 | P-04 | | | |
-| P-05 | | | |
+| P-05 | **Recomendación adoptada** · se admite siempre como insumo de actuación de oficio; se atiende pero no se notifica (DEC-226) | Liber Saltijeral | 20 oct 2026 |
 | P-06 | | | |
 | P-07 | **En parte** · plazos del procedimiento, del Manual Administrativo; falta el plazo para informar a quien pregunta por su folio | Manual Administrativo | 20 sep 2026 |
 | P-08 | **En parte** · medios de PROFEPA, PAOT e INVEA incorporados (DEC-197); faltan SOBSE, SSC y AGATAN | Liber Saltijeral | 20 oct 2026 |
 | P-09 | **En parte** · la DGIVA confirmó domicilio, horario y teléfono (DEC-188); falta la DGCORENADR | DGIVA | 19 oct 2026 |
 | P-10 | **En parte** · nombres y atribuciones de las dos coordinaciones; la DGSANPAVA no recibe denuncias. Falta el fundamento en ANP federales con coadministración | Manual Administrativo | 20 sep 2026 |
 | P-11 | **Resuelto en el proyecto** · normalización al ingresar la capa; el duplicado de Santa Catarina no lo era | Sistema de Información Ambiental | 20 sep 2026 |
-| P-12 | | | |
+| P-12 | **Retirada** (DEC-226) | Liber Saltijeral | 20 oct 2026 |
 | P-13 | **Aprobada** · documento 19: `SEDEMA/DEN/AAAA/NNNNNN-V`, sin área, consecutivo único por año, carácter verificador y clave de consulta (DEC-151) | Liber Saltijeral | 30 sep 2026 |
 | P-14 | | | |
 | P-15 | **Retirada** · la integración con Llave CDMX deja de estar prevista (DEC-130) | Liber Saltijeral | 30 sep 2026 |
@@ -793,4 +794,4 @@ El croquis de ubicación del acuse (DEC-175) se dibuja en el navegador con las c
 | P-19 | **Consolidada en P-02** (DEC-225) · quedan los mismos tres huecos del aviso | Liber Saltijeral | 20 oct 2026 |
 | P-20 | **A** · se preguntan género y edad, opcionales, con el aviso de privacidad que lo dice (DEC-225) | Liber Saltijeral | 20 oct 2026 |
 | P-21 | **En parte** · adoptados los controles 1 y 2: prueba de humanidad y límite por origen. Faltan los controles 3 a 6 | Liber Saltijeral | 20 sep 2026 |
-| P-22 | | | |
+| P-22 | **A** · la DGCORENADR recibe y después remite a la PROFEPA; no se limita el envío de la persona (DEC-226) | Liber Saltijeral, con la DGIVA | 20 oct 2026 |

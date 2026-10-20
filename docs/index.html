@@ -1494,7 +1494,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-225', fecha:'20 de octubre de 2026', nombre:'Versión 28 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-226', fecha:'20 de octubre de 2026', nombre:'Versión 29 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -2269,7 +2269,7 @@ function pInicio(){
         /* Los cuatro derechos que antes iban en su propio bloque, «Lo que la ley
            te reconoce», viven aquí como preguntas (DEC-184). */
         '<details><summary>¿Tengo que ser la persona afectada para denunciar?</summary><p>No. Cualquier persona puede denunciar: no necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio. En ruido, la medición se hace desde donde se percibe; por eso conviene que vivas o trabajes cerca.</p></details>'+
-        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí. Al final eliges presentarla anónima; sólo te pedimos un correo por si hay que aclarar algo. Se atiende con el mismo rigor.</p></details>'+
+        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí. Al final eliges presentarla anónima; sólo te pedimos un correo por si hay que aclarar algo. Se atiende con el mismo rigor, pero no se te notifica el resultado.</p></details>'+
         '<details><summary>¿La persona o el negocio que denuncio sabrá quién fui?</summary><p>No. Tus datos son confidenciales: tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado. Están protegidos por la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México.</p></details>'+
         '<details><summary>¿Necesito saber qué norma se incumple?</summary><p>No. Basta con describir lo que ocurre.</p></details>'+
         '<details><summary>¿Qué hago si no sé la dirección exacta?</summary><p>Marca el punto en el mapa o pega la ubicación de Google Maps. Si el lugar no tiene calle ni número, te pedimos cómo llegar.</p></details>'+
@@ -2598,18 +2598,13 @@ function cajaCapas(){
   h += '<div class="capas-fila"><span class="capas-etq">Atiende</span><span class="capas-val"><strong>'+esc(val('dg_nombre')||'')+'</strong></span></div>'+
     (val('dg_razon') ? '<p class="capas-nota">'+esc(val('dg_razon'))+'</p>' : '');
   if(val('dg')==='FEDERAL'){
-    /* Criterio provisional. La lectura de la clausula SEGUNDA del convenio
-       —que deja a salvo las facultades federales de inspeccion— es la razon de
-       que el formulario turne aqui a la federacion, pero interpretar un
-       convenio frente al Reglamento Interior y al Manual le toca a las areas,
-       no al prototipo. Mientras se consulta se asume la competencia federal,
-       que es la que no produce un acto viciado, y se advierte (P-22). */
+    /* P-22 resuelta (DEC-226): la DGCORENADR recibe y remite a la PROFEPA, sin
+       limitar el envío. La cláusula SEGUNDA del convenio deja a salvo las
+       facultades federales de inspección (DEC-89). */
     h += '<div class="aviso" style="margin:12px 0 0">'+
-      (val('coadmin')==='si'
-        ? 'Esta Área Natural Protegida es de competencia federal y la Secretaría coadyuva en su administración conforme al convenio con la CONANP. Está por resolverse si la denuncia debe atenderse aquí o ante la PROFEPA: mientras tanto, el formulario asume la competencia federal.'
-        : 'Esta Área Natural Protegida es de competencia federal y la Secretaría no participa en su administración. Presenta la denuncia ante la PROFEPA.')+
+      'Esta Área Natural Protegida es de competencia federal. Puedes presentar aquí tu denuncia: la recibe la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural y la remite a la PROFEPA. '+
+      'También puedes presentarla directamente ante la PROFEPA:'+
       ' <a href="'+esc(CONTACTOS.profepa.sitio.url)+'" target="_blank" rel="noopener noreferrer">'+esc(CONTACTOS.profepa.sitio.txt)+'</a>.'+
-      ' <span class="pendiente">Criterio provisional, a consulta de las áreas (P-22)</span>'+
       (val('concurrencia')?'<br><br>El punto también se encuentra dentro del Área Natural Protegida local «'+esc(val('concurrencia'))+'», por lo que existe concurrencia de competencias y la Secretaría puede intervenir en el ámbito local.':'')+'</div>';
   }
   /* Aqui vivia un segundo recuadro, en verde, con el texto de cuando el
@@ -2789,10 +2784,12 @@ function analizaCapas(la,lo){
   guarda('uga_version', val('uga') ? CATALOGO_UGA.meta.version : '');
 
   if(c.dg==='FEDERAL'){
-    guarda('dg_nombre','Procuraduría Federal de Protección al Ambiente (PROFEPA)');
+    /* P-22 resuelta (DEC-226): la DGCORENADR recibe la denuncia y la remite a
+       la PROFEPA; el formulario no impide presentarla. */
+    guarda('dg_nombre','Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA');
     guarda('dg_razon', c.coadmin
-      ? 'El punto se ubica en un Área Natural Protegida de competencia federal. La Secretaría coadyuva en su administración y manejo conforme al Convenio Marco de Coordinación con la CONANP, suscrito el '+CONVENIO_CONANP.firma+' y vigente hasta el '+CONVENIO_CONANP.vigencia+'. Ese convenio deja a salvo las facultades federales de inspección y vigilancia, por lo que el formulario asume, en tanto las áreas resuelven, que la denuncia corresponde a la PROFEPA. La Secretaría la recibe y la remite, y queda enterada por su papel en la administración del parque.'
-      : 'El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría no participa siquiera en la administración, por lo que la denuncia corresponde a la autoridad federal. La Secretaría la recibe y la remite.');
+      ? 'El punto se ubica en un Área Natural Protegida de competencia federal. La Secretaría coadyuva en su administración y manejo conforme al Convenio Marco de Coordinación con la CONANP, suscrito el '+CONVENIO_CONANP.firma+' y vigente hasta el '+CONVENIO_CONANP.vigencia+'. Ese convenio deja a salvo las facultades federales de inspección y vigilancia, por lo que la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural recibe la denuncia y la remite a la PROFEPA, y la Secretaría queda enterada por su papel en la administración del parque.'
+      : 'El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría no participa siquiera en la administración, por lo que la denuncia corresponde a la autoridad federal. La Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural la recibe y la remite a la PROFEPA.');
   } else if(c.dg==='DGCORENADR'){
     guarda('dg_nombre','Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas');
     guarda('dg_razon','');   /* la ficha lo dice arriba: tipo de zona y quién atiende */
@@ -3172,7 +3169,8 @@ function pDenunciante(){
       opcion('nombre','Escribo mis datos',
         'La Secretaría te notifica en tu domicilio.')+
       opcion('anonima','Denuncia anónima',
-        'No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda ponerse en contacto contigo.')+
+        /* P-05 resuelta (DEC-226): la anónima se atiende, pero no se notifica. */
+        'No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda ponerse en contacto contigo. Se atiende, pero no se te notifica el resultado.')+
     '</div><div class="err" id="e_identificacion">Elige una de las dos formas para poder continuar.</div></div>';
 
   /* La anonima no pide nombre, pero si un correo: es por donde la Secretaria
@@ -3447,7 +3445,7 @@ function pRevision(){
     : '<div class="aviso aviso-envio" style="margin-top:20px">Al enviar, la denuncia recibe un número de registro y se turna a '+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+
     (val('dg')==='FEDERAL'
-      ? '. Como el punto se ubica en un Área Natural Protegida de competencia federal, la Secretaría la recibe y la remite a esa autoridad.</div>'
+      ? ', porque el punto se ubica en un Área Natural Protegida de competencia federal.</div>'
       : '.</div>'))+
   cajaHumano()+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(5)"><span class="fl" aria-hidden="true">\u2039</span>Corregir</button>'+
@@ -3493,7 +3491,7 @@ function pAcuse(){
     '<p class="nota-gris">Tu denuncia la atiende '+
       '<strong>'+esc(val('dg_nombre')||'la Secretaría del Medio Ambiente')+'</strong>. '+
       (val('dg')==='FEDERAL'
-        ? 'La Secretaría registró tu denuncia y la remite a esa autoridad; el seguimiento del asunto corre por cuenta de ella. '
+        ? 'Una vez remitida, el seguimiento del asunto corre por cuenta de la PROFEPA. '
         : 'Para preguntar por el avance, comunícate con la <strong>Jefatura de Unidad Departamental de Seguimiento a Denuncias</strong> de esa dirección general, con tu número de registro. ')+
       /* La DGIVA confirmó sus datos (DEC-188); la DGCORENADR, todavía no. */
       ((val('dg')==='DGCORENADR' || val('dg')==='FEDERAL') ? '<span class="pendiente">Domicilio, horario y teléfono de esta unidad, por confirmar</span>' : '')+'</p>'+

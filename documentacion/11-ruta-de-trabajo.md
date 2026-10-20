@@ -1186,3 +1186,9 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 
 **Qué cambió.** Se retiró «antro» de los tipos de establecimiento; OBS-0027 atendida; P-20 resuelta; P-19 consolidada en P-02. En el seguimiento, las acciones duplicadas se fundieron en la pregunta o el criterio al que servían, y lo resuelto quedó cerrado. Queda abierta, de las observaciones, sólo OBS-0024 (otros giros fuera de la CIVASU).
 
+### 20 de octubre de 2026 · acta de validación recibida (DEC-226)
+
+**Qué cambió.** La DGIVA validó el mapeo de campos y entregó el acta firmada, en físico. P-01, P-05 y P-22 resueltas; P-12 retirada. En el formulario: la denuncia anónima dice que se atiende pero no se notifica, y en las Áreas Naturales Protegidas federales la DGCORENADR recibe y remite a la PROFEPA, sin aviso de criterio provisional. Pruebas 11 y 14 reescritas contra la regla resuelta.
+
+**Para cerrar la fase 1 quedan:** el fundamento de «Plásticos de un solo uso» (criterio 1), la auditoría de código sobre la versión validada (criterio 4) y la respuesta a OBS-0024 (criterio 7). Los tres datos que faltan en el aviso de privacidad (P-02) no impiden cerrar la fase, pero sí publicar.
+

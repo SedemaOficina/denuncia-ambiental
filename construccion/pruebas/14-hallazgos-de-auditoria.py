@@ -75,8 +75,8 @@ with sync_playwright() as pw:
     # El Cerro de la Estrella es el único con decreto federal y local a la vez.
     f = ficha(19.34596, -99.09696)
     afirma('PROFEPA' in (f['dg'] or ''), 'Cerro de la Estrella: se turna a la PROFEPA (%s)' % f['dg'])
-    afirma(f['txt'].count('a consulta de las áreas') == 1,
-           'y la advertencia del criterio provisional aparece una sola vez')
+    afirma(f['txt'].count('a consulta de las áreas') == 0 and f['txt'].count('Puedes presentar aquí tu denuncia') == 1,
+           'y la ficha lo explica una sola vez, ya sin criterio provisional (DEC-226)')
 
     # ---- 2. El botón de descartar el borrador hace algo ----
     b = pg.evaluate("""() => {
@@ -338,7 +338,7 @@ with sync_playwright() as pw:
       return {envio, acuse}; }"""); pg.wait_for_timeout(400)
     afirma('tres días hábiles y analiza el caso en diez' not in ac['envio'],
            'el aviso de envío no compromete a la PROFEPA con los plazos de la Secretaría')
-    afirma('la remite a esa autoridad' in ac['envio'] and 'plazo' not in ac['envio'],
+    afirma('que la remite a la PROFEPA' in ac['envio'] and 'plazo' not in ac['envio'],
            'y dice que la remite, sin hablar de plazos (DEC-138)')
     afirma('de esa dirección general' not in ac['acuse'],
            'el acuse no llama dirección general de la Secretaría a la PROFEPA')

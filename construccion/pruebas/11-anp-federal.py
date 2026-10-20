@@ -8,16 +8,11 @@
    Sexto de la Ley General del Equilibrio Ecológico, que es el que atribuye
    la inspección a la autoridad federal.
 
-   **Es un criterio provisional.** Interpretar el convenio frente al
-   Reglamento Interior y al Manual corresponde a las áreas y a la unidad
-   jurídica, no al prototipo, y la pregunta está abierta en P-22. Mientras se
-   resuelve, el formulario asume la competencia federal —la lectura que no
-   produce un acto viciado si resulta la correcta— y lo advierte en pantalla.
-
-   Esta batería comprueba ese comportamiento provisional: **ningún punto
-   dentro de un parque federal se turna a la Secretaría**, tenga convenio o
-   no, y **la pantalla dice que el criterio está a consulta**. Si P-22 se
-   resuelve en otro sentido, esta batería cambia con la regla."""
+   **P-22 resuelta (DEC-226).** La DGCORENADR recibe la denuncia y la remite
+   a la PROFEPA, y el formulario no impide presentarla. Esta batería comprueba
+   que ningún punto dentro de un parque federal se queda en la Secretaría para
+   inspección, que la DGCORENADR aparece como quien recibe y remite, y que la
+   ficha ya no dice que el criterio está a consulta."""
 import os, pathlib, sys
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
 RAIZ = AQUI.parent
@@ -105,7 +100,7 @@ with sync_playwright() as pw:
         r = pg.evaluate("""([a,b]) => { ponMarcador(a,b);
           return {dg: val('dg_nombre'), razon: val('dg_razon'), tipo: val('capa_tipo')}; }""",
           [pt['lat'], pt['lon']])
-        afirma('PROFEPA' in r['dg'], '%s se turna a la PROFEPA' % nombre)
+        afirma('PROFEPA' in r['dg'] and 'Recursos Naturales' in r['dg'], '%s: la recibe la DGCORENADR y la remite a la PROFEPA (%s)' % (nombre, r['dg']))
         if conConvenio:
             afirma('coadyuva' in r['razon'] and 'inspección y vigilancia' in r['razon'],
                    '%s: se dice que la Secretaría coadyuva y que el convenio deja a salvo la inspección' % nombre)
@@ -114,8 +109,8 @@ with sync_playwright() as pw:
         else:
             afirma('no participa' in r['razon'],
                    '%s: se dice que la Secretaría ni siquiera participa en la administración' % nombre)
-        afirma('recibe y la remite' in r['razon'],
-               '%s: la Secretaría recibe la denuncia y la remite, no la devuelve' % nombre)
+        afirma(('recibe y la remite a la PROFEPA' in r['razon'] or 'recibe la denuncia y la remite a la PROFEPA' in r['razon']) and 'Recursos Naturales' in r['razon'],
+               '%s: la DGCORENADR recibe la denuncia y la remite a la PROFEPA, no la devuelve' % nombre)
         # El aviso vive en la ficha del cruce, que sólo existe dentro del paso 2.
         aviso = pg.evaluate("""([a,b]) => {
           cfg.validar = true; guarda('materia','rsu'); guarda('tiene_direccion','no');
@@ -123,8 +118,8 @@ with sync_playwright() as pw:
           const c = document.getElementById('panelCapas');
           return c ? c.innerText : '';
         }""", [pt['lat'], pt['lon']])
-        afirma('a consulta de las áreas' in aviso,
-               '%s: la pantalla advierte que el criterio está a consulta (P-22)' % nombre)
+        afirma('a consulta de las áreas' not in aviso and 'Puedes presentar aquí tu denuncia' in aviso and 'directamente ante la PROFEPA' in aviso,
+               '%s: la ficha deja presentar la denuncia aquí y ofrece la PROFEPA, sin criterio provisional (DEC-226)' % nombre)
 
     # ---- 4. Lo local sigue siendo local ----
     pt = pg.evaluate(DENTRO, 'Bosque de Tlalpan')
