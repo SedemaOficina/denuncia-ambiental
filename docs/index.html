@@ -1248,10 +1248,11 @@ var OBLIG = {
      cond:function(){ return val('tipo_denunciado')==='gobierno' && !!val('autoridad_nivel'); } ,
      cond_txt:'Sólo cuando se señala a una autoridad y se eligió su ámbito',
      uso:'Destinataria de la recomendación del art. 331. Se propone sobre el catálogo del ámbito elegido, que acepta la sigla.'},
-  /* Un solo campo abierto para persona, empresa o «no lo sé»: sustituye al
-     nombre y a la persona encargada (OBS-0025, OBS-0029, DEC-192). */
-  resp_senas:       {p:3, oblig:false, etq:'Datos del responsable', dp:true, fin:'Responsable',
-     uso:'Lo que la persona sabe de quien realiza los hechos —nombre, papel en el lugar, señas—: sirve al emplazamiento del probable infractor (art. 289) y a identificar con quién se entiende la diligencia (art. 283).'},
+  /* Sólo queda cuando no se sabe quién es el responsable: para persona y
+     empresa la pregunta abierta se retiró (OBS-0025, OBS-0029, DEC-193). */
+  resp_senas:       {p:3, oblig:false, etq:'Lo que se ha observado de quien lo hace', dp:true, fin:'Responsable',
+     cond:function(){ return val('tipo_denunciado')==='nose' || val('tipo_denunciado')==='desconocido'; } , cond_txt:'Sólo cuando la persona no sabe quién es el responsable',
+     uso:'Señas de quien realiza los hechos —vehículos, uniformes, horarios— para reconocerlo en la visita de inspección.'},
   resp_area:        {p:3, oblig:false, etq:'Área o persona servidora pública', dp:true, fin:'Responsable',
      uso:'Precisa el área a la que se dirige la recomendación.'},
   resp_obra:        {p:3, oblig:false, etq:'Número de obra, contrato o permiso', dp:false, fin:'Responsable',
@@ -1415,7 +1416,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-192', fecha:'19 de octubre de 2026', nombre:'Versión 4 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-195', fecha:'19 de octubre de 2026', nombre:'Versión 5 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1522,7 +1523,6 @@ var ESCENARIOS = [
       hechos:'El taller pinta carrocerías en la banqueta sin cabina ni extracción. El olor a solvente entra a las viviendas de los dos edificios contiguos y dura toda la tarde.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-10',
       tipo_denunciado:'empresa',
-      resp_senas:'El encargado se identifica como Raúl',
       reporto_antes:'si',
       gestiones:'Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.',
       otras_pruebas:'Los vecinos de los dos edificios pueden dar testimonio.',
@@ -1586,7 +1586,6 @@ var ESCENARIOS = [
       hechos:'Un particular cercó con malla ciclónica una franja del parque junto a la barda norte y cobra veinte pesos por entrar. Ya cortó arbustos para ampliar el paso.',
       temporalidad:'permanente', fecha_hecho:'2026-08-20',
       tipo_denunciado:'particular',
-      resp_senas:'Un hombre de unos cincuenta años que cerca con malla una parte del bosque y cobra el acceso.',
       reporto_antes:'si',
       gestiones:'Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde.',
       otras_pruebas:'Fotografías de la malla y del letrero con el cobro.',
@@ -1632,7 +1631,6 @@ var ESCENARIOS = [
       hechos:'En el jardín interior de una casona están derribando árboles y retirando la tierra para hacer un estacionamiento. Trabajan también en fin de semana.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-12',
       tipo_denunciado:'particular',
-      resp_senas:'Los trabajadores dicen que la obra es del dueño de la casa.',
       reporto_antes:'si',
       gestiones:'Lo reporté a la alcaldía Coyoacán el 14 de septiembre y no hubo respuesta.',
       otras_pruebas:'Fotografías de los árboles derribados tomadas desde la calle.',
@@ -1655,7 +1653,6 @@ var ESCENARIOS = [
       hechos:'La chimenea de la fábrica echa humo negro todas las noches a partir de las diez. El hollín se queda en los patios y en la ropa tendida.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-03',
       tipo_denunciado:'empresa',
-      resp_senas:'Se desconoce',
       reporto_antes:'no',
       otras_pruebas:'Video del humo grabado de noche.',
       identificacion:'nombre',
@@ -1683,7 +1680,6 @@ var ESCENARIOS = [
       hechos:'La planta tira el agua del lavado de garrafones directo a la coladera de la calle, con espuma y olor a cloro, todos los días por la mañana.',
       temporalidad:'recurrente', fecha_hecho:'2026-09-08',
       tipo_denunciado:'empresa',
-      resp_senas:'Atiende una señora que se presenta como encargada',
       reporto_antes:'no',
       otras_pruebas:'Fotografías de la espuma en la coladera.',
       identificacion:'nombre',
@@ -2145,14 +2141,14 @@ function pInicio(){
       '<div class="faq faq-corta" id="faqLista">'+
         /* Los cuatro derechos que antes iban en su propio bloque, «Lo que la ley
            te reconoce», viven aquí como preguntas (DEC-184). */
-        '<details><summary>¿Tengo que ser la persona afectada para denunciar?</summary><p>No. Cualquier persona puede denunciar: no necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio.</p></details>'+
-        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí, y la Secretaría valora los hechos igual. Al final eliges si escribes tus datos o si la presentas como denuncia anónima. En la anónima sólo te pedimos un correo, para que la Secretaría pueda escribirte si necesita aclarar algo.</p></details>'+
+        '<details><summary>¿Tengo que ser la persona afectada para denunciar?</summary><p>No. Cualquier persona puede denunciar: no necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio. En ruido, la medición se hace desde donde se percibe; por eso conviene que vivas o trabajes cerca.</p></details>'+
+        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí. La Secretaría valora los hechos con el mismo rigor, des o no tu nombre. Al final eliges si escribes tus datos o si la presentas como denuncia anónima. En la anónima sólo te pedimos un correo, para que la unidad administrativa que atiende tu denuncia pueda ponerse en contacto contigo si necesita aclarar algo.</p></details>'+
         '<details><summary>¿La persona o el negocio que denuncio sabrá quién fui?</summary><p>No. Tus datos son confidenciales: tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado. Están protegidos por la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México.</p></details>'+
         '<details><summary>¿Necesito saber qué norma se incumple?</summary><p>No. Basta con describir lo que ocurre.</p></details>'+
         '<details><summary>¿Qué hago si no sé la dirección exacta?</summary><p>Puedes marcar el punto en el mapa o pegar la ubicación de Google Maps. Si no puedes marcarlo, basta la dirección. Si el lugar no tiene calle ni número, como un bosque o una barranca, el formulario te pide referencias para llegar.</p></details>'+
         '<details><summary>¿Necesito fotos o documentos?</summary><p>No son obligatorios, pero ayudan a verificar los hechos. Puedes adjuntar fotos (JPG o PNG), videos (MP4 o MOV) y documentos (Word, PDF o Excel).</p></details>'+
         '<details><summary>¿Qué pasa si mi caso no lo atiende la Secretaría?</summary><p>Al elegir qué quieres denunciar, en «Mi caso no está en la lista» encuentras los casos que atiende otra autoridad, como la basura en la calle o el ruido de vecinos, y a dónde acudir.</p></details>'+
-        '<details><summary>¿Puedo dejarla a medias y terminarla después?</summary><p>Sí. El avance se guarda en este navegador. Para retomarla entra desde el mismo dispositivo y navegador; si borras sus datos, el avance se pierde.</p></details>'+
+        '<details><summary>¿Puedo dejarla a medias y terminarla después?</summary><p>Sí. El avance se guarda automáticamente en este navegador. Para retomarla, entra desde el mismo dispositivo y navegador. Si borras el historial o los datos de navegación, el avance se pierde.</p></details>'+
         '<details><summary>¿Cómo doy seguimiento a mi denuncia?</summary><p>Con el número de registro y la clave de consulta que recibes al enviarla. Al terminar, descarga tu acuse en PDF y guárdalo. <span class="pendiente">Consulta del estado: por desarrollar</span></p></details>'+
       '</div>'+
       '<button type="button" class="btn btn-secundario faq-ver" aria-expanded="false" aria-controls="faqLista" '+
@@ -2798,8 +2794,8 @@ function avisoFecha(){
    en la version funcional habria viajado al expediente. Se limpia lo que ya no
    se puede ver ni corregir (DEC-100). */
 var CLAVES_RESP = {
-  particular:  ['resp_senas'],
-  empresa:     ['resp_senas'],
+  particular:  [],
+  empresa:     [],
   gobierno:    ['autoridad_denunciada','resp_area','resp_obra'],
   desconocido: ['resp_senas'],
   nose:        ['resp_senas']
@@ -2913,18 +2909,17 @@ function bloqueDenunciado(){
        que denuncia una media filiación y un domicilio: el tono era el de un
        parte, no el de una denuncia ambiental. Lo que la visita de inspección
        necesita saber es qué papel tiene esa persona en el lugar (DEC-105). */
-    /* Un solo campo abierto (OBS-0025, OBS-0029, DEC-192). */
-    return campoArea('resp_senas','¿Qué sabes de quien lo hace?',false,
-        'Su nombre, si lo conoces, y qué relación tiene con el lugar: es el dueño del predio, quien encargó la obra, quien opera la maquinaria. Si no lo sabes, déjalo en blanco.',3);
+    /* Sin pregunta abierta: basta señalar que es una persona (OBS-0025,
+       OBS-0029, DEC-193). */
+    return '';
   }
 
   if(t==='empresa'){
     /* Ya no se pide la razón social: repetía el nombre comercial y empujaba a
        buscar documentos de un tercero (OBS-0026, DEC-188). */
-    return campoArea('resp_senas','¿Qué sabes de la empresa o negocio?',false,
-        (val('es_estab')==='si'
-          ? 'Quién lo atiende o lo dirige, o lo que sepas de él. Si no lo sabes, déjalo en blanco.'
-          : 'Su nombre, quién lo atiende o lo dirige, o lo que sepas de él. Si no lo sabes, déjalo en blanco.'),3);
+    /* Sin pregunta abierta: el nombre del establecimiento, si lo hay, se
+       pidió antes (OBS-0025, OBS-0029, DEC-193). */
+    return '';
   }
 
   if(t==='gobierno'){
@@ -3237,8 +3232,8 @@ function pRevision(){
         return t.t + (val('tipo_denunciado')==='gobierno' && val('autoridad_denunciada') ? ' \u00b7 '+val('autoridad_denunciada') : '');
       })(), 3, 'tipo_denunciado')+
     r('Datos del responsable', [val('autoridad_denunciada'),
-        val('resp_area'),val('resp_obra'),val('resp_senas')]
-        .filter(Boolean).join('\n'), 3, val('tipo_denunciado')==='gobierno' ? 'resp_area' : 'resp_senas')+
+        val('resp_area'),val('resp_obra'),(val('tipo_denunciado')==='nose' ? val('resp_senas') : '')]
+        .filter(Boolean).join('\n'), 3, val('tipo_denunciado')==='gobierno' ? 'resp_area' : (val('tipo_denunciado')==='nose' ? 'resp_senas' : 'tipo_denunciado'))+
     r('Gestiones previas', val('gestiones'), 3, 'reporto_antes');
 
   var fPruebas =

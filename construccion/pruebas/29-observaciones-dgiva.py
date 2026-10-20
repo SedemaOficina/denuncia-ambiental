@@ -31,6 +31,11 @@ with sync_playwright() as pw:
     fq = pg.evaluate("() => [...document.querySelectorAll('#app .faq details')].map(d => d.textContent).join(' ')")
     afirma('Tus datos son confidenciales' in fq and 'Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México' in fq
            and 'Ley General' not in fq, 'la confidencialidad se conserva y cita la ley local, no la General (OBS-0012)')
+    afirma('ni vivir en el lugar' in fq and 'En ruido, la medición se hace desde donde se percibe' in fq,
+           'se conserva «ni vivir en el lugar» y se precisa el caso del ruido (OBS-0011)')
+    afirma('con el mismo rigor, des o no tu nombre' in fq and 'unidad administrativa que atiende tu denuncia pueda ponerse en contacto contigo' in fq
+           and 'informe de acciones' not in fq, 'la denuncia anónima, con lo propuesto y sin prometer informe por correo (OBS-0019)')
+    afirma('se guarda automáticamente' in fq and 'el historial o los datos de navegación' in fq, 'dejarla a medias advierte del historial (OBS-0021, OBS-0022)')
 
     # ---- Paso 1: tarjetas y derivaciones (DEC-188 a DEC-190) ----
     m = pg.evaluate("""() => { estado = {}; irA(1);
@@ -58,6 +63,14 @@ with sync_playwright() as pw:
     apag = pg.evaluate("() => { cfg.validar = false; render(); const r = document.getElementById('app').innerText.includes('(opcional)'); cfg.validar = true; render(); return r; }")
     afirma(not apag, 'con la obligatoriedad apagada no se marca nada como opcional')
 
+    # ---- Responsable en un solo campo (OBS-0025, OBS-0029) ----
+    rs = pg.evaluate("""() => ['particular','empresa','gobierno'].map(v => { guarda('tipo_denunciado', v); render();
+      return {v, campos: ['resp_nombre','resp_encargado','resp_senas','resp_area','autoridad_nivel'].filter(k => document.getElementById('c_'+k))}; })""")
+    afirma(rs[0]['campos'] == [] and rs[1]['campos'] == [],
+           'persona y empresa ya no abren ninguna pregunta (DEC-193): %s' % rs[:2])
+    afirma('resp_area' in rs[2]['campos'] and 'autoridad_nivel' in rs[2]['campos'], 'la autoridad conserva sus campos (art. 331)')
+    pg.evaluate("() => { cargaEscenario('urbano'); }")
+
     # ---- Fecha aproximada (OBS-0016) ----
     f = pg.evaluate("""() => { irA(3); const antes = val('fecha_hecho');
       cambiaFechaNoSabe(true);
@@ -72,6 +85,18 @@ with sync_playwright() as pw:
     afirma(f['pasa'], 'y sin fecha exacta se puede continuar')
     afirma(f['rev'], 'la revisión dice «Aproximada: agosto de 2026»')
     afirma(f['suelta'] and f['anios'] == 10, 'al volver a la fecha exacta se suelta lo aproximado; el año ofrece diez opciones')
+
+    # ---- Medición del ruido desde el domicilio (OBS-0032) ----
+    rm = pg.evaluate("""() => { cargaEscenario('urbano'); guarda('materia','ruido'); guarda('identificacion','nombre'); irA(5);
+      const con = !!document.getElementById('c_ruido_medicion');
+      guarda('identificacion','anonima'); render();
+      const anon = !document.getElementById('c_ruido_medicion') && document.getElementById('app').innerText.includes('no podrá hacerse desde tu casa');
+      guarda('materia','emisiones'); guarda('identificacion','nombre'); render();
+      const otra = !document.getElementById('c_ruido_medicion');
+      return {con, anon, otra}; }""")
+    afirma(rm['con'], 'en ruido con datos se pregunta si acepta la medición desde su domicilio')
+    afirma(rm['anon'], 'en ruido anónima no se pregunta y se avisa que no podrá medirse desde su casa')
+    afirma(rm['otra'], 'en otras materias no aparece la pregunta')
 
     # ---- Paso 5 y acuse (OBS-0031, OBS-0023) ----
     t5 = pg.evaluate("() => { guarda('identificacion','anonima'); irA(5); return document.getElementById('app').innerText; }")

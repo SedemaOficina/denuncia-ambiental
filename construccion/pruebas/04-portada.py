@@ -148,7 +148,7 @@ with sync_playwright() as pw:
         todo = ' | '.join(fq)
         afirma(len(r['derechos']) == 0 and 'Lo que la ley te reconoce' not in r['tarjeta'],
                '%s: «Lo que la ley te reconoce» ya no es un bloque de la portada (DEC-184)' % nom)
-        afirma(all(x in todo for x in ['Cualquier persona puede denunciar', 'la Secretaría valora los hechos igual',
+        afirma(all(x in todo for x in ['Cualquier persona puede denunciar', 'Secretaría valora los hechos con el mismo rigor',
                                         'Tus datos son confidenciales', 'Basta con describir lo que ocurre']),
                '%s: sus cuatro puntos siguen dichos, en las preguntas frecuentes' % nom)
         afirma(len(fq) == 9 and len(set(d.split('?')[0] for d in fq)) == 9, '%s: nueve preguntas, ninguna repetida (%d)' % (nom, len(fq)))
@@ -165,8 +165,8 @@ with sync_playwright() as pw:
         # La versión que se valida va al final del pie (DEC-187).
         ver = pg.evaluate("""() => { const v = document.getElementById('pieVersion'), c = document.querySelector('footer .pie-cierre');
           return {txt: v ? v.innerText.trim() : '', ultimo: !!v && c.lastElementChild === v, visible: !!v && v.offsetParent !== null}; }""")
-        afirma(ver['txt'] == 'Versión 4 · Validación DGIVA' and ver['ultimo'] and ver['visible'],
-               '%s: hasta abajo dice «Versión 4 · Validación DGIVA»: %s' % (nom, ver))
+        afirma(ver['txt'] == 'Versión 5 · Validación DGIVA' and ver['ultimo'] and ver['visible'],
+               '%s: hasta abajo dice «Versión 5 · Validación DGIVA»: %s' % (nom, ver))
         # En la portada el pie no repite las oficinas; en el formulario sí las muestra.
         pie = pg.evaluate("""() => { const v = () => document.getElementById('pieEnPersona').offsetParent !== null;
           const a = v(); irA(1); const b = v(); irA(0); return [a, b]; }""")

@@ -8,7 +8,7 @@ Atendida	Dice ahora «La ubicación determina qué unidad administrativa compete
 Atendida	Se publicaron el domicilio, el horario y el teléfono de la DGIVA en la portada y en el pie; el acuse ya no los marca como pendientes. Los de la DGCORENADR se publicarán cuando esa Dirección General los confirme.	DEC-188
 Atendida	Se retiraron los globos. La tarjeta dice «Bolsas, popotes, vasos, charolas o platos en comercios»; la descripción y el buscador incluyen hisopos y bastoncillos.	DEC-188
 Atendida	La tarjeta dice «Depósito de residuos de la construcción · En un predio, barranca o área verde». Se conserva «barranca» porque es zona que atiende la DGIVA.	DEC-188
-En revisión	En análisis por la Oficina de la Secretaría; se responderá en una versión posterior.	
+Atendida	Se conserva «ni vivir en el lugar», porque aplica a las demás materias, y se agrega: «En ruido, la medición se hace desde donde se percibe; por eso conviene que vivas o trabajes cerca». Además, en las denuncias de ruido con datos se pregunta si acepta la medición desde su domicilio (OBS-0032).	DEC-194
 Para discusión	Se conserva la confidencialidad («tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado») y se añade que los datos están protegidos por la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México, que es la aplicable a la Secretaría. Pregunta para la DGIVA: ¿por qué propone la Ley General y no la ley local?	DEC-191
 Atendida	La tarjeta dice «Residuos de la construcción · Mal manejo en una obra o demolición». El subtítulo de la tarjeta se limita a una línea; el nombre formal de la materia es «Residuos de la construcción y la demolición».	DEC-188
 Atendida	Dice «Calle o avenida», en el lugar de los hechos y en el domicilio de quien denuncia.	DEC-188
@@ -16,17 +16,17 @@ Atendida	Los ejemplos del campo de hechos son ahora: humo, ruido, descarga, derr
 Atendida	La fecha ya era opcional; ahora todos los campos no obligatorios dicen «(opcional)». Además, la casilla «No sé la fecha exacta» permite indicar mes y año aproximados.	DEC-191
 Atendida	La tarjeta «En línea» dice «Disponible las 24 horas, todos los días»; se retiró la promesa de tiempo.	DEC-189
 Atendida	Dice ahora «unidad administrativa competente» en lugar de «oficina». Se atiende junto con OBS-0007.	DEC-188
+Atendida	Se incorporó el contenido de la propuesta, en el registro de «tú» que usa todo el formulario: la Secretaría valora los hechos con el mismo rigor y el correo sirve para que la unidad administrativa que atiende la denuncia pueda ponerse en contacto. No se incluye el envío del informe de acciones por correo, porque el formulario no envía correos y no hay un plazo comprometido para informar.	DEC-195
 En revisión	En análisis por la Oficina de la Secretaría; se responderá en una versión posterior.	
-En revisión	En análisis por la Oficina de la Secretaría; se responderá en una versión posterior.	
-En revisión	En análisis por la Oficina de la Secretaría; se responderá en una versión posterior.	
-En revisión	En análisis por la Oficina de la Secretaría; se responderá en una versión posterior.	
+Atendida	Se atiende junto con OBS-0022: la respuesta dice que el avance se guarda automáticamente y advierte que se pierde si se borran el historial o los datos de navegación.	DEC-195
+Atendida	Se incorporó la precisión propuesta, en el registro de «tú»: el avance se guarda automáticamente y se pierde si se borran el historial o los datos de navegación.	DEC-195
 Atendida	El identificador se presenta como «número de registro» en pantalla, en el acuse y en el PDF, para no confundirlo con las numeraciones internas (SAD, SUAC, SAC, AP). Se conserva porque permite consultar la denuncia y detectar duplicados. El correo electrónico no se ofrece como vía de presentación.	DEC-191
 En revisión	En análisis por la Oficina de la Secretaría; se responderá en una versión posterior.	
-Atendida	La pregunta se conserva como opcional, con las cuatro opciones. Para «una persona» y «una empresa o negocio» queda un solo campo abierto («¿Qué sabes de quien lo hace?»); salen los campos de nombre y de persona encargada. «Una autoridad de gobierno» conserva sus campos, necesarios para la recomendación del artículo 331. Se atiende junto con OBS-0029.	DEC-192
+Atendida	La pregunta se conserva como opcional, con sus cuatro opciones. Al elegir «una persona» o «una empresa o negocio» ya no se abre ninguna pregunta adicional. «No lo sé» conserva un campo para describir lo observado, y «una autoridad de gobierno» sus campos, necesarios para la recomendación del artículo 331. Se atiende junto con OBS-0029.	DEC-193
 Atendida	Se retiró el campo «Razón social». Se conserva el nombre comercial, que se pide en el paso anterior.	DEC-188
 Para discusión	Se retiró la pregunta sobre permisos o autorizaciones. Sobre el ejemplo del restaurante en Los Dinamos: con el cruce espacial del formulario el punto cae en suelo de conservación (La Magdalena Contreras), por lo que la denuncia se turna a la DGCORENADR. Preguntas para la DGIVA: ¿coincide con su criterio? y ¿quién atiende el uso de leña sin legal procedencia?	DEC-191 (en parte)
 Descartada	Registro de prueba sin contenido.	
-Atendida	Se aplicó lo propuesto: después de elegir si es una persona o una empresa, queda un solo campo abierto y opcional. La autoridad de gobierno conserva sus campos por el procedimiento del artículo 331. Se atiende junto con OBS-0025.	DEC-192
+Atendida	Se simplificó más de lo propuesto: después de señalar si es una persona o una empresa, ya no se pide ningún dato adicional. La autoridad de gobierno conserva sus campos por el procedimiento del artículo 331. Se atiende junto con OBS-0025.	DEC-193
 Atendida	La pregunta ya era opcional; ahora dice «(opcional)», como todos los campos no obligatorios.	DEC-191
 Atendida	Dice ahora «…para que la Secretaría pueda ponerse en contacto contigo».	DEC-188
 Atendida	En las denuncias de ruido presentadas con datos, el paso 5 pregunta «¿Aceptas que la medición del ruido se haga desde tu domicilio?». En la denuncia anónima no se pregunta y se avisa que, sin domicilio, la medición no podrá hacerse desde su casa.	DEC-192

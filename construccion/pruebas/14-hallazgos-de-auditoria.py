@@ -218,11 +218,11 @@ with sync_playwright() as pw:
 
     # ---- 9. Lo capturado en una rama de responsable no sobrevive a la otra ----
     sobra = pg.evaluate("""() => {
-      cargaEscenario('urbano'); irA(3);
+      cargaEscenario('urbano'); guarda('tipo_denunciado','nose'); guarda('resp_senas','Dos camionetas blancas'); irA(3);
       const sinRazon = !document.getElementById('f_establecimiento') && !('establecimiento' in OBLIG);
       const antes = val('resp_senas');
-      /* Desde DEC-192 persona y empresa comparten un solo campo; lo que no
-         debe sobrevivir es el paso a autoridad, que no lo tiene. */
+      /* Desde DEC-193 sólo «No lo sé» tiene campo abierto; lo que no debe
+         sobrevivir es el paso a autoridad, que no lo tiene. */
       guarda('tipo_denunciado','gobierno'); limpiaResponsable(); render();
       irA(6);
       const resumen = document.getElementById('app').innerText;
@@ -230,7 +230,7 @@ with sync_playwright() as pw:
               enResumen: antes ? resumen.split(antes).length - 1 : 0};
     }"""); pg.wait_for_timeout(400)
     afirma(sobra['sinRazon'], 'la razón social ya no se pide ni existe en OBLIG (DEC-188)')
-    afirma(sobra['antes'] != '', 'el escenario captura a la persona encargada')
+    afirma(sobra['antes'] != '', 'se capturan señas de quien lo hace')
     afirma(sobra['despues'] == '',
            'que no sobrevive al cambio de rama de responsable: %r' % sobra['despues'])
     afirma(sobra['enResumen'] == 0, 'ni reaparece en la revisión (%d veces)' % sobra['enResumen'])
