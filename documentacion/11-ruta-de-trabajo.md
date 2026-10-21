@@ -1317,3 +1317,9 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué.** Lo decidió Liber Saltijeral sobre el punto 3 de «Para decidir» de la auditoría: en el teléfono, el gesto de regreso sacaba a la persona del formulario.
 
 **Verificación de cierre.** Batería completa en verde: 1 657 comprobaciones en 43 baterías, de ellas 285 sobre la versión publicada.
+
+### 21 de octubre de 2026 · bosquejo del módulo de administración, versión 0.2
+
+**Qué cambió.** El documento 22 se puso al día con las decisiones del 5 al 21 de octubre, a petición de Liber Saltijeral, como primer paso para trabajar el módulo. Lo principal: la anónima se notifica por correo (DEC-233), y el bosquejo decía que el correo no entraba; el área que recibe y la remisión a la PROFEPA son dos datos (DEC-235); el expediente muestra el fundamento del acuse (DEC-232) y la fecha en hora de la Ciudad; se proponen el estado «Notificada», la vista «Por notificar», el indicador de notificaciones por correo y la pregunta MA-12, sobre quién firma ese correo. Tiene al inicio una tabla de lo que cambió respecto de la versión 0.1, para revisarla con las áreas.
+
+**Una precisión sobre el orden.** El acta ya se firmó (DEC-230), con lo que se cumplió la condición de DEC-19 y DEC-32. La construcción del módulo sigue en la fase 5, y el documento 11, §6, prohíbe programar persistencia antes de cerrar el diccionario de datos; una maqueta navegable con datos ficticios, que no guarda nada, no choca con esa regla y puede hacerse ya, como el propio bosquejo preveía.
