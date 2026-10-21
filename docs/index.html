@@ -995,7 +995,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
 <!-- ============ MODAL COMPARATIVO ============ -->
 <div class="modal" id="modalVariantes" role="dialog" aria-modal="true" aria-labelledby="tVar">
   <div class="caja">
-    <button class="cerrar" onclick="document.getElementById('modalVariantes').classList.remove('abierto')" aria-label="Cerrar">&times;</button>
+    <button class="cerrar" onclick="cierraVentana(this.closest('.modal'))" aria-label="Cerrar">&times;</button>
     <h3 id="tVar">Ramas del formulario</h3>
     <p class="nota-gris">Cada renglón es un punto donde el formulario cambia de forma según lo que se responde. Los escenarios del panel cargan casos completos que recorren estas ramas.</p>
     <div id="tablaVariantes"></div>
@@ -1005,7 +1005,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
 
 <div class="modal" id="modalMapeo" role="dialog" aria-modal="true" aria-labelledby="tMapeo">
   <div class="caja">
-    <button class="cerrar" onclick="document.getElementById('modalMapeo').classList.remove('abierto')" aria-label="Cerrar">&times;</button>
+    <button class="cerrar" onclick="cierraVentana(this.closest('.modal'))" aria-label="Cerrar">&times;</button>
     <h3 id="tMapeo">Mapeo de campos</h3>
     <p class="nota-gris">Todo lo que viaja a la base: qué exige el formulario, qué dato es personal y para qué sirve cada uno, incluidos los que la persona no ve. Se arma con los catálogos del formulario cada vez que se abre, así que siempre corresponde a la versión que estás viendo.</p>
     <div id="tablaMapeo"></div>
@@ -1015,7 +1015,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
 
 <div class="modal" id="modalPriv" role="dialog" aria-modal="true" aria-labelledby="tPriv">
   <div class="caja">
-    <button class="cerrar" onclick="document.getElementById('modalPriv').classList.remove('abierto')" aria-label="Cerrar">&times;</button>
+    <button class="cerrar" onclick="cierraVentana(this.closest('.modal'))" aria-label="Cerrar">&times;</button>
     <h3 id="tPriv">Aviso de privacidad</h3>
     <div class="priv" id="privPie"></div>
   </div>
@@ -1513,7 +1513,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-236', fecha:'20 de octubre de 2026', nombre:'Versión 33 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-237', fecha:'20 de octubre de 2026', nombre:'Versión 34 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1847,7 +1847,7 @@ function abreVariantes(){
       return '<tr><td>'+esc(b.paso)+'</td><td><strong>'+esc(b.pregunta)+'</strong></td><td>'+esc(conteoRama(b.opciones))+'</td><td>'+esc(b.efecto)+'</td></tr>';
     }).join('')+'</tbody></table>';
   $('tablaVariantes').innerHTML = h;
-  $('modalVariantes').classList.add('abierto');
+  abreVentana('modalVariantes');
 }
 
 var ETAPAS = ['Qué denuncias','Dónde ocurrió','Qué ocurrió','Pruebas','Tus datos','Revisión'];
@@ -2121,7 +2121,7 @@ function abrePrivacidad(){
   /* El aviso del pie es el mismo que el del paso 5: se copia de ahi (DEC-138). */
   var d = document.createElement('div'); d.innerHTML = avisoPrivacidad();
   var p = $('privPie'), q = d.querySelector('.priv'); if(p && q) p.innerHTML = q.innerHTML;
-  $('modalPriv').classList.add('abierto');
+  abreVentana('modalPriv');
 }
 
 /* El mapeo sale de los catálogos cada vez que se abre: no guarda nada, y por
@@ -2195,7 +2195,7 @@ function abreMapeo(){
     todos.filter(function(x){ return x.dp; }).length+' personales. '+
     (sinUso ? '<strong>'+sinUso+' sin uso declarado.</strong>' : 'Ninguno sin uso declarado.')+'</p>';
   $('tablaMapeo').innerHTML = h;
-  $('modalMapeo').classList.add('abierto');
+  abreVentana('modalMapeo');
 }
 
 /* Recordatorio de lo que se está denunciando, visible a partir del paso 2. */
@@ -2557,7 +2557,7 @@ function pUbicacion(){
       campoSiNo('tiene_mz_lote','¿El predio se identifica por manzana y lote?',
         'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote()')+
       '<div id="mzLote">'+camposMzLote()+'</div>'+
-      campo('entre_calles','¿Entre qué calles?','texto',false,'')+
+      campo('entre_calles','¿Entre qué calles?','texto',esObligatorio('entre_calles'),'')+
       /* Alcaldía, colonia y código postal en un renglón y sin ayudas
          (DEC-205): con ayuda en uno solo, los controles se desfasaban. Lo que
          decían va en el marcador del campo y en la lista de colonias, que ya
@@ -2585,7 +2585,7 @@ function pUbicacion(){
 
     '<ul class="vias">'+
       '<li>'+
-        campo('coord_pegar','Pegar la ubicación de Google Maps o las coordenadas','texto',false,
+        campo('coord_pegar','Pegar la ubicación de Google Maps o las coordenadas','texto',esObligatorio('coord_pegar'),
           'También puedes tocar el mapa y arrastrar el punto.',
           'placeholder="Por ejemplo: 19.4326, -99.1332" '+
           'onpaste="setTimeout(colocaPorTexto,0)" onblur="colocaPorTexto()"')+
@@ -2951,7 +2951,7 @@ function pHechos(){
   '<h3 class="sub-seccion">Gestiones previas</h3>'+
   campoSiNo('reporto_antes','¿Ya reportaste estos hechos ante otra autoridad?','Alcaldía, PAOT, policía u otra.')+
   (val('reporto_antes')==='si'
-    ? anidado(campoArea('gestiones','¿Ante quién, cuándo y qué respuesta recibiste?',false,'',2))
+    ? anidado(campoArea('gestiones','¿Ante quién, cuándo y qué respuesta recibiste?',esObligatorio('gestiones'),'',2))
     : '')+
 
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(2)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
@@ -3143,7 +3143,7 @@ function bloqueDenunciado(){
   // No lo sé
   /* Sin el aviso «No saber quién es el responsable…» (DEC-220): lo dice la
      ayuda de la pregunta y la del campo dice qué observar. */
-  return campoArea('resp_senas','¿Qué has observado de quien lo hace?',false,'Vehículos y sus placas, uniformes o logotipos, cuántas personas son, en qué horario llegan, si siempre son los mismos.',3);
+  return campoArea('resp_senas','¿Qué has observado de quien lo hace?',esObligatorio('resp_senas'),'Vehículos y sus placas, uniformes o logotipos, cuántas personas son, en qué horario llegan, si siempre son los mismos.',3);
 }
 
 function pEvidencia(){
@@ -3160,7 +3160,7 @@ function pEvidencia(){
   '<input type="file" id="inputArch" multiple class="oculto" accept="'+ARCHIVOS.exts.map(function(e){return '.'+e;}).join(',')+'" onchange="agregaArchivos(this.files)">'+
   '<div class="lista-arch" id="listaArch" aria-live="polite"></div>'+
   '<div class="err" id="e_archivos">Espera a que terminen de optimizarse las fotos.</div></div>'+
-  campoArea('otras_pruebas','Describe otras pruebas que no puedas adjuntar',false,'',2)+
+  campoArea('otras_pruebas','Describe otras pruebas que no puedas adjuntar',esObligatorio('otras_pruebas'),'',2)+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(3)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
   '<button type="button" class="btn btn-primario" onclick="valida(4)&&irA(5)">Continuar</button></div></div>';
   return h;
@@ -3242,7 +3242,7 @@ function pDenunciante(){
   if(anon){
     h += '<div class="fila">'+
         campo('correo','Correo electrónico para notificaciones','email',esObligatorio('correo'),'','autocomplete="email" inputmode="email"')+
-        campo('telefono','Teléfono','tel',false,'A diez dígitos','inputmode="tel" autocomplete="tel"')+
+        campo('telefono','Teléfono','tel',esObligatorio('telefono') && EXIGIDO_ANONIMO.indexOf('telefono') >= 0,'A diez dígitos','inputmode="tel" autocomplete="tel"')+
       '</div>';
   }
 
@@ -3250,7 +3250,7 @@ function pDenunciante(){
     h += '<div class="fila-3">'+
       campo('nombre','Nombre(s)','texto',esObligatorio('nombre'),'','autocomplete="given-name"')+
       campo('apellido_paterno','Apellido paterno','texto',esObligatorio('apellido_paterno'),'','autocomplete="family-name"')+
-      campo('apellido_materno','Apellido materno','texto',false,'')+
+      campo('apellido_materno','Apellido materno','texto',esObligatorio('apellido_materno'),'')+
     '</div>'+
     '<div class="fila">'+
       campo('telefono','Teléfono','tel',esObligatorio('telefono'),'A diez dígitos','inputmode="tel" autocomplete="tel"')+
@@ -3272,12 +3272,12 @@ function pDenunciante(){
     '<div class="fila-3">'+
       campo('dom_calle','Calle o avenida','texto',esObligatorio('dom_calle'),'','autocomplete="address-line1"')+
       campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'')+
-      campo('dom_num_int','Número interior','texto',false,'','autocomplete="address-line2"')+
+      campo('dom_num_int','Número interior','texto',esObligatorio('dom_num_int'),'','autocomplete="address-line2"')+
     '</div>'+
     campoSiNo('dom_tiene_mz_lote','¿Tu domicilio se identifica por manzana y lote?',
       'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote(\'dom_\')')+
     '<div id="dom_mzLote">'+camposMzLote('dom_')+'</div>'+
-    campo('dom_entre_calles','¿Entre qué calles?','texto',false,'')+
+    campo('dom_entre_calles','¿Entre qué calles?','texto',esObligatorio('dom_entre_calles'),'')+
     (fueraCdmx()
       ? '<div class="fila">'+
           campoSelect('dom_entidad','Entidad federativa',ENTIDADES_FUERA,esObligatorio('dom_entidad'),'')+
@@ -3314,10 +3314,10 @@ function pDenunciante(){
     '<p class="ayuda" style="margin-bottom:16px">Opcionales. No te identifican ni forman parte de tu denuncia.</p>'+
     campoSelect('sexo_genero','¿Con qué género te identificas?',
       [{v:'mujer',t:'Mujer'},{v:'hombre',t:'Hombre'},{v:'no_binaria',t:'No binaria'},
-       {v:'otro',t:'Otro'}],false,'')+
+       {v:'otro',t:'Otro'}],esObligatorio('sexo_genero'),'')+
     campoSelect('edad_rango','¿En qué rango de edad estás?',
       [{v:'-18',t:'Menor de 18 años'},{v:'18-29',t:'18 a 29 años'},{v:'30-44',t:'30 a 44 años'},
-       {v:'45-59',t:'45 a 59 años'},{v:'60+',t:'60 años o más'}],false,'')+
+       {v:'45-59',t:'45 a 59 años'},{v:'60+',t:'60 años o más'}],esObligatorio('edad_rango'),'')+
 
   /* El aviso se lee en pantalla antes de enviar —como lo hace la PAOT en su
      formulario— y no detras de un enlace (DEC-79). Por ahora solo quien trata
@@ -4183,7 +4183,16 @@ var FORMATO = {
   tipo_estab_otro: {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
   resp_senas:      {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
   gestiones:       {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
-  otras_pruebas:   {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE}
+  otras_pruebas:   {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  /* Calles y nombre del establecimiento (D1-12): sin un solo falso rechazo
+     contra las 1 767 colonias del catálogo. Los nombres de persona quedan
+     fuera a propósito: «Asdrúbal» o «Mkrtchyan» se rechazarían, y el nombre
+     es obligatorio con datos (DEC-237). */
+  calle:            {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  entre_calles:     {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  nombre_estab:     {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  dom_calle:        {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  dom_entre_calles: {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE}
 };
 /* El del domicilio sigue la casilla: en la Ciudad, el intervalo de la
    Ciudad; fuera, cinco digitos (DEC-135, DEC-136). */
@@ -5653,16 +5662,25 @@ function guardaBorrador(){
   }catch(e){}
 }
 function borraBorrador(){ try{ localStorage.removeItem(CLAVE_BORRADOR); }catch(e){} }
+/* Un borrador que no puede retomarse —danado, a medio escribir o con un paso
+   que no existe— dejaba la pantalla en blanco, sin mensaje ni salida
+   (B5-01). Se descarta y la portada lo dice una vez. */
+var borradorDanado = false;
 function leeBorrador(){
-  try{
-    var b = JSON.parse(localStorage.getItem(CLAVE_BORRADOR) || 'null');
-    if(!b || !b.estado || !b.paso) return null;
-    if(Date.now() - (b.t||0) > 1000*60*60*24*14){ borraBorrador(); return null; }
-    return b;
-  }catch(e){ return null; }
+  var crudo = null, b = null;
+  try{ crudo = localStorage.getItem(CLAVE_BORRADOR); }catch(e){ return null; }
+  if(!crudo) return null;
+  try{ b = JSON.parse(crudo); }catch(e){ /* texto que no es JSON: se trata como danado */ }
+  var n = b && b.paso;
+  if(!b || !b.estado || typeof b.estado !== 'object' || Array.isArray(b.estado) ||
+     typeof n !== 'number' || n % 1 !== 0 || n < 1 || n > 6){
+    borraBorrador(); borradorDanado = true; return null;
+  }
+  if(Date.now() - (b.t||0) > 1000*60*60*24*14){ borraBorrador(); return null; }
+  return b;
 }
 function retomaBorrador(){
-  var b = leeBorrador(); if(!b) return;
+  var b = leeBorrador(); if(!b){ render(); return; }
   estado = b.estado; paso = b.paso;
   /* Un borrador anterior a DEC-235 trae «FEDERAL» como area: la recibe la
      DGCORENADR y se remite a la PROFEPA. */
@@ -5703,6 +5721,13 @@ function pideBorrar(){
 function avisoBorrador(){
   var c = $('franjaBorrador'); if(!c) return '';
   var b = (paso===0) ? leeBorrador() : null;
+  if(!b && borradorDanado && paso===0){
+    borradorDanado = false;
+    c.innerHTML = '<div class="franja"><div class="contenedor franja-int">'+
+      '<p role="status"><strong>No se pudo recuperar el avance guardado.</strong> Estaba dañado y se descartó; puedes empezar de nuevo.</p>'+
+      '</div></div>';
+    return '';
+  }
   c.innerHTML = !b ? '' :
     '<div class="franja"><div class="contenedor franja-int">'+
       '<p><strong>Tienes una denuncia sin terminar.</strong> Aún no se ha presentado ante la Secretaría.</p>'+
@@ -5748,18 +5773,46 @@ function render(){
   }
 }
 
-['modal','modalPriv','modalMapeo','modalVariantes'].forEach(function(id){
+/* Las tres ventanas —aviso de privacidad, mapeo y ramas— llevan el foco a su
+   titulo al abrirse, lo retienen mientras estan abiertas y lo devuelven a quien
+   las abrio al cerrarse, como promete aria-modal. Antes el foco se quedaba en
+   el boton de fondo y, al cerrar, caia en el cuerpo del documento (B4-01). */
+var origenVentana = null;
+function abreVentana(id){
+  var m = $(id); if(!m) return;
+  origenVentana = document.activeElement;
+  m.classList.add('abierto');
+  var t = m.querySelector('h3'); if(t){ t.setAttribute('tabindex','-1'); t.focus(); }
+}
+function cierraVentana(m){
+  if(!m || !m.classList.contains('abierto')) return;
+  m.classList.remove('abierto');
+  if(origenVentana && document.contains(origenVentana)) origenVentana.focus();
+  origenVentana = null;
+}
+/* Tab y Mayus+Tab dan la vuelta dentro de la ventana. Desde el titulo, que no
+   esta en el orden de tabulacion, van al primer o al ultimo control. */
+function retieneFoco(m, e){
+  var f = [].filter.call(m.querySelectorAll('a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])'),
+    function(x){ return !x.disabled && x.offsetParent !== null; });
+  if(!f.length) return;
+  var i = f.indexOf(document.activeElement);
+  if(e.shiftKey && i <= 0){ f[f.length-1].focus(); e.preventDefault(); }
+  else if(!e.shiftKey && (i < 0 || i === f.length-1)){ f[0].focus(); e.preventDefault(); }
+}
+['modalPriv','modalMapeo','modalVariantes'].forEach(function(id){
   var m = document.getElementById(id);
-  if(m) m.addEventListener('click', function(e){ if(e.target===this) this.classList.remove('abierto'); });
+  if(m) m.addEventListener('click', function(e){ if(e.target===this) cierraVentana(this); });
 });
 document.addEventListener('click', function(e){
   var p = $('panel');
   if(p && p.classList.contains('abierto') && !p.contains(e.target)) p.classList.remove('abierto');
 });
 document.addEventListener('keydown', function(e){
-  if(e.key !== 'Escape') return;
   var abierto = document.querySelector('.modal.abierto');
-  if(abierto){ abierto.classList.remove('abierto'); return; }
+  if(e.key === 'Tab' && abierto){ retieneFoco(abierto, e); return; }
+  if(e.key !== 'Escape') return;
+  if(abierto){ cierraVentana(abierto); return; }
   var p = $('panel'); if(p) p.classList.remove('abierto');
 });
 

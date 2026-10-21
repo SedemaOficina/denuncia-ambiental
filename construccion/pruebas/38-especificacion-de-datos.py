@@ -70,7 +70,8 @@ with sync_playwright() as pw:
     largo = pg.evaluate("""() => { cfg.validar = true; const r = {};
       cargaEscenario('urbano'); guarda('nombre', 'a'.repeat(20000)); irA(5); r.p5 = valida(5); r.msg5 = MOTIVO.nombre || '';
       cargaEscenario('urbano'); guarda('calle', 'Calle '.repeat(4000)); irA(2); r.p2 = valida(2); r.msg2 = MOTIVO.calle || '';
-      cargaEscenario('urbano'); guarda('calle', 'x'.repeat(maxDe('calle'))); irA(2); r.justo = valida(2);
+      /* Texto real, no «xxxx»: desde DEC-237 la calle rechaza letras al azar. */
+      cargaEscenario('urbano'); guarda('calle', 'Calzada de Tlalpan '.repeat(7).slice(0, maxDe('calle'))); irA(2); r.justo = valida(2);
       return r; }""")
     afirma(largo['p5'] is False and 'admite hasta 80' in largo['msg5'], 'un nombre de 20 000 caracteres ya no pasa el paso 5: %r' % largo['msg5'])
     afirma(largo['p2'] is False and 'admite hasta 120' in largo['msg2'], 'ni una calle de 24 000 en el paso 2: %r' % largo['msg2'])

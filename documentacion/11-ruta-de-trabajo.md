@@ -1271,3 +1271,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué.** Quien redacte el contrato con estos documentos como referencia reintroduciría citas ya corregidas y datos personales que el formulario ya no pide.
 
 **Verificación de cierre.** Batería completa en verde: 1 323 comprobaciones en 39 baterías.
+
+### 20 de octubre de 2026 · bloque 5 de la auditoría: accesibilidad y robustez (DEC-237, Versión 34)
+
+**Qué cambió.** Las tres ventanas manejan el foco con una sola regla: entra al título, no sale con Tab y vuelve a quien las abrió; de paso salió de la lista de ventanas un identificador `modal` que no existía. Un borrador dañado se descarta con aviso en la portada en lugar de dejar la pantalla en blanco. Once constructores dejan de fijar la obligatoriedad a mano —los nueve de la auditoría, más género y rango de edad, que encontró la batería nueva—. La revisión de letras al azar alcanza calles, entre calles y nombre del establecimiento, y no los nombres de persona. Batería 40 nueva.
+
+**Por qué.** Quien usa teclado o lector de pantalla perdía el lugar al cerrar una ventana; un borrador dañado dejaba a la persona sin salida; y una obligatoriedad escrita a mano es la que se queda atrás cuando la DGIVA cambia un campo, como pasó dos veces (DEC-198, DEC-202).
+
+**Pregunta de Liber durante el bloque.** «¿Quién es responsable de los hechos?» aparece con «Una empresa o negocio» marcada. Se comprobó: sólo se marca sola cuando se responde «Sí» a «¿Los hechos ocurren dentro de un establecimiento?» (DEC-26), y se puede cambiar; al empezar, o con «No», no hay nada marcado. Además, tres escenarios del panel la traen elegida porque llenan todos los campos (DEC-177). Al precisar Liber que la vio tras marcar «Sí» y luego «No», resultó un defecto: se corrige aparte, en la versión siguiente.
+
+**Verificación de cierre.** Batería completa en verde: 1 340 comprobaciones en 40 baterías. La batería 38 probaba el tope de la calle con «xxxx…», que ahora se rechaza como letras al azar; usa una calle real.
