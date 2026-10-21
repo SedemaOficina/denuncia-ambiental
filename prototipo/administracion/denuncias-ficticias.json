@@ -54,6 +54,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
+   "ubicacion_origen": "punto",
    "uga": "CUH-016",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -61,13 +62,134 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "a62e64cf033dbbf3e4599a3a9d72171c476bd1984cf4b6cf41713aa3614522d3",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-12T08:00:00",
+    "lat_captura": 19.4279,
+    "lon_captura": -99.1381
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "126b057c87c33e6b4c6c74c7dbb9f10e70748fec30068f20e10d2ba867d98b99",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-12T09:13:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Impacto ambiental por obra o actividad"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "19.427800, -99.138000"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Cuauhtémoc"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Construyen un edificio de cinco pisos en un predio que era jardín y no hay letrero de autorización ambiental a la vista."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-12"
+      ],
+      [
+       "A quién se denuncia",
+       "No lo sé"
+      ],
+      [
+       "Datos del responsable",
+       "Dos personas en una camioneta blanca, entre semana por la mañana."
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Fulana de Tal Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000000 · fulana.00@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 0 No. 215 int. 4, entre la calle 7 y la calle 9, Metropolitana Tercera Sección, C.P. 57750, Nezahualcóyotl, Estado de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "recibida",
    "area_actual": "DGIVA",
@@ -140,6 +262,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "CUH-016",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -147,11 +270,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "9efb9c582849f1f7eeeafc6aef81397871d85e8f6257602e6f9abd07edef43b0",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-11T09:07:00",
+    "lat_captura": 19.4281,
+    "lon_captura": -99.1379
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "579ce21971d50a39cf92087e047ca1d115282611961074997728ebdf44ceb9e2",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-11T10:20:00"
    }
   ],
   "captura": {
@@ -160,6 +297,109 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "nota-de-llamada.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Impacto ambiental por obra o actividad"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "19.428000, -99.137800"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Cuauhtémoc"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "En el predio de junto levantan varios pisos sin ningún permiso a la vista; ya lo habían reportado otros vecinos."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-11"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Mengano Pérez Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000001 · mengano.01@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 1 No. 215 int. 4, entre la calle 7 y la calle 9, Metropolitana Tercera Sección, C.P. 57750, Nezahualcóyotl, Estado de México"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "recibida",
@@ -233,6 +473,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Industria o fábrica",
+   "ubicacion_origen": "punto",
    "uga": "IZC-010",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -240,11 +481,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "7d2f0ba8c53f84b1ab0e3b985d9e309bf0bc5cb8daf90dde97cfd1ca31e2666a",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-09T10:14:00",
+    "lat_captura": 19.3913,
+    "lon_captura": -99.0637
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "0699d31b5e206c851c58b6012242a4388ff4b027e43aef51f601b8f6f24164c2",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-09T11:27:00"
    }
   ],
   "captura": {
@@ -253,6 +508,109 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "escrito-con-sello.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Ruido y vibraciones de fuentes fijas industriales"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle 5 27, Pantitlán I, C.P. 08100, Iztacalco"
+      ],
+      [
+       "Coordenadas",
+       "19.391200, -99.063600"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztacalco"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle 4 y la calle 6\nLocal con cortina blanca y garrafones apilados en la entrada."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Industria o fábrica · Negocio Ficticio 2"
+      ],
+      [
+       "Hechos denunciados",
+       "La maquinaria de la fábrica trabaja de noche y el ruido no deja dormir a los vecinos de la calle."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-09"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de la espuma en la coladera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Zutana López Ficticia"
+      ],
+      [
+       "Contacto",
+       "5500000002 · zutana.02@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 2 No. 31 int. 1, entre la calle 6 y la calle 8, Pantitlán, C.P. 08100, Iztacalco, Ciudad de México"
+      ],
+      [
+       "Medición del ruido desde su domicilio",
+       "Acepta"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "recibida",
@@ -319,18 +677,134 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
+   "ubicacion_origen": "direccion",
    "verificacion": "si"
   },
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "4d49030688cf5ea78da473cc956b0df1ba8d9ec636dee70ec7a7941287d2e65e",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-08T11:21:00"
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "b70a455240a502106c617711e968cbc1eb75797af8af3fe1a5ebd7df4c1a041c",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-08T12:34:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículos 188, fracción XXXVIII, y 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Quema de residuos o materiales a cielo abierto"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "Sin marcar · la Secretaría ubicará el lugar con la dirección"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Se determinará al ubicar la dirección"
+      ],
+      [
+       "Tipo de suelo",
+       "Se determinará al ubicar la dirección"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Queman llantas y basura en un terreno baldío los fines de semana; el humo es negro y muy espeso."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-08"
+      ],
+      [
+       "A quién se denuncia",
+       "No lo sé"
+      ],
+      [
+       "Datos del responsable",
+       "Dos personas en una camioneta blanca, entre semana por la mañana."
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Perengano Ruiz Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000003 · perengano.03@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 3 No. 215 int. 4, entre la calle 7 y la calle 9, Metropolitana Tercera Sección, C.P. 57750, Nezahualcóyotl, Estado de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "por_ubicar",
    "area_actual": "",
@@ -397,6 +871,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
+   "ubicacion_origen": "punto",
    "uga": "IZP-059",
    "uga_version": "sia-2026-09-22",
    "veh_servicio": "carga",
@@ -405,13 +880,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "0a8dbe57fd03c13b381a6ef95261d672b169f83f371644c6a574779bb25d267b",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-07T12:28:00",
+    "lat_captura": 19.3515,
+    "lon_captura": -99.0725
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "bf7ceb1f86d44053b323593faef607f70d2e463fc2a77a006a74ea873df99e9f",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-07T13:41:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX; Ley Ambiental de la Ciudad de México, artículo 331.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Vehículo ostensiblemente contaminante"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Ermita Iztapalapa 1200, Constitución de 1917 I, C.P. 09260, Iztapalapa"
+      ],
+      [
+       "Coordenadas",
+       "19.351400, -99.072400"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre 5 de Mayo y 16 de Septiembre\nQuedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Un camión de carga sale todos los días del patio echando humo negro por el escape."
+      ],
+      [
+       "Tipo de servicio",
+       "Transporte de carga"
+      ],
+      [
+       "Temporalidad",
+       "Ocurrió una sola vez · 2026-10-07"
+      ],
+      [
+       "A quién se denuncia",
+       "Una autoridad de gobierno · Iztapalapa"
+      ],
+      [
+       "Datos del responsable",
+       "Iztapalapa\nDirección de Obras de prueba"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de los tocones y de la lona de la obra."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Denuncia anónima"
+      ],
+      [
+       "Contacto",
+       "anonima.04@ejemplo.local"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "recomendacion",
    "area_actual": "DGIVA",
@@ -502,6 +1094,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Bar, cantina o salón de fiestas",
+   "ubicacion_origen": "punto",
    "uga": "IZP-117",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -513,6 +1106,101 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "nota-de-llamada.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Irregularidades en un centro de verificación vehicular"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle 5 27, Pantitlán I, C.P. 08100, Iztacalco"
+      ],
+      [
+       "Coordenadas",
+       "19.394800, -99.056400"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa · no coincide con la de la dirección"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle 4 y la calle 6\nLocal con cortina blanca y garrafones apilados en la entrada."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Bar, cantina o salón de fiestas · Negocio Ficticio 5"
+      ],
+      [
+       "Hechos denunciados",
+       "En el verificentro aprueban autos sin revisarlos si se paga una cantidad extra en la caja."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-05"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Otras pruebas",
+       "Fotografías de la espuma en la coladera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Mengana Díaz Ficticia"
+      ],
+      [
+       "Contacto",
+       "5500000005 · mengana.05@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 5 No. 31 int. 1, entre la calle 6 y la calle 8, Pantitlán, C.P. 08100, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "turnada",
@@ -594,6 +1282,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Tienda, abarrotes u otro comercio",
+   "ubicacion_origen": "punto",
    "uga": "CUH-021",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -601,13 +1290,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "575c76ba144eceebcc66e77cfda508786936084eeb44f03d503a3617e1b6c5d7",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-04T14:42:00",
+    "lat_captura": 19.4351,
+    "lon_captura": -99.1345
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "3494b66a1366e22cb15b1fbad7142ee738409ca2a71f14bec0a2c131dcc1de22",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-04T15:55:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Comercialización, distribución o entrega de plásticos de un solo uso"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "19.435000, -99.134400"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Cuauhtémoc"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Tienda, abarrotes u otro comercio · Negocio Ficticio 6"
+      ],
+      [
+       "Hechos denunciados",
+       "El comercio sigue entregando bolsas de plástico y popotes de un solo uso a todos los clientes."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-04"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Zutano Herrera Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000006 · zutano.06@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 6 No. 215 int. 4, entre la calle 7 y la calle 9, Metropolitana Tercera Sección, C.P. 57750, Nezahualcóyotl, Estado de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "turnada",
    "area_actual": "DGIVA",
@@ -691,6 +1497,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
    "tipo_estab": "Panadería o tortillería",
+   "ubicacion_origen": "punto",
    "uga": "BJU-007",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -698,13 +1505,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "8b7c1b1bbb794e73ac749b3be7ae6b77e950d8f5b160ea5a2d445ceec42e9ba6",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-03T15:49:00",
+    "lat_captura": 19.3721,
+    "lon_captura": -99.1581
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "abed29b7f14463d9ebd5bef924674f8168ff4f90dfe624f55a8c724e5cb846a2",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-03T16:02:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX; Ley Ambiental de la Ciudad de México, artículo 331.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Residuos sólidos urbanos de fuentes fijas"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Ermita Iztapalapa 1200, Constitución de 1917 I, C.P. 09260, Iztapalapa"
+      ],
+      [
+       "Coordenadas",
+       "19.372000, -99.158000"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Benito Juárez · no coincide con la de la dirección"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre 5 de Mayo y 16 de Septiembre\nQuedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Panadería o tortillería · Negocio Ficticio 7"
+      ],
+      [
+       "Hechos denunciados",
+       "El restaurante saca su basura sin separar a la banqueta desde la noche anterior a la recolección."
+      ],
+      [
+       "Temporalidad",
+       "Ocurrió una sola vez · 2026-10-03"
+      ],
+      [
+       "A quién se denuncia",
+       "Una autoridad de gobierno · Iztapalapa"
+      ],
+      [
+       "Datos del responsable",
+       "Iztapalapa\nDirección de Obras de prueba"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de los tocones y de la lona de la obra."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Perengana Soto Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000007 · perengana.07@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 7 No. 14 int. A, entre la calle Sur 20 y la calle Sur 24, Agrícola Oriental, C.P. 08500, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "turnada",
    "area_actual": "DGIVA",
@@ -785,6 +1709,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Carnicería, pollería o pescadería",
+   "ubicacion_origen": "punto",
    "uga": "IZC-010",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -792,13 +1717,126 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "d39f31220e5404388ab8c512bcc79b3dabc553a56345bea21c8a8661d06e8642",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T16:56:00",
+    "lat_captura": 19.3877,
+    "lon_captura": -99.0601
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "809e7fcff8de3262ec3baf3a4a3f422a2cc3e5a98a595c3a981a65c82343f724",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T17:09:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Descargas de aguas residuales al drenaje"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle 5 27, Pantitlán I, C.P. 08100, Iztacalco"
+      ],
+      [
+       "Coordenadas",
+       "19.387600, -99.060000"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa · no coincide con la de la dirección"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle 4 y la calle 6\nLocal con cortina blanca y garrafones apilados en la entrada."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Carnicería, pollería o pescadería · Negocio Ficticio 8"
+      ],
+      [
+       "Hechos denunciados",
+       "Del local sale agua jabonosa con olor a químico directo a la coladera de la calle cada mañana."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de la espuma en la coladera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Fulana de Tal Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000008 · fulana.08@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 8 No. 31 int. 1, entre la calle 6 y la calle 8, Pantitlán, C.P. 08100, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "returnada",
    "area_actual": "DGCORENADR",
@@ -877,6 +1915,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Lavandería o tintorería",
+   "ubicacion_origen": "punto",
    "uga": "CUH-016",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -884,11 +1923,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "e62331b6f72d42bbd1cceeaa04f2af992ad60ab446b98fc19b5149620c6e814b",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T17:03:00",
+    "lat_captura": 19.4279,
+    "lon_captura": -99.1381
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "26c2e9ba673b6a8c38289a39b87bd7f78c349bb3c4f2cb6d17fc26bc3026b51f",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T08:16:00"
    }
   ],
   "captura": {
@@ -897,6 +1950,105 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "escrito-con-sello.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Residuos de la construcción y la demolición"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "19.427800, -99.138000"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Cuauhtémoc"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Lavandería o tintorería · Negocio Ficticio 9"
+      ],
+      [
+       "Hechos denunciados",
+       "La obra deja escombro y costales de cemento roto en la banqueta y nadie los recoge."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Denuncia anónima"
+      ],
+      [
+       "Contacto",
+       "anonima.09@ejemplo.local"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "en_analisis",
@@ -982,6 +2134,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
+   "ubicacion_origen": "punto",
    "uga": "IZP-078",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -989,13 +2142,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "492ea709512fa24772749c4054be503f56205acdff768b2828946b0906d01178",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T08:10:00",
+    "lat_captura": 19.3587,
+    "lon_captura": -99.0689
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "7eac49f0e1f2d24d465b86590c8a124b98ee3e5a5b42cdd366e67f4c7e48f464",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T09:23:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX; Ley Ambiental de la Ciudad de México, artículo 331.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Depósito de residuos de la construcción"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Ermita Iztapalapa 1200, Constitución de 1917 I, C.P. 09260, Iztapalapa"
+      ],
+      [
+       "Coordenadas",
+       "19.358600, -99.068800"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre 5 de Mayo y 16 de Septiembre\nQuedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Camiones de volteo tiran cascajo en la orilla de la barranca por las noches."
+      ],
+      [
+       "Temporalidad",
+       "Ocurrió una sola vez · 2026-10-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una autoridad de gobierno · Iztapalapa"
+      ],
+      [
+       "Datos del responsable",
+       "Iztapalapa\nDirección de Obras de prueba"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de los tocones y de la lona de la obra."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Zutana López Ficticia"
+      ],
+      [
+       "Contacto",
+       "5500000010 · zutana.10@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 10 No. 14 int. A, entre la calle Sur 20 y la calle Sur 24, Agrícola Oriental, C.P. 08500, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "recomendacion",
    "area_actual": "DGIVA",
@@ -1083,11 +2353,107 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "IZC-010",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Poda, derribo o daño a arbolado urbano"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle 5 27, Pantitlán I, C.P. 08100, Iztacalco"
+      ],
+      [
+       "Coordenadas",
+       "19.391200, -99.063600"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztacalco"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle 4 y la calle 6\nLocal con cortina blanca y garrafones apilados en la entrada."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Cortaron tres árboles grandes del camellón sin poner aviso ni explicar el motivo."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Otras pruebas",
+       "Fotografías de la espuma en la coladera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Perengano Ruiz Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000011 · perengano.11@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 11 No. 31 int. 1, entre la calle 6 y la calle 8, Pantitlán, C.P. 08100, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "en_analisis",
    "area_actual": "DGIVA",
@@ -1175,6 +2541,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
+   "ubicacion_origen": "punto",
    "uga": "CUH-017",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -1182,11 +2549,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "ca9d85efc28f0a93d1f2577a67b8c5c576c0b0754c43a113ad1426f59b537ec4",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T10:24:00",
+    "lat_captura": 19.4315,
+    "lon_captura": -99.1309
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "44d325b3502db35377bad561a92f09dbde27f9155ab3fa4fa9d582d0b239c8ce",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T11:37:00"
    }
   ],
   "captura": {
@@ -1195,6 +2576,113 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "correo-recibido.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Daño o reducción de un área verde"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "19.431400, -99.130800"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Cuauhtémoc"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Están pavimentando el jardín del parque para hacer un estacionamiento de autos."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-01"
+      ],
+      [
+       "A quién se denuncia",
+       "No lo sé"
+      ],
+      [
+       "Datos del responsable",
+       "Dos personas en una camioneta blanca, entre semana por la mañana."
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Fulano Gómez Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000012 · fulano.12@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 12 No. 215 int. 4, entre la calle 7 y la calle 9, Metropolitana Tercera Sección, C.P. 57750, Nezahualcóyotl, Estado de México"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "admitida",
@@ -1286,6 +2774,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "TLP-316",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -1293,13 +2782,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "47366893918cbafc700a5d7a21db89e8fe56dc2a46fd841ed15032f8dbb4ba05",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T11:31:00",
+    "lat_captura": 19.29649,
+    "lon_captura": -99.18358
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "b3cacb541641c11c730b8f840c51a26a7315e97c8a7997d634c0a25e8b27c23f",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T12:44:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Derribo o remoción de vegetación forestal en zona de protección"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida San Fernando S/N, Romulo Sánchez-San Fernando (Barrio)-Peña Pobre, C.P. 14060, Tlalpan"
+      ],
+      [
+       "Coordenadas",
+       "19.296390, -99.183480"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Tlalpan"
+      ],
+      [
+       "Tipo de suelo",
+       "Área de Valor Ambiental · Bosque urbano — Loreto y Peña Pobre"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre Ayuntamiento y Moneda\nEn la parte alta del parque, junto a la barda norte, pasando la zona de juegos."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Derriban encinos con motosierra dentro del bosque y sacan la madera en camionetas."
+      ],
+      [
+       "Temporalidad",
+       "Es permanente o continuo · 2026-10-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ],
+      [
+       "Gestiones previas",
+       "Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de la malla y del letrero con el cobro."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Fulana de las Mercedes Guadalupe de Tal y Ejemplo Prueba Ficticia"
+      ],
+      [
+       "Contacto",
+       "5500000013 · fulana.13@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 13 No. 38 int. 2, entre la calle Morelos y la calle Allende, Miguel Hidalgo, C.P. 14250, Tlalpan, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "admitida",
    "area_actual": "DGIVA",
@@ -1380,6 +2986,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "COY-054",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -1387,13 +2994,126 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "ed9a2a5211fc5a040873ba3318849ee7f4a1793a35c72c44b8031e1df63f80a8",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T12:38:00",
+    "lat_captura": 19.35445,
+    "lon_captura": -99.17171
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "497d65e08a0ef617822c5004e38002fc925c4705deb146ed94183201ee7fa05f",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T13:51:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 188, fracción XXXVIII.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Interrupción o afectación del sistema hidrológico en zona de protección"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle Francisco Sosa 150, Del Carmen, C.P. 04100, Coyoacán"
+      ],
+      [
+       "Coordenadas",
+       "19.354350, -99.171610"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Coyoacán"
+      ],
+      [
+       "Tipo de suelo",
+       "Área Natural Protegida de competencia federal — El Histórico Coyoacán"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA"
+      ],
+      [
+       "Referencias",
+       "Entre Fresno y Encino\nCasona con portón de madera; la obra se ve desde la calle por encima de la barda."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Rellenaron con tierra el canal que corría junto a las parcelas y el agua ya no pasa."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté a la alcaldía Coyoacán el 14 de septiembre y no hubo respuesta."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de los árboles derribados tomadas desde la calle."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Denuncia anónima"
+      ],
+      [
+       "Contacto",
+       "anonima.14@ejemplo.local"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "remitida",
    "area_actual": "DGCORENADR",
@@ -1475,6 +3195,7 @@
    "temporalidad": "recurrente",
    "tiene_direccion": "no",
    "tipo_denunciado": "nose",
+   "ubicacion_origen": "punto",
    "uga": "TLP-314",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -1482,13 +3203,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "aa0674caef74aec8bd0e0cdeac469dd4a1661d01a78bfd91a644fe3f76b4949b",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T13:45:00",
+    "lat_captura": 19.2963,
+    "lon_captura": -99.1943
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "8420d89b7ad6276ee9ac87171d72cc2594945356d6ed62177d8a3359108fa30d",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-10-01T14:58:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Asentamiento humano irregular u obra sin autorización en zona de protección"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Sitio de los hechos",
+       "Bosque de Tlalpan, Tlalpan"
+      ],
+      [
+       "Coordenadas",
+       "19.296200, -99.194200"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Se entra por la puerta 3, sobre Camino a Santa Teresa. A unos 200 metros del estacionamiento, subiendo por la vereda de la derecha, junto a los tanques de agua."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Levantan casas de block en una zona que antes era bosque; cada semana aparece una nueva."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-10-01"
+      ],
+      [
+       "A quién se denuncia",
+       "No lo sé"
+      ],
+      [
+       "Datos del responsable",
+       "Dos personas en una camioneta blanca, entre semana por la mañana."
+      ],
+      [
+       "Gestiones previas",
+       "Lo comenté a los guardabosques de la caseta de la puerta 3 el 12 de septiembre. Dijeron que darían aviso, pero siguió ocurriendo."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Tengo un video de dos minutos en el que se oye la motosierra; puedo entregarlo si me lo piden."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Perengana Soto Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000015 · perengana.15@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 15 No. 4820 int. B-302, entre la calle Pino y la calle Encino, La Joya, C.P. 14090, Tlalpan, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "sin_materia",
    "area_actual": "DGIVA",
@@ -1574,6 +3412,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "MLP-312",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -1581,11 +3420,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "8d3c8bc953869cc8f2d7e6762c37d115c6b8c0b6dcbafe724f6916422d9c2290",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-21T14:52:00",
+    "lat_captura": 19.2101,
+    "lon_captura": -98.9903
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "aee81ec6d8331ad684cf7cf2e542306dde5ddadd27e45f8c219a1ba2249a8b36",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-21T15:05:00"
    }
   ],
   "captura": {
@@ -1594,6 +3447,105 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "escrito-con-sello.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 188, fracción XXXVIII.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Terráceos y remoción de cubierta vegetal"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Camino a San Antonio Tecómitl S/N, San Antonio Tecómitl (Pueblo), C.P. 12100, Milpa Alta"
+      ],
+      [
+       "Coordenadas",
+       "19.210000, -98.990200"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Milpa Alta"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo de conservación"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas"
+      ],
+      [
+       "Referencias",
+       "Entre Juárez y Morelos\nA kilómetro y medio del panteón, por la brecha que sube al monte. Hay un claro grande a la derecha."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Una máquina retroexcavadora está quitando la tierra del cerro y la cargan en camiones."
+      ],
+      [
+       "Temporalidad",
+       "Es permanente o continuo · 2026-09-21"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Puedo señalar en el mapa la brecha por donde sacan la madera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Fulana de Tal Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000016 · fulana.16@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 16 No. 10, La Joya, C.P. 14090, Tlalpan, Ciudad de México"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "visita_programada",
@@ -1685,11 +3637,103 @@
    "temporalidad": "recurrente",
    "tiene_direccion": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "CUJ-034",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 188, fracción XXXVIII.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Uso de agroquímicos, fertilizantes o plaguicidas prohibidos en suelo de conservación"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Sitio de los hechos",
+       "Desierto de los Leones, Cuajimalpa de Morelos"
+      ],
+      [
+       "Coordenadas",
+       "19.306780, -99.310970"
+      ],
+      [
+       "Tipo de suelo",
+       "Área Natural Protegida federal · la Secretaría coadyuva en su administración — Desierto de los Leones"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA"
+      ],
+      [
+       "Referencias",
+       "Sobre el camino que va del ex convento hacia Cruz Blanca, a la izquierda, unos 800 metros después del último puesto de comida."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "En las parcelas rocían un plaguicida de olor muy fuerte que mata a los peces del canal."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-20"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Otras pruebas",
+       "Puedo acompañar al personal al sitio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Mengano Pérez Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000017 · mengano.17@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 17 No. 112 int. 3, entre la calle Juárez y la calle Guerrero, Cuajimalpa, C.P. 05000, Cuajimalpa de Morelos, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "turnada",
    "area_actual": "DGCORENADR",
@@ -1769,6 +3813,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
+   "ubicacion_origen": "punto",
    "uga": "TLP-316",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -1776,13 +3821,134 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "cc78d6415e12c4fc01026f5e942d0b59f0d28163ced0be1723457c457e5209e7",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-18T16:06:00",
+    "lat_captura": 19.29649,
+    "lon_captura": -99.18358
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "bfacc07a9c43f498a0c70338332158139cf887ffbcd6e1767f50848ba606a281",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-18T17:19:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Afectación a un Área de Valor Ambiental, al suelo de conservación o a un Área Natural Protegida"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida San Fernando S/N, Romulo Sánchez-San Fernando (Barrio)-Peña Pobre, C.P. 14060, Tlalpan"
+      ],
+      [
+       "Coordenadas",
+       "19.296390, -99.183480"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Tlalpan"
+      ],
+      [
+       "Tipo de suelo",
+       "Área de Valor Ambiental · Bosque urbano — Loreto y Peña Pobre"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre Ayuntamiento y Moneda\nEn la parte alta del parque, junto a la barda norte, pasando la zona de juegos."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Cercaron con malla una parte del área verde protegida y cobran por entrar."
+      ],
+      [
+       "Temporalidad",
+       "Es permanente o continuo · 2026-09-18"
+      ],
+      [
+       "A quién se denuncia",
+       "No lo sé"
+      ],
+      [
+       "Datos del responsable",
+       "Dos personas en una camioneta blanca, entre semana por la mañana."
+      ],
+      [
+       "Gestiones previas",
+       "Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de la malla y del letrero con el cobro."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Zutana López Ficticia"
+      ],
+      [
+       "Contacto",
+       "5500000018 · zutana.18@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 18 No. 38 int. 2, entre la calle Morelos y la calle Allende, Miguel Hidalgo, C.P. 14250, Tlalpan, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "visita_programada",
    "area_actual": "DGIVA",
@@ -1867,6 +4033,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
+   "ubicacion_origen": "punto",
    "uga": "IZP-078",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -1874,11 +4041,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "a99de8f63111bfc8913a23ab3718710b898cbd0f5b75603aa99e5b7a7ef2c761",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-17T17:13:00",
+    "lat_captura": 19.3587,
+    "lon_captura": -99.0689
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "1c43f4ae827ca868711730f1cb414451dd5716ef9880567c9b27249ddd35e7ca",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-17T08:26:00"
    }
   ],
   "captura": {
@@ -1887,6 +4068,105 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "nota-de-llamada.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX; Ley Ambiental de la Ciudad de México, artículo 331.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Impacto ambiental por obra o actividad"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Ermita Iztapalapa 1200, Constitución de 1917 I, C.P. 09260, Iztapalapa"
+      ],
+      [
+       "Coordenadas",
+       "19.358600, -99.068800"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre 5 de Mayo y 16 de Septiembre\nQuedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Construyen un edificio de cinco pisos en un predio que era jardín y no hay letrero de autorización ambiental a la vista."
+      ],
+      [
+       "Temporalidad",
+       "Ocurrió una sola vez · 2026-09-17"
+      ],
+      [
+       "A quién se denuncia",
+       "Una autoridad de gobierno · Iztapalapa"
+      ],
+      [
+       "Datos del responsable",
+       "Iztapalapa\nDirección de Obras de prueba"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de los tocones y de la lona de la obra."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Denuncia anónima"
+      ],
+      [
+       "Contacto",
+       "anonima.19@ejemplo.local"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "visita_programada",
@@ -1983,6 +4263,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Industria o fábrica",
+   "ubicacion_origen": "punto",
    "uga": "IZC-010",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -1990,13 +4271,126 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "a8032c8fb91eadf4316c281272e7873d0de64bd7337ef820998118c2faab9a22",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-16T08:20:00",
+    "lat_captura": 19.3913,
+    "lon_captura": -99.0637
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "001c3b8c9219ee0c6c66f635a5d8a7c718d56c53cae658594553cdb76d7e6db7",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-16T09:33:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Emisiones a la atmósfera de fuentes fijas"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle 5 27, Pantitlán I, C.P. 08100, Iztacalco"
+      ],
+      [
+       "Coordenadas",
+       "19.391200, -99.063600"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztacalco"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle 4 y la calle 6\nLocal con cortina blanca y garrafones apilados en la entrada."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Industria o fábrica · Negocio Ficticio 20"
+      ],
+      [
+       "Hechos denunciados",
+       "De la chimenea del negocio sale humo gris todas las tardes y el olor llega a las casas de la cuadra."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-16"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de la espuma en la coladera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Fulano Gómez Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000020 · fulano.20@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 20 No. 31 int. 1, entre la calle 6 y la calle 8, Pantitlán, C.P. 08100, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "visita_practicada",
    "area_actual": "DGIVA",
@@ -2102,6 +4496,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Bodega o almacén",
+   "ubicacion_origen": "punto",
    "uga": "CUH-017",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -2109,13 +4504,134 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "15889b262458dc9d62fa092357095e22570710af8984f4068e0036d28aeee89b",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-15T09:27:00",
+    "lat_captura": 19.4315,
+    "lon_captura": -99.1309
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "02a61daec2c1bfd7fb6357213b8316328899693aece33a15658ad9fd49fc0258",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-15T10:40:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Ruido y vibraciones de fuentes fijas industriales"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "19.431400, -99.130800"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Cuauhtémoc"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Bodega o almacén · Negocio Ficticio 21"
+      ],
+      [
+       "Hechos denunciados",
+       "La maquinaria de la fábrica trabaja de noche y el ruido no deja dormir a los vecinos de la calle."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-15"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Mengana Díaz Ficticia"
+      ],
+      [
+       "Contacto",
+       "5500000021 · mengana.21@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 21 No. 215 int. 4, entre la calle 7 y la calle 9, Metropolitana Tercera Sección, C.P. 57750, Nezahualcóyotl, Estado de México"
+      ],
+      [
+       "Medición del ruido desde su domicilio",
+       "Acepta"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "visita_practicada",
    "area_actual": "DGIVA",
@@ -2218,6 +4734,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
+   "ubicacion_origen": "punto",
    "uga": "IZP-059",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -2225,13 +4742,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "2a2e5243779bd687d5612022bfc49c3406e700aeb8c5dcc870c159873e43da9c",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-13T10:34:00",
+    "lat_captura": 19.3515,
+    "lon_captura": -99.0725
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "5e81c83600677aeba585371725bdc0416686663f48044b4711c2589600f0b93a",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-13T11:47:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX; Ley Ambiental de la Ciudad de México, artículo 331.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Quema de residuos o materiales a cielo abierto"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Ermita Iztapalapa 1200, Constitución de 1917 I, C.P. 09260, Iztapalapa"
+      ],
+      [
+       "Coordenadas",
+       "19.351400, -99.072400"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre 5 de Mayo y 16 de Septiembre\nQuedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Queman llantas y basura en un terreno baldío los fines de semana; el humo es negro y muy espeso."
+      ],
+      [
+       "Temporalidad",
+       "Ocurrió una sola vez · 2026-09-13"
+      ],
+      [
+       "A quién se denuncia",
+       "Una autoridad de gobierno · Iztapalapa"
+      ],
+      [
+       "Datos del responsable",
+       "Iztapalapa\nDirección de Obras de prueba"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de los tocones y de la lona de la obra."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Zutano Herrera Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000022 · zutano.22@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 22 No. 14 int. A, entre la calle Sur 20 y la calle Sur 24, Agrícola Oriental, C.P. 08500, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "acumulada",
    "area_actual": "DGIVA",
@@ -2320,6 +4954,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "IZP-117",
    "uga_version": "sia-2026-09-22",
    "veh_servicio": "carga",
@@ -2332,6 +4967,105 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "escrito-con-sello.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Vehículo ostensiblemente contaminante"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle 5 27, Pantitlán I, C.P. 08100, Iztacalco"
+      ],
+      [
+       "Coordenadas",
+       "19.394800, -99.056400"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa · no coincide con la de la dirección"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle 4 y la calle 6\nLocal con cortina blanca y garrafones apilados en la entrada."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Un camión de carga sale todos los días del patio echando humo negro por el escape."
+      ],
+      [
+       "Tipo de servicio",
+       "Transporte de carga"
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-12"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Otras pruebas",
+       "Fotografías de la espuma en la coladera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Perengana Soto Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000023 · perengana.23@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 23 No. 31 int. 1, entre la calle 6 y la calle 8, Pantitlán, C.P. 08100, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "visita_practicada",
@@ -2423,6 +5157,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Tienda, abarrotes u otro comercio",
+   "ubicacion_origen": "punto",
    "uga": "CUH-021",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -2430,13 +5165,126 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "38de36ac9b425f356c2d9817a24e82b551006dcc8070f014e7b7346cfce4aed6",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-11T12:48:00",
+    "lat_captura": 19.4351,
+    "lon_captura": -99.1345
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "d4c8cb0f7ef5dec3ce2c317f9bd3632ede89e22d77401db5d269d8a59c3dfac9",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-11T13:01:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Irregularidades en un centro de verificación vehicular"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "19.435000, -99.134400"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Cuauhtémoc"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Tienda, abarrotes u otro comercio · Negocio Ficticio 24"
+      ],
+      [
+       "Hechos denunciados",
+       "En el verificentro aprueban autos sin revisarlos si se paga una cantidad extra en la caja."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-11"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Denuncia anónima"
+      ],
+      [
+       "Contacto",
+       "anonima.24@ejemplo.local"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "en_procedimiento",
    "area_actual": "DGIVA",
@@ -2547,6 +5395,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
    "tipo_estab": "Panadería o tortillería",
+   "ubicacion_origen": "punto",
    "uga": "IZP-078",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -2554,13 +5403,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "a9bcb15fe4957cc58bc3754cca981edef3a49908fe3721db02a8e8d2f4fc3c34",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-09T13:55:00",
+    "lat_captura": 19.3551,
+    "lon_captura": -99.0653
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "6959748800ef40b79e5ad340333b37226238d1a3e213717775e0a94776403e38",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-09T14:08:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX; Ley Ambiental de la Ciudad de México, artículo 331.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Comercialización, distribución o entrega de plásticos de un solo uso"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Ermita Iztapalapa 1200, Constitución de 1917 I, C.P. 09260, Iztapalapa"
+      ],
+      [
+       "Coordenadas",
+       "19.355000, -99.065200"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre 5 de Mayo y 16 de Septiembre\nQuedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Panadería o tortillería · Negocio Ficticio 25"
+      ],
+      [
+       "Hechos denunciados",
+       "El comercio sigue entregando bolsas de plástico y popotes de un solo uso a todos los clientes."
+      ],
+      [
+       "Temporalidad",
+       "Ocurrió una sola vez · 2026-09-09"
+      ],
+      [
+       "A quién se denuncia",
+       "Una autoridad de gobierno · Iztapalapa"
+      ],
+      [
+       "Datos del responsable",
+       "Iztapalapa\nDirección de Obras de prueba"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de los tocones y de la lona de la obra."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Mengano Pérez Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000025 · mengano.25@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 25 No. 14 int. A, entre la calle Sur 20 y la calle Sur 24, Agrícola Oriental, C.P. 08500, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "en_procedimiento",
    "area_actual": "DGIVA",
@@ -2670,6 +5636,7 @@
    "tipo_denunciado": "empresa",
    "tipo_estab": "Otro",
    "tipo_estab_otro": "Taller de pruebas",
+   "ubicacion_origen": "punto",
    "uga": "IZC-010",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -2677,11 +5644,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "cc908e62a99b1dd4993d1cbb6c0d6e5a355314b06a80828d186bc8de73a06f57",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-08T14:02:00",
+    "lat_captura": 19.3877,
+    "lon_captura": -99.0601
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "c9ec958d6e438e64dbe534e962a5155c88c6bb69192a63ce10ef44aabf44ae09",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-08T15:15:00"
    }
   ],
   "captura": {
@@ -2690,6 +5671,105 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "correo-recibido.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Residuos sólidos urbanos de fuentes fijas"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle 5 27, Pantitlán I, C.P. 08100, Iztacalco"
+      ],
+      [
+       "Coordenadas",
+       "19.387600, -99.060000"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa · no coincide con la de la dirección"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle 4 y la calle 6\nLocal con cortina blanca y garrafones apilados en la entrada."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Otro: Taller de pruebas · Negocio Ficticio 26"
+      ],
+      [
+       "Hechos denunciados",
+       "El restaurante saca su basura sin separar a la banqueta desde la noche anterior a la recolección."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-08"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de la espuma en la coladera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Zutana López Ficticia"
+      ],
+      [
+       "Contacto",
+       "5500000026 · zutana.26@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 26 No. 31 int. 1, entre la calle 6 y la calle 8, Pantitlán, C.P. 08100, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "en_procedimiento",
@@ -2801,6 +5881,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Lavandería o tintorería",
+   "ubicacion_origen": "punto",
    "uga": "CUH-016",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -2808,13 +5889,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "eadc44a271d14ae4807471c830f3ff3051a07a50912db6c13ca713196f6d23d7",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-07T15:09:00",
+    "lat_captura": 19.4279,
+    "lon_captura": -99.1381
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "6f92ee37be2ab20f29a4b03dab0dd6cb93b67212abad583fac6b1f1ef2cba4fe",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-07T16:22:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Descargas de aguas residuales al drenaje"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "19.427800, -99.138000"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Cuauhtémoc"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Lavandería o tintorería · Negocio Ficticio 27"
+      ],
+      [
+       "Hechos denunciados",
+       "Del local sale agua jabonosa con olor a químico directo a la coladera de la calle cada mañana."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-07"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Perengano Ruiz Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000027 · perengano.27@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 27 No. 215 int. 4, entre la calle 7 y la calle 9, Metropolitana Tercera Sección, C.P. 57750, Nezahualcóyotl, Estado de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "en_procedimiento",
    "area_actual": "DGIVA",
@@ -2925,6 +6123,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
    "tipo_estab": "Gasolinera o estación de servicio",
+   "ubicacion_origen": "punto",
    "uga": "IZP-078",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -2932,13 +6131,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "7f45b99fbace8af59d4b4434d2de510a0c2d5b79253f7b26a8f8d5e01e70dc66",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-06T16:16:00",
+    "lat_captura": 19.3587,
+    "lon_captura": -99.0689
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "38b55d0bcf9a495adfd74e85ed415124ffe6ada902f0a50924720d1cccf06aef",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-06T17:29:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX; Ley Ambiental de la Ciudad de México, artículo 331.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Residuos de la construcción y la demolición"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Ermita Iztapalapa 1200, Constitución de 1917 I, C.P. 09260, Iztapalapa"
+      ],
+      [
+       "Coordenadas",
+       "19.358600, -99.068800"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre 5 de Mayo y 16 de Septiembre\nQuedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Gasolinera o estación de servicio · Negocio Ficticio 28"
+      ],
+      [
+       "Hechos denunciados",
+       "La obra deja escombro y costales de cemento roto en la banqueta y nadie los recoge."
+      ],
+      [
+       "Temporalidad",
+       "Ocurrió una sola vez · 2026-09-06"
+      ],
+      [
+       "A quién se denuncia",
+       "Una autoridad de gobierno · Iztapalapa"
+      ],
+      [
+       "Datos del responsable",
+       "Iztapalapa\nDirección de Obras de prueba"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de los tocones y de la lona de la obra."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Fulano Gómez Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000028 · fulano.28@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 28 No. 14 int. A, entre la calle Sur 20 y la calle Sur 24, Agrícola Oriental, C.P. 08500, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "recomendacion",
    "area_actual": "DGIVA",
@@ -3014,11 +6330,103 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "IZC-010",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Depósito de residuos de la construcción"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle 5 27, Pantitlán I, C.P. 08100, Iztacalco"
+      ],
+      [
+       "Coordenadas",
+       "19.391200, -99.063600"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztacalco"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle 4 y la calle 6\nLocal con cortina blanca y garrafones apilados en la entrada."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Camiones de volteo tiran cascajo en la orilla de la barranca por las noches."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-04"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Otras pruebas",
+       "Fotografías de la espuma en la coladera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Denuncia anónima"
+      ],
+      [
+       "Contacto",
+       "anonima.29@ejemplo.local"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "resuelta",
    "area_actual": "DGIVA",
@@ -3134,6 +6542,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
+   "ubicacion_origen": "punto",
    "uga": "CUH-017",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -3141,11 +6550,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "68f5d6cd799bab752623c634ee47ea9e2f47de22ed91827c8c353de36d264f5d",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-03T08:30:00",
+    "lat_captura": 19.4315,
+    "lon_captura": -99.1309
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "f00b33b9caf913ebc08bc813a9d2cd92d2f1cde6ea0f184e01ccab75a24e480f",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-03T09:43:00"
    }
   ],
   "captura": {
@@ -3154,6 +6577,113 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "escrito-con-sello.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Poda, derribo o daño a arbolado urbano"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "19.431400, -99.130800"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Cuauhtémoc"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Cortaron tres árboles grandes del camellón sin poner aviso ni explicar el motivo."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-03"
+      ],
+      [
+       "A quién se denuncia",
+       "No lo sé"
+      ],
+      [
+       "Datos del responsable",
+       "Dos personas en una camioneta blanca, entre semana por la mañana."
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Zutano Herrera Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000030 · zutano.30@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 30 No. 215 int. 4, entre la calle 7 y la calle 9, Metropolitana Tercera Sección, C.P. 57750, Nezahualcóyotl, Estado de México"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "resuelta",
@@ -3269,6 +6799,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
+   "ubicacion_origen": "punto",
    "uga": "IZP-059",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -3276,13 +6807,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "53745f57c2095d49218b6a029b98c9a528d17595e091b25a1a490bf995144097",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T09:37:00",
+    "lat_captura": 19.3515,
+    "lon_captura": -99.0725
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "57a7adf9c9199f521c9065626f1c3cbf181167727fea4a8111c79a5367abb871",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T10:50:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX; Ley Ambiental de la Ciudad de México, artículo 331.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Daño o reducción de un área verde"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Ermita Iztapalapa 1200, Constitución de 1917 I, C.P. 09260, Iztapalapa"
+      ],
+      [
+       "Coordenadas",
+       "19.351400, -99.072400"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztapalapa"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre 5 de Mayo y 16 de Septiembre\nQuedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Están pavimentando el jardín del parque para hacer un estacionamiento de autos."
+      ],
+      [
+       "Temporalidad",
+       "Ocurrió una sola vez · 2026-09-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una autoridad de gobierno · Iztapalapa"
+      ],
+      [
+       "Datos del responsable",
+       "Iztapalapa\nDirección de Obras de prueba"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de los tocones y de la lona de la obra."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Perengana Soto Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000031 · perengana.31@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 31 No. 14 int. A, entre la calle Sur 20 y la calle Sur 24, Agrícola Oriental, C.P. 08500, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "resuelta",
    "area_actual": "DGIVA",
@@ -3391,6 +7039,7 @@
    "temporalidad": "recurrente",
    "tiene_direccion": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "CUJ-034",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -3398,13 +7047,122 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "1b4283105d6d8221b918ec2d3b24065148153fd697bfeaa4f080c19d48153242",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T10:44:00",
+    "lat_captura": 19.30688,
+    "lon_captura": -99.31107
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "8622c243004ae060d9804b5492fb82fbbc88b01c556653b93af207bd118fc3c6",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T11:57:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 188, fracción XXXVIII.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Derribo o remoción de vegetación forestal en zona de protección"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Sitio de los hechos",
+       "Desierto de los Leones, Cuajimalpa de Morelos"
+      ],
+      [
+       "Coordenadas",
+       "19.306780, -99.310970"
+      ],
+      [
+       "Tipo de suelo",
+       "Área Natural Protegida federal · la Secretaría coadyuva en su administración — Desierto de los Leones"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA"
+      ],
+      [
+       "Referencias",
+       "Sobre el camino que va del ex convento hacia Cruz Blanca, a la izquierda, unos 800 metros después del último puesto de comida."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Derriban encinos con motosierra dentro del bosque y sacan la madera en camionetas."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Puedo acompañar al personal al sitio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Fulana de Tal Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000032 · fulana.32@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 32 No. 112 int. 3, entre la calle Juárez y la calle Guerrero, Cuajimalpa, C.P. 05000, Cuajimalpa de Morelos, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "remitida",
    "area_actual": "DGCORENADR",
@@ -3496,6 +7254,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
+   "ubicacion_origen": "punto",
    "uga": "TLP-316",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -3503,11 +7262,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "cfd4c9527014736a721577bf089bac7a17e32d129035832f4b342d1792c5bbcb",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T11:51:00",
+    "lat_captura": 19.29649,
+    "lon_captura": -99.18358
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "ca59353d6f631dc411c1ca914c65c9f307a8d510ef1f3ef84f6583c0df1c3d32",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T12:04:00"
    }
   ],
   "captura": {
@@ -3516,6 +7289,113 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "nota-de-llamada.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Interrupción o afectación del sistema hidrológico en zona de protección"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida San Fernando S/N, Romulo Sánchez-San Fernando (Barrio)-Peña Pobre, C.P. 14060, Tlalpan"
+      ],
+      [
+       "Coordenadas",
+       "19.296390, -99.183480"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Tlalpan"
+      ],
+      [
+       "Tipo de suelo",
+       "Área de Valor Ambiental · Bosque urbano — Loreto y Peña Pobre"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre Ayuntamiento y Moneda\nEn la parte alta del parque, junto a la barda norte, pasando la zona de juegos."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Rellenaron con tierra el canal que corría junto a las parcelas y el agua ya no pasa."
+      ],
+      [
+       "Temporalidad",
+       "Es permanente o continuo · 2026-09-01"
+      ],
+      [
+       "A quién se denuncia",
+       "No lo sé"
+      ],
+      [
+       "Datos del responsable",
+       "Dos personas en una camioneta blanca, entre semana por la mañana."
+      ],
+      [
+       "Gestiones previas",
+       "Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de la malla y del letrero con el cobro."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Mengano Pérez Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000033 · mengano.33@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 33 No. 38 int. 2, entre la calle Morelos y la calle Allende, Miguel Hidalgo, C.P. 14250, Tlalpan, Ciudad de México"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "notificada",
@@ -3631,6 +7511,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "COY-054",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -3638,13 +7519,126 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "c6c5ec067550aa9752ce605c416c8345d65473ccd57666ab75a9791456b86212",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T12:58:00",
+    "lat_captura": 19.35445,
+    "lon_captura": -99.17171
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "3e63ce4f15c22772cb54b1270ff12db9b463030f9f4afee8e31939cf3b804f54",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T13:11:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 188, fracción XXXVIII.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Asentamiento humano irregular u obra sin autorización en zona de protección"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle Francisco Sosa 150, Del Carmen, C.P. 04100, Coyoacán"
+      ],
+      [
+       "Coordenadas",
+       "19.354350, -99.171610"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Coyoacán"
+      ],
+      [
+       "Tipo de suelo",
+       "Área Natural Protegida de competencia federal — El Histórico Coyoacán"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA"
+      ],
+      [
+       "Referencias",
+       "Entre Fresno y Encino\nCasona con portón de madera; la obra se ve desde la calle por encima de la barda."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Levantan casas de block en una zona que antes era bosque; cada semana aparece una nueva."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté a la alcaldía Coyoacán el 14 de septiembre y no hubo respuesta."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de los árboles derribados tomadas desde la calle."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Denuncia anónima"
+      ],
+      [
+       "Contacto",
+       "anonima.34@ejemplo.local"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "remitida",
    "area_actual": "DGCORENADR",
@@ -3727,11 +7721,107 @@
    "temporalidad": "recurrente",
    "tiene_direccion": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "TLP-315",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 188, fracción XXXVIII.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Terráceos y remoción de cubierta vegetal"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Sitio de los hechos",
+       "Bosque de Tlalpan, Tlalpan"
+      ],
+      [
+       "Coordenadas",
+       "19.291400, -99.193000"
+      ],
+      [
+       "Tipo de suelo",
+       "Área Natural Protegida local — Bosque de Tlalpan"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas"
+      ],
+      [
+       "Referencias",
+       "Se entra por la puerta 3, sobre Camino a Santa Teresa. A unos 200 metros del estacionamiento, subiendo por la vereda de la derecha, junto a los tanques de agua."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Una máquina retroexcavadora está quitando la tierra del cerro y la cargan en camiones."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ],
+      [
+       "Gestiones previas",
+       "Lo comenté a los guardabosques de la caseta de la puerta 3 el 12 de septiembre. Dijeron que darían aviso, pero siguió ocurriendo."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Otras pruebas",
+       "Tengo un video de dos minutos en el que se oye la motosierra; puedo entregarlo si me lo piden."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Perengano Ruiz Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000035 · perengano.35@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 35 No. 4820 int. B-302, entre la calle Pino y la calle Encino, La Joya, C.P. 14090, Tlalpan, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "notificada",
    "area_actual": "DGCORENADR",
@@ -3852,6 +7942,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
+   "ubicacion_origen": "punto",
    "uga": "MLP-299",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -3859,13 +7950,130 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "3bfb03da6d931993528fc1523baeed71c44ab73ce4c98f95866fb94c49ac7b2d",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T14:12:00",
+    "lat_captura": 19.2053,
+    "lon_captura": -98.9999
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "27911a044de5d28aa80c328d845d92323e105331efd4a056aaf971ef1cbd8e4c",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T15:25:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 188, fracción XXXVIII.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Uso de agroquímicos, fertilizantes o plaguicidas prohibidos en suelo de conservación"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Camino a San Antonio Tecómitl S/N, San Antonio Tecómitl (Pueblo), C.P. 12100, Milpa Alta"
+      ],
+      [
+       "Coordenadas",
+       "19.205200, -98.999800"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Milpa Alta"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo de conservación"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas"
+      ],
+      [
+       "Referencias",
+       "Entre Juárez y Morelos\nA kilómetro y medio del panteón, por la brecha que sube al monte. Hay un claro grande a la derecha."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "En las parcelas rocían un plaguicida de olor muy fuerte que mata a los peces del canal."
+      ],
+      [
+       "Temporalidad",
+       "Es permanente o continuo · 2026-09-01"
+      ],
+      [
+       "A quién se denuncia",
+       "No lo sé"
+      ],
+      [
+       "Datos del responsable",
+       "Dos personas en una camioneta blanca, entre semana por la mañana."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Puedo señalar en el mapa la brecha por donde sacan la madera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Fulano Gómez Prueba"
+      ],
+      [
+       "Contacto",
+       "5500000036 · fulano.36@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 36 No. 10, La Joya, C.P. 14090, Tlalpan, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "concluida",
    "area_actual": "DGCORENADR",
@@ -3990,6 +8198,7 @@
    "temporalidad": "recurrente",
    "tiene_direccion": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "CUJ-034",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -3997,11 +8206,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "f72a5bf784fa062bdaa47a9781890fbc49361e9f11ac5715f3ba93512a9d89ab",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T15:19:00",
+    "lat_captura": 19.30688,
+    "lon_captura": -99.31107
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "13a5509460e18aca8de149e1ea66e2617c0431939a96c588c833a443df70ffc0",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T16:32:00"
    }
   ],
   "captura": {
@@ -4010,6 +8233,101 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "acta-de-comparecencia.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 188, fracción XXXVIII.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Afectación a un Área de Valor Ambiental, al suelo de conservación o a un Área Natural Protegida"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Sitio de los hechos",
+       "Desierto de los Leones, Cuajimalpa de Morelos"
+      ],
+      [
+       "Coordenadas",
+       "19.306780, -99.310970"
+      ],
+      [
+       "Tipo de suelo",
+       "Área Natural Protegida federal · la Secretaría coadyuva en su administración — Desierto de los Leones"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA"
+      ],
+      [
+       "Referencias",
+       "Sobre el camino que va del ex convento hacia Cruz Blanca, a la izquierda, unos 800 metros después del último puesto de comida."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Cercaron con malla una parte del área verde protegida y cobran por entrar."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Puedo acompañar al personal al sitio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Mengana Díaz Ficticia"
+      ],
+      [
+       "Contacto",
+       "5500000037 · mengana.37@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 37 No. 112 int. 3, entre la calle Juárez y la calle Guerrero, Cuajimalpa, C.P. 05000, Cuajimalpa de Morelos, Ciudad de México"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "turnada",
@@ -4086,6 +8404,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
+   "ubicacion_origen": "punto",
    "uga": "IZC-010",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -4093,13 +8412,126 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "83b2418b5f8738207877c087f64f0c2e1360f9b95cd34916a55081448e2ef26b",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T16:26:00",
+    "lat_captura": 19.3913,
+    "lon_captura": -99.0637
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "428986d9f47dae87f6132ecf4688efc7d20ede8f28350952d507ab8b376845fc",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-09-01T17:39:00"
    }
   ],
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Impacto ambiental por obra o actividad"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Calle 5 27, Pantitlán I, C.P. 08100, Iztacalco"
+      ],
+      [
+       "Coordenadas",
+       "19.391200, -99.063600"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Iztacalco"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle 4 y la calle 6\nLocal con cortina blanca y garrafones apilados en la entrada."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "No"
+      ],
+      [
+       "Hechos denunciados",
+       "Construyen un edificio de cinco pisos en un predio que era jardín y no hay letrero de autorización ambiental a la vista."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-09-01"
+      ],
+      [
+       "A quién se denuncia",
+       "Una persona"
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Fotografías de la espuma en la coladera."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Zutano Herrera Ejemplo"
+      ],
+      [
+       "Contacto",
+       "5500000038 · zutano.38@ejemplo.local"
+      ],
+      [
+       "Domicilio para notificaciones",
+       "Calle de Prueba 38 No. 31 int. 1, entre la calle 6 y la calle 8, Pantitlán, C.P. 08100, Iztacalco, Ciudad de México"
+      ]
+     ]
+    }
+   ]
+  },
   "tramite": {
    "estado": "concluida",
    "area_actual": "DGIVA",
@@ -4218,6 +8650,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Bodega o almacén",
+   "ubicacion_origen": "punto",
    "uga": "CUH-017",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
@@ -4225,11 +8658,25 @@
   "archivos": [
    {
     "name": "evidencia-01.jpg",
-    "size": 2411724
+    "size": 2411724,
+    "size_original": 9728816,
+    "sha256_original": "fbcb5ead966ec663fe62be9f37ff96bffbec2f4c912a0cfca761a29479161bce",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-08-22T17:33:00",
+    "lat_captura": 19.4315,
+    "lon_captura": -99.1309
    },
    {
     "name": "evidencia-02.jpg",
-    "size": 1874509
+    "size": 1874509,
+    "size_original": 7661876,
+    "sha256_original": "dd44e8ba3f8ad65c4eb9388be573f1d832b736316933d806e30bccaf2ccc64ed",
+    "dimensiones": "2048x1536",
+    "optimizada": true,
+    "tipo": "image/jpeg",
+    "fecha_captura": "2026-08-22T08:46:00"
    }
   ],
   "captura": {
@@ -4238,6 +8685,105 @@
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
    "soporte": "acta-de-comparecencia.pdf"
+  },
+  "acuse": {
+   "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
+   "bloques": [
+    {
+     "id": "materia",
+     "titulo": "Qué se denuncia",
+     "filas": [
+      [
+       "Materia",
+       "Emisiones a la atmósfera de fuentes fijas"
+      ]
+     ]
+    },
+    {
+     "id": "lugar",
+     "titulo": "Dónde ocurre",
+     "filas": [
+      [
+       "Lugar de los hechos",
+       "Avenida Chapultepec 440, Centro I, C.P. 06010, Cuauhtémoc"
+      ],
+      [
+       "Coordenadas",
+       "19.431400, -99.130800"
+      ],
+      [
+       "Alcaldía que atiende",
+       "Cuauhtémoc"
+      ],
+      [
+       "Tipo de suelo",
+       "Suelo urbano"
+      ],
+      [
+       "Área que atiende",
+       "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano"
+      ],
+      [
+       "Referencias",
+       "Entre la calle Morelos y la calle Hidalgo\nPortón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta."
+      ]
+     ]
+    },
+    {
+     "id": "hechos",
+     "titulo": "Qué pasó y quién responde",
+     "filas": [
+      [
+       "¿Dentro de un establecimiento?",
+       "Bodega o almacén · Negocio Ficticio 39"
+      ],
+      [
+       "Hechos denunciados",
+       "De la chimenea del negocio sale humo gris todas las tardes y el olor llega a las casas de la cuadra."
+      ],
+      [
+       "Temporalidad",
+       "Ocurre de forma repetida · 2026-08-22"
+      ],
+      [
+       "A quién se denuncia",
+       "Una empresa o negocio"
+      ],
+      [
+       "Gestiones previas",
+       "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino."
+      ]
+     ]
+    },
+    {
+     "id": "pruebas",
+     "titulo": "Pruebas",
+     "filas": [
+      [
+       "Archivos adjuntos",
+       "evidencia-01.jpg\nevidencia-02.jpg"
+      ],
+      [
+       "Otras pruebas",
+       "Los vecinos de los dos edificios pueden dar testimonio."
+      ]
+     ]
+    },
+    {
+     "id": "quien",
+     "titulo": "Quién denuncia",
+     "filas": [
+      [
+       "Denunciante",
+       "Denuncia anónima"
+      ],
+      [
+       "Contacto",
+       "anonima.39@ejemplo.local"
+      ]
+     ]
+    }
+   ]
   },
   "tramite": {
    "estado": "concluida",

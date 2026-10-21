@@ -23,7 +23,7 @@ mismo resultado. Necesita el artefacto (construir.py) y Playwright.
 
 Uso:  python construccion/generar_admin.py
 """
-import datetime, json, os, pathlib, re, sys
+import datetime, hashlib, json, os, pathlib, re, sys
 from playwright.sync_api import sync_playwright
 
 RAIZ    = pathlib.Path(os.path.abspath(__file__)).parent.parent
@@ -165,6 +165,7 @@ ARMA = r"""(plan) => {
       g('lat', la.toFixed(6)); g('lon', lo.toFixed(6)); g('coord_pegar', la.toFixed(6) + ', ' + lo.toFixed(6));
     }
     actualizaAvisoAlcaldia();
+    g('ubicacion_origen', val('lat') ? 'punto' : 'direccion');   /* como al enviar */
     const recibida = horaDeLaCiudad(new Date(r.fecha_ms));
     const cons = String(r.consecutivo).padStart(6, '0');
     g('fecha_acuse', recibida);
@@ -176,10 +177,39 @@ ARMA = r"""(plan) => {
     for (let n = 1; n <= 5; n++) { irA(n); if (!valida(n)) malos.push(n + ':' + Object.keys(MOTIVO).join(',')); }
     if (malos.length) { fuera.push(r.i + ' no valida ' + malos.join(' ')); continue; }
     const datos = {}; Object.keys(estado).sort().forEach(k => { if (estado[k] !== '' && estado[k] != null) datos[k] = estado[k]; });
-    salida.push({i: r.i, datos: datos, archivos: r.archivos ? archivos.map(a => ({name: a.name, size: a.size})) : []});
+    /* Lo capturado, en el orden del acuse y con el id de cada bloque, y el
+       fundamento que citó el acuse (documento 22, §3.3). Sin género ni edad:
+       en el módulo sólo aparecen en agregado (documento 22, §7). */
+    const sg = val('sexo_genero'), er = val('edad_rango'), suyos = archivos;
+    g('sexo_genero', ''); g('edad_rango', '');
+    if (!r.archivos) archivos = [];
+    const caja = document.createElement('div'); caja.innerHTML = pRevision();
+    const idDe = Object.fromEntries([...caja.querySelectorAll('details.rev-bloque')].map(b => [b.querySelector('.rb-tit').textContent.trim(), b.id.slice(3)]));
+    const acuse = {fundamento: fundamentoAcuse(), bloques: datosDelAcuse().map(b => ({id: idDe[b.titulo], titulo: b.titulo, filas: b.filas}))};
+    g('sexo_genero', sg); g('edad_rango', er); archivos = suyos;
+    salida.push({i: r.i, datos: datos, acuse: acuse, archivos: r.archivos ? archivos.map(a => ({name: a.name, size: a.size})) : []});
   }
   return {salida, fuera};
 }"""
+
+def foto(i, datos, j, a):
+    """Lo que el formulario guarda de cada foto (DEC-121), con valores de
+    prueba: la huella es de un texto, no de una imagen, y el lugar de captura
+    cae junto al punto. Un PNG no trae EXIF, y la segunda foto de cada
+    denuncia viene sin GPS, como pasa a menudo."""
+    a = dict(a)
+    ext = a['name'].rsplit('.', 1)[-1].lower()
+    if ext not in ('jpg', 'jpeg', 'png'):
+        return a
+    a.update({'size_original': a['size'] * 4 + 81920 * (j + 1),
+              'sha256_original': hashlib.sha256(('ficticio:%s:%s' % (datos['folio'], a['name'])).encode()).hexdigest(),
+              'dimensiones': '2048x1536', 'optimizada': True, 'tipo': 'image/jpeg'})
+    if ext != 'png' and datos.get('fecha_hecho'):
+        a['fecha_captura'] = '%sT%02d:%02d:00' % (datos['fecha_hecho'], 8 + (i + j) % 10, (i * 7 + j * 13) % 60)
+        if j == 0 and datos.get('lat'):
+            a['lat_captura'] = round(float(datos['lat']) + 0.0001, 6)
+            a['lon_captura'] = round(float(datos['lon']) - 0.0001, 6)
+    return a
 
 def entre_marcas(texto, inicio, fin, nuevo):
     """Reemplaza lo que hay entre la marca de inicio y la primera de fin que la
@@ -265,7 +295,8 @@ denuncias = []
 por_i = {r['i']: r for r in P}
 for s in hecho['salida']:
     r = por_i[s['i']]
-    d = {'es_ficticio': True, 'canal': r['canal'], 'datos': s['datos'], 'archivos': s['archivos']}
+    d = {'es_ficticio': True, 'canal': r['canal'], 'datos': s['datos'],
+         'archivos': [foto(r['i'], s['datos'], j, a) for j, a in enumerate(s['archivos'])]}
     if r['canal'] != 'en_linea':
         recibida = datetime.datetime.fromisoformat(s['datos']['fecha_acuse'])
         # Lo que llega por ventanilla o teléfono llega en horario de oficina.
@@ -273,6 +304,7 @@ for s in hecho['salida']:
         d['captura'] = {'fecha_recepcion_original': original.isoformat(timespec='seconds'),
                         'folio_origen': 'OP-2026-%04d' % (500 + r['i']), 'recibio': 'Persona de Oficialía de prueba',
                         'capturo': 'Persona de captura de prueba', 'soporte': SOPORTE[r['canal']]}
+    d['acuse'] = s['acuse']
     d['tramite'] = tramite(r, s['datos'], estados_ids)
     denuncias.append(d)
 # Una acumulada apunta a otra de su misma materia: la principal.

@@ -1343,3 +1343,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **De paso, para un bloque siguiente.** Lo que la maqueta propone y debe acordarse con las áreas —estados que cierran, marcas de revisión, umbral de duplicado y quién ubica lo que llega sin punto (MA-13)— queda dicho en el documento 22, §3.2, para la sesión del paso 4. El vencimiento de plazos por etapa se verá en «Inicio» (bloque D).
 
 **Verificación de cierre.** Batería completa en verde: 1 729 comprobaciones en 45 baterías, 285 de ellas sobre la versión publicada. La batería 45 atrapó los dos errores metidos a propósito. Revisión a la vista en escritorio a 1280 px y en teléfono a 390 y 360 px: a 1280 px las once columnas caben; desde unos 1 180 px hacia abajo la tabla se desplaza dentro de su marco, que recibe el foco del teclado, y por debajo de 861 px cada denuncia es una ficha.
+
+### 21 de octubre de 2026 · maqueta del módulo de administración, bloque C: el expediente (DEC-244)
+
+**Qué cambió.** El folio de la bandeja abre el expediente: encabezado fijo con el plazo vigente, las acciones del perfil y las seis secciones del documento 22, §3.3. Los estados llevan el plazo que corre en cada uno; los perfiles, su rol. El generador guarda en cada denuncia de prueba lo capturado en el orden del acuse y el fundamento que citó, tal como los arma el formulario, el origen de la ubicación y los datos de cada foto. Batería 46 nueva.
+
+**Por qué así.** El expediente tiene que decir lo mismo que el acuse que recibió la persona; si la maqueta armara su propia lista de campos, las dos se separarían en el primer cambio del formulario. La batería 46 calcula aparte el plazo de cada estado, el fundamento de DEC-232, las denuncias cercanas y lo que cada perfil puede ver; se comprobó metiendo dos errores a propósito —no marcar los vencidos y mostrarle a consulta los datos de quien denuncia— y los atrapó.
+
+**De paso, para un bloque siguiente.** El mapa del expediente llega con el mapa operativo (bloque D). Las acciones no se ejecutan; si la sesión con las áreas pide verlas funcionar, simularlas en memoria es un bloque aparte. El número del expediente administrativo y el oficio de remisión no tienen formato definido: los datos de prueba no los traen.
+
+**Verificación de cierre.** Batería completa en verde: 1 750 comprobaciones en 46 baterías, 285 de ellas sobre la versión publicada. La batería 46 atrapó los dos errores metidos a propósito. Revisión a la vista en escritorio a 1280 px y en teléfono a 390 y 360 px.
