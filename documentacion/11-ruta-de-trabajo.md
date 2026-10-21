@@ -1281,3 +1281,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Pregunta de Liber durante el bloque.** «¿Quién es responsable de los hechos?» aparece con «Una empresa o negocio» marcada. Se comprobó: sólo se marca sola cuando se responde «Sí» a «¿Los hechos ocurren dentro de un establecimiento?» (DEC-26), y se puede cambiar; al empezar, o con «No», no hay nada marcado. Además, tres escenarios del panel la traen elegida porque llenan todos los campos (DEC-177). Al precisar Liber que la vio tras marcar «Sí» y luego «No», resultó un defecto: se corrige aparte, en la versión siguiente.
 
 **Verificación de cierre.** Batería completa en verde: 1 340 comprobaciones en 40 baterías. La batería 38 probaba el tope de la calle con «xxxx…», que ahora se rechaza como letras al azar; usa una calle real.
+
+### 20 de octubre de 2026 · la empresa propuesta se retira al cambiar a «No» (DEC-238, Versión 35)
+
+**Qué cambió.** `heredaEstablecimiento()` recuerda si la empresa la puso el formulario (`responsableHeredado`); si la persona cambia a «No», la retira y limpia lo que dependía de ella. Elegir en la lista, cargar un escenario, retomar un borrador o reiniciar olvidan la marca. La tabla de ramas lo dice. Batería 41 nueva.
+
+**Por qué.** Liber Saltijeral lo vio al probar: con «Sí» y luego «No», el responsable quedaba como «Una empresa o negocio» sin que nadie lo hubiera elegido.
+
+**Verificación de cierre.** Batería completa en verde: 1 349 comprobaciones en 41 baterías.

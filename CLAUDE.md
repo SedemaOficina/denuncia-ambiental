@@ -38,7 +38,7 @@ Los documentos 09 y 10 **se generan** del prototipo; no se editan a mano sus apa
    python construccion/publicar_pages.py    # docs/index.html para GitHub Pages
    python construccion/pruebas.py           # todas las baterías; deben quedar en verde
    ```
-   Si una batería falla, no se hace commit. Hoy: 1 340 comprobaciones en 40 baterías.
+   Si una batería falla, no se hace commit. Hoy: 1 349 comprobaciones en 41 baterías.
 4. **Registra cada decisión** como renglón nuevo `DEC-n` en la tabla del documento 05, con sus cinco celdas (Clave, Decisión, Fecha, Razón, Estado). Si la nueva decisión modifica otra, escribe «Modifica DEC-x» en la razón y cambia el estado de DEC-x a «Modificada por DEC-n». La batería 36 revisa que la numeración no tenga huecos y que toda decisión citada exista.
 5. **Anota en la bitácora** del documento 11 qué cambió y por qué.
 6. **Versión en pantalla.** El formulario muestra siempre su versión («Versión N · Validación DGIVA», en `VERSION_FORMULARIO`). Sube N cuando cambia algo visible.

@@ -987,7 +987,7 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
     <div class="grupo">
       <button class="btn-link" onclick="abreMapeo()">Ver el mapeo de campos</button>
       <button class="btn-link" onclick="abreVariantes()">Ver las ramas del formulario</button>
-      <button class="btn-link" onclick="borraBorrador();estado={};archivos=[];irA(0)">Reiniciar el recorrido</button>
+      <button class="btn-link" onclick="borraBorrador();estado={};archivos=[];responsableHeredado=false;irA(0)">Reiniciar el recorrido</button>
     </div>
   </div>
 </div>
@@ -1513,7 +1513,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-237', fecha:'20 de octubre de 2026', nombre:'Versión 34 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-238', fecha:'20 de octubre de 2026', nombre:'Versión 35 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1571,7 +1571,7 @@ var BIFURCACIONES = [
   {paso:'3', pregunta:'Cuando se denuncia un vehículo contaminante', opciones:'Vehículo · Otra materia', campos:['materia'],
    efecto:'Sólo con vehículo se pregunta si es transporte público de pasajeros, de carga, particular o no se sabe.'},
   {paso:'3', pregunta:'¿Los hechos ocurren dentro de un establecimiento?', opciones:'Sí · No', campos:['es_estab'],
-   efecto:'«Sí» muestra tipo de establecimiento y nombre comercial, y preselecciona «Una empresa o negocio» en la pregunta siguiente, donde se puede cambiar.'},
+   efecto:'«Sí» muestra tipo de establecimiento y nombre comercial, y preselecciona «Una empresa o negocio» en la pregunta siguiente, donde se puede cambiar. Si después se responde «No», la propuesta se retira; lo que la persona eligió ella misma se conserva (DEC-238).'},
   {paso:'3', pregunta:'Tipo de establecimiento', opciones:'{giros} giros · Otro', campos:['tipo_estab'],
    efecto:'«Otro» abre un campo de texto para especificarlo.'},
   {paso:'3', pregunta:'¿Quién es responsable de los hechos?', opciones:'Persona · Empresa · Autoridad · No lo sé', campos:['tipo_denunciado'],
@@ -1819,7 +1819,7 @@ var ESCENARIOS = [
 function cargaEscenario(id){
   var esc = ESCENARIOS.filter(function(x){return x.id===id;})[0];
   if(!esc) return;
-  estado = {}; archivos = [];
+  estado = {}; archivos = []; responsableHeredado = false;
   Object.keys(esc.e).forEach(function(k){ if(esc.e[k] !== '') estado[k] = esc.e[k]; });
   Object.keys(esc.cfg||{}).forEach(function(k){ cfg[k] = esc.cfg[k]; });
   heredaEstablecimiento();
@@ -2942,7 +2942,7 @@ function pHechos(){
      desplegables. */
   '<div class="fila">'+
   campoSelect('tipo_denunciado','¿Quién es responsable de los hechos?', TIPOS_DENUNCIADO, esObligatorio('tipo_denunciado'),
-    'Si no lo sabes, elige «No lo sé»: no impide presentar la denuncia.','limpiaResponsable();render()')+
+    'Si no lo sabes, elige «No lo sé»: no impide presentar la denuncia.','responsableHeredado=false;limpiaResponsable();render()')+
   '</div>'+
   anidado(bloqueDenunciado())+
 
@@ -3007,8 +3007,14 @@ function limpiaResponsable(){
   });
 }
 
+/* Con «Sí» en establecimiento se propone «Una empresa o negocio» (DEC-26). Si
+   la persona cambia a «No», la propuesta se retira: se quedaba elegida sin que
+   nadie la hubiera elegido. Lo que la persona eligio ella misma en la lista no
+   se toca (DEC-238). */
+var responsableHeredado = false;
 function heredaEstablecimiento(){
-  if(val('es_estab')==='si' && !val('tipo_denunciado')) guarda('tipo_denunciado','empresa');
+  if(val('es_estab')==='si' && !val('tipo_denunciado')){ guarda('tipo_denunciado','empresa'); responsableHeredado = true; }
+  else if(val('es_estab')!=='si' && responsableHeredado){ guarda('tipo_denunciado',''); limpiaResponsable(); responsableHeredado = false; }
 }
 
 
@@ -5681,7 +5687,7 @@ function leeBorrador(){
 }
 function retomaBorrador(){
   var b = leeBorrador(); if(!b){ render(); return; }
-  estado = b.estado; paso = b.paso;
+  estado = b.estado; paso = b.paso; responsableHeredado = false;
   /* Un borrador anterior a DEC-235 trae «FEDERAL» como area: la recibe la
      DGCORENADR y se remite a la PROFEPA. */
   if(estado.dg === 'FEDERAL'){ estado.dg = 'DGCORENADR'; estado.remite_a = 'PROFEPA'; }
