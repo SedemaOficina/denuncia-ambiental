@@ -68,6 +68,7 @@ body{
 }
 h1,h2,h3,h4{font-family:'Cabin','Roboto',Arial,sans-serif;font-weight:600;text-wrap:balance}
 :focus-visible{outline:3px solid var(--foco);outline-offset:2px;border-radius:2px}
+a{color:var(--azul)}
 @media (prefers-reduced-motion: reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
 }
@@ -163,6 +164,12 @@ main{padding:24px 0 48px}
 .accion{border-bottom:1px solid var(--linea)}
 .accion summary{cursor:pointer;color:var(--azul);font-weight:600;min-height:44px;padding:10px 0}
 .accion .ficha{padding-bottom:12px}
+
+/* ---------- Inicio (bloque D) ---------- */
+.listas-inicio{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(320px,100%),1fr));gap:16px;margin-top:16px}
+.lista-inicio{border:1px solid var(--linea);border-radius:var(--r-caja);padding:14px 16px}
+.tarjeta .lista-inicio h3{margin-top:0}
+.cuenta-inicio{font-size:var(--t-xl);color:var(--guinda);margin-right:4px}
 
 /* ---------- Pantallas angostas ---------- */
 /* En el teléfono cada denuncia es una ficha y cada dato lleva su etiqueta.
@@ -277,11 +284,18 @@ var CANALES = [
   {id:'comparecencia', nom:'Comparecencia'}
 ];
 
+/* Personas de atención de prueba, por área. El generador reparte entre ellas
+   las asignaciones, y el perfil de atención simula a la primera de su área. */
+var PERSONAL = {
+  DGIVA:      ['Persona de atención A (DGIVA)', 'Persona de atención B (DGIVA)'],
+  DGCORENADR: ['Persona de atención A (DGCORENADR)', 'Persona de atención B (DGCORENADR)']
+};
+
 /* Las ocho pantallas del bosquejo (apartado 3). El expediente no va en el
    menú: se abre desde la bandeja. «bloque» dice en qué bloque de la maqueta
    se construye cada una (DEC-242). */
 var PANTALLAS = [
-  {id:'inicio',        nom:'Inicio',                    bloque:'D', resumen:'Lo que cada persona debe atender hoy, en cinco listas de trabajo —no son estados—: lo nuevo de su área, lo que tiene asignado, lo que está por vencer, lo vencido y lo resuelto que falta notificar.'},
+  {id:'inicio',        nom:'Inicio',                    bloque:'D', resumen:'Lo que cada perfil debe atender hoy, en listas de trabajo —no son estados—: lo nuevo, lo asignado o por asignar, lo que está por vencer, lo vencido y lo resuelto que falta notificar.'},
   {id:'bandeja',       nom:'Bandeja',                   bloque:'B', resumen:'Listado de denuncias con vistas predefinidas, filtros combinables y búsqueda.'},
   {id:'expediente',    nom:'Expediente',                bloque:'C', resumen:'Una denuncia completa: lo capturado, la ubicación, la evidencia, las actuaciones, el contacto y la notificación.', fueraDelMenu:true},
   {id:'captura',       nom:'Captura por personal',      bloque:'E', resumen:'El mismo formulario, para lo que llega por Oficialía de Partes, teléfono, correo o comparecencia.'},
@@ -393,6 +407,42 @@ var COLUMNAS = [
 ];
 var POR_PAGINA = 15;
 var MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+/* «Por vencer» en Inicio: lo que vence dentro de estos días hábiles. Cifra de
+   prueba, por acordar con las áreas. */
+var AVISO_VENCE = 2;
+
+/* Las listas de trabajo de Inicio (documento 22, §3.1). No son estados:
+   juntan denuncias de varios estados según lo que hay que hacer hoy. Atención
+   ve lo nuevo de su área y, en lo demás, lo que tiene a su cargo; coordinación
+   ve toda su área y, en lugar de «Asignadas», lo que falta asignar. Captura
+   ve lo que capturó. */
+var LISTAS_INICIO = [
+  {nom:'Nuevas', roles:['atencion','coordinacion'], deArea:true,
+   que:'Recibidas o por ubicar: nadie las ha turnado todavía.',
+   cumple:function(d){ return d.tramite.estado === 'recibida' || d.tramite.estado === 'por_ubicar'; }},
+  {nom:'Asignadas', roles:['atencion'],
+   que:'Abiertas y a su cargo.',
+   cumple:function(d){ return !cerrada(d); }},
+  {nom:'Por asignar', roles:['coordinacion'],
+   que:'Turnadas a su área, sin persona asignada.',
+   cumple:function(d){ return d.tramite.estado === 'turnada' && !d.tramite.asignado; }},
+  {nom:'Por vencer', roles:['atencion','coordinacion'],
+   que:'El plazo de su etapa vence en los próximos '+AVISO_VENCE+' días hábiles.',
+   cumple:function(d){ var p = plazoDe(d); return !!p && !p.vencido && p.total - p.van <= AVISO_VENCE; }},
+  {nom:'Vencidas', roles:['atencion','coordinacion'],
+   que:'Ya pasaron el plazo de su etapa.',
+   cumple:function(d){ var p = plazoDe(d); return !!p && p.vencido; }},
+  {nom:'Por notificar', roles:['atencion','coordinacion'],
+   que:'Resueltas cuyo resultado falta notificar.',
+   cumple:function(d){ return d.tramite.estado === 'resuelta'; }},
+  {nom:'Capturadas', roles:['captura'],
+   que:'Lo que llegó por Oficialía de Partes, teléfono, correo o comparecencia, de lo más reciente a lo más antiguo.',
+   cumple:function(){ return true; }},
+  {nom:'Con posible duplicado', roles:['captura'],
+   que:'Se parecen a otra denuncia por materia, lugar y fecha: el aviso que daría la captura al guardar (P-21, control 4).',
+   cumple:function(d){ return parecidas(d).length > 0; }}
+];
 
 /* El procedimiento completo dura 93 días hábiles en suelo urbano y 90 en
    suelo de conservación (DEC-84). El reparto de competencias sigue esa misma
@@ -633,6 +683,37 @@ function quitaFiltros(){
   document.getElementById('f-texto').focus();
 }
 
+/* ---------- Inicio (bloque D) ---------- */
+
+/* El perfil de atención simula a la primera persona de su área. */
+function personaDe(p){ return p.rol === 'atencion' ? PERSONAL[p.area][0] : ''; }
+
+function pintaInicio(){
+  var p = porId(PANTALLAS, 'inicio'), persona = personaDe(perfil);
+  var listas = LISTAS_INICIO.filter(function(l){ return l.roles.indexOf(perfil.rol) >= 0; });
+  var html = '<div class="tarjeta"><h2 tabindex="-1">'+esc(p.nom)+'</h2><p class="resumen">'+esc(p.resumen)+'</p>';
+  if(!listas.length){
+    document.getElementById('pantalla').innerHTML = html+
+      '<p><span class="pendiente">El inicio de Administración llega con el bloque F de la maqueta</span></p></div>';
+    return;
+  }
+  html += '<p class="resumen">Hoy es '+esc(fechaCorta(HOY))+' (fecha fija de la maqueta). '+
+    (persona ? 'Este perfil simula a '+esc(persona)+'.' : perfil.area ? 'Este perfil ve toda la '+esc(perfil.area)+'.' : '')+'</p>'+
+    '<div class="listas-inicio">'+listas.map(function(l){
+      var lista = visibles().filter(function(d){
+        return l.cumple(d) && (l.deArea || !persona || d.tramite.asignado === persona);
+      }).sort(function(a, b){ return recepcion(a) < recepcion(b) ? 1 : -1; });
+      return '<section class="lista-inicio"><h3><span class="cuenta-inicio">'+lista.length+'</span> '+esc(l.nom)+'</h3>'+
+        '<p class="nota-listado">'+esc(l.que)+'</p>'+
+        (lista.length ? '<ul class="lista-exp">'+lista.map(function(d){
+          return '<li><a href="#/expediente/'+idDe(d)+'">'+esc(d.datos.folio)+'</a> · '+esc(porId(MATERIAS, d.datos.materia).nom)+
+            ' · '+esc(porId(ESTADOS, d.tramite.estado).nom)+'<span class="dato-sec">'+plazoTexto(d)+'</span></li>';
+        }).join('')+'</ul>' : '<p>Nada en esta lista.</p>')+
+      '</section>';
+    }).join('')+'</div></div>';
+  document.getElementById('pantalla').innerHTML = html;
+}
+
 /* ---------- Expediente (bloque C) ---------- */
 
 function fechaHora(iso){ return fechaCorta(iso)+', '+iso.slice(11, 16)+' h'; }
@@ -807,6 +888,7 @@ function pintaMenu(actual){
 function pintaPantalla(id, param){
   if(id === 'bandeja') return pintaBandeja(param);
   if(id === 'expediente') return pintaExpediente(param);
+  if(id === 'inicio') return pintaInicio();
   var p = porId(PANTALLAS, id), n = visibles().length;
   document.getElementById('pantalla').innerHTML =
     '<div class="tarjeta">'+

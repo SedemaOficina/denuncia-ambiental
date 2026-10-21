@@ -1353,3 +1353,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **De paso, para un bloque siguiente.** El mapa del expediente llega con el mapa operativo (bloque D). Las acciones no se ejecutan; si la sesión con las áreas pide verlas funcionar, simularlas en memoria es un bloque aparte. El número del expediente administrativo y el oficio de remisión no tienen formato definido: los datos de prueba no los traen.
 
 **Verificación de cierre.** Batería completa en verde: 1 750 comprobaciones en 46 baterías, 285 de ellas sobre la versión publicada. La batería 46 atrapó los dos errores metidos a propósito. Revisión a la vista en escritorio a 1280 px y en teléfono a 390 y 360 px.
+
+### 21 de octubre de 2026 · maqueta del módulo de administración, bloque D, primera parte: Inicio (DEC-245)
+
+**Qué cambió.** «Inicio» deja de ser un aviso: listas de trabajo por perfil, cada denuncia con su plazo y su liga al expediente. Las personas de atención de prueba pasan a la maqueta (`PERSONAL`) y el generador las lee de ahí; se comprobó que las cuarenta denuncias de prueba salen idénticas. Batería 47 nueva.
+
+**Por qué así.** El bloque D son tres pantallas distintas; entregarlas por partes deja cada avance guardado y probado. Las listas se calculan con el mismo plazo que muestra el expediente, para que «vencido» diga lo mismo en las dos pantallas.
+
+**De paso.** Dos corridas completas fallaron en ocho baterías que, solas, pasaban: se detenían sin comprobar nada y `pruebas.py` no decía por qué, y la única pista era una tipografía que no cargó por la red. `pruebas.py` ahora muestra el final del error cuando una batería se detiene sin dejar ninguna FALLA, para que un fallo así no quede mudo. La tercera corrida salió en verde.
+
+**Verificación de cierre.** Batería completa en verde: 1 761 comprobaciones en 47 baterías, 285 de ellas sobre la versión publicada. La batería 47 atrapó los dos errores metidos a propósito —que atención viera toda su área y cambiar la regla de «por vencer»—. Revisión a la vista en escritorio y a 390 px.

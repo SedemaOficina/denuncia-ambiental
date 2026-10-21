@@ -15,8 +15,8 @@
    la base, y se inyectan en la maqueta.
 3. Lo que el modulo agrega al tramite —estado, area actual, persona asignada,
    historial, notificacion, marcas de revision— segun la propuesta del
-   bosquejo (documento 22). Los estados, los canales y las marcas se leen de
-   la maqueta, que es donde viven.
+   bosquejo (documento 22). Los estados, los canales, las marcas y las
+   personas de atención se leen de la maqueta, que es donde viven.
 
 Todo es determinista: sin azar ni reloj, de modo que correrlo dos veces da el
 mismo resultado. Necesita el artefacto (construir.py) y Playwright.
@@ -46,8 +46,8 @@ NOMBRES = [('Fulana', 'de Tal', 'Ejemplo'), ('Mengano', 'Pérez', 'Prueba'), ('Z
            ('Perengano', 'Ruiz', 'Ejemplo'), ('Fulano', 'Gómez', 'Prueba'), ('Mengana', 'Díaz', 'Ficticia'),
            ('Zutano', 'Herrera', 'Ejemplo'), ('Perengana', 'Soto', 'Prueba')]
 NOMBRE_LARGO = ('Fulana de las Mercedes Guadalupe', 'de Tal y Ejemplo', 'Prueba Ficticia')
-PERSONAL = {'DGIVA': ['Persona de atención A (DGIVA)', 'Persona de atención B (DGIVA)'],
-            'DGCORENADR': ['Persona de atención A (DGCORENADR)', 'Persona de atención B (DGCORENADR)']}
+# Las personas de atención viven en la maqueta (PERSONAL), que simula a una de
+# ellas en el perfil de atención; se leen de ahí más abajo.
 COORDINACION = {'DGIVA': 'Coordinación de prueba (DGIVA)', 'DGCORENADR': 'Coordinación de prueba (DGCORENADR)', '': 'Coordinación de prueba'}
 
 # Un relato por materia, para que lo que se lee concuerde con lo que se elige.
@@ -275,6 +275,7 @@ with sync_playwright() as pw:
     estados_ids = pg.evaluate("() => ESTADOS.map(e => e.id)")
     canales_ids = pg.evaluate("() => CANALES.map(c => c.id)")
     marcas_ids = pg.evaluate("() => MARCAS.map(m => m.id)")
+    PERSONAL = pg.evaluate("() => PERSONAL")
     pg.goto(TMP.as_uri()); pg.wait_for_timeout(600)
     MATERIAS_IDS = pg.evaluate("() => MATERIAS.map(m => m.id)")
     materias = pg.evaluate("() => MATERIAS.map(m => ({id: m.id, nom: m.nom}))")

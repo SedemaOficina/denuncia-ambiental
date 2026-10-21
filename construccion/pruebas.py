@@ -46,9 +46,11 @@ def corre(f, destino, extra, etiqueta=''):
     print('%-34s %3d comprobaciones  %s' % (nombre, verdes, 'en verde' if r.returncode == 0 else 'CON FALLOS'))
     if r.returncode != 0:
         fallidos.append(etiqueta + nombre)
-        for linea in salida.splitlines():
-            if linea.startswith('FALLA'):
-                print('      ' + linea)
+        fallas = [l for l in salida.splitlines() if l.startswith('FALLA')]
+        # Una batería que se detiene antes de comprobar no deja ninguna FALLA:
+        # se muestra el final del error para que no quede mudo.
+        for linea in fallas or (r.stderr or 'sin salida').strip().splitlines()[-4:]:
+            print('      ' + linea)
     return verdes
 
 for f in archivos:
