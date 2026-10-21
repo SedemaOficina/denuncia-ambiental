@@ -5,7 +5,8 @@ prueba (DEC-242).
    1. Abre sola, con doble clic: sin errores y sin pedir nada a internet salvo
       las tipografías; la franja dice que es una maqueta con datos ficticios.
    2. Lo que toma del formulario es idéntico a lo del formulario: variables de
-      :root, logotipo y denuncias de prueba (las mismas del archivo de datos).
+      :root, logotipo, nombres de las materias y denuncias de prueba (las
+      mismas del archivo de datos).
    3. Las denuncias de prueba son cuarenta, inequívocamente ficticias, y cubren
       cada valor de cada catálogo: materias, estados, canales, áreas, remisión,
       tipos de zona, anónimas, autoridad señalada, sin punto, alcaldía que no
@@ -42,6 +43,9 @@ datos = json.loads(DATOS.read_text(encoding='utf-8'))
 # ---- 2. Lo que viene del formulario ----
 afirma(re.search(r'(?ms)^:root\{.*?^\}', p).group(0) in m, 'las variables de :root son las del formulario, al carácter')
 afirma(re.search(r'<img class="logo-inst"[^>]*>', p).group(0) in m, 'el logotipo es el del formulario')
+bloque = p[p.index('var MATERIAS = ['):]
+bloque = bloque[:bloque.index('\n];')]
+del_formulario = [{'id': i, 'nom': n} for i, n in re.findall(r"\{id:'([a-z_]+)',.*?\bnom:'([^']+)'", bloque)]
 
 with sync_playwright() as pw:
     nav = pw.chromium.launch(executable_path=CHROMIUM)
@@ -59,6 +63,8 @@ with sync_playwright() as pw:
            'abre con la franja de maqueta, el idioma es-MX y el logotipo institucional')
     afirma(pg.evaluate("() => JSON.stringify(DENUNCIAS)") == json.dumps(datos, ensure_ascii=False, separators=(',', ':')),
            'las denuncias de la maqueta son las del archivo de datos')
+    afirma(len(del_formulario) == 19 and pg.evaluate("() => MATERIAS") == del_formulario,
+           'las materias de la maqueta son las del formulario, con sus nombres y en su orden')
 
     # ---- 3. Las denuncias de prueba ----
     cat = pg.evaluate("() => ({estados: ESTADOS.map(e => e.id), canales: CANALES.map(c => c.id)})")
@@ -107,15 +113,16 @@ with sync_playwright() as pw:
     # ---- 5. Perfiles ----
     perf = pg.evaluate("""() => PERFILES.map(p => { cambiaPerfil(p.id);
       return {id: p.id, menu: [...document.querySelectorAll('.menu a')].map(a => a.getAttribute('href').slice(2)),
-              esperado: p.pantallas.filter(x => x !== 'expediente'), cifra: +document.querySelector('.cifra').textContent,
+              esperado: p.pantallas.filter(x => x !== 'expediente'), cifra: visibles().length,
               texto: document.getElementById('pantalla').innerText}; })""")
     # El menú sigue siempre el orden de PANTALLAS; lo que cambia es cuáles.
     afirma(all(set(x['menu']) == set(x['esperado']) for x in perf), 'cada perfil ve en el menú sus pantallas, y sólo ésas')
     cuenta = {x['id']: x['cifra'] for x in perf}
-    afirma(cuenta['atencion_dgiva'] == sum(t['area_actual'] == 'DGIVA' for t in T)
-           and cuenta['atencion_dgcorenadr'] == sum(t['area_actual'] == 'DGCORENADR' for t in T)
+    # Sin punto no hay área todavía: la ven las dos direcciones generales.
+    afirma(cuenta['atencion_dgiva'] == sum(t['area_actual'] in ('DGIVA', '') for t in T)
+           and cuenta['atencion_dgcorenadr'] == sum(t['area_actual'] in ('DGCORENADR', '') for t in T)
            and cuenta['captura'] == sum(x['canal'] != 'en_linea' for x in datos) and cuenta['consulta'] == 40,
-           'cada perfil cuenta sus denuncias: %s' % cuenta)
+           'cada perfil cuenta sus denuncias, y las que no tienen punto las ven las dos direcciones generales: %s' % cuenta)
     afirma('sin nombre, contacto ni domicilio' in next(x for x in perf if x['id'] == 'consulta')['texto'],
            'consulta lo ve sin datos personales de quien denuncia')
     pg.evaluate("() => { cambiaPerfil('atencion_dgiva'); location.hash = '#/administracion'; }"); pg.wait_for_timeout(150)

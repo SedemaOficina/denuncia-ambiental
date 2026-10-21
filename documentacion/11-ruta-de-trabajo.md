@@ -1333,3 +1333,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **De la cadena.** `generar_admin.py` va después de `construir.py`, porque usa el artefacto.
 
 **Verificación de cierre.** Batería completa en verde: 1 696 comprobaciones en 44 baterías. Generador corrido tres veces con el mismo resultado. Revisión a la vista en escritorio y en teléfono: al abrir, el foco ya no se marca sobre el título; sólo se mueve al cambiar de pantalla.
+
+### 21 de octubre de 2026 · maqueta del módulo de administración, bloque B: la bandeja (DEC-243)
+
+**Qué cambió.** La pantalla «Bandeja» de la maqueta deja de ser un aviso y lista las denuncias: once columnas, diez vistas del bosquejo más «Todas», ocho filtros combinables, búsqueda por folio, establecimiento, calle y hechos, orden por recepción y páginas de quince. En teléfono, cada denuncia es una ficha y los filtros empiezan plegados. El generador agrega el par de posibles duplicados, las tres marcas de revisión, la hora de oficina de lo capturado, el «hoy» fijo y los nombres de las materias. El texto de «Inicio» aclara que sus cinco listas no son estados. Bajo el listado, una nota dice que los estados, las marcas y el umbral son una propuesta por acordar (MA-07, P-14). Batería 45 nueva; la 35 revisa también funciones y variables locales de la maqueta, y ya no exceptúa `ESTADOS` ni `CANALES`, que la bandeja usa.
+
+**Por qué así.** Cada vista y cada columna sale de la tabla del documento 22, y la batería 45 compara contra ella: si el bosquejo cambia una vista, la prueba lo nota. Las cuentas esperadas se calculan en la batería con las reglas del bosquejo, aparte de la maqueta, para que un error en la maqueta no se confirme a sí mismo; se comprobó metiendo dos errores a propósito —contar sábados y que un perfil vea otra área— y la batería los atrapó.
+
+**De paso, para un bloque siguiente.** Lo que la maqueta propone y debe acordarse con las áreas —estados que cierran, marcas de revisión, umbral de duplicado y quién ubica lo que llega sin punto (MA-13)— queda dicho en el documento 22, §3.2, para la sesión del paso 4. El vencimiento de plazos por etapa se verá en «Inicio» (bloque D).
+
+**Verificación de cierre.** Batería completa en verde: 1 729 comprobaciones en 45 baterías, 285 de ellas sobre la versión publicada. La batería 45 atrapó los dos errores metidos a propósito. Revisión a la vista en escritorio a 1280 px y en teléfono a 390 y 360 px: a 1280 px las once columnas caben; desde unos 1 180 px hacia abajo la tabla se desplaza dentro de su marco, que recibe el foco del teclado, y por debajo de 861 px cada denuncia es una ficha.

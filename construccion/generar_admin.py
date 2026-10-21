@@ -3,7 +3,8 @@
 (DEC-242), para que no haya dos copias que se separen:
 
 1. Las variables de color y medida (:root) y el logotipo, leidos del texto del
-   prototipo del formulario.
+   prototipo del formulario; los nombres de las materias, de su catalogo
+   MATERIAS; y el «hoy» fijo con que se cuentan los dias habiles.
 2. Cuarenta denuncias ficticias, armadas con la logica del propio formulario:
    se carga un escenario del panel de validacion, se cambia lo que haga falta
    y el formulario calcula lo demas —area que recibe, remision, tipo de zona,
@@ -13,8 +14,9 @@
    prototipo/administracion/denuncias-ficticias.json, con la forma que tendra
    la base, y se inyectan en la maqueta.
 3. Lo que el modulo agrega al tramite —estado, area actual, persona asignada,
-   historial, notificacion— segun la propuesta del bosquejo (documento 22).
-   Los estados y los canales se leen de la maqueta, que es donde viven.
+   historial, notificacion, marcas de revision— segun la propuesta del
+   bosquejo (documento 22). Los estados, los canales y las marcas se leen de
+   la maqueta, que es donde viven.
 
 Todo es determinista: sin azar ni reloj, de modo que correrlo dos veces da el
 mismo resultado. Necesita el artefacto (construir.py) y Playwright.
@@ -75,11 +77,18 @@ BASES = {'zonas': ['sin_calle', 'conservacion', 'anp_coadmin', 'ava', 'anp_feder
          'otras': ['urbano', 'gobierno', 'otro_giro']}
 CON_ESTABLECIMIENTO = {'emisiones', 'ruido', 'rsu', 'descargas', 'plasticos', 'verificacion', 'construccion'}
 CANAL = {2: 'oficialia', 9: 'oficialia', 16: 'oficialia', 23: 'oficialia', 30: 'oficialia',
-         5: 'telefono', 19: 'telefono', 33: 'telefono', 12: 'correo', 26: 'correo', 37: 'comparecencia', 39: 'comparecencia'}
+         1: 'telefono', 5: 'telefono', 19: 'telefono', 33: 'telefono', 12: 'correo', 26: 'correo', 37: 'comparecencia', 39: 'comparecencia'}
 SOPORTE = {'oficialia': 'escrito-con-sello.pdf', 'telefono': 'nota-de-llamada.pdf', 'correo': 'correo-recibido.pdf',
            'comparecencia': 'acta-de-comparecencia.pdf'}
 # Casos incómodos, cada uno una vez: la norma pide que algo se rompa.
 SIN_PUNTO, ALCALDIA_DISTINTA, LARGO, SIN_ARCHIVOS_CADA = 3, 7, 13, 6
+# El mismo hecho por dos vías (P-21, control 4): la 1 llega por teléfono con la
+# materia de la 0, a unos treinta metros y dos días antes, para que la vista
+# «Posible duplicado» de la bandeja tenga qué mostrar.
+DUPLICA = {1: 0}
+HECHOS_DUPLICADO = 'En el predio de junto levantan varios pisos sin ningún permiso a la vista; ya lo habían reportado otros vecinos.'
+# Marcas que el servidor pondría al recibir (documento 15; SIA-15, SIA-26).
+MARCA = {6: 'humanidad', 7: 'rafaga', 11: 'completitud'}
 
 def plan():
     """Una especificacion por denuncia, en el orden de los folios."""
@@ -95,9 +104,12 @@ def plan():
         # angosta; desplazado, el punto se sale del poligono.
         k = 0 if base in ('anp_coadmin', 'anp_federal', 'ava') else 1
         d = (((i * 7) % 9 - 4) * 0.0012 * k, ((i * 5) % 9 - 4) * 0.0012 * k)
+        if i in DUPLICA:
+            otra = p[DUPLICA[i]]
+            m, base, d = otra['materia'], otra['base'], (otra['desplaza'][0] + 0.0002, otra['desplaza'][1] + 0.0002)
         anonima = i % 5 == 4
         resp = 'gobierno' if base == 'gobierno' else ('empresa' if m in CON_ESTABLECIMIENTO else ('nose' if i % 3 == 0 else 'particular'))
-        p.append({'i': i, 'base': base, 'materia': m, 'hechos': HECHOS[m], 'desplaza': d,
+        p.append({'i': i, 'base': base, 'materia': m, 'hechos': HECHOS_DUPLICADO if i in DUPLICA else HECHOS[m], 'desplaza': d,
                   'sin_punto': i == SIN_PUNTO, 'punto_otra_alcaldia': i == ALCALDIA_DISTINTA,
                   'anonima': anonima, 'nombre': NOMBRE_LARGO if i == LARGO else NOMBRES[i % len(NOMBRES)],
                   'establecimiento': m in CON_ESTABLECIMIENTO, 'otro_giro': i == 26, 'responsable': resp,
@@ -180,8 +192,9 @@ def entre_marcas(texto, inicio, fin, nuevo):
     return texto[:a[0]] + nuevo + texto[b:]
 
 def tramite(r, datos, estados_ids):
-    """Lo que el modulo agrega: estado, area actual, asignacion, historial y
-    notificacion. Ciclo principal del bosquejo, con los casos laterales."""
+    """Lo que el modulo agrega: estado, area actual, asignacion, historial,
+    notificacion y marcas de revision. Ciclo principal del bosquejo, con los
+    casos laterales."""
     i, dg = r['i'], datos.get('dg', '')
     camino = ['recibida', 'turnada', 'en_analisis', 'admitida', 'visita_programada', 'visita_practicada',
               'en_procedimiento', 'resuelta', 'notificada', 'concluida']
@@ -213,7 +226,7 @@ def tramite(r, datos, estados_ids):
                  'resultado': 'rebotado' if anon and i % 2 else 'entregado'}
     return {'estado': final, 'area_actual': area, 'asignado': asignado, 'historial': historial,
             'materia_confirmada': MATERIAS_IDS[(MATERIAS_IDS.index(datos['materia']) + 1) % len(MATERIAS_IDS)] if i in (10, 21) else datos['materia'],
-            'notificacion': notif, 'acumulada_en': None}
+            'notificacion': notif, 'acumulada_en': None, 'marcas': [MARCA[i]] if i in MARCA else []}
 
 # ---------------------------------------------------------------------------
 proto = PROTO.read_text(encoding='utf-8')
@@ -231,8 +244,10 @@ with sync_playwright() as pw:
     pg.goto(MAQUETA.as_uri()); pg.wait_for_timeout(300)
     estados_ids = pg.evaluate("() => ESTADOS.map(e => e.id)")
     canales_ids = pg.evaluate("() => CANALES.map(c => c.id)")
+    marcas_ids = pg.evaluate("() => MARCAS.map(m => m.id)")
     pg.goto(TMP.as_uri()); pg.wait_for_timeout(600)
     MATERIAS_IDS = pg.evaluate("() => MATERIAS.map(m => m.id)")
+    materias = pg.evaluate("() => MATERIAS.map(m => ({id: m.id, nom: m.nom}))")
     GRUPO = pg.evaluate("() => Object.fromEntries(MATERIAS.map(m => [m.id, m.g]))")
     P = plan()
     for r in P: r['canal'] = CANAL.get(r['i'], 'en_linea')
@@ -243,6 +258,8 @@ if hecho['fuera']:
     sys.exit('ERROR: denuncias de prueba que no se pudieron armar: %s' % hecho['fuera'])
 if any(c not in canales_ids for c in set(CANAL.values()) | {'en_linea'}):
     sys.exit('ERROR: un canal del generador no existe en CANALES de la maqueta.')
+if any(x not in marcas_ids for x in MARCA.values()):
+    sys.exit('ERROR: una marca del generador no existe en MARCAS de la maqueta.')
 
 denuncias = []
 por_i = {r['i']: r for r in P}
@@ -251,7 +268,9 @@ for s in hecho['salida']:
     d = {'es_ficticio': True, 'canal': r['canal'], 'datos': s['datos'], 'archivos': s['archivos']}
     if r['canal'] != 'en_linea':
         recibida = datetime.datetime.fromisoformat(s['datos']['fecha_acuse'])
-        d['captura'] = {'fecha_recepcion_original': (recibida - datetime.timedelta(days=1)).isoformat(timespec='seconds'),
+        # Lo que llega por ventanilla o teléfono llega en horario de oficina.
+        original = (recibida - datetime.timedelta(days=1)).replace(hour=9 + r['i'] % 8, minute=(r['i'] * 7) % 60)
+        d['captura'] = {'fecha_recepcion_original': original.isoformat(timespec='seconds'),
                         'folio_origen': 'OP-2026-%04d' % (500 + r['i']), 'recibio': 'Persona de Oficialía de prueba',
                         'capturo': 'Persona de captura de prueba', 'soporte': SOPORTE[r['canal']]}
     d['tramite'] = tramite(r, s['datos'], estados_ids)
@@ -270,6 +289,9 @@ m = entre_marcas(m, '/* ==== %s: variables de :root (construccion/generar_admin.
 m = entre_marcas(m, '<!-- ==== %s: logotipo (construccion/generar_admin.py; no se edita aquí) ==== -->' % INICIO,
                  '<!-- ==== %s ==== -->' % FIN, '\n    ' + logo.group(0) + '\n')
 m = entre_marcas(m, '/* ==== %s: catálogos y denuncias ficticias (construccion/generar_admin.py; no se edita aquí) ==== */' % INICIO,
-                 '/* ==== %s ==== */' % FIN, '\nvar DENUNCIAS = ' + json.dumps(denuncias, ensure_ascii=False) + ';\n')
+                 '/* ==== %s ==== */' % FIN,
+                 '\nvar HOY = ' + json.dumps(HOY.isoformat(timespec='seconds')) + ';\n'
+                 'var MATERIAS = ' + json.dumps(materias, ensure_ascii=False) + ';\n'
+                 'var DENUNCIAS = ' + json.dumps(denuncias, ensure_ascii=False) + ';\n')
 MAQUETA.write_text(m, encoding='utf-8', newline='\n')
 print('maqueta de administración: %d denuncias ficticias; %.1f KB' % (len(denuncias), len(m.encode('utf-8')) / 1024))

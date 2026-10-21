@@ -17,8 +17,8 @@ def afirma(c, m): (notas if c else fallos).append(('OK  ' if c else 'FALLA ') + 
 PROTO = RAIZ.parent / 'prototipo' / 'prototipo-denuncia-ambiental-sedema.html'
 MAQUETA = RAIZ.parent / 'prototipo' / 'administracion' / 'maqueta-administracion.html'
 # Variables globales que la pagina no usa porque las lee un generador: INTERNOS
-# lo lee generar_doc09.py; ESTADOS y CANALES de la maqueta, generar_admin.py.
-LEIDAS_FUERA = {'prototipo': {'INTERNOS'}, 'artefacto': {'INTERNOS'}, 'maqueta': {'ESTADOS', 'CANALES'}}
+# lo lee generar_doc09.py. La maqueta ya usa todo lo suyo desde la bandeja.
+LEIDAS_FUERA = {'prototipo': {'INTERNOS'}, 'artefacto': {'INTERNOS'}, 'maqueta': set()}
 # El artefacto agrega el mapa vectorial: sus funciones sustituyen a propósito
 # las del mapa de calles (construir.py), así que el código se audita en el
 # prototipo, que es la fuente; los estilos, en los dos.
@@ -93,8 +93,8 @@ for etiqueta, origen in (('prototipo', PROTO), ('artefacto', RUTA), ('maqueta', 
   # de cada control que la necesita (alto del texto largo, flecha de la lista,
   # ancho de la fecha en iPhone).
   EXCEPCION = {('', 'textarea'), ('', 'select'), ('', 'input[type=date]')}
-  if etiqueta == 'prototipo': afirma(not dup_f, etiqueta + ': ninguna función se declara dos veces: %s' % dup_f)
-  if etiqueta == 'prototipo': afirma(not sin_uso_f, etiqueta + ': ninguna función queda sin uso: %s' % sin_uso_f)
+  if etiqueta != 'artefacto': afirma(not dup_f, etiqueta + ': ninguna función se declara dos veces: %s' % dup_f)
+  if etiqueta != 'artefacto': afirma(not sin_uso_f, etiqueta + ': ninguna función queda sin uso: %s' % sin_uso_f)
   afirma([v for v in sin_uso_v if v not in LEIDAS_FUERA[etiqueta]] == [], etiqueta + ': ninguna variable global queda sin uso: %s' % sin_uso_v)
   afirma(not sin_uso_c, etiqueta + ': ninguna clase de estilo queda huérfana, tampoco en @media o @supports: %s' % sin_uso_c)
   afirma([x for x in repetidos if x not in EXCEPCION] == [], etiqueta + ': ningún selector se declara dos veces, salvo las tres excepciones anotadas: %s' % repetidos)
@@ -123,9 +123,11 @@ for etiqueta, origen in (('prototipo', PROTO), ('artefacto', RUTA), ('maqueta', 
   afirma(not vacios, etiqueta + ': ningún catch vacío sin un comentario que diga por qué: %d' % len(vacios))
 
 # ---- Ampliación del bloque 6 de la auditoría (DEC-239) ----
-s = PROTO.read_text(encoding='utf-8')
-scripts = '\n'.join(re.findall(r'<script[^>]*>(.*?)</script>', s, re.S))
-sin_coment = re.sub(r'(?m)^\s*//.*$', ' ', re.sub(r'/\*.*?\*/', ' ', scripts, flags=re.S))
+def sin_comentarios(ruta):
+    s_ = ruta.read_text(encoding='utf-8')
+    sc = '\n'.join(re.findall(r'<script[^>]*>(.*?)</script>', s_, re.S))
+    return s_, sc, re.sub(r'(?m)^\s*//.*$', ' ', re.sub(r'/\*.*?\*/', ' ', sc, flags=re.S))
+s, scripts, sin_coment = sin_comentarios(PROTO)
 
 # 8. Variables locales sin uso (A4-01): en cada función de nivel superior, todo
 #    nombre que se declara con var, let o const se vuelve a usar.
@@ -160,15 +162,20 @@ def declarados(cuerpo):
         partes.append(cuerpo[ini:k])
         nombres += [mm.group(1) for mm in (re.match(r'\s*([A-Za-z_$][\w$]*)', x) for x in partes) if mm]
     return nombres
-locales = []
-for nombre, cuerpo in funciones(sin_coment):
-    # Sin el contenido de las cadenas: en «dg = val('dg')» la cadena contaba
-    # como un uso, y la variable que encontró la auditoría pasaba inadvertida.
-    codigo_f = re.sub(r"'(?:[^'\\\n]|\\.)*'|\"(?:[^\"\\\n]|\\.)*\"", "''", cuerpo)
-    for v in set(declarados(codigo_f)):
-        if len(re.findall(r'(?<![\w$.])' + re.escape(v) + r'(?![\w$])', codigo_f)) < 2:
-            locales.append('%s en %s()' % (v, nombre))
-afirma(not locales, 'prototipo: ninguna variable local queda sin uso: %s' % sorted(locales)[:6])
+def locales_sin_uso(txt):
+    out = []
+    for nombre, cuerpo in funciones(txt):
+        # Sin el contenido de las cadenas: en «dg = val('dg')» la cadena contaba
+        # como un uso, y la variable que encontró la auditoría pasaba inadvertida.
+        codigo_f = re.sub(r"'(?:[^'\\\n]|\\.)*'|\"(?:[^\"\\\n]|\\.)*\"", "''", cuerpo)
+        for v in set(declarados(codigo_f)):
+            if len(re.findall(r'(?<![\w$.])' + re.escape(v) + r'(?![\w$])', codigo_f)) < 2:
+                out.append('%s en %s()' % (v, nombre))
+    return sorted(out)
+locales = locales_sin_uso(sin_coment)
+afirma(not locales, 'prototipo: ninguna variable local queda sin uso: %s' % locales[:6])
+locales = locales_sin_uso(sin_comentarios(MAQUETA)[2])
+afirma(not locales, 'maqueta: ninguna variable local queda sin uso: %s' % locales[:6])
 
 # 9. Comentarios que citan preguntas cerradas (F1-02): una pregunta retirada o
 #    consolidada ya no es referencia, y una resuelta no puede seguir «sin resolver».

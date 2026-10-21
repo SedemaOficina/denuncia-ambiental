@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.2 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-241
+**Versión:** 0.3 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-243
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.2 a la 0.3** (bandeja de la maqueta, DEC-243): el apartado 3.2 dice lo que la maqueta propone para la bandeja y el 10 suma MA-13. La tabla que sigue es el cambio de la 0.1 a la 0.2.
 
 | Apartado | Antes (versión 0.1, 5 de octubre) | Ahora |
 |---|---|---|
@@ -84,6 +86,8 @@ Listado con folio, fecha de recepción, canal, materia, alcaldía, tipo de zona,
 | Por notificar | Resueltas cuyo resultado no se ha notificado en el domicilio o en el correo | Propuesta de esta versión |
 
 Los plazos de esta bandeja son internos: el formulario no los menciona a la persona (DEC-138).
+
+**Lo que la maqueta propone, por acordar (DEC-243).** Una denuncia sin punto todavía no es de ningún área: la ven las dos direcciones generales hasta que alguien la ubica (MA-13). «Posible duplicado» usa cifras de prueba —50 metros y 15 días— que fija la DGIVA (SIA-26), y sólo compara denuncias abiertas. Los días hábiles se cuentan desde la recepción original hasta hoy o hasta el cierre, sin sábados ni domingos, mientras falte el calendario de días inhábiles (MA-11). Cierran el trámite, y dejan de contar días, la remisión a otra autoridad, la conclusión, la acumulación, la conclusión sin materia y la recomendación. «Marcadas para revisión» reúne las marcas que pondría el servidor al recibir: prueba de humanidad sin verificar, ráfaga y baja completitud (documento 15; las dos últimas esperan los controles 5 y 6 de P-21).
 
 ### 3.3 Expediente
 
@@ -230,7 +234,7 @@ Mismo método que el formulario: primero maqueta, después servidor.
 | Paso | Qué se hace | Cuándo puede empezar |
 |---|---|---|
 | 1 | Acordar este bosquejo y resolver las preguntas del apartado 10 que dependen de la Oficina de la Secretaría | Ahora |
-| 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada. **En curso:** bloque A, cascarón y datos de prueba, hecho (DEC-242) | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
+| 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada. **En curso:** bloques A, cascarón y datos de prueba (DEC-242), y B, bandeja (DEC-243), hechos | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
 | 3 | Variante «modo captura» del prototipo del formulario (AD-03) | Ahora, como maqueta, sobre la versión vigente del formulario |
 | 4 | Sesión con la DGIVA y con la DGCORENADR sobre estados, perfiles y vistas, con la maqueta a la vista | En cuanto exista la maqueta |
 | 5 | Construcción: captura por personal, después bandeja y expediente, después tablero y mapa | Fase 5 (documento 11), sobre el contrato de la fase 2 |
@@ -254,7 +258,8 @@ Clave `MA-NN`. Las seis primeras puede resolverlas la Oficina de la Secretaría;
 | **MA-09** | ¿Quién captura lo que llega por otros canales? | CP-2, abierta |
 | **MA-10** | ¿Quién puede corregir el punto del mapa y returnar? | Atención propone, coordinación autoriza |
 | **MA-11** | ¿Qué calendario de días inhábiles se usa? | El que publique la Secretaría para cada año, cargado por el SIA |
-| **MA-12** | ¿Quién redacta y firma el correo con que se notifica el resultado a la persona anónima, y desde qué cuenta sale? | La dirección general que recibe, con plantilla acordada con la Unidad de Transparencia y una cuenta institucional del SIA (SIA-29). *Pregunta nueva de esta versión* |
+| **MA-12** | ¿Quién redacta y firma el correo con que se notifica el resultado a la persona anónima, y desde qué cuenta sale? | La dirección general que recibe, con plantilla acordada con la Unidad de Transparencia y una cuenta institucional del SIA (SIA-29). *Pregunta de la versión 0.2* |
+| **MA-13** | ¿Quién ubica las denuncias que llegan sin punto y que el servidor no pudo ubicar (SIA-09)? Mientras no tienen punto no son de ningún área | Que las vean las dos direcciones generales en «Por ubicar» y que la turne la que la ubique, como hace la maqueta (DEC-243). La alternativa es que las ubique quien capture (MA-09). *Pregunta nueva de esta versión* |
 
 ---
 

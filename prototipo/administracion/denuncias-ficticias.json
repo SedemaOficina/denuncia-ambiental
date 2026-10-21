@@ -82,66 +82,65 @@
    ],
    "materia_confirmada": "impacto",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
   "es_ficticio": true,
-  "canal": "en_linea",
+  "canal": "telefono",
   "datos": {
-   "alcaldia": "Iztapalapa",
-   "alcaldia_dir": "Iztapalapa",
+   "alcaldia": "Cuauhtémoc",
+   "alcaldia_dir": "Cuauhtémoc",
    "apellido_materno": "Prueba",
    "apellido_paterno": "Pérez",
-   "autoridad_denunciada": "Iztapalapa",
-   "autoridad_nivel": "alcaldia",
-   "calle": "Avenida Ermita Iztapalapa",
+   "calle": "Avenida Chapultepec",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
-   "colonia": "Constitución de 1917 I",
-   "colonia_alcaldia": "Iztapalapa",
-   "colonia_cve": "07-266",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
    "conoce_fecha": "si",
-   "coord_pegar": "19.358600, -99.068800",
+   "coord_pegar": "19.428000, -99.137800",
    "correo": "mengano.01@ejemplo.local",
-   "cp": "09260",
+   "cp": "06010",
    "dg": "DGIVA",
    "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
-   "dom_alcaldia": "Iztacalco",
    "dom_calle": "Calle de Prueba 1",
-   "dom_colonia": "Agrícola Oriental",
-   "dom_cp": "08500",
-   "dom_entre_calles": "Entre la calle Sur 20 y la calle Sur 24",
-   "dom_num_ext": "14",
-   "dom_num_int": "A",
+   "dom_colonia": "Metropolitana Tercera Sección",
+   "dom_cp": "57750",
+   "dom_entidad": "Estado de México",
+   "dom_entre_calles": "Entre la calle 7 y la calle 9",
+   "dom_fuera_cdmx": "si",
+   "dom_municipio": "Nezahualcóyotl",
+   "dom_num_ext": "215",
+   "dom_num_int": "4",
    "dom_tiene_mz_lote": "no",
-   "edad_rango": "60+",
-   "entre_calles": "5 de Mayo y 16 de Septiembre",
-   "es_estab": "si",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "no",
    "fecha_acuse": "2026-10-20T01:48:00-06:00",
    "fecha_hecho": "2026-10-11",
    "folio": "SEDEMA/DEN/2026/000102-7",
-   "hechos": "De la chimenea del negocio sale humo gris todas las tardes y el olor llega a las casas de la cuadra.",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "En el predio de junto levantan varios pisos sin ningún permiso a la vista; ya lo habían reportado otros vecinos.",
    "identificacion": "nombre",
-   "lat": "19.358600",
-   "lon": "-99.068800",
-   "materia": "emisiones",
+   "lat": "19.428000",
+   "lon": "-99.137800",
+   "materia": "impacto",
    "nombre": "Mengano",
-   "nombre_estab": "Negocio Ficticio 1",
-   "num_ext": "1200",
-   "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
    "privacidad": "si",
-   "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
-   "reporto_antes": "no",
-   "resp_area": "Dirección de Obras de prueba",
-   "sexo_genero": "hombre",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "sexo_genero": "mujer",
    "telefono": "5500000001",
-   "temporalidad": "unico",
+   "temporalidad": "recurrente",
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
-   "tipo_denunciado": "gobierno",
-   "tipo_estab": "Taller mecánico, hojalatería o pintura",
-   "uga": "IZP-078",
+   "tipo_denunciado": "particular",
+   "uga": "CUH-016",
    "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
@@ -155,6 +154,13 @@
     "size": 1874509
    }
   ],
+  "captura": {
+   "fecha_recepcion_original": "2026-10-19T10:07:00-06:00",
+   "folio_origen": "OP-2026-0501",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "nota-de-llamada.pdf"
+  },
   "tramite": {
    "estado": "recibida",
    "area_actual": "DGIVA",
@@ -164,12 +170,13 @@
      "estado": "recibida",
      "fecha": "2026-10-20T01:48:00-06:00",
      "persona": "Sistema",
-     "nota": "Ingresó por el formulario en línea."
+     "nota": "Ingresó por captura por personal."
     }
    ],
-   "materia_confirmada": "emisiones",
+   "materia_confirmada": "impacto",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -241,7 +248,7 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-10-17T17:36:00-06:00",
+   "fecha_recepcion_original": "2026-10-17T11:14:00-06:00",
    "folio_origen": "OP-2026-0502",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -261,7 +268,8 @@
    ],
    "materia_confirmada": "ruido",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -343,7 +351,8 @@
    ],
    "materia_confirmada": "quema",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -435,7 +444,8 @@
    ],
    "materia_confirmada": "vehiculo",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -498,7 +508,7 @@
   },
   "archivos": [],
   "captura": {
-   "fecha_recepcion_original": "2026-10-13T17:00:00-06:00",
+   "fecha_recepcion_original": "2026-10-13T14:35:00-06:00",
    "folio_origen": "OP-2026-0505",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -524,7 +534,8 @@
    ],
    "materia_confirmada": "verificacion",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -617,7 +628,10 @@
    ],
    "materia_confirmada": "plasticos",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": [
+    "humanidad"
+   ]
   }
  },
  {
@@ -711,7 +725,10 @@
    ],
    "materia_confirmada": "rsu",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": [
+    "rafaga"
+   ]
   }
  },
  {
@@ -814,7 +831,8 @@
    ],
    "materia_confirmada": "descargas",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -874,7 +892,7 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-10-08T15:12:00-06:00",
+   "fecha_recepcion_original": "2026-10-08T10:03:00-06:00",
    "folio_origen": "OP-2026-0509",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -906,7 +924,8 @@
    ],
    "materia_confirmada": "construccion",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -1009,7 +1028,8 @@
    ],
    "materia_confirmada": "arbolado",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -1094,7 +1114,10 @@
    ],
    "materia_confirmada": "arbolado",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": [
+    "completitud"
+   ]
   }
  },
  {
@@ -1167,7 +1190,7 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-10-04T14:36:00-06:00",
+   "fecha_recepcion_original": "2026-10-04T13:24:00-06:00",
    "folio_origen": "OP-2026-0512",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -1205,7 +1228,8 @@
    ],
    "materia_confirmada": "areas_verdes",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -1308,7 +1332,8 @@
    ],
    "materia_confirmada": "tala",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -1401,7 +1426,8 @@
    ],
    "materia_confirmada": "agua_zona",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -1495,7 +1521,8 @@
    ],
    "materia_confirmada": "asentamiento",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -1562,7 +1589,7 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-29T12:48:00-06:00",
+   "fecha_recepcion_original": "2026-09-29T09:52:00-06:00",
    "folio_origen": "OP-2026-0516",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -1606,7 +1633,8 @@
    ],
    "materia_confirmada": "terraceos",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -1682,7 +1710,8 @@
    ],
    "materia_confirmada": "agroquimicos",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -1792,7 +1821,8 @@
    ],
    "materia_confirmada": "ava",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -1852,7 +1882,7 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-25T12:12:00-06:00",
+   "fecha_recepcion_original": "2026-09-25T12:13:00-06:00",
    "folio_origen": "OP-2026-0519",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -1896,7 +1926,8 @@
    ],
    "materia_confirmada": "impacto",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -2010,7 +2041,8 @@
    ],
    "materia_confirmada": "emisiones",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -2128,7 +2160,8 @@
    ],
    "materia_confirmada": "quema",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -2231,7 +2264,8 @@
    ],
    "materia_confirmada": "quema",
    "notificacion": null,
-   "acumulada_en": "SEDEMA/DEN/2026/000104-3"
+   "acumulada_en": "SEDEMA/DEN/2026/000104-3",
+   "marcas": []
   }
  },
  {
@@ -2293,7 +2327,7 @@
   },
   "archivos": [],
   "captura": {
-   "fecha_recepcion_original": "2026-09-20T10:24:00-06:00",
+   "fecha_recepcion_original": "2026-09-20T16:41:00-06:00",
    "folio_origen": "OP-2026-0523",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -2343,7 +2377,8 @@
    ],
    "materia_confirmada": "vehiculo",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -2452,7 +2487,8 @@
    ],
    "materia_confirmada": "verificacion",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -2575,7 +2611,8 @@
    ],
    "materia_confirmada": "plasticos",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -2648,7 +2685,7 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-16T09:48:00-06:00",
+   "fecha_recepcion_original": "2026-09-16T11:02:00-06:00",
    "folio_origen": "OP-2026-0526",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -2704,7 +2741,8 @@
    ],
    "materia_confirmada": "rsu",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -2827,7 +2865,8 @@
    ],
    "materia_confirmada": "descargas",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -2932,7 +2971,8 @@
    ],
    "materia_confirmada": "construccion",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -3035,7 +3075,8 @@
    ],
    "materia_confirmada": "cascajo",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -3108,7 +3149,7 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-11T08:00:00-06:00",
+   "fecha_recepcion_original": "2026-09-11T15:30:00-06:00",
    "folio_origen": "OP-2026-0530",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -3170,7 +3211,8 @@
    ],
    "materia_confirmada": "arbolado",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -3297,7 +3339,8 @@
    ],
    "materia_confirmada": "areas_verdes",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -3394,7 +3437,8 @@
    ],
    "materia_confirmada": "tala",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -3467,7 +3511,7 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-07T07:24:00-06:00",
+   "fecha_recepcion_original": "2026-09-07T10:51:00-06:00",
    "folio_origen": "OP-2026-0533",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -3539,7 +3583,8 @@
     "fecha": "2026-10-16T15:02:40-06:00",
     "resultado": "entregado"
    },
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -3632,7 +3677,8 @@
    ],
    "materia_confirmada": "asentamiento",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -3752,7 +3798,8 @@
     "fecha": "2026-10-16T08:40:00-06:00",
     "resultado": "entregado"
    },
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -3891,7 +3938,8 @@
     "fecha": "2026-10-16T17:34:48-06:00",
     "resultado": "entregado"
    },
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -3957,7 +4005,7 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-02T05:36:00-06:00",
+   "fecha_recepcion_original": "2026-09-02T14:19:00-06:00",
    "folio_origen": "OP-2026-0537",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -3983,7 +4031,8 @@
    ],
    "materia_confirmada": "ava",
    "notificacion": null,
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -4123,7 +4172,8 @@
     "fecha": "2026-10-16T11:08:24-06:00",
     "resultado": "entregado"
    },
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  },
  {
@@ -4183,7 +4233,7 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-08-30T13:12:00-06:00",
+   "fecha_recepcion_original": "2026-08-30T16:33:00-06:00",
    "folio_origen": "OP-2026-0539",
    "recibio": "Persona de Oficialía de prueba",
    "capturo": "Persona de captura de prueba",
@@ -4261,7 +4311,8 @@
     "fecha": "2026-10-16T07:55:12-06:00",
     "resultado": "rebotado"
    },
-   "acumulada_en": null
+   "acumulada_en": null,
+   "marcas": []
   }
  }
 ]
