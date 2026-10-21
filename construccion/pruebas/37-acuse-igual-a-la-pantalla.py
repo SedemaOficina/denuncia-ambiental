@@ -35,11 +35,12 @@ fallos, notas = [], []
 def afirma(c, m): (notas if c else fallos).append(('OK  ' if c else 'FALLA ') + m)
 plano = lambda t: re.sub(r'\s+', ' ', t or '').strip()
 
-# Escenarios que llegan al acuse y el área que debe atenderlos.
+# Escenarios que llegan al acuse y el área que debe recibirlos. En las ANP
+# federales la recibe la DGCORENADR y la remite a la PROFEPA (DEC-235).
 AREA = {'sin_calle': 'DGCORENADR', 'urbano': 'DGIVA', 'conservacion': 'DGCORENADR', 'gobierno': 'DGIVA',
-        'ava': 'DGIVA', 'anp_coadmin': 'FEDERAL', 'anp_federal': 'FEDERAL', 'otro_giro': 'DGIVA'}
-ARTICULO = {'DGIVA': 'artículo 191, fracción XXX', 'DGCORENADR': 'artículo 188, fracción XXXVIII',
-            'FEDERAL': 'artículo 188, fracción XXXVIII'}
+        'ava': 'DGIVA', 'anp_coadmin': 'DGCORENADR', 'anp_federal': 'DGCORENADR', 'otro_giro': 'DGIVA'}
+REMITE = {'anp_coadmin', 'anp_federal'}
+ARTICULO = {'DGIVA': 'artículo 191, fracción XXX', 'DGCORENADR': 'artículo 188, fracción XXXVIII'}
 
 LEE = """(e) => { cargaEscenario(e); guarda('verificacion','si'); irA(6);
   const rev = document.getElementById('app').textContent;
@@ -50,7 +51,7 @@ LEE = """(e) => { cargaEscenario(e); guarda('verificacion','si'); irA(6);
   const pasos = [...sig.querySelectorAll('ol li')].map(li => { const c = li.cloneNode(true);
     c.querySelectorAll('.pendiente').forEach(x => x.remove()); return c.textContent.trim(); });
   return construyeAcusePdf().then(u => ({rev, pasos, fund: tras('Fundamento'), vias: tras('Otras vías'),
-    dg: val('dg'), pdf: Array.from(u)})); }"""
+    dg: val('dg'), remite: val('remite_a'), pdf: Array.from(u)})); }"""
 
 with sync_playwright() as pw:
     nav = pw.chromium.launch(executable_path=CHROMIUM)
@@ -66,14 +67,15 @@ with sync_playwright() as pw:
         ruta.write_bytes(bytes(r['pdf']))
         pdf = plano(subprocess.run(['pdftotext', '-enc', 'UTF-8', str(ruta), '-'], capture_output=True, text=True, encoding='utf-8').stdout)
         pasos = [plano(p) for p in r['pasos']]
-        afirma(r['dg'] == area, '%s: lo atiende %s (%s)' % (esc, area, r['dg']))
+        afirma(r['dg'] == area and (r['remite'] == 'PROFEPA') == (esc in REMITE),
+               '%s: la recibe %s%s (%s, %r)' % (esc, area, ' y la remite a la PROFEPA' if esc in REMITE else '', r['dg'], r['remite']))
 
         # 1. Los pasos, iguales y en orden
         pos = [pdf.find(p) for p in pasos]
         afirma(pasos and -1 not in pos and pos == sorted(pos),
                '%s: los %d pasos de «¿Qué sigue?» están en el PDF, en el orden de la pantalla (%s)' % (esc, len(pasos), pos))
         todos = ' '.join(pasos)
-        if area == 'FEDERAL':
+        if esc in REMITE:
             afirma('visita' not in todos and 'remite a la PROFEPA' in todos and 'por cuenta de la PROFEPA' in todos,
                    '%s: no promete visita; dice que se remite y que el seguimiento es de la PROFEPA' % esc)
         elif esc == 'gobierno':
@@ -95,7 +97,7 @@ with sync_playwright() as pw:
 
         # 3. Las otras vías
         vias = plano(r['vias'])
-        if area == 'FEDERAL':
+        if esc in REMITE:
             afirma(not vias and 'Ordenamiento Territorial' not in pdf, '%s: sin otras vías; la PROFEPA ya la ofrece la ficha' % esc)
         else:
             afirma('Procuraduría Ambiental y del Ordenamiento Territorial' in vias and 'fundada y motivada' in vias

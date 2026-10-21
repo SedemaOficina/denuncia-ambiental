@@ -1253,3 +1253,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Advertencias registradas.** DEC-233 contradice DEC-226, DEC-134 y DEC-195; se le advirtió a Liber y la confirmó. Lo que pasa a la Unidad de Transparencia, en P-02: validar los dos cambios al aviso; confirmar que la casilla general cumple el artículo 14 de la Ley de datos personales para el género, dato sensible; y la cita del «artículo 15» en el aviso, derogado en el texto vigente (las transferencias sin consentimiento están en el 64).
 
 **Verificación de cierre.** Batería completa en verde: 1 281 comprobaciones en 37 baterías.
+
+### 20 de octubre de 2026 · bloque 4 de la auditoría: especificación de datos (DEC-235, Versión 33)
+
+**Qué cambió.** Todo campo de texto tiene su tope en `LIMITES` (32 campos; antes 8), el control lo toma como `maxlength` y la validación detiene un texto más largo. `dg` vale DGIVA o DGCORENADR; la remisión a la PROFEPA va en `remite_a`, y un borrador con «FEDERAL» se convierte al retomarlo. `fecha_acuse` se guarda en ISO 8601 con la hora y la zona de la Ciudad (`horaDeLaCiudad`), el año del folio sale de ella y la pantalla y el PDF la dicen en palabras (`fechaRecepcionTexto`). La tabla de ramas tiene 17 renglones, cada uno con sus `campos`, y los conteos los calculan `conteoRama` en el panel y `generar_doc10.py` en el documento 10. El comentario de los límites de captura, que había quedado sobre la tabla de marcadores, vuelve a `LIMITES`. Batería 38 nueva; batería 37 ajustada.
+
+**Por qué.** El diccionario de datos de la fase 2 se deriva del prototipo: sin longitudes, con una clave de área que no es una unidad, con una fecha en palabras y con ramas sin documentar, el contrato heredaría los cuatro defectos.
+
+**Anotado para el bloque siguiente.** (1) `valida()` repite el mínimo de 40 caracteres del relato en lugar de leerlo de `LIMITES.hechos.min`. (2) Queda un comentario huérfano, «Hora en dos controles: horas y minutos», sin el código que describía (DEC-119 retiró la hora). Los dos son del bloque 6, limpieza.
+
+**Verificación de cierre.** Batería completa en verde: 1 306 comprobaciones en 38 baterías.

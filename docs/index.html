@@ -1462,7 +1462,9 @@ var DERIVADOS = {
   capa_nombre:    {etq:'Área identificada', origen:'Cruce del punto con las capas del SIA', fin:'Competencia', dp:false, se_ve:true, por:'denuncia',
                    uso:'Nombre del área protegida en la que cae el punto; precisa el lugar en la orden de visita.'},
   dg:             {etq:'Clave del área que atiende', origen:'Regla de turnado, a partir del tipo de zona', fin:'Competencia', dp:false, se_ve:false, por:'denuncia',
-                   uso:'DGIVA, DGCORENADR o FEDERAL: enruta la denuncia en el módulo interno. No forma parte del folio (DEC-151).'},
+                   uso:'DGIVA o DGCORENADR: la unidad que recibe la denuncia y la enruta en el módulo interno. No forma parte del folio (DEC-151).'},
+  remite_a:       {etq:'Autoridad a la que se remite', origen:'Regla de turnado, a partir del tipo de zona', fin:'Competencia', dp:false, se_ve:false, por:'denuncia',
+                   uso:'«PROFEPA» cuando el punto cae en un Área Natural Protegida federal: la DGCORENADR la recibe y la remite (DEC-226, DEC-235). Vacío en lo demás.'},
   dg_nombre:      {etq:'Área que atiende', origen:'Regla de turnado', fin:'Competencia', dp:false, se_ve:true, por:'denuncia',
                    uso:'Nombre del área que atiende, como se dice en la ficha, la revisión y el acuse.'},
   dg_razon:       {etq:'Razón del turnado', origen:'Regla de turnado', fin:'Competencia', dp:false, se_ve:true, por:'denuncia',
@@ -1480,7 +1482,7 @@ var DERIVADOS = {
   clave_consulta: {etq:'Clave de consulta', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
                    uso:'Con el folio, permite consultar la denuncia. Se entrega una sola vez; el servidor guarda sólo su huella y no puede reponerse.'},
   fecha_acuse:    {etq:'Fecha y hora de recepción', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
-                   uso:'Fecha y hora en que la denuncia entra al expediente.'},
+                   uso:'Fecha y hora en que la denuncia entra al expediente, en ISO 8601 con la hora y la zona de la Ciudad de México (2026-12-31T23:30:00-06:00); la pantalla y el acuse la dicen en palabras (DEC-235).'},
   size_original:  {etq:'Peso original de la foto', origen:'La foto, al adjuntarla', fin:'Expediente', dp:false, se_ve:true, por:'foto',
                    uso:'Se muestra junto al peso optimizado; deja constancia de la optimización.'},
   sha256_original:{etq:'Huella SHA-256 del original', origen:'La foto, antes de optimizarla', fin:'Expediente', dp:false, se_ve:false, por:'foto',
@@ -1511,7 +1513,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-234', fecha:'20 de octubre de 2026', nombre:'Versión 32 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-235', fecha:'20 de octubre de 2026', nombre:'Versión 33 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1552,29 +1554,51 @@ function camposDelPaso(n){
    BIFURCACIONES describe cada punto donde el formulario cambia
    de forma según lo que se responde. ESCENARIOS son combinaciones
    representativas que el panel de validación carga con un toque.
+   «campos» son las respuestas que gobiernan la rama: toda respuesta de la
+   que dependa una condición de OBLIG tiene la suya (D1-06). Los conteos van
+   entre llaves y salen de los catálogos (conteoRama); el generador del
+   documento 10 los resuelve igual.
    ========================================================= */
 var BIFURCACIONES = [
-  {paso:'1', pregunta:'Qué se denuncia', opciones:'19 materias · 6 supuestos de otra autoridad',
+  {paso:'1', pregunta:'Qué se denuncia', opciones:'{materias} materias · {deriva} supuestos de otra autoridad', campos:['materia'],
    efecto:'Elegir una materia avanza al paso 2. Elegir un supuesto de otra autoridad detiene el flujo y muestra a dónde acudir.'},
-  {paso:'2', pregunta:'Dónde cae el punto (cruce espacial)', opciones:'Suelo urbano · AVA · ANP local · ANP federal con convenio · ANP federal sin convenio · Suelo de conservación · Fuera de la Ciudad',
-   efecto:'Determina el área que atiende y el contenido de la ficha. Fuera de la Ciudad bloquea el avance.'},
-  {paso:'3', pregunta:'¿Los hechos ocurren dentro de un establecimiento?', opciones:'Sí · No',
+  {paso:'2', pregunta:'¿El lugar tiene calle y número?', opciones:'Sí · No', campos:['tiene_direccion'],
+   efecto:'«Sí» pide calle, número exterior, entre qué calles, colonia, alcaldía y código postal; el punto en el mapa es opcional y, sin él, la Secretaría ubica el lugar con la dirección. «No» pide el nombre del lugar y el punto en el mapa, obligatorio.'},
+  {paso:'2', pregunta:'¿El predio se identifica por manzana y lote?', opciones:'Sí · No', campos:['tiene_mz_lote'],
+   efecto:'Sólo con calle y número. «Sí» pide manzana y lote, obligatorios.'},
+  {paso:'2', pregunta:'Dónde cae el punto (cruce espacial)', opciones:'Suelo urbano · AVA · ANP local · ANP federal con convenio · ANP federal sin convenio · Suelo de conservación · Fuera de la Ciudad', campos:['lat'],
+   efecto:'Determina el área que atiende y el contenido de la ficha. En un ANP federal la recibe la DGCORENADR y la remite a la PROFEPA. Fuera de la Ciudad bloquea el avance.'},
+  {paso:'3', pregunta:'Cuando se denuncia un vehículo contaminante', opciones:'Vehículo · Otra materia', campos:['materia'],
+   efecto:'Sólo con vehículo se pregunta si es transporte público de pasajeros, de carga, particular o no se sabe.'},
+  {paso:'3', pregunta:'¿Los hechos ocurren dentro de un establecimiento?', opciones:'Sí · No', campos:['es_estab'],
    efecto:'«Sí» muestra tipo de establecimiento y nombre comercial, y preselecciona «Una empresa o negocio» en la pregunta siguiente, donde se puede cambiar.'},
-  {paso:'3', pregunta:'Tipo de establecimiento', opciones:'18 giros · Otro',
+  {paso:'3', pregunta:'Tipo de establecimiento', opciones:'{giros} giros · Otro', campos:['tipo_estab'],
    efecto:'«Otro» abre un campo de texto para especificarlo.'},
-  {paso:'3', pregunta:'¿Quién es responsable de los hechos?', opciones:'Persona · Empresa · Autoridad · No lo sé',
-   efecto:'Cambia por completo el bloque de responsables. «Autoridad» pide el ámbito y cuál, en un renglón; la ruta del artículo 331 sólo se menciona en el acuse (DEC-212).'},
-  {paso:'3', pregunta:'Desde cuándo ocurre', opciones:'Una sola vez · Se repite · Permanente',
-   efecto:'Cambia el texto de la fecha que se pide. Una fecha posterior a hoy muestra un aviso para verificarla; el formulario no menciona plazos (DEC-138).'},
-  {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Escribir los datos · Denuncia anónima',
+  {paso:'3', pregunta:'¿Quién es responsable de los hechos?', opciones:'Persona · Empresa · Autoridad · No lo sé', campos:['tipo_denunciado'],
+   efecto:'Cambia por completo el bloque de responsables. «Autoridad» pide el ámbito; «No lo sé» abre lo que se ha observado de quien lo hace. La ruta del artículo 331 se dice en el acuse (DEC-212).'},
+  {paso:'3', pregunta:'Ámbito de la autoridad señalada', opciones:'Gobierno de la Ciudad · Alcaldía · Federal · Otra · No lo sé', campos:['autoridad_nivel'],
+   efecto:'Con un ámbito se pregunta «¿Cuál?», con sugerencias del catálogo del ámbito cuando lo hay, y el área o persona servidora pública, los dos opcionales. «No lo sé» no los pregunta: la Secretaría identifica la autoridad al turnar (DEC-202).'},
+  {paso:'3', pregunta:'¿Conoces la fecha en que ocurrió o inició?', opciones:'Sí · No', campos:['conoce_fecha'],
+   efecto:'«Sí» pide la fecha, que puede ser aproximada; una fecha posterior a hoy muestra un aviso para verificarla. «No» no la pide. El formulario no menciona plazos (DEC-138).'},
+  {paso:'3', pregunta:'¿Ya reportaste ante otra autoridad?', opciones:'Sí · No', campos:['reporto_antes'],
+   efecto:'«Sí» abre «Gestiones previas», opcional.'},
+  {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Escribir los datos · Denuncia anónima', campos:['identificacion'],
    efecto:'Con datos, se piden nombre, teléfono, correo y domicilio para notificaciones. La anónima no pide nombre ni domicilio; exige un correo para notificaciones y ofrece el teléfono como opcional.'},
-  {paso:'5', pregunta:'¿Vive fuera de la Ciudad de México?', opciones:'Casilla sin marcar · marcada',
+  {paso:'5', pregunta:'Denuncia de ruido presentada con datos', opciones:'Ruido con datos · Otro caso', campos:['materia','identificacion'],
+   efecto:'Sólo en ruido y con datos se pregunta si acepta que la medición se haga desde su domicilio; en ruido anónima se avisa que no podrá medirse desde su casa.'},
+  {paso:'5', pregunta:'¿Vive fuera de la Ciudad de México?', opciones:'Casilla sin marcar · marcada', campos:['dom_fuera_cdmx'],
    efecto:'Sin marcar: alcaldía en lista, colonia del catálogo y código postal de la Ciudad. Marcada: entidad federativa en lista, municipio y colonia escritos, y cualquier código postal de cinco dígitos.'},
-  {paso:'Todos', pregunta:'Obligatoriedad', opciones:'Desactivada · Activa',
+  {paso:'5', pregunta:'¿Tu domicilio se identifica por manzana y lote?', opciones:'Sí · No', campos:['dom_tiene_mz_lote'],
+   efecto:'«Sí» pide manzana y lote del domicilio, obligatorios.'},
+  {paso:'Todos', pregunta:'Obligatoriedad', opciones:'Desactivada · Activa', campos:[],
    efecto:'Activa, cada paso exige sus campos obligatorios antes de continuar y los demás se marcan como opcionales.'},
-  {paso:'Portada', pregunta:'Borrador guardado', opciones:'Existe · No existe',
+  {paso:'Portada', pregunta:'Borrador guardado', opciones:'Existe · No existe', campos:[],
    efecto:'Si existe, la portada ofrece retomarlo o descartarlo.'}
 ];
+function conteoRama(t){
+  return t.replace('{materias}', MATERIAS.length).replace('{deriva}', DERIVA.length)
+          .replace('{giros}', TIPOS_ESTAB.length - 1);   /* sin «Otro» */
+}
 
 /* Escenarios del panel de validacion. Cada uno es un caso COMPLETO: llena
    todos los campos que le aplican en los cinco pasos —tambien los opcionales—
@@ -1820,7 +1844,7 @@ function sincronizaPanel(){
 function abreVariantes(){
   var h = '<table class="comp"><thead><tr><th style="width:12%">Paso</th><th style="width:26%">Qué se responde</th><th style="width:26%">Opciones</th><th style="width:36%">Cómo cambia el formulario</th></tr></thead><tbody>'+
     BIFURCACIONES.map(function(b){
-      return '<tr><td>'+esc(b.paso)+'</td><td><strong>'+esc(b.pregunta)+'</strong></td><td>'+esc(b.opciones)+'</td><td>'+esc(b.efecto)+'</td></tr>';
+      return '<tr><td>'+esc(b.paso)+'</td><td><strong>'+esc(b.pregunta)+'</strong></td><td>'+esc(conteoRama(b.opciones))+'</td><td>'+esc(b.efecto)+'</td></tr>';
     }).join('')+'</tbody></table>';
   $('tablaVariantes').innerHTML = h;
   $('modalVariantes').classList.add('abierto');
@@ -1828,8 +1852,6 @@ function abreVariantes(){
 
 var ETAPAS = ['Qué denuncias','Dónde ocurrió','Qué ocurrió','Pruebas','Tus datos','Revisión'];
 
-/* Límites de captura. El mínimo protege la utilidad del dato para el acta;
-   el máximo, que el expediente siga siendo manejable. */
 /* Texto de ejemplo dentro de cada campo de texto (DEC-213). Es ejemplo, no
    instrucción: lo que la persona debe saber para contestar sigue en la ayuda,
    porque el marcador desaparece al escribir. Un solo lugar para todos. */
@@ -1859,13 +1881,31 @@ function marcadorColonia(sinAlcaldia){
 function marcadorDe(k, extra){
   return (MARCADORES[k] && (extra||'').indexOf('placeholder=') < 0) ? ' placeholder="'+esc(MARCADORES[k])+'"' : '';
 }
+/* Límites de captura. El mínimo protege la utilidad del dato para el acta;
+   el máximo, que el expediente siga siendo manejable. Todo campo de texto
+   tiene el suyo: el diccionario de datos toma de aquí la longitud de cada
+   columna (D2-01). Los campos lo ponen como maxlength y la validación lo
+   revisa, por si el dato llega de un borrador o de un pegado. */
 var LIMITES = {
   hechos:        {min:40, max:4000},
   gestiones:     {max:1000},
   referencias:   {max:1200},
   otras_pruebas: {max:1000},
-  resp_senas:    {max:1000}
+  resp_senas:    {max:1000},
+  /* Lugar. Un enlace largo de Google Maps pasa de mil caracteres. */
+  calle:{max:120},        num_ext:{max:20},        manzana:{max:20},     lote:{max:20},
+  entre_calles:{max:150}, colonia:{max:120},       cp:{max:5},           nombre_lugar:{max:150},
+  coord_pegar:{max:2000},
+  /* Establecimiento y responsable */
+  tipo_estab_otro:{max:100}, nombre_estab:{max:150}, autoridad_denunciada:{max:150}, resp_area:{max:150},
+  /* Quien denuncia. El correo, hasta el máximo que admite una dirección. */
+  nombre:{max:80},        apellido_paterno:{max:60}, apellido_materno:{max:60},
+  correo:{max:254},       telefono:{max:14},
+  dom_calle:{max:120},    dom_num_ext:{max:20},    dom_num_int:{max:20}, dom_manzana:{max:20},
+  dom_lote:{max:20},      dom_entre_calles:{max:150}, dom_colonia:{max:120}, dom_cp:{max:5},
+  dom_municipio:{max:80}
 };
+function maxDe(k){ return LIMITES[k] && LIMITES[k].max; }
 
 /* Archivos admitidos. */
 var ARCHIVOS = {
@@ -2525,7 +2565,7 @@ function pUbicacion(){
       '<div class="fila-3">'+
         campoSelect('alcaldia_dir','Alcaldía',ALCALDIAS_ORDEN(),esObligatorio('alcaldia_dir'),'','cambiaAlcaldiaDir()')+
         campoColonia()+
-        campo('cp','Código postal','texto',esObligatorio('cp'),'','inputmode="numeric" maxlength="5" placeholder="Cinco dígitos" autocomplete="section-lugar postal-code"')+
+        campo('cp','Código postal','texto',esObligatorio('cp'),'','inputmode="numeric" placeholder="Cinco dígitos" autocomplete="section-lugar postal-code"')+
       '</div>'+
       campoArea('referencias','¿Cómo se reconoce el sitio?',esObligatorio('referencias'),
         'Color de la fachada, barda, portón, anuncios, vegetación o maquinaria; puntos de interés cercanos.',3);
@@ -2615,7 +2655,7 @@ function cajaCapas(){
   if(n) h += '<div class="capas-fila"><span class="capas-etq">Área identificada</span><span class="capas-val">'+esc(n)+'</span></div>';
   h += '<div class="capas-fila"><span class="capas-etq">Atiende</span><span class="capas-val"><strong>'+esc(val('dg_nombre')||'')+'</strong></span></div>'+
     (val('dg_razon') ? '<p class="capas-nota">'+esc(val('dg_razon'))+'</p>' : '');
-  if(val('dg')==='FEDERAL'){
+  if(val('remite_a')){
     /* P-22 resuelta (DEC-226): la DGCORENADR recibe y remite a la PROFEPA, sin
        limitar el envío. La cláusula SEGUNDA del convenio deja a salvo las
        facultades federales de inspección (DEC-89). */
@@ -2717,7 +2757,7 @@ function alcaldiaMasCercana(la,lo){
 }
 
 function consultaCapas(la,lo){
-  var r = {alcaldia:'', clase:'Suelo urbano', categoria:'', tipo:'Suelo urbano', nombre:'', grupo:'', dg:'DGIVA', fuera:false};
+  var r = {alcaldia:'', clase:'Suelo urbano', categoria:'', tipo:'Suelo urbano', nombre:'', grupo:'', dg:'DGIVA', remite_a:'', fuera:false};
 
   var a = buscaEn(CAPAS_ALCALDIAS,la,lo);
   if(a){
@@ -2745,8 +2785,11 @@ function consultaCapas(la,lo){
        convenio reparte administracion y manejo, no facultades de inspeccion y
        vigilancia, y asi lo dice su clausula SEGUNDA. Lo que cambia con el
        convenio no es quien inspecciona, es que la Secretaria coadyuva en la
-       administracion y tiene que enterarse (DEC-89). */
-    r.dg = 'FEDERAL';
+       administracion y tiene que enterarse (DEC-89). La recibe la DGCORENADR
+       y la remite a la PROFEPA (DEC-226): el area es una unidad que recibe y
+       la remision es otro dato, no una tercera bandeja (DEC-235). */
+    r.dg = 'DGCORENADR';
+    r.remite_a = 'PROFEPA';
     r.coadmin = !!co;
     r.tipo = co
       ? 'Área Natural Protegida federal · la Secretaría coadyuva en su administración'
@@ -2794,6 +2837,7 @@ function analizaCapas(la,lo){
   guarda('capa_categoria', c.categoria);
   guarda('capa_nombre', c.nombre);
   guarda('dg', c.dg);
+  guarda('remite_a', c.remite_a || '');
   guarda('fuera', c.fuera?'si':'');
   guarda('concurrencia', c.concurrencia||'');
   guarda('coadmin', c.coadmin?'si':'');
@@ -2801,7 +2845,7 @@ function analizaCapas(la,lo){
   guarda('uga', c.fuera ? '' : celdaUga(+la,+lo));
   guarda('uga_version', val('uga') ? CATALOGO_UGA.meta.version : '');
 
-  if(c.dg==='FEDERAL'){
+  if(c.remite_a){
     /* P-22 resuelta (DEC-226): la DGCORENADR recibe la denuncia y la remite a
        la PROFEPA; el formulario no impide presentarla. */
     guarda('dg_nombre','Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA');
@@ -2999,7 +3043,7 @@ function campoLista(k, etq, ayuda, lista){
   return '<div class="campo" id="c_'+k+'"><label for="f_'+k+'">'+esc(etq)+marca_opc(esObligatorio(k))+'</label>'+
     '<div class="ayuda" id="a_'+k+'">'+(ayuda ? esc(ayuda) : '')+'</div>'+
     '<div class="combo">'+
-      '<input type="text" id="f_'+k+'" name="'+k+'" role="combobox" aria-autocomplete="list" aria-expanded="false" '+
+      '<input type="text" id="f_'+k+'" name="'+k+'" '+(maxDe(k) ? 'maxlength="'+maxDe(k)+'" ' : '')+'role="combobox" aria-autocomplete="list" aria-expanded="false" '+
         'aria-controls="lista_'+k+'" autocomplete="off" placeholder="Escribe o elige de la lista" aria-describedby="a_'+k+' e_'+k+'" aria-invalid="false" '+
         'value="'+esc(val(k))+'" oninput="guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');pintaLista(\''+k+'\')" '+
         'onfocus="pintaLista(\''+k+'\')" onkeydown="teclaLista(event,\''+k+'\')" onblur="cierraLista(\''+k+'\')">'+
@@ -3198,7 +3242,7 @@ function pDenunciante(){
   if(anon){
     h += '<div class="fila">'+
         campo('correo','Correo electrónico para notificaciones','email',esObligatorio('correo'),'','autocomplete="email" inputmode="email"')+
-        campo('telefono','Teléfono','tel',false,'A diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
+        campo('telefono','Teléfono','tel',false,'A diez dígitos','inputmode="tel" autocomplete="tel"')+
       '</div>';
   }
 
@@ -3209,7 +3253,7 @@ function pDenunciante(){
       campo('apellido_materno','Apellido materno','texto',false,'')+
     '</div>'+
     '<div class="fila">'+
-      campo('telefono','Teléfono','tel',esObligatorio('telefono'),'A diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
+      campo('telefono','Teléfono','tel',esObligatorio('telefono'),'A diez dígitos','inputmode="tel" autocomplete="tel"')+
       campo('correo','Correo electrónico','email',esObligatorio('correo'),'','autocomplete="email" inputmode="email"')+
     '</div>'+
 
@@ -3241,12 +3285,12 @@ function pDenunciante(){
         '</div>'+
         '<div class="fila">'+
           campo('dom_colonia','Colonia','texto',esObligatorio('dom_colonia'),'','autocomplete="address-level3"')+
-          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'','autocomplete="postal-code" inputmode="numeric" maxlength="5" placeholder="Cinco dígitos"')+
+          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'','autocomplete="postal-code" inputmode="numeric" placeholder="Cinco dígitos"')+
         '</div>'
       : '<div class="fila-3">'+
           campoSelect('dom_alcaldia','Alcaldía',ALCALDIAS_ORDEN(),esObligatorio('dom_alcaldia'),'','cambiaAlcaldiaDir(\'dom_colonia\')')+
           campoColonia('dom_colonia')+
-          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'','autocomplete="postal-code" inputmode="numeric" maxlength="5" placeholder="Cinco dígitos"')+
+          campo('dom_cp','Código postal','texto',esObligatorio('dom_cp'),'','autocomplete="postal-code" inputmode="numeric" placeholder="Cinco dígitos"')+
         '</div>');
     /* Para qué sirven los datos y que no se difunden lo dice el aviso de
        privacidad; repetirlo aquí era un segundo aviso sin valor legal (DEC-133). */
@@ -3470,7 +3514,7 @@ function pRevision(){
     ? '<div class="aviso aviso-envio">Al enviar, la denuncia recibe un número de registro. Como no marcaste el punto, la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
     : '<div class="aviso aviso-envio">Al enviar, la denuncia recibe un número de registro y se turna a '+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+
-    (val('dg')==='FEDERAL'
+    (val('remite_a')
       ? ', porque el punto se ubica en un Área Natural Protegida de competencia federal.</div>'
       : '.</div>'))+
   cajaHumano()+
@@ -3486,7 +3530,7 @@ function pRevision(){
 function pasosQueSiguen(){
   /* En un Area Natural Protegida federal la DGCORENADR recibe y remite a la
      PROFEPA (DEC-226). */
-  if(val('dg')==='FEDERAL') return [
+  if(val('remite_a')) return [
     {t:'La Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural recibe tu denuncia y la remite a la PROFEPA, autoridad competente en las Áreas Naturales Protegidas federales.'},
     {t:'Una vez remitida, el seguimiento del asunto corre por cuenta de la PROFEPA.'}];
   var revisa = {t:'La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.'},
@@ -3512,9 +3556,9 @@ function fundamentoAcuse(){
   var dg = val('lat') ? val('dg') : '';
   var f = 'Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, ' +
     (dg === 'DGIVA' ? 'artículo 191, fracción XXX'
-      : (dg === 'DGCORENADR' || dg === 'FEDERAL') ? 'artículo 188, fracción XXXVIII'
+      : dg === 'DGCORENADR' ? 'artículo 188, fracción XXXVIII'
       : 'artículos 188, fracción XXXVIII, y 191, fracción XXX');
-  if(dg !== 'FEDERAL' && val('tipo_denunciado')==='gobierno') f += '; Ley Ambiental de la Ciudad de México, artículo 331';
+  if(!(dg && val('remite_a')) && val('tipo_denunciado')==='gobierno') f += '; Ley Ambiental de la Ciudad de México, artículo 331';
   return f + '.';
 }
 
@@ -3525,7 +3569,7 @@ function fundamentoAcuse(){
    Area Natural Protegida federal la otra via es la PROFEPA, que la ficha del
    cruce ya ofrece. */
 function otrasVias(){
-  if(val('dg')==='FEDERAL') return '';
+  if(val('remite_a')) return '';
   return 'Si quieres una respuesta fundada y motivada de la Procuraduría Ambiental y del Ordenamiento Territorial (PAOT), puedes presentar además tu denuncia ante ella. ' +
     'Si los hechos pueden constituir un delito, puedes denunciarlos también ante la Fiscalía General de Justicia de la Ciudad de México.';
 }
@@ -3548,7 +3592,7 @@ function pAcuse(){
         '<button type="button" class="btn-copiar" aria-label="Copiar la clave de consulta" onclick="copiaDato(this,\'clave_consulta\')">Copiar</button></div>'+
         '<span class="dato-nota">Guárdala junto con el número de registro: no puede reponerse.</span></div>'+
     '</div>'+
-    '<p style="font-size:14px;color:var(--gris)">Recibida el '+esc(val('fecha_acuse'))+'</p>'+
+    '<p style="font-size:14px;color:var(--gris)">Recibida el '+esc(fechaRecepcionTexto())+'</p>'+
     /* Sin correo, el acuse se lo lleva la persona (DEC-139). */
     '<div class="acuse-pdf">'+
       '<button type="button" class="btn btn-primario" onclick="descargaAcuse(this)">Descargar acuse (PDF)</button>'+
@@ -3563,10 +3607,10 @@ function pAcuse(){
     /* En la ruta federal el seguimiento de la PROFEPA ya lo dice el ultimo paso. */
     '<p class="nota-gris">Tu denuncia la atiende '+
       '<strong>'+esc(val('dg_nombre')||'la Secretaría del Medio Ambiente')+'</strong>. '+
-      (val('dg')==='FEDERAL' ? ''
+      (val('remite_a') ? ''
         : 'Para preguntar por el avance, comunícate con la <strong>Jefatura de Unidad Departamental de Seguimiento a Denuncias</strong> de esa dirección general, con tu número de registro. ')+
       /* La DGIVA confirmó sus datos (DEC-188); la DGCORENADR, todavía no. */
-      ((val('dg')==='DGCORENADR' || val('dg')==='FEDERAL') ? '<span class="pendiente">Domicilio, horario y teléfono de esta unidad, por confirmar</span>' : '')+'</p>'+
+      (val('dg')==='DGCORENADR' ? '<span class="pendiente">Domicilio, horario y teléfono de esta unidad, por confirmar</span>' : '')+'</p>'+
     (vias ? '<h3 class="sub-seccion sub-seccion-sm">Otras vías</h3><p class="nota-gris">'+esc(vias)+'</p>' : '')+
     '<h3 class="sub-seccion sub-seccion-sm">Fundamento</h3>'+
     '<p class="nota-gris">'+esc(fundamentoAcuse())+'</p>'+
@@ -3601,7 +3645,7 @@ function campo(k,etq,tipo,oblig,ayuda,extra){
   if(CAMPOS_DIRECCION.indexOf(k) >= 0) alSalir.push('buscaDireccionSola()');
   if(alSalir.length) extra = (extra||'') + ' onblur="'+alSalir.join(';')+'"';
   var esFecha = t === 'date';
-  var control = '<input type="'+t+'" id="'+id+'" name="'+k+'" '+(extra||'')+marcadorDe(k,extra)+
+  var control = '<input type="'+t+'" id="'+id+'" name="'+k+'" '+(maxDe(k) ? 'maxlength="'+maxDe(k)+'" ' : '')+(extra||'')+marcadorDe(k,extra)+
       (esFecha && !val(k) ? ' class="vacia"' : '')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false" value="'+esc(val(k))+'" '+
       'oninput="guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');'+(esFecha ? 'this.classList.toggle(\'vacia\',!this.value);' : '')+
       'if(document.getElementById(\'avisoFecha\'))document.getElementById(\'avisoFecha\').innerHTML=avisoFecha();"'+
@@ -3688,7 +3732,7 @@ function campoColonia(k){
   return '<div class="campo" id="c_'+k+'"><label for="f_'+k+'">Colonia'+marca_opc(esObligatorio(k))+'</label>'+
     '<div class="ayuda" id="a_'+k+'"></div>'+
     '<div class="combo">'+
-      '<input type="text" id="f_'+k+'" name="'+k+'" role="combobox" aria-autocomplete="list" aria-expanded="false" '+
+      '<input type="text" id="f_'+k+'" name="'+k+'" '+(maxDe(k) ? 'maxlength="'+maxDe(k)+'" ' : '')+'role="combobox" aria-autocomplete="list" aria-expanded="false" '+
         'placeholder="'+marcadorColonia(sinAlc)+'" '+(sinAlc ? 'disabled ' : '')+
         'aria-controls="lista_'+k+'" autocomplete="off" aria-describedby="a_'+k+' e_'+k+'" aria-invalid="false" '+
         'value="'+esc(val(k))+'" '+
@@ -3890,7 +3934,7 @@ function campoArea(k,etq,oblig,ayuda,filas,marcador){
   var id='f_'+k, idA='a_'+k, idE='e_'+k, idN='n_'+k;
   return '<div class="campo" id="c_'+k+'"><label for="'+id+'">'+esc(etq)+marca_opc(oblig)+'</label>'+
     '<div class="ayuda" id="'+idA+'">'+(ayuda?esc(ayuda):'')+'</div>'+
-    '<textarea id="'+id+'" name="'+k+'" rows="'+(filas||4)+'"'+((LIMITES[k]&&LIMITES[k].max)?' maxlength="'+LIMITES[k].max+'"':'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false"'+((marcador||MARCADORES[k])?' placeholder="'+esc(marcador||MARCADORES[k])+'"':'')+' style="min-height:'+((filas||4)*26+16)+'px" '+
+    '<textarea id="'+id+'" name="'+k+'" rows="'+(filas||4)+'"'+(maxDe(k)?' maxlength="'+maxDe(k)+'"':'')+' aria-describedby="'+idA+' '+idE+'" aria-invalid="false"'+((marcador||MARCADORES[k])?' placeholder="'+esc(marcador||MARCADORES[k])+'"':'')+' style="min-height:'+((filas||4)*26+16)+'px" '+
       (FORMATO[k] ? 'onblur="avisaFormato(\''+k+'\')" ' : '')+
       'oninput="autoAlto(this);guarda(\''+k+'\',this.value);limpiaError(\''+k+'\');document.getElementById(\''+idN+'\').textContent=contadorTxt(\''+k+'\')">'+esc(val(k))+'</textarea>'+
     '<div class="contador" id="'+idN+'">'+esc(contadorTxt(k))+'</div>'+
@@ -4152,8 +4196,11 @@ FORMATO.dom_cp = {
 };
 
 
-/* Vacio no es mal formato: eso lo ve la obligatoriedad, que es otra cosa. */
+/* Vacio no es mal formato: eso lo ve la obligatoriedad, que es otra cosa.
+   Pasar del limite si lo es: el maxlength no frena lo que trae un borrador. */
+function excedeLimite(k){ return !!maxDe(k) && String(val(k) || '').trim().length > maxDe(k); }
 function formatoMal(k){
+  if(excedeLimite(k)) return true;
   var f = FORMATO[k]; if(!f) return false;
   var v = String(val(k) || '').trim(); if(!v) return false;
   if(f.prueba) return !f.prueba(v);
@@ -4163,6 +4210,7 @@ function formatoMal(k){
 /* El mensaje puede depender de lo escrito: cinco digitos fuera del
    intervalo de la Ciudad no son el mismo error que cuatro digitos. */
 function msgFormato(k){
+  if(excedeLimite(k)) return 'Es demasiado largo: admite hasta '+maxDe(k)+' caracteres.';
   var f = FORMATO[k]; if(!f) return '';
   return typeof f.msg === 'function' ? f.msg(String(val(k)||'').trim()) : f.msg;
 }
@@ -5020,14 +5068,34 @@ function enviar(){
   /* Folio del documento 19 (DEC-151): sin area, porque el turnado puede
      cambiar y el folio no; consecutivo unico por año y caracter verificador.
      En el SIA lo emite el servidor al guardar; aqui el consecutivo es simulado. */
-  var d = new Date();
+  var recibida = horaDeLaCiudad(new Date()), anio = recibida.slice(0, 4);
   var cons = String(Math.floor(Math.random()*899)+100).padStart(6,'0');
-  guarda('folio','SEDEMA/DEN/'+d.getFullYear()+'/'+cons+'-'+digitoLuhn(String(d.getFullYear())+cons));
+  guarda('folio','SEDEMA/DEN/'+anio+'/'+cons+'-'+digitoLuhn(anio+cons));
   guarda('clave_consulta', claveConsulta());
-  var meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  guarda('fecha_acuse', d.getDate()+' de '+meses[d.getMonth()]+' de '+d.getFullYear()+', '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')+' horas');
+  guarda('fecha_acuse', recibida);
   borraBorrador();
   irA(7);
+}
+
+/* La recepcion se registra en ISO 8601 con la hora y la zona de la Ciudad de
+   Mexico, sea cual sea la del equipo: con el reloj al 31 de diciembre a las
+   23:30 de la Ciudad, un equipo en la zona de Tokio registraba el 1 de enero
+   y un folio del año siguiente (D2-03). En el SIA la pone el servidor. */
+function horaDeLaCiudad(d){
+  var p = {};
+  new Intl.DateTimeFormat('en-CA', {timeZone:'America/Mexico_City', year:'numeric', month:'2-digit', day:'2-digit',
+    hour:'2-digit', minute:'2-digit', second:'2-digit', hourCycle:'h23'}).formatToParts(d)
+    .forEach(function(x){ p[x.type] = x.value; });
+  var min = Math.round((Date.UTC(+p.year, p.month - 1, +p.day, +p.hour, +p.minute, +p.second) - d.getTime()) / 60000);
+  var zona = (min < 0 ? '-' : '+') + String(Math.floor(Math.abs(min) / 60)).padStart(2, '0') + ':' + String(Math.abs(min) % 60).padStart(2, '0');
+  return p.year + '-' + p.month + '-' + p.day + 'T' + p.hour + ':' + p.minute + ':' + p.second + zona;
+}
+
+/* La misma fecha en palabras, para la pantalla y el acuse en PDF. */
+function fechaRecepcionTexto(){
+  var meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  var v = val('fecha_acuse') || '', m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v);
+  return m ? (+m[3]) + ' de ' + meses[m[2] - 1] + ' de ' + m[1] + ', ' + m[4] + ':' + m[5] + ' horas' : v;
 }
 
 /* Caracter verificador del folio: Luhn sobre año + consecutivo
@@ -5256,7 +5324,7 @@ function construyeAcusePdf(){
     /* Titulo */
     texto('ACUSE DE RECEPCIÓN DE DENUNCIA AMBIENTAL', W / 2, y, 'F2', 13, GUINDA, 'centro');
     y -= 15;
-    texto('Presentada en línea · Recibida el ' + (val('fecha_acuse') || ''), W / 2, y, 'F1', 9, GRIS, 'centro');
+    texto('Presentada en línea · Recibida el ' + fechaRecepcionTexto(), W / 2, y, 'F1', 9, GRIS, 'centro');
     y -= 12;
 
     seccion('Información para quien denuncia');
@@ -5595,7 +5663,11 @@ function leeBorrador(){
 }
 function retomaBorrador(){
   var b = leeBorrador(); if(!b) return;
-  estado = b.estado; paso = b.paso; render(); window.scrollTo({top:0});
+  estado = b.estado; paso = b.paso;
+  /* Un borrador anterior a DEC-235 trae «FEDERAL» como area: la recibe la
+     DGCORENADR y se remite a la PROFEPA. */
+  if(estado.dg === 'FEDERAL'){ estado.dg = 'DGCORENADR'; estado.remite_a = 'PROFEPA'; }
+  render(); window.scrollTo({top:0});
 }
 function pideBorrar(){
   var c = $('confirmaBorrar');

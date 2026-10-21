@@ -75,8 +75,24 @@ def entradas(lit):
             if prof == 0:         out.append(lit[ini:k+1])
     return out
 
+def cadenas(lit):
+    """Cuenta las cadenas de primer nivel de un arreglo de textos, sin los
+       comentarios, que pueden traer comillas tipograficas pero no rectas."""
+    lit = re.sub(r'/\*.*?\*/', '', lit, flags=re.S)
+    return len(re.findall(r"'(?:[^'\\]|\\.)*'", lit))
+
 html = io.open(ORIGEN, encoding='utf-8').read()
+# Los mismos conteos que conteoRama() en el prototipo (D1-06): salen de los
+# catalogos, nunca de un numero escrito en la tabla.
+CONTEO = {'{materias}': len(entradas(bloque(html, 'var MATERIAS'))),
+          '{deriva}':   len(entradas(bloque(html, 'var DERIVA '))),
+          '{giros}':    cadenas(bloque(html, 'var TIPOS_ESTAB')) - 1}   # sin «Otro»
 BIF = [campos(e) for e in entradas(bloque(html, 'var BIFURCACIONES'))]
+for b in BIF:
+    for k, n in CONTEO.items():
+        b['opciones'] = b['opciones'].replace(k, str(n))
+    if '{' in b['opciones']:
+        sys.exit('ERROR: conteo sin resolver en la rama %r.' % b['pregunta'])
 ESC = [campos(e) for e in entradas(bloque(html, 'var ESCENARIOS'))]
 if not BIF or not ESC:
     sys.exit('ERROR: el lector no reconoció ninguna rama o ningún escenario.')

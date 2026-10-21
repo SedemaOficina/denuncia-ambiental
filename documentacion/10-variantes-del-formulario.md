@@ -3,7 +3,7 @@
 **Versión:** 2.0 · 20 de octubre de 2026
 **Generado automáticamente** de las estructuras `BIFURCACIONES` y `ESCENARIOS` del prototipo, que son las mismas que gobiernan el panel de validación. Documento y comportamiento no pueden discrepar.
 
-El formulario no es un camino único: hay **diez puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los once escenarios que el panel de validación carga con un toque, para recorrer cada rama sin capturar todo a mano.
+El formulario no es un camino único: hay **diecisiete puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los once escenarios que el panel de validación carga con un toque, para recorrer cada rama sin capturar todo a mano.
 
 ---
 
@@ -11,14 +11,21 @@ El formulario no es un camino único: hay **diez puntos donde cambia de forma** 
 
 | Paso | Qué se responde | Opciones | Cómo cambia el formulario |
 |---|---|---|---|
-| 1 | **Qué se denuncia** | 19 materias · 6 supuestos de otra autoridad | Elegir una materia avanza al paso 2. Elegir un supuesto de otra autoridad detiene el flujo y muestra a dónde acudir. |
-| 2 | **Dónde cae el punto (cruce espacial)** | Suelo urbano · AVA · ANP local · ANP federal con convenio · ANP federal sin convenio · Suelo de conservación · Fuera de la Ciudad | Determina el área que atiende y el contenido de la ficha. Fuera de la Ciudad bloquea el avance. |
+| 1 | **Qué se denuncia** | 19 materias · 7 supuestos de otra autoridad | Elegir una materia avanza al paso 2. Elegir un supuesto de otra autoridad detiene el flujo y muestra a dónde acudir. |
+| 2 | **¿El lugar tiene calle y número?** | Sí · No | «Sí» pide calle, número exterior, entre qué calles, colonia, alcaldía y código postal; el punto en el mapa es opcional y, sin él, la Secretaría ubica el lugar con la dirección. «No» pide el nombre del lugar y el punto en el mapa, obligatorio. |
+| 2 | **¿El predio se identifica por manzana y lote?** | Sí · No | Sólo con calle y número. «Sí» pide manzana y lote, obligatorios. |
+| 2 | **Dónde cae el punto (cruce espacial)** | Suelo urbano · AVA · ANP local · ANP federal con convenio · ANP federal sin convenio · Suelo de conservación · Fuera de la Ciudad | Determina el área que atiende y el contenido de la ficha. En un ANP federal la recibe la DGCORENADR y la remite a la PROFEPA. Fuera de la Ciudad bloquea el avance. |
+| 3 | **Cuando se denuncia un vehículo contaminante** | Vehículo · Otra materia | Sólo con vehículo se pregunta si es transporte público de pasajeros, de carga, particular o no se sabe. |
 | 3 | **¿Los hechos ocurren dentro de un establecimiento?** | Sí · No | «Sí» muestra tipo de establecimiento y nombre comercial, y preselecciona «Una empresa o negocio» en la pregunta siguiente, donde se puede cambiar. |
 | 3 | **Tipo de establecimiento** | 18 giros · Otro | «Otro» abre un campo de texto para especificarlo. |
-| 3 | **¿Quién es responsable de los hechos?** | Persona · Empresa · Autoridad · No lo sé | Cambia por completo el bloque de responsables. «Autoridad» pide el ámbito y cuál, en un renglón; la ruta del artículo 331 sólo se menciona en el acuse (DEC-212). |
-| 3 | **Desde cuándo ocurre** | Una sola vez · Se repite · Permanente | Cambia el texto de la fecha que se pide. Una fecha posterior a hoy muestra un aviso para verificarla; el formulario no menciona plazos (DEC-138). |
+| 3 | **¿Quién es responsable de los hechos?** | Persona · Empresa · Autoridad · No lo sé | Cambia por completo el bloque de responsables. «Autoridad» pide el ámbito; «No lo sé» abre lo que se ha observado de quien lo hace. La ruta del artículo 331 se dice en el acuse (DEC-212). |
+| 3 | **Ámbito de la autoridad señalada** | Gobierno de la Ciudad · Alcaldía · Federal · Otra · No lo sé | Con un ámbito se pregunta «¿Cuál?», con sugerencias del catálogo del ámbito cuando lo hay, y el área o persona servidora pública, los dos opcionales. «No lo sé» no los pregunta: la Secretaría identifica la autoridad al turnar (DEC-202). |
+| 3 | **¿Conoces la fecha en que ocurrió o inició?** | Sí · No | «Sí» pide la fecha, que puede ser aproximada; una fecha posterior a hoy muestra un aviso para verificarla. «No» no la pide. El formulario no menciona plazos (DEC-138). |
+| 3 | **¿Ya reportaste ante otra autoridad?** | Sí · No | «Sí» abre «Gestiones previas», opcional. |
 | 5 | **¿Con qué identidad se presenta?** | Escribir los datos · Denuncia anónima | Con datos, se piden nombre, teléfono, correo y domicilio para notificaciones. La anónima no pide nombre ni domicilio; exige un correo para notificaciones y ofrece el teléfono como opcional. |
+| 5 | **Denuncia de ruido presentada con datos** | Ruido con datos · Otro caso | Sólo en ruido y con datos se pregunta si acepta que la medición se haga desde su domicilio; en ruido anónima se avisa que no podrá medirse desde su casa. |
 | 5 | **¿Vive fuera de la Ciudad de México?** | Casilla sin marcar · marcada | Sin marcar: alcaldía en lista, colonia del catálogo y código postal de la Ciudad. Marcada: entidad federativa en lista, municipio y colonia escritos, y cualquier código postal de cinco dígitos. |
+| 5 | **¿Tu domicilio se identifica por manzana y lote?** | Sí · No | «Sí» pide manzana y lote del domicilio, obligatorios. |
 | Todos | **Obligatoriedad** | Desactivada · Activa | Activa, cada paso exige sus campos obligatorios antes de continuar y los demás se marcan como opcionales. |
 | Portada | **Borrador guardado** | Existe · No existe | Si existe, la portada ofrece retomarlo o descartarlo. |
 
