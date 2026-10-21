@@ -1309,3 +1309,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Con esto se cierra el plan de corrección de la auditoría del 20 de octubre**: los siete bloques están hechos (DEC-229 a DEC-240).
 
 **Verificación de cierre.** Batería completa en verde: 1 643 comprobaciones en 42 baterías, de ellas 278 sobre la versión publicada, con Leaflet local y sin red.
+
+### 21 de octubre de 2026 · «Atrás» del navegador regresa al paso anterior (DEC-241, Versión 36)
+
+**Qué cambió.** `render()` anota cada cambio de paso en el historial (`anotaHistorial`), y un solo manejador de `popstate` atiende «Atrás» y «Adelante». Cada entrada lleva el paso y la carga de la página: una de otra carga lleva a la portada; desde el acuse no se regresa. Batería 43 nueva, también en la segunda vuelta sobre la versión publicada.
+
+**Por qué.** Lo decidió Liber Saltijeral sobre el punto 3 de «Para decidir» de la auditoría: en el teléfono, el gesto de regreso sacaba a la persona del formulario.
+
+**Verificación de cierre.** Batería completa en verde: 1 657 comprobaciones en 43 baterías, de ellas 285 sobre la versión publicada.

@@ -1060,6 +1060,7 @@ var estado = {};
 var archivos = [];
 var paso = 0;
 var pasoConFoco = -1;   /* ultimo paso al que se le dio el foco */
+var pasoEnHistorial = null;   /* ultimo paso anotado en el historial del navegador */
 var mapa = null, marcador = null;
 
 
@@ -1514,7 +1515,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-240', fecha:'21 de octubre de 2026', nombre:'Versión 35 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-241', fecha:'21 de octubre de 2026', nombre:'Versión 36 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -5776,7 +5777,32 @@ function render(){
     if(enc){ enc.setAttribute('tabindex','-1'); enc.focus({preventScroll:true}); }
     pasoConFoco = paso;
   }
+  anotaHistorial();
 }
+
+/* «Atras» y «Adelante» del navegador recorren los pasos (DEC-241): cada cambio
+   de paso queda en el historial, y antes «Atras» salia del formulario
+   (C4-01). Una entrada de otra carga de la pagina lleva a la portada, que
+   ofrece retomar el borrador; desde el acuse no se regresa, para no enviar dos
+   veces la misma denuncia. Si el navegador no deja usar el historial, como en
+   un marco aislado, todo sigue como antes. */
+var CARGA = Date.now().toString(36);
+function anotaHistorial(){
+  if(paso === pasoEnHistorial) return;
+  try{ history[pasoEnHistorial === null ? 'replaceState' : 'pushState']({paso: paso, carga: CARGA}, ''); }
+  catch(e){ /* sin historial: «Atras» sale del formulario, como antes */ }
+  pasoEnHistorial = paso;
+}
+window.addEventListener('popstate', function(e){
+  var s = e.state || {};
+  if(paso >= 7){
+    try{ history.pushState({paso: paso, carga: CARGA}, ''); }catch(err){ /* sin historial no hay a donde regresar */ }
+    return;
+  }
+  paso = (s.carga === CARGA && typeof s.paso === 'number') ? s.paso : 0;
+  pasoEnHistorial = paso;
+  render(); window.scrollTo({top:0});
+});
 
 /* Las tres ventanas —aviso de privacidad, mapeo y ramas— llevan el foco a su
    titulo al abrirse, lo retienen mientras estan abiertas y lo devuelven a quien

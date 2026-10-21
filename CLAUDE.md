@@ -11,7 +11,7 @@ Este archivo existe porque la memoria del entorno anterior (Claude en la app de 
   2. Criterio 6: P-02, tres datos del aviso de privacidad (Unidad de Transparencia).
   3. Criterio 7: la respuesta de la DGIVA a OBS-0024.
 - **Fase 2, contrato de datos y servicios:** se puede adelantar lo que no dependa de esos puntos (diccionario de datos, catálogos).
-- **Plan de corrección de la auditoría, terminado:** `documentacion/AUDITORIA-2026-10-20.md`, apartado 11. Los siete bloques están hechos: el 2 salió como «Versión 31» (DEC-232); el 4, como «Versión 32» y «Versión 33» (DEC-233 a DEC-235); el 3, sólo documentos (DEC-236); el 5, como «Versión 34» (DEC-237); el 6, limpieza, sin cambio de versión (DEC-239). Aparte, la «Versión 35» corrigió la empresa propuesta en el responsable (DEC-238). El 7 cerró el plan el 21 de octubre: las baterías del paso 2 corren también sobre la versión publicada, con Leaflet guardado en `construccion/terceros/` (DEC-240). Lo anotado «de paso» queda en la bitácora del documento 11.
+- **Plan de corrección de la auditoría, terminado:** `documentacion/AUDITORIA-2026-10-20.md`, apartado 11. Los siete bloques están hechos: el 2 salió como «Versión 31» (DEC-232); el 4, como «Versión 32» y «Versión 33» (DEC-233 a DEC-235); el 3, sólo documentos (DEC-236); el 5, como «Versión 34» (DEC-237); el 6, limpieza, sin cambio de versión (DEC-239). Aparte, la «Versión 35» corrigió la empresa propuesta en el responsable (DEC-238) y la «Versión 36» hizo que «Atrás» del navegador regrese al paso anterior (DEC-241). De «Para decidir» quedan abiertos los puntos 2 (presupuesto de peso), 6 (trato del aviso de privacidad) y 7 (P-04). El 7 cerró el plan el 21 de octubre: las baterías del paso 2 corren también sobre la versión publicada, con Leaflet guardado en `construccion/terceros/` (DEC-240). Lo anotado «de paso» queda en la bitácora del documento 11.
 - **Todo cambio visible en el formulario sale como «Versión 31» o posterior** y se informa a la DGIVA con la relación de cambios respecto de la versión firmada (DEC-230).
 
 ## Documentos que mandan
@@ -38,7 +38,7 @@ Los documentos 09 y 10 **se generan** del prototipo; no se editan a mano sus apa
    python construccion/publicar_pages.py    # docs/index.html para GitHub Pages
    python construccion/pruebas.py           # todas las baterías; deben quedar en verde
    ```
-   Si una batería falla, no se hace commit. Hoy: 1 643 comprobaciones en 42 baterías, de ellas 278 sobre la versión publicada.
+   Si una batería falla, no se hace commit. Hoy: 1 657 comprobaciones en 43 baterías, de ellas 285 sobre la versión publicada.
 4. **Registra cada decisión** como renglón nuevo `DEC-n` en la tabla del documento 05, con sus cinco celdas (Clave, Decisión, Fecha, Razón, Estado). Si la nueva decisión modifica otra, escribe «Modifica DEC-x» en la razón y cambia el estado de DEC-x a «Modificada por DEC-n». La batería 36 revisa que la numeración no tenga huecos y que toda decisión citada exista.
 5. **Anota en la bitácora** del documento 11 qué cambió y por qué.
 6. **Versión en pantalla.** El formulario muestra siempre su versión («Versión N · Validación DGIVA», en `VERSION_FORMULARIO`). Sube N cuando cambia algo visible.
