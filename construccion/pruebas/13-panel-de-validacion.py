@@ -53,10 +53,12 @@ with sync_playwright() as pw:
            'el conmutador de esquemas ya no está: %s' % d['controles'])
     # DEC-143: se retira el filtro de competencia; los supuestos de otra
     # autoridad se muestran siempre.
-    afirma(sorted(d['controles']) == ['cfgLimite','cfgVal'],
-           'quedan dos interruptores, uno por comportamiento: %s' % sorted(d['controles']))
-    afirma(sorted(d['claves']) == ['limite','validar'],
-           'y la configuración lleva exactamente esas dos claves: %s' % sorted(d['claves']))
+    # DEC-248: se agrega el modo captura por personal (AD-03), un tercer
+    # comportamiento con su propio interruptor.
+    afirma(sorted(d['controles']) == ['cfgCaptura','cfgLimite','cfgVal'],
+           'quedan tres interruptores, uno por comportamiento: %s' % sorted(d['controles']))
+    afirma(sorted(d['claves']) == ['captura','limite','validar'],
+           'y la configuración lleva exactamente esas tres claves: %s' % sorted(d['claves']))
     afirma('filtro previo de competencia' not in d['texto'], 'ya no se ofrece apagar el filtro de competencia')
     # «DGIVA» sigue apareciendo en la descripción de dos escenarios, y ahí es
     # correcto: nombra al área que atiende el caso, no un esquema de campos.

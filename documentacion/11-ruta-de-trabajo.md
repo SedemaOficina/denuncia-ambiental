@@ -1381,3 +1381,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Un mapa con mosaicos pediría internet y, en el SIA, una clave; la maqueta debe abrirse con doble clic. Las capas del formulario bastan para ubicar y son las que el servidor usará para el cruce. La batería 49 comprueba que cada punto cae exactamente en sus coordenadas con la proyección del formulario; se le metieron dos errores a propósito —un corrimiento de una milésima en la proyección y la denuncia actual tapada por otra del mismo punto— y los atrapó.
 
 **Verificación de cierre.** Batería completa en verde: 1 796 comprobaciones en 49 baterías, 285 de ellas sobre la versión publicada. Revisión a la vista en escritorio y a 360 px.
+
+### 21 de octubre de 2026 · captura por personal: «modo captura» en el formulario y bloque E de la maqueta (DEC-248, Versión 37)
+
+**Qué cambió.** El formulario gana el «modo captura por personal» de AD-03, con su interruptor en el panel de validación y la dirección «?modo=captura»: paso de recepción, soporte por canal, correo y domicilio que pueden no venir, sin prueba de humanidad ni límite, revisión y acuse que dicen cómo llegó. Escenario «Captura por personal» y rama nueva en el documento 10. La maqueta toma del formulario los canales, arma sus denuncias capturadas pasando por ese modo y gana la pantalla «Captura por personal». Baterías 50 y 51 nuevas; la 13, la 14 y la 27 se actualizan por el tercer interruptor, la ruta de captura y el escenario doce.
+
+**Por qué así.** Liber eligió la recomendación de AD-03 —el mismo formulario, no una pantalla aparte—, aunque tocara el formulario validado: así el canal y los campos nuevos se validan con la DGIVA con el mismo método, y la captura hereda las reglas de captura sin copiarlas. Para que el documento 09 diga la verdad, lo que puede no venir se marca en cada campo del catálogo (`captura_opcional`) y no en una regla suelta. La batería 50 se probó metiendo dos errores en el artefacto —el correo obligatorio en la captura y la prueba de humanidad a la vista— y los atrapó.
+
+**De paso, para el siguiente bloque o para las áreas.** Cómo consta el aviso de privacidad de quien denunció por escrito o por teléfono, porque la casilla la marcaría quien captura; si el teléfono puede no venir; y la relación de cambios de las versiones 31 a 37 para la DGIVA.
+
+**Verificación de cierre.** Batería completa en verde: 1 829 comprobaciones en 51 baterías, 285 de ellas sobre la versión publicada. Revisión a la vista del paso de recepción, la revisión y el acuse en modo captura, y de la pantalla de la maqueta en escritorio y a 360 px.

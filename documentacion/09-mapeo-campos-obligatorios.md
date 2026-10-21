@@ -1,19 +1,19 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-247 · 21 de octubre de 2026
+**Versión:** DEC-248 · 21 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
 
 | | |
 |---|---|
-| Campos que llena la persona | **57** |
+| Campos que llena la persona | **63** |
 | Datos que viajan a la base sin verse en pantalla | **14** |
-| Datos que calcula el formulario y se muestran | 15 |
-| Datos personales | **22** (39 %) |
+| Datos que calcula el formulario y se muestran | 17 |
+| Datos personales | **24** (38 %) |
 | De ellos, de terceros: de quien se señala como responsable | 2 |
-| Obligatorios en este formulario | 37 de 57 |
-| Campos con obligatoriedad condicionada | 26 |
+| Obligatorios en este formulario | 42 de 63 |
+| Campos con obligatoriedad condicionada | 33 |
 | Datos sin uso declarado | **0** |
 
 ---
@@ -26,10 +26,10 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 |---|---|---|
 | **Competencia** | Determinar la competencia y turnar al área que atiende | 18 |
 | **Localización** | Localizar y caracterizar el sitio para la visita de inspección | 17 |
-| **Expediente** | Integrar el expediente y motivar el acto de inspección | 19 |
+| **Expediente** | Integrar el expediente y motivar el acto de inspección | 26 |
 | **Responsable** | Identificar y emplazar al probable infractor | 5 |
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
-| **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 19 |
+| **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 20 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 2 |
 | **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 5 |
 
@@ -38,6 +38,16 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 ## 2. Campos que llena la persona, por paso
 
 **Dato personal** marca los datos de una persona física identificada o identificable, sea la persona denunciante o un tercero señalado. **Obligatorio *(condicionado)*** significa que el campo sólo se exige en la situación que indica la última columna; fuera de ella no se pide ni se marca.
+
+### Paso 0 · Captura por personal (sólo en ese modo, AD-03)
+
+| Campo | Obligatorio | Dato personal | Se pide | Uso declarado |
+|---|---|---|---|---|
+| Canal por el que llegó | Obligatorio *(condicionado)* | No | Sólo en la captura por personal (AD-03) | Distingue lo que llega por Oficialía de Partes, teléfono, correo o comparecencia de lo que llega en línea; decide qué soporte se exige y permite comparar la demanda con la serie histórica (D-19). |
+| Fecha de recepción original | Obligatorio *(condicionado)* | No | Sólo en la captura por personal (AD-03) | Cuándo llegó la denuncia por el canal de origen: los plazos se cuentan desde aquí y no desde la captura (CP-1, recomendación). |
+| Hora de recepción original | Obligatorio *(condicionado)* | No | Sólo en la captura por personal (AD-03) | Completa la fecha de recepción original. |
+| Número de volante o folio de origen | Opcional | No | Sólo en la captura por personal (AD-03) | Liga la captura con el registro de Oficialía de Partes o del sistema de origen (B-06). |
+| Quién recibió | Obligatorio *(condicionado)* | **Sí** | Sólo en la captura por personal (AD-03) | Constancia de qué persona servidora pública recibió la denuncia por el canal de origen. |
 
 ### Paso 1 · Qué denuncias
 
@@ -90,6 +100,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Campo | Obligatorio | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|
 | Fotos, videos o documentos | Opcional | **Sí** | Siempre | Elementos probatorios que sustentan la presunción fundada del art. 280. |
+| Soporte de la captura | Obligatorio *(condicionado)* | **Sí** | Sólo en la captura por personal (AD-03): el escrito, la nota de la llamada, el correo o el acta, según el canal | Prueba de lo que se recibió por el canal de origen; con la bitácora de quién capturó, sustituye a la prueba de humanidad. |
 | Otras pruebas que puedas ofrecer | Opcional | No | Siempre | Describe pruebas que la persona no puede adjuntar pero puede ofrecer. |
 
 ### Paso 5 · Tus datos
@@ -101,21 +112,21 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | Apellido paterno | Obligatorio | **Sí** | Siempre | Identificación de la persona denunciante en el expediente y en el acuse. |
 | Apellido materno | Opcional | **Sí** | Siempre | Completa la identificación en el registro administrativo. |
 | Teléfono | Obligatorio | **Sí** | Siempre | Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119). |
-| Correo electrónico | Obligatorio | **Sí** | Siempre | Contacto por escrito: la Secretaría puede escribir para aclarar datos o informar el trámite. En la denuncia anónima también es obligatorio y es el medio de notificación del resultado, porque no hay domicilio (DEC-120, DEC-233); el envío lo hace el servidor del SIA. |
+| Correo electrónico | Obligatorio | **Sí** | en la captura por personal puede no venir (AD-03) | Contacto por escrito: la Secretaría puede escribir para aclarar datos o informar el trámite. En la denuncia anónima también es obligatorio y es el medio de notificación del resultado, porque no hay domicilio (DEC-120, DEC-233); el envío lo hace el servidor del SIA. |
 | Acepta que la medición se haga desde su domicilio | Opcional | No | Sólo en denuncias de ruido presentadas con datos | Permite programar la medición de ruido desde el domicilio de quien denuncia, que es donde se percibe. |
 | Vivo fuera de la Ciudad de México | Opcional | No | Siempre | Casilla de encaminamiento: cambia alcaldía y colonia del catálogo por entidad federativa, municipio y colonia escrita, y admite cualquier código postal (DEC-136). |
-| Domicilio · calle | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
-| Domicilio · número exterior | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · calle | Obligatorio | **Sí** | en la captura por personal puede no venir (AD-03) | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · número exterior | Obligatorio | **Sí** | en la captura por personal puede no venir (AD-03) | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Domicilio · número interior | Opcional | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
-| ¿El domicilio se identifica por manzana y lote? | Obligatorio | No | Siempre | Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene (DEC-135). |
-| Domicilio · manzana | Obligatorio *(condicionado)* | **Sí** | Sólo cuando el domicilio se identifica por manzana y lote | Precisa el domicilio de notificación donde no hay número exterior (DEC-135). |
+| ¿El domicilio se identifica por manzana y lote? | Obligatorio | No | en la captura por personal puede no venir (AD-03) | Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene (DEC-135). |
+| Domicilio · manzana | Obligatorio *(condicionado)* | **Sí** | Sólo cuando el domicilio se identifica por manzana y lote; en la captura por personal puede no venir (AD-03) | Precisa el domicilio de notificación donde no hay número exterior (DEC-135). |
 | Domicilio · lote | Opcional | **Sí** | Sólo cuando el domicilio se identifica por manzana y lote | Precisa el domicilio de notificación donde no hay número exterior (DEC-135). |
 | Domicilio · entre qué calles | Opcional | **Sí** | Siempre | Ayuda a quien notifica a encontrar el domicilio (DEC-135). |
-| Domicilio · colonia | Obligatorio | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
+| Domicilio · colonia | Obligatorio | **Sí** | en la captura por personal puede no venir (AD-03) | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
 | Domicilio · código postal | Opcional | **Sí** | Siempre | Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134). |
-| Domicilio · alcaldía | Obligatorio *(condicionado)* | **Sí** | Sólo cuando el domicilio está en la Ciudad de México | Notificación por domicilio. Se elige de la lista de las dieciséis alcaldías y acota las colonias que se ofrecen (DEC-135). |
-| Domicilio · entidad federativa | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona vive fuera de la Ciudad de México | Notificación por domicilio fuera de la Ciudad. Se elige de la lista de las otras treinta y una entidades (DEC-136). |
-| Domicilio · municipio | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona vive fuera de la Ciudad de México | Notificación por domicilio fuera de la Ciudad (DEC-136). |
+| Domicilio · alcaldía | Obligatorio *(condicionado)* | **Sí** | Sólo cuando el domicilio está en la Ciudad de México; en la captura por personal puede no venir (AD-03) | Notificación por domicilio. Se elige de la lista de las dieciséis alcaldías y acota las colonias que se ofrecen (DEC-135). |
+| Domicilio · entidad federativa | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona vive fuera de la Ciudad de México; en la captura por personal puede no venir (AD-03) | Notificación por domicilio fuera de la Ciudad. Se elige de la lista de las otras treinta y una entidades (DEC-136). |
+| Domicilio · municipio | Obligatorio *(condicionado)* | **Sí** | Sólo cuando la persona vive fuera de la Ciudad de México; en la captura por personal puede no venir (AD-03) | Notificación por domicilio fuera de la Ciudad (DEC-136). |
 | Género | Opcional | **Sí** | Siempre | Desagregación estadística de quién denuncia en la Ciudad. Opcional; no condiciona el trámite ni se incorpora al expediente. La identidad de género es dato sensible: sólo puede tratarse con consentimiento expreso, y por eso la pregunta admite no responder. El consentimiento lo da la casilla del aviso de privacidad, sin casilla propia (DEC-234). |
 | Rango de edad | Opcional | **Sí** | Siempre | Desagregación estadística por edad. Opcional; no condiciona el trámite ni se incorpora al expediente. |
 | Protesta de decir verdad y aviso de privacidad | Obligatorio | No | Siempre | Constancia del consentimiento informado y de la protesta de decir verdad. |
@@ -124,7 +135,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 
 | Campo | Obligatorio | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|
-| Prueba de humanidad | Obligatorio | No | Siempre | Impide el envío automatizado masivo. La comprobación la resuelve el servidor; no identifica a la persona ni se incorpora al expediente. |
+| Prueba de humanidad | Obligatorio *(condicionado)* | No | No en la captura por personal: la sustituyen el soporte y la bitácora de quién capturó (AD-03) | Impide el envío automatizado masivo. La comprobación la resuelve el servidor; no identifica a la persona ni se incorpora al expediente. |
 
 ---
 
@@ -178,6 +189,8 @@ Tampoco los escribe la persona: se le enseñan en la ficha del mapa, en la revis
 | Número de registro | `folio` | El sistema, al enviar | No | Identifica la denuncia en el acuse, en el módulo interno y en la consulta de seguimiento. No lleva el área: SEDEMA/DEN/año/consecutivo-verificador (documento 19). |
 | Clave de consulta | `clave_consulta` | El sistema, al enviar | No | Con el folio, permite consultar la denuncia. Se entrega una sola vez; el servidor guarda sólo su huella y no puede reponerse. |
 | Fecha y hora de recepción | `fecha_acuse` | El sistema, al enviar | No | Fecha y hora en que la denuncia entra al expediente, en ISO 8601 con la hora y la zona de la Ciudad de México (2026-12-31T23:30:00-06:00); la pantalla y el acuse la dicen en palabras (DEC-235). |
+| Fecha y hora de recepción original | `fecha_recepcion_original` | La fecha y la hora que escribe quien captura, al guardar | No | Sólo en la captura por personal: cuándo llegó la denuncia por el canal de origen, en ISO 8601 con la zona de la Ciudad. Los plazos se cuentan desde aquí (CP-1). |
+| Datos de contacto que no venían | `no_proporcionado` | La captura por personal, al guardar | No | Sólo en la captura por personal: «correo», «domicilio» o los dos, cuando no venían en el escrito o la llamada (AD-03). Avisa que no se podrá notificar por esa vía. |
 
 **Por cada foto adjunta**
 

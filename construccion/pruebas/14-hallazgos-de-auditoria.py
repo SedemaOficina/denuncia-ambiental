@@ -180,18 +180,22 @@ with sync_playwright() as pw:
         /* La unica materia con una pregunta propia en el paso 3: el servicio
            del vehiculo. Sin esta ruta, un campo que si se rinde pareceria
            fantasma solo porque ninguna de las otras tres lo recorre. */
-        {tiene_direccion:'si', materia:'vehiculo', tipo_denunciado:'nose', identificacion:'anonima'}
+        {tiene_direccion:'si', materia:'vehiculo', tipo_denunciado:'nose', identificacion:'anonima'},
+        /* La captura por personal (DEC-248): su paso 0 y su soporte sólo se
+           rinden con el modo encendido. */
+        {captura:true, canal:'oficialia', tiene_direccion:'si', materia:'tala', identificacion:'nombre'}
       ];
       rutas.forEach(r => {
-        estado = {}; archivos = [];
-        Object.keys(r).forEach(k => guarda(k, r[k]));
-        for(let p = 1; p <= 6; p++){
+        estado = {}; archivos = []; cfg.captura = !!r.captura;
+        Object.keys(r).forEach(k => { if(k !== 'captura') guarda(k, r[k]); });
+        for(let p = 0; p <= 6; p++){
           irA(p);
           Object.keys(OBLIG).forEach(k => {
             if(document.getElementById('c_'+k) || document.getElementById('f_'+k)) vistos.add(k);
           });
         }
       });
+      cfg.captura = false;
       /* Los campos derivados no se rinden por definicion: la alcaldia la
          determina el punto del mapa y por eso no tiene control (DEC-72). */
       return Object.keys(OBLIG).filter(k => !vistos.has(k) &&

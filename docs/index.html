@@ -149,7 +149,7 @@ html{scroll-padding-top:150px}
 .campo label{display:block;font-weight:600;font-size:var(--t-base);line-height:1.35;margin-bottom:4px;color:var(--texto);cursor:pointer}
 .campo .ayuda{font-size:var(--t-sm);color:var(--gris-cl);margin-bottom:6px;line-height:1.45}
 .req{color:var(--guinda);font-weight:700;margin-left:1px}
-input[type=text],input[type=tel],input[type=email],input[type=date],select,textarea{
+input[type=text],input[type=tel],input[type=email],input[type=date],input[type=time],select,textarea{
   width:100%;padding:12px 13px;border:1px solid var(--borde);border-radius:var(--r-ctrl);
   font-family:inherit;font-size:var(--t-base);background:var(--blanco);color:var(--texto);transition:border-color .15s,box-shadow .15s;min-height:46px;
 }
@@ -978,6 +978,8 @@ footer{border-top:3px solid var(--dorado);background:var(--beige);padding:32px 2
         <span><b>Exigir los campos obligatorios.</b> Encendido, como funcionará el formulario: no se avanza ni se envía con una pregunta obligatoria sin contestar. Apágalo sólo para recorrer pantallas sin llenarlas.</span></label>
       <label><input type="checkbox" id="cfgLimite" onchange="cfg.limite=this.checked">
         <span><b>Simular el límite de envíos alcanzado.</b> Muestra lo que ve quien agotó el número de denuncias permitido desde una misma conexión. El límite real lo cuenta el servidor (P-21).</span></label>
+      <label><input type="checkbox" id="cfgCaptura" onchange="cfg.captura=this.checked;irA(0)">
+        <span><b>Modo captura por personal.</b> El mismo formulario para registrar lo que llega por Oficialía de Partes, teléfono, correo o comparecencia: pide el canal, la fecha de recepción original y el soporte; el correo y el domicilio pueden no venir; sin prueba de humanidad ni límite de envíos (AD-03).</span></label>
     </div>
     <div class="grupo">
       <strong style="font-size:13px;display:block;margin-bottom:4px">Escenarios de prueba</strong>
@@ -1053,8 +1055,22 @@ var CATALOGO_COLONIAS = {meta:{"origen": "IECM 2022, unidades territoriales", "n
 
 /* La obligatoriedad viene encendida, como funcionara el formulario: no se
    avanza ni se envia con una pregunta obligatoria sin contestar (DEC-161).
-   El panel de validacion la apaga solo para recorrer pantallas. */
-var cfg = { validar:true, limite:false };
+   El panel de validacion la apaga solo para recorrer pantallas.
+   «captura» es el modo de captura por personal (AD-03): lo enciende el panel
+   o la direccion «?modo=captura», que es como lo abre la maqueta del modulo
+   de administracion. */
+var cfg = { validar:true, limite:false, captura:/[?&]modo=captura(&|$)/.test(location.search) };
+
+/* Canales por los que llega lo que captura el personal (AD-03), con el
+   soporte que exige cada uno. La maqueta del modulo de administracion los
+   toma de aqui. */
+var CANALES_CAPTURA = [
+  {id:'oficialia',     nom:'Oficialía de Partes', soporte:'El escrito con el sello de recepción, escaneado'},
+  {id:'telefono',      nom:'Teléfono',            soporte:'La nota de la llamada'},
+  {id:'correo',        nom:'Correo electrónico',  soporte:'El correo recibido, en PDF'},
+  {id:'comparecencia', nom:'Comparecencia',       soporte:'El acta de comparecencia'}
+];
+function canalCaptura(){ return CANALES_CAPTURA.filter(function(c){ return c.id === val('canal'); })[0]; }
 var estado = {};
 var archivos = [];
 var paso = 0;
@@ -1235,6 +1251,22 @@ var DERIVA = [
    minimización, y es el insumo con el que la Unidad de Transparencia redacta
    el aviso de privacidad. De aquí se genera 09-mapeo-campos-obligatorios.md. */
 var OBLIG = {
+  /* Paso 0: sólo en la captura por personal (AD-03). Cómo llegó la denuncia. */
+  canal:            {p:0, oblig:true,  etq:'Canal por el que llegó', dp:false, fin:'Expediente',
+     cond:function(){ return cfg.captura; } , cond_txt:'Sólo en la captura por personal (AD-03)',
+     uso:'Distingue lo que llega por Oficialía de Partes, teléfono, correo o comparecencia de lo que llega en línea; decide qué soporte se exige y permite comparar la demanda con la serie histórica (D-19).'},
+  recepcion_fecha:  {p:0, oblig:true,  etq:'Fecha de recepción original', dp:false, fin:'Expediente',
+     cond:function(){ return cfg.captura; } , cond_txt:'Sólo en la captura por personal (AD-03)',
+     uso:'Cuándo llegó la denuncia por el canal de origen: los plazos se cuentan desde aquí y no desde la captura (CP-1, recomendación).'},
+  recepcion_hora:   {p:0, oblig:true,  etq:'Hora de recepción original', dp:false, fin:'Expediente',
+     cond:function(){ return cfg.captura; } , cond_txt:'Sólo en la captura por personal (AD-03)',
+     uso:'Completa la fecha de recepción original.'},
+  folio_origen:     {p:0, oblig:false, etq:'Número de volante o folio de origen', dp:false, fin:'Expediente',
+     cond:function(){ return cfg.captura; } , cond_txt:'Sólo en la captura por personal (AD-03)',
+     uso:'Liga la captura con el registro de Oficialía de Partes o del sistema de origen (B-06).'},
+  recibio:          {p:0, oblig:true,  etq:'Quién recibió', dp:true, fin:'Expediente',
+     cond:function(){ return cfg.captura; } , cond_txt:'Sólo en la captura por personal (AD-03)',
+     uso:'Constancia de qué persona servidora pública recibió la denuncia por el canal de origen.'},
   /* Paso 1 */
   materia:          {p:1, oblig:true,  etq:'Materia de la denuncia', dp:false, fin:'Competencia',
      uso:'Determina la competencia de la Secretaría y el fundamento que se invoca; alimenta la estadística por materia.'},
@@ -1363,6 +1395,9 @@ var OBLIG = {
      /* DEC-121: cada foto llega optimizada y acompañada de la huella SHA-256
         del original y, si la trae, de su fecha y lugar de captura. */
      uso:'Elementos probatorios que sustentan la presunción fundada del art. 280.'},
+  soporte:          {p:4, oblig:true,  etq:'Soporte de la captura', dp:true, fin:'Expediente',
+     cond:function(){ return cfg.captura; } , cond_txt:'Sólo en la captura por personal (AD-03): el escrito, la nota de la llamada, el correo o el acta, según el canal',
+     uso:'Prueba de lo que se recibió por el canal de origen; con la bitácora de quién capturó, sustituye a la prueba de humanidad.'},
   otras_pruebas:    {p:4, oblig:false, etq:'Otras pruebas que puedas ofrecer', dp:false, fin:'Expediente',
      uso:'Describe pruebas que la persona no puede adjuntar pero puede ofrecer.'},
   /* Paso 5 */
@@ -1376,7 +1411,7 @@ var OBLIG = {
      uso:'Completa la identificación en el registro administrativo.'},
   telefono:         {p:5, oblig:true,  etq:'Teléfono', dp:true, fin:'Contacto',
      uso:'Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119).'},
-  correo:           {p:5, oblig:true,  etq:'Correo electrónico', dp:true, fin:'Contacto',
+  correo:           {p:5, oblig:true, captura_opcional:true, etq:'Correo electrónico', dp:true, fin:'Contacto',
      uso:'Contacto por escrito: la Secretaría puede escribir para aclarar datos o informar el trámite. En la denuncia anónima también es obligatorio y es el medio de notificación del resultado, porque no hay domicilio (DEC-120, DEC-233); el envío lo hace el servidor del SIA.'},
   /* La medición de ruido se hace donde se percibe: se pregunta sólo en ruido
      y sólo a quien da sus datos (OBS-0032, DEC-192). */
@@ -1388,18 +1423,18 @@ var OBLIG = {
      municipio y colonia escritos (DEC-136). */
   dom_fuera_cdmx:   {p:5, oblig:false, etq:'Vivo fuera de la Ciudad de México', dp:false, fin:'Contacto',
      uso:'Casilla de encaminamiento: cambia alcaldía y colonia del catálogo por entidad federativa, municipio y colonia escrita, y admite cualquier código postal (DEC-136).'},
-  dom_calle:        {p:5, oblig:true,  etq:'Domicilio · calle', dp:true, fin:'Contacto',
+  dom_calle:        {p:5, oblig:true, captura_opcional:true, etq:'Domicilio · calle', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
-  dom_num_ext:      {p:5, oblig:true,  etq:'Domicilio · número exterior', dp:true, fin:'Contacto',
+  dom_num_ext:      {p:5, oblig:true, captura_opcional:true, etq:'Domicilio · número exterior', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_num_int:      {p:5, oblig:false, etq:'Domicilio · número interior', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   /* El domicilio se captura con la misma forma que la direccion del lugar:
      manzana y lote a quien los tiene, entre que calles, alcaldia en lista y
      colonia del catalogo de esa alcaldia. Solo en la Ciudad (DEC-135). */
-  dom_tiene_mz_lote:{p:5, oblig:true,  etq:'¿El domicilio se identifica por manzana y lote?', dp:false, fin:'Contacto',
+  dom_tiene_mz_lote:{p:5, oblig:true, captura_opcional:true, etq:'¿El domicilio se identifica por manzana y lote?', dp:false, fin:'Contacto',
      uso:'Pregunta de encaminamiento, no dato del expediente: muestra manzana y lote sólo a quien los tiene (DEC-135).'},
-  dom_manzana:      {p:5, oblig:true,  etq:'Domicilio · manzana', dp:true, fin:'Contacto',
+  dom_manzana:      {p:5, oblig:true, captura_opcional:true, etq:'Domicilio · manzana', dp:true, fin:'Contacto',
      cond:function(){ return val('dom_tiene_mz_lote')==='si'; } , cond_txt:'Sólo cuando el domicilio se identifica por manzana y lote',
      uso:'Precisa el domicilio de notificación donde no hay número exterior (DEC-135).'},
   dom_lote:         {p:5, oblig:false, etq:'Domicilio · lote', dp:true, fin:'Contacto',
@@ -1407,17 +1442,17 @@ var OBLIG = {
      uso:'Precisa el domicilio de notificación donde no hay número exterior (DEC-135).'},
   dom_entre_calles: {p:5, oblig:false, etq:'Domicilio · entre qué calles', dp:true, fin:'Contacto',
      uso:'Ayuda a quien notifica a encontrar el domicilio (DEC-135).'},
-  dom_colonia:      {p:5, oblig:true,  etq:'Domicilio · colonia', dp:true, fin:'Contacto',
+  dom_colonia:      {p:5, oblig:true, captura_opcional:true, etq:'Domicilio · colonia', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
   dom_cp:           {p:5, oblig:false, etq:'Domicilio · código postal', dp:true, fin:'Contacto',
      uso:'Notificación por domicilio: es la vía para notificar las actuaciones (DEC-134).'},
-  dom_alcaldia:     {p:5, oblig:true,  etq:'Domicilio · alcaldía', dp:true, fin:'Contacto',
+  dom_alcaldia:     {p:5, oblig:true, captura_opcional:true, etq:'Domicilio · alcaldía', dp:true, fin:'Contacto',
      cond:function(){ return val('dom_fuera_cdmx')!=='si'; } , cond_txt:'Sólo cuando el domicilio está en la Ciudad de México',
      uso:'Notificación por domicilio. Se elige de la lista de las dieciséis alcaldías y acota las colonias que se ofrecen (DEC-135).'},
-  dom_entidad:      {p:5, oblig:true,  etq:'Domicilio · entidad federativa', dp:true, fin:'Contacto',
+  dom_entidad:      {p:5, oblig:true, captura_opcional:true, etq:'Domicilio · entidad federativa', dp:true, fin:'Contacto',
      cond:function(){ return val('dom_fuera_cdmx')==='si'; } , cond_txt:'Sólo cuando la persona vive fuera de la Ciudad de México',
      uso:'Notificación por domicilio fuera de la Ciudad. Se elige de la lista de las otras treinta y una entidades (DEC-136).'},
-  dom_municipio:    {p:5, oblig:true,  etq:'Domicilio · municipio', dp:true, fin:'Contacto',
+  dom_municipio:    {p:5, oblig:true, captura_opcional:true, etq:'Domicilio · municipio', dp:true, fin:'Contacto',
      cond:function(){ return val('dom_fuera_cdmx')==='si'; } , cond_txt:'Sólo cuando la persona vive fuera de la Ciudad de México',
      uso:'Notificación por domicilio fuera de la Ciudad (DEC-136).'},
   /* Estadistica. Son opcionales en las dos rutas —tambien en la anonima— porque
@@ -1433,6 +1468,7 @@ var OBLIG = {
      procede y porque el documento 09 tiene que poder decir que se procesa y
      para que (DEC-86). */
   verificacion:     {p:6, oblig:true,  etq:'Prueba de humanidad', dp:false, fin:'Cumplimiento',
+     cond:function(){ return !cfg.captura; } , cond_txt:'No en la captura por personal: la sustituyen el soporte y la bitácora de quién capturó (AD-03)',
      uso:'Impide el envío automatizado masivo. La comprobación la resuelve el servidor; no identifica a la persona ni se incorpora al expediente.'},
   privacidad:       {p:5, oblig:true,  etq:'Protesta de decir verdad y aviso de privacidad', dp:false, fin:'Cumplimiento',
      uso:'Constancia del consentimiento informado y de la protesta de decir verdad.'}
@@ -1484,6 +1520,10 @@ var DERIVADOS = {
                    uso:'Con el folio, permite consultar la denuncia. Se entrega una sola vez; el servidor guarda sólo su huella y no puede reponerse.'},
   fecha_acuse:    {etq:'Fecha y hora de recepción', origen:'El sistema, al enviar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
                    uso:'Fecha y hora en que la denuncia entra al expediente, en ISO 8601 con la hora y la zona de la Ciudad de México (2026-12-31T23:30:00-06:00); la pantalla y el acuse la dicen en palabras (DEC-235).'},
+  fecha_recepcion_original: {etq:'Fecha y hora de recepción original', origen:'La fecha y la hora que escribe quien captura, al guardar', fin:'Expediente', dp:false, se_ve:true, por:'denuncia',
+                   uso:'Sólo en la captura por personal: cuándo llegó la denuncia por el canal de origen, en ISO 8601 con la zona de la Ciudad. Los plazos se cuentan desde aquí (CP-1).'},
+  no_proporcionado: {etq:'Datos de contacto que no venían', origen:'La captura por personal, al guardar', fin:'Contacto', dp:false, se_ve:true, por:'denuncia',
+                   uso:'Sólo en la captura por personal: «correo», «domicilio» o los dos, cuando no venían en el escrito o la llamada (AD-03). Avisa que no se podrá notificar por esa vía.'},
   size_original:  {etq:'Peso original de la foto', origen:'La foto, al adjuntarla', fin:'Expediente', dp:false, se_ve:true, por:'foto',
                    uso:'Se muestra junto al peso optimizado; deja constancia de la optimización.'},
   sha256_original:{etq:'Huella SHA-256 del original', origen:'La foto, antes de optimizarla', fin:'Expediente', dp:false, se_ve:false, por:'foto',
@@ -1514,7 +1554,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-247', fecha:'21 de octubre de 2026', nombre:'Versión 36 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-248', fecha:'21 de octubre de 2026', nombre:'Versión 37 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1530,6 +1570,9 @@ function esObligatorio(k){
   if(!cfg.validar) return false;
   var o = OBLIG[k];
   if(!o) return false;
+  /* En la captura por personal el correo y el domicilio se transcriben como
+     vienen y pueden faltar: quedan anotados como no proporcionados (AD-03). */
+  if(cfg.captura && o.captura_opcional) return false;
   /* La condicion manda sobre el esquema: un campo que no aplica a esta ruta no
      es obligatorio aunque el esquema lo marque. Vive en OBLIG y no suelta en
      valida() para que el documento 09 diga la verdad sobre cada campo. */
@@ -1561,6 +1604,9 @@ function camposDelPaso(n){
    documento 10 los resuelve igual.
    ========================================================= */
 var BIFURCACIONES = [
+  {paso:'0', pregunta:'Modo captura por personal (panel de validación)', opciones:'Encendido · Apagado',
+   campos:['canal','recepcion_fecha','recepcion_hora','folio_origen','recibio','soporte'],
+   efecto:'Encendido, la portada se vuelve el paso de recepción —canal, fecha y hora de recepción original, folio de origen y quién recibió—; el paso 4 exige el soporte según el canal; el correo y el domicilio pueden no venir y quedan anotados como no proporcionados; no hay prueba de humanidad ni límite de envíos, y el acuse dice cómo se entrega (AD-03).'},
   {paso:'1', pregunta:'Qué se denuncia', opciones:'{materias} materias · {deriva} supuestos de otra autoridad', campos:['materia'],
    efecto:'Elegir una materia avanza al paso 2. Elegir un supuesto de otra autoridad detiene el flujo y muestra a dónde acudir.'},
   {paso:'2', pregunta:'¿El lugar tiene calle y número?', opciones:'Sí · No', campos:['tiene_direccion'],
@@ -1631,6 +1677,29 @@ var ESCENARIOS = [
       dom_colonia:'La Joya', dom_cp:'14090', dom_alcaldia:'Tlalpan',
       sexo_genero:'mujer', edad_rango:'30-44',
       privacidad:'si'}},
+
+  {id:'captura', nom:'Captura por personal',
+   d:'Escrito recibido en Oficialía de Partes · emisiones de un taller · identificado · DGIVA',
+   paso:6, cfg:{captura:true},
+   e:{canal:'oficialia', recepcion_fecha:'2026-10-19', recepcion_hora:'11:20', folio_origen:'OP-2026-0517',
+      recibio:'Persona de Oficialía de Partes de prueba', soporte:'escrito-con-sello.pdf',
+      tiene_direccion:'si', tiene_mz_lote:'no', materia:'emisiones', lat:'19.432600', lon:'-99.133200',
+      calle:'Avenida Chapultepec', num_ext:'440', entre_calles:'Entre la calle Morelos y la calle Hidalgo',
+      colonia:'Centro I', alcaldia_dir:'Cuauhtémoc', cp:'06010',
+      referencias:'Portón gris con letrero rojo. Según el escrito, los coches que pintan quedan sobre la banqueta.',
+      es_estab:'si', tipo_estab:'Taller mecánico, hojalatería o pintura', nombre_estab:'Hojalatería El Volante',
+      hechos:'El escrito dice que el taller pinta carrocerías en la banqueta sin cabina ni extracción, y que el olor a solvente entra a las viviendas vecinas toda la tarde.',
+      temporalidad:'recurrente', conoce_fecha:'si', fecha_hecho:'2026-10-14',
+      tipo_denunciado:'empresa',
+      reporto_antes:'no',
+      otras_pruebas:'El escrito trae las firmas de cinco vecinos del edificio contiguo.',
+      nombre:'Fulano', apellido_paterno:'Pérez', apellido_materno:'Gómez',
+      telefono:'5500000017', correo:'fulano.perez@ejemplo.local',
+      dom_tiene_mz_lote:'no', dom_calle:'Calle de Prueba', dom_num_ext:'17', dom_num_int:'2',
+      dom_entre_calles:'Entre la calle Uno y la calle Dos',
+      dom_colonia:'Centro I', dom_cp:'06010', dom_alcaldia:'Cuauhtémoc',
+      sexo_genero:'hombre', edad_rango:'45-59',
+      privacidad:'si', identificacion:'nombre'}},
 
   {id:'urbano', nom:'Comercio en suelo urbano',
    d:'Emisiones de un taller · identificado, con domicilio en el Estado de México · DGIVA',
@@ -1820,7 +1889,7 @@ var ESCENARIOS = [
 function cargaEscenario(id){
   var esc = ESCENARIOS.filter(function(x){return x.id===id;})[0];
   if(!esc) return;
-  estado = {}; archivos = []; responsableHeredado = false;
+  estado = {}; archivos = []; responsableHeredado = false; cfg.captura = false;
   Object.keys(esc.e).forEach(function(k){ if(esc.e[k] !== '') estado[k] = esc.e[k]; });
   Object.keys(esc.cfg||{}).forEach(function(k){ cfg[k] = esc.cfg[k]; });
   heredaEstablecimiento();
@@ -1840,6 +1909,7 @@ function cargaEscenario(id){
 function sincronizaPanel(){
   var v = $('cfgVal'); if(v) v.checked = !!cfg.validar;
   var l = $('cfgLimite'); if(l) l.checked = !!cfg.limite;
+  var c = $('cfgCaptura'); if(c) c.checked = !!cfg.captura;
 }
 
 function abreVariantes(){
@@ -1888,6 +1958,9 @@ function marcadorDe(k, extra){
    columna (D2-01). Los campos lo ponen como maxlength y la validación lo
    revisa, por si el dato llega de un borrador o de un pegado. */
 var LIMITES = {
+  /* Captura por personal (AD-03) */
+  folio_origen:  {max:40},
+  recibio:       {max:120},
   hechos:        {min:40, max:4000},
   gestiones:     {max:1000},
   referencias:   {max:1200},
@@ -2143,12 +2216,13 @@ function mapeoDatos(){
   return {llena:llena, ocultos:calc.filter(function(x){ return !x.se_ve; }), visibles:calc.filter(function(x){ return x.se_ve; })};
 }
 function abreMapeo(){
-  var pasos = {1:'1 · Qué denuncias',2:'2 · Dónde ocurrió',3:'3 · Qué ocurrió',4:'4 · Pruebas',5:'5 · Tus datos',6:'6 · Revisión'};
+  var pasos = {0:'0 · Captura por personal (sólo en ese modo)',1:'1 · Qué denuncias',2:'2 · Dónde ocurrió',3:'3 · Qué ocurrió',4:'4 · Pruebas',5:'5 · Tus datos',6:'6 · Revisión'};
   var m = mapeoDatos();
   function oblig(k){
     var o = OBLIG[k];
     if(!o.oblig) return '<td class="no">Opcional</td>';
-    return o.cond_txt ? '<td class="si">Obligatorio<br><span class="uso-campo">'+esc(o.cond_txt)+'</span></td>' : '<td class="si">Obligatorio</td>';
+    var cuando = [o.cond_txt, o.captura_opcional ? 'En la captura por personal puede no venir (AD-03)' : ''].filter(Boolean).join('; ');
+    return cuando ? '<td class="si">Obligatorio<br><span class="uso-campo">'+esc(cuando)+'</span></td>' : '<td class="si">Obligatorio</td>';
   }
   function dp(x){ return '<td class="'+(x?'si':'no')+'">'+(x?'Sí':'No')+'</td>'; }
   var h = '<p class="mapeo-version">Versión del formulario: <strong>'+esc(VERSION_FORMULARIO.dec)+'</strong> · '+esc(VERSION_FORMULARIO.fecha)+
@@ -2159,7 +2233,7 @@ function abreMapeo(){
     '<th style="width:10%">Dato personal</th><th>Uso declarado</th></tr></thead><tbody>';
   /* El paso 6 tambien: ahi vive la prueba de humanidad, que el mapeo
      anterior omitia porque solo recorria del 1 al 5 (DEC-128). */
-  [1,2,3,4,5,6].forEach(function(n){
+  [0,1,2,3,4,5,6].forEach(function(n){
     var ks = camposDelPaso(n).filter(function(k){ return !esCalculado(k); });
     if(!ks.length) return;
     h += '<tr><td colspan="4" class="comp-grupo">Paso '+pasos[n]+'</td></tr>';
@@ -2266,7 +2340,24 @@ var SEDE_PENDIENTES = ['Domicilio y horario por confirmar', 'Teléfono por confi
    del medio —en linea o en persona, con la oficina segun la zona—, que se
    necesita, lo que la ley reconoce y las preguntas frecuentes, plegadas. Sin
    titulo propio, sin plazos y sin ofrecer el correo como via. */
+/* Primer paso de la captura por personal (AD-03): cómo llegó la denuncia. Lo
+   demás es el mismo formulario, con lo que la persona dijo transcrito como
+   vino. */
+function pCaptura(){
+  return '<div class="tarjeta"><h2>Captura de una denuncia recibida por otro medio</h2>'+
+    '<p class="sub">Para lo que llega por Oficialía de Partes, teléfono, correo o comparecencia. Es el mismo formulario: lo que dijo la persona se transcribe como vino, y el correo y el domicilio pueden no venir. <span class="pendiente">Modo por validar con la DGIVA (AD-03)</span></p>'+
+    campoSelect('canal','¿Por qué canal llegó?', CANALES_CAPTURA.map(function(c){ return {v:c.id, t:c.nom}; }), esObligatorio('canal'), '')+
+    '<div class="fila">'+
+      campo('recepcion_fecha','Fecha en que se recibió','fecha',esObligatorio('recepcion_fecha'),'La del sello, la llamada o el correo: los plazos se cuentan desde ella.')+
+      campo('recepcion_hora','Hora en que se recibió','hora',esObligatorio('recepcion_hora'),'')+
+    '</div>'+
+    campo('folio_origen','Número de volante o folio de origen','texto',esObligatorio('folio_origen'),'')+
+    campo('recibio','Quién la recibió','texto',esObligatorio('recibio'),'Nombre de la persona servidora pública que la recibió.')+
+    '<div class="acciones"><button type="button" class="btn btn-primario" onclick="valida(0)&&irA(1)">Iniciar la captura</button></div></div>';
+}
+
 function pInicio(){
+  if(cfg.captura) return pCaptura();
   return '<div class="portada">'+
     /* La entrada dice que denunciar es un derecho y a quien se le cuenta
        (DEC-147). Su titulo afirma algo; no repite el del encabezado. */
@@ -3153,6 +3244,17 @@ function bloqueDenunciado(){
   return campoArea('resp_senas','¿Qué has observado de quien lo hace?',esObligatorio('resp_senas'),'Vehículos y sus placas, uniformes o logotipos, cuántas personas son, en qué horario llegan, si siempre son los mismos.',3);
 }
 
+/* El soporte de la captura (AD-03): uno, obligatorio, y cuál depende del
+   canal. En el prototipo sólo se guarda su nombre. */
+function campoSoporte(){
+  var c = canalCaptura();
+  return '<div class="campo" id="c_soporte"><label for="f_soporte">Soporte de la captura'+marca_opc(esObligatorio('soporte'))+'</label>'+
+    '<div class="ayuda" id="a_soporte">'+esc(c ? c.soporte : 'El escrito, la nota de la llamada, el correo o el acta, según el canal')+'.'+
+      (val('soporte') ? ' Adjunto: '+esc(val('soporte'))+'.' : '')+'</div>'+
+    '<input type="file" id="f_soporte" aria-describedby="a_soporte e_soporte" onchange="guarda(\'soporte\', this.files.length ? this.files[0].name : \'\');limpiaError(\'soporte\');render()">'+
+    '<div class="err" id="e_soporte">Falta el soporte de la captura.</div></div>';
+}
+
 function pEvidencia(){
   var h = '<div class="tarjeta"><h2><span class="num" aria-hidden="true">4</span>Fotos, videos o documentos'+marca_opc(esObligatorio('archivos'))+'</h2>'+
   '<div class="aviso aviso-ok"><strong>¿No las tienes ahora?</strong> Presenta tu denuncia y envíalas después con tu número de registro.</div>'+
@@ -3167,6 +3269,7 @@ function pEvidencia(){
   '<input type="file" id="inputArch" multiple class="oculto" accept="'+ARCHIVOS.exts.map(function(e){return '.'+e;}).join(',')+'" onchange="agregaArchivos(this.files)">'+
   '<div class="lista-arch" id="listaArch" aria-live="polite"></div>'+
   '<div class="err" id="e_archivos">Espera a que terminen de optimizarse las fotos.</div></div>'+
+  (cfg.captura ? campoSoporte() : '')+
   campoArea('otras_pruebas','Describe otras pruebas que no puedas adjuntar',esObligatorio('otras_pruebas'),'',2)+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(3)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
   '<button type="button" class="btn btn-primario" onclick="valida(4)&&irA(5)">Continuar</button></div></div>';
@@ -3417,7 +3520,7 @@ function pRevision(){
        cuando se denuncia a una persona, por ejemplo—, el boton llevaria a
        buscar algo que no esta: entonces se lleva al paso, sin clave. */
     var destino = (k && CAMPOS_DEL_PASO[ir] && CAMPOS_DEL_PASO[ir].indexOf(k) < 0) ? null : k;
-    var acc = ir === 0
+    var acc = ir === 'calc'
       ? '<span class="derivado">Lo determina el punto del mapa</span>'
       : (ir ? ' <button type="button" class="editar" onclick="'+
               (destino ? "vaACampo("+ir+",'"+destino+"')" : 'irA('+ir+')')+'">Editar</button>' : '');
@@ -3455,9 +3558,9 @@ function pRevision(){
   var fUbicacion =
     r(sinDireccion()?'Sitio de los hechos':'Lugar de los hechos', ubic, 2, sinDireccion()?'nombre_lugar':'calle')+
     r('Coordenadas', val('lat')?val('lat')+', '+val('lon'):(sinDireccion()?'':'Sin marcar · la Secretaría ubicará el lugar con la dirección'), 2, 'coord_pegar')+
-    (sinDireccion() ? '' : r('Alcaldía que atiende', val('lat') ? val('alcaldia') + (discrepaAlcaldia() ? ' \u00b7 no coincide con la de la dirección' : '') : 'Se determinará al ubicar la dirección', 0))+
-    r('Tipo de suelo', val('lat') ? [val('capa_tipo'),val('capa_nombre')].filter(Boolean).join(' \u2014 ') : 'Se determinará al ubicar la dirección', 0)+
-    r('\u00c1rea que atiende', val('dg_nombre'), 0)+
+    (sinDireccion() ? '' : r('Alcaldía que atiende', val('lat') ? val('alcaldia') + (discrepaAlcaldia() ? ' \u00b7 no coincide con la de la dirección' : '') : 'Se determinará al ubicar la dirección', 'calc'))+
+    r('Tipo de suelo', val('lat') ? [val('capa_tipo'),val('capa_nombre')].filter(Boolean).join(' \u2014 ') : 'Se determinará al ubicar la dirección', 'calc')+
+    r('\u00c1rea que atiende', val('dg_nombre'), 'calc')+
     r('Referencias', refs, 2, 'referencias');
 
   var fHechos =
@@ -3481,8 +3584,8 @@ function pRevision(){
 
   var fQuien =
     r('Denunciante', anon ? 'Denuncia an\u00f3nima' : [val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' '), 5, 'identificacion')+
-    ((anon && !val('telefono') && !val('correo'))?'':r('Contacto', [val('telefono'),val('correo')].filter(Boolean).join(' \u00b7 '), 5, anon?'correo':'telefono'))+
-    (anon?'':r('Domicilio para notificaciones', !val('dom_calle') ? '' :
+    ((anon && !val('telefono') && !val('correo') && !cfg.captura)?'':r('Contacto', [val('telefono'),val('correo') || (cfg.captura ? 'Correo no proporcionado' : '')].filter(Boolean).join(' \u00b7 '), 5, anon?'correo':'telefono'))+
+    (anon?'':r('Domicilio para notificaciones', !val('dom_calle') ? (cfg.captura ? 'No proporcionado' : '') :
         [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):'',
           val('dom_manzana')?'Mz. '+val('dom_manzana'):'',val('dom_lote')?'Lt. '+val('dom_lote'):''].filter(Boolean).join(' '),
          entreCalles(val('dom_entre_calles')),
@@ -3497,6 +3600,15 @@ function pRevision(){
         return [g,e].filter(Boolean).join(' \u00b7 ');
       })(), 5, 'sexo_genero');
 
+  /* En la captura, cómo llegó: va primero, porque es lo que cambia (AD-03). */
+  var canal = canalCaptura();
+  var fRecepcion = !cfg.captura ? '' :
+    r('Canal', canal ? canal.nom : '', 0, 'canal')+
+    r('Recepción original', [val('recepcion_fecha'), val('recepcion_hora')].filter(Boolean).join(' \u00b7 '), 0, 'recepcion_fecha')+
+    r('Folio de origen', val('folio_origen'), 0, 'folio_origen')+
+    r('Quién recibió', val('recibio'), 0, 'recibio')+
+    r('Soporte', val('soporte'), 4, 'soporte');
+
   var nArch = archivos.length;
   var resHechos = String(val('hechos')||'').replace(/\s+/g,' ').trim();
   if(resHechos.length > 95) resHechos = resHechos.slice(0,95).replace(/\s+\S*$/,'') + '\u2026';
@@ -3504,6 +3616,7 @@ function pRevision(){
   var h = '<div class="tarjeta"><h2><span class="num">6</span>Revisa antes de enviar</h2>'+
   '<p class="sub">Abre un bloque para ver el detalle o corregirlo.</p>'+
   '<div class="rev-acciones"><button type="button" class="rev-todo" id="btnRevTodo" onclick="alternaDetalleRevision()">Ver todo el detalle</button></div>'+
+  bloqueRev('recepcion','Cómo llegó', canal ? canal.nom+' \u00b7 '+val('recepcion_fecha') : '', fRecepcion)+
   bloqueRev('materia','Qu\u00e9 se denuncia', m?(m.formal||m.nom):'', r('Materia', m?(m.formal||m.nom):'', 1))+
   /* En la linea va la direccion y el tipo de suelo, no el area que atiende:
      el nombre completo de la direccion general con su coordinacion ocupaba
@@ -3524,9 +3637,9 @@ function pRevision(){
     (val('remite_a')
       ? ', porque el punto se ubica en un Área Natural Protegida de competencia federal.</div>'
       : '.</div>'))+
-  cajaHumano()+
+  (cfg.captura ? '' : cajaHumano())+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(5)"><span class="fl" aria-hidden="true">\u2039</span>Corregir</button>'+
-  '<button type="button" class="btn btn-primario" onclick="enviar()">Enviar denuncia</button></div></div>';
+  '<button type="button" class="btn btn-primario" onclick="enviar()">'+(cfg.captura ? 'Guardar la captura' : 'Enviar denuncia')+'</button></div></div>';
   return h;
 }
 
@@ -3542,6 +3655,11 @@ function pasosQueSiguen(){
     {t:'Una vez remitida, el seguimiento del asunto corre por cuenta de la PROFEPA.'}];
   var revisa = {t:'La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.'},
       avisa = {t: 'Se te notifica el resultado ' + (esAnonima() ? 'en el correo que dejaste.' : 'en el domicilio que registraste.')};
+  /* En la captura el correo o el domicilio pueden no venir (AD-03): entonces
+     no hay dónde notificar, y el acuse no puede prometerlo. */
+  var medio = esAnonima() ? 'correo' : 'domicilio';
+  if(cfg.captura && (val('no_proporcionado') || '').indexOf(medio) >= 0)
+    avisa = {t: 'No dejaste ' + medio + ', así que no se te podrá notificar el resultado. Puedes preguntar por el avance con tu número de registro.'};
   /* Ante una autoridad no hay inspeccion sino recomendaciones (art. 331). */
   if(val('tipo_denunciado')==='gobierno') return [revisa,
     {t:'Como señalaste a una autoridad, la Secretaría valora los hechos y, de resultar procedente, emite las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección.',
@@ -3585,8 +3703,12 @@ function pAcuse(){
   var vias = otrasVias();
   return '<div class="tarjeta"><div class="acuse">'+
     '<div class="marca">'+svgIcono('check',40,'#fff')+'</div>'+
-    '<h2>Tu denuncia fue recibida</h2>'+
-    '<p style="color:var(--gris)">Guarda tu número de registro y tu clave y descarga tu acuse: no te llegarán por correo. Con ambos consultas el estado de tu denuncia. <span class="pendiente">Consulta del estado: por desarrollar</span></p>'+
+    (cfg.captura
+      ? '<h2>Denuncia capturada</h2>'+
+        '<p class="nota-gris">Entrega a quien denunció el número de registro, la clave de consulta y el acuse por el mismo medio por el que llegó la denuncia. <span class="pendiente">Cómo se entregan: por definir (CP-3)</span></p>'+
+        '<div class="aviso"><strong>Denuncias cercanas.</strong> En el sistema, al guardar, el servidor busca denuncias de la misma materia cerca del lugar y en fechas próximas y las muestra aquí, para sumarlas al expediente que ya existe en lugar de abrir otro (P-21, control 4). <span class="pendiente">Lo resuelve el servidor (SIA-26)</span></div>'
+      : '<h2>Tu denuncia fue recibida</h2>'+
+        '<p style="color:var(--gris)">Guarda tu número de registro y tu clave y descarga tu acuse: no te llegarán por correo. Con ambos consultas el estado de tu denuncia. <span class="pendiente">Consulta del estado: por desarrollar</span></p>')+
     /* Folio y clave en una ficha clara, con rótulo y «Copiar» como enlace:
        el bloque guinda relleno se confundía con un botón (DEC-162). La clave
        no puede reponerse: se dice aquí y en el PDF (DEC-151). */
@@ -3599,7 +3721,7 @@ function pAcuse(){
         '<button type="button" class="btn-copiar" aria-label="Copiar la clave de consulta" onclick="copiaDato(this,\'clave_consulta\')">Copiar</button></div>'+
         '<span class="dato-nota">Guárdala junto con el número de registro: no puede reponerse.</span></div>'+
     '</div>'+
-    '<p style="font-size:14px;color:var(--gris)">Recibida el '+esc(fechaRecepcionTexto())+'</p>'+
+    '<p style="font-size:14px;color:var(--gris)">'+esc(cfg.captura ? llegadaTexto() : 'Recibida el '+fechaRecepcionTexto())+'</p>'+
     /* Sin correo, el acuse se lo lleva la persona (DEC-139). */
     '<div class="acuse-pdf">'+
       '<button type="button" class="btn btn-primario" onclick="descargaAcuse(this)">Descargar acuse (PDF)</button>'+
@@ -3641,7 +3763,7 @@ function marca_opc(oblig){
 }
 
 function campo(k,etq,tipo,oblig,ayuda,extra){
-  var t = tipo==='fecha' ? 'date' : (tipo==='tel' ? 'tel' : (tipo==='email' ? 'email' : 'text'));
+  var t = tipo==='fecha' ? 'date' : (tipo==='hora' ? 'time' : (tipo==='tel' ? 'tel' : (tipo==='email' ? 'email' : 'text')));
   var id='f_'+k, idA='a_'+k, idE='e_'+k;
   /* Lo que ocurre al salir del campo no se pide campo por campo: lo pone
      aqui quien sabe que ese campo tiene forma declarada (DEC-91) o que
@@ -5064,7 +5186,7 @@ function enviar(){
   /* La prueba de humanidad es condicion del envio, no un campo mas: se
      comprueba siempre, incluso con la validacion de campos apagada, porque lo
      que protege no es la calidad del dato sino el canal. */
-  if(val('verificacion')!=='si'){
+  if(!cfg.captura && val('verificacion')!=='si'){
     marca('verificacion');
     var c = $('c_verificacion');
     if(c) c.scrollIntoView({block:'center', behavior:'smooth'});
@@ -5074,10 +5196,10 @@ function enviar(){
   /* Llegar a la revisión no basta: la barra de pasos y el borrador pueden
      traer a alguien aquí con un paso incompleto. Antes del folio se revisan
      todos, y se lleva a la persona al primero que falte (DEC-161). */
-  for(var pn = 1; pn <= 5; pn++){
+  for(var pn = cfg.captura ? 0 : 1; pn <= 5; pn++){
     if(!valida(pn)){ irA(pn); valida(pn); return false; }
   }
-  if(cfg.limite){ irA(8); return false; }
+  if(cfg.limite && !cfg.captura){ irA(8); return false; }
   guarda('ubicacion_origen', val('lat') ? 'punto' : 'direccion');
   /* Folio del documento 19 (DEC-151): sin area, porque el turnado puede
      cambiar y el folio no; consecutivo unico por año y caracter verificador.
@@ -5087,6 +5209,10 @@ function enviar(){
   guarda('folio','SEDEMA/DEN/'+anio+'/'+cons+'-'+digitoLuhn(anio+cons));
   guarda('clave_consulta', claveConsulta());
   guarda('fecha_acuse', recibida);
+  if(cfg.captura){
+    guarda('fecha_recepcion_original', val('recepcion_fecha')+'T'+val('recepcion_hora')+':00'+recibida.slice(-6));
+    guarda('no_proporcionado', [val('correo') ? '' : 'correo', (val('dom_calle') || esAnonima()) ? '' : 'domicilio'].filter(Boolean).join(', '));
+  }
   borraBorrador();
   irA(7);
 }
@@ -5106,10 +5232,18 @@ function horaDeLaCiudad(d){
 }
 
 /* La misma fecha en palabras, para la pantalla y el acuse en PDF. */
-function fechaRecepcionTexto(){
+function fechaEnPalabras(v){
   var meses = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-  var v = val('fecha_acuse') || '', m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v);
-  return m ? (+m[3]) + ' de ' + meses[m[2] - 1] + ' de ' + m[1] + ', ' + m[4] + ':' + m[5] + ' horas' : v;
+  var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v || '');
+  return m ? (+m[3]) + ' de ' + meses[m[2] - 1] + ' de ' + m[1] + ', ' + m[4] + ':' + m[5] + ' horas' : (v || '');
+}
+function fechaRecepcionTexto(){ return fechaEnPalabras(val('fecha_acuse')); }
+/* En la captura, cuándo y por dónde llegó, y cuándo se capturó (AD-03). */
+function llegadaTexto(){
+  var c = canalCaptura();
+  return cfg.captura && c
+    ? 'Recibida por ' + c.nom + ' el ' + fechaEnPalabras(val('fecha_recepcion_original')) + ' · capturada el ' + fechaRecepcionTexto()
+    : 'Presentada en línea · Recibida el ' + fechaRecepcionTexto();
 }
 
 /* Caracter verificador del folio: Luhn sobre año + consecutivo
@@ -5338,7 +5472,7 @@ function construyeAcusePdf(){
     /* Titulo */
     texto('ACUSE DE RECEPCIÓN DE DENUNCIA AMBIENTAL', W / 2, y, 'F2', 13, GUINDA, 'centro');
     y -= 15;
-    texto('Presentada en línea · Recibida el ' + fechaRecepcionTexto(), W / 2, y, 'F1', 9, GRIS, 'centro');
+    texto(llegadaTexto(), W / 2, y, 'F1', 9, GRIS, 'centro');
     y -= 12;
 
     seccion('Información para quien denuncia');
@@ -6185,6 +6319,7 @@ function revCSV(){
   setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
 }
 
+sincronizaPanel();
 render();
 iniciaRevision();
 </script>

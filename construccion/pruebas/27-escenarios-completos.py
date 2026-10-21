@@ -31,7 +31,8 @@ with sync_playwright() as pw:
     pg.goto(TMP.as_uri()); pg.wait_for_timeout(700)
 
     ids = pg.evaluate("() => ESCENARIOS.map(e => e.id)")
-    afirma(len(ids) == 11, 'el panel ofrece los once escenarios: %s' % ids)
+    # DEC-248 agrega «Captura por personal».
+    afirma(len(ids) == 12, 'el panel ofrece los doce escenarios: %s' % ids)
     afirma(pg.evaluate("() => cfg.validar === true"), 'la obligatoriedad está encendida, como en operación')
 
     for e in ids:

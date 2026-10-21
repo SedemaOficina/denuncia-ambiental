@@ -19,7 +19,7 @@ DESTINO = os.environ.get('DESTINO', os.path.join(RAIZ, 'documentacion', '09-mape
 CORTE   = '## 3. Hallazgos de la revisión de minimización'
 DEC05   = os.environ.get('DEC05', os.path.join(RAIZ, 'documentacion', '05-decisiones-y-pendientes.md'))
 
-PASOS = {1:'Qué denuncias', 2:'Dónde ocurre', 3:'Qué ocurre',
+PASOS = {0:'Captura por personal (sólo en ese modo, AD-03)', 1:'Qué denuncias', 2:'Dónde ocurre', 3:'Qué ocurre',
          4:'Pruebas', 5:'Tus datos', 6:'Revisión'}
 FINALIDADES = [
  ('Competencia', 'Determinar la competencia y turnar al área que atiende'),
@@ -63,6 +63,7 @@ def lee_oblig(html):
             'uso': ' '.join(txt('uso').split()),
             'cond_txt': ' '.join(txt('cond_txt').split()),
             'oculto': val('oculto') == 'true',
+            'captura_opcional': val('captura_opcional') == 'true',
         })
     if not campos:
         sys.exit('ERROR: no se leyó ningún campo de OBLIG; revisa el formato del catálogo.')
@@ -200,7 +201,7 @@ for p in sorted(PASOS):
         o.append('| %s | %s | %s | %s | %s |' % (
             c['etq'], marca(c['oblig'], c['cond_txt']),
             '**Sí**' if c['dp'] else 'No',
-            c['cond_txt'] or 'Siempre', c['uso']))
+            '; '.join(x for x in (c['cond_txt'], 'en la captura por personal puede no venir (AD-03)' if c['captura_opcional'] else '') if x) or 'Siempre', c['uso']))
     o.append('')
 o.append('---\n')
 

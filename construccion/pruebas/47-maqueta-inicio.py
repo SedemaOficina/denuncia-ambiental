@@ -38,7 +38,7 @@ LISTAS = {'atencion': ['Nuevas', 'Asignadas', 'Por vencer', 'Vencidas', 'Por not
           'coordinacion': ['Nuevas', 'Por asignar', 'Por vencer', 'Vencidas', 'Por notificar'],
           'captura': ['Capturadas', 'Con posible duplicado']}
 
-def recepcion(x): return x['captura']['fecha_recepcion_original'] if 'captura' in x else x['datos']['fecha_acuse']
+def recepcion(x): return x['datos'].get('fecha_recepcion_original') or x['datos']['fecha_acuse']
 def dia(iso): return datetime.date(int(iso[:4]), int(iso[5:7]), int(iso[8:10]))
 def habiles(desde, hasta):
     d, n = dia(desde), 0

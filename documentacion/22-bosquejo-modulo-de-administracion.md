@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.7 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-247
+**Versión:** 0.8 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-248
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.7 a la 0.8** (captura por personal, DEC-248): el apartado 3.4 dice cómo quedó el modo captura del formulario, y el paso 3 del apartado 9 está hecho.
 
 **De la 0.6 a la 0.7** (mapa de la maqueta, DEC-247): el apartado 3.5 dice cómo dibuja la maqueta el mapa operativo.
 
@@ -117,6 +119,8 @@ Una sola pantalla por denuncia. Encabezado fijo con folio, estado, área que rec
 ### 3.4 Captura por personal
 
 El mismo formulario, con las diferencias ya descritas en AD-03: primer paso con canal, fecha y hora de recepción original, folio de origen y quién recibió; soporte obligatorio según el canal; datos de contacto que pueden marcarse «no proporcionado»; sin prueba de humanidad ni límite de envíos; aviso de denuncias cercanas al guardar; misma serie de folios (documento 19). Hereda del formulario sus reglas de captura: obligatoriedad desde `OBLIG` (DEC-237), longitudes desde `LIMITES` y rechazo de letras al azar (DEC-224, DEC-235, DEC-237).
+
+**Cómo quedó (DEC-248).** Es el «modo captura» del propio formulario, con su interruptor en el panel de validación («Versión 37»); la pantalla de la maqueta lo abre y lista lo capturado. «No proporcionado» no es una casilla: el correo y el domicilio simplemente dejan de ser obligatorios en este modo y, si faltan, el formulario lo anota al guardar. Quedan por decidir cómo consta el aviso de privacidad de quien denunció por escrito o por teléfono y si el teléfono también puede no venir.
 
 ### 3.5 Mapa operativo
 
@@ -250,8 +254,8 @@ Mismo método que el formulario: primero maqueta, después servidor.
 | Paso | Qué se hace | Cuándo puede empezar |
 |---|---|---|
 | 1 | Acordar este bosquejo y resolver las preguntas del apartado 10 que dependen de la Oficina de la Secretaría | Ahora |
-| 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada. **En curso:** bloques A, cascarón y datos de prueba (DEC-242), B, bandeja (DEC-243), C, expediente (DEC-244), y D, Inicio, tablero y mapa (DEC-245 a DEC-247), hechos | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
-| 3 | Variante «modo captura» del prototipo del formulario (AD-03) | Ahora, como maqueta, sobre la versión vigente del formulario |
+| 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada. **En curso:** bloques A, cascarón y datos de prueba (DEC-242), B, bandeja (DEC-243), C, expediente (DEC-244), D, Inicio, tablero y mapa (DEC-245 a DEC-247), y E, captura por personal (DEC-248), hechos | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
+| 3 | Variante «modo captura» del prototipo del formulario (AD-03) | **Hecho:** «Versión 37» (DEC-248) |
 | 4 | Sesión con la DGIVA y con la DGCORENADR sobre estados, perfiles y vistas, con la maqueta a la vista | En cuanto exista la maqueta |
 | 5 | Construcción: captura por personal, después bandeja y expediente, después tablero y mapa | Fase 5 (documento 11), sobre el contrato de la fase 2 |
 

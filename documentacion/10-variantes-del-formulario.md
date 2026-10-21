@@ -3,7 +3,7 @@
 **Versión:** 2.0 · 21 de octubre de 2026
 **Generado automáticamente** de las estructuras `BIFURCACIONES` y `ESCENARIOS` del prototipo, que son las mismas que gobiernan el panel de validación. Documento y comportamiento no pueden discrepar.
 
-El formulario no es un camino único: hay **diecisiete puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los once escenarios que el panel de validación carga con un toque, para recorrer cada rama sin capturar todo a mano.
+El formulario no es un camino único: hay **dieciocho puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los doce escenarios que el panel de validación carga con un toque, para recorrer cada rama sin capturar todo a mano.
 
 ---
 
@@ -11,6 +11,7 @@ El formulario no es un camino único: hay **diecisiete puntos donde cambia de fo
 
 | Paso | Qué se responde | Opciones | Cómo cambia el formulario |
 |---|---|---|---|
+| 0 | **Modo captura por personal (panel de validación)** | Encendido · Apagado | Encendido, la portada se vuelve el paso de recepción —canal, fecha y hora de recepción original, folio de origen y quién recibió—; el paso 4 exige el soporte según el canal; el correo y el domicilio pueden no venir y quedan anotados como no proporcionados; no hay prueba de humanidad ni límite de envíos, y el acuse dice cómo se entrega (AD-03). |
 | 1 | **Qué se denuncia** | 19 materias · 7 supuestos de otra autoridad | Elegir una materia avanza al paso 2. Elegir un supuesto de otra autoridad detiene el flujo y muestra a dónde acudir. |
 | 2 | **¿El lugar tiene calle y número?** | Sí · No | «Sí» pide calle, número exterior, entre qué calles, colonia, alcaldía y código postal; el punto en el mapa es opcional y, sin él, la Secretaría ubica el lugar con la dirección. «No» pide el nombre del lugar y el punto en el mapa, obligatorio. |
 | 2 | **¿El predio se identifica por manzana y lote?** | Sí · No | Sólo con calle y número. «Sí» pide manzana y lote, obligatorios. |
@@ -31,7 +32,7 @@ El formulario no es un camino único: hay **diecisiete puntos donde cambia de fo
 
 ### Cuántas combinaciones son
 
-Multiplicadas, las ramas dan varios miles de recorridos distintos. No tiene sentido probarlos todos: los que importan son aquellos en los que **cambia el área que atiende, cambia el conjunto de campos, o cambia lo que el acuse promete**. Ésos son los once del apartado siguiente.
+Multiplicadas, las ramas dan varios miles de recorridos distintos. No tiene sentido probarlos todos: los que importan son aquellos en los que **cambia el área que atiende, cambia el conjunto de campos, o cambia lo que el acuse promete**. Ésos son los doce del apartado siguiente.
 
 ---
 
@@ -42,6 +43,7 @@ Cada botón limpia el formulario, carga un caso completo —incluida la coordena
 | Escenario | Qué muestra | Abre en |
 |---|---|---|
 | **Sitio sin domicilio** | Tala en el Bosque de Tlalpan · sin calle ni colonia · identificado · DGCORENADR | Paso 6 |
+| **Captura por personal** | Escrito recibido en Oficialía de Partes · emisiones de un taller · identificado · DGIVA | Paso 6 |
 | **Comercio en suelo urbano** | Emisiones de un taller · identificado, con domicilio en el Estado de México · DGIVA | Paso 6 |
 | **Tala en suelo de conservación, anónima** | Tala · anónima · responsable desconocido · DGCORENADR | Paso 6 |
 | **Obra de una alcaldía** | Se señala a una autoridad · ruta del artículo 331 | Paso 6 |

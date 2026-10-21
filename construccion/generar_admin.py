@@ -16,8 +16,10 @@
    la base, y se inyectan en la maqueta.
 3. Lo que el modulo agrega al tramite —estado, area actual, persona asignada,
    historial, notificacion, marcas de revision— segun la propuesta del
-   bosquejo (documento 22). Los estados, los canales, las marcas y las
-   personas de atención se leen de la maqueta, que es donde viven.
+   bosquejo (documento 22). Los estados, las marcas y las personas de
+   atención se leen de la maqueta, que es donde viven; los canales de la
+   captura, del formulario, y lo capturado por personal pasa por su modo
+   captura (AD-03).
 
 Todo es determinista: sin azar ni reloj, de modo que correrlo dos veces da el
 mismo resultado. Necesita el artefacto (construir.py) y Playwright.
@@ -172,10 +174,18 @@ ARMA = r"""(plan) => {
     g('fecha_acuse', recibida);
     g('folio', 'SEDEMA/DEN/' + recibida.slice(0, 4) + '/' + cons + '-' + digitoLuhn(recibida.slice(0, 4) + cons));
     g('fecha_hecho', recibida.slice(0, 8) + String(Math.max(1, +recibida.slice(8, 10) - 9)).padStart(2, '0'));
-    g('verificacion', 'si');
-    /* Cada una pasa la validación de los cinco pasos, como si se hubiera enviado. */
+    /* Lo que llega por otro canal pasa por el modo captura del formulario
+       (AD-03): su paso 0, su soporte y la recepción original, como al guardar. */
+    if (r.captura) {
+      cfg.captura = true;
+      g('canal', r.canal); g('recepcion_fecha', r.captura.fecha); g('recepcion_hora', r.captura.hora);
+      g('folio_origen', r.captura.folio_origen); g('recibio', r.captura.recibio); g('soporte', r.captura.soporte);
+      g('fecha_recepcion_original', r.captura.fecha + 'T' + r.captura.hora + ':00' + recibida.slice(-6));
+      g('verificacion', '');
+    } else g('verificacion', 'si');
+    /* Cada una pasa la validación de sus pasos, como si se hubiera enviado. */
     const malos = [];
-    for (let n = 1; n <= 5; n++) { irA(n); if (!valida(n)) malos.push(n + ':' + Object.keys(MOTIVO).join(',')); }
+    for (let n = r.captura ? 0 : 1; n <= 5; n++) { irA(n); if (!valida(n)) malos.push(n + ':' + Object.keys(MOTIVO).join(',')); }
     if (malos.length) { fuera.push(r.i + ' no valida ' + malos.join(' ')); continue; }
     const datos = {}; Object.keys(estado).sort().forEach(k => { if (estado[k] !== '' && estado[k] != null) datos[k] = estado[k]; });
     /* Lo capturado, en el orden del acuse y con el id de cada bloque, y el
@@ -281,15 +291,25 @@ with sync_playwright() as pw:
     pg = nav.new_page()
     pg.goto(MAQUETA.as_uri()); pg.wait_for_timeout(300)
     estados_ids = pg.evaluate("() => ESTADOS.map(e => e.id)")
-    canales_ids = pg.evaluate("() => CANALES.map(c => c.id)")
     marcas_ids = pg.evaluate("() => MARCAS.map(m => m.id)")
     PERSONAL = pg.evaluate("() => PERSONAL")
     pg.goto(TMP.as_uri()); pg.wait_for_timeout(600)
     MATERIAS_IDS = pg.evaluate("() => MATERIAS.map(m => m.id)")
     materias = pg.evaluate("() => MATERIAS.map(m => ({id: m.id, nom: m.nom}))")
     GRUPO = pg.evaluate("() => Object.fromEntries(MATERIAS.map(m => [m.id, m.g]))")
+    canales = pg.evaluate("() => CANALES_CAPTURA.map(c => ({id: c.id, nom: c.nom}))")
+    canales_ids = ['en_linea'] + [c['id'] for c in canales]
     P = plan()
-    for r in P: r['canal'] = CANAL.get(r['i'], 'en_linea')
+    for r in P:
+        r['canal'] = CANAL.get(r['i'], 'en_linea')
+        if r['canal'] != 'en_linea':
+            # Lo que llega por ventanilla o teléfono llega en horario de
+            # oficina, un día antes de capturarse.
+            recibida = datetime.datetime.fromtimestamp(r['fecha_ms'] / 1000, HOY.tzinfo)
+            original = (recibida - datetime.timedelta(days=1)).replace(hour=9 + r['i'] % 8, minute=(r['i'] * 7) % 60)
+            r['captura'] = {'fecha': original.strftime('%Y-%m-%d'), 'hora': original.strftime('%H:%M'),
+                            'folio_origen': 'OP-2026-%04d' % (500 + r['i']), 'recibio': 'Persona de Oficialía de prueba',
+                            'soporte': SOPORTE[r['canal']]}
     hecho = pg.evaluate(ARMA, P)
     # Las opciones de género y edad, como las ofrece el paso 5 del formulario,
     # para que el tablero las cuente con los mismos nombres.
@@ -303,7 +323,7 @@ if not (estadistica['sexo_genero'] and estadistica['edad_rango']):
 if hecho['fuera']:
     sys.exit('ERROR: denuncias de prueba que no se pudieron armar: %s' % hecho['fuera'])
 if any(c not in canales_ids for c in set(CANAL.values()) | {'en_linea'}):
-    sys.exit('ERROR: un canal del generador no existe en CANALES de la maqueta.')
+    sys.exit('ERROR: un canal del generador no existe en CANALES_CAPTURA del formulario.')
 if any(x not in marcas_ids for x in MARCA.values()):
     sys.exit('ERROR: una marca del generador no existe en MARCAS de la maqueta.')
 
@@ -314,12 +334,10 @@ for s in hecho['salida']:
     d = {'es_ficticio': True, 'canal': r['canal'], 'datos': s['datos'],
          'archivos': [foto(r['i'], s['datos'], j, a) for j, a in enumerate(s['archivos'])]}
     if r['canal'] != 'en_linea':
-        recibida = datetime.datetime.fromisoformat(s['datos']['fecha_acuse'])
-        # Lo que llega por ventanilla o teléfono llega en horario de oficina.
-        original = (recibida - datetime.timedelta(days=1)).replace(hour=9 + r['i'] % 8, minute=(r['i'] * 7) % 60)
-        d['captura'] = {'fecha_recepcion_original': original.isoformat(timespec='seconds'),
-                        'folio_origen': 'OP-2026-%04d' % (500 + r['i']), 'recibio': 'Persona de Oficialía de prueba',
-                        'capturo': 'Persona de captura de prueba', 'soporte': SOPORTE[r['canal']]}
+        # Canal, recepción original, folio de origen, quién recibió y soporte
+        # vienen en los datos, como los guarda el formulario; quién capturó lo
+        # da la cuenta del módulo (AD-03).
+        d['captura'] = {'capturo': 'Persona de captura de prueba'}
     d['acuse'] = s['acuse']
     d['tramite'] = tramite(r, s['datos'], estados_ids)
     denuncias.append(d)
@@ -351,6 +369,7 @@ m = entre_marcas(m, '/* ==== %s: catálogos y denuncias ficticias (construccion/
                  '\nvar HOY = ' + json.dumps(HOY.isoformat(timespec='seconds')) + ';\n'
                  'var MATERIAS = ' + json.dumps(materias, ensure_ascii=False) + ';\n'
                  'var OPCIONES_ESTADISTICA = ' + json.dumps(estadistica, ensure_ascii=False) + ';\n'
+                 'var CANALES_CAPTURA = ' + json.dumps(canales, ensure_ascii=False) + ';\n'
                  'var CAPAS = ' + json.dumps(capas, ensure_ascii=False, separators=(',', ':')) + ';\n'
                  'var DENUNCIAS = ' + json.dumps(denuncias, ensure_ascii=False) + ';\n')
 MAQUETA.write_text(m, encoding='utf-8', newline='\n')

@@ -217,6 +217,7 @@
    "apellido_materno": "Prueba",
    "apellido_paterno": "Pérez",
    "calle": "Avenida Chapultepec",
+   "canal": "telefono",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
    "colonia": "Centro I",
@@ -243,7 +244,9 @@
    "es_estab": "no",
    "fecha_acuse": "2026-10-20T01:48:00-06:00",
    "fecha_hecho": "2026-10-11",
+   "fecha_recepcion_original": "2026-10-19T10:07:00-06:00",
    "folio": "SEDEMA/DEN/2026/000102-7",
+   "folio_origen": "OP-2026-0501",
    "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
    "hechos": "En el predio de junto levantan varios pisos sin ningún permiso a la vista; ya lo habían reportado otros vecinos.",
    "identificacion": "nombre",
@@ -254,9 +257,13 @@
    "num_ext": "440",
    "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-10-19",
+   "recepcion_hora": "10:07",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
    "reporto_antes": "si",
    "sexo_genero": "mujer",
+   "soporte": "nota-de-llamada.pdf",
    "telefono": "5500000001",
    "temporalidad": "recurrente",
    "tiene_direccion": "si",
@@ -264,8 +271,7 @@
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
    "uga": "CUH-016",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -292,15 +298,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-10-19T10:07:00-06:00",
-   "folio_origen": "OP-2026-0501",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "nota-de-llamada.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Teléfono"
+      ],
+      [
+       "Recepción original",
+       "2026-10-19 · 10:07"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0501"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "nota-de-llamada.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -428,6 +456,7 @@
    "apellido_materno": "Ficticia",
    "apellido_paterno": "López",
    "calle": "Calle 5",
+   "canal": "oficialia",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
    "colonia": "Pantitlán I",
@@ -452,7 +481,9 @@
    "es_estab": "si",
    "fecha_acuse": "2026-10-18T17:36:00-06:00",
    "fecha_hecho": "2026-10-09",
+   "fecha_recepcion_original": "2026-10-17T11:14:00-06:00",
    "folio": "SEDEMA/DEN/2026/000103-5",
+   "folio_origen": "OP-2026-0502",
    "hechos": "La maquinaria de la fábrica trabaja de noche y el ruido no deja dormir a los vecinos de la calle.",
    "identificacion": "nombre",
    "lat": "19.391200",
@@ -463,10 +494,14 @@
    "num_ext": "27",
    "otras_pruebas": "Fotografías de la espuma en la coladera.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-10-17",
+   "recepcion_hora": "11:14",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
    "reporto_antes": "no",
    "ruido_medicion": "si",
    "sexo_genero": "hombre",
+   "soporte": "escrito-con-sello.pdf",
    "telefono": "5500000002",
    "temporalidad": "recurrente",
    "tiene_direccion": "si",
@@ -475,8 +510,7 @@
    "tipo_estab": "Industria o fábrica",
    "ubicacion_origen": "punto",
    "uga": "IZC-010",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -503,15 +537,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-10-17T11:14:00-06:00",
-   "folio_origen": "OP-2026-0502",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "escrito-con-sello.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Oficialía de Partes"
+      ],
+      [
+       "Recepción original",
+       "2026-10-17 · 11:14"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0502"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "escrito-con-sello.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -1050,6 +1106,7 @@
    "apellido_materno": "Ficticia",
    "apellido_paterno": "Díaz",
    "calle": "Calle 5",
+   "canal": "telefono",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
    "colonia": "Pantitlán I",
@@ -1074,7 +1131,9 @@
    "es_estab": "si",
    "fecha_acuse": "2026-10-14T17:00:00-06:00",
    "fecha_hecho": "2026-10-05",
+   "fecha_recepcion_original": "2026-10-13T14:35:00-06:00",
    "folio": "SEDEMA/DEN/2026/000106-8",
+   "folio_origen": "OP-2026-0505",
    "hechos": "En el verificentro aprueban autos sin revisarlos si se paga una cantidad extra en la caja.",
    "identificacion": "nombre",
    "lat": "19.394800",
@@ -1085,9 +1144,13 @@
    "num_ext": "27",
    "otras_pruebas": "Fotografías de la espuma en la coladera.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-10-13",
+   "recepcion_hora": "14:35",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
    "reporto_antes": "no",
    "sexo_genero": "hombre",
+   "soporte": "nota-de-llamada.pdf",
    "telefono": "5500000005",
    "temporalidad": "recurrente",
    "tiene_direccion": "si",
@@ -1096,20 +1159,41 @@
    "tipo_estab": "Bar, cantina o salón de fiestas",
    "ubicacion_origen": "punto",
    "uga": "IZP-117",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [],
   "captura": {
-   "fecha_recepcion_original": "2026-10-13T14:35:00-06:00",
-   "folio_origen": "OP-2026-0505",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "nota-de-llamada.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Teléfono"
+      ],
+      [
+       "Recepción original",
+       "2026-10-13 · 14:35"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0505"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "nota-de-llamada.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -1880,6 +1964,7 @@
    "alcaldia": "Cuauhtémoc",
    "alcaldia_dir": "Cuauhtémoc",
    "calle": "Avenida Chapultepec",
+   "canal": "oficialia",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
    "colonia": "Centro I",
@@ -1896,7 +1981,9 @@
    "es_estab": "si",
    "fecha_acuse": "2026-10-09T15:12:00-06:00",
    "fecha_hecho": "2026-10-01",
+   "fecha_recepcion_original": "2026-10-08T10:03:00-06:00",
    "folio": "SEDEMA/DEN/2026/000110-0",
+   "folio_origen": "OP-2026-0509",
    "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
    "hechos": "La obra deja escombro y costales de cemento roto en la banqueta y nadie los recoge.",
    "identificacion": "anonima",
@@ -1907,9 +1994,13 @@
    "num_ext": "440",
    "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-10-08",
+   "recepcion_hora": "10:03",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
    "reporto_antes": "si",
    "sexo_genero": "mujer",
+   "soporte": "escrito-con-sello.pdf",
    "temporalidad": "recurrente",
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
@@ -1917,8 +2008,7 @@
    "tipo_estab": "Lavandería o tintorería",
    "ubicacion_origen": "punto",
    "uga": "CUH-016",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -1945,15 +2035,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-10-08T10:03:00-06:00",
-   "folio_origen": "OP-2026-0509",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "escrito-con-sello.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Oficialía de Partes"
+      ],
+      [
+       "Recepción original",
+       "2026-10-08 · 10:03"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0509"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "escrito-con-sello.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -2495,6 +2607,7 @@
    "apellido_materno": "Prueba",
    "apellido_paterno": "Gómez",
    "calle": "Avenida Chapultepec",
+   "canal": "correo",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
    "colonia": "Centro I",
@@ -2521,7 +2634,9 @@
    "es_estab": "no",
    "fecha_acuse": "2026-10-05T14:36:00-06:00",
    "fecha_hecho": "2026-10-01",
+   "fecha_recepcion_original": "2026-10-04T13:24:00-06:00",
    "folio": "SEDEMA/DEN/2026/000113-4",
+   "folio_origen": "OP-2026-0512",
    "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
    "hechos": "Están pavimentando el jardín del parque para hacer un estacionamiento de autos.",
    "identificacion": "nombre",
@@ -2532,10 +2647,14 @@
    "num_ext": "440",
    "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-10-04",
+   "recepcion_hora": "13:24",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
    "reporto_antes": "si",
    "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
    "sexo_genero": "mujer",
+   "soporte": "correo-recibido.pdf",
    "telefono": "5500000012",
    "temporalidad": "recurrente",
    "tiene_direccion": "si",
@@ -2543,8 +2662,7 @@
    "tipo_denunciado": "nose",
    "ubicacion_origen": "punto",
    "uga": "CUH-017",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -2571,15 +2689,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-10-04T13:24:00-06:00",
-   "folio_origen": "OP-2026-0512",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "correo-recibido.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Correo electrónico"
+      ],
+      [
+       "Recepción original",
+       "2026-10-04 · 13:24"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0512"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "correo-recibido.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -3372,6 +3512,7 @@
    "apellido_materno": "Ejemplo",
    "apellido_paterno": "de Tal",
    "calle": "Camino a San Antonio Tecómitl",
+   "canal": "oficialia",
    "capa_clase": "Suelo de conservación",
    "capa_tipo": "Suelo de conservación",
    "colonia": "San Antonio Tecómitl (Pueblo)",
@@ -3394,7 +3535,9 @@
    "es_estab": "no",
    "fecha_acuse": "2026-09-30T12:48:00-06:00",
    "fecha_hecho": "2026-09-21",
+   "fecha_recepcion_original": "2026-09-29T09:52:00-06:00",
    "folio": "SEDEMA/DEN/2026/000117-5",
+   "folio_origen": "OP-2026-0516",
    "hechos": "Una máquina retroexcavadora está quitando la tierra del cerro y la cargan en camiones.",
    "identificacion": "nombre",
    "lat": "19.210000",
@@ -3404,9 +3547,13 @@
    "num_ext": "S/N",
    "otras_pruebas": "Puedo señalar en el mapa la brecha por donde sacan la madera.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-09-29",
+   "recepcion_hora": "09:52",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "A kilómetro y medio del panteón, por la brecha que sube al monte. Hay un claro grande a la derecha.",
    "reporto_antes": "no",
    "sexo_genero": "hombre",
+   "soporte": "escrito-con-sello.pdf",
    "telefono": "5500000016",
    "temporalidad": "permanente",
    "tiene_direccion": "si",
@@ -3414,8 +3561,7 @@
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
    "uga": "MLP-312",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -3442,15 +3588,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-29T09:52:00-06:00",
-   "folio_origen": "OP-2026-0516",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "escrito-con-sello.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 188, fracción XXXVIII.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Oficialía de Partes"
+      ],
+      [
+       "Recepción original",
+       "2026-09-29 · 09:52"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0516"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "escrito-con-sello.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -4000,6 +4168,7 @@
    "autoridad_denunciada": "Iztapalapa",
    "autoridad_nivel": "alcaldia",
    "calle": "Avenida Ermita Iztapalapa",
+   "canal": "telefono",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
    "colonia": "Constitución de 1917 I",
@@ -4016,7 +4185,9 @@
    "es_estab": "no",
    "fecha_acuse": "2026-09-26T12:12:00-06:00",
    "fecha_hecho": "2026-09-17",
+   "fecha_recepcion_original": "2026-09-25T12:13:00-06:00",
    "folio": "SEDEMA/DEN/2026/000120-9",
+   "folio_origen": "OP-2026-0519",
    "hechos": "Construyen un edificio de cinco pisos en un predio que era jardín y no hay letrero de autorización ambiental a la vista.",
    "identificacion": "anonima",
    "lat": "19.358600",
@@ -4025,18 +4196,21 @@
    "num_ext": "1200",
    "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-09-25",
+   "recepcion_hora": "12:13",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
    "reporto_antes": "no",
    "resp_area": "Dirección de Obras de prueba",
    "sexo_genero": "hombre",
+   "soporte": "nota-de-llamada.pdf",
    "temporalidad": "unico",
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
    "ubicacion_origen": "punto",
    "uga": "IZP-078",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -4063,15 +4237,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-25T12:13:00-06:00",
-   "folio_origen": "OP-2026-0519",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "nota-de-llamada.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX; Ley Ambiental de la Ciudad de México, artículo 331.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Teléfono"
+      ],
+      [
+       "Recepción original",
+       "2026-09-25 · 12:13"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0519"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "nota-de-llamada.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -4912,6 +5108,7 @@
    "apellido_materno": "Prueba",
    "apellido_paterno": "Soto",
    "calle": "Calle 5",
+   "canal": "oficialia",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
    "colonia": "Pantitlán I",
@@ -4936,7 +5133,9 @@
    "es_estab": "no",
    "fecha_acuse": "2026-09-21T10:24:00-06:00",
    "fecha_hecho": "2026-09-12",
+   "fecha_recepcion_original": "2026-09-20T16:41:00-06:00",
    "folio": "SEDEMA/DEN/2026/000124-1",
+   "folio_origen": "OP-2026-0523",
    "hechos": "Un camión de carga sale todos los días del patio echando humo negro por el escape.",
    "identificacion": "nombre",
    "lat": "19.394800",
@@ -4946,9 +5145,13 @@
    "num_ext": "27",
    "otras_pruebas": "Fotografías de la espuma en la coladera.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-09-20",
+   "recepcion_hora": "16:41",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
    "reporto_antes": "no",
    "sexo_genero": "hombre",
+   "soporte": "escrito-con-sello.pdf",
    "telefono": "5500000023",
    "temporalidad": "recurrente",
    "tiene_direccion": "si",
@@ -4957,20 +5160,41 @@
    "ubicacion_origen": "punto",
    "uga": "IZP-117",
    "uga_version": "sia-2026-09-22",
-   "veh_servicio": "carga",
-   "verificacion": "si"
+   "veh_servicio": "carga"
   },
   "archivos": [],
   "captura": {
-   "fecha_recepcion_original": "2026-09-20T16:41:00-06:00",
-   "folio_origen": "OP-2026-0523",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "escrito-con-sello.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Oficialía de Partes"
+      ],
+      [
+       "Recepción original",
+       "2026-09-20 · 16:41"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0523"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "escrito-con-sello.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -5591,6 +5815,7 @@
    "apellido_materno": "Ficticia",
    "apellido_paterno": "López",
    "calle": "Calle 5",
+   "canal": "correo",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
    "colonia": "Pantitlán I",
@@ -5615,7 +5840,9 @@
    "es_estab": "si",
    "fecha_acuse": "2026-09-17T09:48:00-06:00",
    "fecha_hecho": "2026-09-08",
+   "fecha_recepcion_original": "2026-09-16T11:02:00-06:00",
    "folio": "SEDEMA/DEN/2026/000127-4",
+   "folio_origen": "OP-2026-0526",
    "hechos": "El restaurante saca su basura sin separar a la banqueta desde la noche anterior a la recolección.",
    "identificacion": "nombre",
    "lat": "19.387600",
@@ -5626,9 +5853,13 @@
    "num_ext": "27",
    "otras_pruebas": "Fotografías de la espuma en la coladera.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-09-16",
+   "recepcion_hora": "11:02",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
    "reporto_antes": "no",
    "sexo_genero": "hombre",
+   "soporte": "correo-recibido.pdf",
    "telefono": "5500000026",
    "temporalidad": "recurrente",
    "tiene_direccion": "si",
@@ -5638,8 +5869,7 @@
    "tipo_estab_otro": "Taller de pruebas",
    "ubicacion_origen": "punto",
    "uga": "IZC-010",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -5666,15 +5896,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-16T11:02:00-06:00",
-   "folio_origen": "OP-2026-0526",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "correo-recibido.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Correo electrónico"
+      ],
+      [
+       "Recepción original",
+       "2026-09-16 · 11:02"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0526"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "correo-recibido.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -6496,6 +6748,7 @@
    "apellido_materno": "Ejemplo",
    "apellido_paterno": "Herrera",
    "calle": "Avenida Chapultepec",
+   "canal": "oficialia",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
    "colonia": "Centro I",
@@ -6522,7 +6775,9 @@
    "es_estab": "no",
    "fecha_acuse": "2026-09-12T08:00:00-06:00",
    "fecha_hecho": "2026-09-03",
+   "fecha_recepcion_original": "2026-09-11T15:30:00-06:00",
    "folio": "SEDEMA/DEN/2026/000131-6",
+   "folio_origen": "OP-2026-0530",
    "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
    "hechos": "Cortaron tres árboles grandes del camellón sin poner aviso ni explicar el motivo.",
    "identificacion": "nombre",
@@ -6533,10 +6788,14 @@
    "num_ext": "440",
    "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-09-11",
+   "recepcion_hora": "15:30",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
    "reporto_antes": "si",
    "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
    "sexo_genero": "mujer",
+   "soporte": "escrito-con-sello.pdf",
    "telefono": "5500000030",
    "temporalidad": "recurrente",
    "tiene_direccion": "si",
@@ -6544,8 +6803,7 @@
    "tipo_denunciado": "nose",
    "ubicacion_origen": "punto",
    "uga": "CUH-017",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -6572,15 +6830,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-11T15:30:00-06:00",
-   "folio_origen": "OP-2026-0530",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "escrito-con-sello.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Oficialía de Partes"
+      ],
+      [
+       "Recepción original",
+       "2026-09-11 · 15:30"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0530"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "escrito-con-sello.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -7208,6 +7488,7 @@
    "apellido_materno": "Prueba",
    "apellido_paterno": "Pérez",
    "calle": "Avenida San Fernando",
+   "canal": "telefono",
    "capa_categoria": "Bosque urbano",
    "capa_clase": "Área de Valor Ambiental",
    "capa_nombre": "Loreto y Peña Pobre",
@@ -7234,7 +7515,9 @@
    "es_estab": "no",
    "fecha_acuse": "2026-09-08T07:24:00-06:00",
    "fecha_hecho": "2026-09-01",
+   "fecha_recepcion_original": "2026-09-07T10:51:00-06:00",
    "folio": "SEDEMA/DEN/2026/000134-0",
+   "folio_origen": "OP-2026-0533",
    "gestiones": "Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde.",
    "hechos": "Rellenaron con tierra el canal que corría junto a las parcelas y el agua ya no pasa.",
    "identificacion": "nombre",
@@ -7245,10 +7528,14 @@
    "num_ext": "S/N",
    "otras_pruebas": "Fotografías de la malla y del letrero con el cobro.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-09-07",
+   "recepcion_hora": "10:51",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "En la parte alta del parque, junto a la barda norte, pasando la zona de juegos.",
    "reporto_antes": "si",
    "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
    "sexo_genero": "mujer",
+   "soporte": "nota-de-llamada.pdf",
    "telefono": "5500000033",
    "temporalidad": "permanente",
    "tiene_direccion": "si",
@@ -7256,8 +7543,7 @@
    "tipo_denunciado": "nose",
    "ubicacion_origen": "punto",
    "uga": "TLP-316",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -7284,15 +7570,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-07T10:51:00-06:00",
-   "folio_origen": "OP-2026-0533",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "nota-de-llamada.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Teléfono"
+      ],
+      [
+       "Recepción original",
+       "2026-09-07 · 10:51"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0533"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "nota-de-llamada.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -8157,6 +8465,7 @@
    "alcaldia": "Cuajimalpa de Morelos",
    "apellido_materno": "Ficticia",
    "apellido_paterno": "Díaz",
+   "canal": "comparecencia",
    "capa_categoria": "Federal · Parque Nacional",
    "capa_clase": "Área Natural Protegida",
    "capa_nombre": "Desierto de los Leones",
@@ -8180,7 +8489,9 @@
    "es_estab": "no",
    "fecha_acuse": "2026-09-03T05:36:00-06:00",
    "fecha_hecho": "2026-09-01",
+   "fecha_recepcion_original": "2026-09-02T14:19:00-06:00",
    "folio": "SEDEMA/DEN/2026/000138-1",
+   "folio_origen": "OP-2026-0537",
    "hechos": "Cercaron con malla una parte del área verde protegida y cobran por entrar.",
    "identificacion": "nombre",
    "lat": "19.306780",
@@ -8190,18 +8501,21 @@
    "nombre_lugar": "Desierto de los Leones",
    "otras_pruebas": "Puedo acompañar al personal al sitio.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-09-02",
+   "recepcion_hora": "14:19",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Sobre el camino que va del ex convento hacia Cruz Blanca, a la izquierda, unos 800 metros después del último puesto de comida.",
    "remite_a": "PROFEPA",
    "reporto_antes": "no",
    "sexo_genero": "hombre",
+   "soporte": "acta-de-comparecencia.pdf",
    "telefono": "5500000037",
    "temporalidad": "recurrente",
    "tiene_direccion": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
    "uga": "CUJ-034",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -8228,15 +8542,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-09-02T14:19:00-06:00",
-   "folio_origen": "OP-2026-0537",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "acta-de-comparecencia.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 188, fracción XXXVIII.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Comparecencia"
+      ],
+      [
+       "Recepción original",
+       "2026-09-02 · 14:19"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0537"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "acta-de-comparecencia.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",
@@ -8615,6 +8951,7 @@
    "alcaldia": "Cuauhtémoc",
    "alcaldia_dir": "Cuauhtémoc",
    "calle": "Avenida Chapultepec",
+   "canal": "comparecencia",
    "capa_clase": "Suelo urbano",
    "capa_tipo": "Suelo urbano",
    "colonia": "Centro I",
@@ -8631,7 +8968,9 @@
    "es_estab": "si",
    "fecha_acuse": "2026-08-31T13:12:00-06:00",
    "fecha_hecho": "2026-08-22",
+   "fecha_recepcion_original": "2026-08-30T16:33:00-06:00",
    "folio": "SEDEMA/DEN/2026/000140-7",
+   "folio_origen": "OP-2026-0539",
    "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
    "hechos": "De la chimenea del negocio sale humo gris todas las tardes y el olor llega a las casas de la cuadra.",
    "identificacion": "anonima",
@@ -8642,9 +8981,13 @@
    "num_ext": "440",
    "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
    "privacidad": "si",
+   "recepcion_fecha": "2026-08-30",
+   "recepcion_hora": "16:33",
+   "recibio": "Persona de Oficialía de prueba",
    "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
    "reporto_antes": "si",
    "sexo_genero": "mujer",
+   "soporte": "acta-de-comparecencia.pdf",
    "temporalidad": "recurrente",
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
@@ -8652,8 +8995,7 @@
    "tipo_estab": "Bodega o almacén",
    "ubicacion_origen": "punto",
    "uga": "CUH-017",
-   "uga_version": "sia-2026-09-22",
-   "verificacion": "si"
+   "uga_version": "sia-2026-09-22"
   },
   "archivos": [
    {
@@ -8680,15 +9022,37 @@
    }
   ],
   "captura": {
-   "fecha_recepcion_original": "2026-08-30T16:33:00-06:00",
-   "folio_origen": "OP-2026-0539",
-   "recibio": "Persona de Oficialía de prueba",
-   "capturo": "Persona de captura de prueba",
-   "soporte": "acta-de-comparecencia.pdf"
+   "capturo": "Persona de captura de prueba"
   },
   "acuse": {
    "fundamento": "Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, artículo 191, fracción XXX.",
    "bloques": [
+    {
+     "id": "recepcion",
+     "titulo": "Cómo llegó",
+     "filas": [
+      [
+       "Canal",
+       "Comparecencia"
+      ],
+      [
+       "Recepción original",
+       "2026-08-30 · 16:33"
+      ],
+      [
+       "Folio de origen",
+       "OP-2026-0539"
+      ],
+      [
+       "Quién recibió",
+       "Persona de Oficialía de prueba"
+      ],
+      [
+       "Soporte",
+       "acta-de-comparecencia.pdf"
+      ]
+     ]
+    },
     {
      "id": "materia",
      "titulo": "Qué se denuncia",

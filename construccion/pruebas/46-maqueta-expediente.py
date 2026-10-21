@@ -56,7 +56,7 @@ ACCIONES = {'coordinacion': TODAS,
             'captura': ['Agregar nota o documento', 'Descargar la ficha en PDF'],
             'consulta': ['Descargar la ficha en PDF']}
 
-def recepcion(x): return x['captura']['fecha_recepcion_original'] if 'captura' in x else x['datos']['fecha_acuse']
+def recepcion(x): return x['datos'].get('fecha_recepcion_original') or x['datos']['fecha_acuse']
 def dia(iso): return datetime.date(int(iso[:4]), int(iso[5:7]), int(iso[8:10]))
 def habiles(desde, hasta):
     d, n = dia(desde), 0
@@ -136,7 +136,7 @@ with sync_playwright() as pw:
         for a in x['archivos']:
             if a['name'] not in ev or a.get('sha256_original', a['name']) not in ev or ('lat_captura' in a and str(a['lat_captura']) not in ev):
                 malos['evidencia'].append((f, a['name']))
-        if 'captura' in x and x['captura']['soporte'] not in ev: malos['evidencia'].append((f, 'soporte'))
+        if 'captura' in x and x['datos']['soporte'] not in ev: malos['evidencia'].append((f, 'soporte'))
         if v['actuaciones'] != [cat['estados'][h['estado']] for h in t['historial']]: malos['actuaciones'].append(f)
         vin = dict(v['fichas']['6. Vínculos'])
         acumuladas = [o['datos']['folio'] for o in datos if o['tramite']['acumulada_en'] == f]

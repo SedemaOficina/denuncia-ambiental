@@ -47,7 +47,7 @@ COLUMNAS_DOC = ['Folio', 'Recepción', 'Canal', 'Materia', 'Alcaldía', 'Tipo de
 # Los que terminan el trámite en la Secretaría: los finales del ciclo y la remisión.
 CIERRAN = {'remitida', 'concluida', 'acumulada', 'sin_materia', 'recomendacion'}
 
-def recepcion(x): return x['captura']['fecha_recepcion_original'] if 'captura' in x else x['datos']['fecha_acuse']
+def recepcion(x): return x['datos'].get('fecha_recepcion_original') or x['datos']['fecha_acuse']
 def dia(iso): return datetime.date(int(iso[:4]), int(iso[5:7]), int(iso[8:10]))
 def habiles(x, hoy):
     fin = dia(x['tramite']['historial'][-1]['fecha'] if x['tramite']['estado'] in CIERRAN else hoy)
@@ -157,7 +157,7 @@ with sync_playwright() as pw:
         if f['Días hábiles'] != texto or f['Recepción'] != fecha: malos.append((x['datos']['folio'], f['Días hábiles'], texto, f['Recepción'], fecha))
     afirma(not malos, 'días hábiles sin sábados ni domingos, hasta hoy o hasta el cierre, desde la recepción original: %s' % malos[:2])
     capt = [f for f in F if 'captura' in folio_de[f['Folio'].split('\n')[0]]]
-    afirma(capt and all(f['Recepción'].startswith(str(int(folio_de[f['Folio'].split('\n')[0]]['captura']['fecha_recepcion_original'][8:10])) + ' ') for f in capt),
+    afirma(capt and all(f['Recepción'].startswith(str(int(folio_de[f['Folio'].split('\n')[0]]['datos']['fecha_recepcion_original'][8:10])) + ' ') for f in capt),
            'en lo capturado por personal, la fecha es la de recepción original, no la de captura')
 
     # ---- 4. Área y remisión ----
