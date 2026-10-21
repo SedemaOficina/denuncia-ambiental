@@ -149,7 +149,13 @@ with sync_playwright() as pw:
 
     # ---- 5. Conectada a una hoja simulada ----
     modo['hoja'] = 'viva'
-    pg.evaluate("() => { REVISION.endpoint = 'https://script.google.com/macros/s/PRUEBA/exec'; return revConecta(); }"); pg.wait_for_timeout(600)
+    pg.evaluate("() => { REVISION.endpoint = 'https://script.google.com/macros/s/PRUEBA/exec'; return revConecta(); }")
+    # Se espera a que el navegador vacíe lo enviado, no un tiempo fijo: con
+    # 600 ms falló una vez en una máquina lenta (bitácora, bloque 2).
+    try:
+        pg.wait_for_function("() => { try{ return JSON.parse(localStorage.getItem('sedema.revision.obs')).length === 0; }catch(e){ return false; } }", timeout=5000)
+    except Exception:
+        pass   # si no ocurre, la comprobación de abajo lo dice
     afirma(len(recibidos) == 2 and all(r['accion'] == 'guardar' and r['palabra'] == 'k7pmq4xz2abc' for r in recibidos),
            'al conectarse manda a la hoja lo que estaba en el navegador, con la palabra de la liga (%d)' % len(recibidos))
     afirma(bool(recibidos) and all(k in recibidos[0]['obs'] for k in ('uid','revisor','area','pantalla','seccion','texto','tipo','observacion','propuesta','version','paso')),

@@ -1289,3 +1289,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué.** Liber Saltijeral lo vio al probar: con «Sí» y luego «No», el responsable quedaba como «Una empresa o negocio» sin que nadie lo hubiera elegido.
 
 **Verificación de cierre.** Batería completa en verde: 1 349 comprobaciones en 41 baterías.
+
+### 20 de octubre de 2026 · bloque 6 de la auditoría: limpieza (DEC-239)
+
+**Qué cambió.** Comentarios al día con DEC-210, DEC-218, DEC-233 y P-12; sin el comentario huérfano de la hora; `valida()` toma el mínimo del relato de `LIMITES`; sin la variable `dg` sobrante; cada `catch` vacío con su razón; el artefacto conserva las metaetiquetas del teléfono y el idioma. La batería 35 revisa ahora variables locales, `catch` vacíos, comentarios con preguntas cerradas y el encabezado del artefacto; la 26 espera la condición y no un tiempo fijo. `_v.html` ya no estaba. Sin cambio de versión.
+
+**Por qué.** Un comentario que describe un estado anterior engaña a quien lee el código, y un error callado sin razón no se puede revisar.
+
+**Una revisión que no habría visto lo que buscaba.** La primera versión de la revisión de variables locales contaba `val('dg')` como uso de `dg` y no detectaba el caso de la auditoría; se corrigió quitando el contenido de las cadenas antes de contar, y se comprobó contra ese caso.
+
+**Verificación de cierre.** Batería completa en verde: 1 355 comprobaciones en 41 baterías.

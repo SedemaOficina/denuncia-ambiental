@@ -115,6 +115,81 @@ for etiqueta, origen in (('prototipo', PROTO), ('artefacto', RUTA)):
   repe = [k for k, n in enlinea.items() if n > 1 and not re.fullmatch(r'width:\d+%', k)]
   afirma(not repe, etiqueta + ': ningún estilo en línea se repite (Regla 9): %s' % repe)
   afirma(not zombi and not bloques, etiqueta + ': sin código comentado: %s' % (zombi + bloques)[:2])
+  # 7. Un catch vacío calla un error sin decir por qué es seguro callarlo (A4-01).
+  vacios = re.findall(r'catch\s*\(\s*\w*\s*\)\s*\{\s*\}', scripts)
+  afirma(not vacios, etiqueta + ': ningún catch vacío sin un comentario que diga por qué: %d' % len(vacios))
+
+# ---- Ampliación del bloque 6 de la auditoría (DEC-239) ----
+s = PROTO.read_text(encoding='utf-8')
+scripts = '\n'.join(re.findall(r'<script[^>]*>(.*?)</script>', s, re.S))
+sin_coment = re.sub(r'(?m)^\s*//.*$', ' ', re.sub(r'/\*.*?\*/', ' ', scripts, flags=re.S))
+
+# 8. Variables locales sin uso (A4-01): en cada función de nivel superior, todo
+#    nombre que se declara con var, let o const se vuelve a usar.
+def funciones(txt):
+    lineas, out, i = txt.split('\n'), [], 0
+    while i < len(lineas):
+        m = re.match(r'function\s+([A-Za-z_$][\w$]*)\s*\(', lineas[i])
+        if not m: i += 1; continue
+        j = i
+        if not (lineas[i].rstrip().endswith('}') and lineas[i].count('{') == lineas[i].count('}')):
+            j = i + 1
+            while j < len(lineas) and not lineas[j].startswith('}'): j += 1
+        out.append((m.group(1), '\n'.join(lineas[i:j + 1]))); i = j + 1
+    return out
+def declarados(cuerpo):
+    """Los nombres de cada declaración, también los que siguen a una coma."""
+    nombres = []
+    for m in re.finditer(r'\b(?:var|let|const)\s+', cuerpo):
+        k, prof, partes, ini = m.end(), 0, [], m.end()
+        while k < len(cuerpo):
+            ch = cuerpo[k]
+            if ch in '\'"`':
+                k = cuerpo.find(ch, k + 1)
+                if k < 0: break
+            elif ch in '([{': prof += 1
+            elif ch in ')]}':
+                if prof == 0: break
+                prof -= 1
+            elif ch == ',' and prof == 0: partes.append(cuerpo[ini:k]); ini = k + 1
+            elif ch in ';\n' and prof == 0: break
+            k += 1
+        partes.append(cuerpo[ini:k])
+        nombres += [mm.group(1) for mm in (re.match(r'\s*([A-Za-z_$][\w$]*)', x) for x in partes) if mm]
+    return nombres
+locales = []
+for nombre, cuerpo in funciones(sin_coment):
+    # Sin el contenido de las cadenas: en «dg = val('dg')» la cadena contaba
+    # como un uso, y la variable que encontró la auditoría pasaba inadvertida.
+    codigo_f = re.sub(r"'(?:[^'\\\n]|\\.)*'|\"(?:[^\"\\\n]|\\.)*\"", "''", cuerpo)
+    for v in set(declarados(codigo_f)):
+        if len(re.findall(r'(?<![\w$.])' + re.escape(v) + r'(?![\w$])', codigo_f)) < 2:
+            locales.append('%s en %s()' % (v, nombre))
+afirma(not locales, 'prototipo: ninguna variable local queda sin uso: %s' % sorted(locales)[:6])
+
+# 9. Comentarios que citan preguntas cerradas (F1-02): una pregunta retirada o
+#    consolidada ya no es referencia, y una resuelta no puede seguir «sin resolver».
+d05 = (RAIZ.parent / 'documentacion' / '05-decisiones-y-pendientes.md').read_text(encoding='utf-8').split('\n')
+reg = {}
+for l in d05[d05.index('### Registro de respuestas'):]:
+    if re.match(r'\| P-\d+ \|', l):
+        c_ = [x.strip() for x in l.strip().strip('|').split('|')]
+        reg[c_[0]] = c_[1]
+cerradas = [p for p, e in reg.items() if re.match(r'\*\*(Retirada|Consolidada)', e)]
+resueltas = [p for p, e in reg.items() if e.strip() and not re.match(r'\*\*(Retirada|Consolidada|En parte)', e)]
+comentarios = re.findall(r'/\*.*?\*/', scripts, re.S) + re.findall(r'(?m)//.*$', scripts) + re.findall(r'<!--.*?-->', s, re.S)
+viejos = [p for p in cerradas for c_ in comentarios if re.search(re.escape(p) + r'(?!\d)', c_)]
+ABIERTA = r'no está resuelta|no esta resuelta|no resuelta|sin resolver|por resolver|cuando se resuelva|mientras no se resuelva'
+abiertos = [p for p in resueltas for c_ in comentarios if re.search(re.escape(p) + r'(?!\d)', c_) and re.search(ABIERTA, c_, re.I)]
+afirma(not viejos, 'prototipo: ningún comentario cita una pregunta retirada o consolidada: %s' % sorted(set(viejos)))
+afirma(not abiertos, 'prototipo: ningún comentario presenta como abierta una pregunta resuelta: %s' % sorted(set(abiertos)))
+
+# 10. El artefacto conserva las metaetiquetas del teléfono y el idioma (A3-01).
+a = RUTA.read_text(encoding='utf-8')
+antes = a[:a.find('<title>')]
+afirma(all(x in antes for x in ('name="viewport"', 'name="format-detection" content="telephone=no, date=no, address=no, email=no"',
+                                'name="chrome" content="nointentdetection"', "document.documentElement.lang = 'es-MX'")),
+       'artefacto: conserva viewport, format-detection y nointentdetection antes de <title>, y fija el idioma es-MX')
 
 print('\n'.join(notas)); print()
 if fallos:

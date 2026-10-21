@@ -23,8 +23,15 @@ def cambia(antes, despues, que):
         sys.exit('ERROR: la regla «%s» no encontró su texto en el prototipo.' % que)
     s = s.replace(antes, despues)
 
-# 1. Quitar el esqueleto: el artefacto lo añade al publicar
+# 1. Quitar el esqueleto: el artefacto lo añade al publicar. Lo que no se deja
+#    a la plataforma son las metaetiquetas del teléfono —sin ellas el iPhone
+#    vuelve a subrayar colonias como fechas (DEC-213)— ni el idioma, que va en
+#    <html> y aquí se pone desde el código (A3-01).
+cabeza = re.search(r'<meta name="viewport".*?(?=<title>)', s, flags=re.S)
+if not cabeza:
+    sys.exit('ERROR: no se encontraron las metaetiquetas del prototipo antes de <title>.')
 s = re.sub(r'^.*?<title>', '<title>', s, flags=re.S)
+s = cabeza.group(0) + "<script>document.documentElement.lang = 'es-MX';</script>\n" + s
 cambia('</head>\n<body>\n', '', 'esqueleto')
 s = re.sub(r'\n</body>\s*</html>\s*$', '\n', s)
 

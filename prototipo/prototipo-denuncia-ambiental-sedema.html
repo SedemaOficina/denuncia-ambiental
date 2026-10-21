@@ -1514,12 +1514,12 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-238', fecha:'20 de octubre de 2026', nombre:'Versión 35 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-239', fecha:'20 de octubre de 2026', nombre:'Versión 35 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
-   El correo, ademas, se exige (DEC-120): sin el, la Secretaria no puede
-   enviar el folio ni informar el tramite. El telefono sigue opcional. */
+   El correo, ademas, se exige (DEC-120): es donde se le notifica el
+   resultado (DEC-233). El telefono sigue opcional. */
 var CONTACTO_ANONIMO = ['correo','telefono'];
 var EXIGIDO_ANONIMO  = ['correo'];
 var SOLO_IDENTIFICADO = ['nombre','apellido_paterno','apellido_materno','telefono','correo',
@@ -1829,7 +1829,7 @@ function cargaEscenario(id){
   /* El punto viene como si se hubiera pegado: el campo de pegar no queda vacío. */
   if(estado.lat && !estado.coord_pegar) estado.coord_pegar = estado.lat + ', ' + estado.lon;
   /* La colonia se reconoce en el catalogo como si se hubiera elegido de la lista. */
-  if(estado.colonia){ try{ saleColonia('colonia'); }catch(e){} }
+  if(estado.colonia){ try{ saleColonia('colonia'); }catch(e){ /* sin la lista en pantalla no hay colonia que reconocer */ } }
   /* Los casos completos traen dos pruebas simuladas: el paso 4 no las exige,
      pero sin ellas el acuse y la revision no se ven como en un caso real. */
   if(!esc.vacio){ archivos = [{name:'evidencia-01.jpg',size:2411724},{name:'evidencia-02.jpg',size:1874509}]; }
@@ -2241,7 +2241,7 @@ function barra(){
 
 /* Los datos de la via presencial viven en un solo lugar: los pinta la portada
    y los pinta el pie. Escribirlos dos veces es como se contradijeron el
-   formato en PDF y el portal (P-09), y ese domicilio sigue sin confirmarse. */
+   formato en PDF y el portal (P-09); el de la DGCORENADR sigue sin confirmarse. */
 /* Dos oficinas, segun la zona de los hechos (DEC-137): suelo urbano y Areas
    de Valor Ambiental los atiende la DGIVA; suelo de conservacion y Areas
    Naturales Protegidas, la DGCORENADR. El domicilio de la segunda no se
@@ -2638,7 +2638,7 @@ function cajaCapas(){
       : 'Todavía no hay punto. Puedes continuar así: la Secretaría ubicará el lugar con la dirección que escribiste y entonces se sabrá qué área atiende la denuncia.')+
       '</div>';
   }
-  var t = val('capa_tipo'), n = val('capa_nombre'), dg = val('dg');
+  var t = val('capa_tipo'), n = val('capa_nombre');
   if(val('fuera')==='si'){
     return '<div class="capas capas-fuera" role="alert">'+
       '<div class="capas-fila"><span class="capas-etq">Ubicación</span><span class="capas-val">Fuera de la Ciudad de México</span></div>'+
@@ -3327,8 +3327,8 @@ function pDenunciante(){
        {v:'45-59',t:'45 a 59 años'},{v:'60+',t:'60 años o más'}],esObligatorio('edad_rango'),'')+
 
   /* El aviso se lee en pantalla antes de enviar —como lo hace la PAOT en su
-     formulario— y no detras de un enlace (DEC-79). Por ahora solo quien trata
-     los datos y para que; el resto queda por desarrollar (DEC-138). */
+     formulario— y no detras de un enlace (DEC-79). El texto es el de la Unidad
+     de Transparencia; lo que falta va entre corchetes (DEC-210, P-02). */
     avisoPrivacidad()+
 
     '<div class="campo" id="c_privacidad"><label class="casilla casilla-larga" for="chkPriv">'+
@@ -3491,9 +3491,9 @@ function pRevision(){
           .filter(Boolean).join(', '), 5, 'dom_calle'))+
     ((anon || val('materia')!=='ruido') ? '' : r('Medici\u00f3n del ruido desde su domicilio', {si:'Acepta', no:'No acepta'}[val('ruido_medicion')]||'', 5, 'ruido_medicion'))+
     r('Datos estad\u00edsticos', (function(){
-        var g = {mujer:'Mujer',hombre:'Hombre',no_binaria:'No binaria',otro:'Otro',nd:'Prefiere no decirlo'}[val('sexo_genero')]||'';
+        var g = {mujer:'Mujer',hombre:'Hombre',no_binaria:'No binaria',otro:'Otro'}[val('sexo_genero')]||'';
         var e = {'-18':'Menor de 18 a\u00f1os','18-29':'18 a 29 a\u00f1os','30-44':'30 a 44 a\u00f1os',
-                 '45-59':'45 a 59 a\u00f1os','60+':'60 a\u00f1os o m\u00e1s',nd:'Prefiere no decirlo'}[val('edad_rango')]||'';
+                 '45-59':'45 a 59 a\u00f1os','60+':'60 a\u00f1os o m\u00e1s'}[val('edad_rango')]||'';
         return [g,e].filter(Boolean).join(' \u00b7 ');
       })(), 5, 'sexo_genero');
 
@@ -4033,8 +4033,6 @@ function actualizaMzLote(p){
   if(val(p+'tiene_mz_lote') === 'si' && $('f_'+p+'manzana')) $('f_'+p+'manzana').focus();
 }
 
-/* Hora en dos controles: horas y minutos. */
-
 /* El contador aparece sólo cuando falta para el mínimo o se acerca al máximo. */
 function contadorTxt(k){
   var L = LIMITES[k]; if(!L) return '';
@@ -4269,14 +4267,14 @@ function valida(n){
     MOTIVO.archivos = 'Espera a que terminen de optimizarse las fotos.';
     empuja(faltan,'archivos');
   }
-  if(n===3 && val('hechos').trim().length>0 && val('hechos').trim().length<40){
+  if(n===3 && val('hechos').trim().length>0 && val('hechos').trim().length<LIMITES.hechos.min){
     /* Sin motivo, el resumen decia «falta este dato» mientras el contador,
        debajo, decia cuantos caracteres faltaban: dos diagnosticos del mismo
        campo al mismo tiempo (DEC-100). */
-    MOTIVO.hechos = 'La descripción es demasiado corta: faltan '+(40-val('hechos').trim().length)+' caracteres.';
+    MOTIVO.hechos = 'La descripción es demasiado corta: faltan '+(LIMITES.hechos.min-val('hechos').trim().length)+' caracteres.';
     empuja(faltan,'hechos');
   }
-  if(n===3 && val('hechos').trim().length>=40 && (!pareceTexto(val('hechos')) || pareceRelleno(val('hechos')))){
+  if(n===3 && val('hechos').trim().length>=LIMITES.hechos.min && (!pareceTexto(val('hechos')) || pareceRelleno(val('hechos')))){
     MOTIVO.hechos = 'El texto no se entiende. Describe con tus palabras qué está ocurriendo.';
     empuja(faltan,'hechos');
   }
@@ -4398,7 +4396,7 @@ function leeExif(buf){
       }
       o += 2 + largo;
     }
-  }catch(e){}
+  }catch(e){ /* metadatos ilegibles: la foto queda sin fecha ni lugar de captura */ }
   return r;
 }
 
@@ -4529,7 +4527,7 @@ function iniciaMapa(){
 
     [0,50,150,400,800,1500].forEach(function(t){ setTimeout(function(){ ajusta(false); }, t); });
     if(window.ResizeObserver){
-      try{ new ResizeObserver(function(){ ajusta(false); }).observe(div); }catch(e){}
+      try{ new ResizeObserver(function(){ ajusta(false); }).observe(div); }catch(e){ /* basta el ajuste por tiempos */ }
     }
     window.addEventListener('resize', function(){ ajusta(false); });
 
@@ -4602,7 +4600,7 @@ function resaltaPoligono(rasgo, grupo){
 /* Propone el punto a partir de la dirección capturada. El servicio es externo y
    puede no responder: si falla, se dice con esas palabras y la persona coloca el
    punto a mano. Nada de lo capturado se pierde. Sustituirlo por un servicio propio
-   de la Ciudad es P-12; el catálogo de colonias y códigos postales, P-16. */
+   de la Ciudad es SIA-06 (documento 20); el catálogo de colonias y códigos postales, P-16. */
 /* La direccion coloca el punto sin que nadie pulse nada. Tres cautelas:
    · Solo si NO hay punto todavia. Si la persona ya lo coloco o lo arrastro,
      la direccion no se lo mueve: corregir la colonia no puede deshacer el
@@ -5643,7 +5641,7 @@ function copiaDato(b, k){
     navigator.clipboard.writeText(t).then(function(){ b.textContent='Copiado'; setTimeout(function(){ b.textContent='Copiar'; },1800); });
   }catch(e){
     var s=document.createElement('textarea'); s.value=t; document.body.appendChild(s); s.select();
-    try{ document.execCommand('copy'); b.textContent='Copiado'; }catch(_){}
+    try{ document.execCommand('copy'); b.textContent='Copiado'; }catch(_){ /* sin copiado, el dato sigue a la vista para anotarlo */ }
     document.body.removeChild(s);
   }
 }
@@ -5666,9 +5664,9 @@ function guardaBorrador(){
       clearTimeout(window.__tGuardado);
       window.__tGuardado = setTimeout(function(){ a.classList.remove('visible'); }, 2600);
     }
-  }catch(e){}
+  }catch(e){ /* sin almacenamiento local, como en navegacion privada: se sigue sin borrador */ }
 }
-function borraBorrador(){ try{ localStorage.removeItem(CLAVE_BORRADOR); }catch(e){} }
+function borraBorrador(){ try{ localStorage.removeItem(CLAVE_BORRADOR); }catch(e){ /* sin almacenamiento local no hay nada que borrar */ } }
 /* Un borrador que no puede retomarse —danado, a medio escribir o con un paso
    que no existe— dejaba la pantalla en blanco, sin mensaje ni salida
    (B5-01). Se descarta y la portada lo dice una vez. */
@@ -5874,7 +5872,7 @@ function palabraDeRevision(){
 function revCorta(t, n){ t = String(t || ''); return t.length > n ? t.slice(0, n - 1) + '…' : t; }
 function revUid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
 function revLee(k, def){ try{ return JSON.parse(localStorage.getItem(k) || 'null') || def; }catch(e){ return def; } }
-function revEscribe(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+function revEscribe(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){ /* sin almacenamiento local, las observaciones viven sólo en esta pestaña */ } }
 /* En el navegador sólo se guarda lo que la hoja todavía no tiene. */
 function revLocalGuarda(){ revEscribe(CLAVE_REV_OBS, REVISION.obs.filter(function(o){ return !o.id; })); }
 function revEsMia(o){ return String(o.revisor || '').trim().toLowerCase() === REVISION.nombre.trim().toLowerCase(); }
