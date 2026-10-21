@@ -73,7 +73,11 @@ with sync_playwright() as pw:
         cruda = ruta.read_bytes().decode('latin-1')
         afirma('/URI (https://www.google.com/maps/search/?api=1&query=' in cruda and '/Subtype /Link' in cruda,
                '%s: «Ver en Google Maps» es un enlace activo en el PDF' % esc)
-        afirma('[Art. __, fracc. __]' in txt, '%s: el fundamento sin verificar queda como hueco visible, no se inventa' % esc)
+        # Hasta la Versión 30 el fundamento era un hueco visible; con P-01
+        # resuelta se cita el Reglamento Interior, verificado (DEC-232). La
+        # batería 37 compara el texto con la pantalla.
+        afirma('[Art. __, fracc. __]' not in txt and 'Reglamento Interior del Poder Ejecutivo' in txt,
+               '%s: el fundamento cita el Reglamento Interior, sin hueco' % esc)
         afirma('esté disponible' in txt, '%s: el PDF no da por hecha la consulta en línea' % esc)
         afirma('Página 1 de' in txt, '%s: numeración de páginas' % esc)
         afirma('Prototipo de validación interna' in txt and 'no tiene validez oficial' in txt, '%s: advierte que es un prototipo' % esc)

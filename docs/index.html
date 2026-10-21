@@ -1511,7 +1511,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-231', fecha:'20 de octubre de 2026', nombre:'Versión 30 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-232', fecha:'20 de octubre de 2026', nombre:'Versión 31 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1634,7 +1634,7 @@ var ESCENARIOS = [
    d:'Tala · anónima · responsable desconocido · DGCORENADR',
    paso:6,
    e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'tala', lat:'19.210000', lon:'-98.995000',
-      calle:'Camino a San Antonio Tecómitl', num_ext:'S/N', entre_calles:'Sobre la brecha de terracería que sube al cerro',
+      calle:'Camino a San Antonio Tecómitl', num_ext:'S/N', entre_calles:'Juárez y Morelos',
       colonia:'San Antonio Tecómitl (Pueblo)', alcaldia_dir:'Milpa Alta', cp:'12100',
       referencias:'A kilómetro y medio del panteón, por la brecha que sube al monte. Hay un claro grande a la derecha.',
       es_estab:'no',
@@ -1652,7 +1652,7 @@ var ESCENARIOS = [
    d:'Se señala a una autoridad · ruta del artículo 331',
    paso:6,
    e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'arbolado', lat:'19.355000', lon:'-99.070000',
-      calle:'Avenida Ermita Iztapalapa', num_ext:'1200', entre_calles:'En el camellón central, a la altura del número 1200',
+      calle:'Avenida Ermita Iztapalapa', num_ext:'1200', entre_calles:'5 de Mayo y 16 de Septiembre',
       colonia:'Constitución de 1917 I', alcaldia_dir:'Iztapalapa', cp:'09260',
       referencias:'Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.',
       es_estab:'no',
@@ -1674,7 +1674,7 @@ var ESCENARIOS = [
    d:'Bosque urbano · DGIVA · persona física señalada',
    paso:2,
    e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'ava', lat:'19.296390', lon:'-99.183480',
-      calle:'Avenida San Fernando', num_ext:'S/N', entre_calles:'Por la entrada principal del parque',
+      calle:'Avenida San Fernando', num_ext:'S/N', entre_calles:'Ayuntamiento y Moneda',
       colonia:'Romulo Sánchez-San Fernando (Barrio)-Peña Pobre', alcaldia_dir:'Tlalpan', cp:'14060',
       referencias:'En la parte alta del parque, junto a la barda norte, pasando la zona de juegos.',
       es_estab:'no',
@@ -1719,7 +1719,7 @@ var ESCENARIOS = [
    d:'El Histórico Coyoacán · se deriva a la PROFEPA',
    paso:2,
    e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'ava', lat:'19.354350', lon:'-99.171610',
-      calle:'Calle Francisco Sosa', num_ext:'150', entre_calles:'Cerca de la plaza de Santa Catarina',
+      calle:'Calle Francisco Sosa', num_ext:'150', entre_calles:'Fresno y Encino',
       colonia:'Del Carmen', alcaldia_dir:'Coyoacán', cp:'04100',
       referencias:'Casona con portón de madera; la obra se ve desde la calle por encima de la barda.',
       es_estab:'no',
@@ -1742,7 +1742,7 @@ var ESCENARIOS = [
    d:'Naucalpan · el formulario impide continuar',
    paso:2,
    e:{tiene_direccion:'si', tiene_mz_lote:'no', materia:'emisiones', lat:'19.478000', lon:'-99.240000',
-      calle:'Avenida Industrial', num_ext:'300', entre_calles:'Frente a la zona de bodegas',
+      calle:'Avenida Industrial', num_ext:'300', entre_calles:'Norte 1 y Norte 3',
       referencias:'Nave industrial con chimenea alta y portón azul.',
       es_estab:'si', tipo_estab:'Industria o fábrica', nombre_estab:'Fundidora La Prueba',
       hechos:'La chimenea de la fábrica echa humo negro todas las noches a partir de las diez. El hollín se queda en los patios y en la ropa tendida.',
@@ -1836,6 +1836,8 @@ var ETAPAS = ['Qué denuncias','Dónde ocurrió','Qué ocurrió','Pruebas','Tus 
 var MARCADORES = {
   calle:'Ej. Av. Insurgentes Sur',        num_ext:'Ej. 125 o S/N',
   manzana:'Ej. 3',                         lote:'Ej. 12',
+  /* Sin «Entre» delante: la revisión y el acuse ya lo anteponen (C5-01). */
+  entre_calles:'Ej. Sur 20 y Sur 24',      dom_entre_calles:'Ej. Sur 20 y Sur 24',
   nombre_lugar:'Ej. Barranca de Tarango',
   referencias:'Ej. Portón negro junto a la tienda de la esquina',
   tipo_estab_otro:'Ej. Taller de serigrafía', nombre_estab:'Ej. Taller Automotriz Hernández',
@@ -2515,8 +2517,7 @@ function pUbicacion(){
       campoSiNo('tiene_mz_lote','¿El predio se identifica por manzana y lote?',
         'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote()')+
       '<div id="mzLote">'+camposMzLote()+'</div>'+
-      campo('entre_calles','¿Entre qué calles?','texto',false,'',
-        'placeholder="Entre calle 1 y calle 2"')+
+      campo('entre_calles','¿Entre qué calles?','texto',false,'')+
       /* Alcaldía, colonia y código postal en un renglón y sin ayudas
          (DEC-205): con ayuda en uno solo, los controles se desfasaban. Lo que
          decían va en el marcador del campo y en la lista de colonias, que ya
@@ -3232,7 +3233,7 @@ function pDenunciante(){
     campoSiNo('dom_tiene_mz_lote','¿Tu domicilio se identifica por manzana y lote?',
       'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote(\'dom_\')')+
     '<div id="dom_mzLote">'+camposMzLote('dom_')+'</div>'+
-    campo('dom_entre_calles','¿Entre qué calles?','texto',false,'','placeholder="Entre calle 1 y calle 2"')+
+    campo('dom_entre_calles','¿Entre qué calles?','texto',false,'')+
     (fueraCdmx()
       ? '<div class="fila">'+
           campoSelect('dom_entidad','Entidad federativa',ENTIDADES_FUERA,esObligatorio('dom_entidad'),'')+
@@ -3344,6 +3345,15 @@ function alternaDetalleRevision(){
   if(b) b.textContent = abrir ? 'Ocultar el detalle' : 'Ver todo el detalle';
 }
 
+/* «Entre qué calles» se lee de corrido: «entre Sur 20 y Sur 24». Quien ya
+   escribió «Entre…» no recibe otro delante; la revisión y el acuse decían
+   «entre Entre la calle Sur 20» (C5-01). */
+function entreCalles(v, mayuscula){
+  if(!v) return '';
+  var t = /^entre\s/i.test(v) ? v.replace(/^entre\s+/i, '') : v;
+  return (mayuscula ? 'Entre ' : 'entre ') + t;
+}
+
 function pRevision(){
   var m = MATERIAS.filter(function(x){return x.id===val('materia');})[0];
   var anon = esAnonima();
@@ -3375,7 +3385,7 @@ function pRevision(){
      que decide el turnado va aparte, dicha como del punto. Si difieren, el
      renglon lo dice: fue callar la diferencia lo que DEC-72 corrigio. */
   actualizaAvisoAlcaldia();
-  var refs = [val('entre_calles')?'Entre '+val('entre_calles'):'',
+  var refs = [entreCalles(val('entre_calles'), true),
               val('referencias')].filter(Boolean).join('\n');
   var estab = val('es_estab')==='si'
     ? ([val('tipo_estab')==='Otro'?('Otro: '+(val('tipo_estab_otro')||'sin especificar')):val('tipo_estab'),val('nombre_estab')].filter(Boolean).join(' · ')||'Sí, sin más datos')
@@ -3424,7 +3434,7 @@ function pRevision(){
     (anon?'':r('Domicilio para notificaciones', !val('dom_calle') ? '' :
         [[val('dom_calle'),val('dom_num_ext')?'No. '+val('dom_num_ext'):'',val('dom_num_int')?'int. '+val('dom_num_int'):'',
           val('dom_manzana')?'Mz. '+val('dom_manzana'):'',val('dom_lote')?'Lt. '+val('dom_lote'):''].filter(Boolean).join(' '),
-         val('dom_entre_calles')?'entre '+val('dom_entre_calles'):'',
+         entreCalles(val('dom_entre_calles')),
          val('dom_colonia'), val('dom_cp')?'C.P. '+val('dom_cp'):'']
           .concat(fueraCdmx() ? [val('dom_municipio'), val('dom_entidad')] : [val('dom_alcaldia'), 'Ciudad de M\u00e9xico'])
           .filter(Boolean).join(', '), 5, 'dom_calle'))+
@@ -3469,8 +3479,60 @@ function pRevision(){
   return h;
 }
 
+/* Lo que sigue tras enviar, por ruta. La pantalla final y el acuse en PDF lo
+   leen de aqui: el PDF repetia los pasos de la inspeccion en las rutas federal
+   y de autoridad, donde no hay visita de la Secretaria (B3-01). La marca de
+   pendiente es de la validacion y solo la pinta la pantalla, como las demas. */
+function pasosQueSiguen(){
+  /* En un Area Natural Protegida federal la DGCORENADR recibe y remite a la
+     PROFEPA (DEC-226). */
+  if(val('dg')==='FEDERAL') return [
+    {t:'La Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural recibe tu denuncia y la remite a la PROFEPA, autoridad competente en las Áreas Naturales Protegidas federales.'},
+    {t:'Una vez remitida, el seguimiento del asunto corre por cuenta de la PROFEPA.'}];
+  var revisa = {t:'La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.'},
+      avisa = {t: esAnonima() ? 'Si la Secretaría necesita algo más, te escribirá al correo que dejaste.'
+                              : 'Se te notifica el resultado en el domicilio que registraste.'};
+  /* Ante una autoridad no hay inspeccion sino recomendaciones (art. 331). */
+  if(val('tipo_denunciado')==='gobierno') return [revisa,
+    {t:'Como señalaste a una autoridad, la Secretaría valora los hechos y, de resultar procedente, emite las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección.',
+     pend:'Vía de respuesta por confirmar'},
+    avisa];
+  return [revisa, {t:'Si procede, se integra el expediente y se programa la visita de inspección.'},
+    {t:'Personal de inspección visita el lugar y levanta un acta.'}, avisa];
+}
+
+/* Fundamento con que la Secretaria recibe la denuncia (P-01, opcion A;
+   DEC-226), verificado contra el Reglamento Interior, texto vigente con ultima
+   reforma publicada el 27 de marzo de 2026: articulo 191, fraccion XXX, para
+   la DGIVA en suelo urbano y Areas de Valor Ambiental; articulo 188, fraccion
+   XXXVIII, para la DGCORENADR en suelo de conservacion y Areas Naturales
+   Protegidas, que la faculta tambien a formular la denuncia ante la autoridad
+   que corresponda. Sin punto todavia no se sabe cual de las dos atiende y se
+   citan ambas. La ruta de autoridad suma el articulo 331 de la Ley Ambiental. */
+function fundamentoAcuse(){
+  var dg = val('lat') ? val('dg') : '';
+  var f = 'Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México, ' +
+    (dg === 'DGIVA' ? 'artículo 191, fracción XXX'
+      : (dg === 'DGCORENADR' || dg === 'FEDERAL') ? 'artículo 188, fracción XXXVIII'
+      : 'artículos 188, fracción XXXVIII, y 191, fracción XXX');
+  if(dg !== 'FEDERAL' && val('tipo_denunciado')==='gobierno') f += '; Ley Ambiental de la Ciudad de México, artículo 331';
+  return f + '.';
+}
+
+/* Recibir aqui no le quita a la persona las otras vias (P-01, opcion A): la
+   Procuraduria, que contesta de forma fundada y motivada (art. 332), y la
+   Fiscalia si hay delito (art. 329). Sin el plazo ni la ratificacion de la
+   Procuraduria: el formulario no menciona plazos (DEC-138, DEC-162). En un
+   Area Natural Protegida federal la otra via es la PROFEPA, que la ficha del
+   cruce ya ofrece. */
+function otrasVias(){
+  if(val('dg')==='FEDERAL') return '';
+  return 'Si quieres una respuesta fundada y motivada de la Procuraduría Ambiental y del Ordenamiento Territorial (PAOT), puedes presentar además tu denuncia ante ella. ' +
+    'Si los hechos pueden constituir un delito, puedes denunciarlos también ante la Fiscalía General de Justicia de la Ciudad de México.';
+}
+
 function pAcuse(){
-  var anon = esAnonima();
+  var vias = otrasVias();
   return '<div class="tarjeta"><div class="acuse">'+
     '<div class="marca">'+svgIcono('check',40,'#fff')+'</div>'+
     '<h2>Tu denuncia fue recibida</h2>'+
@@ -3494,23 +3556,21 @@ function pAcuse(){
       '<p id="notaAcuse" class="nota-gris" aria-live="polite">Incluye tu número de registro, la fecha y todo lo que capturaste.</p>'+
     '</div>'+
     '<div class="pasos-sig"><h3 style="font-size:16px;color:var(--guinda);margin-bottom:10px">¿Qué sigue?</h3><ol>'+
-      '<li>La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.</li>'+
-      '<li>Si procede, se integra el expediente y se programa la visita de inspección.</li>'+
-      '<li>Personal de inspección visita el lugar y levanta un acta.</li>'+
-      '<li>'+(anon ? 'Si la Secretaría necesita algo más, te escribirá al correo que dejaste.' : 'Se te notifica el resultado en el domicilio que registraste.')+'</li>'+
+      pasosQueSiguen().map(function(p){ return '<li>'+esc(p.t)+(p.pend ? ' <span class="pendiente">'+esc(p.pend)+'</span>' : '')+'</li>'; }).join('')+
     '</ol>'+
-    (val('tipo_denunciado')==='gobierno' ?
-      '<div class="aviso" style="text-align:left">Señalaste a una autoridad. La Secretaría valorará los hechos y, de resultar procedente, emitirá las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección. <span class="pendiente">Vía de respuesta por confirmar</span></div>' : '')+
     '<h3 class="sub-seccion sub-seccion-sm">Puedes seguir aportando información</h3>'+
     '<p class="nota-gris">Si más adelante consigues fotografías, videos o documentos que fortalezcan tu denuncia, puedes enviarlos con tu número de registro. No hace falta presentar una denuncia nueva. <span class="pendiente">Vía para aportar información, por confirmar</span></p>'+
     '<h3 class="sub-seccion sub-seccion-sm">Dónde dar seguimiento</h3>'+
+    /* En la ruta federal el seguimiento de la PROFEPA ya lo dice el ultimo paso. */
     '<p class="nota-gris">Tu denuncia la atiende '+
       '<strong>'+esc(val('dg_nombre')||'la Secretaría del Medio Ambiente')+'</strong>. '+
-      (val('dg')==='FEDERAL'
-        ? 'Una vez remitida, el seguimiento del asunto corre por cuenta de la PROFEPA. '
+      (val('dg')==='FEDERAL' ? ''
         : 'Para preguntar por el avance, comunícate con la <strong>Jefatura de Unidad Departamental de Seguimiento a Denuncias</strong> de esa dirección general, con tu número de registro. ')+
       /* La DGIVA confirmó sus datos (DEC-188); la DGCORENADR, todavía no. */
       ((val('dg')==='DGCORENADR' || val('dg')==='FEDERAL') ? '<span class="pendiente">Domicilio, horario y teléfono de esta unidad, por confirmar</span>' : '')+'</p>'+
+    (vias ? '<h3 class="sub-seccion sub-seccion-sm">Otras vías</h3><p class="nota-gris">'+esc(vias)+'</p>' : '')+
+    '<h3 class="sub-seccion sub-seccion-sm">Fundamento</h3>'+
+    '<p class="nota-gris">'+esc(fundamentoAcuse())+'</p>'+
     '</div>'+
     '</div></div>';
 }
@@ -5117,8 +5177,7 @@ function construyeAcusePdf(){
     var W = 612, H = 792, M = 56, AN = W - 2*M, PIE = M + 30;
     var GUINDA = pdfColor('#9D2148'), DORADO = pdfColor('#B28E5C'), GRIS = pdfColor('#55585A'),
         TEXTO = pdfColor('#2B2D2E'), CLARO = pdfColor('#F7F1F3'), MARCA = pdfColor('#EFEFEF'),
-        BLANCO = pdfColor('#FFFFFF'), CASILLA = pdfColor('#ECEDEE'), PEND = pdfColor('#FFF3CD'),
-        PEND_B = pdfColor('#8A5200'), PEND_T = pdfColor('#6B4A00');
+        BLANCO = pdfColor('#FFFFFF'), CASILLA = pdfColor('#ECEDEE');
     var paginas = [], enlaces = [], ligas = [], cs = '', y = 0;
     function nuevaPagina(){
       if(cs){ paginas.push(cs); enlaces.push(ligas); }
@@ -5175,10 +5234,9 @@ function construyeAcusePdf(){
     }
     /* Renglon de formato: etiqueta a la izquierda y el dato en su casilla
        gris. Un dato largo se parte entre paginas, cada tramo en su casilla. */
-    function filaDato(et, v, tono){
+    function filaDato(et, v){
       var cE = 150, xB = M + cE, wB = AN - cE, pad = 4.2, ld = 11.4;
       var lE = pdfCortar(et, 'F2', 8, cE - 12), lV = pdfCortar(v, 'F1', 9, wB - 2 * pad);
-      var fondo = tono === 'pend' ? PEND : CASILLA, letra = tono === 'pend' ? PEND_T : TEXTO;
       function alto(nV, nE){ return Math.max(nV * ld, nE * 10) + 2 * pad - 2.6; }
       if(lV.length <= 8) hayLugar(alto(lV.length, lE.length) + 3);
       var i = 0, primero = true;
@@ -5186,10 +5244,10 @@ function construyeAcusePdf(){
         var cabe = Math.floor((y - PIE - 2 * pad) / ld);
         if(cabe < 1){ nuevaPagina(); continue; }
         var tramo = lV.slice(i, i + cabe), nE = primero ? lE.length : 0, h = alto(tramo.length, nE);
-        caja(xB, y - h, wB, h, fondo, tono === 'pend' ? PEND_B : null);
+        caja(xB, y - h, wB, h, CASILLA);
         var yy = y - pad - 6.8;
         if(primero) lE.forEach(function(l, k){ texto(l, M, yy - k * 10, 'F2', 8, GRIS); });
-        tramo.forEach(function(l, k){ texto(l, xB + pad, yy - k * ld, 'F1', 9, letra); });
+        tramo.forEach(function(l, k){ texto(l, xB + pad, yy - k * ld, 'F1', 9, TEXTO); });
         y -= h + 2.5; i += tramo.length; primero = false;
       }
     }
@@ -5236,13 +5294,8 @@ function construyeAcusePdf(){
     }
 
     seccion('¿Qué sigue?', 40);
-    var anon = esAnonima();
-    ['La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.',
-     'Si procede, se integra el expediente y se programa la visita de inspección.',
-     'Personal de inspección visita el lugar y levanta un acta.',
-     anon ? 'Si la Secretaría necesita algo más, te escribirá al correo que dejaste.'
-          : 'Se te notifica el resultado en el domicilio que registraste.'].forEach(function(t, i){
-      var lins = pdfCortar(t, 'F1', 9, AN - 38 - 10), h = lins.length * 11.6 + 7.4;
+    pasosQueSiguen().forEach(function(p, i){
+      var lins = pdfCortar(p.t, 'F1', 9, AN - 38 - 10), h = lins.length * 11.6 + 7.4;
       hayLugar(h + 3);
       caja(M, y - h, 24, h, CLARO);
       texto(String(i + 1), M + 12, y - 5 - 6.8, 'F2', 9.5, GUINDA, 'centro');
@@ -5251,11 +5304,15 @@ function construyeAcusePdf(){
       y -= h + 3;
     });
 
-    /* Fundamento: depende de la naturaleza juridica del canal, que no esta
-       resuelta (P-01). No se escribe un articulo sin verificar: el hueco queda
-       a la vista, en el amarillo de lo pendiente. */
-    seccion('Fundamento');
-    filaDato('Fundamento jurídico', 'Ley Ambiental de la Ciudad de México, [Art. __, fracc. __]. Por confirmar: depende de la naturaleza jurídica del canal de recepción.', 'pend');
+    var vias = otrasVias();
+    /* Cada barra pide lugar para lo que lleva debajo, mas los 11 pt que ella
+       ocupa de mas: ni el parrafo se parte ni la barra queda sola al pie. */
+    if(vias){
+      seccion('Otras vías', 11 + pdfCortar(vias, 'F1', 9, AN).length * 9 * 1.38 + 2);
+      parrafo(vias, M, AN, 'F1', 9, TEXTO, 2);
+    }
+    seccion('Fundamento', 11 + 3 * 11.4 + 9);
+    filaDato('Fundamento jurídico', fundamentoAcuse());
     paginas.push(cs); enlaces.push(ligas);
 
     /* Pie de cada pagina: filete dorado, folio y numeracion */
