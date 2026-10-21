@@ -94,15 +94,15 @@ La determinación se hace contra el contorno de la Ciudad y no contra los políg
 
 ## C. Identificación de la persona denunciante
 
-**RN-17.** Se admite la denuncia anónima. No pide nombre ni domicilio, pero sí un **correo de contacto, obligatorio**, para que la Secretaría pueda pedir lo que falte; el teléfono es opcional (DEC-119, DEC-120).
+**RN-17.** Se admite la denuncia anónima. No pide nombre ni domicilio, pero sí un **correo, obligatorio**, donde se le notifica el resultado y donde la Secretaría puede escribirle para aclarar algo; el teléfono es opcional (DEC-119, DEC-120, DEC-233).
 
 **RN-18.** Cuando la persona se identifica, el nombre se captura desagregado en nombre, apellido paterno y apellido materno. El **domicilio para notificaciones se pide siempre y es obligatorio** (DEC-134), con la misma forma que la dirección del lugar (DEC-135): en la Ciudad, alcaldía en lista, colonia del catálogo y código postal opcional de la Ciudad (DEC-200); con la casilla «Vivo fuera de la Ciudad de México», entidad en lista, municipio y colonia escritos (DEC-136).
 
 **RN-19.** Los datos personales de la persona denunciante no se hacen del conocimiento de la persona denunciada ni se difunden.
 
-**RN-20.** El envío requiere manifestación bajo protesta de decir verdad sobre la veracidad de los hechos y consentimiento expreso para el tratamiento de datos personales. **[pendiente]** El aviso de privacidad debe reexpedirse conforme a la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México antes de la publicación.
+**RN-20.** El envío requiere manifestación bajo protesta de decir verdad sobre la veracidad de los hechos y consentimiento expreso para el tratamiento de datos personales, en una sola casilla que cubre también el género (DEC-234). **[pendiente]** El aviso de privacidad debe reexpedirse conforme a la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México antes de la publicación.
 
-**RN-21.** La denuncia anónima se admite siempre, como insumo de actuación de oficio; la inspección se practica si la descripción y la ubicación resultan suficientes por sí mismas, sin posibilidad de requerimiento. Se atiende, pero no se notifica el resultado, y el formulario lo dice (P-05, DEC-226).
+**RN-21.** La denuncia anónima se admite siempre, como insumo de actuación de oficio; la inspección se practica si la descripción y la ubicación resultan suficientes por sí mismas, sin requerimiento con efectos: si la persona no responde a una aclaración, la denuncia sigue su curso. Se atiende y se le notifica el resultado en el correo que dejó, y el formulario lo dice (P-05, DEC-226, DEC-233).
 
 ## D. Hechos y elementos probatorios
 

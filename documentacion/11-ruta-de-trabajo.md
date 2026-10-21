@@ -1243,3 +1243,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Verificación de cierre.** Batería completa en verde: 1 278 comprobaciones en 37 baterías. Revisión del texto del PDF en los ocho escenarios que llegan al acuse.
 
 **Anotado para el bloque siguiente.** (1) Los documentos 12, 16 y 20 siguen nombrando la «naturaleza jurídica del canal» (P-01) como pendiente; el 20 la lista como asunto por resolver para el fundamento del acuse (bloque 3). (2) El PDF no lleva «Puedes seguir aportando información» ni «Dónde dar seguimiento», que sí están en la pantalla. (3) La barra de apartado del PDF ocupa 11 pt más que el lugar que pide; «¿Qué sigue?» y el croquis lo piden sin contarlos. (4) La batería 26 falló una vez por tiempo («y ya enviadas, el navegador deja de guardarlas»: espera fija de 600 ms) y pasó en las tres corridas siguientes; conviene que espere la condición en lugar de un tiempo fijo.
+
+### 20 de octubre de 2026 · anónima notificada por correo y género sin casilla propia (DEC-233 y DEC-234, Versión 32)
+
+**Qué cambió.** Liber Saltijeral resolvió los puntos 4 y 5 de «Para decidir» de la auditoría. **Anónima (D1-10):** se le notifica el resultado en el correo, que sigue obligatorio; la Secretaría puede usarlo también para aclarar algo, sin efecto procesal. Cambian la opción del paso 5, el nombre del campo, la pregunta frecuente, la revisión, el acuse en pantalla y en PDF, dos frases del aviso de privacidad, las reglas RN-17 y RN-21 y la regla de CLAUDE.md. El envío lo dará el SIA (SIA-29, nueva). **Género (D1-09):** basta la casilla general de consentimiento; no cambia la pantalla. Baterías 19 y 25 ajustadas; la 19 comprueba ahora que paso 5, pregunta frecuente, acuse y aviso dicen lo mismo de la anónima.
+
+**Por qué.** RN-17 y RN-21 se contradecían sobre para qué sirve el correo de la anónima, y P-20 se había aceptado con una casilla que el formulario no tenía.
+
+**Advertencias registradas.** DEC-233 contradice DEC-226, DEC-134 y DEC-195; se le advirtió a Liber y la confirmó. Lo que pasa a la Unidad de Transparencia, en P-02: validar los dos cambios al aviso; confirmar que la casilla general cumple el artículo 14 de la Ley de datos personales para el género, dato sensible; y la cita del «artículo 15» en el aviso, derogado en el texto vigente (las transferencias sin consentimiento están en el 64).
+
+**Verificación de cierre.** Batería completa en verde: 1 281 comprobaciones en 37 baterías.

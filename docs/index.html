@@ -1366,7 +1366,7 @@ var OBLIG = {
      uso:'Describe pruebas que la persona no puede adjuntar pero puede ofrecer.'},
   /* Paso 5 */
   identificacion:   {p:5, oblig:true,  etq:'Cómo se presenta la denuncia', dp:false, fin:'Identificación',
-     uso:'Determina qué datos se piden. Con datos escritos hay nombre, contacto y domicilio para notificaciones; la anónima no lleva nombre y exige un correo de contacto (DEC-120, DEC-134). En las dos rutas los datos son confidenciales frente a la persona denunciada.'},
+     uso:'Determina qué datos se piden. Con datos escritos hay nombre, contacto y domicilio para notificaciones; la anónima no lleva nombre y exige un correo, donde se le notifica (DEC-120, DEC-233). En las dos rutas los datos son confidenciales frente a la persona denunciada.'},
   nombre:           {p:5, oblig:true,  etq:'Nombre(s)', dp:true, fin:'Contacto',
      uso:'Identificación de la persona denunciante en el expediente y en el acuse.'},
   apellido_paterno: {p:5, oblig:true,  etq:'Apellido paterno', dp:true, fin:'Contacto',
@@ -1376,7 +1376,7 @@ var OBLIG = {
   telefono:         {p:5, oblig:true,  etq:'Teléfono', dp:true, fin:'Contacto',
      uso:'Contacto para aclarar datos o coordinar el acceso al sitio durante la visita. No es vía de notificación. En la denuncia anónima se ofrece como opcional (DEC-119).'},
   correo:           {p:5, oblig:true,  etq:'Correo electrónico', dp:true, fin:'Contacto',
-     uso:'Contacto por escrito: la Secretaría puede escribir para aclarar datos o informar el trámite. No hay envío automático de correos (DEC-134). En la denuncia anónima también es obligatorio: es la única forma de contactar a quien no da su nombre (DEC-119, DEC-120).'},
+     uso:'Contacto por escrito: la Secretaría puede escribir para aclarar datos o informar el trámite. En la denuncia anónima también es obligatorio y es el medio de notificación del resultado, porque no hay domicilio (DEC-120, DEC-233); el envío lo hace el servidor del SIA.'},
   /* La medición de ruido se hace donde se percibe: se pregunta sólo en ruido
      y sólo a quien da sus datos (OBS-0032, DEC-192). */
   ruido_medicion:   {p:5, oblig:false, etq:'Acepta que la medición se haga desde su domicilio', dp:false, fin:'Contacto',
@@ -1424,7 +1424,7 @@ var OBLIG = {
      contacto. Se declaran aqui, y no sueltos en la pantalla, para que el
      documento 09 diga que se pide, con que fin y con que caracter (DEC-78). */
   sexo_genero:      {p:5, oblig:false, etq:'Género', dp:true, fin:'Estadística',
-     uso:'Desagregación estadística de quién denuncia en la Ciudad. Opcional; no condiciona el trámite ni se incorpora al expediente. La identidad de género es dato sensible: sólo puede tratarse con consentimiento expreso, y por eso la pregunta admite no responder.'},
+     uso:'Desagregación estadística de quién denuncia en la Ciudad. Opcional; no condiciona el trámite ni se incorpora al expediente. La identidad de género es dato sensible: sólo puede tratarse con consentimiento expreso, y por eso la pregunta admite no responder. El consentimiento lo da la casilla del aviso de privacidad, sin casilla propia (DEC-234).'},
   edad_rango:       {p:5, oblig:false, etq:'Rango de edad', dp:true, fin:'Estadística',
      uso:'Desagregación estadística por edad. Opcional; no condiciona el trámite ni se incorpora al expediente.'},
   /* Paso 6. No es un dato de la denuncia: es la prueba de que quien envia es
@@ -1511,7 +1511,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-232', fecha:'20 de octubre de 2026', nombre:'Versión 31 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-234', fecha:'20 de octubre de 2026', nombre:'Versión 32 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1567,7 +1567,7 @@ var BIFURCACIONES = [
   {paso:'3', pregunta:'Desde cuándo ocurre', opciones:'Una sola vez · Se repite · Permanente',
    efecto:'Cambia el texto de la fecha que se pide. Una fecha posterior a hoy muestra un aviso para verificarla; el formulario no menciona plazos (DEC-138).'},
   {paso:'5', pregunta:'¿Con qué identidad se presenta?', opciones:'Escribir los datos · Denuncia anónima',
-   efecto:'Con datos, se piden nombre, teléfono, correo y domicilio para notificaciones. La anónima no pide nombre ni domicilio; exige un correo de contacto y ofrece el teléfono como opcional.'},
+   efecto:'Con datos, se piden nombre, teléfono, correo y domicilio para notificaciones. La anónima no pide nombre ni domicilio; exige un correo para notificaciones y ofrece el teléfono como opcional.'},
   {paso:'5', pregunta:'¿Vive fuera de la Ciudad de México?', opciones:'Casilla sin marcar · marcada',
    efecto:'Sin marcar: alcaldía en lista, colonia del catálogo y código postal de la Ciudad. Marcada: entidad federativa en lista, municipio y colonia escritos, y cualquier código postal de cinco dígitos.'},
   {paso:'Todos', pregunta:'Obligatoriedad', opciones:'Desactivada · Activa',
@@ -2288,7 +2288,7 @@ function pInicio(){
         /* Los cuatro derechos que antes iban en su propio bloque, «Lo que la ley
            te reconoce», viven aquí como preguntas (DEC-184). */
         '<details><summary>¿Tengo que ser la persona afectada para denunciar?</summary><p>No. Cualquier persona puede denunciar: no necesitas ser quien resulta afectado, ni vivir en el lugar, ni acreditar un interés propio. En ruido, la medición se hace desde donde se percibe; por eso conviene que vivas o trabajes cerca.</p></details>'+
-        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí. Al final eliges presentarla anónima; sólo te pedimos un correo por si hay que aclarar algo. Se atiende con el mismo rigor, pero no se te notifica el resultado.</p></details>'+
+        '<details><summary>¿Puedo denunciar sin dar mi nombre?</summary><p>Sí. Al final eliges presentarla anónima; sólo te pedimos un correo por si hay que aclarar algo y para notificarte el resultado. Se atiende con el mismo rigor.</p></details>'+
         '<details><summary>¿La persona o el negocio que denuncio sabrá quién fui?</summary><p>No. Tus datos son confidenciales: tu nombre no se hace del conocimiento de la persona o el establecimiento denunciado. Están protegidos por la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México.</p></details>'+
         '<details><summary>¿Necesito saber qué norma se incumple?</summary><p>No. Basta con describir lo que ocurre.</p></details>'+
         '<details><summary>¿Qué hago si no sé la dirección exacta?</summary><p>Marca el punto en el mapa o pega la ubicación de Google Maps. Si el lugar no tiene calle ni número, te pedimos cómo llegar.</p></details>'+
@@ -3139,9 +3139,9 @@ var AVISO_PRIVACIDAD = {
  "titulo": "Denuncia ambiental ciudadana en línea",
  "parrafos": [
   "La Secretaría del Medio Ambiente de la Ciudad de México (SEDEMA) es la Responsable del tratamiento de los datos personales que proporcione, los cuales serán protegidos de conformidad con la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México, artículos 1, 2, fracciones I, II, III, IV, V, VI, VII y VIII; 3, fracciones XXX, XXXIV y XXXVII; 7; 8; 9; 10; 24; 25; 26; 38; 39; 43; 44; 45; 46; 47 y 48, y serán incorporados al Sistema de Datos Personales [nombre del sistema registrado].",
-  "Los datos personales que recabemos serán utilizados con la finalidad de: recibir y registrar su denuncia y asignarle un número de registro y una clave de consulta; determinar, a partir de la ubicación de los hechos, la autoridad competente y turnar la denuncia al área de la Secretaría que corresponda; localizar el sitio y, en su caso, realizar los actos de inspección y vigilancia procedentes; integrar el expediente y sustanciar el procedimiento administrativo que derive de la denuncia; identificar y localizar a la persona probable responsable de los hechos; establecer contacto con usted para aclarar la información o coordinar el acceso al sitio, y practicar las notificaciones en el domicilio que señale; remitir la denuncia a la autoridad competente cuando los hechos no sean competencia de la Secretaría; permitirle consultar el estado de su denuncia mediante el número de registro y la clave de consulta; prevenir el envío automatizado o abusivo de denuncias, y generar estadísticas, en las cuales la información no estará asociada con la persona titular. Sus datos de identificación y contacto no se darán a conocer a la persona, empresa o autoridad denunciada.",
+  "Los datos personales que recabemos serán utilizados con la finalidad de: recibir y registrar su denuncia y asignarle un número de registro y una clave de consulta; determinar, a partir de la ubicación de los hechos, la autoridad competente y turnar la denuncia al área de la Secretaría que corresponda; localizar el sitio y, en su caso, realizar los actos de inspección y vigilancia procedentes; integrar el expediente y sustanciar el procedimiento administrativo que derive de la denuncia; identificar y localizar a la persona probable responsable de los hechos; establecer contacto con usted para aclarar la información o coordinar el acceso al sitio, y practicar las notificaciones en el domicilio que señale o, si presenta la denuncia de forma anónima, en el correo electrónico que proporcione; remitir la denuncia a la autoridad competente cuando los hechos no sean competencia de la Secretaría; permitirle consultar el estado de su denuncia mediante el número de registro y la clave de consulta; prevenir el envío automatizado o abusivo de denuncias, y generar estadísticas, en las cuales la información no estará asociada con la persona titular. Sus datos de identificación y contacto no se darán a conocer a la persona, empresa o autoridad denunciada.",
   "Los datos personales podrán ser transferidos a los Órganos Jurisdiccionales Locales y Federales, para la sustanciación de los procesos jurisdiccionales tramitados ante ellos; a la Comisión de Derechos Humanos de la Ciudad de México, para la investigación de quejas y denuncias por presuntas violaciones a los derechos humanos; a la Secretaría de la Contraloría General de la Ciudad de México, para el ejercicio de sus atribuciones en materia de vigilancia y control de la Administración Pública; al Instituto de Transparencia, Acceso a la Información Pública, Protección de Datos Personales y Rendición de Cuentas de la Ciudad de México, para la sustanciación de recursos de revisión, denuncias y procedimientos para determinar el probable incumplimiento de la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México; a la Auditoría Superior de la Ciudad de México, para el ejercicio de sus funciones de fiscalización, y a la Procuraduría Federal de Protección al Ambiente y a las demás autoridades que resulten competentes, para la atención de los hechos denunciados que no sean competencia de la Secretaría [fundamento de esta transferencia por confirmar]; para las cuales no requerimos su consentimiento, en apego a lo que establece el artículo 15 de la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México.",
-  "Para las finalidades antes señaladas, se solicitarán los siguientes datos personales: nombre completo, teléfono, correo electrónico y domicilio para recibir notificaciones (calle, número exterior e interior, manzana y lote, entre qué calles, colonia, código postal y alcaldía o, si reside fuera de la Ciudad de México, entidad federativa y municipio). Si opta por presentar la denuncia de forma anónima, únicamente se solicitará un correo electrónico de contacto y, de manera opcional, un teléfono. Se recabarán además la ubicación del lugar de los hechos (dirección y coordenadas geográficas), que constituye un dato personal cuando corresponde a un domicilio particular; las fotografías, videos y documentos que aporte como prueba, incluidos la fecha y el lugar de captura que contengan sus metadatos, y la dirección de red (IP) desde la que se presenta la denuncia. De manera opcional y únicamente con fines estadísticos, se le preguntará su género y su rango de edad; estos datos no condicionan la presentación de la denuncia ni se incorporan al expediente. El género es un dato personal sensible, por lo que sólo se tratará con su consentimiento expreso. La denuncia puede contener también datos personales de terceros, como las señas de quien realiza los hechos o el nombre de la persona servidora pública señalada, que se tratarán exclusivamente para la atención de la denuncia y no se harán públicos.",
+  "Para las finalidades antes señaladas, se solicitarán los siguientes datos personales: nombre completo, teléfono, correo electrónico y domicilio para recibir notificaciones (calle, número exterior e interior, manzana y lote, entre qué calles, colonia, código postal y alcaldía o, si reside fuera de la Ciudad de México, entidad federativa y municipio). Si opta por presentar la denuncia de forma anónima, únicamente se solicitará un correo electrónico para contacto y notificaciones y, de manera opcional, un teléfono. Se recabarán además la ubicación del lugar de los hechos (dirección y coordenadas geográficas), que constituye un dato personal cuando corresponde a un domicilio particular; las fotografías, videos y documentos que aporte como prueba, incluidos la fecha y el lugar de captura que contengan sus metadatos, y la dirección de red (IP) desde la que se presenta la denuncia. De manera opcional y únicamente con fines estadísticos, se le preguntará su género y su rango de edad; estos datos no condicionan la presentación de la denuncia ni se incorporan al expediente. El género es un dato personal sensible, por lo que sólo se tratará con su consentimiento expreso. La denuncia puede contener también datos personales de terceros, como las señas de quien realiza los hechos o el nombre de la persona servidora pública señalada, que se tratarán exclusivamente para la atención de la denuncia y no se harán públicos.",
   "Usted podrá manifestar la negativa al tratamiento de sus datos personales y ejercer sus derechos de Acceso, Rectificación, Cancelación, Oposición y Portabilidad (derechos ARCOP), así como la revocación del consentimiento, directamente ante la Unidad de Transparencia de la Secretaría del Medio Ambiente de la Ciudad de México, ubicada en Plaza de la Constitución número 1, Piso 3, Col. Centro, Alcaldía Cuauhtémoc, C.P. 06000, Ciudad de México, con número telefónico 55 5345 8187 y 88, ext. 129; en el correo electrónico smaoip@gmail.com; a través de la Plataforma Nacional de Transparencia (http://www.plataformadetransparencia.org.mx/), o bien mediante el número de TEL INFO 55 5636 4636.",
   "Puede consultar el aviso de privacidad integral en [dirección electrónica]."
  ]
@@ -3186,18 +3186,18 @@ function pDenunciante(){
       opcion('nombre','Escribo mis datos',
         'La Secretaría te notifica en tu domicilio.')+
       opcion('anonima','Denuncia anónima',
-        /* P-05 resuelta (DEC-226): la anónima se atiende, pero no se notifica. */
-        'No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda ponerse en contacto contigo. Se atiende, pero no se te notifica el resultado.')+
+        /* La anonima se notifica en el correo (DEC-233, modifica DEC-226);
+           «ponerse en contacto contigo» es de la DGIVA (OBS-0031). */
+        'No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda ponerse en contacto contigo y notificarte el resultado.')+
     '</div><div class="err" id="e_identificacion">Elige una de las dos formas para poder continuar.</div></div>';
 
-  /* La anonima no pide nombre, pero si un correo: es por donde la Secretaria
-     puede escribir para pedir lo que falte. No hay envio automatico de
-     correos, y la pantalla no lo promete (DEC-134). Es obligatorio
-     (DEC-120); el telefono sigue opcional. Los dos, si se escriben, se
-     revisan en su forma (DEC-119). */
+  /* La anonima no pide nombre, pero si un correo: ahi se le notifica el
+     resultado y la Secretaria puede escribirle para aclarar algo, sin efecto
+     procesal si no responde (DEC-233). Es obligatorio (DEC-120); el telefono
+     sigue opcional. Los dos, si se escriben, se revisan en su forma (DEC-119). */
   if(anon){
     h += '<div class="fila">'+
-        campo('correo','Correo electrónico de contacto','email',esObligatorio('correo'),'','autocomplete="email" inputmode="email"')+
+        campo('correo','Correo electrónico para notificaciones','email',esObligatorio('correo'),'','autocomplete="email" inputmode="email"')+
         campo('telefono','Teléfono','tel',false,'A diez dígitos','inputmode="tel" maxlength="14" autocomplete="tel"')+
       '</div>';
   }
@@ -3464,7 +3464,7 @@ function pRevision(){
   bloqueRev('pruebas','Pruebas', (nArch? nArch+(nArch===1?' archivo adjunto':' archivos adjuntos') : 'Sin archivos adjuntos')+(val('otras_pruebas')?' \u00b7 con otras pruebas se\u00f1aladas':''), fPruebas)+
   /* La linea de este bloque dice quien denuncia, o que es anonima y si dejo
      correo: es lo que mas pesa de el (DEC-113, DEC-130). */
-  bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima' + (val('correo') ? ' \u00b7 Con correo de contacto' : ' \u00b7 Sin datos de contacto')
+  bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima' + (val('correo') ? ' \u00b7 Con correo para notificaciones' : ' \u00b7 Sin correo para notificaciones')
       : ([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' ') || 'Sin nombre capturado'), fQuien)+
   (!val('lat') && !sinDireccion()
     ? '<div class="aviso aviso-envio">Al enviar, la denuncia recibe un número de registro. Como no marcaste el punto, la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
@@ -3490,8 +3490,7 @@ function pasosQueSiguen(){
     {t:'La Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural recibe tu denuncia y la remite a la PROFEPA, autoridad competente en las Áreas Naturales Protegidas federales.'},
     {t:'Una vez remitida, el seguimiento del asunto corre por cuenta de la PROFEPA.'}];
   var revisa = {t:'La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.'},
-      avisa = {t: esAnonima() ? 'Si la Secretaría necesita algo más, te escribirá al correo que dejaste.'
-                              : 'Se te notifica el resultado en el domicilio que registraste.'};
+      avisa = {t: 'Se te notifica el resultado ' + (esAnonima() ? 'en el correo que dejaste.' : 'en el domicilio que registraste.')};
   /* Ante una autoridad no hay inspeccion sino recomendaciones (art. 331). */
   if(val('tipo_denunciado')==='gobierno') return [revisa,
     {t:'Como señalaste a una autoridad, la Secretaría valora los hechos y, de resultar procedente, emite las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección.',

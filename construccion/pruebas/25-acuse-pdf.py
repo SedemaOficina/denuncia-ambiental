@@ -90,7 +90,8 @@ with sync_playwright() as pw:
         if esc == 'urbano':
             afirma('Estado de México' in txt and 'Nezahualcóyotl' in txt, 'urbano: el domicilio fuera de la Ciudad sale completo')
         if esc == 'conservacion':
-            afirma('Denuncia anónima' in txt and 'escribirá al correo' in txt, 'conservación: la anónima lo dice, y qué sigue')
+            afirma('Denuncia anónima' in txt and 'resultado en el correo que dejaste' in txt,
+                   'conservación: la anónima lo dice, y que el resultado se le notifica en el correo (DEC-233)')
 
     # ---- 2 bis. Sin punto no hay croquis, y se dice que la Secretaría ubicará el lugar ----
     sin = pg.evaluate("""() => { cargaEscenario('urbano'); guarda('lat',''); guarda('lon',''); guarda('verificacion','si'); irA(6); enviar();

@@ -11,7 +11,7 @@ Este archivo existe porque la memoria del entorno anterior (Claude en la app de 
   2. Criterio 6: P-02, tres datos del aviso de privacidad (Unidad de Transparencia).
   3. Criterio 7: la respuesta de la DGIVA a OBS-0024.
 - **Fase 2, contrato de datos y servicios:** se puede adelantar lo que no dependa de esos puntos (diccionario de datos, catálogos).
-- **Plan de corrección pendiente:** `documentacion/AUDITORIA-2026-10-20.md`, apartado 11. Los bloques 1 y 2 están hechos (el 2 salió como «Versión 31», DEC-232). Siguen los bloques 3 a 7; empieza por el 3 (documentos jurídicos y de datos). Lo anotado «de paso» en el bloque 2 está al final de la bitácora del documento 11.
+- **Plan de corrección pendiente:** `documentacion/AUDITORIA-2026-10-20.md`, apartado 11. Los bloques 1 y 2 están hechos (el 2 salió como «Versión 31», DEC-232). Del bloque 4 ya están decididos y aplicados D1-09 y D1-10 («Versión 32», DEC-233 y DEC-234); faltan D2-01, D2-02, D2-03 y D1-06. Siguen los bloques 3 a 7; empieza por el 3 (documentos jurídicos y de datos). Lo anotado «de paso» en el bloque 2 está al final de la bitácora del documento 11.
 - **Todo cambio visible en el formulario sale como «Versión 31» o posterior** y se informa a la DGIVA con la relación de cambios respecto de la versión firmada (DEC-230).
 
 ## Documentos que mandan
@@ -38,7 +38,7 @@ Los documentos 09 y 10 **se generan** del prototipo; no se editan a mano sus apa
    python construccion/publicar_pages.py    # docs/index.html para GitHub Pages
    python construccion/pruebas.py           # todas las baterías; deben quedar en verde
    ```
-   Si una batería falla, no se hace commit. Hoy: 1 278 comprobaciones en 37 baterías.
+   Si una batería falla, no se hace commit. Hoy: 1 281 comprobaciones en 37 baterías.
 4. **Registra cada decisión** como renglón nuevo `DEC-n` en la tabla del documento 05, con sus cinco celdas (Clave, Decisión, Fecha, Razón, Estado). Si la nueva decisión modifica otra, escribe «Modifica DEC-x» en la razón y cambia el estado de DEC-x a «Modificada por DEC-n». La batería 36 revisa que la numeración no tenga huecos y que toda decisión citada exista.
 5. **Anota en la bitácora** del documento 11 qué cambió y por qué.
 6. **Versión en pantalla.** El formulario muestra siempre su versión («Versión N · Validación DGIVA», en `VERSION_FORMULARIO`). Sube N cuando cambia algo visible.
@@ -55,7 +55,7 @@ Los documentos 09 y 10 **se generan** del prototipo; no se editan a mano sus apa
 - **Una sola fuente de verdad por concepto:** `OBLIG`, `FORMATO`, `MATERIAS`, `DERIVA`, `LIMITES`, `BIFURCACIONES`, `ESCENARIOS`. Un valor que ya vive en una de ellas no se repite.
 - **Comentarios que explican por qué**, en español; identificadores en español sin acentos.
 - **Lo que `construccion/mapa_svg.js` redefine** (`iniciaMapa`, `ponMarcador`, `vaA`, `ubicaPorDireccion`) se revisa también ahí cuando se toca en el prototipo.
-- **Datos y promesas al ciudadano:** no hay servicio de correo; el formulario no promete notificaciones ni acuses por correo, y el correo no es vía de presentación. La denuncia anónima se admite, se atiende y no se notifica.
+- **Datos y promesas al ciudadano:** hoy no hay servicio de correo (lo dará el SIA, SIA-29); el formulario no promete acuses por correo y el correo no es vía de presentación. Con datos, se notifica en el domicilio. La denuncia anónima se admite, se atiende y se le notifica el resultado en el correo que deja, que es obligatorio (DEC-233). El género se trata con el consentimiento general del aviso de privacidad, sin casilla propia (DEC-234).
 - **Claves:** `prototipo/configuracion-local.js` tiene la clave del mapa base y no se versiona. No la copies a ningún otro archivo.
 
 ## Entorno en esta computadora (Windows)

@@ -17,7 +17,7 @@ El formulario no es un camino único: hay **diez puntos donde cambia de forma** 
 | 3 | **Tipo de establecimiento** | 18 giros · Otro | «Otro» abre un campo de texto para especificarlo. |
 | 3 | **¿Quién es responsable de los hechos?** | Persona · Empresa · Autoridad · No lo sé | Cambia por completo el bloque de responsables. «Autoridad» pide el ámbito y cuál, en un renglón; la ruta del artículo 331 sólo se menciona en el acuse (DEC-212). |
 | 3 | **Desde cuándo ocurre** | Una sola vez · Se repite · Permanente | Cambia el texto de la fecha que se pide. Una fecha posterior a hoy muestra un aviso para verificarla; el formulario no menciona plazos (DEC-138). |
-| 5 | **¿Con qué identidad se presenta?** | Escribir los datos · Denuncia anónima | Con datos, se piden nombre, teléfono, correo y domicilio para notificaciones. La anónima no pide nombre ni domicilio; exige un correo de contacto y ofrece el teléfono como opcional. |
+| 5 | **¿Con qué identidad se presenta?** | Escribir los datos · Denuncia anónima | Con datos, se piden nombre, teléfono, correo y domicilio para notificaciones. La anónima no pide nombre ni domicilio; exige un correo para notificaciones y ofrece el teléfono como opcional. |
 | 5 | **¿Vive fuera de la Ciudad de México?** | Casilla sin marcar · marcada | Sin marcar: alcaldía en lista, colonia del catálogo y código postal de la Ciudad. Marcada: entidad federativa en lista, municipio y colonia escritos, y cualquier código postal de cinco dígitos. |
 | Todos | **Obligatoriedad** | Desactivada · Activa | Activa, cada paso exige sus campos obligatorios antes de continuar y los demás se marcan como opcionales. |
 | Portada | **Borrador guardado** | Existe · No existe | Si existe, la portada ofrece retomarlo o descartarlo. |

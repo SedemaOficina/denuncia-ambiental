@@ -74,6 +74,7 @@ Las fases son las del documento 11. La etapa 3 de la Oficina de la Secretaría, 
 | **SIA-26** | **Controles contra el abuso que siguen abiertos**: detección de duplicados por materia, punto y ventana de días, que acumula en lugar de abrir otro expediente; umbral de ráfaga que marca sin rechazar; y puntaje de completitud que ordena la cola. La verificación del correo no aplica mientras no haya servicio de envío | Decididos con la DGIVA y operando en el servidor | P-21, controles 3 a 6 |
 | **SIA-27** | **Consulta ciudadana por folio y clave**: rechaza de inmediato un folio con carácter verificador inválido, compara la clave contra su huella y muestra sólo los estados visibles que defina P-14, sin datos personales en pantalla | Opera sobre estados que el módulo interno registra efectivamente | AD-02; P-14; documento 19, §4 |
 | **SIA-28** | **Migración de la base histórica** al modelo nuevo, en lugar de recapturarla | Serie histórica comparable con la del formulario | AD-03, CP-5 (recomendación) |
+| **SIA-29** | **Notificación por correo en la denuncia anónima**: servicio de envío institucional, con remitente de la Secretaría, para notificar el resultado al correo que deja quien denuncia sin nombre; el envío y su resultado quedan en el expediente, y el mensaje no lleva datos de la persona denunciada ni de terceros | Una notificación de prueba llega y queda registrada en el expediente | DEC-233 |
 
 ---
 

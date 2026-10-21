@@ -100,10 +100,24 @@ with sync_playwright() as pw:
     rv = pg.evaluate("""() => { irA(6); alternaDetalleRevision();
       const q = document.querySelector('#rb_quien .rb-res'); const dt=[...document.querySelectorAll('.resumen dt')].find(x=>x.textContent.indexOf('Contacto')===0);
       return {res: q?q.textContent:'', contacto: dt?dt.nextElementSibling.textContent:''}; }""")
-    afirma('anónima' in rv['res'] and 'correo' in rv['res'], 'la revisión dice «anónima · con correo de contacto»: %r' % rv['res'])
+    afirma('anónima' in rv['res'] and 'correo' in rv['res'], 'la revisión dice «anónima · con correo para notificaciones»: %r' % rv['res'])
     afirma('ana@correo.mx' in rv['contacto'], 'y muestra el correo')
     ac = pg.evaluate("""() => { guarda('folio','SEDEMA-PRUEBA'); irA(7); return document.getElementById('app').innerText; }""")
-    afirma('escribirá al correo' in ac and 'Enviamos' not in ac, 'el acuse no promete envíos: dice que la Secretaría escribirá si necesita algo')
+    # Hasta la Versión 31 la anónima no se notificaba y el acuse decía que la
+    # Secretaría escribiría si necesitaba algo; desde DEC-233 se le notifica
+    # el resultado en el correo.
+    afirma('notifica el resultado en el correo que dejaste' in ac and 'Enviamos' not in ac,
+           'el acuse dice que el resultado se notifica en el correo, sin prometer otros envíos (DEC-233)')
+    an = pg.evaluate("""() => { estado = {}; irA(0);
+      const faq = [...document.querySelectorAll('#app .faq details')].map(d => d.textContent).join(' ');
+      guarda('identificacion','anonima'); irA(5);
+      return {faq, p5: document.getElementById('app').textContent, aviso: AVISO_PRIVACIDAD.parrafos.join(' ')}; }""")
+    afirma('notificarte el resultado' in an['faq'] and 'no se te notifica' not in an['faq'],
+           'la pregunta frecuente dice que a la anónima se le notifica el resultado (DEC-233)')
+    afirma('notificarte el resultado' in an['p5'] and 'Correo electrónico para notificaciones' in an['p5'] and 'no se te notifica' not in an['p5'],
+           'el paso 5 lo dice en la opción y en el nombre del campo')
+    afirma('si presenta la denuncia de forma anónima, en el correo electrónico que proporcione' in an['aviso'],
+           'y el aviso de privacidad declara esa finalidad')
 
     # ---- 4 ter. Sin notificación por correo; domicilio siempre (DEC-134) ----
     nd = pg.evaluate("""() => { estado = {}; cfg.validar = true; guarda('identificacion','nombre'); irA(5);
