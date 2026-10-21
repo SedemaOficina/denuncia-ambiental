@@ -43,6 +43,14 @@ datos = json.loads(DATOS.read_text(encoding='utf-8'))
 # ---- 2. Lo que viene del formulario ----
 afirma(re.search(r'(?ms)^:root\{.*?^\}', p).group(0) in m, 'las variables de :root son las del formulario, al carácter')
 afirma(re.search(r'<img class="logo-inst"[^>]*>', p).group(0) in m, 'el logotipo es el del formulario')
+# La copia de GitHub Pages es la misma maqueta; sólo su liga al modo captura
+# lleva al formulario publicado, que está junto a ella (DEC-250).
+PUBLICADA = RAIZ / 'docs' / 'administracion' / 'index.html'
+pub = PUBLICADA.read_text(encoding='utf-8') if PUBLICADA.exists() else ''
+liga = re.search(r"var FORMULARIO_CAPTURA = '([^']+)';", pub)
+afirma(liga and pub == m.replace("'../prototipo-denuncia-ambiental-sedema.html?modo=captura'", "'%s'" % liga.group(1))
+       and liga.group(1).endswith('?modo=captura') and (PUBLICADA.parent / liga.group(1).split('?')[0]).resolve() == (RAIZ / 'docs' / 'index.html').resolve(),
+       'la maqueta publicada en GitHub Pages es la misma, con la liga al modo captura hacia el formulario publicado')
 bloque = p[p.index('var MATERIAS = ['):]
 bloque = bloque[:bloque.index('\n];')]
 del_formulario = [{'id': i, 'nom': n} for i, n in re.findall(r"\{id:'([a-z_]+)',.*?\bnom:'([^']+)'", bloque)]

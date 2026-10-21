@@ -40,7 +40,7 @@ Los documentos 09 y 10 **se generan** del prototipo; no se editan a mano sus apa
    python construccion/publicar_pages.py    # docs/index.html para GitHub Pages
    python construccion/pruebas.py           # todas las baterías; deben quedar en verde
    ```
-   Si una batería falla, no se hace commit. Hoy: 1 848 comprobaciones en 52 baterías, de ellas 285 sobre la versión publicada.
+   Si una batería falla, no se hace commit. Hoy: 1 849 comprobaciones en 52 baterías, de ellas 285 sobre la versión publicada.
 4. **Registra cada decisión** como renglón nuevo `DEC-n` en la tabla del documento 05, con sus cinco celdas (Clave, Decisión, Fecha, Razón, Estado). Si la nueva decisión modifica otra, escribe «Modifica DEC-x» en la razón y cambia el estado de DEC-x a «Modificada por DEC-n». La batería 36 revisa que la numeración no tenga huecos y que toda decisión citada exista.
 5. **Anota en la bitácora** del documento 11 qué cambió y por qué.
 6. **Versión en pantalla.** El formulario muestra siempre su versión («Versión N · Validación DGIVA», en `VERSION_FORMULARIO`). Sube N cuando cambia algo visible.
@@ -72,4 +72,4 @@ Preparado en la primera sesión (DEC-231): Playwright con su Chromium, Pillow, n
 - **Proyecto «Denuncias Ambientales» en claude.ai:** copia de los documentos para consultarlos desde el chat. La fuente es este repositorio. Si Liber trabaja también desde el chat, recuérdale que los documentos del proyecto pueden quedar atrás.
 - **Seguimiento de la fase 1** (criterios, acciones, preguntas y observaciones): https://claude.ai/artifact/NvZi6katDj6ZisQPs641fx. Se actualiza desde el chat de claude.ai.
 - **Hoja de observaciones de la DGIVA:** Apps Script en `revision/`; la copia de control está en `revision/control-observaciones-2026-10-19.tsv`.
-- **Repositorio:** https://github.com/SedemaOficina/denuncia-ambiental. GitHub Pages publica `docs/`.
+- **Repositorio:** https://github.com/SedemaOficina/denuncia-ambiental. GitHub Pages publica `docs/`: el formulario en la raíz y la maqueta del módulo de administración en `/administracion/` (DEC-250).

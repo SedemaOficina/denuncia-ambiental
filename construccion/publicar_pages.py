@@ -14,9 +14,13 @@ prototipo con tres cambios, y se detiene si algo no cuadra:
 3. Anuncia arriba de todo que es una version de prueba y que no envia
    denuncias: quien llegue por el enlace no puede confundirla con el tramite.
 
+Ademas publica la maqueta del modulo de administracion en docs/administracion/
+(DEC-250), con su liga al modo captura apuntando al formulario publicado.
+
 Uso:  python construccion/publicar_pages.py
-Despues: commit de docs/ y push. La pagina queda en
-https://sedemaoficina.github.io/denuncia-ambiental/
+Despues: commit de docs/ y push. Las paginas quedan en
+https://sedemaoficina.github.io/denuncia-ambiental/ y
+https://sedemaoficina.github.io/denuncia-ambiental/administracion/
 """
 import os, re, sys, pathlib
 
@@ -61,3 +65,20 @@ DOCS.mkdir(exist_ok=True)
 (DOCS / 'index.html').write_text(s, encoding='utf-8', newline='\n')
 (DOCS / '.nojekyll').write_text('', encoding='utf-8')
 print('docs/index.html: %.1f KB (prototipo %+d bytes)' % (len(s.encode('utf-8'))/1024, len(s) - n0))
+
+# 4. La maqueta del modulo de administracion, en /administracion/ (DEC-250).
+# Ya trae su franja de maqueta con datos ficticios y pide no indexarse; lo
+# unico que cambia es su liga al modo captura, que en Pages lleva al
+# formulario publicado y no al prototipo, que no se publica.
+MAQUETA = RAIZ / 'prototipo' / 'administracion' / 'maqueta-administracion.html'
+m = MAQUETA.read_text(encoding='utf-8')
+LIGA = "var FORMULARIO_CAPTURA = '../prototipo-denuncia-ambiental-sedema.html?modo=captura';"
+if m.count(LIGA) != 1 or 'name="robots" content="noindex, nofollow"' not in m or 'franja-maqueta' not in m:
+    sys.exit('ERROR: la maqueta no trae su liga al modo captura, su franja o su «noindex»; no se publica.')
+m = m.replace(LIGA, "var FORMULARIO_CAPTURA = '../index.html?modo=captura';")
+for prohibido in ('api_key', 'apikey', 'CFG_LOCAL = {', 'configuracion-local.js'):
+    if prohibido in m:
+        sys.exit('ERROR: la maqueta publicada contiene «%s»; no se escribe nada.' % prohibido)
+(DOCS / 'administracion').mkdir(exist_ok=True)
+(DOCS / 'administracion' / 'index.html').write_text(m, encoding='utf-8', newline='\n')
+print('docs/administracion/index.html: %.1f KB' % (len(m.encode('utf-8'))/1024))

@@ -1401,3 +1401,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Lo que sigue.** La maqueta está completa: el paso 4 del documento 22, §9, es la sesión con la DGIVA y la DGCORENADR sobre estados, perfiles y vistas, con la maqueta a la vista.
 
 **Verificación de cierre.** Batería completa en verde: 1 848 comprobaciones en 52 baterías, 285 de ellas sobre la versión publicada. Revisión a la vista de búsqueda, administración e inicio de administración en escritorio y a 360 px; las tres descargas se abrieron y revisaron.
+
+### 21 de octubre de 2026 · la maqueta del módulo se publica en GitHub Pages (DEC-250)
+
+**Qué cambió.** `publicar_pages.py` copia la maqueta a `docs/administracion/index.html`; queda en https://sedemaoficina.github.io/denuncia-ambiental/administracion/, junto al formulario. La batería 44 exige que la copia sea la maqueta, salvo la liga al modo captura, que en Pages lleva al formulario publicado.
+
+**Por qué así.** Liber la quiere ver desde el teléfono y compartirla para la sesión con las áreas. La copia no se edita: se genera en la cadena, como la del formulario. Modifica DEC-242, que la dejaba sin publicar.
+
+**Verificación de cierre.** Batería completa en verde: 1 849 comprobaciones en 52 baterías, 285 de ellas sobre la versión publicada. La batería 44 detecta una copia publicada que se separe de la maqueta.
