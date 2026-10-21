@@ -1323,3 +1323,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Qué cambió.** El documento 22 se puso al día con las decisiones del 5 al 21 de octubre, a petición de Liber Saltijeral, como primer paso para trabajar el módulo. Lo principal: la anónima se notifica por correo (DEC-233), y el bosquejo decía que el correo no entraba; el área que recibe y la remisión a la PROFEPA son dos datos (DEC-235); el expediente muestra el fundamento del acuse (DEC-232) y la fecha en hora de la Ciudad; se proponen el estado «Notificada», la vista «Por notificar», el indicador de notificaciones por correo y la pregunta MA-12, sobre quién firma ese correo. Tiene al inicio una tabla de lo que cambió respecto de la versión 0.1, para revisarla con las áreas.
 
 **Una precisión sobre el orden.** El acta ya se firmó (DEC-230), con lo que se cumplió la condición de DEC-19 y DEC-32. La construcción del módulo sigue en la fase 5, y el documento 11, §6, prohíbe programar persistencia antes de cerrar el diccionario de datos; una maqueta navegable con datos ficticios, que no guarda nada, no choca con esa regla y puede hacerse ya, como el propio bosquejo preveía.
+
+### 21 de octubre de 2026 · maqueta del módulo de administración, bloque A: cascarón y datos de prueba (DEC-242)
+
+**Qué cambió.** Nace `prototipo/administracion/maqueta-administracion.html`: franja de maqueta, encabezado institucional, selector de perfil simulado, menú con las pantallas de cada perfil, dirección por pantalla para que «Atrás» funcione y, en cada pantalla, qué tendrá, en qué bloque se construye y cuántas denuncias de prueba vería ese perfil. `construccion/generar_admin.py` inyecta lo que viene del formulario y arma las cuarenta denuncias ficticias con su lógica; corrido tres veces, da el mismo archivo. Batería 44 nueva; la 35 revisa también la maqueta, con `ESTADOS` y `CANALES` como excepción anotada mientras sólo los lea el generador.
+
+**Por qué así.** La maqueta necesita las mismas materias, campos y reglas que el formulario; si los copiara, se separarían. Y unas denuncias de prueba que el formulario no aceptaría enseñarían un módulo que no existe.
+
+**De la cadena.** `generar_admin.py` va después de `construir.py`, porque usa el artefacto.
+
+**Verificación de cierre.** Batería completa en verde: 1 696 comprobaciones en 44 baterías. Generador corrido tres veces con el mismo resultado. Revisión a la vista en escritorio y en teléfono: al abrir, el foco ya no se marca sobre el título; sólo se mueve al cambiar de pantalla.

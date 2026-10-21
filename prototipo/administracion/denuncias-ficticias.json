@@ -1,0 +1,4267 @@
+[
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Cuauhtémoc",
+   "alcaldia_dir": "Cuauhtémoc",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "de Tal",
+   "calle": "Avenida Chapultepec",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.427800, -99.138000",
+   "correo": "fulana.00@ejemplo.local",
+   "cp": "06010",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_calle": "Calle de Prueba 0",
+   "dom_colonia": "Metropolitana Tercera Sección",
+   "dom_cp": "57750",
+   "dom_entidad": "Estado de México",
+   "dom_entre_calles": "Entre la calle 7 y la calle 9",
+   "dom_fuera_cdmx": "si",
+   "dom_municipio": "Nezahualcóyotl",
+   "dom_num_ext": "215",
+   "dom_num_int": "4",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "no",
+   "fecha_acuse": "2026-10-21T10:00:00-06:00",
+   "fecha_hecho": "2026-10-12",
+   "folio": "SEDEMA/DEN/2026/000101-9",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "Construyen un edificio de cinco pisos en un predio que era jardín y no hay letrero de autorización ambiental a la vista.",
+   "identificacion": "nombre",
+   "lat": "19.427800",
+   "lon": "-99.138000",
+   "materia": "impacto",
+   "nombre": "Fulana",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
+   "privacidad": "si",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
+   "sexo_genero": "mujer",
+   "telefono": "5500000000",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "nose",
+   "uga": "CUH-016",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "recibida",
+   "area_actual": "DGIVA",
+   "asignado": "",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-21T10:00:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    }
+   ],
+   "materia_confirmada": "impacto",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztapalapa",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Pérez",
+   "autoridad_denunciada": "Iztapalapa",
+   "autoridad_nivel": "alcaldia",
+   "calle": "Avenida Ermita Iztapalapa",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Constitución de 1917 I",
+   "colonia_alcaldia": "Iztapalapa",
+   "colonia_cve": "07-266",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.358600, -99.068800",
+   "correo": "mengano.01@ejemplo.local",
+   "cp": "09260",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 1",
+   "dom_colonia": "Agrícola Oriental",
+   "dom_cp": "08500",
+   "dom_entre_calles": "Entre la calle Sur 20 y la calle Sur 24",
+   "dom_num_ext": "14",
+   "dom_num_int": "A",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "60+",
+   "entre_calles": "5 de Mayo y 16 de Septiembre",
+   "es_estab": "si",
+   "fecha_acuse": "2026-10-20T01:48:00-06:00",
+   "fecha_hecho": "2026-10-11",
+   "folio": "SEDEMA/DEN/2026/000102-7",
+   "hechos": "De la chimenea del negocio sale humo gris todas las tardes y el olor llega a las casas de la cuadra.",
+   "identificacion": "nombre",
+   "lat": "19.358600",
+   "lon": "-99.068800",
+   "materia": "emisiones",
+   "nombre": "Mengano",
+   "nombre_estab": "Negocio Ficticio 1",
+   "num_ext": "1200",
+   "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
+   "privacidad": "si",
+   "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
+   "reporto_antes": "no",
+   "resp_area": "Dirección de Obras de prueba",
+   "sexo_genero": "hombre",
+   "telefono": "5500000001",
+   "temporalidad": "unico",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "gobierno",
+   "tipo_estab": "Taller mecánico, hojalatería o pintura",
+   "uga": "IZP-078",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "recibida",
+   "area_actual": "DGIVA",
+   "asignado": "",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-20T01:48:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    }
+   ],
+   "materia_confirmada": "emisiones",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "oficialia",
+  "datos": {
+   "alcaldia": "Iztacalco",
+   "alcaldia_dir": "Iztacalco",
+   "apellido_materno": "Ficticia",
+   "apellido_paterno": "López",
+   "calle": "Calle 5",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Pantitlán I",
+   "colonia_alcaldia": "Iztacalco",
+   "colonia_cve": "06-056",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.391200, -99.063600",
+   "correo": "zutana.02@ejemplo.local",
+   "cp": "08100",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 2",
+   "dom_colonia": "Pantitlán",
+   "dom_cp": "08100",
+   "dom_entre_calles": "Entre la calle 6 y la calle 8",
+   "dom_num_ext": "31",
+   "dom_num_int": "1",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle 4 y la calle 6",
+   "es_estab": "si",
+   "fecha_acuse": "2026-10-18T17:36:00-06:00",
+   "fecha_hecho": "2026-10-09",
+   "folio": "SEDEMA/DEN/2026/000103-5",
+   "hechos": "La maquinaria de la fábrica trabaja de noche y el ruido no deja dormir a los vecinos de la calle.",
+   "identificacion": "nombre",
+   "lat": "19.391200",
+   "lon": "-99.063600",
+   "materia": "ruido",
+   "nombre": "Zutana",
+   "nombre_estab": "Negocio Ficticio 2",
+   "num_ext": "27",
+   "otras_pruebas": "Fotografías de la espuma en la coladera.",
+   "privacidad": "si",
+   "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
+   "reporto_antes": "no",
+   "ruido_medicion": "si",
+   "sexo_genero": "hombre",
+   "telefono": "5500000002",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Industria o fábrica",
+   "uga": "IZC-010",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "captura": {
+   "fecha_recepcion_original": "2026-10-17T17:36:00-06:00",
+   "folio_origen": "OP-2026-0502",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "escrito-con-sello.pdf"
+  },
+  "tramite": {
+   "estado": "recibida",
+   "area_actual": "DGIVA",
+   "asignado": "",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-18T17:36:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    }
+   ],
+   "materia_confirmada": "ruido",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia_dir": "Cuauhtémoc",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "Ruiz",
+   "calle": "Avenida Chapultepec",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
+   "conoce_fecha": "si",
+   "correo": "perengano.03@ejemplo.local",
+   "cp": "06010",
+   "dom_calle": "Calle de Prueba 3",
+   "dom_colonia": "Metropolitana Tercera Sección",
+   "dom_cp": "57750",
+   "dom_entidad": "Estado de México",
+   "dom_entre_calles": "Entre la calle 7 y la calle 9",
+   "dom_fuera_cdmx": "si",
+   "dom_municipio": "Nezahualcóyotl",
+   "dom_num_ext": "215",
+   "dom_num_int": "4",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "no",
+   "fecha_acuse": "2026-10-17T09:24:00-06:00",
+   "fecha_hecho": "2026-10-08",
+   "folio": "SEDEMA/DEN/2026/000104-3",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "Queman llantas y basura en un terreno baldío los fines de semana; el humo es negro y muy espeso.",
+   "identificacion": "nombre",
+   "materia": "quema",
+   "nombre": "Perengano",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
+   "privacidad": "si",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
+   "sexo_genero": "mujer",
+   "telefono": "5500000003",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "nose",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "por_ubicar",
+   "area_actual": "",
+   "asignado": "",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-17T09:24:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "por_ubicar",
+     "fecha": "2026-10-19T09:42:00-06:00",
+     "persona": "Sistema",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "quema",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztapalapa",
+   "autoridad_denunciada": "Iztapalapa",
+   "autoridad_nivel": "alcaldia",
+   "calle": "Avenida Ermita Iztapalapa",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Constitución de 1917 I",
+   "colonia_alcaldia": "Iztapalapa",
+   "colonia_cve": "07-266",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.351400, -99.072400",
+   "correo": "anonima.04@ejemplo.local",
+   "cp": "09260",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "edad_rango": "60+",
+   "entre_calles": "5 de Mayo y 16 de Septiembre",
+   "es_estab": "no",
+   "fecha_acuse": "2026-10-16T01:12:00-06:00",
+   "fecha_hecho": "2026-10-07",
+   "folio": "SEDEMA/DEN/2026/000105-0",
+   "hechos": "Un camión de carga sale todos los días del patio echando humo negro por el escape.",
+   "identificacion": "anonima",
+   "lat": "19.351400",
+   "lon": "-99.072400",
+   "materia": "vehiculo",
+   "num_ext": "1200",
+   "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
+   "privacidad": "si",
+   "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
+   "reporto_antes": "no",
+   "resp_area": "Dirección de Obras de prueba",
+   "sexo_genero": "hombre",
+   "temporalidad": "unico",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "gobierno",
+   "uga": "IZP-059",
+   "uga_version": "sia-2026-09-22",
+   "veh_servicio": "carga",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "recomendacion",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-16T01:12:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-17T09:24:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-18T17:36:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "recomendacion",
+     "fecha": "2026-10-20T01:48:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "vehiculo",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "telefono",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztacalco",
+   "alcaldia_discrepa": "si",
+   "apellido_materno": "Ficticia",
+   "apellido_paterno": "Díaz",
+   "calle": "Calle 5",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Pantitlán I",
+   "colonia_alcaldia": "Iztacalco",
+   "colonia_cve": "06-056",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.394800, -99.056400",
+   "correo": "mengana.05@ejemplo.local",
+   "cp": "08100",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 5",
+   "dom_colonia": "Pantitlán",
+   "dom_cp": "08100",
+   "dom_entre_calles": "Entre la calle 6 y la calle 8",
+   "dom_num_ext": "31",
+   "dom_num_int": "1",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle 4 y la calle 6",
+   "es_estab": "si",
+   "fecha_acuse": "2026-10-14T17:00:00-06:00",
+   "fecha_hecho": "2026-10-05",
+   "folio": "SEDEMA/DEN/2026/000106-8",
+   "hechos": "En el verificentro aprueban autos sin revisarlos si se paga una cantidad extra en la caja.",
+   "identificacion": "nombre",
+   "lat": "19.394800",
+   "lon": "-99.056400",
+   "materia": "verificacion",
+   "nombre": "Mengana",
+   "nombre_estab": "Negocio Ficticio 5",
+   "num_ext": "27",
+   "otras_pruebas": "Fotografías de la espuma en la coladera.",
+   "privacidad": "si",
+   "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000005",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Bar, cantina o salón de fiestas",
+   "uga": "IZP-117",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [],
+  "captura": {
+   "fecha_recepcion_original": "2026-10-13T17:00:00-06:00",
+   "folio_origen": "OP-2026-0505",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "nota-de-llamada.pdf"
+  },
+  "tramite": {
+   "estado": "turnada",
+   "area_actual": "DGIVA",
+   "asignado": "",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-14T17:00:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-18T01:30:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "verificacion",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Cuauhtémoc",
+   "alcaldia_dir": "Cuauhtémoc",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "Herrera",
+   "calle": "Avenida Chapultepec",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.435000, -99.134400",
+   "correo": "zutano.06@ejemplo.local",
+   "cp": "06010",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_calle": "Calle de Prueba 6",
+   "dom_colonia": "Metropolitana Tercera Sección",
+   "dom_cp": "57750",
+   "dom_entidad": "Estado de México",
+   "dom_entre_calles": "Entre la calle 7 y la calle 9",
+   "dom_fuera_cdmx": "si",
+   "dom_municipio": "Nezahualcóyotl",
+   "dom_num_ext": "215",
+   "dom_num_int": "4",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "si",
+   "fecha_acuse": "2026-10-13T08:48:00-06:00",
+   "fecha_hecho": "2026-10-04",
+   "folio": "SEDEMA/DEN/2026/000107-6",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "El comercio sigue entregando bolsas de plástico y popotes de un solo uso a todos los clientes.",
+   "identificacion": "nombre",
+   "lat": "19.435000",
+   "lon": "-99.134400",
+   "materia": "plasticos",
+   "nombre": "Zutano",
+   "nombre_estab": "Negocio Ficticio 6",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
+   "privacidad": "si",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "sexo_genero": "mujer",
+   "telefono": "5500000006",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Tienda, abarrotes u otro comercio",
+   "uga": "CUH-021",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "turnada",
+   "area_actual": "DGIVA",
+   "asignado": "",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-13T08:48:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-17T09:24:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "plasticos",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Benito Juárez",
+   "alcaldia_dir": "Iztapalapa",
+   "alcaldia_discrepa": "si",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Soto",
+   "autoridad_denunciada": "Iztapalapa",
+   "autoridad_nivel": "alcaldia",
+   "calle": "Avenida Ermita Iztapalapa",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Constitución de 1917 I",
+   "colonia_alcaldia": "Iztapalapa",
+   "colonia_cve": "07-266",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.372000, -99.158000",
+   "correo": "perengana.07@ejemplo.local",
+   "cp": "09260",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 7",
+   "dom_colonia": "Agrícola Oriental",
+   "dom_cp": "08500",
+   "dom_entre_calles": "Entre la calle Sur 20 y la calle Sur 24",
+   "dom_num_ext": "14",
+   "dom_num_int": "A",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "60+",
+   "entre_calles": "5 de Mayo y 16 de Septiembre",
+   "es_estab": "si",
+   "fecha_acuse": "2026-10-12T07:36:00-06:00",
+   "fecha_hecho": "2026-10-03",
+   "folio": "SEDEMA/DEN/2026/000108-4",
+   "hechos": "El restaurante saca su basura sin separar a la banqueta desde la noche anterior a la recolección.",
+   "identificacion": "nombre",
+   "lat": "19.372000",
+   "lon": "-99.158000",
+   "materia": "rsu",
+   "nombre": "Perengana",
+   "nombre_estab": "Negocio Ficticio 7",
+   "num_ext": "1200",
+   "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
+   "privacidad": "si",
+   "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
+   "reporto_antes": "no",
+   "resp_area": "Dirección de Obras de prueba",
+   "sexo_genero": "hombre",
+   "telefono": "5500000007",
+   "temporalidad": "unico",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "gobierno",
+   "tipo_estab": "Panadería o tortillería",
+   "uga": "BJU-007",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "turnada",
+   "area_actual": "DGIVA",
+   "asignado": "",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-12T07:36:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-16T20:48:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "rsu",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztacalco",
+   "alcaldia_discrepa": "si",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "de Tal",
+   "calle": "Calle 5",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Pantitlán I",
+   "colonia_alcaldia": "Iztacalco",
+   "colonia_cve": "06-056",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.387600, -99.060000",
+   "correo": "fulana.08@ejemplo.local",
+   "cp": "08100",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 8",
+   "dom_colonia": "Pantitlán",
+   "dom_cp": "08100",
+   "dom_entre_calles": "Entre la calle 6 y la calle 8",
+   "dom_num_ext": "31",
+   "dom_num_int": "1",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle 4 y la calle 6",
+   "es_estab": "si",
+   "fecha_acuse": "2026-10-10T23:24:00-06:00",
+   "fecha_hecho": "2026-10-01",
+   "folio": "SEDEMA/DEN/2026/000109-2",
+   "hechos": "Del local sale agua jabonosa con olor a químico directo a la coladera de la calle cada mañana.",
+   "identificacion": "nombre",
+   "lat": "19.387600",
+   "lon": "-99.060000",
+   "materia": "descargas",
+   "nombre": "Fulana",
+   "nombre_estab": "Negocio Ficticio 8",
+   "num_ext": "27",
+   "otras_pruebas": "Fotografías de la espuma en la coladera.",
+   "privacidad": "si",
+   "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000008",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Carnicería, pollería o pescadería",
+   "uga": "IZC-010",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "returnada",
+   "area_actual": "DGCORENADR",
+   "asignado": "Persona de atención A (DGCORENADR)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-10T23:24:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-13T14:03:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-16T04:42:00-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "returnada",
+     "fecha": "2026-10-18T19:21:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "descargas",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "oficialia",
+  "datos": {
+   "alcaldia": "Cuauhtémoc",
+   "alcaldia_dir": "Cuauhtémoc",
+   "calle": "Avenida Chapultepec",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.427800, -99.138000",
+   "correo": "anonima.09@ejemplo.local",
+   "cp": "06010",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "si",
+   "fecha_acuse": "2026-10-09T15:12:00-06:00",
+   "fecha_hecho": "2026-10-01",
+   "folio": "SEDEMA/DEN/2026/000110-0",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "La obra deja escombro y costales de cemento roto en la banqueta y nadie los recoge.",
+   "identificacion": "anonima",
+   "lat": "19.427800",
+   "lon": "-99.138000",
+   "materia": "construccion",
+   "nombre_estab": "Negocio Ficticio 9",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
+   "privacidad": "si",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "sexo_genero": "mujer",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Lavandería o tintorería",
+   "uga": "CUH-016",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "captura": {
+   "fecha_recepcion_original": "2026-10-08T15:12:00-06:00",
+   "folio_origen": "OP-2026-0509",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "escrito-con-sello.pdf"
+  },
+  "tramite": {
+   "estado": "en_analisis",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-09T15:12:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-13T13:28:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-17T11:44:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "construccion",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztapalapa",
+   "apellido_materno": "Ficticia",
+   "apellido_paterno": "López",
+   "autoridad_denunciada": "Iztapalapa",
+   "autoridad_nivel": "alcaldia",
+   "calle": "Avenida Ermita Iztapalapa",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Constitución de 1917 I",
+   "colonia_alcaldia": "Iztapalapa",
+   "colonia_cve": "07-266",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.358600, -99.068800",
+   "correo": "zutana.10@ejemplo.local",
+   "cp": "09260",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 10",
+   "dom_colonia": "Agrícola Oriental",
+   "dom_cp": "08500",
+   "dom_entre_calles": "Entre la calle Sur 20 y la calle Sur 24",
+   "dom_num_ext": "14",
+   "dom_num_int": "A",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "60+",
+   "entre_calles": "5 de Mayo y 16 de Septiembre",
+   "es_estab": "no",
+   "fecha_acuse": "2026-10-08T07:00:00-06:00",
+   "fecha_hecho": "2026-10-01",
+   "folio": "SEDEMA/DEN/2026/000111-8",
+   "hechos": "Camiones de volteo tiran cascajo en la orilla de la barranca por las noches.",
+   "identificacion": "nombre",
+   "lat": "19.358600",
+   "lon": "-99.068800",
+   "materia": "cascajo",
+   "nombre": "Zutana",
+   "num_ext": "1200",
+   "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
+   "privacidad": "si",
+   "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
+   "reporto_antes": "no",
+   "resp_area": "Dirección de Obras de prueba",
+   "sexo_genero": "hombre",
+   "telefono": "5500000010",
+   "temporalidad": "unico",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "gobierno",
+   "uga": "IZP-078",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "recomendacion",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-08T07:00:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-11T13:45:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-14T20:30:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "recomendacion",
+     "fecha": "2026-10-18T03:15:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "arbolado",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztacalco",
+   "alcaldia_dir": "Iztacalco",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "Ruiz",
+   "calle": "Calle 5",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Pantitlán I",
+   "colonia_alcaldia": "Iztacalco",
+   "colonia_cve": "06-056",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.391200, -99.063600",
+   "correo": "perengano.11@ejemplo.local",
+   "cp": "08100",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 11",
+   "dom_colonia": "Pantitlán",
+   "dom_cp": "08100",
+   "dom_entre_calles": "Entre la calle 6 y la calle 8",
+   "dom_num_ext": "31",
+   "dom_num_int": "1",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle 4 y la calle 6",
+   "es_estab": "no",
+   "fecha_acuse": "2026-10-06T22:48:00-06:00",
+   "fecha_hecho": "2026-10-01",
+   "folio": "SEDEMA/DEN/2026/000112-6",
+   "hechos": "Cortaron tres árboles grandes del camellón sin poner aviso ni explicar el motivo.",
+   "identificacion": "nombre",
+   "lat": "19.391200",
+   "lon": "-99.063600",
+   "materia": "arbolado",
+   "nombre": "Perengano",
+   "num_ext": "27",
+   "otras_pruebas": "Fotografías de la espuma en la coladera.",
+   "privacidad": "si",
+   "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000011",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "particular",
+   "uga": "IZC-010",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [],
+  "tramite": {
+   "estado": "en_analisis",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-06T22:48:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-11T18:32:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-16T14:16:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "arbolado",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "correo",
+  "datos": {
+   "alcaldia": "Cuauhtémoc",
+   "alcaldia_dir": "Cuauhtémoc",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Gómez",
+   "calle": "Avenida Chapultepec",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.431400, -99.130800",
+   "correo": "fulano.12@ejemplo.local",
+   "cp": "06010",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_calle": "Calle de Prueba 12",
+   "dom_colonia": "Metropolitana Tercera Sección",
+   "dom_cp": "57750",
+   "dom_entidad": "Estado de México",
+   "dom_entre_calles": "Entre la calle 7 y la calle 9",
+   "dom_fuera_cdmx": "si",
+   "dom_municipio": "Nezahualcóyotl",
+   "dom_num_ext": "215",
+   "dom_num_int": "4",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "no",
+   "fecha_acuse": "2026-10-05T14:36:00-06:00",
+   "fecha_hecho": "2026-10-01",
+   "folio": "SEDEMA/DEN/2026/000113-4",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "Están pavimentando el jardín del parque para hacer un estacionamiento de autos.",
+   "identificacion": "nombre",
+   "lat": "19.431400",
+   "lon": "-99.130800",
+   "materia": "areas_verdes",
+   "nombre": "Fulano",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
+   "privacidad": "si",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
+   "sexo_genero": "mujer",
+   "telefono": "5500000012",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "nose",
+   "uga": "CUH-017",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "captura": {
+   "fecha_recepcion_original": "2026-10-04T14:36:00-06:00",
+   "folio_origen": "OP-2026-0512",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "correo-recibido.pdf"
+  },
+  "tramite": {
+   "estado": "admitida",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-05T14:36:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-09T13:27:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-13T12:18:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-17T11:09:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "areas_verdes",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Tlalpan",
+   "alcaldia_dir": "Tlalpan",
+   "apellido_materno": "Prueba Ficticia",
+   "apellido_paterno": "de Tal y Ejemplo",
+   "calle": "Avenida San Fernando",
+   "capa_categoria": "Bosque urbano",
+   "capa_clase": "Área de Valor Ambiental",
+   "capa_nombre": "Loreto y Peña Pobre",
+   "capa_tipo": "Área de Valor Ambiental · Bosque urbano",
+   "colonia": "Romulo Sánchez-San Fernando (Barrio)-Peña Pobre",
+   "colonia_alcaldia": "Tlalpan",
+   "colonia_cve": "12-146",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.296390, -99.183480",
+   "correo": "fulana.13@ejemplo.local",
+   "cp": "14060",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Tlalpan",
+   "dom_calle": "Calle de Prueba 13",
+   "dom_colonia": "Miguel Hidalgo",
+   "dom_cp": "14250",
+   "dom_entre_calles": "Entre la calle Morelos y la calle Allende",
+   "dom_num_ext": "38",
+   "dom_num_int": "2",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "60+",
+   "entre_calles": "Ayuntamiento y Moneda",
+   "es_estab": "no",
+   "fecha_acuse": "2026-10-04T06:24:00-06:00",
+   "fecha_hecho": "2026-10-01",
+   "folio": "SEDEMA/DEN/2026/000114-2",
+   "gestiones": "Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde.",
+   "hechos": "Derriban encinos con motosierra dentro del bosque y sacan la madera en camionetas.",
+   "identificacion": "nombre",
+   "lat": "19.296390",
+   "lon": "-99.183480",
+   "materia": "tala",
+   "nombre": "Fulana de las Mercedes Guadalupe",
+   "num_ext": "S/N",
+   "otras_pruebas": "Fotografías de la malla y del letrero con el cobro.",
+   "privacidad": "si",
+   "referencias": "En la parte alta del parque, junto a la barda norte, pasando la zona de juegos.",
+   "reporto_antes": "si",
+   "sexo_genero": "mujer",
+   "telefono": "5500000013",
+   "temporalidad": "permanente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "particular",
+   "uga": "TLP-316",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "admitida",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-04T06:24:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-08T13:18:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-12T20:12:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-17T03:06:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "tala",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Coyoacán",
+   "alcaldia_dir": "Coyoacán",
+   "calle": "Calle Francisco Sosa",
+   "capa_categoria": "Federal · Parque Nacional",
+   "capa_clase": "Área Natural Protegida",
+   "capa_nombre": "El Histórico Coyoacán",
+   "capa_tipo": "Área Natural Protegida de competencia federal",
+   "colonia": "Del Carmen",
+   "colonia_alcaldia": "Coyoacán",
+   "colonia_cve": "03-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.354350, -99.171610",
+   "correo": "anonima.14@ejemplo.local",
+   "cp": "04100",
+   "dg": "DGCORENADR",
+   "dg_nombre": "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA",
+   "dg_razon": "El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría no participa siquiera en la administración, por lo que la denuncia corresponde a la autoridad federal. La Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural la recibe y la remite a la PROFEPA.",
+   "edad_rango": "18-29",
+   "entre_calles": "Fresno y Encino",
+   "es_estab": "no",
+   "fecha_acuse": "2026-10-03T05:12:00-06:00",
+   "fecha_hecho": "2026-10-01",
+   "folio": "SEDEMA/DEN/2026/000115-9",
+   "gestiones": "Lo reporté a la alcaldía Coyoacán el 14 de septiembre y no hubo respuesta.",
+   "hechos": "Rellenaron con tierra el canal que corría junto a las parcelas y el agua ya no pasa.",
+   "identificacion": "anonima",
+   "lat": "19.354350",
+   "lon": "-99.171610",
+   "materia": "agua_zona",
+   "num_ext": "150",
+   "otras_pruebas": "Fotografías de los árboles derribados tomadas desde la calle.",
+   "privacidad": "si",
+   "referencias": "Casona con portón de madera; la obra se ve desde la calle por encima de la barda.",
+   "remite_a": "PROFEPA",
+   "reporto_antes": "si",
+   "sexo_genero": "mujer",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "particular",
+   "uga": "COY-054",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "remitida",
+   "area_actual": "DGCORENADR",
+   "asignado": "Persona de atención A (DGCORENADR)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-03T05:12:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-07T18:24:00-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-12T07:36:00-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "remitida",
+     "fecha": "2026-10-16T20:48:00-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "agua_zona",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Tlalpan",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Soto",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.296200, -99.194200",
+   "correo": "perengana.15@ejemplo.local",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Tlalpan",
+   "dom_calle": "Calle de Prueba 15",
+   "dom_colonia": "La Joya",
+   "dom_cp": "14090",
+   "dom_entre_calles": "Entre la calle Pino y la calle Encino",
+   "dom_num_ext": "4820",
+   "dom_num_int": "B-302",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "30-44",
+   "es_estab": "no",
+   "fecha_acuse": "2026-10-01T21:00:00-06:00",
+   "fecha_hecho": "2026-10-01",
+   "folio": "SEDEMA/DEN/2026/000116-7",
+   "gestiones": "Lo comenté a los guardabosques de la caseta de la puerta 3 el 12 de septiembre. Dijeron que darían aviso, pero siguió ocurriendo.",
+   "hechos": "Levantan casas de block en una zona que antes era bosque; cada semana aparece una nueva.",
+   "identificacion": "nombre",
+   "lat": "19.296200",
+   "lon": "-99.194200",
+   "materia": "asentamiento",
+   "nombre": "Perengana",
+   "nombre_lugar": "Bosque de Tlalpan",
+   "otras_pruebas": "Tengo un video de dos minutos en el que se oye la motosierra; puedo entregarlo si me lo piden.",
+   "privacidad": "si",
+   "referencias": "Se entra por la puerta 3, sobre Camino a Santa Teresa. A unos 200 metros del estacionamiento, subiendo por la vereda de la derecha, junto a los tanques de agua.",
+   "reporto_antes": "si",
+   "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
+   "sexo_genero": "mujer",
+   "telefono": "5500000015",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "no",
+   "tipo_denunciado": "nose",
+   "uga": "TLP-314",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "sin_materia",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-10-01T21:00:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-06T18:15:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-11T15:30:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "sin_materia",
+     "fecha": "2026-10-16T12:45:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "asentamiento",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "oficialia",
+  "datos": {
+   "alcaldia": "Milpa Alta",
+   "alcaldia_dir": "Milpa Alta",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "de Tal",
+   "calle": "Camino a San Antonio Tecómitl",
+   "capa_clase": "Suelo de conservación",
+   "capa_tipo": "Suelo de conservación",
+   "colonia": "San Antonio Tecómitl (Pueblo)",
+   "colonia_alcaldia": "Milpa Alta",
+   "colonia_cve": "09-002",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.210000, -98.990200",
+   "correo": "fulana.16@ejemplo.local",
+   "cp": "12100",
+   "dg": "DGCORENADR",
+   "dg_nombre": "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas",
+   "dom_alcaldia": "Tlalpan",
+   "dom_calle": "Calle de Prueba 16",
+   "dom_colonia": "La Joya",
+   "dom_cp": "14090",
+   "dom_num_ext": "10",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "30-44",
+   "entre_calles": "Juárez y Morelos",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-30T12:48:00-06:00",
+   "fecha_hecho": "2026-09-21",
+   "folio": "SEDEMA/DEN/2026/000117-5",
+   "hechos": "Una máquina retroexcavadora está quitando la tierra del cerro y la cargan en camiones.",
+   "identificacion": "nombre",
+   "lat": "19.210000",
+   "lon": "-98.990200",
+   "materia": "terraceos",
+   "nombre": "Fulana",
+   "num_ext": "S/N",
+   "otras_pruebas": "Puedo señalar en el mapa la brecha por donde sacan la madera.",
+   "privacidad": "si",
+   "referencias": "A kilómetro y medio del panteón, por la brecha que sube al monte. Hay un claro grande a la derecha.",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000016",
+   "temporalidad": "permanente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "particular",
+   "uga": "MLP-312",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "captura": {
+   "fecha_recepcion_original": "2026-09-29T12:48:00-06:00",
+   "folio_origen": "OP-2026-0516",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "escrito-con-sello.pdf"
+  },
+  "tramite": {
+   "estado": "visita_programada",
+   "area_actual": "DGCORENADR",
+   "asignado": "Persona de atención A (DGCORENADR)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-30T12:48:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-04T17:02:24-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-08T21:16:48-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-13T01:31:12-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-17T05:45:36-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "terraceos",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Cuajimalpa de Morelos",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Pérez",
+   "capa_categoria": "Federal · Parque Nacional",
+   "capa_clase": "Área Natural Protegida",
+   "capa_nombre": "Desierto de los Leones",
+   "capa_tipo": "Área Natural Protegida federal · la Secretaría coadyuva en su administración",
+   "coadmin": "si",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.306780, -99.310970",
+   "correo": "mengano.17@ejemplo.local",
+   "dg": "DGCORENADR",
+   "dg_nombre": "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA",
+   "dg_razon": "El punto se ubica en un Área Natural Protegida de competencia federal. La Secretaría coadyuva en su administración y manejo conforme al Convenio Marco de Coordinación con la CONANP, suscrito el 10 de marzo de 2025 y vigente hasta el 30 de septiembre de 2030. Ese convenio deja a salvo las facultades federales de inspección y vigilancia, por lo que la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural recibe la denuncia y la remite a la PROFEPA, y la Secretaría queda enterada por su papel en la administración del parque.",
+   "dom_alcaldia": "Cuajimalpa de Morelos",
+   "dom_calle": "Calle de Prueba 17",
+   "dom_colonia": "Cuajimalpa",
+   "dom_cp": "05000",
+   "dom_entre_calles": "Entre la calle Juárez y la calle Guerrero",
+   "dom_num_ext": "112",
+   "dom_num_int": "3",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "30-44",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-29T04:36:00-06:00",
+   "fecha_hecho": "2026-09-20",
+   "folio": "SEDEMA/DEN/2026/000118-3",
+   "hechos": "En las parcelas rocían un plaguicida de olor muy fuerte que mata a los peces del canal.",
+   "identificacion": "nombre",
+   "lat": "19.306780",
+   "lon": "-99.310970",
+   "materia": "agroquimicos",
+   "nombre": "Mengano",
+   "nombre_lugar": "Desierto de los Leones",
+   "otras_pruebas": "Puedo acompañar al personal al sitio.",
+   "privacidad": "si",
+   "referencias": "Sobre el camino que va del ex convento hacia Cruz Blanca, a la izquierda, unos 800 metros después del último puesto de comida.",
+   "remite_a": "PROFEPA",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000017",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "no",
+   "tipo_denunciado": "particular",
+   "uga": "CUJ-034",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [],
+  "tramite": {
+   "estado": "turnada",
+   "area_actual": "DGCORENADR",
+   "asignado": "",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-29T04:36:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-10T07:18:00-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "agroquimicos",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Tlalpan",
+   "alcaldia_dir": "Tlalpan",
+   "apellido_materno": "Ficticia",
+   "apellido_paterno": "López",
+   "calle": "Avenida San Fernando",
+   "capa_categoria": "Bosque urbano",
+   "capa_clase": "Área de Valor Ambiental",
+   "capa_nombre": "Loreto y Peña Pobre",
+   "capa_tipo": "Área de Valor Ambiental · Bosque urbano",
+   "colonia": "Romulo Sánchez-San Fernando (Barrio)-Peña Pobre",
+   "colonia_alcaldia": "Tlalpan",
+   "colonia_cve": "12-146",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.296390, -99.183480",
+   "correo": "zutana.18@ejemplo.local",
+   "cp": "14060",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Tlalpan",
+   "dom_calle": "Calle de Prueba 18",
+   "dom_colonia": "Miguel Hidalgo",
+   "dom_cp": "14250",
+   "dom_entre_calles": "Entre la calle Morelos y la calle Allende",
+   "dom_num_ext": "38",
+   "dom_num_int": "2",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "60+",
+   "entre_calles": "Ayuntamiento y Moneda",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-27T20:24:00-06:00",
+   "fecha_hecho": "2026-09-18",
+   "folio": "SEDEMA/DEN/2026/000119-1",
+   "gestiones": "Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde.",
+   "hechos": "Cercaron con malla una parte del área verde protegida y cobran por entrar.",
+   "identificacion": "nombre",
+   "lat": "19.296390",
+   "lon": "-99.183480",
+   "materia": "ava",
+   "nombre": "Zutana",
+   "num_ext": "S/N",
+   "otras_pruebas": "Fotografías de la malla y del letrero con el cobro.",
+   "privacidad": "si",
+   "referencias": "En la parte alta del parque, junto a la barda norte, pasando la zona de juegos.",
+   "reporto_antes": "si",
+   "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
+   "sexo_genero": "mujer",
+   "telefono": "5500000018",
+   "temporalidad": "permanente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "nose",
+   "uga": "TLP-316",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "visita_programada",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-27T20:24:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-02T13:31:12-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-07T06:38:24-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-11T23:45:36-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-16T16:52:48-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "ava",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "telefono",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztapalapa",
+   "autoridad_denunciada": "Iztapalapa",
+   "autoridad_nivel": "alcaldia",
+   "calle": "Avenida Ermita Iztapalapa",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Constitución de 1917 I",
+   "colonia_alcaldia": "Iztapalapa",
+   "colonia_cve": "07-266",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.358600, -99.068800",
+   "correo": "anonima.19@ejemplo.local",
+   "cp": "09260",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "edad_rango": "60+",
+   "entre_calles": "5 de Mayo y 16 de Septiembre",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-26T12:12:00-06:00",
+   "fecha_hecho": "2026-09-17",
+   "folio": "SEDEMA/DEN/2026/000120-9",
+   "hechos": "Construyen un edificio de cinco pisos en un predio que era jardín y no hay letrero de autorización ambiental a la vista.",
+   "identificacion": "anonima",
+   "lat": "19.358600",
+   "lon": "-99.068800",
+   "materia": "impacto",
+   "num_ext": "1200",
+   "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
+   "privacidad": "si",
+   "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
+   "reporto_antes": "no",
+   "resp_area": "Dirección de Obras de prueba",
+   "sexo_genero": "hombre",
+   "temporalidad": "unico",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "gobierno",
+   "uga": "IZP-078",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "captura": {
+   "fecha_recepcion_original": "2026-09-25T12:12:00-06:00",
+   "folio_origen": "OP-2026-0519",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "nota-de-llamada.pdf"
+  },
+  "tramite": {
+   "estado": "visita_programada",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-26T12:12:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-10-01T11:45:36-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-06T11:19:12-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-11T10:52:48-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-16T10:26:24-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "impacto",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztacalco",
+   "alcaldia_dir": "Iztacalco",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Gómez",
+   "calle": "Calle 5",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Pantitlán I",
+   "colonia_alcaldia": "Iztacalco",
+   "colonia_cve": "06-056",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.391200, -99.063600",
+   "correo": "fulano.20@ejemplo.local",
+   "cp": "08100",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 20",
+   "dom_colonia": "Pantitlán",
+   "dom_cp": "08100",
+   "dom_entre_calles": "Entre la calle 6 y la calle 8",
+   "dom_num_ext": "31",
+   "dom_num_int": "1",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle 4 y la calle 6",
+   "es_estab": "si",
+   "fecha_acuse": "2026-09-25T04:00:00-06:00",
+   "fecha_hecho": "2026-09-16",
+   "folio": "SEDEMA/DEN/2026/000121-7",
+   "hechos": "De la chimenea del negocio sale humo gris todas las tardes y el olor llega a las casas de la cuadra.",
+   "identificacion": "nombre",
+   "lat": "19.391200",
+   "lon": "-99.063600",
+   "materia": "emisiones",
+   "nombre": "Fulano",
+   "nombre_estab": "Negocio Ficticio 20",
+   "num_ext": "27",
+   "otras_pruebas": "Fotografías de la espuma en la coladera.",
+   "privacidad": "si",
+   "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000020",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Industria o fábrica",
+   "uga": "IZC-010",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "visita_practicada",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-25T04:00:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-29T13:00:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-03T22:00:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-08T07:00:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-12T16:00:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-17T01:00:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "emisiones",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Cuauhtémoc",
+   "alcaldia_dir": "Cuauhtémoc",
+   "apellido_materno": "Ficticia",
+   "apellido_paterno": "Díaz",
+   "calle": "Avenida Chapultepec",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.431400, -99.130800",
+   "correo": "mengana.21@ejemplo.local",
+   "cp": "06010",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_calle": "Calle de Prueba 21",
+   "dom_colonia": "Metropolitana Tercera Sección",
+   "dom_cp": "57750",
+   "dom_entidad": "Estado de México",
+   "dom_entre_calles": "Entre la calle 7 y la calle 9",
+   "dom_fuera_cdmx": "si",
+   "dom_municipio": "Nezahualcóyotl",
+   "dom_num_ext": "215",
+   "dom_num_int": "4",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "si",
+   "fecha_acuse": "2026-09-24T02:48:00-06:00",
+   "fecha_hecho": "2026-09-15",
+   "folio": "SEDEMA/DEN/2026/000122-5",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "La maquinaria de la fábrica trabaja de noche y el ruido no deja dormir a los vecinos de la calle.",
+   "identificacion": "nombre",
+   "lat": "19.431400",
+   "lon": "-99.130800",
+   "materia": "ruido",
+   "nombre": "Mengana",
+   "nombre_estab": "Negocio Ficticio 21",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
+   "privacidad": "si",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "ruido_medicion": "si",
+   "sexo_genero": "mujer",
+   "telefono": "5500000021",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Bodega o almacén",
+   "uga": "CUH-017",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "visita_practicada",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-24T02:48:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-28T16:00:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-03T05:12:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-07T18:24:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-12T07:36:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-16T20:48:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "quema",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztapalapa",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "Herrera",
+   "autoridad_denunciada": "Iztapalapa",
+   "autoridad_nivel": "alcaldia",
+   "calle": "Avenida Ermita Iztapalapa",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Constitución de 1917 I",
+   "colonia_alcaldia": "Iztapalapa",
+   "colonia_cve": "07-266",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.351400, -99.072400",
+   "correo": "zutano.22@ejemplo.local",
+   "cp": "09260",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 22",
+   "dom_colonia": "Agrícola Oriental",
+   "dom_cp": "08500",
+   "dom_entre_calles": "Entre la calle Sur 20 y la calle Sur 24",
+   "dom_num_ext": "14",
+   "dom_num_int": "A",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "60+",
+   "entre_calles": "5 de Mayo y 16 de Septiembre",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-22T18:36:00-06:00",
+   "fecha_hecho": "2026-09-13",
+   "folio": "SEDEMA/DEN/2026/000123-3",
+   "hechos": "Queman llantas y basura en un terreno baldío los fines de semana; el humo es negro y muy espeso.",
+   "identificacion": "nombre",
+   "lat": "19.351400",
+   "lon": "-99.072400",
+   "materia": "quema",
+   "nombre": "Zutano",
+   "num_ext": "1200",
+   "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
+   "privacidad": "si",
+   "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
+   "reporto_antes": "no",
+   "resp_area": "Dirección de Obras de prueba",
+   "sexo_genero": "hombre",
+   "telefono": "5500000022",
+   "temporalidad": "unico",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "gobierno",
+   "uga": "IZP-059",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "acumulada",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-22T18:36:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-29T22:27:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-07T02:18:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "acumulada",
+     "fecha": "2026-10-14T06:09:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "quema",
+   "notificacion": null,
+   "acumulada_en": "SEDEMA/DEN/2026/000104-3"
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "oficialia",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztacalco",
+   "alcaldia_discrepa": "si",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Soto",
+   "calle": "Calle 5",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Pantitlán I",
+   "colonia_alcaldia": "Iztacalco",
+   "colonia_cve": "06-056",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.394800, -99.056400",
+   "correo": "perengana.23@ejemplo.local",
+   "cp": "08100",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 23",
+   "dom_colonia": "Pantitlán",
+   "dom_cp": "08100",
+   "dom_entre_calles": "Entre la calle 6 y la calle 8",
+   "dom_num_ext": "31",
+   "dom_num_int": "1",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle 4 y la calle 6",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-21T10:24:00-06:00",
+   "fecha_hecho": "2026-09-12",
+   "folio": "SEDEMA/DEN/2026/000124-1",
+   "hechos": "Un camión de carga sale todos los días del patio echando humo negro por el escape.",
+   "identificacion": "nombre",
+   "lat": "19.394800",
+   "lon": "-99.056400",
+   "materia": "vehiculo",
+   "nombre": "Perengana",
+   "num_ext": "27",
+   "otras_pruebas": "Fotografías de la espuma en la coladera.",
+   "privacidad": "si",
+   "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000023",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "particular",
+   "uga": "IZP-117",
+   "uga_version": "sia-2026-09-22",
+   "veh_servicio": "carga",
+   "verificacion": "si"
+  },
+  "archivos": [],
+  "captura": {
+   "fecha_recepcion_original": "2026-09-20T10:24:00-06:00",
+   "folio_origen": "OP-2026-0523",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "escrito-con-sello.pdf"
+  },
+  "tramite": {
+   "estado": "visita_practicada",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-21T10:24:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-26T10:20:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-01T10:16:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-06T10:12:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-11T10:08:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-16T10:04:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "vehiculo",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Cuauhtémoc",
+   "alcaldia_dir": "Cuauhtémoc",
+   "calle": "Avenida Chapultepec",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.435000, -99.134400",
+   "correo": "anonima.24@ejemplo.local",
+   "cp": "06010",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "si",
+   "fecha_acuse": "2026-09-20T02:12:00-06:00",
+   "fecha_hecho": "2026-09-11",
+   "folio": "SEDEMA/DEN/2026/000125-8",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "En el verificentro aprueban autos sin revisarlos si se paga una cantidad extra en la caja.",
+   "identificacion": "anonima",
+   "lat": "19.435000",
+   "lon": "-99.134400",
+   "materia": "verificacion",
+   "nombre_estab": "Negocio Ficticio 24",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
+   "privacidad": "si",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "sexo_genero": "mujer",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Tienda, abarrotes u otro comercio",
+   "uga": "CUH-021",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "en_procedimiento",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-20T02:12:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-24T13:36:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-29T01:00:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-03T12:24:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-07T23:48:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-12T11:12:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-16T22:36:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "verificacion",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztapalapa",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Pérez",
+   "autoridad_denunciada": "Iztapalapa",
+   "autoridad_nivel": "alcaldia",
+   "calle": "Avenida Ermita Iztapalapa",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Constitución de 1917 I",
+   "colonia_alcaldia": "Iztapalapa",
+   "colonia_cve": "07-266",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.355000, -99.065200",
+   "correo": "mengano.25@ejemplo.local",
+   "cp": "09260",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 25",
+   "dom_colonia": "Agrícola Oriental",
+   "dom_cp": "08500",
+   "dom_entre_calles": "Entre la calle Sur 20 y la calle Sur 24",
+   "dom_num_ext": "14",
+   "dom_num_int": "A",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "60+",
+   "entre_calles": "5 de Mayo y 16 de Septiembre",
+   "es_estab": "si",
+   "fecha_acuse": "2026-09-18T18:00:00-06:00",
+   "fecha_hecho": "2026-09-09",
+   "folio": "SEDEMA/DEN/2026/000126-6",
+   "hechos": "El comercio sigue entregando bolsas de plástico y popotes de un solo uso a todos los clientes.",
+   "identificacion": "nombre",
+   "lat": "19.355000",
+   "lon": "-99.065200",
+   "materia": "plasticos",
+   "nombre": "Mengano",
+   "nombre_estab": "Negocio Ficticio 25",
+   "num_ext": "1200",
+   "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
+   "privacidad": "si",
+   "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
+   "reporto_antes": "no",
+   "resp_area": "Dirección de Obras de prueba",
+   "sexo_genero": "hombre",
+   "telefono": "5500000025",
+   "temporalidad": "unico",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "gobierno",
+   "tipo_estab": "Panadería o tortillería",
+   "uga": "IZP-078",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "en_procedimiento",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-18T18:00:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-23T10:00:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-28T02:00:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-02T18:00:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-07T10:00:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-12T02:00:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-16T18:00:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "plasticos",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "correo",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztacalco",
+   "alcaldia_discrepa": "si",
+   "apellido_materno": "Ficticia",
+   "apellido_paterno": "López",
+   "calle": "Calle 5",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Pantitlán I",
+   "colonia_alcaldia": "Iztacalco",
+   "colonia_cve": "06-056",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.387600, -99.060000",
+   "correo": "zutana.26@ejemplo.local",
+   "cp": "08100",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 26",
+   "dom_colonia": "Pantitlán",
+   "dom_cp": "08100",
+   "dom_entre_calles": "Entre la calle 6 y la calle 8",
+   "dom_num_ext": "31",
+   "dom_num_int": "1",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle 4 y la calle 6",
+   "es_estab": "si",
+   "fecha_acuse": "2026-09-17T09:48:00-06:00",
+   "fecha_hecho": "2026-09-08",
+   "folio": "SEDEMA/DEN/2026/000127-4",
+   "hechos": "El restaurante saca su basura sin separar a la banqueta desde la noche anterior a la recolección.",
+   "identificacion": "nombre",
+   "lat": "19.387600",
+   "lon": "-99.060000",
+   "materia": "rsu",
+   "nombre": "Zutana",
+   "nombre_estab": "Negocio Ficticio 26",
+   "num_ext": "27",
+   "otras_pruebas": "Fotografías de la espuma en la coladera.",
+   "privacidad": "si",
+   "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000026",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Otro",
+   "tipo_estab_otro": "Taller de pruebas",
+   "uga": "IZC-010",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "captura": {
+   "fecha_recepcion_original": "2026-09-16T09:48:00-06:00",
+   "folio_origen": "OP-2026-0526",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "correo-recibido.pdf"
+  },
+  "tramite": {
+   "estado": "en_procedimiento",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-17T09:48:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-22T06:24:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-27T03:00:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-01T23:36:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-06T20:12:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-11T16:48:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-16T13:24:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "rsu",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Cuauhtémoc",
+   "alcaldia_dir": "Cuauhtémoc",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "Ruiz",
+   "calle": "Avenida Chapultepec",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.427800, -99.138000",
+   "correo": "perengano.27@ejemplo.local",
+   "cp": "06010",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_calle": "Calle de Prueba 27",
+   "dom_colonia": "Metropolitana Tercera Sección",
+   "dom_cp": "57750",
+   "dom_entidad": "Estado de México",
+   "dom_entre_calles": "Entre la calle 7 y la calle 9",
+   "dom_fuera_cdmx": "si",
+   "dom_municipio": "Nezahualcóyotl",
+   "dom_num_ext": "215",
+   "dom_num_int": "4",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "si",
+   "fecha_acuse": "2026-09-16T01:36:00-06:00",
+   "fecha_hecho": "2026-09-07",
+   "folio": "SEDEMA/DEN/2026/000128-2",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "Del local sale agua jabonosa con olor a químico directo a la coladera de la calle cada mañana.",
+   "identificacion": "nombre",
+   "lat": "19.427800",
+   "lon": "-99.138000",
+   "materia": "descargas",
+   "nombre": "Perengano",
+   "nombre_estab": "Negocio Ficticio 27",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
+   "privacidad": "si",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "sexo_genero": "mujer",
+   "telefono": "5500000027",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Lavandería o tintorería",
+   "uga": "CUH-016",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "en_procedimiento",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-16T01:36:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-21T02:48:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-26T04:00:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-10-01T05:12:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-06T06:24:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-11T07:36:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-16T08:48:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "descargas",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztapalapa",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Gómez",
+   "autoridad_denunciada": "Iztapalapa",
+   "autoridad_nivel": "alcaldia",
+   "calle": "Avenida Ermita Iztapalapa",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Constitución de 1917 I",
+   "colonia_alcaldia": "Iztapalapa",
+   "colonia_cve": "07-266",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.358600, -99.068800",
+   "correo": "fulano.28@ejemplo.local",
+   "cp": "09260",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 28",
+   "dom_colonia": "Agrícola Oriental",
+   "dom_cp": "08500",
+   "dom_entre_calles": "Entre la calle Sur 20 y la calle Sur 24",
+   "dom_num_ext": "14",
+   "dom_num_int": "A",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "60+",
+   "entre_calles": "5 de Mayo y 16 de Septiembre",
+   "es_estab": "si",
+   "fecha_acuse": "2026-09-15T00:24:00-06:00",
+   "fecha_hecho": "2026-09-06",
+   "folio": "SEDEMA/DEN/2026/000129-0",
+   "hechos": "La obra deja escombro y costales de cemento roto en la banqueta y nadie los recoge.",
+   "identificacion": "nombre",
+   "lat": "19.358600",
+   "lon": "-99.068800",
+   "materia": "construccion",
+   "nombre": "Fulano",
+   "nombre_estab": "Negocio Ficticio 28",
+   "num_ext": "1200",
+   "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
+   "privacidad": "si",
+   "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
+   "reporto_antes": "no",
+   "resp_area": "Dirección de Obras de prueba",
+   "sexo_genero": "hombre",
+   "telefono": "5500000028",
+   "temporalidad": "unico",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "gobierno",
+   "tipo_estab": "Gasolinera o estación de servicio",
+   "uga": "IZP-078",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "recomendacion",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-15T00:24:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-24T02:48:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-10-03T05:12:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "recomendacion",
+     "fecha": "2026-10-12T07:36:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "construccion",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztacalco",
+   "alcaldia_dir": "Iztacalco",
+   "calle": "Calle 5",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Pantitlán I",
+   "colonia_alcaldia": "Iztacalco",
+   "colonia_cve": "06-056",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.391200, -99.063600",
+   "correo": "anonima.29@ejemplo.local",
+   "cp": "08100",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle 4 y la calle 6",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-13T16:12:00-06:00",
+   "fecha_hecho": "2026-09-04",
+   "folio": "SEDEMA/DEN/2026/000130-8",
+   "hechos": "Camiones de volteo tiran cascajo en la orilla de la barranca por las noches.",
+   "identificacion": "anonima",
+   "lat": "19.391200",
+   "lon": "-99.063600",
+   "materia": "cascajo",
+   "num_ext": "27",
+   "otras_pruebas": "Fotografías de la espuma en la coladera.",
+   "privacidad": "si",
+   "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "particular",
+   "uga": "IZC-010",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [],
+  "tramite": {
+   "estado": "resuelta",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-13T16:12:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-18T09:25:30-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-23T02:39:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-09-27T19:52:30-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-02T13:06:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-07T06:19:30-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-11T23:33:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "resuelta",
+     "fecha": "2026-10-16T16:46:30-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "cascajo",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "oficialia",
+  "datos": {
+   "alcaldia": "Cuauhtémoc",
+   "alcaldia_dir": "Cuauhtémoc",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "Herrera",
+   "calle": "Avenida Chapultepec",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.431400, -99.130800",
+   "correo": "zutano.30@ejemplo.local",
+   "cp": "06010",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_calle": "Calle de Prueba 30",
+   "dom_colonia": "Metropolitana Tercera Sección",
+   "dom_cp": "57750",
+   "dom_entidad": "Estado de México",
+   "dom_entre_calles": "Entre la calle 7 y la calle 9",
+   "dom_fuera_cdmx": "si",
+   "dom_municipio": "Nezahualcóyotl",
+   "dom_num_ext": "215",
+   "dom_num_int": "4",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-12T08:00:00-06:00",
+   "fecha_hecho": "2026-09-03",
+   "folio": "SEDEMA/DEN/2026/000131-6",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "Cortaron tres árboles grandes del camellón sin poner aviso ni explicar el motivo.",
+   "identificacion": "nombre",
+   "lat": "19.431400",
+   "lon": "-99.130800",
+   "materia": "arbolado",
+   "nombre": "Zutano",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
+   "privacidad": "si",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
+   "sexo_genero": "mujer",
+   "telefono": "5500000030",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "nose",
+   "uga": "CUH-017",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "captura": {
+   "fecha_recepcion_original": "2026-09-11T08:00:00-06:00",
+   "folio_origen": "OP-2026-0530",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "escrito-con-sello.pdf"
+  },
+  "tramite": {
+   "estado": "resuelta",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-12T08:00:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-17T05:15:00-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-22T02:30:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-09-26T23:45:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-01T21:00:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-06T18:15:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-11T15:30:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "resuelta",
+     "fecha": "2026-10-16T12:45:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "arbolado",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztapalapa",
+   "alcaldia_dir": "Iztapalapa",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Soto",
+   "autoridad_denunciada": "Iztapalapa",
+   "autoridad_nivel": "alcaldia",
+   "calle": "Avenida Ermita Iztapalapa",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Constitución de 1917 I",
+   "colonia_alcaldia": "Iztapalapa",
+   "colonia_cve": "07-266",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.351400, -99.072400",
+   "correo": "perengana.31@ejemplo.local",
+   "cp": "09260",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 31",
+   "dom_colonia": "Agrícola Oriental",
+   "dom_cp": "08500",
+   "dom_entre_calles": "Entre la calle Sur 20 y la calle Sur 24",
+   "dom_num_ext": "14",
+   "dom_num_int": "A",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "60+",
+   "entre_calles": "5 de Mayo y 16 de Septiembre",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-10T23:48:00-06:00",
+   "fecha_hecho": "2026-09-01",
+   "folio": "SEDEMA/DEN/2026/000132-4",
+   "hechos": "Están pavimentando el jardín del parque para hacer un estacionamiento de autos.",
+   "identificacion": "nombre",
+   "lat": "19.351400",
+   "lon": "-99.072400",
+   "materia": "areas_verdes",
+   "nombre": "Perengana",
+   "num_ext": "1200",
+   "otras_pruebas": "Fotografías de los tocones y de la lona de la obra.",
+   "privacidad": "si",
+   "referencias": "Quedan los tocones de los doce árboles en el camellón, frente a una tienda de autoservicio.",
+   "reporto_antes": "no",
+   "resp_area": "Dirección de Obras de prueba",
+   "sexo_genero": "hombre",
+   "telefono": "5500000031",
+   "temporalidad": "unico",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "gobierno",
+   "uga": "IZP-059",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "resuelta",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-10T23:48:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-16T01:04:30-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-21T02:21:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-09-26T03:37:30-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-10-01T04:54:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-06T06:10:30-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-11T07:27:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "resuelta",
+     "fecha": "2026-10-16T08:43:30-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "areas_verdes",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Cuajimalpa de Morelos",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "de Tal",
+   "capa_categoria": "Federal · Parque Nacional",
+   "capa_clase": "Área Natural Protegida",
+   "capa_nombre": "Desierto de los Leones",
+   "capa_tipo": "Área Natural Protegida federal · la Secretaría coadyuva en su administración",
+   "coadmin": "si",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.306780, -99.310970",
+   "correo": "fulana.32@ejemplo.local",
+   "dg": "DGCORENADR",
+   "dg_nombre": "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA",
+   "dg_razon": "El punto se ubica en un Área Natural Protegida de competencia federal. La Secretaría coadyuva en su administración y manejo conforme al Convenio Marco de Coordinación con la CONANP, suscrito el 10 de marzo de 2025 y vigente hasta el 30 de septiembre de 2030. Ese convenio deja a salvo las facultades federales de inspección y vigilancia, por lo que la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural recibe la denuncia y la remite a la PROFEPA, y la Secretaría queda enterada por su papel en la administración del parque.",
+   "dom_alcaldia": "Cuajimalpa de Morelos",
+   "dom_calle": "Calle de Prueba 32",
+   "dom_colonia": "Cuajimalpa",
+   "dom_cp": "05000",
+   "dom_entre_calles": "Entre la calle Juárez y la calle Guerrero",
+   "dom_num_ext": "112",
+   "dom_num_int": "3",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "30-44",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-09T15:36:00-06:00",
+   "fecha_hecho": "2026-09-01",
+   "folio": "SEDEMA/DEN/2026/000133-2",
+   "hechos": "Derriban encinos con motosierra dentro del bosque y sacan la madera en camionetas.",
+   "identificacion": "nombre",
+   "lat": "19.306780",
+   "lon": "-99.310970",
+   "materia": "tala",
+   "nombre": "Fulana",
+   "nombre_lugar": "Desierto de los Leones",
+   "otras_pruebas": "Puedo acompañar al personal al sitio.",
+   "privacidad": "si",
+   "referencias": "Sobre el camino que va del ex convento hacia Cruz Blanca, a la izquierda, unos 800 metros después del último puesto de comida.",
+   "remite_a": "PROFEPA",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000032",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "no",
+   "tipo_denunciado": "particular",
+   "uga": "CUJ-034",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "remitida",
+   "area_actual": "DGCORENADR",
+   "asignado": "Persona de atención A (DGCORENADR)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-09T15:36:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-20T02:12:00-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-30T12:48:00-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "remitida",
+     "fecha": "2026-10-10T23:24:00-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "tala",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "telefono",
+  "datos": {
+   "alcaldia": "Tlalpan",
+   "alcaldia_dir": "Tlalpan",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Pérez",
+   "calle": "Avenida San Fernando",
+   "capa_categoria": "Bosque urbano",
+   "capa_clase": "Área de Valor Ambiental",
+   "capa_nombre": "Loreto y Peña Pobre",
+   "capa_tipo": "Área de Valor Ambiental · Bosque urbano",
+   "colonia": "Romulo Sánchez-San Fernando (Barrio)-Peña Pobre",
+   "colonia_alcaldia": "Tlalpan",
+   "colonia_cve": "12-146",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.296390, -99.183480",
+   "correo": "mengano.33@ejemplo.local",
+   "cp": "14060",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Tlalpan",
+   "dom_calle": "Calle de Prueba 33",
+   "dom_colonia": "Miguel Hidalgo",
+   "dom_cp": "14250",
+   "dom_entre_calles": "Entre la calle Morelos y la calle Allende",
+   "dom_num_ext": "38",
+   "dom_num_int": "2",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "60+",
+   "entre_calles": "Ayuntamiento y Moneda",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-08T07:24:00-06:00",
+   "fecha_hecho": "2026-09-01",
+   "folio": "SEDEMA/DEN/2026/000134-0",
+   "gestiones": "Lo informé a la administración del parque el 25 de agosto; me dijeron que no les corresponde.",
+   "hechos": "Rellenaron con tierra el canal que corría junto a las parcelas y el agua ya no pasa.",
+   "identificacion": "nombre",
+   "lat": "19.296390",
+   "lon": "-99.183480",
+   "materia": "agua_zona",
+   "nombre": "Mengano",
+   "num_ext": "S/N",
+   "otras_pruebas": "Fotografías de la malla y del letrero con el cobro.",
+   "privacidad": "si",
+   "referencias": "En la parte alta del parque, junto a la barda norte, pasando la zona de juegos.",
+   "reporto_antes": "si",
+   "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
+   "sexo_genero": "mujer",
+   "telefono": "5500000033",
+   "temporalidad": "permanente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "nose",
+   "uga": "TLP-316",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "captura": {
+   "fecha_recepcion_original": "2026-09-07T07:24:00-06:00",
+   "folio_origen": "OP-2026-0533",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "nota-de-llamada.pdf"
+  },
+  "tramite": {
+   "estado": "notificada",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-08T07:24:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-13T02:21:20-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-17T21:18:40-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-09-22T16:16:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-09-27T11:13:20-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-02T06:10:40-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-07T01:08:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "resuelta",
+     "fecha": "2026-10-11T20:05:20-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "notificada",
+     "fecha": "2026-10-16T15:02:40-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "agua_zona",
+   "notificacion": {
+    "medio": "domicilio",
+    "fecha": "2026-10-16T15:02:40-06:00",
+    "resultado": "entregado"
+   },
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Coyoacán",
+   "alcaldia_dir": "Coyoacán",
+   "calle": "Calle Francisco Sosa",
+   "capa_categoria": "Federal · Parque Nacional",
+   "capa_clase": "Área Natural Protegida",
+   "capa_nombre": "El Histórico Coyoacán",
+   "capa_tipo": "Área Natural Protegida de competencia federal",
+   "colonia": "Del Carmen",
+   "colonia_alcaldia": "Coyoacán",
+   "colonia_cve": "03-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.354350, -99.171610",
+   "correo": "anonima.34@ejemplo.local",
+   "cp": "04100",
+   "dg": "DGCORENADR",
+   "dg_nombre": "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA",
+   "dg_razon": "El punto se ubica en un Área Natural Protegida de competencia federal en la que la Secretaría no participa siquiera en la administración, por lo que la denuncia corresponde a la autoridad federal. La Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural la recibe y la remite a la PROFEPA.",
+   "edad_rango": "18-29",
+   "entre_calles": "Fresno y Encino",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-06T23:12:00-06:00",
+   "fecha_hecho": "2026-09-01",
+   "folio": "SEDEMA/DEN/2026/000135-7",
+   "gestiones": "Lo reporté a la alcaldía Coyoacán el 14 de septiembre y no hubo respuesta.",
+   "hechos": "Levantan casas de block en una zona que antes era bosque; cada semana aparece una nueva.",
+   "identificacion": "anonima",
+   "lat": "19.354350",
+   "lon": "-99.171610",
+   "materia": "asentamiento",
+   "num_ext": "150",
+   "otras_pruebas": "Fotografías de los árboles derribados tomadas desde la calle.",
+   "privacidad": "si",
+   "referencias": "Casona con portón de madera; la obra se ve desde la calle por encima de la barda.",
+   "remite_a": "PROFEPA",
+   "reporto_antes": "si",
+   "sexo_genero": "mujer",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "particular",
+   "uga": "COY-054",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "remitida",
+   "area_actual": "DGCORENADR",
+   "asignado": "Persona de atención A (DGCORENADR)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-06T23:12:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-18T01:54:00-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-29T04:36:00-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "remitida",
+     "fecha": "2026-10-10T07:18:00-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "asentamiento",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Tlalpan",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "Ruiz",
+   "capa_categoria": "Local · Zona Ecológica y Cultural",
+   "capa_clase": "Área Natural Protegida",
+   "capa_nombre": "Bosque de Tlalpan",
+   "capa_tipo": "Área Natural Protegida local",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.291400, -99.193000",
+   "correo": "perengano.35@ejemplo.local",
+   "dg": "DGCORENADR",
+   "dg_nombre": "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas",
+   "dom_alcaldia": "Tlalpan",
+   "dom_calle": "Calle de Prueba 35",
+   "dom_colonia": "La Joya",
+   "dom_cp": "14090",
+   "dom_entre_calles": "Entre la calle Pino y la calle Encino",
+   "dom_num_ext": "4820",
+   "dom_num_int": "B-302",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "30-44",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-05T22:00:00-06:00",
+   "fecha_hecho": "2026-09-01",
+   "folio": "SEDEMA/DEN/2026/000136-5",
+   "gestiones": "Lo comenté a los guardabosques de la caseta de la puerta 3 el 12 de septiembre. Dijeron que darían aviso, pero siguió ocurriendo.",
+   "hechos": "Una máquina retroexcavadora está quitando la tierra del cerro y la cargan en camiones.",
+   "identificacion": "nombre",
+   "lat": "19.291400",
+   "lon": "-99.193000",
+   "materia": "terraceos",
+   "nombre": "Perengano",
+   "nombre_lugar": "Bosque de Tlalpan",
+   "otras_pruebas": "Tengo un video de dos minutos en el que se oye la motosierra; puedo entregarlo si me lo piden.",
+   "privacidad": "si",
+   "referencias": "Se entra por la puerta 3, sobre Camino a Santa Teresa. A unos 200 metros del estacionamiento, subiendo por la vereda de la derecha, junto a los tanques de agua.",
+   "reporto_antes": "si",
+   "sexo_genero": "mujer",
+   "telefono": "5500000035",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "no",
+   "tipo_denunciado": "particular",
+   "uga": "TLP-315",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [],
+  "tramite": {
+   "estado": "notificada",
+   "area_actual": "DGCORENADR",
+   "asignado": "Persona de atención B (DGCORENADR)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-05T22:00:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-10T23:20:00-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-16T00:40:00-06:00",
+     "persona": "Persona de atención B (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-09-21T02:00:00-06:00",
+     "persona": "Persona de atención B (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-09-26T03:20:00-06:00",
+     "persona": "Persona de atención B (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-10-01T04:40:00-06:00",
+     "persona": "Persona de atención B (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-06T06:00:00-06:00",
+     "persona": "Persona de atención B (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "resuelta",
+     "fecha": "2026-10-11T07:20:00-06:00",
+     "persona": "Persona de atención B (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "notificada",
+     "fecha": "2026-10-16T08:40:00-06:00",
+     "persona": "Persona de atención B (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "terraceos",
+   "notificacion": {
+    "medio": "domicilio",
+    "fecha": "2026-10-16T08:40:00-06:00",
+    "resultado": "entregado"
+   },
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Milpa Alta",
+   "alcaldia_dir": "Milpa Alta",
+   "apellido_materno": "Prueba",
+   "apellido_paterno": "Gómez",
+   "calle": "Camino a San Antonio Tecómitl",
+   "capa_clase": "Suelo de conservación",
+   "capa_tipo": "Suelo de conservación",
+   "colonia": "San Antonio Tecómitl (Pueblo)",
+   "colonia_alcaldia": "Milpa Alta",
+   "colonia_cve": "09-002",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.205200, -98.999800",
+   "correo": "fulano.36@ejemplo.local",
+   "cp": "12100",
+   "dg": "DGCORENADR",
+   "dg_nombre": "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural · Coordinación de Inspección Ambiental en Suelo de Conservación y Áreas Naturales Protegidas",
+   "dom_alcaldia": "Tlalpan",
+   "dom_calle": "Calle de Prueba 36",
+   "dom_colonia": "La Joya",
+   "dom_cp": "14090",
+   "dom_num_ext": "10",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "30-44",
+   "entre_calles": "Juárez y Morelos",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-04T13:48:00-06:00",
+   "fecha_hecho": "2026-09-01",
+   "folio": "SEDEMA/DEN/2026/000137-3",
+   "hechos": "En las parcelas rocían un plaguicida de olor muy fuerte que mata a los peces del canal.",
+   "identificacion": "nombre",
+   "lat": "19.205200",
+   "lon": "-98.999800",
+   "materia": "agroquimicos",
+   "nombre": "Fulano",
+   "num_ext": "S/N",
+   "otras_pruebas": "Puedo señalar en el mapa la brecha por donde sacan la madera.",
+   "privacidad": "si",
+   "referencias": "A kilómetro y medio del panteón, por la brecha que sube al monte. Hay un claro grande a la derecha.",
+   "reporto_antes": "no",
+   "resp_senas": "Dos personas en una camioneta blanca, entre semana por la mañana.",
+   "sexo_genero": "hombre",
+   "telefono": "5500000036",
+   "temporalidad": "permanente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "nose",
+   "uga": "MLP-299",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "concluida",
+   "area_actual": "DGCORENADR",
+   "asignado": "Persona de atención A (DGCORENADR)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-04T13:48:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-09T06:13:12-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-13T22:38:24-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-09-18T15:03:36-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-09-23T07:28:48-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-09-27T23:54:00-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-02T16:19:12-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "resuelta",
+     "fecha": "2026-10-07T08:44:24-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "notificada",
+     "fecha": "2026-10-12T01:09:36-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "concluida",
+     "fecha": "2026-10-16T17:34:48-06:00",
+     "persona": "Persona de atención A (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "agroquimicos",
+   "notificacion": {
+    "medio": "domicilio",
+    "fecha": "2026-10-16T17:34:48-06:00",
+    "resultado": "entregado"
+   },
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "comparecencia",
+  "datos": {
+   "alcaldia": "Cuajimalpa de Morelos",
+   "apellido_materno": "Ficticia",
+   "apellido_paterno": "Díaz",
+   "capa_categoria": "Federal · Parque Nacional",
+   "capa_clase": "Área Natural Protegida",
+   "capa_nombre": "Desierto de los Leones",
+   "capa_tipo": "Área Natural Protegida federal · la Secretaría coadyuva en su administración",
+   "coadmin": "si",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.306780, -99.310970",
+   "correo": "mengana.37@ejemplo.local",
+   "dg": "DGCORENADR",
+   "dg_nombre": "Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, que la remite a la PROFEPA",
+   "dg_razon": "El punto se ubica en un Área Natural Protegida de competencia federal. La Secretaría coadyuva en su administración y manejo conforme al Convenio Marco de Coordinación con la CONANP, suscrito el 10 de marzo de 2025 y vigente hasta el 30 de septiembre de 2030. Ese convenio deja a salvo las facultades federales de inspección y vigilancia, por lo que la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural recibe la denuncia y la remite a la PROFEPA, y la Secretaría queda enterada por su papel en la administración del parque.",
+   "dom_alcaldia": "Cuajimalpa de Morelos",
+   "dom_calle": "Calle de Prueba 37",
+   "dom_colonia": "Cuajimalpa",
+   "dom_cp": "05000",
+   "dom_entre_calles": "Entre la calle Juárez y la calle Guerrero",
+   "dom_num_ext": "112",
+   "dom_num_int": "3",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "30-44",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-03T05:36:00-06:00",
+   "fecha_hecho": "2026-09-01",
+   "folio": "SEDEMA/DEN/2026/000138-1",
+   "hechos": "Cercaron con malla una parte del área verde protegida y cobran por entrar.",
+   "identificacion": "nombre",
+   "lat": "19.306780",
+   "lon": "-99.310970",
+   "materia": "ava",
+   "nombre": "Mengana",
+   "nombre_lugar": "Desierto de los Leones",
+   "otras_pruebas": "Puedo acompañar al personal al sitio.",
+   "privacidad": "si",
+   "referencias": "Sobre el camino que va del ex convento hacia Cruz Blanca, a la izquierda, unos 800 metros después del último puesto de comida.",
+   "remite_a": "PROFEPA",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000037",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "no",
+   "tipo_denunciado": "particular",
+   "uga": "CUJ-034",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "captura": {
+   "fecha_recepcion_original": "2026-09-02T05:36:00-06:00",
+   "folio_origen": "OP-2026-0537",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "acta-de-comparecencia.pdf"
+  },
+  "tramite": {
+   "estado": "turnada",
+   "area_actual": "DGCORENADR",
+   "asignado": "",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-03T05:36:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-27T07:48:00-06:00",
+     "persona": "Coordinación de prueba (DGCORENADR)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "ava",
+   "notificacion": null,
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "en_linea",
+  "datos": {
+   "alcaldia": "Iztacalco",
+   "alcaldia_dir": "Iztacalco",
+   "apellido_materno": "Ejemplo",
+   "apellido_paterno": "Herrera",
+   "calle": "Calle 5",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Pantitlán I",
+   "colonia_alcaldia": "Iztacalco",
+   "colonia_cve": "06-056",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.391200, -99.063600",
+   "correo": "zutano.38@ejemplo.local",
+   "cp": "08100",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "dom_alcaldia": "Iztacalco",
+   "dom_calle": "Calle de Prueba 38",
+   "dom_colonia": "Pantitlán",
+   "dom_cp": "08100",
+   "dom_entre_calles": "Entre la calle 6 y la calle 8",
+   "dom_num_ext": "31",
+   "dom_num_int": "1",
+   "dom_tiene_mz_lote": "no",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle 4 y la calle 6",
+   "es_estab": "no",
+   "fecha_acuse": "2026-09-01T21:24:00-06:00",
+   "fecha_hecho": "2026-09-01",
+   "folio": "SEDEMA/DEN/2026/000139-9",
+   "hechos": "Construyen un edificio de cinco pisos en un predio que era jardín y no hay letrero de autorización ambiental a la vista.",
+   "identificacion": "nombre",
+   "lat": "19.391200",
+   "lon": "-99.063600",
+   "materia": "impacto",
+   "nombre": "Zutano",
+   "num_ext": "27",
+   "otras_pruebas": "Fotografías de la espuma en la coladera.",
+   "privacidad": "si",
+   "referencias": "Local con cortina blanca y garrafones apilados en la entrada.",
+   "reporto_antes": "no",
+   "sexo_genero": "hombre",
+   "telefono": "5500000038",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "particular",
+   "uga": "IZC-010",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "tramite": {
+   "estado": "concluida",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención A (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-09-01T21:24:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por el formulario en línea."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-06T20:15:36-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-11T19:07:12-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-09-16T17:58:48-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-09-21T16:50:24-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-09-26T15:42:00-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-01T14:33:36-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "resuelta",
+     "fecha": "2026-10-06T13:25:12-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "notificada",
+     "fecha": "2026-10-11T12:16:48-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "concluida",
+     "fecha": "2026-10-16T11:08:24-06:00",
+     "persona": "Persona de atención A (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "impacto",
+   "notificacion": {
+    "medio": "domicilio",
+    "fecha": "2026-10-16T11:08:24-06:00",
+    "resultado": "entregado"
+   },
+   "acumulada_en": null
+  }
+ },
+ {
+  "es_ficticio": true,
+  "canal": "comparecencia",
+  "datos": {
+   "alcaldia": "Cuauhtémoc",
+   "alcaldia_dir": "Cuauhtémoc",
+   "calle": "Avenida Chapultepec",
+   "capa_clase": "Suelo urbano",
+   "capa_tipo": "Suelo urbano",
+   "colonia": "Centro I",
+   "colonia_alcaldia": "Cuauhtémoc",
+   "colonia_cve": "15-037",
+   "conoce_fecha": "si",
+   "coord_pegar": "19.431400, -99.130800",
+   "correo": "anonima.39@ejemplo.local",
+   "cp": "06010",
+   "dg": "DGIVA",
+   "dg_nombre": "Dirección General de Inspección y Vigilancia Ambiental · Coordinación de Inspección y Vigilancia Ambiental en Suelo Urbano",
+   "edad_rango": "45-59",
+   "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
+   "es_estab": "si",
+   "fecha_acuse": "2026-08-31T13:12:00-06:00",
+   "fecha_hecho": "2026-08-22",
+   "folio": "SEDEMA/DEN/2026/000140-7",
+   "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
+   "hechos": "De la chimenea del negocio sale humo gris todas las tardes y el olor llega a las casas de la cuadra.",
+   "identificacion": "anonima",
+   "lat": "19.431400",
+   "lon": "-99.130800",
+   "materia": "emisiones",
+   "nombre_estab": "Negocio Ficticio 39",
+   "num_ext": "440",
+   "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
+   "privacidad": "si",
+   "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
+   "reporto_antes": "si",
+   "sexo_genero": "mujer",
+   "temporalidad": "recurrente",
+   "tiene_direccion": "si",
+   "tiene_mz_lote": "no",
+   "tipo_denunciado": "empresa",
+   "tipo_estab": "Bodega o almacén",
+   "uga": "CUH-017",
+   "uga_version": "sia-2026-09-22",
+   "verificacion": "si"
+  },
+  "archivos": [
+   {
+    "name": "evidencia-01.jpg",
+    "size": 2411724
+   },
+   {
+    "name": "evidencia-02.jpg",
+    "size": 1874509
+   }
+  ],
+  "captura": {
+   "fecha_recepcion_original": "2026-08-30T13:12:00-06:00",
+   "folio_origen": "OP-2026-0539",
+   "recibio": "Persona de Oficialía de prueba",
+   "capturo": "Persona de captura de prueba",
+   "soporte": "acta-de-comparecencia.pdf"
+  },
+  "tramite": {
+   "estado": "concluida",
+   "area_actual": "DGIVA",
+   "asignado": "Persona de atención B (DGIVA)",
+   "historial": [
+    {
+     "estado": "recibida",
+     "fecha": "2026-08-31T13:12:00-06:00",
+     "persona": "Sistema",
+     "nota": "Ingresó por captura por personal."
+    },
+    {
+     "estado": "turnada",
+     "fecha": "2026-09-05T15:16:48-06:00",
+     "persona": "Coordinación de prueba (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_analisis",
+     "fecha": "2026-09-10T17:21:36-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "admitida",
+     "fecha": "2026-09-15T19:26:24-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_programada",
+     "fecha": "2026-09-20T21:31:12-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "visita_practicada",
+     "fecha": "2026-09-25T23:36:00-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "en_procedimiento",
+     "fecha": "2026-10-01T01:40:48-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "resuelta",
+     "fecha": "2026-10-06T03:45:36-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "notificada",
+     "fecha": "2026-10-11T05:50:24-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    },
+    {
+     "estado": "concluida",
+     "fecha": "2026-10-16T07:55:12-06:00",
+     "persona": "Persona de atención B (DGIVA)",
+     "nota": "Movimiento de prueba."
+    }
+   ],
+   "materia_confirmada": "emisiones",
+   "notificacion": {
+    "medio": "correo",
+    "fecha": "2026-10-16T07:55:12-06:00",
+    "resultado": "rebotado"
+   },
+   "acumulada_en": null
+  }
+ }
+]

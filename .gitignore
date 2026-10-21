@@ -45,3 +45,6 @@ construccion/_artefacto*.html
 
 # Copia de la versión publicada que arma pruebas.py para correr sin red (DEC-240).
 construccion/publicada-pruebas.html
+
+# Página temporal de generar_admin.py; se borra sola al terminar.
+construccion/_generar_admin.html

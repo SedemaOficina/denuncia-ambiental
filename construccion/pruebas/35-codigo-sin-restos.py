@@ -15,10 +15,14 @@ RUTA = pathlib.Path(os.environ.get('ARTEFACTO', RAIZ / 'artefacto.html'))
 fallos, notas = [], []
 def afirma(c, m): (notas if c else fallos).append(('OK  ' if c else 'FALLA ') + m)
 PROTO = RAIZ.parent / 'prototipo' / 'prototipo-denuncia-ambiental-sedema.html'
+MAQUETA = RAIZ.parent / 'prototipo' / 'administracion' / 'maqueta-administracion.html'
+# Variables globales que la pagina no usa porque las lee un generador: INTERNOS
+# lo lee generar_doc09.py; ESTADOS y CANALES de la maqueta, generar_admin.py.
+LEIDAS_FUERA = {'prototipo': {'INTERNOS'}, 'artefacto': {'INTERNOS'}, 'maqueta': {'ESTADOS', 'CANALES'}}
 # El artefacto agrega el mapa vectorial: sus funciones sustituyen a propósito
 # las del mapa de calles (construir.py), así que el código se audita en el
 # prototipo, que es la fuente; los estilos, en los dos.
-for etiqueta, origen in (('prototipo', PROTO), ('artefacto', RUTA)):
+for etiqueta, origen in (('prototipo', PROTO), ('artefacto', RUTA), ('maqueta', MAQUETA)):
   s = origen.read_text(encoding='utf-8')
   estilos = '\n'.join(re.findall(r'<style[^>]*>(.*?)</style>', s, re.S))
   scripts = '\n'.join(re.findall(r'<script[^>]*>(.*?)</script>', s, re.S))
@@ -91,8 +95,7 @@ for etiqueta, origen in (('prototipo', PROTO), ('artefacto', RUTA)):
   EXCEPCION = {('', 'textarea'), ('', 'select'), ('', 'input[type=date]')}
   if etiqueta == 'prototipo': afirma(not dup_f, etiqueta + ': ninguna función se declara dos veces: %s' % dup_f)
   if etiqueta == 'prototipo': afirma(not sin_uso_f, etiqueta + ': ninguna función queda sin uso: %s' % sin_uso_f)
-  # INTERNOS no lo lee el formulario: lo lee el generador del documento 09.
-  afirma([v for v in sin_uso_v if v != 'INTERNOS'] == [], etiqueta + ': ninguna variable global queda sin uso: %s' % sin_uso_v)
+  afirma([v for v in sin_uso_v if v not in LEIDAS_FUERA[etiqueta]] == [], etiqueta + ': ninguna variable global queda sin uso: %s' % sin_uso_v)
   afirma(not sin_uso_c, etiqueta + ': ninguna clase de estilo queda huérfana, tampoco en @media o @supports: %s' % sin_uso_c)
   afirma([x for x in repetidos if x not in EXCEPCION] == [], etiqueta + ': ningún selector se declara dos veces, salvo las tres excepciones anotadas: %s' % repetidos)
   reducido = re.search(r'@media\s*\(prefers-reduced-motion:\s*reduce\)\s*\{(.*?)\}\s*\}', css, re.S)

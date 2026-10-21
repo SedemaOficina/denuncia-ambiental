@@ -230,7 +230,7 @@ Mismo método que el formulario: primero maqueta, después servidor.
 | Paso | Qué se hace | Cuándo puede empezar |
 |---|---|---|
 | 1 | Acordar este bosquejo y resolver las preguntas del apartado 10 que dependen de la Oficina de la Secretaría | Ahora |
-| 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
+| 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada. **En curso:** bloque A, cascarón y datos de prueba, hecho (DEC-242) | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
 | 3 | Variante «modo captura» del prototipo del formulario (AD-03) | Ahora, como maqueta, sobre la versión vigente del formulario |
 | 4 | Sesión con la DGIVA y con la DGCORENADR sobre estados, perfiles y vistas, con la maqueta a la vista | En cuanto exista la maqueta |
 | 5 | Construcción: captura por personal, después bandeja y expediente, después tablero y mapa | Fase 5 (documento 11), sobre el contrato de la fase 2 |
