@@ -1373,3 +1373,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **De paso.** La causa de las fallas de red de la parte anterior quedó a la vista: cuando la tipografía de Google no carga, Chrome avisa «Failed to load resource» sin poner la dirección en el texto, y las baterías de la maqueta, que perdonaban sólo los avisos que la nombraban, lo contaban como error propio. Ahora leen la dirección de la ubicación del aviso y sólo perdonan las tipografías: cualquier otra petición a internet sigue siendo falla.
 
 **Verificación de cierre.** Batería completa en verde: 1 784 comprobaciones en 48 baterías, 285 de ellas sobre la versión publicada. La batería 48 atrapó los dos errores metidos a propósito —mostrar una cifra de género o edad menor que 3 y dejar de contar los plazos vencidos—. Revisión a la vista en escritorio y a 360 px.
+
+### 21 de octubre de 2026 · maqueta del módulo de administración, bloque D, tercera parte: el mapa (DEC-247)
+
+**Qué cambió.** «Mapa operativo» deja de ser un aviso: las denuncias sobre las capas del SIA, con filtros, acercamiento por alcaldía y las cuentas de al lado. El expediente gana su mapa. El generador toma del prototipo las capas del mapa vectorial; de las zonas protegidas, sólo las cuatro que tocan las denuncias de prueba. La maqueta pasa de 336 a 422 KB. Batería 49 nueva. Con esta parte se cierra el bloque D.
+
+**Por qué así.** Un mapa con mosaicos pediría internet y, en el SIA, una clave; la maqueta debe abrirse con doble clic. Las capas del formulario bastan para ubicar y son las que el servidor usará para el cruce. La batería 49 comprueba que cada punto cae exactamente en sus coordenadas con la proyección del formulario; se le metieron dos errores a propósito —un corrimiento de una milésima en la proyección y la denuncia actual tapada por otra del mismo punto— y los atrapó.
+
+**Verificación de cierre.** Batería completa en verde: 1 796 comprobaciones en 49 baterías, 285 de ellas sobre la versión publicada. Revisión a la vista en escritorio y a 360 px.

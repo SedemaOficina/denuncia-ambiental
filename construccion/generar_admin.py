@@ -4,8 +4,8 @@
 
 1. Las variables de color y medida (:root) y el logotipo, leidos del texto del
    prototipo del formulario; los nombres de las materias, de su catalogo
-   MATERIAS; las opciones de genero y edad, del paso 5; y el «hoy» fijo con
-   que se cuentan los dias habiles.
+   MATERIAS; las opciones de genero y edad, del paso 5; las capas del mapa
+   vectorial; y el «hoy» fijo con que se cuentan los dias habiles.
 2. Cuarenta denuncias ficticias, armadas con la logica del propio formulario:
    se carga un escenario del panel de validacion, se cambia lo que haga falta
    y el formulario calcula lo demas —area que recibe, remision, tipo de zona,
@@ -265,6 +265,13 @@ raiz = re.search(r'(?ms)^:root\{.*?^\}', proto)
 logo = re.search(r'<img class="logo-inst"[^>]*>', proto)
 if not raiz or not logo:
     sys.exit('ERROR: no se encontraron :root o el logotipo en el prototipo.')
+
+def capa(nombre):
+    """Una capa del SIA tal como la trae el prototipo: var NOMBRE=<JSON>;"""
+    m = re.search(r'(?m)^var %s=(.*);$' % nombre, proto)
+    if not m:
+        sys.exit('ERROR: no se encontró la capa %s en el prototipo.' % nombre)
+    return json.loads(m.group(1))
 if not ARTE.exists():
     sys.exit('ERROR: no existe %s; corre antes construccion/construir.py.' % ARTE)
 
@@ -324,6 +331,16 @@ for d in denuncias:
 
 DATOS.write_text(json.dumps(denuncias, ensure_ascii=False, indent=1) + '\n', encoding='utf-8', newline='\n')
 
+# Las capas del mapa, las mismas del mapa vectorial del formulario: contorno,
+# alcaldías y suelo de conservación completos; de las Áreas Naturales
+# Protegidas y de Valor Ambiental, sólo las que tocan las denuncias de prueba,
+# porque se dibuja lo que resulta del cruce y poco más.
+zonas = {d['datos'].get('capa_nombre') for d in denuncias}
+capas = {'bbox': capa('CDMX_BBOX'), 'borde': capa('CDMX_BORDE'),
+         'alcaldias': [{'nombre': f['p']['nombre'], 'g': f['g']} for f in capa('CAPAS_ALCALDIAS')],
+         'suelo': [f['g'] for f in capa('CAPAS_SUELO')],
+         'zonas': [{'nombre': f['p']['nombre'], 'g': f['g']} for f in capa('CAPAS_GEOM') if f['p']['nombre'] in zonas]}
+
 m = MAQUETA.read_text(encoding='utf-8')
 m = entre_marcas(m, '/* ==== %s: variables de :root (construccion/generar_admin.py; no se edita aquí) ==== */' % INICIO,
                  '/* ==== %s ==== */' % FIN, '\n' + raiz.group(0) + '\n')
@@ -334,6 +351,7 @@ m = entre_marcas(m, '/* ==== %s: catálogos y denuncias ficticias (construccion/
                  '\nvar HOY = ' + json.dumps(HOY.isoformat(timespec='seconds')) + ';\n'
                  'var MATERIAS = ' + json.dumps(materias, ensure_ascii=False) + ';\n'
                  'var OPCIONES_ESTADISTICA = ' + json.dumps(estadistica, ensure_ascii=False) + ';\n'
+                 'var CAPAS = ' + json.dumps(capas, ensure_ascii=False, separators=(',', ':')) + ';\n'
                  'var DENUNCIAS = ' + json.dumps(denuncias, ensure_ascii=False) + ';\n')
 MAQUETA.write_text(m, encoding='utf-8', newline='\n')
 print('maqueta de administración: %d denuncias ficticias; %.1f KB' % (len(denuncias), len(m.encode('utf-8')) / 1024))
