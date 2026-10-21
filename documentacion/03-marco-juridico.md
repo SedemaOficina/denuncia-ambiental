@@ -1,9 +1,12 @@
 # Formulario web de Denuncia Ambiental · Marco jurídico
 
-**Versión:** 1.0 · 18 de septiembre de 2026
+**Versión:** 2.0 · 20 de octubre de 2026
+**Vigencia.** Sustituye a la versión 1.0 del 18 de septiembre, que quedó atrás en cuatro puntos: el fundamento de cada materia (DEC-104), quién recibe la denuncia (P-01, DEC-226), qué pasa en las Áreas Naturales Protegidas federales (P-22, DEC-226) y el fundamento que cita el acuse (DEC-232). Las citas se cotejaron el 20 de octubre de 2026 contra los textos de `insumos/normativa/` (apartado 7).
+
 Ordenamientos rectores:
 
-- **Ley Ambiental de la Ciudad de México**, publicada en la Gaceta Oficial el 18 de julio de 2024, en vigor al día siguiente de su publicación.
+- **Ley Ambiental de la Ciudad de México**, publicada en la Gaceta Oficial el 18 de julio de 2024, en vigor al día siguiente de su publicación; última reforma publicada el 23 de julio de 2026.
+- **Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México**, texto vigente con última reforma publicada el 27 de marzo de 2026.
 - **Ley Orgánica de la Procuraduría Ambiental y del Ordenamiento Territorial de la Ciudad de México**, publicada el 24 de abril de 2001, con última reforma del 24 de diciembre de 2025.
 
 ---
@@ -14,17 +17,17 @@ El artículo transitorio TERCERO del decreto de expedición **abroga la Ley Ambi
 
 El transitorio SEXTO mantiene en vigor los reglamentos de la ley abrogada en lo que no se opongan a la nueva Ley, en tanto se expide la reglamentación derivada. El transitorio CUARTO fijó un plazo de ciento ochenta días hábiles para expedirla, contados desde la entrada en vigor.
 
-## 2. Cuestión central a resolver: quién recibe la denuncia
+## 2. Quién recibe la denuncia: la Secretaría, como denuncia ciudadana
 
-El artículo 329 dispone que toda persona física o moral podrá denunciar **ante la Procuraduría** todo hecho, acto u omisión que produzca o pueda producir desequilibrios ecológicos o daños al ambiente, en suelo urbano o suelo de conservación, áreas verdes, Áreas de Valor Ambiental o Áreas Naturales Protegidas. El artículo 332 fija los requisitos de esa denuncia, exige su **ratificación** y ordena a la Procuraduría contestar de forma fundada y motivada en un plazo de treinta días hábiles contados a partir de la ratificación.
+**Resuelto (P-01, opción A; DEC-226).** La Secretaría recibe, tramita y atiende la denuncia ciudadana con fundamento en el Reglamento Interior: el **artículo 191, fracción XXX**, para la Dirección General de Inspección y Vigilancia Ambiental, en suelo urbano y Áreas de Valor Ambiental, y el **artículo 188, fracción XXXVIII**, para la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural, en suelo de conservación y Áreas Naturales Protegidas. Las dos fracciones empiezan igual: «Recibir, tramitar, atender, denuncias ciudadanas y en su caso, formular ante la autoridad que corresponda, las denuncias en materia ambiental…». Provienen de la reforma publicada en la Gaceta Oficial el 19 de enero de 2023.
 
-La Ley no prevé a la Secretaría como receptora de la denuncia ciudadana. Esto no impide el proyecto, pero obliga a precisar su naturaleza jurídica. Existen dos vías, que no son excluyentes:
+**La Ley Ambiental no lo impide.** El artículo 329 dispone que toda persona «podrá denunciar ante la Procuraduría»: abre una vía a la persona, no fija una competencia exclusiva, y su tercer párrafo abre además la vía penal ante la Fiscalía General de Justicia. El artículo 332 fija los requisitos de la denuncia ante la Procuraduría, su ratificación y la contestación fundada y motivada en treinta días hábiles a partir de la ratificación: son cargas de la Procuraduría y no pasan a la Secretaría por recibir. Su último párrafo —«La autoridad estará obligada a informar al denunciante sobre el trámite que recaiga a su denuncia»— no acota el sujeto y conviene asumirlo; el plazo para informar sigue abierto en P-07.
 
-**Vía A — Reporte ciudadano como insumo del procedimiento de inspección.** El artículo 280 faculta a la Secretaría para requerir información relacionada con el cumplimiento de las disposiciones ambientales y establece que, cuando de la información recabada se desprenda presunción fundada de violación o incumplimiento, se instaurará el procedimiento administrativo de inspección. El artículo 279 confirma que los procedimientos de inspección se inician en los casos de los artículos 258, último párrafo, y 280. Bajo esta vía, lo que el formulario capta es un **reporte ciudadano** que alimenta la información con la que la Secretaría decide iniciar el procedimiento por sí misma. No requiere ratificación ni obliga a plazo de respuesta, y es compatible con el anonimato.
+**Lo que dice el acuse (DEC-232).** Cita el artículo del Reglamento Interior del área que recibe y, cuando se señala a una autoridad, el 331 de la Ley Ambiental. Informa que la persona puede presentar además su denuncia ante la Procuraduría, si quiere su respuesta fundada y motivada, y ante la Fiscalía si los hechos pueden constituir delito. No menciona plazos (DEC-138).
 
-**Vía B — Denuncia ciudadana en sentido estricto.** Corresponde a la Procuraduría conforme al artículo 329. Bajo esta vía el formulario operaría como ventanilla que remite a esa instancia, con las cargas de ratificación y plazo del artículo 332.
+**La denuncia anónima** se admite siempre como insumo de actuación de oficio: el artículo 280 permite instaurar el procedimiento de inspección con la información recabada, sin ratificación (P-05). Se le notifica el resultado en el correo que deja (DEC-233).
 
-**Recomendación.** Adoptar la Vía A como naturaleza del formulario, denominándolo con precisión y advirtiéndolo en el propio instrumento, y ofrecer a la persona denunciante la opción de que su reporte se remita adicionalmente a la Procuraduría cuando desee la denuncia formal con respuesta obligada. Esta decisión debe tomarse antes de redactar el aviso de privacidad y los textos del acuse, porque determina qué compromisos adquiere la Secretaría frente a la persona denunciante.
+**Lo que decía la versión 1.0.** Que la Ley no preveía a la Secretaría como receptora y que convenía tratar el formulario como «reporte ciudadano» al amparo del artículo 280. La lectura del Reglamento Interior lo descartó: P-01 se reformuló el 25 de septiembre y se resolvió en sentido contrario.
 
 ## 2 bis. Lo que aporta la Ley Orgánica de la Procuraduría
 
@@ -34,15 +37,15 @@ Ley Orgánica de la Procuraduría Ambiental y del Ordenamiento Territorial de la
 
 **La ratificación tiene un plazo corto, pero su omisión no extingue el asunto.** La denuncia presentada por vía telefónica o electrónica debe ratificarse dentro de los tres días hábiles siguientes; de no hacerse, *se tendrá por no presentada*. Sin embargo, el mismo artículo 22 permite a la Procuraduría investigar si el asunto lo amerita, y el artículo 23, fracción II, enumera expresamente las *denuncias no ratificadas* como supuesto de investigación de oficio. La consecuencia es relevante para el diseño: **el anonimato no impide la actuación de la autoridad**, sólo cambia la vía, de denuncia ciudadana a investigación de oficio. El mismo razonamiento vale para la Secretaría por la vía del artículo 280 de la Ley Ambiental.
 
-**La confidencialidad de los datos del denunciante tiene fundamento expreso.** El artículo 22 BIS 1 dispone que la persona denunciante *podrá solicitar a la Procuraduría confidencialidad sobre sus datos personales, en cuyo caso, se deberán adoptar las medidas respectivas*. Esto sustenta la variante de reserva de identidad que el prototipo ofrece.
+**La confidencialidad de los datos del denunciante tiene fundamento expreso.** El artículo 22 BIS 1 dispone que la persona denunciante *podrá solicitar a la Procuraduría confidencialidad sobre sus datos personales, en cuyo caso, se deberán adoptar las medidas respectivas*. Respalda que el formulario declare la confidencialidad como regla, sin preguntarla (DEC-119).
 
-**Existe un plazo de caducidad de un año.** El artículo 22 BIS 2 establece que la denuncia sólo podrá presentarse dentro del plazo de un año a partir de que se hubiera iniciado la ejecución de los hechos, o de que la persona denunciante hubiese tenido conocimiento de ellos, salvo ampliación por acuerdo motivado en casos de afectación grave. El formulario debe advertirlo cuando la fecha capturada exceda ese plazo.
+**Existe un plazo de caducidad de un año.** El artículo 22 BIS 2 establece que la denuncia sólo podrá presentarse dentro del plazo de un año a partir de que se hubiera iniciado la ejecución de los hechos, o de que la persona denunciante hubiese tenido conocimiento de ellos, salvo ampliación por acuerdo motivado en casos de afectación grave. Es un plazo de la denuncia ante la Procuraduría; el formulario no lo advierte, porque no menciona plazos (DEC-138).
 
 **Requisitos de la denuncia.** El artículo 22 BIS 1 exige nombre o razón social, domicilio, teléfono y correo; descripción clara y sucinta de los hechos y las razones que la sustentan, incluidas las gestiones previas ante otras autoridades; nombre y domicilio del presunto responsable o datos que permitan ubicarlo; *domicilio o referencias del lugar o zona donde se suscitaron los hechos*; y las pruebas que se ofrezcan. La fracción IV admite referencias del lugar, de modo que la coordenada geográfica la satisface con holgura.
 
 **Plazos de respuesta.** La Procuraduría debe informar a la persona denunciante el resultado de sus gestiones dentro de los treinta días hábiles siguientes a la admisión de la denuncia, y debe informarla periódicamente de las actuaciones realizadas y por practicar (arts. 25, fracción IX, y 25 BIS).
 
-**Gestiones previas ante otras autoridades.** El artículo 22 BIS 1, fracción II, pide incluir información sobre las gestiones llevadas a cabo ante otras autoridades y su resultado. Conviene incorporar ese campo al formulario: distingue al ciudadano que ya acudió a la alcaldía y no obtuvo respuesta, lo que suele indicar mayor gravedad o reincidencia.
+**Gestiones previas ante otras autoridades.** El artículo 22 BIS 1, fracción II, pide incluir información sobre las gestiones llevadas a cabo ante otras autoridades y su resultado. El formulario lo pregunta —«¿Ya reportaste estos hechos ante otra autoridad?» y, si responde que sí, «Gestiones previas»—: distingue a quien ya acudió a la alcaldía y no obtuvo respuesta, lo que suele indicar mayor gravedad o reincidencia.
 
 ## 3 bis. Lo que aporta el Manual Administrativo de la Secretaría
 
@@ -79,7 +82,7 @@ Ambos procedimientos empiezan igual y cierran con la resolución notificada. Los
 | Si no es competencia, se turna o se rechaza | 5 días | 5 días |
 | **Procedimiento completo, hasta la resolución notificada** | **93 días hábiles** | **90 días hábiles (aproximado)** |
 
-**Qué se hace con esto.** Los avisos de «plazo por confirmar» de la portada, la pantalla de revisión y el acuse se sustituyen por estas cifras. Es la primera respuesta verificada a P-07.
+**Qué se hizo con esto.** Las cifras sustituyeron los avisos de «plazo por confirmar» (DEC-84); después, DEC-138 retiró los plazos del formulario, y quedan como referencia para el módulo interno. Responden en parte P-07: falta el plazo para informar a quien pregunta por su folio.
 
 ### Si la denuncia no es competencia de la Secretaría
 
@@ -93,7 +96,7 @@ Su **cláusula PRIMERA** enumera las ocho Áreas Naturales Protegidas federales 
 
 Su **cláusula SEGUNDA** es la que decide la competencia, y conviene leerla completa: define la administración como la ejecución de actividades orientadas a la conservación, mediante manejo, gestión y uso de recursos, *«sin perjuicio de las facultades que en materia de inspección y vigilancia otorga el Título Sexto de la Ley General del Equilibrio Ecológico y la Protección al Ambiente»*.
 
-**El convenio reparte administración y manejo, no inspección.** El artículo 161 de esa misma ley atribuye los actos de inspección y vigilancia a la autoridad federal, y el 160 fija que su Título Sexto se aplica a los asuntos de competencia federal. De ahí DEC-89: **toda Área Natural Protegida federal se turna a la PROFEPA, con convenio o sin él.** Lo que el convenio añade es que, en las ocho, la Secretaría coadyuva en la administración y por tanto debe quedar enterada.
+**El convenio reparte administración y manejo, no inspección.** El artículo 161 de esa misma ley atribuye los actos de inspección y vigilancia a la autoridad federal, y el 160 fija que su Título Sexto se aplica a los asuntos de competencia federal. De ahí que la inspección en **toda Área Natural Protegida federal sea de la PROFEPA, con convenio o sin él** (DEC-89). Desde P-22 (DEC-226), la denuncia la **recibe la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural y la remite a la PROFEPA**; el formulario no limita el envío. Lo que el convenio añade es que, en las ocho, la Secretaría coadyuva en la administración y por tanto debe quedar enterada.
 
 Dos cosas más que aporta: su cláusula TERCERA, inciso p), enumera la **denuncia ciudadana** entre las materias de los proyectos conjuntos, lo que da pie a convenir la vía de remisión; y el artículo 189 de la Ley General admite que la denuncia federal se presente **ante otras autoridades**, lo que sostiene que la Secretaría la reciba y la remita en lugar de devolver a la persona.
 
@@ -105,19 +108,33 @@ La **Dirección General del Sistema de Áreas Naturales Protegidas y Áreas de V
 
 ## 3. Fundamento por materia
 
-| Materia | Fundamento en la Ley Ambiental de la Ciudad de México |
-|---|---|
-| Emisiones a la atmósfera de fuentes fijas | Arts. 196 y 200. El artículo 200 exige la Manifestación Ambiental Única para la operación de fuentes fijas de jurisdicción local que emitan o puedan emitir olores, gases o partículas |
-| Ruido, vibraciones, olores y contaminación visual | Arts. 214 y 215 |
-| Arbolado urbano | Art. 106, que exige autorización previa de la alcaldía para poda, derribo o trasplante; Art. 7, fracciones VIII y XVII, sobre facultades de la Secretaría; Norma Ambiental NADF-001-RNAT-2015 |
-| Áreas verdes | Arts. 104 a 106 |
-| Impacto ambiental | Art. 23, sobre evaluación de impacto ambiental; Art. 53, sobre la Manifestación Ambiental Única |
-| Descargas de aguas residuales | Arts. 223 y 230 |
-| Contaminación del suelo | Art. 232 |
-| Suelo de conservación | Art. 92 |
-| Áreas de Valor Ambiental | Arts. 116 a 119. El art. 116 prevé cuatro categorías: bosques urbanos, cinturones verdes, barrancas y cuerpos de agua de competencia de la Ciudad; a la fecha únicamente existen declaratorias de bosques urbanos y de barrancas |
-| Áreas Naturales Protegidas | Art. 126 |
-| Residuos sólidos urbanos y de la construcción | Ley de Residuos Sólidos de la Ciudad de México y su Reglamento |
+Es el que muestra el formulario: la tabla repite, materia por materia, el campo `norma` del catálogo `MATERIAS`, y la batería 39 falla si se separan. Lo fijó DEC-104 el 21 de septiembre de 2026, tras cotejar artículo por artículo la Ley Ambiental, la Ley de Residuos Sólidos del Distrito Federal, el Código Penal para el Distrito Federal y las normas ambientales.
+
+| Materia | Clave | Fundamento |
+|---|---|---|
+| Impacto ambiental por obra o actividad | `impacto` | Arts. 25 y 50, Ley Ambiental de la Ciudad de México; Reglamento de Impacto Ambiental y Riesgo de la Ciudad de México |
+| Emisiones a la atmósfera de fuentes fijas | `emisiones` | Arts. 196 y 200, Ley Ambiental de la Ciudad de México |
+| Ruido y vibraciones de fuentes fijas industriales | `ruido` | Arts. 214 y 215, fracción I, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-005-AMBT-2013 |
+| Quema de residuos o materiales a cielo abierto | `quema` | Art. 213, Ley Ambiental de la Ciudad de México |
+| Vehículo ostensiblemente contaminante | `vehiculo` | Arts. 205, 208 y 216, Ley Ambiental de la Ciudad de México |
+| Irregularidades en un centro de verificación vehicular | `verificacion` | Arts. 255, 258 y 279, Ley Ambiental de la Ciudad de México |
+| Comercialización, distribución o entrega de plásticos de un solo uso | `plasticos` | [Art. __, fracc. __] de la Ley de Residuos Sólidos del Distrito Federal — fundamento por verificar contra el texto vigente (PB-09) |
+| Residuos sólidos urbanos de fuentes fijas | `rsu` | Arts. 24, 25 y 33 de la Ley de Residuos Sólidos del Distrito Federal; Art. 232, Ley Ambiental de la Ciudad de México |
+| Descargas de aguas residuales al drenaje | `descargas` | Arts. 223, 226 y 227, Ley Ambiental de la Ciudad de México |
+| Residuos de la construcción y la demolición | `construccion` | Arts. 24, fracción III Bis, 25, fracciones I, II y IV, y 26 de la Ley de Residuos Sólidos del Distrito Federal; Art. 237, Ley Ambiental de la Ciudad de México |
+| Depósito de residuos de la construcción | `cascajo` | Art. 237, Ley Ambiental de la Ciudad de México; Arts. 25, fracciones I, IV y IX, y 26 de la Ley de Residuos Sólidos del Distrito Federal; Art. 344 del Código Penal para el Distrito Federal |
+| Poda, derribo o daño a arbolado urbano | `arbolado` | Arts. 108, 109 y 112, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-001-RNAT-2015; Art. 345 BIS del Código Penal para el Distrito Federal |
+| Daño o reducción de un área verde | `areas_verdes` | Arts. 105 y 113, Ley Ambiental de la Ciudad de México; Norma Ambiental NADF-006-RNAT-2016 |
+| Derribo o remoción de vegetación forestal en zona de protección | `tala` | Arts. 7, fracción XVII, 98, 108 y 109, Ley Ambiental de la Ciudad de México; Art. 345 BIS del Código Penal para el Distrito Federal |
+| Interrupción o afectación del sistema hidrológico en zona de protección | `agua_zona` | Arts. 116, 123 y 138, fracción VI, Ley Ambiental de la Ciudad de México |
+| Asentamiento humano irregular u obra sin autorización en zona de protección | `asentamiento` | Arts. 98, 123 y 138, fracción I, Ley Ambiental de la Ciudad de México |
+| Terráceos y remoción de cubierta vegetal | `terraceos` | Arts. 98, 123, 138, fracción V, y 164, fracciones IV y VII, Ley Ambiental de la Ciudad de México; Art. 344 BIS del Código Penal para el Distrito Federal |
+| Uso de agroquímicos, fertilizantes o plaguicidas prohibidos en suelo de conservación | `agroquimicos` | Art. 232, fracción V, Ley Ambiental de la Ciudad de México |
+| Afectación a un Área de Valor Ambiental, al suelo de conservación o a un Área Natural Protegida | `ava` | Arts. 98, 123 y 138, Ley Ambiental de la Ciudad de México |
+
+**Lo que citaba la versión 1.0 y se retiró.** Arbolado, artículo 106: obliga a las alcaldías a crear áreas verdes cuando no llegan a nueve metros cuadrados por habitante. Impacto ambiental, artículo 53: es la Manifestación Ambiental Única de las fuentes fijas. Descargas, artículo 230: regula al particular que sí cumple los límites. Suelo de conservación, artículo 92: es una regla de planeación territorial. Áreas Naturales Protegidas, artículo 126: faculta a la Jefatura de Gobierno para establecerlas. Ninguno describe la conducta que se denuncia (DEC-104); se releyeron el 20 de octubre de 2026 contra el texto vigente y dicen eso. El artículo 123 es el puente que lleva a las Áreas de Valor Ambiental las prohibiciones del 138, escritas para las Áreas Naturales Protegidas.
+
+**Pendiente.** «Plásticos de un solo uso» sigue sin fundamento verificado: el hueco queda visible (criterio 1 de la fase 1).
 
 ## 4. Fundamento del procedimiento de inspección
 
@@ -153,7 +170,7 @@ En consecuencia, el ruido de establecimientos se incorporó como materia propia 
 2. Corregir el criterio sobre ruido: el proveniente de establecimientos es competencia local y no se deriva íntegramente a la Secretaría de Seguridad Ciudadana.
 3. Actualizar el domicilio de seguimiento, hoy inconsistente entre el formato en PDF —Tlaxcoaque No. 8— y el portal —Bosque de San Juan de Aragón—.
 4. Reexpedir el aviso de privacidad conforme a la Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México y al INFO CDMX.
-5. Precisar, conforme al apartado 2, la naturaleza del canal y la autoridad receptora.
+5. Precisar la naturaleza del canal y la autoridad receptora. **Resuelto:** la Secretaría recibe como denuncia ciudadana (apartado 2, DEC-226).
 
 ## 6 bis. Fundamento del reparto de atribuciones entre unidades administrativas
 
@@ -187,6 +204,14 @@ Verificado contra el **Reglamento Interior del Poder Ejecutivo y de la Administr
 
 **Lo que no está en el Reglamento Interior.** La **Coordinación de Inspección y Vigilancia** de la DGCORENADR no aparece en él: el Reglamento sólo adscribe a esa dirección general la Dirección Ejecutiva de la Zona Patrimonio Mundial, Natural y Cultural de la Humanidad Xochimilco, Tláhuac y Milpa Alta. La Coordinación es una unidad de nivel inferior, de modo que sus atribuciones y su capacidad para ordenar visitas por sí misma deben constar en el **Manual Administrativo** de la Secretaría. Mientras no se verifique, la autoridad competente que el formulario debe nombrar es la **dirección general**, no la coordinación.
 
-## 7. Advertencia metodológica
+## 7. Verificación y vigencia de las citas
 
-Los artículos citados fueron verificados contra el texto vigente de la Ley Ambiental de la Ciudad de México con última reforma publicada el **23 de julio de 2026** —la numeración de los artículos 98, 215, 276 a 299, 329, 331 y 332 se confirmó sin cambios respecto de la revisión anterior— y contra el texto vigente de la Ley Orgánica de la Procuraduría con reforma del 24 de diciembre de 2025. Cualquier cita que no aparezca en este documento debe verificarse antes de incorporarse a un instrumento que vaya a firma.
+**Cotejo del 20 de octubre de 2026**, contra los archivos de `insumos/normativa/`:
+
+- **Ley Ambiental de la Ciudad de México**, última reforma publicada el 23 de julio de 2026: los artículos 329, 331 y 332 (apartado 2), y los que la versión 1.0 citaba distinto de `MATERIAS` y los que los sustituyeron —23, 25, 50, 53, 92, 98, 104, 105, 106, 108, 109, 112, 113, 116, 123, 126, 138, 223, 226, 227 y 230— (apartado 3).
+- **Reglamento Interior del Poder Ejecutivo y de la Administración Pública de la Ciudad de México**, última reforma publicada el 27 de marzo de 2026: artículos 188, fracción XXXVIII, y 191, fracción XXX (apartados 2 y 6 bis).
+- **Ley de Protección de Datos Personales en Posesión de Sujetos Obligados de la Ciudad de México**, última reforma publicada el 11 de febrero de 2021: artículos 14, 15 y 64 (DEC-234 y P-02).
+
+**Cotejos anteriores que siguen valiendo.** El resto de las citas del apartado 3 lo cotejó DEC-104 el 21 de septiembre de 2026. La numeración de los artículos 98, 215 y 276 a 299 de la Ley Ambiental se confirmó contra la misma reforma, y la Ley Orgánica de la Procuraduría contra su texto con reforma del 24 de diciembre de 2025.
+
+**Lo que falta.** Que la unidad jurídica confirme la aplicación de los artículos a cada ruta, en especial la recepción y remisión en las Áreas Naturales Protegidas federales (DEC-232), y el fundamento de «Plásticos de un solo uso». Cualquier cita nueva debe cotejarse contra el texto vigente antes de incorporarse a un instrumento que vaya a firma.

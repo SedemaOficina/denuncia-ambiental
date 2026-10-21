@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Conformidad con la norma de construcción
 
-**Versión:** 1.2 · 18 de septiembre de 2026
+**Versión:** 1.3 · 20 de octubre de 2026 · las brechas B-03 y B-04 al día; lo demás describe el estado al 18 de septiembre
 **Para qué sirve este documento.** Sitúa el proyecto frente a la norma de construcción de sistemas: qué cumple, qué falta y qué hay que decidir antes de avanzar de etapa. No sustituye a `11-ruta-de-trabajo.md`, que es el documento del proyecto y manda; éste lo contrasta con la norma general y anota las brechas.
 
 ---
@@ -41,7 +41,7 @@ Verificado contra el prototipo y los documentos del proyecto:
 
 ## 2. Brechas que impiden cerrar la etapa 1
 
-Eran cinco. **Tres quedaron resueltas el 18 de septiembre.** Las dos restantes —el acta de validación y los pendientes jurídicos P-01 y P-02— no dependen de nosotros.
+Eran cinco. **Tres quedaron resueltas el 18 de septiembre** y la cuarta, el acta de validación, el 20 de octubre. Queda P-02, que no depende de nosotros.
 
 **B-01 · Repositorio — RESUELTA el 18 de septiembre de 2026** *(§1.7, §12.8, auditoría 2)*
 El proyecto quedó bajo control de versiones con git en su propia carpeta (DEC-34). Primer registro: 21 archivos, 690 KiB empaquetados.
@@ -54,14 +54,14 @@ El proyecto quedó bajo control de versiones con git en su propia carpeta (DEC-3
 El desarrollo es del **Sistema de Información Ambiental de la Secretaría del Medio Ambiente de la Ciudad de México** (DEC-33). Queda asentado en la ficha del proyecto.
 **Lo que sigue:** con la titularidad definida, corresponde resolver en qué **cuentas institucionales** viven el repositorio remoto y, en su momento, la infraestructura, el dominio y el correo del sistema. Es lo que la norma exige en la entrega (§13) y lo que tarda en gestionarse.
 
-**B-03 · Acta de validación de la DGIVA** *(§2, criterio de salida)*
-Sigue siendo el requisito 5 del criterio de salida y no depende de nosotros.
+**B-03 · Acta de validación de la DGIVA — RESUELTA el 20 de octubre de 2026** *(§2, criterio de salida)*
+La DGIVA entregó el acta firmada sobre la «Versión 30 · Validación DGIVA» (DEC-226, DEC-230). Todo cambio visible posterior se le informa con la relación de cambios.
 
-**B-04 · P-01 y P-02 sin resolver** *(criterio de salida)*
-Naturaleza jurídica del canal y aviso de privacidad. Sin ellos no hay publicación posible.
+**B-04 · P-02 en parte** *(criterio de salida)*
+P-01 está resuelta: la Secretaría recibe como denuncia ciudadana, con fundamento en el Reglamento Interior (DEC-226), y el acuse lo cita (DEC-232). Del aviso de privacidad (P-02) faltan tres datos de la Unidad de Transparencia; sin ellos no hay publicación posible.
 
 **B-05 · Minimización — RESUELTA el 18 de septiembre de 2026** *(§1.8)*
-Cada uno de los 53 campos declara ahora su **uso**, si es **dato personal** y a qué **finalidad** sirve, dentro del mismo catálogo `OBLIG` que gobierna la pantalla y la validación (DEC-35). El documento 09 se genera de ahí y el mapeo del panel de validación lo muestra en pantalla.
+Cada uno de los campos —53 en esa fecha; la cifra vigente la da el documento 09— declara ahora su **uso**, si es **dato personal** y a qué **finalidad** sirve, dentro del mismo catálogo `OBLIG` que gobierna la pantalla y la validación (DEC-35). El documento 09 se genera de ahí y el mapeo del panel de validación lo muestra en pantalla.
 
 **Resultado:** 21 datos personales de 53 campos, ocho finalidades y **cero campos sin uso declarado**. No hubo campos que retirar.
 

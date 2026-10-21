@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-235 · 20 de octubre de 2026
+**Versión:** DEC-236 · 20 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -11,6 +11,7 @@
 | Datos que viajan a la base sin verse en pantalla | **14** |
 | Datos que calcula el formulario y se muestran | 15 |
 | Datos personales | **22** (39 %) |
+| De ellos, de terceros: de quien se señala como responsable | 2 |
 | Obligatorios en este formulario | 37 de 57 |
 | Campos con obligatoriedad condicionada | 26 |
 | Datos sin uso declarado | **0** |
@@ -187,32 +188,35 @@ Tampoco los escribe la persona: se le enseñan en la ficha del mapa, en la revis
 ---
 ## 3. Hallazgos de la revisión de minimización
 
-**Ningún campo carece de uso.** Los cincuenta y tres tienen una finalidad verificable. No hay campos «por si acaso» que retirar. Lo que sí hay son tres ajustes.
+*Reescrito el 20 de octubre de 2026 contra `OBLIG` (DEC-236).* Este apartado y el siguiente son redactados a mano y el generador los conserva; por eso no llevan cifras: las da la tabla de arriba, que se calcula del catálogo.
 
-**H-01 · El teléfono es obligatorio y no es vía de notificación.**
-En los dos esquemas el teléfono aparece como obligatorio. Su uso real —contacto para aclarar un dato o coordinar el acceso al sitio durante la visita— es operativo, no procesal: la notificación se practica por correo electrónico o por domicilio, nunca por teléfono. Un dato personal que no sostiene ninguna actuación formal no debería condicionar la presentación de la denuncia.
-**Propuesta:** volverlo opcional, con la ayuda «agiliza la visita si el personal necesita confirmar algo contigo». **Decisión de la Dirección General.**
+**Ningún campo carece de uso.** Todos los que llena la persona tienen una finalidad verificable, y el generador se detiene si alguno queda sin uso declarado. No hay campos «por si acaso» que retirar.
 
-**H-02 · Seis campos contienen datos personales de terceros.**
-Nombre, señas, domicilio y persona encargada del presunto responsable, el área o persona servidora pública señalada, y las personas señaladas como responsables en el esquema vigente. Son datos de personas que **no dieron su consentimiento** y sobre las que se formula un señalamiento aún no acreditado. Su tratamiento es legítimo —el emplazamiento del probable infractor lo exige el procedimiento de inspección—, pero es de otra naturaleza que el de la persona denunciante.
-**Consecuencias que deben quedar escritas:** el aviso de privacidad tiene que mencionarlos expresamente; no se publican ni se entregan nunca en versión pública; y su conservación se rige por la vida del expediente, no por la del registro de contacto.
+**H-01 · El teléfono es obligatorio con datos y no es vía de notificación.**
+Su uso —aclarar un dato o coordinar el acceso al sitio durante la visita— es operativo, no procesal: la notificación se practica en el domicilio o, en la denuncia anónima, en el correo. Se propuso volverlo opcional; la Dirección General resolvió conservarlo obligatorio en «Escribo mis datos» (P-17, DEC-222). En la denuncia anónima es opcional (DEC-119).
+
+**H-02 · Hay datos personales de terceros.**
+Lo que se ha observado de quien realiza los hechos, cuando no se sabe quién es, y el área o persona servidora pública señalada: la tabla de arriba los cuenta como «de terceros». Son datos de personas que **no dieron su consentimiento** y sobre las que se formula un señalamiento aún no acreditado. Su tratamiento es legítimo —el procedimiento lo exige—, pero es de otra naturaleza que el de la persona denunciante.
+**Consecuencias que deben quedar escritas:** el aviso de privacidad los menciona, y ya lo hace; no se publican ni se entregan nunca en versión pública; y su conservación se rige por la vida del expediente, no por la del registro de contacto.
 
 **H-03 · La coordenada del sitio es un dato personal cuando los hechos ocurren en un domicilio.**
 Está marcada como tal en el catálogo. Obliga a definir —antes del primer dato real— quién ve la coordenada exacta y qué se publica: agregado por colonia, centroide, o nada. Un mapa público de puntos de denuncia puede identificar tanto a quien denuncia como a quien es denunciado.
 
-**H-04 · Retirado: el domicilio de la empresa denunciada.**
-Aplicando el criterio de esta misma revisión, se eliminó el campo de domicilio en el bloque de empresa: la razón social más el lugar de los hechos bastan para el emplazamiento, y es un dato que quien denuncia rara vez conoce. Se conserva en el bloque de persona física —«dónde se le localiza»—, donde sí aporta: ahí puede ser el único modo de ubicar al responsable.
+**H-04 · Retirados: el domicilio y el nombre del responsable.**
+Aplicando el criterio de esta revisión se retiró primero el domicilio de la empresa denunciada y, después, las preguntas abiertas sobre la persona y la empresa responsables (OBS-0025, OBS-0029, DEC-193): quien denuncia rara vez conoce esos datos, y la inspección los obtiene en el lugar. Sólo queda una pregunta abierta, para cuando no se sabe quién es el responsable.
 
-**H-05 · Dos preguntas largas quedaron tras una pregunta filtro.**
-Permisos y gestiones previas eran campos de texto abiertos que la mayoría de las personas deja vacíos, y que ocupaban espacio y atención en la pantalla. Ahora van precedidos de una pregunta de sí o no, y el campo sólo aparece a quien tiene algo que aportar. La respuesta misma es información: saber que alguien **ya reportó ante otra autoridad** distingue el caso, aunque no detalle cuál.
+**H-05 · Las gestiones previas van tras una pregunta filtro.**
+Era un campo abierto que la mayoría deja vacío. Ahora lo precede «¿Ya reportaste estos hechos ante otra autoridad?», y sólo aparece a quien tiene algo que aportar; la respuesta misma distingue el caso, aunque no detalle cuál. La pregunta de permisos se retiró: verificarlos le toca a la inspección.
 
 ---
 
 ## 4. Lo que ya cumple
 
-**El domicilio de notificación sólo se pide cuando hace falta.** Los siete campos de domicilio se omiten cuando la persona acepta la notificación por correo electrónico (DEC-48). Medido en el formulario: el paso 5 muestra siete controles cuando se acepta el correo y catorce cuando se rechaza. Es minimización efectiva, y la mitad de lo que el formulario pregunta en ese paso depende de una sola respuesta.
+**La denuncia anónima pide lo mínimo.** Ni nombre ni domicilio: sólo el correo, obligatorio porque ahí se le notifica el resultado (DEC-120, DEC-233), y el teléfono como opcional.
 
-**La denuncia anónima no pide ningún dato de contacto.** Los campos del paso 5 quedan fuera de la validación cuando se elige esa vía.
+**Con datos, el domicilio se pide siempre** (DEC-134), porque es donde se notifica. En esa ruta no hay notificación por correo, de modo que ninguna respuesta lo omite.
+
+**Las preguntas estadísticas son opcionales.** Género y rango de edad no condicionan la denuncia ni se incorporan al expediente; el género se trata con el consentimiento general del aviso de privacidad (DEC-234).
 
 ---
 

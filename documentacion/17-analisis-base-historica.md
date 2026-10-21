@@ -283,7 +283,7 @@ La base carece de fecha de recepción, fecha de los hechos, folio, estatus, fech
 
 Veinte preguntas en cuatro bloques. Cada una indica **por qué importa**, **qué muestra la base**, el **formato de respuesta** esperado —cerrado siempre que es posible, para que se resuelva en sesión— y **a qué alimenta** del expediente del proyecto. Las que se responden con un documento o un archivo lo señalan.
 
-Las preguntas del documento 05 —P-01 a P-22— siguen abiertas y son de otra naturaleza: resuelven el diseño jurídico del instrumento. Éstas resuelven el uso del dato histórico y la relación con la DGCORENADR. Donde una alimenta a otra, se indica.
+Las preguntas del documento 05 —P-01 a P-22, cuyo estado lleva ese documento— son de otra naturaleza: resuelven el diseño jurídico del instrumento. Éstas resuelven el uso del dato histórico y la relación con la DGCORENADR. Donde una alimenta a otra, se indica.
 
 ### Bloque A · Para poder leer la base
 

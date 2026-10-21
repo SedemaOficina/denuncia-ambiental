@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Ruta de trabajo y convenciones de código
 
-**Versión:** 1.6 · 30 de septiembre de 2026
+**Versión:** 1.7 · 20 de octubre de 2026
 **Para qué sirve este documento.** Fija el orden en que se construye el sistema, el criterio para dar por terminada cada fase y las reglas de código que se aplican desde la maqueta. Es el documento que se consulta antes de abrir cualquier módulo nuevo.
 
 ---
@@ -215,7 +215,7 @@ Importa por tres razones: induce a error a quien lea el código después, oculta
 4. Listado de clases de estilo declaradas contra usadas, incluidas las que se construyen por concatenación.
 5. Detección de declaraciones duplicadas.
 6. Recuento de estilos en línea: los repetidos se convierten en clase.
-7. Recorrido automatizado de los seis pasos y de los doce escenarios, sin errores en consola.
+7. Recorrido automatizado de los seis pasos y de todos los escenarios del panel, sin errores en consola.
 
 Lo que se elimina se anota en la bitácora de este documento, con el motivo. **Nada se borra en silencio.**
 
@@ -305,7 +305,7 @@ Basta con decir **«cierra el bloque»**. Eso obliga a entregar, siempre lo mism
 1. Verificación de sintaxis del archivo completo.
 2. Auditoría de código muerto —las siete comprobaciones del apartado 4—.
 3. Auditoría de hojas de estilo —las seis del apartado 3.6—.
-4. Recorrido automatizado de los seis pasos y los doce escenarios, sin error en consola.
+4. Recorrido automatizado de los seis pasos y de todos los escenarios del panel, sin error en consola.
 5. Prueba específica de lo que se acaba de cambiar.
 6. Anotación en la bitácora de este documento: qué se eliminó y por qué.
 7. Versión publicada del artefacto, con etiqueta de lo que contiene.
@@ -1263,3 +1263,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Anotado para el bloque siguiente.** (1) `valida()` repite el mínimo de 40 caracteres del relato en lugar de leerlo de `LIMITES.hechos.min`. (2) Queda un comentario huérfano, «Hora en dos controles: horas y minutos», sin el código que describía (DEC-119 retiró la hora). Los dos son del bloque 6, limpieza.
 
 **Verificación de cierre.** Batería completa en verde: 1 306 comprobaciones en 38 baterías.
+
+### 20 de octubre de 2026 · bloque 3 de la auditoría: documentos jurídicos y de datos (DEC-236)
+
+**Qué cambió.** Documento 03, versión 2.0: el fundamento por materia es el de `MATERIAS` —la tabla se armó leyendo el catálogo—, P-01 aparece resuelta y el apartado 7 dice qué se cotejó el 20 de octubre contra los textos vigentes. Documento 09: los apartados 3 y 4 sin cifras ni afirmaciones viejas; el generador suma a la cabecera los datos personales de terceros. Documento 04, versión 2.1, al día con DEC-200, DEC-226, DEC-233 y DEC-235. Encabezados y textos atrasados en los documentos 01, 02, 11, 12, 13, 17 y 20. Batería 39 nueva. El formulario no cambia y la versión sigue siendo la 33.
+
+**Por qué.** Quien redacte el contrato con estos documentos como referencia reintroduciría citas ya corregidas y datos personales que el formulario ya no pide.
+
+**Verificación de cierre.** Batería completa en verde: 1 323 comprobaciones en 39 baterías.

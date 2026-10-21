@@ -143,6 +143,9 @@ if previo and not cola.strip():
 
 n      = len(campos)
 ndp    = sum(1 for c in campos if c['dp'])
+# Los datos personales de quien se señala, no de quien denuncia: la cola los
+# nombra sin contarlos, para que la cifra viva sólo aquí (D1-03).
+nter   = sum(1 for c in campos if c['dp'] and c['fin'] == 'Responsable')
 ndg    = sum(1 for c in campos if c['oblig'])
 ncond  = sum(1 for c in campos if c['cond_txt'])
 sin_uso= [c['clave'] for c in campos + calc if not c['uso']]
@@ -166,6 +169,7 @@ o.append('| Campos que llena la persona | **%d** |' % n)
 o.append('| Datos que viajan a la base sin verse en pantalla | **%d** |' % len(ocultos))
 o.append('| Datos que calcula el formulario y se muestran | %d |' % len(visibles))
 o.append('| Datos personales | **%d** (%d %%) |' % (ndp, round(100.0*ndp/n)))
+o.append('| De ellos, de terceros: de quien se señala como responsable | %d |' % nter)
 o.append('| Obligatorios en este formulario | %d de %d |' % (ndg, n))
 o.append('| Campos con obligatoriedad condicionada | %d |' % ncond)
 o.append('| Datos sin uso declarado | **%d** |' % len(sin_uso))

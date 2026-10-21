@@ -46,7 +46,7 @@ El canal vigente presenta cinco deficiencias que el formulario corrige:
 
 Tres etapas, en el orden que fijó la Oficina de la Secretaría. El documento 11 las desglosa en fases con criterio de salida.
 
-**Etapa 1 — Validar el formulario (en cierre, DEC-229).** Prototipo navegable, sin servidor, con las capas del Sistema de Información Ambiental embebidas y una versión de prueba en GitHub Pages. La Dirección General deja sus observaciones con el modo revisión (DEC-153). Cierra con el acta de validación de la Dirección General de Inspección y Vigilancia Ambiental y la resolución de P-01 y P-02.
+**Etapa 1 — Validar el formulario (en cierre, DEC-229).** Prototipo navegable, sin servidor, con las capas del Sistema de Información Ambiental embebidas y una versión de prueba en GitHub Pages. La Dirección General deja sus observaciones con el modo revisión (DEC-153). Cierra cuando se cumplan los siete criterios de salida del documento 11: el acta ya se firmó sobre la «Versión 30» (DEC-230) y P-01 está resuelta (DEC-226); faltan el fundamento de «Plásticos de un solo uso», P-02 y OBS-0024.
 
 **Etapa 2 — Módulo de acceso de la Secretaría.** Entrada protegida para el personal, con cuentas institucionales. Primero, **la captura por personal** de las denuncias que llegan por Oficialía de Partes, teléfono o correo (AD-03, DEC-154); después, bandeja de denuncias, buscadores y tablero de indicadores, sobre la misma base que el formulario (AD-01). Se construye sobre el modelo de datos validado en la etapa 1.
 
@@ -61,7 +61,7 @@ El proyecto tiene una carpeta local vinculada a esta sesión de trabajo:
 | Carpeta | Contenido |
 |---|---|
 | `prototipo/` | Prototipo navegable del formulario, en un archivo HTML autocontenido |
-| `documentacion/` | Los diecinueve documentos de este proyecto y la cédula de respuesta a la DGIVA |
+| `documentacion/` | Los veinte documentos de este proyecto, el informe de la auditoría del 20 de octubre de 2026 y la cédula de respuesta a la DGIVA |
 | `capas/` | Capas del Sistema de Información Ambiental empleadas por el formulario |
 | `construccion/` | Cadena que genera la versión en línea, la de GitHub Pages y los documentos 09 y 10, y las baterías de prueba |
 | `insumos/` | Formato público vigente, propuesta de la Dirección General y Ley Ambiental |
