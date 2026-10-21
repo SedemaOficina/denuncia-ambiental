@@ -33,6 +33,10 @@ CHROMIUM = os.environ.get('CHROMIUM')  # sin la variable, Playwright usa el Chro
 from playwright.sync_api import sync_playwright
 fallos, notas = [], []
 def afirma(c, m): (notas if c else fallos).append(('OK  ' if c else 'FALLA ') + m)
+# Lo único que la maqueta pide a internet son las tipografías; si no cargan, no
+# es un error de la maqueta. Chrome no pone la dirección en el texto del aviso:
+# se lee de su ubicación.
+TIPOGRAFIAS = ('https://fonts.googleapis.com/', 'https://fonts.gstatic.com/')
 
 datos = json.loads(DATOS.read_text(encoding='utf-8'))
 doc = DOC22.read_text(encoding='utf-8')
@@ -88,7 +92,7 @@ with sync_playwright() as pw:
     nav = pw.chromium.launch(executable_path=CHROMIUM)
     pg = nav.new_context(viewport={'width':1280,'height':900}).new_page()
     err = []
-    pg.on('console', lambda x: err.append(x.text) if x.type == 'error' and 'fonts.g' not in x.text else None)
+    pg.on('console', lambda x: err.append(x.text) if x.type == 'error' and not (x.location or {}).get('url', '').startswith(TIPOGRAFIAS) else None)
     pg.on('pageerror', lambda e: err.append('pageerror: ' + str(e)))
     pg.goto(MAQUETA.as_uri() + '#/bandeja'); pg.wait_for_timeout(600)
     pg.evaluate("() => { document.getElementById('perfil').value = 'consulta'; cambiaPerfil('consulta'); }")

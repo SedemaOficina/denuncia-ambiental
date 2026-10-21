@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.5 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-245
+**Versión:** 0.6 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-246
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.5 a la 0.6** (tablero de la maqueta, DEC-246): el apartado 5 dice cómo cuenta la maqueta cada indicador.
 
 **De la 0.4 a la 0.5** (Inicio de la maqueta, DEC-245): el apartado 3.1 dice qué listas ve cada perfil.
 
@@ -190,6 +192,8 @@ Cinco grupos. Todos se filtran por periodo, área, canal, materia y alcaldía.
 | | Con punto y sin punto; con evidencia y sin ella | Calidad de la captura |
 | | Género y rango de edad, sólo en agregado | P-20 resuelta (DEC-225, DEC-234); falta que el SIA asuma publicar la desagregación |
 
+**Lo que la maqueta propone, por acordar (DEC-246).** El turnado y la primera valoración se cuentan en días hábiles desde la recepción original; la primera valoración es la primera vez que la denuncia se admite, returna, remite, recomienda o concluye. «Sitios con denuncia reiterada» se aproxima con las celdas UGA que tienen dos o más denuncias. El género y la edad sólo van en agregado, y una cifra menor que 3 se muestra como «menos de 3», porque con los filtros podría señalar a una persona; la cifra la fija la Unidad de Transparencia.
+
 ---
 
 ## 6. Datos que el módulo agrega al modelo
@@ -242,7 +246,7 @@ Mismo método que el formulario: primero maqueta, después servidor.
 | Paso | Qué se hace | Cuándo puede empezar |
 |---|---|---|
 | 1 | Acordar este bosquejo y resolver las preguntas del apartado 10 que dependen de la Oficina de la Secretaría | Ahora |
-| 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada. **En curso:** bloques A, cascarón y datos de prueba (DEC-242), B, bandeja (DEC-243), C, expediente (DEC-244), y la primera parte del D, Inicio (DEC-245), hechos | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
+| 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada. **En curso:** bloques A, cascarón y datos de prueba (DEC-242), B, bandeja (DEC-243), C, expediente (DEC-244), y las dos primeras partes del D, Inicio (DEC-245) y tablero (DEC-246), hechos | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
 | 3 | Variante «modo captura» del prototipo del formulario (AD-03) | Ahora, como maqueta, sobre la versión vigente del formulario |
 | 4 | Sesión con la DGIVA y con la DGCORENADR sobre estados, perfiles y vistas, con la maqueta a la vista | En cuanto exista la maqueta |
 | 5 | Construcción: captura por personal, después bandeja y expediente, después tablero y mapa | Fase 5 (documento 11), sobre el contrato de la fase 2 |

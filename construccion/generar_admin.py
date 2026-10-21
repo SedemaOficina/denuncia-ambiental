@@ -4,7 +4,8 @@
 
 1. Las variables de color y medida (:root) y el logotipo, leidos del texto del
    prototipo del formulario; los nombres de las materias, de su catalogo
-   MATERIAS; y el «hoy» fijo con que se cuentan los dias habiles.
+   MATERIAS; las opciones de genero y edad, del paso 5; y el «hoy» fijo con
+   que se cuentan los dias habiles.
 2. Cuarenta denuncias ficticias, armadas con la logica del propio formulario:
    se carga un escenario del panel de validacion, se cambia lo que haga falta
    y el formulario calcula lo demas —area que recibe, remision, tipo de zona,
@@ -283,8 +284,15 @@ with sync_playwright() as pw:
     P = plan()
     for r in P: r['canal'] = CANAL.get(r['i'], 'en_linea')
     hecho = pg.evaluate(ARMA, P)
+    # Las opciones de género y edad, como las ofrece el paso 5 del formulario,
+    # para que el tablero las cuente con los mismos nombres.
+    estadistica = pg.evaluate("""() => { cargaEscenario('urbano'); irA(5);
+      const o = k => [...document.querySelectorAll('#f_' + k + ' option')].filter(x => x.value).map(x => ({v: x.value, t: x.textContent}));
+      return {sexo_genero: o('sexo_genero'), edad_rango: o('edad_rango')}; }""")
     nav.close()
 TMP.unlink(missing_ok=True)
+if not (estadistica['sexo_genero'] and estadistica['edad_rango']):
+    sys.exit('ERROR: no se encontraron en el paso 5 del formulario las opciones de género y edad.')
 if hecho['fuera']:
     sys.exit('ERROR: denuncias de prueba que no se pudieron armar: %s' % hecho['fuera'])
 if any(c not in canales_ids for c in set(CANAL.values()) | {'en_linea'}):
@@ -325,6 +333,7 @@ m = entre_marcas(m, '/* ==== %s: catálogos y denuncias ficticias (construccion/
                  '/* ==== %s ==== */' % FIN,
                  '\nvar HOY = ' + json.dumps(HOY.isoformat(timespec='seconds')) + ';\n'
                  'var MATERIAS = ' + json.dumps(materias, ensure_ascii=False) + ';\n'
+                 'var OPCIONES_ESTADISTICA = ' + json.dumps(estadistica, ensure_ascii=False) + ';\n'
                  'var DENUNCIAS = ' + json.dumps(denuncias, ensure_ascii=False) + ';\n')
 MAQUETA.write_text(m, encoding='utf-8', newline='\n')
 print('maqueta de administración: %d denuncias ficticias; %.1f KB' % (len(denuncias), len(m.encode('utf-8')) / 1024))

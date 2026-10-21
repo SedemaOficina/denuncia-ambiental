@@ -1363,3 +1363,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **De paso.** Dos corridas completas fallaron en ocho baterías que, solas, pasaban: se detenían sin comprobar nada y `pruebas.py` no decía por qué, y la única pista era una tipografía que no cargó por la red. `pruebas.py` ahora muestra el final del error cuando una batería se detiene sin dejar ninguna FALLA, para que un fallo así no quede mudo. La tercera corrida salió en verde.
 
 **Verificación de cierre.** Batería completa en verde: 1 761 comprobaciones en 47 baterías, 285 de ellas sobre la versión publicada. La batería 47 atrapó los dos errores metidos a propósito —que atención viera toda su área y cambiar la regla de «por vencer»—. Revisión a la vista en escritorio y a 390 px.
+
+### 21 de octubre de 2026 · maqueta del módulo de administración, bloque D, segunda parte: el tablero (DEC-246)
+
+**Qué cambió.** «Tablero» deja de ser un aviso: cuatro cifras arriba y los cinco grupos de indicadores del documento 22, §5, con filtros por mes, área, canal, materia y alcaldía. El filtro de la bandeja se generalizó para servir a las dos pantallas, y los días hábiles entre dos fechas quedaron en una sola función. El generador inyecta las opciones de género y edad del paso 5 del formulario. Batería 48 nueva.
+
+**Por qué así.** Con cuarenta denuncias, una gráfica de colores enseñaría poco y confundiría: cada indicador es una tabla de barras de un solo color con su número, que se lee igual sin color. La batería 48 recalcula cada indicador sobre el archivo de datos, aparte de la maqueta.
+
+**De paso.** La causa de las fallas de red de la parte anterior quedó a la vista: cuando la tipografía de Google no carga, Chrome avisa «Failed to load resource» sin poner la dirección en el texto, y las baterías de la maqueta, que perdonaban sólo los avisos que la nombraban, lo contaban como error propio. Ahora leen la dirección de la ubicación del aviso y sólo perdonan las tipografías: cualquier otra petición a internet sigue siendo falla.
+
+**Verificación de cierre.** Batería completa en verde: 1 784 comprobaciones en 48 baterías, 285 de ellas sobre la versión publicada. La batería 48 atrapó los dos errores metidos a propósito —mostrar una cifra de género o edad menor que 3 y dejar de contar los plazos vencidos—. Revisión a la vista en escritorio y a 360 px.

@@ -51,7 +51,7 @@ with sync_playwright() as pw:
     nav = pw.chromium.launch(executable_path=CHROMIUM)
     pg = nav.new_context(viewport={'width':1280,'height':900}).new_page()
     err, red = [], []
-    pg.on('console', lambda x: err.append(x.text) if x.type == 'error' and 'fonts.g' not in x.text else None)
+    pg.on('console', lambda x: err.append(x.text) if x.type == 'error' and not (x.location or {}).get('url', '').startswith(TIPOGRAFIAS) else None)
     pg.on('pageerror', lambda e: err.append('pageerror: ' + str(e)))
     pg.on('request', lambda r: red.append(r.url) if r.url.startswith('http') and not r.url.startswith(TIPOGRAFIAS) else None)
     pg.goto(MAQUETA.as_uri()); pg.wait_for_timeout(600)
