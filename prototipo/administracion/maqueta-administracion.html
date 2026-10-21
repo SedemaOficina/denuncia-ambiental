@@ -102,7 +102,6 @@ main{padding:24px 0 48px}
 .tarjeta h2{font-size:var(--t-xl);color:var(--guinda);margin-bottom:6px}
 .tarjeta h3{font-size:var(--t-base);margin:18px 0 6px}
 .resumen{color:var(--gris);font-size:var(--t-md)}
-.cifra{font-size:var(--t-2xl);font-family:'Cabin','Roboto',Arial,sans-serif;font-weight:600;color:var(--guinda)}
 .pendiente{display:inline-block;background:var(--pend-bg);border:1px dashed var(--pend);color:var(--pend-txt);padding:2px 7px;border-radius:4px;font-size:var(--t-xs);font-weight:600}
 .boton{font:inherit;font-size:var(--t-md);font-weight:600;min-height:40px;padding:6px 14px;border:1px solid var(--azul);border-radius:var(--r-ctrl);background:var(--blanco);color:var(--azul);cursor:pointer}
 .boton:hover{background:var(--azul-cl)}
@@ -224,6 +223,9 @@ main{padding:24px 0 48px}
 .acciones-captura .boton{display:inline-flex;align-items:center;text-decoration:none}
 /* En el teléfono la tabla de lo capturado se desplaza dentro de su marco. */
 .desliza{overflow-x:auto}
+
+/* ---------- Búsqueda y administración (bloque F) ---------- */
+.campo-folio,.campo-motivo{max-width:520px;margin:8px 0 10px}
 .cuenta-inicio{font-size:var(--t-xl);color:var(--guinda);margin-right:4px}
 
 /* ---------- Pantallas angostas ---------- */
@@ -345,17 +347,16 @@ var PERSONAL = {
 };
 
 /* Las ocho pantallas del bosquejo (apartado 3). El expediente no va en el
-   menú: se abre desde la bandeja. «bloque» dice en qué bloque de la maqueta
-   se construye cada una (DEC-242). */
+   menú: se abre desde la bandeja. */
 var PANTALLAS = [
-  {id:'inicio',        nom:'Inicio',                    bloque:'D', resumen:'Lo que cada perfil debe atender hoy, en listas de trabajo —no son estados—: lo nuevo, lo asignado o por asignar, lo que está por vencer, lo vencido y lo resuelto que falta notificar.'},
-  {id:'bandeja',       nom:'Bandeja',                   bloque:'B', resumen:'Listado de denuncias con vistas predefinidas, filtros combinables y búsqueda.'},
-  {id:'expediente',    nom:'Expediente',                bloque:'C', resumen:'Una denuncia completa: lo capturado, la ubicación, la evidencia, las actuaciones, el contacto y la notificación.', fueraDelMenu:true},
-  {id:'captura',       nom:'Captura por personal',      bloque:'E', resumen:'El mismo formulario, para lo que llega por Oficialía de Partes, teléfono, correo o comparecencia.'},
-  {id:'mapa',          nom:'Mapa operativo',            bloque:'D', resumen:'Las denuncias sobre las capas del SIA, por alcaldía, colonia y celda UGA.'},
-  {id:'tablero',       nom:'Tablero',                   bloque:'D', resumen:'Indicadores de operación, plazos, resultado, territorio y canal.'},
-  {id:'busqueda',      nom:'Búsqueda y exportación',    bloque:'F', resumen:'Descarga de la bandeja filtrada; con datos personales, sólo coordinación y con registro en bitácora.'},
-  {id:'administracion',nom:'Administración',            bloque:'F', resumen:'Cuentas y perfiles, catálogos, calendario de días inhábiles, plazos y bitácora.'}
+  {id:'inicio',        nom:'Inicio',                    resumen:'Lo que cada perfil debe atender hoy, en listas de trabajo —no son estados—: lo nuevo, lo asignado o por asignar, lo que está por vencer, lo vencido y lo resuelto que falta notificar.'},
+  {id:'bandeja',       nom:'Bandeja',                   resumen:'Listado de denuncias con vistas predefinidas, filtros combinables y búsqueda.'},
+  {id:'expediente',    nom:'Expediente',                resumen:'Una denuncia completa: lo capturado, la ubicación, la evidencia, las actuaciones, el contacto y la notificación.', fueraDelMenu:true},
+  {id:'captura',       nom:'Captura por personal',      resumen:'El mismo formulario, para lo que llega por Oficialía de Partes, teléfono, correo o comparecencia.'},
+  {id:'mapa',          nom:'Mapa operativo',            resumen:'Las denuncias sobre las capas del SIA, por alcaldía, colonia y celda UGA.'},
+  {id:'tablero',       nom:'Tablero',                   resumen:'Indicadores de operación, plazos, resultado, territorio y canal.'},
+  {id:'busqueda',      nom:'Búsqueda y exportación',    resumen:'Descarga de la bandeja filtrada; con datos personales, sólo coordinación y con registro en bitácora.'},
+  {id:'administracion',nom:'Administración',            resumen:'Cuentas y perfiles, catálogos, calendario de días inhábiles, plazos y bitácora.'}
 ];
 
 /* Perfiles del bosquejo (apartado 2), por acordar con las áreas. «rol» dice
@@ -776,8 +777,7 @@ function pintaInicio(){
   var listas = LISTAS_INICIO.filter(function(l){ return l.roles.indexOf(perfil.rol) >= 0; });
   var html = '<div class="tarjeta"><h2 tabindex="-1">'+esc(p.nom)+'</h2><p class="resumen">'+esc(p.resumen)+'</p>';
   if(!listas.length){
-    document.getElementById('pantalla').innerHTML = html+
-      '<p><span class="pendiente">El inicio de Administración llega con el bloque F de la maqueta</span></p></div>';
+    document.getElementById('pantalla').innerHTML = html+inicioAdministracion()+'</div>';
     return;
   }
   html += '<p class="resumen">Hoy es '+esc(fechaCorta(HOY))+' (fecha fija de la maqueta). '+
@@ -921,17 +921,21 @@ function grupoCanal(c){
 /* Los cinco grupos del documento 22, §5, con sus nombres. */
 var GRUPOS_TABLERO = [['Operación', grupoOperacion], ['Plazos', grupoPlazos], ['Resultado', grupoResultado], ['Territorio', grupoTerritorio], ['Canal', grupoCanal]];
 
-function pintaIndicadores(){
-  var c = visibles().filter(function(d){
+function conjuntoTablero(){
+  return visibles().filter(function(d){
     return FILTROS_TABLERO.every(function(f){ return tablero.filtros[f.id] === undefined || f.valor(d) === tablero.filtros[f.id]; });
   });
+}
+function cifrasTablero(c){
   var abiertas = c.filter(function(d){ return !cerrada(d); });
+  return [['Recibidas', c.length], ['En trámite', abiertas.length], ['Cerradas', c.length - abiertas.length],
+    ['Con el plazo vencido', abiertas.filter(function(d){ var p = plazoDe(d); return p && p.vencido; }).length]];
+}
+function pintaIndicadores(){
+  var c = conjuntoTablero();
   document.getElementById('conteo-tablero').textContent = c.length+(c.length === 1 ? ' denuncia' : ' denuncias')+' con estos filtros.';
   document.getElementById('indicadores').innerHTML =
-    '<dl class="cifras-tablero">'+
-      par('Recibidas', String(c.length))+par('En trámite', String(abiertas.length))+par('Cerradas', String(c.length - abiertas.length))+
-      par('Con el plazo vencido', String(abiertas.filter(function(d){ var p = plazoDe(d); return p && p.vencido; }).length))+
-    '</dl>'+
+    '<dl class="cifras-tablero">'+cifrasTablero(c).map(function(x){ return par(x[0], String(x[1])); }).join('')+'</dl>'+
     GRUPOS_TABLERO.map(function(g){ return '<h3>'+esc(g[0])+'</h3><div class="grupo-tablero">'+g[1](c)+'</div>'; }).join('');
 }
 
@@ -1105,6 +1109,201 @@ function pintaCaptura(){
     '</div>';
 }
 
+/* ---------- Bitácora (bloque F) ---------- */
+
+/* Quién consultó o descargó qué, y cuándo (documento 22, §3.8 y §7, condición
+   2: también las consultas, no sólo los cambios). En el sistema la escribe el
+   servidor y nadie la edita; en la maqueta vive en la memoria de la página y
+   se pierde al recargar. */
+var bitacora = [];
+function registra(que){ bitacora.unshift({hora: new Date().toTimeString().slice(0, 8), perfil: perfil.nom, que: que}); }
+function tablaBitacora(lista){
+  return !lista.length ? '<p>Todavía nada en esta sesión.</p>' :
+    '<div class="desliza" role="region" aria-label="Bitácora" tabindex="0"><table class="tabla-chica"><thead><tr><th scope="col">Hora</th><th scope="col">Perfil</th><th scope="col">Qué hizo</th></tr></thead><tbody>'+
+    lista.map(function(b){ return '<tr><td>'+esc(b.hora)+'</td><td>'+esc(b.perfil)+'</td><td>'+esc(b.que)+'</td></tr>'; }).join('')+
+    '</tbody></table></div>';
+}
+
+/* ---------- Búsqueda y exportación (bloque F) ---------- */
+
+/* Lo que sale en la descarga de la bandeja: sus columnas, como datos. Los de
+   quien denuncia, sólo en la de coordinación, con motivo y registro
+   (documento 22, §3.7), y tomados de los bloques del acuse para no armarlos
+   dos veces. Género y edad nunca: sólo van en agregado (§7). */
+var EXPORTA = [
+  ['Folio',            function(d){ return d.datos.folio; }],
+  ['Recepción',        function(d){ return recepcion(d); }],
+  ['Canal',            function(d){ return porId(CANALES, d.canal).nom; }],
+  ['Materia',          function(d){ return porId(MATERIAS, d.datos.materia).nom; }],
+  ['Alcaldía',         function(d){ return d.datos.alcaldia || d.datos.alcaldia_dir || ''; }],
+  ['Colonia',          function(d){ return d.datos.colonia || ''; }],
+  ['Tipo de zona',     function(d){ return d.datos.capa_clase || ''; }],
+  ['Área que recibe',  function(d){ return d.tramite.area_actual; }],
+  ['Remisión',         function(d){ return d.datos.remite_a || ''; }],
+  ['Estado',           function(d){ return porId(ESTADOS, d.tramite.estado).nom; }],
+  ['Persona asignada', function(d){ return d.tramite.asignado; }],
+  ['Días hábiles',     function(d){ return diasHabiles(d); }]
+];
+var EXPORTA_PERSONALES = ['Denunciante', 'Contacto', 'Domicilio para notificaciones'];
+
+/* Un CSV que se descarga: con la marca BOM para que la hoja de cálculo lea los
+   acentos, y sin dejar que un valor empiece por = + - @, que la hoja tomaría
+   por fórmula. */
+function valorCsv(v){ v = String(v == null ? '' : v); if(/^[=+\-@]/.test(v)) v = "'"+v; return '"'+v.replace(/"/g, '""')+'"'; }
+function descargaCsv(nombre, filas){
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob(['\ufeff'+filas.map(function(f){ return f.map(valorCsv).join(','); }).join('\r\n')], {type:'text/csv;charset=utf-8'}));
+  a.download = nombre;
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+function avisaDescarga(texto){ document.getElementById('aviso-descarga').textContent = texto; }
+
+function descargaBandeja(conDatos){
+  var motivo = conDatos ? document.getElementById('f-motivo').value.trim() : '';
+  if(conDatos && perfil.rol !== 'coordinacion') return;
+  if(conDatos && !motivo){
+    avisaDescarga('Escribe el motivo: la descarga con datos personales queda registrada con él.');
+    document.getElementById('f-motivo').focus();
+    return;
+  }
+  var lista = filtrada();
+  var filas = [EXPORTA.map(function(c){ return c[0]; }).concat(conDatos ? EXPORTA_PERSONALES : [])].concat(lista.map(function(d){
+    var quien = d.acuse.bloques.filter(function(b){ return b.id === 'quien'; })[0] || {filas:[]};
+    return EXPORTA.map(function(c){ return c[1](d); }).concat(conDatos ? EXPORTA_PERSONALES.map(function(etq){
+      var f = quien.filas.filter(function(x){ return x[0] === etq; })[0]; return f ? f[1] : '';
+    }) : []);
+  }));
+  descargaCsv('bandeja-'+(conDatos ? 'con-datos-personales' : 'sin-datos-personales')+'.csv', filas);
+  registra('Descarga la bandeja '+(conDatos ? 'con datos personales' : 'sin datos personales')+': '+lista.length+' denuncias'+(conDatos ? '. Motivo: '+motivo : ''));
+  avisaDescarga('Se descargaron '+lista.length+' denuncias'+(conDatos ? '. La descarga quedó en la bitácora con su motivo.' : ', sin datos de quien denuncia.'));
+}
+
+/* Los indicadores del tablero con sus filtros, como los pinta el tablero: se
+   leen de lo que pinta cada grupo, para no calcularlos dos veces. Género y
+   edad salen ya con la cifra menor que el mínimo oculta. */
+function descargaIndicadores(){
+  var c = conjuntoTablero(), caja = document.createElement('div');
+  var filas = [['Grupo', 'Indicador', 'Concepto', 'Valor']].concat(cifrasTablero(c).map(function(x){ return ['Resumen', 'Cifras', x[0], x[1]]; }));
+  GRUPOS_TABLERO.forEach(function(g){
+    caja.innerHTML = g[1](c);
+    caja.querySelectorAll('.indicador').forEach(function(s){
+      var tit = s.querySelector('h4').textContent, cab = [].map.call(s.querySelectorAll('thead th'), function(h){ return h.textContent; });
+      s.querySelectorAll('tbody tr').forEach(function(r){
+        var tds = r.querySelectorAll('td.num');
+        [].forEach.call(tds, function(td, i){ filas.push([g[0], tit, r.querySelector('th').textContent+(tds.length > 1 ? ' · '+cab[i + 1] : ''), td.textContent]); });
+      });
+      s.querySelectorAll('.ficha > div').forEach(function(x){ filas.push([g[0], tit, x.querySelector('dt').textContent, x.querySelector('dd').textContent]); });
+    });
+  });
+  descargaCsv('indicadores.csv', filas);
+  registra('Descarga los indicadores del tablero: '+c.length+' denuncias');
+  avisaDescarga('Se descargaron los indicadores de '+c.length+' denuncias, con los filtros del tablero.');
+}
+
+/* Abrir una denuncia por su folio, completo o sólo el consecutivo, o por su
+   folio de origen. Sólo entre las que ve el perfil. */
+function abreFolio(){
+  var q = normaliza(document.getElementById('f-folio').value).trim();
+  var d = q && visibles().filter(function(x){
+    return normaliza(x.datos.folio) === q || normaliza(x.datos.folio).indexOf('/'+q) > 0 || normaliza(x.datos.folio_origen) === q;
+  })[0];
+  if(d) location.hash = '#/expediente/'+idDe(d);
+  else document.getElementById('aviso-folio').textContent = 'Este perfil no ve ninguna denuncia con ese folio.';
+}
+
+function pintaBusqueda(){
+  var p = porId(PANTALLAS, 'busqueda'), lista = filtrada(), v = porId(VISTAS, bandeja.vista);
+  var activos = Object.keys(bandeja.filtros).map(function(k){ var f = porId(FILTROS, k); return f.nom+': '+f.texto(bandeja.filtros[k]); })
+    .concat(bandeja.texto.trim() ? ['búsqueda: «'+bandeja.texto.trim()+'»'] : []);
+  document.getElementById('pantalla').innerHTML =
+    '<div class="tarjeta"><h2 tabindex="-1">'+esc(p.nom)+'</h2><p class="resumen">'+esc(p.resumen)+'</p>'+
+    '<h3>Abrir por folio</h3>'+
+    '<div class="campo campo-folio"><label for="f-folio">Folio, consecutivo o folio de origen</label>'+
+      '<input id="f-folio" type="search" autocomplete="off" onkeydown="if(event.key === \'Enter\') abreFolio()"></div>'+
+    '<p><button type="button" class="boton" onclick="abreFolio()">Abrir el expediente</button></p>'+
+    '<p class="nota-listado" id="aviso-folio" role="status"></p>'+
+    '<h3>Descargar la bandeja</h3>'+
+    '<p>Lo que dejaste en la bandeja: vista «'+esc(v.nom)+'»'+(activos.length ? ', '+esc(activos.join('; ')) : ', sin filtros')+'. '+
+      '<strong>'+lista.length+(lista.length === 1 ? ' denuncia' : ' denuncias')+'.</strong> <a href="#/bandeja/'+v.id+'">Cambiarlo en la bandeja</a></p>'+
+    '<p><button type="button" class="boton" onclick="descargaBandeja(false)">Descargar sin datos personales (CSV)</button></p>'+
+    (perfil.rol === 'coordinacion'
+      ? '<div class="campo campo-motivo"><label for="f-motivo">Motivo de la descarga con datos personales</label>'+
+          '<input id="f-motivo" type="text" maxlength="300" autocomplete="off"></div>'+
+        '<p><button type="button" class="boton" onclick="descargaBandeja(true)">Descargar con datos personales (CSV)</button></p>'+
+        '<p class="nota-listado">Lleva nombre, contacto y domicilio de quien denuncia. Queda en la bitácora, con el motivo (documento 22, §3.7).</p>'
+      : '<p class="nota-listado">La descarga con datos de quien denuncia es sólo de coordinación (documento 22, §3.7).</p>')+
+    (permitida('tablero')
+      ? '<h3>Descargar los indicadores</h3><p>Los del tablero, con los filtros que tenga.</p>'+
+        '<p><button type="button" class="boton" onclick="descargaIndicadores()">Descargar los indicadores (CSV)</button></p>'
+      : '')+
+    '<p class="conteo" id="aviso-descarga" role="status"></p>'+
+    '<p class="nota-listado">El género y la edad no salen en ninguna descarga de denuncias: sólo en los indicadores, en agregado.</p></div>';
+}
+
+/* ---------- Administración (bloque F) ---------- */
+
+/* Los parámetros de la maqueta, con quién los fija: se leen de donde viven,
+   para que la tabla no pueda quedarse atrás. */
+function parametros(){
+  var plazos = [];
+  ESTADOS.forEach(function(e){
+    if(e.plazo && e.plazo.dias !== 'suelo' && !plazos.some(function(x){ return x[0] === 'Para '+e.plazo.para; }))
+      plazos.push(['Para '+e.plazo.para, e.plazo.dias+' días hábiles', 'Manual Administrativo (DEC-84)']);
+  });
+  return plazos.concat([
+    ['El procedimiento completo', Object.keys(PLAZO_PROCEDIMIENTO).map(function(k){ return PLAZO_PROCEDIMIENTO[k]+' días hábiles en la '+k; }).join('; '), 'Manual Administrativo (DEC-84)'],
+    ['«Por vencer» en Inicio', AVISO_VENCE+' días hábiles', 'Cifra de prueba; las áreas'],
+    ['Posible duplicado', UMBRAL_DUPLICADO.metros+' metros y '+UMBRAL_DUPLICADO.dias+' días', 'Cifra de prueba; la DGIVA (SIA-26)'],
+    ['Denuncias cercanas en el expediente', RADIO_CERCANAS+' metros', 'Cifra de prueba; las áreas'],
+    ['Mínimo para mostrar género y edad', String(MINIMO_AGREGADO), 'Cifra de prueba; la Unidad de Transparencia'],
+    ['Denuncias por página en la bandeja', String(POR_PAGINA), 'La maqueta']]);
+}
+var PENDIENTES_ADMIN = [
+  ['Calendario de días inhábiles', 'Sin él, los plazos sólo descuentan sábados y domingos. El que publique la Secretaría cada año, cargado por el SIA (MA-11).'],
+  ['Plantilla del correo a la persona anónima', 'La redacta la dirección general que recibe, con la Unidad de Transparencia, y sale de una cuenta institucional del SIA (MA-12, SIA-29).'],
+  ['Cifras de los controles contra el abuso', 'Duplicados, ráfaga y completitud: las decide la DGIVA (SIA-26, P-21).']
+];
+
+function inicioAdministracion(){
+  return '<h3>Pendientes de configuración</h3><dl class="ficha">'+
+      PENDIENTES_ADMIN.map(function(x){ return par(x[0], esc(x[1])); }).join('')+'</dl>'+
+    '<h3>Bitácora reciente</h3>'+tablaBitacora(bitacora.slice(0, 5))+
+    '<p><a href="#/administracion">Ver la administración completa</a></p>';
+}
+
+function pintaAdministracion(){
+  var p = porId(PANTALLAS, 'administracion');
+  document.getElementById('pantalla').innerHTML =
+    '<div class="tarjeta"><h2 tabindex="-1">'+esc(p.nom)+'</h2><p class="resumen">'+esc(p.resumen)+'</p>'+
+    '<p class="nota-listado">En la maqueta todo esto se consulta, no se cambia: es la propuesta de lo que administra el SIA (documento 22, §3.8).</p>'+
+    '<h3>Cuentas y perfiles</h3>'+
+    '<div class="desliza" role="region" aria-label="Perfiles" tabindex="0"><table class="tabla-chica"><thead><tr><th scope="col">Perfil</th><th scope="col">Ve</th><th scope="col">Datos de quien denuncia</th><th scope="col">Acciones en el expediente</th><th scope="col">Pantallas</th></tr></thead><tbody>'+
+      PERFILES.map(function(x){
+        var acc = ACCIONES.filter(function(a){ return a.roles.indexOf(x.rol) >= 0; });
+        return '<tr><th scope="row">'+esc(x.nom)+'</th>'+
+          '<td>'+esc(x.area ? 'Su área ('+x.area+') y lo que no tiene punto' : x.soloCapturadas ? 'Lo capturado por personal' : x.rol === 'administracion' ? 'Ninguna denuncia' : 'Toda la Secretaría')+'</td>'+
+          '<td>'+(x.datosPersonales ? 'Sí' : 'No')+'</td><td class="num">'+acc.length+'</td>'+
+          '<td>'+esc(x.pantallas.map(function(s){ return porId(PANTALLAS, s).nom; }).join(', '))+'</td></tr>';
+      }).join('')+'</tbody></table></div>'+
+    '<p class="nota-listado">En el sistema, el perfil lo da la cuenta institucional (SIA-23). Perfiles y acciones son propuesta por acordar con las áreas.</p>'+
+    '<h3>Catálogos</h3><dl class="ficha">'+
+      par('Materias', MATERIAS.length+', del formulario')+
+      par('Estados del trámite', ESTADOS.length+': '+esc(ESTADOS.map(function(e){ return e.nom; }).join(', '))+'. Propuesta por acordar (MA-07, P-14)')+
+      par('Canales', CANALES.length+': '+esc(CANALES.map(function(c){ return c.nom; }).join(', ')))+
+      par('Marcas de revisión', MARCAS.length+': '+esc(MARCAS.map(function(m){ return m.nom; }).join(', ')))+
+      par('Giros y supuestos de otra autoridad', 'Viven en el formulario; los giros esperan la respuesta a OBS-0024')+
+    '</dl>'+
+    '<h3>Plazos y umbrales</h3>'+
+    '<div class="desliza" role="region" aria-label="Plazos y umbrales" tabindex="0"><table class="tabla-chica"><thead><tr><th scope="col">Qué</th><th scope="col">Cuánto</th><th scope="col">Quién lo fija</th></tr></thead><tbody>'+
+      parametros().map(function(x){ return '<tr><th scope="row">'+esc(x[0])+'</th><td>'+esc(x[1])+'</td><td>'+esc(x[2])+'</td></tr>'; }).join('')+
+    '</tbody></table></div>'+
+    '<h3>Por configurar</h3><dl class="ficha">'+PENDIENTES_ADMIN.map(function(x){ return par(x[0], esc(x[1])); }).join('')+'</dl>'+
+    '<p class="nota-listado">El correo a la persona anónima no lleva datos de la persona denunciada ni de terceros (documento 22, §7, condición 6).</p>'+
+    '<h3>Bitácora de accesos y cambios</h3>'+tablaBitacora(bitacora)+
+    '<p class="nota-listado">En la maqueta vive en la memoria de la página y se pierde al recargar. En el sistema la escribe el servidor y nadie la edita (documento 22, §4, regla 1, y §7).</p></div>';
+}
+
 /* ---------- Expediente (bloque C) ---------- */
 
 function fechaHora(iso){ return fechaCorta(iso)+', '+iso.slice(11, 16)+' h'; }
@@ -1253,6 +1452,7 @@ function pintaExpediente(param){
       '<p><a href="#/bandeja">Ir a la bandeja</a></p></div>';
     return;
   }
+  registra('Consulta el expediente '+d.datos.folio+(perfil.datosPersonales ? ', con los datos de quien denuncia' : ', sin datos personales'));
   var s = senales(d), acc = ACCIONES.filter(function(a){ return a.roles.indexOf(perfil.rol) >= 0; });
   document.getElementById('pantalla').innerHTML =
     '<div class="tarjeta">'+
@@ -1284,8 +1484,7 @@ function pintaMenu(actual){
     }).join('');
 }
 
-/* Las pantallas que aún no se construyen dicen qué tendrán y en qué bloque, y
-   ya cuentan lo que vería el perfil con las denuncias de prueba. */
+/* Cada pantalla tiene quien la pinte; la que queda es la de administración. */
 function pintaPantalla(id, param){
   if(id === 'bandeja') return pintaBandeja(param);
   if(id === 'expediente') return pintaExpediente(param);
@@ -1293,16 +1492,8 @@ function pintaPantalla(id, param){
   if(id === 'tablero') return pintaTablero();
   if(id === 'mapa') return pintaMapa();
   if(id === 'captura') return pintaCaptura();
-  var p = porId(PANTALLAS, id), n = visibles().length;
-  document.getElementById('pantalla').innerHTML =
-    '<div class="tarjeta">'+
-      '<h2 tabindex="-1">'+esc(p.nom)+'</h2>'+
-      '<p class="resumen">'+esc(p.resumen)+'</p>'+
-      '<h3>Con las denuncias de prueba</h3>'+
-      '<p>Este perfil vería <span class="cifra">'+n+'</span> de '+DENUNCIAS.length+' denuncias'+
-        (perfil.datosPersonales ? '.' : ', sin nombre, contacto ni domicilio de quien denuncia.')+'</p>'+
-      '<p><span class="pendiente">Esta pantalla se construye en el bloque '+esc(p.bloque)+' de la maqueta</span></p>'+
-    '</div>';
+  if(id === 'busqueda') return pintaBusqueda();
+  pintaAdministracion();
 }
 
 /* La pantalla va en la dirección (#/bandeja), y tras ella la vista o el folio
@@ -1325,6 +1516,7 @@ function muestra(mueveFoco){
    tablero y el mapa, ya no aplican. */
 function cambiaPerfil(id){
   perfil = porId(PERFILES, id) || PERFILES[0];
+  registra('Entra con este perfil');
   bandeja.filtros = {}; bandeja.texto = ''; bandeja.pagina = 1; tablero.filtros = {}; mapa.filtros = {};
   muestra(false);
 }

@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.8 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-248
+**Versión:** 0.9 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-249
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.8 a la 0.9** (búsqueda, exportación y administración, DEC-249): los apartados 3.7 y 3.8 dicen lo que propone la maqueta, y el paso 2 del apartado 9 está hecho.
 
 **De la 0.7 a la 0.8** (captura por personal, DEC-248): el apartado 3.4 dice cómo quedó el modo captura del formulario, y el paso 3 del apartado 9 está hecho.
 
@@ -136,9 +138,13 @@ Ver apartado 5.
 
 Descarga en hoja de cálculo de la bandeja filtrada y de los indicadores. **La exportación con datos personales queda limitada a coordinación y se registra en bitácora**; la del perfil de consulta sale sin ellos.
 
+**Lo que la maqueta propone (DEC-249).** Además de descargar, se abre un expediente por folio, consecutivo o folio de origen. La descarga con datos personales pide un motivo, que queda en la bitácora con quién y cuántas; atención y consulta descargan sin ellos. Género y edad no salen por denuncia en ninguna descarga.
+
 ### 3.8 Administración
 
 Cuentas y perfiles; catálogos que el área puede actualizar sin tocar código —materias, giros (pendiente de OBS-0024), supuestos de otra autoridad, estados—; calendario de días inhábiles, sin el cual ningún plazo se cuenta bien; plazos y umbrales de los controles contra el abuso; plantilla del correo de notificación de la anónima; bitácora de accesos y cambios.
+
+**Lo que la maqueta propone (DEC-249).** Todo se consulta y nada se cambia. Los plazos y umbrales se leen de donde los usa la maqueta, con quién fija cada uno y cuáles son cifras de prueba. La bitácora registra también las consultas al expediente, con datos personales o sin ellos, y no sólo los cambios.
 
 ---
 
@@ -254,7 +260,7 @@ Mismo método que el formulario: primero maqueta, después servidor.
 | Paso | Qué se hace | Cuándo puede empezar |
 |---|---|---|
 | 1 | Acordar este bosquejo y resolver las preguntas del apartado 10 que dependen de la Oficina de la Secretaría | Ahora |
-| 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada. **En curso:** bloques A, cascarón y datos de prueba (DEC-242), B, bandeja (DEC-243), C, expediente (DEC-244), D, Inicio, tablero y mapa (DEC-245 a DEC-247), y E, captura por personal (DEC-248), hechos | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
+| 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada. **Hecha (DEC-242 a DEC-249):** bloques A, cascarón y datos de prueba (DEC-242), B, bandeja (DEC-243), C, expediente (DEC-244), D, Inicio, tablero y mapa (DEC-245 a DEC-247), E, captura por personal (DEC-248), y F, búsqueda, exportación y administración (DEC-249) | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
 | 3 | Variante «modo captura» del prototipo del formulario (AD-03) | **Hecho:** «Versión 37» (DEC-248) |
 | 4 | Sesión con la DGIVA y con la DGCORENADR sobre estados, perfiles y vistas, con la maqueta a la vista | En cuanto exista la maqueta |
 | 5 | Construcción: captura por personal, después bandeja y expediente, después tablero y mapa | Fase 5 (documento 11), sobre el contrato de la fase 2 |

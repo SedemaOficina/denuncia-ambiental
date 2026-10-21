@@ -7,8 +7,8 @@
 
    1. Cada perfil ve sus listas de trabajo: atención y coordinación, cinco
       —atención con «Asignadas», coordinación con «Por asignar»—; captura,
-      lo capturado y lo que parece duplicado; administración, el aviso de que
-      su inicio llega con el bloque F.
+      lo capturado y lo que parece duplicado; administración, lo pendiente de
+      configurar y la bitácora reciente (DEC-249).
    2. Cada lista tiene las denuncias que dice su regla. Atención ve lo nuevo
       de su área y, en lo demás, lo que tiene a su cargo la persona que simula.
    3. Hay algo en «Por vencer» y en «Vencidas» con los datos de prueba.
@@ -91,7 +91,8 @@ with sync_playwright() as pw:
             folios: [...s.querySelectorAll('li a')].map(a => a.textContent)}))""")
         if p['rol'] == 'administracion':
             texto = pg.inner_text('#pantalla')
-            afirma(not vistas and 'llega con el bloque F' in texto, 'administración no tiene listas: su inicio llega con el bloque F')
+            afirma(not vistas and 'Pendientes de configuración' in texto and 'Bitácora reciente' in texto,
+                   'administración no tiene listas de denuncias: ve lo pendiente de configurar y la bitácora reciente')
             continue
         afirma([v['nom'] for v in vistas] == LISTAS[p['rol']], '%s ve sus listas: %s' % (p['id'], [v['nom'] for v in vistas]))
         persona = cat['personal'][p['area']][0] if p['rol'] == 'atencion' else ''

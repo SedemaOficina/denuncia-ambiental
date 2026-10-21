@@ -1391,3 +1391,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **De paso, para el siguiente bloque o para las áreas.** Cómo consta el aviso de privacidad de quien denunció por escrito o por teléfono, porque la casilla la marcaría quien captura; si el teléfono puede no venir; y la relación de cambios de las versiones 31 a 37 para la DGIVA.
 
 **Verificación de cierre.** Batería completa en verde: 1 829 comprobaciones en 51 baterías, 285 de ellas sobre la versión publicada. Revisión a la vista del paso de recepción, la revisión y el acuse en modo captura, y de la pantalla de la maqueta en escritorio y a 360 px.
+
+### 21 de octubre de 2026 · maqueta del módulo de administración, bloque F: búsqueda, exportación y administración; la maqueta queda completa (DEC-249)
+
+**Qué cambió.** «Búsqueda y exportación» abre expedientes por folio y descarga la bandeja y los indicadores en CSV; la descarga con datos personales es de coordinación y pide motivo. «Administración» muestra perfiles, catálogos, plazos y umbrales, lo que falta configurar y la bitácora de la sesión, que también tiene su lugar en el inicio de administración. Como ya no queda pantalla por construir, se retiraron el aviso genérico, la propiedad que lo alimentaba y su estilo. Batería 52 nueva; la 47 se actualiza por el nuevo inicio de administración.
+
+**Por qué así.** Las descargas y la tabla de parámetros leen de las mismas funciones y variables que pintan la bandeja, el tablero y los plazos: no hay una segunda copia que pueda quedarse atrás. La batería 52 se probó metiendo dos errores a propósito —descargar con datos personales sin motivo y meter esos datos en la descarga sin ellos— y los atrapó.
+
+**Lo que sigue.** La maqueta está completa: el paso 4 del documento 22, §9, es la sesión con la DGIVA y la DGCORENADR sobre estados, perfiles y vistas, con la maqueta a la vista.
+
+**Verificación de cierre.** Batería completa en verde: 1 848 comprobaciones en 52 baterías, 285 de ellas sobre la versión publicada. Revisión a la vista de búsqueda, administración e inicio de administración en escritorio y a 360 px; las tres descargas se abrieron y revisaron.
