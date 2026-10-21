@@ -42,3 +42,6 @@ construccion/artefacto*.html
 construccion/__pycache__/
 construccion/pruebas/_pagina*.html
 construccion/_artefacto*.html
+
+# Copia de la versión publicada que arma pruebas.py para correr sin red (DEC-240).
+construccion/publicada-pruebas.html

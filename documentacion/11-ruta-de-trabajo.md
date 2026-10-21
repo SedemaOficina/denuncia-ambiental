@@ -1299,3 +1299,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Una revisión que no habría visto lo que buscaba.** La primera versión de la revisión de variables locales contaba `val('dg')` como uso de `dg` y no detectaba el caso de la auditoría; se corrigió quitando el contenido de las cadenas antes de contar, y se comprobó contra ese caso.
 
 **Verificación de cierre.** Batería completa en verde: 1 355 comprobaciones en 41 baterías.
+
+### 21 de octubre de 2026 · bloque 7 de la auditoría: pruebas sobre la versión publicada (DEC-240)
+
+**Qué cambió.** Leaflet 1.9.4 fijado en `construccion/terceros/leaflet-1.9.4/`, con huellas cotejadas contra cdnjs y el aviso de su licencia. `publicada_de_prueba.py` arma una copia de `docs/index.html` que no sale a internet, y `pruebas.py` corre sobre ella, además de todo lo demás, las ocho baterías del paso 2 y la nueva 42. Las baterías 01 y 22 distinguen lo propio de cada versión. Sin cambio de versión.
+
+**Por qué.** Lo que ve la DGIVA es la versión publicada, y su mapa y su búsqueda de direcciones no tenían prueba. Peor: si Leaflet no cargaba, la página escondía el mapa y todo seguía en verde.
+
+**Con esto se cierra el plan de corrección de la auditoría del 20 de octubre**: los siete bloques están hechos (DEC-229 a DEC-240).
+
+**Verificación de cierre.** Batería completa en verde: 1 643 comprobaciones en 42 baterías, de ellas 278 sobre la versión publicada, con Leaflet local y sin red.

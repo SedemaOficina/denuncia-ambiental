@@ -95,7 +95,11 @@ with sync_playwright() as pw:
            'no queda el boton que pedia la ubicacion del dispositivo')
     afirma(pg.evaluate("() => typeof estoyEnElLugar") == 'undefined',
            'la funcion de geolocalizacion se elimino')
-    afirma(pg.evaluate("() => document.documentElement.outerHTML.indexOf('navigator.geolocation') < 0"),
+    # Sin el codigo de terceros: en la copia de la version publicada va Leaflet,
+    # que trae su propia funcion de ubicacion aunque el formulario no la use.
+    afirma(pg.evaluate("""() => { const c = document.documentElement.cloneNode(true);
+      c.querySelectorAll('script[data-tercero]').forEach(s => s.remove());
+      return c.outerHTML.indexOf('navigator.geolocation') < 0; }"""),
            'el codigo ya no menciona la API de geolocalizacion')
     afirma(pg.locator('#f_coord_pegar').count() == 1,
            'existe el campo para pegar coordenadas o un enlace de mapa')

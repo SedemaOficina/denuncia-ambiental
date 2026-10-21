@@ -21,7 +21,9 @@ El entorno donde se publica el artefacto **bloquea todo recurso externo**. El pr
 | `generar_doc10.py` | Regenera `documentacion/10-variantes-del-formulario.md` desde `BIFURCACIONES` y `ESCENARIOS` |
 | `generar_catalogos.py` | Incrusta en el prototipo el catálogo de colonias (IECM 2022) y los centros de la malla UGA, a partir de `capas/originales/` (DEC-117). Idempotente |
 | `validar_catalogos.py` | Coteja los catálogos incrustados contra los polígonos completos. Requiere `shapely`; se corre al cambiar un origen |
-| `pruebas.py` | Corre todas las pruebas y suma el resultado |
+| `pruebas.py` | Corre todas las pruebas y suma el resultado. Antes arma la copia de la versión publicada y, al final, repite sobre ella las baterías del paso 2 (DEC-240) |
+| `publicada_de_prueba.py` | Arma `construccion/publicada-pruebas.html`: la versión publicada con Leaflet 1.9.4 en línea, mosaicos vacíos y búsqueda de direcciones con respuestas fijas, para probarla sin salir a internet. Comprueba la huella de Leaflet y que la página pida esa versión. `pruebas.py` lo corre solo |
+| `terceros/leaflet-1.9.4/` | Copia fijada de Leaflet para esas pruebas, con sus huellas y su licencia. No se edita |
 | `pruebas/` | Una batería por cierre de trabajo. **No se borran cuando su asunto se cierra**: una prueba vieja en verde es lo que avisa cuando un cambio nuevo rompe algo viejo |
 
 ## Cómo se usa

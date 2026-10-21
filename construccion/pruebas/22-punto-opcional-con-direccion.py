@@ -51,8 +51,13 @@ with sync_playwright() as pw:
            'bajo el mapa, sin punto: «%s»' % b['caja'][:70])
     afirma(b['pasa'] is True, 'con la dirección completa y sin punto, el paso continúa')
     local = pg.evaluate("() => document.getElementById('c_lat').innerText")
-    afirma('continúa sin punto' in local and 'la dirección, el punto se coloca solo' not in local,
-           'en esta versión de prueba no se promete que la dirección coloque el punto')
+    # La versión publicada sí busca la dirección; el artefacto no (construir.py).
+    if os.environ.get('PUBLICADA') == '1':
+        afirma('la dirección, el punto se coloca solo' in local and 'continúa sin punto' not in local,
+               'en la versión publicada, que sí busca la dirección, se dice que el punto se coloca solo')
+    else:
+        afirma('continúa sin punto' in local and 'la dirección, el punto se coloca solo' not in local,
+               'en esta versión de prueba no se promete que la dirección coloque el punto')
 
     # ---- revisión, envío y folio ----
     pg.evaluate("() => { guarda('hechos','Tiran basura revuelta en la banqueta todas las noches desde hace un mes.'); guarda('temporalidad','recurrente'); guarda('es_estab','no'); guarda('tipo_denunciado','nose'); guarda('reporto_antes','no'); guarda('conoce_fecha','no'); guarda('identificacion','anonima'); guarda('correo','a@b.mx'); guarda('privacidad','si'); irA(6); alternaDetalleRevision(); }")
