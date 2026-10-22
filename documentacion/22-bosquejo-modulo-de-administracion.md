@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.17 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-258
+**Versión:** 0.18 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-259
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.17 a la 0.18** (zonas protegidas desagregadas, DEC-259): el apartado 5 separa las ANP en locales y federales, y las AVA en bosques urbanos y barrancas.
 
 **De la 0.16 a la 0.17** (limpiar filtros, DEC-258): el apartado 5 dice que los filtros se limpian con un botón siempre visible.
 
@@ -221,7 +223,7 @@ Cinco grupos. Todos se filtran por año, mes, área, canal, materia y alcaldía.
 | | Concluidas sin materia y acumuladas por duplicado | Calidad de lo que entra; documento 15, §6 |
 | | Materia declarada frente a materia confirmada | Mide si el paso 1 se entiende; alimenta D-2 |
 | **Territorio** | Denuncias por alcaldía, colonia y tipo de zona | Programación de operativos |
-| | Proporción en suelo de conservación, en Áreas Naturales Protegidas y en Áreas de Valor Ambiental, cada una por separado | Línea base de las dos primeras, juntas: 4.3 %; 0.2 % en Milpa Alta (D-18) |
+| | Proporción en suelo de conservación; en Áreas Naturales Protegidas, locales y federales, y en Áreas de Valor Ambiental, bosques urbanos y barrancas, cada una por separado (DEC-259) | Línea base de las dos primeras, juntas: 4.3 %; 0.2 % en Milpa Alta (D-18) |
 | **Canal** | Denuncias anónimas y con datos | Seguimiento de DEC-03 |
 | | Notificaciones por correo enviadas y fallidas, en anónimas | Seguimiento de DEC-233 y SIA-29 |
 | | Con punto y sin punto; con evidencia y sin ella | Calidad de la captura |

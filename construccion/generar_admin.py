@@ -101,6 +101,10 @@ MARCA = {6: 'humanidad', 7: 'rafaga', 11: 'completitud'}
 # Y una foto tomada a unos tres kilómetros del lugar: el expediente avisa que
 # conviene revisar si es el mismo sitio (DEC-253).
 FOTO_LEJOS = 12
+# Una denuncia de cascajo en una barranca, para que el tablero tenga de cada
+# zona protegida que desagrega (DEC-259): el punto se busca dentro del
+# polígono de la barranca, con el mismo cruce del formulario.
+EN_BARRANCA = {29: 'Tarango (Puerta Grande y Puerta Colorado)'}
 OTROS_ARCHIVOS = {2: {'name': 'video-del-lugar.mp4', 'size': 18350080}, 9: {'name': 'escrito-de-vecinos.pdf', 'size': 412160},
                   16: {'name': 'acta-de-asamblea-vecinal.docx', 'size': 98304}, 20: {'name': 'registro-de-quejas.xlsx', 'size': 61440}}
 # Cinco de las más antiguas, todas cerradas, llegaron el año anterior: el
@@ -135,11 +139,24 @@ def plan():
                   'anonima': anonima, 'nombre': NOMBRE_LARGO if i == LARGO else NOMBRES[i % len(NOMBRES)],
                   'establecimiento': m in CON_ESTABLECIMIENTO, 'otro_giro': i == 26, 'responsable': resp,
                   'fecha_ms': int((HOY - corre - datetime.timedelta(days=round(i * 1.3, 2), hours=i % 7)).timestamp() * 1000),
-                  'consecutivo': 101 + i, 'archivos': i % SIN_ARCHIVOS_CADA != 5, 'otro_archivo': OTROS_ARCHIVOS.get(i)})
+                  'consecutivo': 101 + i, 'archivos': i % SIN_ARCHIVOS_CADA != 5, 'otro_archivo': OTROS_ARCHIVOS.get(i), 'en_barranca': EN_BARRANCA.get(i)})
     return p
 
 ARMA = r"""(plan) => {
   const fuera = [], salida = [];
+  /* El primer punto de una rejilla sobre la caja de la zona que el cruce del
+     formulario reconoce como esa zona. */
+  const puntoDentro = (nombre) => {
+    const f = CAPAS_GEOM.find(x => x.p.nombre === nombre);
+    const anillo = (f.g.type === 'Polygon' ? f.g.coordinates : f.g.coordinates[0])[0];
+    const xs = anillo.map(q => q[0]), ys = anillo.map(q => q[1]);
+    const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+    for (let a = 1; a < 20; a++) for (let b = 1; b < 20; b++) {
+      const lo = x0 + (x1 - x0) * a / 20, la = y0 + (y1 - y0) * b / 20;
+      if (consultaCapas(la, lo).nombre === nombre) return [la, lo];
+    }
+    throw new Error('Sin punto dentro de ' + nombre);
+  };
   for (const r of plan) {
     cargaEscenario(r.base); cfg.validar = true;
     const g = (k, v) => guarda(k, v);
@@ -182,6 +199,7 @@ ARMA = r"""(plan) => {
     } else {
       let la = +val('lat') + r.desplaza[0], lo = +val('lon') + r.desplaza[1];
       if (r.punto_otra_alcaldia) { la = 19.3720; lo = -99.1580; }
+      if (r.en_barranca) [la, lo] = puntoDentro(r.en_barranca);
       analizaCapas(la.toFixed(6), lo.toFixed(6));
       if (val('fuera') === 'si') { fuera.push(r.i); continue; }
       g('lat', la.toFixed(6)); g('lon', lo.toFixed(6)); g('coord_pegar', la.toFixed(6) + ', ' + lo.toFixed(6));

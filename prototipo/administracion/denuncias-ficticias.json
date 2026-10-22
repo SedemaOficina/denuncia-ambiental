@@ -6507,16 +6507,19 @@
   "es_ficticio": true,
   "canal": "en_linea",
   "datos": {
-   "alcaldia": "Iztacalco",
+   "alcaldia": "Álvaro Obregón",
    "alcaldia_dir": "Iztacalco",
+   "alcaldia_discrepa": "si",
    "calle": "Calle 5",
-   "capa_clase": "Suelo urbano",
-   "capa_tipo": "Suelo urbano",
+   "capa_categoria": "Barranca",
+   "capa_clase": "Área de Valor Ambiental",
+   "capa_nombre": "Tarango (Puerta Grande y Puerta Colorado)",
+   "capa_tipo": "Área de Valor Ambiental · Barranca",
    "colonia": "Pantitlán I",
    "colonia_alcaldia": "Iztacalco",
    "colonia_cve": "06-056",
    "conoce_fecha": "si",
-   "coord_pegar": "19.391200, -99.063600",
+   "coord_pegar": "19.341625, -99.252281",
    "correo": "anonima.29@ejemplo.local",
    "cp": "08100",
    "dg": "DGIVA",
@@ -6529,8 +6532,8 @@
    "folio": "SEDEMA/DEN/2026/000130-8",
    "hechos": "Camiones de volteo tiran cascajo en la orilla de la barranca por las noches.",
    "identificacion": "anonima",
-   "lat": "19.391200",
-   "lon": "-99.063600",
+   "lat": "19.341625",
+   "lon": "-99.252281",
    "materia": "cascajo",
    "num_ext": "27",
    "otras_pruebas": "Fotografías de la espuma en la coladera.",
@@ -6569,15 +6572,15 @@
       ],
       [
        "Coordenadas",
-       "19.391200, -99.063600"
+       "19.341625, -99.252281"
       ],
       [
        "Alcaldía que atiende",
-       "Iztacalco"
+       "Álvaro Obregón · no coincide con la de la dirección"
       ],
       [
        "Tipo de suelo",
-       "Suelo urbano"
+       "Área de Valor Ambiental · Barranca — Tarango (Puerta Grande y Puerta Colorado)"
       ],
       [
        "Área que atiende",

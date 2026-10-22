@@ -18,8 +18,8 @@
    6. Resultado: visita practicada por materia; remitidas y returnadas por
       separado; sin materia y acumuladas.
    7. Territorio: por alcaldía y por tipo de zona; suelo de conservación,
-      Área Natural Protegida y Área de Valor Ambiental, cada una con su
-      proporción; ya no las celdas UGA con denuncia reiterada.
+      ANP local y federal, y AVA bosque urbano y barranca, cada una con su
+      proporción (DEC-259); ya no las celdas UGA con denuncia reiterada.
    8. Canal: anónimas, notificación por correo, punto y evidencia; género y
       edad sólo en agregado, sin mostrar una cifra menor que el mínimo.
    9. En teléfono, sin desplazamiento horizontal y con los filtros plegados."""
@@ -134,10 +134,17 @@ with sync_playwright() as pw:
     zona = Counter(x['datos'].get('capa_clase') or 'Sin ubicar' for x in datos)
     afirma({b[0]: int(b[1]) for b in i['Por tipo de zona']['barras']} == dict(zona), 'por tipo de zona')
     afirma(not any('UGA' in k for k in i), 'el tablero ya no reporta las celdas UGA con denuncia reiterada')
-    TRES = ('Suelo de conservación', 'Área Natural Protegida', 'Área de Valor Ambiental')
+    REGLAS = {'Suelo de conservación': lambda x: x.get('capa_clase') == 'Suelo de conservación',
+              'Área Natural Protegida local': lambda x: x.get('capa_clase') == 'Área Natural Protegida' and x.get('capa_categoria', '').startswith('Local'),
+              'Área Natural Protegida federal': lambda x: x.get('capa_clase') == 'Área Natural Protegida' and x.get('capa_categoria', '').startswith('Federal'),
+              'Área de Valor Ambiental · bosque urbano': lambda x: x.get('capa_clase') == 'Área de Valor Ambiental' and x.get('capa_categoria') == 'Bosque urbano',
+              'Área de Valor Ambiental · barranca': lambda x: x.get('capa_clase') == 'Área de Valor Ambiental' and x.get('capa_categoria') == 'Barranca'}
+    n_zona = {z: sum(r(x['datos']) for x in datos) for z, r in REGLAS.items()}
     zonas = i['En suelo de conservación, Área Natural Protegida y Área de Valor Ambiental']
-    afirma(zonas['pares'] == {z: '%d de 40 (%.1f %%)' % (zona[z], 100 * zona[z] / 40) for z in TRES} and all(zona[z] for z in TRES) and '4.3 %' in zonas['texto'],
-           'suelo de conservación, ANP y AVA por separado, cada una con su proporción, y la línea base de 4.3 %%: %s' % zonas['pares'])
+    afirma(zonas['pares'] == {z: '%d de 40 (%.1f %%)' % (n, 100 * n / 40) for z, n in n_zona.items()} and all(n_zona.values()) and '4.3 %' in zonas['texto'],
+           'suelo de conservación, ANP local y federal, y AVA bosque urbano y barranca, cada una con su proporción, y la línea base de 4.3 %%: %s' % zonas['pares'])
+    afirma(sum(n_zona.values()) == sum(zona[z] for z in ('Suelo de conservación', 'Área Natural Protegida', 'Área de Valor Ambiental')),
+           'la desagregación no deja fuera ninguna denuncia en zona protegida')
 
     # ---- 8. Canal ----
     anon = [x for x in datos if x['datos']['identificacion'] == 'anonima']

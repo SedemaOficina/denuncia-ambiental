@@ -1473,3 +1473,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Liber no encontraba cómo limpiar los filtros: el botón de la bandeja se escondía cuando no había nada que limpiar, y las otras dos pantallas no tenían. Una sola función sirve a las tres, para que se comporten igual. Se probó metiendo dos errores a propósito —que el mapa no quite el acercamiento y que el foco no vuelva al primer filtro— y los atraparon las baterías 49 y 48.
 
 **Verificación de cierre.** Batería completa en verde: 1 880 comprobaciones en 54 baterías, 281 de ellas sobre la versión publicada.
+
+### 22 de octubre de 2026 · el tablero desagrega las zonas protegidas (DEC-259)
+
+**Qué cambió.** La cifra de zonas protegidas del tablero tiene ahora cinco renglones: suelo de conservación, ANP local, ANP federal, AVA bosque urbano y AVA barranca. Una denuncia de prueba de cascajo se movió a la barranca de Tarango para que haya de las cinco. Batería 48 ajustada; documento 22 a la versión 0.18.
+
+**Por qué así.** Lo pidió Liber. Las cinco se leen de la clase y la categoría que da el cruce del formulario, en un solo catálogo, así que cada denuncia cuenta en una sola y no hay una lista de zonas que se pueda quedar atrás. El punto de la barranca no se escribió a mano: se busca dentro del polígono con el mismo cruce del formulario. Se probó metiendo dos errores a propósito —una categoría mal escrita y una regla que contaba de más— y los atrapó la batería 48.
+
+**Verificación de cierre.** Batería completa en verde: 1 881 comprobaciones en 54 baterías, 281 de ellas sobre la versión publicada.
