@@ -108,7 +108,7 @@ with sync_playwright() as pw:
     # ---- 4. Letras al azar (D1-12) ----
     rl = pg.evaluate("""() => { const ks = ['calle', 'entre_calles', 'nombre_estab', 'dom_calle', 'dom_entre_calles'];
       cargaEscenario('urbano');
-      const rechaza = ks.filter(k => { guarda(k, 'ASFSAFASFDSFQWRTZX'); const r = formatoMal(k) && msgFormato(k) === NO_SE_ENTIENDE; return !r; });
+      const rechaza = ks.filter(k => { guarda(k, 'ASFSAFASFDSFQWRTZX'); const r = formatoMal(k) && msgFormato(k) === noSeEntiende(); return !r; });
       const cols = [...new Set(CATALOGO_COLONIAS.filas.map(f => f[0]))];
       cargaEscenario('urbano'); cfg.validar = true; guarda('nombre', 'Asdrúbal'); guarda('apellido_paterno', 'Mkrtchyan'); irA(5);
       return {noRechaza: rechaza, colonias: cols.length, falsos: cols.filter(c => pareceRelleno(c)),

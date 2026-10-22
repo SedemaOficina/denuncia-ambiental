@@ -1489,3 +1489,13 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Lo pidió Liber. Los datos salen del personal registrado, el mismo que da de alta cada coordinación, y no de una segunda lista. Primero el botón llevaba también el nombre y no cabía junto al título: en escritorio caía debajo. Quedó sólo la foto en la esquina, con el nombre al abrirla y para el lector de pantalla; la batería 55 vigila que esté en la esquina y no se encime al título. Se probó metiendo dos errores a propósito —que Escape no la cierre y que el panel muestre otro perfil— y los atrapó.
 
 **Verificación de cierre.** Batería completa en verde: 1 888 comprobaciones en 55 baterías, 281 de ellas sobre la versión publicada.
+
+### 22 de octubre de 2026 · en modo captura, el formulario le habla a quien captura: «Versión 38» (DEC-261)
+
+**Qué cambió.** En modo captura, todos los textos de los pasos 1 a 6, del acuse en pantalla y de lo que dice qué sigue hablan de la persona que denuncia en tercera persona, para quien captura. El aviso de privacidad se sustituye por una casilla que marca quien captura: que se le informó a la persona y aceptó, y su protesta de decir verdad. «¿Por qué canal llegó?» pasa a «¿Por qué medio llegó?»; la hora de recepción se escribe en horas y minutos y se lee en palabras en la revisión; el soporte se sube en una zona como la de la evidencia. En línea, el formulario no cambia, salvo una frase de los contactos de la PROFEPA que se volvió neutra. Batería 56 nueva; la 50 ajustada. El formulario dice «Versión 38».
+
+**Por qué así.** Lo pidió Liber: quien captura escribe por otra persona, y el formulario le hablaba como si fuera quien denuncia. Un inventario de los textos encontró unos setenta que había que reescribir. Cada uno pasa por una sola función que elige la voz según el modo, así que el texto en línea queda tal cual en el código. La hora dejó el control del navegador, que agregaba «a. m.» o «p. m.» según la computadora. La batería 56 recorre los seis pasos con cuatro escenarios y busca cualquier «tú»; se probó metiendo dos errores a propósito —un botón con «mi denuncia» y el aviso de privacidad a la vista— y los atrapó.
+
+**Lo que queda.** Informar a la DGIVA de la «Versión 38» con la relación de cambios (DEC-230), y confirmar con la Unidad de Transparencia la casilla de privacidad del modo captura (P-02).
+
+**Verificación de cierre.** Batería completa en verde: 1 899 comprobaciones en 56 baterías, 281 de ellas sobre la versión publicada.

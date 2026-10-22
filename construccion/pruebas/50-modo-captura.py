@@ -42,7 +42,7 @@ try:
     pg.goto(TMP.as_uri() + '?modo=captura'); pg.wait_for_timeout(700)
     afirma(pg.evaluate("() => cfg.captura === true && document.getElementById('cfgCaptura').checked") and 'Captura de una denuncia recibida por otro medio' in pg.inner_text('body'),
            '«?modo=captura» lo enciende y el panel lo muestra encendido')
-    afirma(pg.evaluate("() => /Versión 37/.test(VERSION_FORMULARIO.nombre)"), 'el formulario dice «Versión 37»')
+    afirma(pg.evaluate("() => /Versión 38/.test(VERSION_FORMULARIO.nombre)"), 'el formulario dice «Versión 38»')
 
     # ---- 2. Primer paso ----
     pg.click('text=Iniciar la captura'); pg.wait_for_timeout(200)
@@ -73,9 +73,9 @@ try:
     pg.evaluate("() => irA(6)"); pg.wait_for_timeout(150)
     rev = pg.evaluate("() => datosDelAcuse()")
     filas = {f[0]: f[1] for b in rev for f in b['filas']}
-    afirma(rev[0]['titulo'] == 'Cómo llegó' and filas.get('Canal') == 'Oficialía de Partes' and filas.get('Recepción original') == '2026-10-19 · 11:20'
+    afirma(rev[0]['titulo'] == 'Cómo llegó' and filas.get('Medio') == 'Oficialía de Partes' and filas.get('Recepción original') == '19 de octubre de 2026, 11:20 horas'
            and filas.get('Folio de origen') == 'OP-2026-0517' and filas.get('Soporte') == 'escrito-con-sello.pdf',
-           'la revisión empieza por «Cómo llegó»: canal, recepción, folio de origen, quién recibió y soporte')
+           'la revisión empieza por «Cómo llegó»: medio, recepción, folio de origen, quién recibió y soporte')
     afirma('Correo no proporcionado' in filas.get('Contacto', '') and filas.get('Domicilio para notificaciones') == 'No proporcionado',
            'la revisión dice qué no se proporcionó')
 
@@ -94,7 +94,7 @@ try:
            'el acuse dice cómo se entrega (CP-3) y deja a la vista el aviso de denuncias cercanas')
     afirma('Recibida por Oficialía de Partes el 19 de octubre de 2026, 11:20 horas' in a and 'capturada el' in a,
            'dice cuándo y por dónde llegó, y cuándo se capturó')
-    afirma('No dejaste domicilio' in a and 'domicilio que registraste' not in a, 'sin domicilio, el acuse no promete notificar en él')
+    afirma('No dejó domicilio' in a and 'domicilio que registró' not in a, 'sin domicilio, el acuse no promete notificar en él')
 
     # ---- 7. Al apagarlo ----
     pg.evaluate("() => { document.getElementById('panel').classList.add('abierto'); }")

@@ -149,7 +149,7 @@ html{scroll-padding-top:150px}
 .campo label{display:block;font-weight:600;font-size:var(--t-base);line-height:1.35;margin-bottom:4px;color:var(--texto);cursor:pointer}
 .campo .ayuda{font-size:var(--t-sm);color:var(--gris-cl);margin-bottom:6px;line-height:1.45}
 .req{color:var(--guinda);font-weight:700;margin-left:1px}
-input[type=text],input[type=tel],input[type=email],input[type=date],input[type=time],select,textarea{
+input[type=text],input[type=tel],input[type=email],input[type=date],select,textarea{
   width:100%;padding:12px 13px;border:1px solid var(--borde);border-radius:var(--r-ctrl);
   font-family:inherit;font-size:var(--t-base);background:var(--blanco);color:var(--texto);transition:border-color .15s,box-shadow .15s;min-height:46px;
 }
@@ -1058,6 +1058,9 @@ var CATALOGO_COLONIAS = {meta:{"origen": "IECM 2022, unidades territoriales", "n
    o la direccion «?modo=captura», que es como lo abre la maqueta del modulo
    de administracion. */
 var cfg = { validar:true, limite:false, captura:/[?&]modo=captura(&|$)/.test(location.search) };
+/* La voz de los textos (DEC-261): en línea le hablan a quien denuncia; en el
+   modo captura, a quien captura, que escribe por otra persona. */
+function voz(ciudadano, capturista){ return cfg.captura ? capturista : ciudadano; }
 
 /* Canales por los que llega lo que captura el personal (AD-03), con el
    soporte que exige cada uno. La maqueta del modulo de administracion los
@@ -1183,7 +1186,7 @@ var CONTACTOS = {
     sitio: {txt:'Cómo presentar una denuncia ante la PROFEPA', url:'https://www.gob.mx/profepa/articulos/denuncia-ante-la-profepa?state=published'},
     medios: [
       {rot:'En línea', txt:'Llena el ', liga:'formulario de denuncia de la PROFEPA', url:'https://www.profepa.gob.mx/innovaportal/v/1156/1/mx/haz_tu_denuncia.html'},
-      {rot:'Por teléfono', tel:'800 PROFEPA (800 776 3372)', telHref:'tel:8007763372', txt:', de 9:00 a 18:00 horas. Por esta vía tienes 3 días hábiles para ratificar tu denuncia.'},
+      {rot:'Por teléfono', tel:'800 PROFEPA (800 776 3372)', telHref:'tel:8007763372', txt:', de 9:00 a 18:00 horas. Por esta vía hay 3 días hábiles para ratificar la denuncia.'},
       {rot:'Presencial', txt:'Oficialía de partes de las oficinas centrales: Av. Félix Cuevas 6, col. Tlacoquemécatl del Valle, alcaldía Benito Juárez, C.P. 03200, Ciudad de México, de 9:00 a 18:00 horas. En los estados, en el módulo de Atención Ciudadana de su Oficina de Representación.'},
       {rot:'Correo electrónico', correo:'denuncias@profepa.gob.mx'}
     ]},
@@ -1250,7 +1253,7 @@ var DERIVA = [
    el aviso de privacidad. De aquí se genera 09-mapeo-campos-obligatorios.md. */
 var OBLIG = {
   /* Paso 0: sólo en la captura por personal (AD-03). Cómo llegó la denuncia. */
-  canal:            {p:0, oblig:true,  etq:'Canal por el que llegó', dp:false, fin:'Expediente',
+  canal:            {p:0, oblig:true,  etq:'Medio por el que llegó', dp:false, fin:'Expediente',
      cond:function(){ return cfg.captura; } , cond_txt:'Sólo en la captura por personal (AD-03)',
      uso:'Distingue lo que llega por Oficialía de Partes, teléfono, correo o comparecencia de lo que llega en línea; decide qué soporte se exige y permite comparar la demanda con la serie histórica (D-19).'},
   recepcion_fecha:  {p:0, oblig:true,  etq:'Fecha de recepción original', dp:false, fin:'Expediente',
@@ -1547,7 +1550,7 @@ var INTERNOS = {
 /* Versión del formulario que se muestra en el mapeo. La escribe
    construccion/generar_doc09.py a partir de la última decisión registrada en
    el documento 05, de modo que no depende de acordarse de cambiarla. */
-var VERSION_FORMULARIO = {dec:'DEC-260', fecha:'22 de octubre de 2026', nombre:'Versión 37 · Validación DGIVA'};
+var VERSION_FORMULARIO = {dec:'DEC-261', fecha:'22 de octubre de 2026', nombre:'Versión 38 · Validación DGIVA'};
 
 /* Campos que sólo aplican cuando la persona se identifica. */
 /* Lo que la anonima deja para recibir avisos: se revisa su forma (DEC-119).
@@ -1914,7 +1917,7 @@ function abreVariantes(){
   abreVentana('modalVariantes');
 }
 
-var ETAPAS = ['Qué denuncias','Dónde ocurrió','Qué ocurrió','Pruebas','Tus datos','Revisión'];
+function etapas(){ return [voz('Qué denuncias', 'Qué se denuncia'), 'Dónde ocurrió', 'Qué ocurrió', 'Pruebas', voz('Tus datos', 'Quien denuncia'), 'Revisión']; }
 
 /* Texto de ejemplo dentro de cada campo de texto (DEC-213). Es ejemplo, no
    instrucción: lo que la persona debe saber para contestar sigue en la ayuda,
@@ -1954,6 +1957,7 @@ var LIMITES = {
   /* Captura por personal (AD-03) */
   folio_origen:  {max:40},
   recibio:       {max:120},
+  recepcion_hora:{max:5},
   hechos:        {min:40, max:4000},
   gestiones:     {max:1000},
   referencias:   {max:1200},
@@ -2272,7 +2276,7 @@ function chipMateria(){
   var m = MATERIAS.filter(function(x){return x.id===val('materia');})[0];
   if(!m) return '';
   return '<div class="chip-materia">'+svgIcono(m.ico,18)+
-    '<span><span class="cm-etq">Estás denunciando</span>'+esc(m.nom)+'</span>'+
+    '<span><span class="cm-etq">'+voz('Estás denunciando', 'Se denuncia')+'</span>'+esc(m.nom)+'</span>'+
     '<button type="button" class="enlace" onclick="irA(1)">Cambiar</button></div>';
 }
 
@@ -2281,17 +2285,17 @@ function barra(){
   $('barraFija').style.display = vis ? 'block' : 'none';
   $('progreso').style.display = vis ? 'block' : 'none';
   if(!vis){ $('chipFijo').innerHTML = ''; return; }
-  $('pasoTxt').textContent = 'Paso '+paso+' de 6 · '+ETAPAS[paso-1];
-  var _a = $('anuncio'), _txt = 'Paso '+paso+' de 6: '+ETAPAS[paso-1];
+  $('pasoTxt').textContent = 'Paso '+paso+' de 6 · '+etapas()[paso-1];
+  var _a = $('anuncio'), _txt = 'Paso '+paso+' de 6: '+etapas()[paso-1];
   /* Solo si cambio: con aria-live, reescribirlo hacia que el lector volviera a
      leer el paso cada vez que se contestaba una pregunta (DEC-100). */
   if(_a && _a.textContent !== _txt) _a.textContent = _txt;
-  $('progreso').setAttribute('aria-label','Paso '+paso+' de 6: '+ETAPAS[paso-1]);
+  $('progreso').setAttribute('aria-label','Paso '+paso+' de 6: '+etapas()[paso-1]);
   /* Las etapas son botones: se puede navegar entre pasos ya recorridos sin volver
      a pasar por todos. Retroceder nunca exige nada; avanzar exige que los pasos
      intermedios pasen su validación, que en modo de prueba no pide nada. */
   $('chipFijo').innerHTML = chipMateria();
-  $('etapas').innerHTML = ETAPAS.map(function(e,i){
+  $('etapas').innerHTML = etapas().map(function(e,i){
     var n=i+1, c = n===paso?'activa' : (n<paso?'hecha':'');
     var titulo = n===paso ? 'Estás en este paso'
                : (n<paso ? 'Volver al paso '+n+': '+e
@@ -2339,10 +2343,10 @@ var SEDE_PENDIENTES = ['Domicilio y horario por confirmar', 'Teléfono por confi
 function pCaptura(){
   return '<div class="tarjeta"><h2>Captura de una denuncia recibida por otro medio</h2>'+
     '<p class="sub">Para lo que llega por Oficialía de Partes, teléfono, correo o comparecencia. Es el mismo formulario: lo que dijo la persona se transcribe como vino, y el correo y el domicilio pueden no venir. <span class="pendiente">Modo por validar con la DGIVA (AD-03)</span></p>'+
-    campoSelect('canal','¿Por qué canal llegó?', CANALES_CAPTURA.map(function(c){ return {v:c.id, t:c.nom}; }), esObligatorio('canal'), '')+
+    campoSelect('canal','¿Por qué medio llegó?', CANALES_CAPTURA.map(function(c){ return {v:c.id, t:c.nom}; }), esObligatorio('canal'), '')+
     '<div class="fila">'+
       campo('recepcion_fecha','Fecha en que se recibió','fecha',esObligatorio('recepcion_fecha'),'La del sello, la llamada o el correo: los plazos se cuentan desde ella.')+
-      campo('recepcion_hora','Hora en que se recibió','hora',esObligatorio('recepcion_hora'),'')+
+      campo('recepcion_hora','Hora en que se recibió','texto',esObligatorio('recepcion_hora'),'En horas y minutos, de 00:00 a 23:59.','inputmode="numeric" placeholder="Ej. 09:30"')+
     '</div>'+
     campo('folio_origen','Número de volante o folio de origen','texto',esObligatorio('folio_origen'),'')+
     campo('recibio','Quién la recibió','texto',esObligatorio('recibio'),'Nombre de la persona servidora pública que la recibió.')+
@@ -2476,7 +2480,7 @@ function pMateria(){
     '</button>';
   }
 
-  var h = '<div class="tarjeta"><h2><span class="num">1</span>¿Qué quieres denunciar?</h2>'+
+  var h = '<div class="tarjeta"><h2><span class="num">1</span>'+voz('¿Qué quieres denunciar?', '¿Qué se denuncia?')+'</h2>'+
     '<p class="sub">Elige el que más se parezca a lo que ocurre.</p>'+
     '<div class="filtro-materia">'+
       '<label class="solo-lector" for="f_filtro">Buscar entre los supuestos</label>'+
@@ -2512,12 +2516,12 @@ function pMateria(){
     if(der.length){
       hubo = true;
       h += '<div class="bloque-otras">'+
-        '<p class="otras-rotulo">¿No encuentras tu caso? Algunos los atiende otra autoridad.</p>'+
+        '<p class="otras-rotulo">'+voz('¿No encuentras tu caso? Algunos los atiende otra autoridad.', '¿No está el caso? Algunos los atiende otra autoridad.')+'</p>'+
         '<button type="button" class="enc-otras" aria-expanded="'+(abierto?'true':'false')+'" onclick="guarda(\'otras\',val(\'otras\')===\'si\'?\'\':\'si\');render()">'+
-          '<span>Mi caso no está en la lista</span>'+
+          '<span>'+voz('Mi caso no está en la lista', 'El caso no está en la lista')+'</span>'+
           '<span class="fo-flecha" aria-hidden="true">'+(abierto?'⌃':'⌄')+'</span>'+
         '</button>'+
-        (abierto ? '<p class="sub" style="margin:12px 0 8px">Elige uno para ver a dónde acudir.</p>'+
+        (abierto ? '<p class="sub" style="margin:12px 0 8px">'+voz('Elige uno para ver a dónde acudir.', 'Elige uno para ver a dónde puede acudir la persona.')+'</p>'+
           /* A dónde acudir se abre justo debajo del supuesto elegido, no al
              final de la lista: en teléfono quedaba fuera de la pantalla y
              nadie bajaba a buscarlo (DEC-216). */
@@ -2541,13 +2545,13 @@ function pMateria(){
 
 function fichaDeriva(d){
   var h = '<div class="redir" id="fichaDeriva" role="alert"><h3 id="fichaDerivaTit" tabindex="-1">Esto lo atiende otra autoridad</h3>'+
-      '<p class="nota-gris">Acude a:</p>';
+      '<p class="nota-gris">'+voz('Acude a:', 'La persona puede acudir a:')+'</p>';
     d.inst.forEach(function(i){
       /* La alcaldia es una de dieciseis: no lleva telefono ni liga, sino a
          cual acudir (DEC-158). */
       h += '<div class="inst"><span class="nom">'+esc(i.n)+'</span>'+
            (i.d?'<div class="dato">'+esc(i.d)+'</div>':'')+
-           (i.alc ? '<div class="dato">Acude a la alcaldía donde ocurren los hechos.</div>'
+           (i.alc ? '<div class="dato">'+voz('Acude a la alcaldía donde ocurren los hechos.', 'La persona puede acudir a la alcaldía donde ocurren los hechos.')+'</div>'
             : i.ref ? mediosDe(i.ref)
                   : '<div class="dato"><span class="pendiente">Teléfono y liga por confirmar con la DGIVA</span></div>')+'</div>';
     });
@@ -2664,7 +2668,7 @@ function pUbicacion(){
     '<h3 class="sub-seccion">'+'Marca el lugar en el mapa'+marca_opc(esObligatorio('lat'))+'</h3>'+
     '<p class="ayuda" style="margin-bottom:14px">'+
       (sinDir
-        ? 'Como el sitio no tiene dirección, el punto es la única forma de saber dónde está. De él depende qué área de la Secretaría atiende tu denuncia.'
+        ? 'Como el sitio no tiene dirección, el punto es la única forma de saber dónde está. '+voz('De él depende qué área de la Secretaría atiende tu denuncia.', 'De él depende qué área de la Secretaría atiende la denuncia.')+''
         : 'Con el punto sabemos desde ahora qué área la atiende. <strong>Si no puedes marcarlo, basta la dirección.</strong> '+
           '<span class="solo-local">Al terminar de escribir la dirección, el punto se coloca solo; si quedó fuera de lugar, arrástralo.</span>')+'</p>'+
 
@@ -2726,7 +2730,7 @@ function cajaCapas(){
   if(val('fuera')==='si'){
     return '<div class="capas capas-fuera" role="alert">'+
       '<div class="capas-fila"><span class="capas-etq">Ubicación</span><span class="capas-val">Fuera de la Ciudad de México</span></div>'+
-      '<div class="aviso aviso-bloqueo aviso-pegado" role="alert"><strong>El punto se encuentra fuera de los límites de la Ciudad de México.</strong> La Secretaría sólo puede atender denuncias por hechos ocurridos dentro de la Ciudad. Mueve el punto al lugar de los hechos para continuar; si el hecho ocurrió en otra entidad, preséntalo ante la autoridad ambiental que corresponda.</div>'+
+      '<div class="aviso aviso-bloqueo aviso-pegado" role="alert"><strong>El punto se encuentra fuera de los límites de la Ciudad de México.</strong> La Secretaría sólo puede atender denuncias por hechos ocurridos dentro de la Ciudad. Mueve el punto al lugar de los hechos para continuar; '+voz('si el hecho ocurrió en otra entidad, preséntalo ante la autoridad ambiental que corresponda.', 'si el hecho ocurrió en otra entidad, la persona debe presentarlo ante la autoridad ambiental que corresponda.')+'</div>'+
     '</div>';
   }
   /* Un solo panel, neutro: el area que atiende lo dicen las letras, no el
@@ -2745,8 +2749,8 @@ function cajaCapas(){
        limitar el envío. La cláusula SEGUNDA del convenio deja a salvo las
        facultades federales de inspección (DEC-89). */
     h += '<div class="aviso aviso-pegado">'+
-      'Esta Área Natural Protegida es de competencia federal. Puedes presentar aquí tu denuncia: la recibe la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural y la remite a la PROFEPA. '+
-      'También puedes presentarla directamente ante la PROFEPA:'+
+      'Esta Área Natural Protegida es de competencia federal. '+voz('Puedes presentar aquí tu denuncia: la recibe', 'La denuncia se captura aquí: la recibe')+' la Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural y la remite a la PROFEPA. '+
+      ''+voz('También puedes presentarla directamente ante la PROFEPA:', 'La persona también puede presentarla directamente ante la PROFEPA:')+''+
       ' <a href="'+esc(CONTACTOS.profepa.sitio.url)+'" target="_blank" rel="noopener noreferrer">'+esc(CONTACTOS.profepa.sitio.txt)+'</a>.'+
       (val('concurrencia')?'<br><br>El punto también se encuentra dentro del Área Natural Protegida local «'+esc(val('concurrencia'))+'», por lo que existe concurrencia de competencias y la Secretaría puede intervenir en el ámbito local.':'')+'</div>';
   }
@@ -2962,7 +2966,7 @@ function pHechos(){
      cuánto escribir, escribe poco, y una descripción pobre da un expediente débil.
      El ejemplo sale del catálogo de materias, así que corresponde a lo que la
      persona eligió denunciar y no es una frase genérica. */
-  campoArea('hechos','Cuenta qué pasó o qué está pasando',esObligatorio('hechos'),'',6,
+  campoArea('hechos',''+voz('Cuenta qué pasó o qué está pasando', 'Qué pasó o qué está pasando')+'',esObligatorio('hechos'),'',6,
     'Qué se hace, quién lo hace, en qué horario, con qué frecuencia y qué efecto produce: humo, ruido, descarga, derrame, derribo, poda, tiro de residuos.')+
 
   /* La descripción de la tarjeta dice sólo lo que se ve —humo o ruido— porque
@@ -2975,7 +2979,7 @@ function pHechos(){
      pantalla no se alarga y el expediente no pierde el dato. */
   (val('materia')==='vehiculo'
     ? '<div class="fila">'+campoSelect('veh_servicio','¿Es transporte público o de carga?', SERVICIO_VEHICULO, esObligatorio('veh_servicio'),
-        'Fíjate en la placa o en el rótulo de la unidad. Si no alcanzaste a verlos, «No lo sé» basta.')+'</div>'
+        ''+voz('Fíjate en la placa o en el rótulo de la unidad. Si no alcanzaste a verlos, «No lo sé» basta.', 'Está en la placa o en el rótulo de la unidad. Si la persona no los vio, «No lo sé» basta.')+'')+'</div>'
     : '')+
 
   /* La temporalidad es obligatoria (DEC-202): su título va dentro del campo
@@ -2991,7 +2995,7 @@ function pHechos(){
   /* Primero se pregunta si se conoce la fecha; sólo con «Sí» se pide
      (DEC-206). Sustituye a la casilla «No sé la fecha exacta» y al mes y año
      aproximados de DEC-191. Con «No», lo capturado se suelta (DEC-100). */
-  campoSiNo('conoce_fecha','¿Conoces la fecha en que ocurrió o inició?','',
+  campoSiNo('conoce_fecha',voz('¿Conoces la fecha en que ocurrió o inició?', '¿Se conoce la fecha en que ocurrió o inició?'),'',
     'if(val(\'conoce_fecha\')===\'no\')guarda(\'fecha_hecho\',\'\');render()')+
   (val('conoce_fecha')==='si'
     ? anidado('<div class="fila">'+
@@ -3024,16 +3028,16 @@ function pHechos(){
      desplegables. */
   '<div class="fila">'+
   campoSelect('tipo_denunciado','¿Quién es responsable de los hechos?', TIPOS_DENUNCIADO, esObligatorio('tipo_denunciado'),
-    'Si no lo sabes, elige «No lo sé»: no impide presentar la denuncia.','responsableHeredado=false;limpiaResponsable();render()')+
+    ''+voz('Si no lo sabes, elige «No lo sé»: no impide presentar la denuncia.', 'Si la persona no lo sabe, elige «No lo sé»: no impide presentar la denuncia.')+'','responsableHeredado=false;limpiaResponsable();render()')+
   '</div>'+
   anidado(bloqueDenunciado())+
 
   /* Sin la pregunta de permisos: verificarlos le toca a la inspección, y
      pedirlos empujaba a buscar documentos de un tercero (OBS-0027, DEC-191). */
   '<h3 class="sub-seccion">Gestiones previas</h3>'+
-  campoSiNo('reporto_antes','¿Ya reportaste estos hechos ante otra autoridad?','Alcaldía, PAOT, policía u otra.')+
+  campoSiNo('reporto_antes',''+voz('¿Ya reportaste estos hechos ante otra autoridad?', '¿La persona ya reportó estos hechos ante otra autoridad?')+'','Alcaldía, PAOT, policía u otra.')+
   (val('reporto_antes')==='si'
-    ? anidado(campoArea('gestiones','¿Ante quién, cuándo y qué respuesta recibiste?',esObligatorio('gestiones'),'',2))
+    ? anidado(campoArea('gestiones',''+voz('¿Ante quién, cuándo y qué respuesta recibiste?', '¿Ante quién, cuándo y qué respuesta recibió?')+'',esObligatorio('gestiones'),'',2))
     : '')+
 
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(2)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
@@ -3112,7 +3116,7 @@ function heredaEstablecimiento(){
 function bloqueAutoridad(){
   var n = val('autoridad_nivel'), lista = AUTORIDADES[n] || [];
   var ayuda = n==='alcaldia' ? 'Escribe o elige la alcaldía.'
-            : n==='otra'     ? 'Escríbela como la conozcas.'
+            : n==='otra'     ? ''+voz('Escríbela como la conozcas.', 'Escríbela como la conozca la persona.')+''
             : 'Nombre o sigla, como SEDEMA o CONAGUA.';
   return lista.length
     ? campoLista('autoridad_denunciada','¿Cuál?', ayuda, lista)
@@ -3218,7 +3222,7 @@ function bloqueDenunciado(){
       /* Ámbito y «¿Cuál?» en un renglón (DEC-212). Con «No lo sé» no se
          pregunta cuál ni el área: quien no sabe el ámbito no sabe lo demás (DEC-209). */
       '<div class="fila">'+campoSelect('autoridad_nivel','¿De qué ámbito es la autoridad?', NIVELES_AUTORIDAD, esObligatorio('autoridad_nivel'),
-        'Si no lo sabes, elige «No lo sé».',
+        ''+voz('Si no lo sabes, elige «No lo sé».', 'Si la persona no lo sabe, elige «No lo sé».')+'',
         'cambiaNivelAutoridad()')+
         (val('autoridad_nivel') && val('autoridad_nivel')!=='nose' ? bloqueAutoridad() : '')+
       '</div>'+
@@ -3231,36 +3235,48 @@ function bloqueDenunciado(){
   // No lo sé
   /* Sin el aviso «No saber quién es el responsable…» (DEC-220): lo dice la
      ayuda de la pregunta y la del campo dice qué observar. */
-  return campoArea('resp_senas','¿Qué has observado de quien lo hace?',esObligatorio('resp_senas'),'Vehículos y sus placas, uniformes o logotipos, cuántas personas son, en qué horario llegan, si siempre son los mismos.',3);
+  return campoArea('resp_senas',''+voz('¿Qué has observado de quien lo hace?', '¿Qué ha observado la persona de quien lo hace?')+'',esObligatorio('resp_senas'),'Vehículos y sus placas, uniformes o logotipos, cuántas personas son, en qué horario llegan, si siempre son los mismos.',3);
 }
 
 /* El soporte de la captura (AD-03): uno, obligatorio, y cuál depende del
-   canal. En el prototipo sólo se guarda su nombre. */
+   medio. Se sube como la evidencia —se elige o se arrastra— (DEC-261), pero
+   con su propia zona y su propio campo: la lista de la evidencia es de la
+   evidencia. En el prototipo sólo se guarda su nombre. */
 function campoSoporte(){
   var c = canalCaptura();
-  return '<div class="campo" id="c_soporte"><label for="f_soporte">Soporte de la captura'+marca_opc(esObligatorio('soporte'))+'</label>'+
-    '<div class="ayuda" id="a_soporte">'+esc(c ? c.soporte : 'El escrito, la nota de la llamada, el correo o el acta, según el canal')+'.'+
-      (val('soporte') ? ' Adjunto: '+esc(val('soporte'))+'.' : '')+'</div>'+
-    '<input type="file" id="f_soporte" aria-describedby="a_soporte e_soporte" onchange="guarda(\'soporte\', this.files.length ? this.files[0].name : \'\');limpiaError(\'soporte\');render()">'+
+  return '<div class="campo" id="c_soporte"><span class="etq">Soporte de la captura'+marca_opc(esObligatorio('soporte'))+'</span>'+
+    '<div class="ayuda" id="a_soporte">'+esc(c ? c.soporte : 'El escrito, la nota de la llamada, el correo o el acta, según el medio')+'.</div>'+
+    '<button type="button" class="zona-carga" aria-describedby="a_soporte" onclick="$(\'f_soporte\').click()" '+
+      'ondragover="event.preventDefault();this.classList.add(\'encima\')" ondragleave="this.classList.remove(\'encima\')" '+
+      'ondrop="event.preventDefault();this.classList.remove(\'encima\');guardaSoporte(event.dataTransfer.files)">'+
+      '<span class="ico">'+svgIcono('clip',34)+'</span><span class="txt">Selecciona o arrastra el soporte</span>'+
+      '<span class="lim">Un solo archivo.</span></button>'+
+    '<input type="file" id="f_soporte" class="oculto" accept="'+ARCHIVOS.exts.map(function(e){return '.'+e;}).join(',')+'" onchange="guardaSoporte(this.files)">'+
+    (val('soporte') ? '<div class="ayuda">Adjunto: <strong>'+esc(val('soporte'))+'</strong></div>' : '')+
     '<div class="err" id="e_soporte">Falta el soporte de la captura.</div></div>';
+}
+function guardaSoporte(archivos){
+  guarda('soporte', archivos.length ? archivos[0].name : '');
+  limpiaError('soporte');
+  render();
 }
 
 function pEvidencia(){
   var h = '<div class="tarjeta"><h2><span class="num" aria-hidden="true">4</span>Fotos, videos o documentos'+marca_opc(esObligatorio('archivos'))+'</h2>'+
-  '<div class="aviso aviso-ok"><strong>¿No las tienes ahora?</strong> Presenta tu denuncia y envíalas después con tu número de registro.</div>'+
+  '<div class="aviso aviso-ok">'+voz('<strong>¿No las tienes ahora?</strong> Presenta tu denuncia y envíalas después con tu número de registro.', '<strong>¿La persona no las trae?</strong> Puede enviarlas después con su número de registro.')+'</div>'+
   '<div class="campo" id="c_archivos">'+
   '<button type="button" class="zona-carga" onclick="$(\'inputArch\').click()" '+
     'ondragover="event.preventDefault();this.classList.add(\'encima\')" '+
     'ondragleave="this.classList.remove(\'encima\')" '+
     'ondrop="event.preventDefault();this.classList.remove(\'encima\');agregaArchivos(event.dataTransfer.files)">'+
-    '<span class="ico">'+svgIcono('clip',34)+'</span><span class="txt">Selecciona o arrastra tus archivos</span>'+
+    '<span class="ico">'+svgIcono('clip',34)+'</span><span class="txt">'+voz('Selecciona o arrastra tus archivos', 'Selecciona o arrastra los archivos')+'</span>'+
     '<span class="lim">'+esc(ARCHIVOS.texto)+'<br>Hasta '+ARCHIVOS.max+' archivos, '+ARCHIVOS.mb+' MB cada uno. <span class="pendiente">Límites por confirmar con la DGIVA</span></span>'+
   '</button>'+
   '<input type="file" id="inputArch" multiple class="oculto" accept="'+ARCHIVOS.exts.map(function(e){return '.'+e;}).join(',')+'" onchange="agregaArchivos(this.files)">'+
   '<div class="lista-arch" id="listaArch" aria-live="polite"></div>'+
   '<div class="err" id="e_archivos">Espera a que terminen de optimizarse las fotos.</div></div>'+
   (cfg.captura ? campoSoporte() : '')+
-  campoArea('otras_pruebas','Describe otras pruebas que no puedas adjuntar',esObligatorio('otras_pruebas'),'',2)+
+  campoArea('otras_pruebas',''+voz('Describe otras pruebas que no puedas adjuntar', 'Otras pruebas que ofrece la persona y no se adjuntan')+'',esObligatorio('otras_pruebas'),'',2)+
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(3)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
   '<button type="button" class="btn btn-primario" onclick="valida(4)&&irA(5)">Continuar</button></div></div>';
   return h;
@@ -3306,7 +3322,7 @@ function avisoPrivacidad(){
 
 function pDenunciante(){
   var anon = esAnonima();
-  var h = '<div class="tarjeta"><h2><span class="num">5</span>Tus datos</h2>';
+  var h = '<div class="tarjeta"><h2><span class="num">5</span>'+voz('Tus datos', 'Datos de quien denuncia')+'</h2>';
 
   /* Un borrador guardado antes de DEC-130 puede traer la ruta retirada: sus
      datos eran los de «Escribo mis datos», y ahí se quedan. */
@@ -3324,15 +3340,15 @@ function pDenunciante(){
      marca, su contenedor y su renglon de error, de modo que «Editar» desde la
      revision aterriza aqui y el resumen de errores puede senalarlo (DEC-100). */
   h += '<div class="campo" id="c_identificacion">'+
-    '<span class="etq">Elige cómo quieres presentar tu denuncia'+marca_opc(esObligatorio('identificacion'))+'</span>'+
+    '<span class="etq">'+voz('Elige cómo quieres presentar tu denuncia', '¿Cómo presenta la persona su denuncia?')+''+marca_opc(esObligatorio('identificacion'))+'</span>'+
     '<div class="ayuda"></div>'+
     '<div class="opciones">'+
-      opcion('nombre','Escribo mis datos',
-        'La Secretaría te notifica en tu domicilio.')+
+      opcion('nombre',voz('Escribo mis datos', 'Con sus datos'),
+        ''+voz('La Secretaría te notifica en tu domicilio.', 'La Secretaría le notifica en su domicilio.')+'')+
       opcion('anonima','Denuncia anónima',
         /* La anonima se notifica en el correo (DEC-233, modifica DEC-226);
            «ponerse en contacto contigo» es de la DGIVA (OBS-0031). */
-        'No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda ponerse en contacto contigo y notificarte el resultado.')+
+        ''+voz('No das tu nombre. Sólo te pedimos un correo para que la Secretaría pueda ponerse en contacto contigo y notificarte el resultado.', 'No da su nombre. Se le pide un correo, si lo tiene, para que la Secretaría pueda ponerse en contacto y notificarle el resultado.')+'')+
     '</div><div class="err" id="e_identificacion">Elige una de las dos formas para poder continuar.</div></div>';
 
   /* La anonima no pide nombre, pero si un correo: ahi se le notifica el
@@ -3368,13 +3384,13 @@ function pDenunciante(){
        catalogo de la Ciudad (DEC-136). */
     '<div class="campo" id="c_dom_fuera_cdmx"><label class="casilla" for="f_dom_fuera_cdmx">'+
       '<input type="checkbox" id="f_dom_fuera_cdmx" '+(fueraCdmx()?'checked ':'')+'onchange="cambiaFueraCdmx(this.checked)">'+
-      '<span>Vivo fuera de la Ciudad de México</span></label></div>'+
+      '<span>'+voz('Vivo fuera de la Ciudad de México', 'Vive fuera de la Ciudad de México')+'</span></label></div>'+
     '<div class="fila-3">'+
       campo('dom_calle','Calle o avenida','texto',esObligatorio('dom_calle'),'','autocomplete="address-line1"')+
       campo('dom_num_ext','Número exterior','texto',esObligatorio('dom_num_ext'),'')+
       campo('dom_num_int','Número interior','texto',esObligatorio('dom_num_int'),'','autocomplete="address-line2"')+
     '</div>'+
-    campoSiNo('dom_tiene_mz_lote','¿Tu domicilio se identifica por manzana y lote?',
+    campoSiNo('dom_tiene_mz_lote',voz('¿Tu domicilio se identifica por manzana y lote?', '¿Su domicilio se identifica por manzana y lote?'),
       'Es común donde las casas no tienen número. Por ejemplo: Mz. 3, Lt. 12.','actualizaMzLote(\'dom_\')')+
     '<div id="dom_mzLote">'+camposMzLote('dom_')+'</div>'+
     campo('dom_entre_calles','¿Entre qué calles?','texto',esObligatorio('dom_entre_calles'),'')+
@@ -3395,13 +3411,13 @@ function pDenunciante(){
     /* Para qué sirven los datos y que no se difunden lo dice el aviso de
        privacidad; repetirlo aquí era un segundo aviso sin valor legal (DEC-133). */
     if(val('materia')==='ruido')
-      h += campoSiNo('ruido_medicion','¿Aceptas que la medición del ruido se haga desde tu domicilio?',
-        'El ruido se mide desde el lugar donde se percibe. Si aceptas, personal de la Secretaría podría acudir a tu domicilio para hacer la medición.');
+      h += campoSiNo('ruido_medicion',''+voz('¿Aceptas que la medición del ruido se haga desde tu domicilio?', '¿Acepta que la medición del ruido se haga desde su domicilio?')+'',
+        'El ruido se mide desde el lugar donde se percibe. '+voz('Si aceptas, personal de la Secretaría podría acudir a tu domicilio para hacer la medición.', 'Si acepta, personal de la Secretaría podría acudir a su domicilio para hacer la medición.')+'');
   }
   /* En la anónima no hay domicilio: se dice, para que quien quiera la
      medición en su casa sepa qué elegir (OBS-0032, DEC-192). */
   if(anon && val('materia')==='ruido')
-    h += '<div class="aviso">En una denuncia anónima no hay domicilio, por lo que la medición del ruido no podrá hacerse desde tu casa. Si quieres que se mida ahí, elige «Escribo mis datos».</div>';
+    h += '<div class="aviso">En una denuncia anónima no hay domicilio, por lo que la medición del ruido '+voz('no podrá hacerse desde tu casa. Si quieres que se mida ahí, elige «Escribo mis datos».', 'no podrá hacerse desde su casa. Si quiere que se mida ahí, elige «Con sus datos».')+'</div>';
 
   /* Estadistica. Dos preguntas al final, fuera del bloque de contacto: no
      sirven para identificar a nadie ni entran al expediente, y por eso se
@@ -3411,26 +3427,26 @@ function pDenunciante(){
     /* Texto corto (DEC-218): lo que importa es que son opcionales y que no
        identifican a nadie. Sin «Prefiero no decirlo»: dejarla en blanco es
        la manera de no contestar. */
-    '<p class="ayuda" style="margin-bottom:16px">Opcionales. No te identifican ni forman parte de tu denuncia.</p>'+
-    campoSelect('sexo_genero','¿Con qué género te identificas?',
+    '<p class="ayuda" style="margin-bottom:16px">'+voz('Opcionales. No te identifican ni forman parte de tu denuncia.', 'Opcionales. No identifican a la persona ni forman parte de su denuncia.')+'</p>'+
+    campoSelect('sexo_genero',''+voz('¿Con qué género te identificas?', '¿Con qué género se identifica?')+'',
       [{v:'mujer',t:'Mujer'},{v:'hombre',t:'Hombre'},{v:'no_binaria',t:'No binaria'},
        {v:'otro',t:'Otro'}],esObligatorio('sexo_genero'),'')+
-    campoSelect('edad_rango','¿En qué rango de edad estás?',
+    campoSelect('edad_rango',''+voz('¿En qué rango de edad estás?', '¿En qué rango de edad está?')+'',
       [{v:'-18',t:'Menor de 18 años'},{v:'18-29',t:'18 a 29 años'},{v:'30-44',t:'30 a 44 años'},
        {v:'45-59',t:'45 a 59 años'},{v:'60+',t:'60 años o más'}],esObligatorio('edad_rango'),'')+
 
   /* El aviso se lee en pantalla antes de enviar —como lo hace la PAOT en su
      formulario— y no detras de un enlace (DEC-79). El texto es el de la Unidad
      de Transparencia; lo que falta va entre corchetes (DEC-210, P-02). */
-    avisoPrivacidad()+
+    (cfg.captura ? '' : avisoPrivacidad())+
 
     '<div class="campo" id="c_privacidad"><label class="casilla casilla-larga" for="chkPriv">'+
     '<input type="checkbox" id="chkPriv" '+(val('privacidad')==='si'?'checked':'')+' onchange="guarda(\'privacidad\',this.checked?\'si\':\'\');limpiaError(\'privacidad\')">'+
-    '<span>He leído el aviso de privacidad y consiento el tratamiento de mis datos personales. Manifiesto <strong>bajo protesta de decir verdad</strong> que los hechos que denuncio son ciertos.'+marca_opc(esObligatorio('privacidad'))+'</span></label>'+
+    '<span>'+voz('He leído el aviso de privacidad y consiento el tratamiento de mis datos personales. Manifiesto <strong>bajo protesta de decir verdad</strong> que los hechos que denuncio son ciertos.', 'Se informó a la persona del aviso de privacidad y aceptó el tratamiento de sus datos personales. Manifestó <strong>bajo protesta de decir verdad</strong> que los hechos que denuncia son ciertos.')+''+marca_opc(esObligatorio('privacidad'))+'</span></label>'+
     '<div class="err" id="e_privacidad">Debes aceptar para poder enviar la denuncia.</div></div>'+
 
   '<div class="acciones"><button type="button" class="btn-atras" onclick="irA(4)"><span class="fl" aria-hidden="true">\u2039</span>Regresar</button>'+
-  '<button type="button" class="btn btn-primario" onclick="valida(5)&&irA(6)">Revisar mi denuncia</button></div></div>';
+  '<button type="button" class="btn btn-primario" onclick="valida(5)&&irA(6)">'+voz('Revisar mi denuncia', 'Revisar la denuncia')+'</button></div></div>';
   return h;
 }
 
@@ -3593,8 +3609,8 @@ function pRevision(){
   /* En la captura, cómo llegó: va primero, porque es lo que cambia (AD-03). */
   var canal = canalCaptura();
   var fRecepcion = !cfg.captura ? '' :
-    r('Canal', canal ? canal.nom : '', 0, 'canal')+
-    r('Recepción original', [val('recepcion_fecha'), val('recepcion_hora')].filter(Boolean).join(' \u00b7 '), 0, 'recepcion_fecha')+
+    r('Medio', canal ? canal.nom : '', 0, 'canal')+
+    r('Recepción original', recepcionEnPalabras(), 0, 'recepcion_fecha')+
     r('Folio de origen', val('folio_origen'), 0, 'folio_origen')+
     r('Quién recibió', val('recibio'), 0, 'recibio')+
     r('Soporte', val('soporte'), 4, 'soporte');
@@ -3603,10 +3619,10 @@ function pRevision(){
   var resHechos = String(val('hechos')||'').replace(/\s+/g,' ').trim();
   if(resHechos.length > 95) resHechos = resHechos.slice(0,95).replace(/\s+\S*$/,'') + '\u2026';
 
-  var h = '<div class="tarjeta"><h2><span class="num">6</span>Revisa antes de enviar</h2>'+
+  var h = '<div class="tarjeta"><h2><span class="num">6</span>'+voz('Revisa antes de enviar', 'Revisa antes de guardar')+'</h2>'+
   '<p class="sub">Abre un bloque para ver el detalle o corregirlo.</p>'+
   '<div class="rev-acciones"><button type="button" class="rev-todo" id="btnRevTodo" onclick="alternaDetalleRevision()">Ver todo el detalle</button></div>'+
-  bloqueRev('recepcion','Cómo llegó', canal ? canal.nom+' \u00b7 '+val('recepcion_fecha') : '', fRecepcion)+
+  bloqueRev('recepcion','Cómo llegó', canal ? canal.nom+' \u00b7 '+recepcionEnPalabras() : '', fRecepcion)+
   bloqueRev('materia','Qu\u00e9 se denuncia', m?(m.formal||m.nom):'', r('Materia', m?(m.formal||m.nom):'', 1))+
   /* En la linea va la direccion y el tipo de suelo, no el area que atiende:
      el nombre completo de la direccion general con su coordinacion ocupaba
@@ -3621,8 +3637,8 @@ function pRevision(){
   bloqueRev('quien','Qui\u00e9n denuncia', anon ? 'Denuncia an\u00f3nima' + (val('correo') ? ' \u00b7 Con correo para notificaciones' : ' \u00b7 Sin correo para notificaciones')
       : ([val('nombre'),val('apellido_paterno'),val('apellido_materno')].filter(Boolean).join(' ') || 'Sin nombre capturado'), fQuien)+
   (!val('lat') && !sinDireccion()
-    ? '<div class="aviso aviso-envio">Al enviar, la denuncia recibe un número de registro. Como no marcaste el punto, la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
-    : '<div class="aviso aviso-envio">Al enviar, la denuncia recibe un número de registro y se turna a '+
+    ? '<div class="aviso aviso-envio">'+voz('Al enviar, la denuncia recibe un número de registro. Como no marcaste el punto,', 'Al guardar, la denuncia recibe un número de registro. Como no se marcó el punto,')+' la Secretaría ubicará el lugar con la dirección y la turnará al área que corresponda.</div>'
+    : '<div class="aviso aviso-envio">'+voz('Al enviar, la denuncia recibe un número de registro y se turna a ', 'Al guardar, la denuncia recibe un número de registro y se turna a ')+''+
     esc(val('dg_nombre') || 'el área competente de la Secretaría')+
     (val('remite_a')
       ? ', porque el punto se ubica en un Área Natural Protegida de competencia federal.</div>'
@@ -3641,18 +3657,18 @@ function pasosQueSiguen(){
   /* En un Area Natural Protegida federal la DGCORENADR recibe y remite a la
      PROFEPA (DEC-226). */
   if(val('remite_a')) return [
-    {t:'La Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural recibe tu denuncia y la remite a la PROFEPA, autoridad competente en las Áreas Naturales Protegidas federales.'},
+    {t:'La Dirección General de la Comisión de Recursos Naturales y Desarrollo Rural '+voz('recibe tu denuncia y la remite a la PROFEPA', 'recibe la denuncia y la remite a la PROFEPA')+', autoridad competente en las Áreas Naturales Protegidas federales.'},
     {t:'Una vez remitida, el seguimiento del asunto corre por cuenta de la PROFEPA.'}];
   var revisa = {t:'La Secretaría revisa que la denuncia reúna los requisitos y que el hecho sea de su competencia.'},
-      avisa = {t: 'Se te notifica el resultado ' + (esAnonima() ? 'en el correo que dejaste.' : 'en el domicilio que registraste.')};
+      avisa = {t: voz('Se te notifica el resultado ', 'Se le notifica el resultado ') + (esAnonima() ? voz('en el correo que dejaste.', 'en el correo que dejó.') : voz('en el domicilio que registraste.', 'en el domicilio que registró.'))};
   /* En la captura el correo o el domicilio pueden no venir (AD-03): entonces
      no hay dónde notificar, y el acuse no puede prometerlo. */
   var medio = esAnonima() ? 'correo' : 'domicilio';
   if(cfg.captura && (val('no_proporcionado') || '').indexOf(medio) >= 0)
-    avisa = {t: 'No dejaste ' + medio + ', así que no se te podrá notificar el resultado. Puedes preguntar por el avance con tu número de registro.'};
+    avisa = {t: voz('No dejaste ', 'No dejó ') + medio + voz(', así que no se te podrá notificar el resultado. Puedes preguntar por el avance con tu número de registro.', ', así que no se le podrá notificar el resultado. Puede preguntar por el avance con su número de registro.')};
   /* Ante una autoridad no hay inspeccion sino recomendaciones (art. 331). */
   if(val('tipo_denunciado')==='gobierno') return [revisa,
-    {t:'Como señalaste a una autoridad, la Secretaría valora los hechos y, de resultar procedente, emite las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección.',
+    {t:''+voz('Como señalaste a una autoridad,', 'Como señaló a una autoridad,')+' la Secretaría valora los hechos y, de resultar procedente, emite las recomendaciones que correspondan conforme al artículo 331 de la Ley Ambiental, en lugar de instaurar un procedimiento de inspección.',
      pend:'Vía de respuesta por confirmar'},
     avisa];
   return [revisa, {t:'Si procede, se integra el expediente y se programa la visita de inspección.'},
@@ -3685,8 +3701,8 @@ function fundamentoAcuse(){
    cruce ya ofrece. */
 function otrasVias(){
   if(val('remite_a')) return '';
-  return 'Si quieres una respuesta fundada y motivada de la Procuraduría Ambiental y del Ordenamiento Territorial (PAOT), puedes presentar además tu denuncia ante ella. ' +
-    'Si los hechos pueden constituir un delito, puedes denunciarlos también ante la Fiscalía General de Justicia de la Ciudad de México.';
+  return ''+voz('Si quieres una respuesta fundada y motivada de la Procuraduría Ambiental y del Ordenamiento Territorial (PAOT), puedes presentar además tu denuncia ante ella. ', 'Si la persona quiere una respuesta fundada y motivada de la Procuraduría Ambiental y del Ordenamiento Territorial (PAOT), puede presentar además su denuncia ante ella. ')+'' +
+    ''+voz('Si los hechos pueden constituir un delito, puedes denunciarlos también ante la Fiscalía General de Justicia de la Ciudad de México.', 'Si los hechos pueden constituir un delito, puede denunciarlos también ante la Fiscalía General de Justicia de la Ciudad de México.')+'';
 }
 
 function pAcuse(){
@@ -3709,25 +3725,25 @@ function pAcuse(){
       '<div class="dato-acuse"><span class="dato-etq">Clave de consulta</span>'+
         '<div class="dato-fila"><span class="dato-valor" id="claveTxt">'+esc(val('clave_consulta'))+'</span>'+
         '<button type="button" class="btn-copiar" aria-label="Copiar la clave de consulta" onclick="copiaDato(this,\'clave_consulta\')">Copiar</button></div>'+
-        '<span class="dato-nota">Guárdala junto con el número de registro: no puede reponerse.</span></div>'+
+        '<span class="dato-nota">'+voz('Guárdala junto con el número de registro: no puede reponerse.', 'Entrégala a la persona junto con el número de registro: no puede reponerse.')+'</span></div>'+
     '</div>'+
     '<p style="font-size:14px;color:var(--gris)">'+esc(cfg.captura ? llegadaTexto() : 'Recibida el '+fechaRecepcionTexto())+'</p>'+
     /* Sin correo, el acuse se lo lleva la persona (DEC-139). */
     '<div class="acuse-pdf">'+
       '<button type="button" class="btn btn-primario" onclick="descargaAcuse(this)">Descargar acuse (PDF)</button>'+
-      '<p id="notaAcuse" class="nota-gris" aria-live="polite">Incluye tu número de registro, la fecha y todo lo que capturaste.</p>'+
+      '<p id="notaAcuse" class="nota-gris" aria-live="polite">'+voz('Incluye tu número de registro, la fecha y todo lo que capturaste.', 'Incluye el número de registro, la fecha y todo lo capturado.')+'</p>'+
     '</div>'+
     '<div class="pasos-sig"><h3 style="font-size:16px;color:var(--guinda);margin-bottom:10px">¿Qué sigue?</h3><ol>'+
       pasosQueSiguen().map(function(p){ return '<li>'+esc(p.t)+(p.pend ? ' <span class="pendiente">'+esc(p.pend)+'</span>' : '')+'</li>'; }).join('')+
     '</ol>'+
-    '<h3 class="sub-seccion sub-seccion-sm">Puedes seguir aportando información</h3>'+
-    '<p class="nota-gris">Si más adelante consigues fotografías, videos o documentos que fortalezcan tu denuncia, puedes enviarlos con tu número de registro. No hace falta presentar una denuncia nueva. <span class="pendiente">Vía para aportar información, por confirmar</span></p>'+
+    '<h3 class="sub-seccion sub-seccion-sm">'+voz('Puedes seguir aportando información', 'La persona puede seguir aportando información')+'</h3>'+
+    '<p class="nota-gris">'+voz('Si más adelante consigues fotografías, videos o documentos que fortalezcan tu denuncia, puedes enviarlos con tu número de registro.', 'Si más adelante consigue fotografías, videos o documentos que fortalezcan su denuncia, puede enviarlos con su número de registro.')+' No hace falta presentar una denuncia nueva. <span class="pendiente">Vía para aportar información, por confirmar</span></p>'+
     '<h3 class="sub-seccion sub-seccion-sm">Dónde dar seguimiento</h3>'+
     /* En la ruta federal el seguimiento de la PROFEPA ya lo dice el ultimo paso. */
-    '<p class="nota-gris">Tu denuncia la atiende '+
+    '<p class="nota-gris">'+voz('Tu denuncia la atiende ', 'La denuncia la atiende ')+''+
       '<strong>'+esc(val('dg_nombre')||'la Secretaría del Medio Ambiente')+'</strong>. '+
       (val('remite_a') ? ''
-        : 'Para preguntar por el avance, comunícate con la <strong>Jefatura de Unidad Departamental de Seguimiento a Denuncias</strong> de esa dirección general, con tu número de registro. ')+
+        : ''+voz('Para preguntar por el avance, comunícate con la ', 'Para preguntar por el avance, la persona puede comunicarse con la ')+'<strong>Jefatura de Unidad Departamental de Seguimiento a Denuncias</strong>'+voz(' de esa dirección general, con tu número de registro. ', ' de esa dirección general, con su número de registro. ')+'')+
       /* La DGIVA confirmó sus datos (DEC-188); la DGCORENADR, todavía no. */
       (val('dg')==='DGCORENADR' ? '<span class="pendiente">Domicilio, horario y teléfono de esta unidad, por confirmar</span>' : '')+'</p>'+
     (vias ? '<h3 class="sub-seccion sub-seccion-sm">Otras vías</h3><p class="nota-gris">'+esc(vias)+'</p>' : '')+
@@ -3753,7 +3769,7 @@ function marca_opc(oblig){
 }
 
 function campo(k,etq,tipo,oblig,ayuda,extra){
-  var t = tipo==='fecha' ? 'date' : (tipo==='hora' ? 'time' : (tipo==='tel' ? 'tel' : (tipo==='email' ? 'email' : 'text')));
+  var t = tipo==='fecha' ? 'date' : (tipo==='tel' ? 'tel' : (tipo==='email' ? 'email' : 'text'));
   var id='f_'+k, idA='a_'+k, idE='e_'+k;
   /* Lo que ocurre al salir del campo no se pide campo por campo: lo pone
      aqui quien sabe que ese campo tiene forma declarada (DEC-91) o que
@@ -4250,7 +4266,7 @@ function pareceRelleno(x){
   }
   return false;
 }
-var NO_SE_ENTIENDE = 'No se entiende lo que escribiste. Escríbelo con tus palabras.';
+function noSeEntiende(){ return voz('No se entiende lo que escribiste. Escríbelo con tus palabras.', 'No se entiende lo que se escribió. Escríbelo como lo relató la persona.'); }
 
 /* Cuando el problema no es que el dato falte sino lo que dice, el mensaje no
    puede ser «este dato es necesario». */
@@ -4275,22 +4291,25 @@ var FORMATO = {
   telefono: {re:/^\d{10}$/, limpia:function(v){ return v.replace(/\D/g,''); },
              msg:'El teléfono va a diez dígitos, con la clave de la Ciudad.'},
   correo:   {re:/^[^\s@]+@[^\s@]+\.[^\s@]+$/, msg:'Revisa el correo: le falta la arroba o el dominio.'},
+  /* La hora de recepción, sólo horas y minutos (DEC-261): el control de hora
+     del navegador agregaba «a. m.» o «p. m.» según la computadora. */
+  recepcion_hora: {re:/^([01]\d|2[0-3]):[0-5]\d$/, msg:'Escribe la hora con cuatro cifras, de 00:00 a 23:59; por ejemplo, 09:30.'},
   /* Textos libres: que no sean letras al azar (DEC-224). */
-  referencias:     {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
-  nombre_lugar:    {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
-  tipo_estab_otro: {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
-  resp_senas:      {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
-  gestiones:       {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
-  otras_pruebas:   {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
+  referencias:     {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende},
+  nombre_lugar:    {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende},
+  tipo_estab_otro: {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende},
+  resp_senas:      {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende},
+  gestiones:       {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende},
+  otras_pruebas:   {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende},
   /* Calles y nombre del establecimiento (D1-12): sin un solo falso rechazo
      contra las 1 767 colonias del catálogo. Los nombres de persona quedan
      fuera a propósito: «Asdrúbal» o «Mkrtchyan» se rechazarían, y el nombre
      es obligatorio con datos (DEC-237). */
-  calle:            {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
-  entre_calles:     {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
-  nombre_estab:     {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
-  dom_calle:        {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE},
-  dom_entre_calles: {prueba:function(v){ return !pareceRelleno(v); }, msg:NO_SE_ENTIENDE}
+  calle:            {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende},
+  entre_calles:     {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende},
+  nombre_estab:     {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende},
+  dom_calle:        {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende},
+  dom_entre_calles: {prueba:function(v){ return !pareceRelleno(v); }, msg:noSeEntiende}
 };
 /* El del domicilio sigue la casilla: en la Ciudad, el intervalo de la
    Ciudad; fuera, cinco digitos (DEC-135, DEC-136). */
@@ -4298,7 +4317,7 @@ FORMATO.dom_cp = {
   get re(){ return fueraCdmx() ? /^\d{5}$/ : FORMATO.cp.re; },
   msg: function(v){
     if(fueraCdmx() || !/^\d{5}$/.test(v)) return 'El código postal va a cinco dígitos.';
-    return 'Ese código postal no es de la Ciudad de México. Si vives fuera de la Ciudad, marca la casilla de arriba.';
+    return 'Ese código postal no es de la Ciudad de México. '+voz('Si vives fuera de la Ciudad, marca la casilla de arriba.', 'Si la persona vive fuera de la Ciudad, marca la casilla de arriba.')+'';
   }
 };
 
@@ -4368,7 +4387,7 @@ function valida(n){
     empuja(faltan,'hechos');
   }
   if(n===3 && val('hechos').trim().length>=LIMITES.hechos.min && (!pareceTexto(val('hechos')) || pareceRelleno(val('hechos')))){
-    MOTIVO.hechos = 'El texto no se entiende. Describe con tus palabras qué está ocurriendo.';
+    MOTIVO.hechos = voz('El texto no se entiende. Describe con tus palabras qué está ocurriendo.', 'El texto no se entiende. Escribe lo que relató la persona sobre lo que está ocurriendo.');
     empuja(faltan,'hechos');
   }
 
@@ -5209,6 +5228,9 @@ function fechaEnPalabras(v){
   return m ? (+m[3]) + ' de ' + meses[m[2] - 1] + ' de ' + m[1] + ', ' + m[4] + ':' + m[5] + ' horas' : (v || '');
 }
 function fechaRecepcionTexto(){ return fechaEnPalabras(val('fecha_acuse')); }
+/* La recepción original de lo capturado, en palabras y sólo con horas y
+   minutos, como la fecha del acuse (DEC-261). */
+function recepcionEnPalabras(){ return fechaEnPalabras(val('recepcion_fecha')+'T'+val('recepcion_hora')); }
 /* En la captura, cuándo y por dónde llegó, y cuándo se capturó (AD-03). */
 function llegadaTexto(){
   var c = canalCaptura();
@@ -5595,7 +5617,7 @@ function construyeAcusePdf(){
       cs += pdfColor('#1F5FA8') + ' RG 0.5 w ' + xl.toFixed(2) + ' ' + (y - 1.5).toFixed(2) + ' m ' + (xl + wl).toFixed(2) + ' ' + (y - 1.5).toFixed(2) + ' l S\n';
       ligas.push({rect: [xl, y - 3, xl + wl, y + 8], uri: urlGoogleMaps()});
       y -= 12;
-      parrafo('Figura 1. Croquis de referencia del punto que marcaste, no cartografía oficial. Fuente: capas del SIA (alcaldías, suelo de conservación, áreas de valor ambiental y áreas naturales protegidas), simplificadas para el formulario.',
+      parrafo('Figura 1. Croquis de referencia '+voz('del punto que marcaste', 'del punto señalado')+', no cartografía oficial. Fuente: capas del SIA (alcaldías, suelo de conservación, áreas de valor ambiental y áreas naturales protegidas), simplificadas para el formulario.',
         M, AN, 'F3', 7.5, GRIS, 4);
     }
     /* Poligonos de una capa, recortados al marco: sólo los que lo tocan, y
@@ -5733,10 +5755,10 @@ function descargaAcuse(b){
     });
   }).then(function(){
     if(b){ b.removeAttribute('aria-disabled'); b.removeAttribute('aria-busy'); b.textContent = 'Descargar de nuevo'; }
-    var n = $('notaAcuse'); if(n) n.textContent = 'Listo: revisa tus descargas. Guárdalo junto con tu número de registro.';
+    var n = $('notaAcuse'); if(n) n.textContent = ''+voz('Listo: revisa tus descargas. Guárdalo junto con tu número de registro.', 'Listo: revisa tus descargas y entrega el PDF a la persona.')+'';
   }).catch(function(){
     if(b){ b.removeAttribute('aria-disabled'); b.removeAttribute('aria-busy'); b.textContent = 'Descargar acuse (PDF)'; }
-    var n = $('notaAcuse'); if(n) n.textContent = 'No se pudo generar el PDF. Anota tu número de registro y vuelve a intentarlo.';
+    var n = $('notaAcuse'); if(n) n.textContent = ''+voz('No se pudo generar el PDF. Anota tu número de registro y vuelve a intentarlo.', 'No se pudo generar el PDF. Anota el número de registro y vuelve a intentarlo.')+'';
   });
 }
 
@@ -5840,8 +5862,8 @@ function avisoBorrador(){
   }
   c.innerHTML = !b ? '' :
     '<div class="franja"><div class="contenedor franja-int">'+
-      '<p><strong>Tienes una denuncia sin terminar.</strong> Aún no se ha presentado ante la Secretaría.</p>'+
-      '<button type="button" class="btn btn-secundario" onclick="retomaBorrador()">Continuar donde me quedé</button>'+
+      '<p><strong>'+voz('Tienes una denuncia sin terminar.', 'Hay una captura sin terminar.')+'</strong> Aún no se ha presentado ante la Secretaría.</p>'+
+      '<button type="button" class="btn btn-secundario" onclick="retomaBorrador()">'+voz('Continuar donde me quedé', 'Continuar la captura')+'</button>'+
       '<button type="button" class="enlace" onclick="pideBorrar()">Descartar</button>'+
     '</div></div>';
   return '';
@@ -6040,7 +6062,7 @@ function revPantalla(){
   var m = document.querySelector('.modal.abierto h3');
   if(m) return 'Ventana · ' + m.textContent.trim();
   if(paso === 0) return 'Portada';
-  if(paso >= 1 && paso <= 6) return 'Paso ' + paso + ' · ' + ETAPAS[paso - 1];
+  if(paso >= 1 && paso <= 6) return 'Paso ' + paso + ' · ' + etapas()[paso - 1];
   return paso === 7 ? 'Acuse' : (paso === 8 ? 'Límite de envíos' : 'Paso ' + paso);
 }
 /* El último encabezado que aparece antes del elemento, y la pregunta si es un campo. */

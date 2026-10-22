@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.19 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-260
+**Versión:** 0.20 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-261
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.19 a la 0.20** (la voz del modo captura, DEC-261): el apartado 3.4 dice que en modo captura el formulario le habla a quien captura.
 
 **De la 0.18 a la 0.19** (la cuenta, DEC-260): el apartado 3 dice que la cuenta está en la esquina de arriba a la derecha, con sus datos.
 
@@ -142,7 +144,7 @@ Una sola pantalla por denuncia. Encabezado fijo con folio, estado, área que rec
 
 El mismo formulario, con las diferencias ya descritas en AD-03: primer paso con canal, fecha y hora de recepción original, folio de origen y quién recibió; soporte obligatorio según el canal; datos de contacto que pueden marcarse «no proporcionado»; sin prueba de humanidad ni límite de envíos; aviso de denuncias cercanas al guardar; misma serie de folios (documento 19). Hereda del formulario sus reglas de captura: obligatoriedad desde `OBLIG` (DEC-237), longitudes desde `LIMITES` y rechazo de letras al azar (DEC-224, DEC-235, DEC-237).
 
-**Cómo quedó (DEC-248).** Es el «modo captura» del propio formulario, con su interruptor en el panel de validación («Versión 37»); la pantalla de la maqueta lo abre y lista lo capturado. «No proporcionado» no es una casilla: el correo y el domicilio simplemente dejan de ser obligatorios en este modo y, si faltan, el formulario lo anota al guardar. Quedan por decidir cómo consta el aviso de privacidad de quien denunció por escrito o por teléfono y si el teléfono también puede no venir.
+**Cómo quedó (DEC-248, DEC-261).** Es el «modo captura» del propio formulario, con su interruptor en el panel de validación («Versión 37»); desde la «Versión 38» le habla a quien captura —«Datos de quien denuncia», «Revisar la denuncia»—, pregunta por qué medio llegó, pide la hora en horas y minutos, sube el soporte como la evidencia y, en lugar del aviso de privacidad, pide marcar que se le informó a la persona y aceptó; la pantalla de la maqueta lo abre y lista lo capturado. «No proporcionado» no es una casilla: el correo y el domicilio simplemente dejan de ser obligatorios en este modo y, si faltan, el formulario lo anota al guardar. Quedan por decidir cómo consta el aviso de privacidad de quien denunció por escrito o por teléfono y si el teléfono también puede no venir.
 
 ### 3.5 Mapa operativo
 

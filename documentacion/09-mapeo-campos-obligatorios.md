@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-260 · 22 de octubre de 2026
+**Versión:** DEC-261 · 22 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -43,7 +43,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 
 | Campo | Obligatorio | Dato personal | Se pide | Uso declarado |
 |---|---|---|---|---|
-| Canal por el que llegó | Obligatorio *(condicionado)* | No | Sólo en la captura por personal (AD-03) | Distingue lo que llega por Oficialía de Partes, teléfono, correo o comparecencia de lo que llega en línea; decide qué soporte se exige y permite comparar la demanda con la serie histórica (D-19). |
+| Medio por el que llegó | Obligatorio *(condicionado)* | No | Sólo en la captura por personal (AD-03) | Distingue lo que llega por Oficialía de Partes, teléfono, correo o comparecencia de lo que llega en línea; decide qué soporte se exige y permite comparar la demanda con la serie histórica (D-19). |
 | Fecha de recepción original | Obligatorio *(condicionado)* | No | Sólo en la captura por personal (AD-03) | Cuándo llegó la denuncia por el canal de origen: los plazos se cuentan desde aquí y no desde la captura (CP-1, recomendación). |
 | Hora de recepción original | Obligatorio *(condicionado)* | No | Sólo en la captura por personal (AD-03) | Completa la fecha de recepción original. |
 | Número de volante o folio de origen | Opcional | No | Sólo en la captura por personal (AD-03) | Liga la captura con el registro de Oficialía de Partes o del sistema de origen (B-06). |
