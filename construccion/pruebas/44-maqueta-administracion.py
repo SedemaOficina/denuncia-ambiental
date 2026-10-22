@@ -99,6 +99,9 @@ with sync_playwright() as pw:
            and any(d.get('alcaldia_discrepa') == 'si' for d in D) and any(not x['archivos'] for x in datos)
            and any(len(d.get('nombre', '')) > 30 for d in D),
            'y los casos incómodos: anónima, autoridad señalada, alcaldía que no coincide, sin archivos y nombre larguísimo')
+    # Como palabra: dentro del logotipo en base64 caben las letras «UGA».
+    afirma(not re.search(r'\bUGA\b', m) and not any(k.startswith('uga') for x in datos for k in x['datos']),
+           'nada de las UGA en la maqueta ni en sus denuncias (DEC-257)')
     afirma(all(('captura' in x) == (x['canal'] != 'en_linea') for x in datos),
            'lo capturado por personal trae canal y soporte (AD-03); lo de en línea, no')
     acum = [t for t in T if t['estado'] == 'acumulada']

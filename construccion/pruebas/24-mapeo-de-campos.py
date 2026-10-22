@@ -68,7 +68,7 @@ with sync_playwright() as pw:
     afirma(cat['ver']['dec'] in m['version'], 'muestra la versión del formulario: %r' % m['version'][:60])
     afirma(m['fLlena'] == m['nLlena'] and m['fOcu'] == m['nOcu'] and m['fVis'] == m['nVis'],
            'cada sección lista exactamente lo que dicen los catálogos (%d/%d, %d/%d, %d/%d)' % (m['fLlena'], m['nLlena'], m['fOcu'], m['nOcu'], m['fVis'], m['nVis']))
-    for k in ['uga', 'colonia_cve', 'ubicacion_origen', 'dg', 'sha256_original', 'fecha_captura', 'lat_captura']:
+    for k in ['colonia_cve', 'ubicacion_origen', 'dg', 'sha256_original', 'fecha_captura', 'lat_captura']:
         afirma(k in m['ocultos'], '«%s» está entre lo que viaja sin verse' % k)
     for k in ['alcaldia', 'dg_nombre', 'folio']:
         afirma(k in m['visibles'] and k not in m['ocultos'], '«%s» está entre lo calculado que se muestra' % k)
@@ -80,8 +80,8 @@ with sync_playwright() as pw:
     # ---- de verdad no se ven ----
     pg.evaluate("() => { document.getElementById('modalMapeo').classList.remove('abierto'); estado={}; guarda('materia','rsu'); guarda('tiene_direccion','si'); guarda('alcaldia_dir','Coyoacán'); guarda('colonia','Del Carmen'); guarda('colonia_cve','03-021'); irA(2); ponMarcador(19.35,-99.162); }")
     pg.wait_for_timeout(300)
-    vis = pg.evaluate("() => { irA(6); alternaDetalleRevision(); const t = document.body.innerText; return {uga: val('uga') && t.indexOf(val('uga')) >= 0, cve: t.indexOf('03-021') >= 0}; }")
-    afirma(not vis['uga'] and not vis['cve'], 'lo que el mapeo dice que no se ve, no se ve en la revisión')
+    vis = pg.evaluate("() => { irA(6); alternaDetalleRevision(); const t = document.body.innerText; return {cve: t.indexOf('03-021') >= 0}; }")
+    afirma(not vis['cve'], 'lo que el mapeo dice que no se ve, no se ve en la revisión')
 
     afirma(err == [], 'sin errores propios en consola: %s' % err[:2])
     pg.close(); nav.close()

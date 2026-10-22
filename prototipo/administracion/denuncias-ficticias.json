@@ -55,8 +55,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
    "ubicacion_origen": "punto",
-   "uga": "CUH-016",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -269,9 +267,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
-   "ubicacion_origen": "punto",
-   "uga": "CUH-016",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {
@@ -508,9 +504,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Industria o fábrica",
-   "ubicacion_origen": "punto",
-   "uga": "IZC-010",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {
@@ -932,8 +926,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
    "ubicacion_origen": "punto",
-   "uga": "IZP-059",
-   "uga_version": "sia-2026-09-22",
    "veh_servicio": "carga",
    "verificacion": "si"
   },
@@ -1161,9 +1153,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Bar, cantina o salón de fiestas",
-   "ubicacion_origen": "punto",
-   "uga": "IZP-117",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [],
   "captura": {
@@ -1371,8 +1361,6 @@
    "tipo_denunciado": "empresa",
    "tipo_estab": "Tienda, abarrotes u otro comercio",
    "ubicacion_origen": "punto",
-   "uga": "CUH-021",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -1586,8 +1574,6 @@
    "tipo_denunciado": "gobierno",
    "tipo_estab": "Panadería o tortillería",
    "ubicacion_origen": "punto",
-   "uga": "BJU-007",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -1798,8 +1784,6 @@
    "tipo_denunciado": "empresa",
    "tipo_estab": "Carnicería, pollería o pescadería",
    "ubicacion_origen": "punto",
-   "uga": "IZC-010",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -2010,9 +1994,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Lavandería o tintorería",
-   "ubicacion_origen": "punto",
-   "uga": "CUH-016",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {
@@ -2255,8 +2237,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
    "ubicacion_origen": "punto",
-   "uga": "IZP-078",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -2474,8 +2454,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
-   "uga": "IZC-010",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [],
@@ -2668,9 +2646,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
-   "ubicacion_origen": "punto",
-   "uga": "CUH-017",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {
@@ -2923,8 +2899,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
-   "uga": "TLP-316",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -3135,8 +3109,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
-   "uga": "COY-054",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -3344,8 +3316,6 @@
    "tiene_direccion": "no",
    "tipo_denunciado": "nose",
    "ubicacion_origen": "punto",
-   "uga": "TLP-314",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -3567,9 +3537,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
-   "ubicacion_origen": "punto",
-   "uga": "MLP-312",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {
@@ -3818,8 +3786,6 @@
    "tiene_direccion": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
-   "uga": "CUJ-034",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [],
@@ -3994,8 +3960,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
    "ubicacion_origen": "punto",
-   "uga": "TLP-316",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -4220,9 +4184,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
-   "ubicacion_origen": "punto",
-   "uga": "IZP-078",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {
@@ -4472,8 +4434,6 @@
    "tipo_denunciado": "empresa",
    "tipo_estab": "Industria o fábrica",
    "ubicacion_origen": "punto",
-   "uga": "IZC-010",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -4709,8 +4669,6 @@
    "tipo_denunciado": "empresa",
    "tipo_estab": "Bodega o almacén",
    "ubicacion_origen": "punto",
-   "uga": "CUH-017",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -4947,8 +4905,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
    "ubicacion_origen": "punto",
-   "uga": "IZP-059",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -5174,8 +5130,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
-   "uga": "IZP-117",
-   "uga_version": "sia-2026-09-22",
    "veh_servicio": "carga"
   },
   "archivos": [],
@@ -5398,8 +5352,6 @@
    "tipo_denunciado": "empresa",
    "tipo_estab": "Tienda, abarrotes u otro comercio",
    "ubicacion_origen": "punto",
-   "uga": "CUH-021",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -5636,8 +5588,6 @@
    "tipo_denunciado": "gobierno",
    "tipo_estab": "Panadería o tortillería",
    "ubicacion_origen": "punto",
-   "uga": "IZP-078",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -5883,9 +5833,7 @@
    "tipo_denunciado": "empresa",
    "tipo_estab": "Otro",
    "tipo_estab_otro": "Taller de pruebas",
-   "ubicacion_origen": "punto",
-   "uga": "IZC-010",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {
@@ -6150,8 +6098,6 @@
    "tipo_denunciado": "empresa",
    "tipo_estab": "Lavandería o tintorería",
    "ubicacion_origen": "punto",
-   "uga": "CUH-016",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -6392,8 +6338,6 @@
    "tipo_denunciado": "gobierno",
    "tipo_estab": "Gasolinera o estación de servicio",
    "ubicacion_origen": "punto",
-   "uga": "IZP-078",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -6599,8 +6543,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
-   "uga": "IZC-010",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [],
@@ -6817,9 +6759,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
-   "ubicacion_origen": "punto",
-   "uga": "CUH-017",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {
@@ -7096,8 +7036,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "gobierno",
    "ubicacion_origen": "punto",
-   "uga": "IZP-059",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -7336,8 +7274,6 @@
    "tiene_direccion": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
-   "uga": "CUJ-034",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -7557,9 +7493,7 @@
    "tiene_direccion": "si",
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
-   "ubicacion_origen": "punto",
-   "uga": "TLP-316",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {
@@ -7836,8 +7770,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
-   "uga": "COY-054",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -8046,8 +7978,6 @@
    "tiene_direccion": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
-   "uga": "TLP-315",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [],
@@ -8267,8 +8197,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "nose",
    "ubicacion_origen": "punto",
-   "uga": "MLP-299",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -8529,9 +8457,7 @@
    "temporalidad": "recurrente",
    "tiene_direccion": "no",
    "tipo_denunciado": "particular",
-   "ubicacion_origen": "punto",
-   "uga": "CUJ-034",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {
@@ -8757,8 +8683,6 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "particular",
    "ubicacion_origen": "punto",
-   "uga": "IZC-010",
-   "uga_version": "sia-2026-09-22",
    "verificacion": "si"
   },
   "archivos": [
@@ -9009,9 +8933,7 @@
    "tiene_mz_lote": "no",
    "tipo_denunciado": "empresa",
    "tipo_estab": "Bodega o almacén",
-   "ubicacion_origen": "punto",
-   "uga": "CUH-017",
-   "uga_version": "sia-2026-09-22"
+   "ubicacion_origen": "punto"
   },
   "archivos": [
    {

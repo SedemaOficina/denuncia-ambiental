@@ -9,7 +9,7 @@
 2. Cuarenta denuncias ficticias, armadas con la logica del propio formulario:
    se carga un escenario del panel de validacion, se cambia lo que haga falta
    y el formulario calcula lo demas —area que recibe, remision, tipo de zona,
-   alcaldia del punto, celda UGA, folio con su caracter verificador y fecha de
+   alcaldia del punto, folio con su caracter verificador y fecha de
    recepcion en hora de la Ciudad—. Cada una pasa la validacion de los cinco
    pasos; si alguna no, el guion se detiene. Se guardan en
    prototipo/administracion/denuncias-ficticias.json, con la forma que tendra
@@ -178,7 +178,7 @@ ARMA = r"""(plan) => {
        alcaldía que la de la dirección. El formulario calcula lo demás. */
     if (r.sin_punto) {
       ['lat','lon','coord_pegar','alcaldia','capa_tipo','capa_clase','capa_categoria','capa_nombre','dg','remite_a','dg_nombre','dg_razon',
-       'fuera','concurrencia','coadmin','uga','uga_version'].forEach(k => g(k, ''));
+       'fuera','concurrencia','coadmin'].forEach(k => g(k, ''));
     } else {
       let la = +val('lat') + r.desplaza[0], lo = +val('lon') + r.desplaza[1];
       if (r.punto_otra_alcaldia) { la = 19.3720; lo = -99.1580; }

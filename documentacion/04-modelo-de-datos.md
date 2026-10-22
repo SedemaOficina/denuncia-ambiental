@@ -12,7 +12,7 @@ Cada dato del expediente tiene uno de cuatro orígenes. El documento 09 los sepa
 | Origen | Qué es | Ejemplos |
 |---|---|---|
 | **Captura** | Lo escribe o elige la persona | Materia, dirección, relato, datos de contacto |
-| **Cruce espacial** | Lo determina el punto contra las capas del SIA | Alcaldía del punto, tipo de suelo, área que atiende, celda UGA |
+| **Cruce espacial** | Lo determina el punto contra las capas del SIA | Alcaldía del punto, tipo de suelo, área que atiende |
 | **Catálogo** | Sale de una lista cerrada al elegir | Clave de la colonia (IECM 2022), alcaldía de la dirección |
 | **Sistema** | Lo pone el formulario o el servidor | Folio, fecha y hora de recepción, origen de la ubicación, huella de las fotos |
 
@@ -42,7 +42,6 @@ La tabla completa de las ramas, con las respuestas que gobiernan cada una, está
 | Alcaldías | 16 | Capa de alcaldías del SIA | `CATALOGO_COLONIAS.alcaldias` |
 | Colonias | 1 837 unidades territoriales | IECM 2022 | `CATALOGO_COLONIAS` |
 | Entidades federativas | 31, sin la Ciudad | — | `ENTIDADES_FUERA` |
-| Celdas UGA | 1 624 hexágonos de ~1 km² | Malla del SIA, versión del 22-09-2026 | `CATALOGO_UGA` |
 | Formatos de archivo | JPG, JPEG, PNG, MP4, MOV, Word, PDF y Excel; 10 archivos de hasta 25 MB | DEC-120 | `ARCHIVOS` |
 
 ## 4. Folio y acuse
@@ -60,7 +59,6 @@ La tabla completa de las ramas, con las respuestas que gobiernan cada una, está
 | Áreas de Valor Ambiental y Áreas Naturales Protegidas | `geometrias.geojson` | 66: 13 bosques urbanos, 26 barrancas, 18 ANP locales, 9 ANP federales | AVA y ANP |
 | Suelo de conservación | `suelo_conservacion.geojson` | 7 | Suelo de conservación |
 | Colonias | `capas/originales/colonias_iecm2022.geojson` | 1 837 | Catálogo de colonias |
-| Malla UGA | `capas/originales/UGA_CDMX.geojson` | 1 624 | Celda UGA del punto |
 
 En el prototipo las geometrías se simplificaron a una tolerancia aproximada de ocho metros para reducir el peso del archivo. **En operación el cruce se resuelve en el servidor contra las capas completas.**
 

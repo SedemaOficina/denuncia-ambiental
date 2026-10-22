@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.15 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-256
+**Versión:** 0.16 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-257
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.15 a la 0.16** (sin UGA, DEC-257): los apartados 3.3, 3.5 y 5 dejan la celda UGA.
 
 **De la 0.14 a la 0.15** (capturista y directivos, DEC-256): los apartados 2, 3.7, 3.9 y 7 y la pregunta MA-04 dicen que captura se llama capturista —uno por dirección general, que ve sólo lo que capturó— y consulta, directivos, con datos personales.
 
@@ -120,7 +122,7 @@ Los plazos de esta bandeja son internos: el formulario no los menciona a la pers
 Una sola pantalla por denuncia. Encabezado fijo con folio, estado, área que recibe, remisión si la hay, persona asignada y plazo vigente. Debajo, seis secciones:
 
 1. **Denuncia.** Todo lo capturado, en el mismo orden del acuse, con la fecha y hora de recepción en hora de la Ciudad (DEC-235) y el fundamento que citó el acuse —el artículo del Reglamento Interior del área que recibe, y el 331 de la Ley Ambiental si se señaló a una autoridad— (DEC-232). La materia declarada y, aparte, la **materia confirmada** por quien analiza (D-20).
-2. **Ubicación.** Mapa con el punto y el polígono de la zona, resultado del cruce con su motivación, celda UGA, origen de la ubicación y la marca de discrepancia de alcaldía. Denuncias cercanas en un radio.
+2. **Ubicación.** Mapa con el punto y el polígono de la zona, resultado del cruce con su motivación, origen de la ubicación y la marca de discrepancia de alcaldía. Denuncias cercanas en un radio.
 3. **Evidencia.** Galería de miniaturas —fotos, videos, PDF, Word y Excel— que se abren con un clic, con el nombre y el tipo de cada archivo y, en las fotografías, la fecha y el lugar de captura dichos en palabras —el lugar, contra el de la denuncia— (DEC-253, DEC-254). Peso, huella y coordenadas son datos del sistema: se guardan (DEC-121), pero no se muestran. En captura por personal, el escrito o la nota de soporte.
 4. **Actuaciones.** Línea de tiempo: cada cambio de estado, turnado, asignación y nota, con fecha, hora y persona. No se edita ni se borra.
 5. **Contacto y notificación.** Registro de cada comunicación con quien denuncia y de la información adicional recibida, y de la **notificación del resultado**: en el domicilio que registró o, en la anónima, en su correo (DEC-233). El correo lo envía el servidor y el envío y su resultado quedan aquí (SIA-29). Una aclaración pedida a la persona anónima que no conteste no detiene el trámite (RN-21). Sólo perfiles de atención y coordinación.
@@ -138,7 +140,7 @@ El mismo formulario, con las diferencias ya descritas en AD-03: primer paso con 
 
 ### 3.5 Mapa operativo
 
-Las denuncias sobre las capas del Sistema de Información Ambiental, filtrables por materia, estado, área y periodo —año y mes—; agregación por alcaldía, colonia y celda UGA. Es el insumo para programar operativos: sitios con denuncia reiterada y zonas con concentración.
+Las denuncias sobre las capas del Sistema de Información Ambiental, filtrables por materia, estado, área y periodo —año y mes—; agregación por alcaldía y colonia (sin celdas UGA desde DEC-257). Es el insumo para programar operativos: sitios con denuncia reiterada y zonas con concentración.
 
 **Lo que la maqueta propone (DEC-247).** El mapa se dibuja con las capas del mapa vectorial del formulario, sin calles de fondo ni servicios externos. Abiertas y cerradas se distinguen por la forma, no sólo por el color, y junto al mapa van las mismas cuentas en tablas, porque el mapa no puede ser el único camino. En el expediente, el mapa enseña la zona protegida completa si el punto cae en una y, si no, la alcaldía.
 
@@ -216,7 +218,7 @@ Cinco grupos. Todos se filtran por año, mes, área, canal, materia y alcaldía.
 | | Remitidas a otra autoridad y returnadas, por separado | Responde PB-01 con dato propio |
 | | Concluidas sin materia y acumuladas por duplicado | Calidad de lo que entra; documento 15, §6 |
 | | Materia declarada frente a materia confirmada | Mide si el paso 1 se entiende; alimenta D-2 |
-| **Territorio** | Denuncias por alcaldía, colonia, tipo de zona y celda UGA | Programación de operativos |
+| **Territorio** | Denuncias por alcaldía, colonia y tipo de zona | Programación de operativos |
 | | Proporción en suelo de conservación, en Áreas Naturales Protegidas y en Áreas de Valor Ambiental, cada una por separado | Línea base de las dos primeras, juntas: 4.3 %; 0.2 % en Milpa Alta (D-18) |
 | **Canal** | Denuncias anónimas y con datos | Seguimiento de DEC-03 |
 | | Notificaciones por correo enviadas y fallidas, en anónimas | Seguimiento de DEC-233 y SIA-29 |
@@ -225,7 +227,7 @@ Cinco grupos. Todos se filtran por año, mes, área, canal, materia y alcaldía.
 
 **Lo que la maqueta propone, por acordar (DEC-246).** El turnado y la primera valoración se cuentan en días hábiles desde la recepción original; la primera valoración es la primera vez que la denuncia se admite, returna, remite, recomienda o concluye. El género y la edad sólo van en agregado, y una cifra menor que 3 se muestra como «menos de 3», porque con los filtros podría señalar a una persona; la cifra la fija la Unidad de Transparencia.
 
-**Lo que cambió (DEC-251).** Por instrucción de Liber Saltijeral, el tablero ya no reporta las celdas UGA con denuncia reiterada; el mapa operativo conserva su cuenta por celda UGA. Suelo de conservación, Áreas Naturales Protegidas y Áreas de Valor Ambiental se cuentan por separado, cada denuncia en la zona que dio el cruce del formulario. Y el tablero y el mapa se filtran por año, con un cuadro de recibidas, en trámite y cerradas por año: los años salen de las denuncias, de modo que el que llegue aparece solo.
+**Lo que cambió (DEC-251).** Por instrucción de Liber Saltijeral, el tablero ya no reporta las celdas UGA con denuncia reiterada; el mapa operativo conservaba su cuenta por celda UGA hasta que DEC-257 retiró las UGA de todo el sistema. Suelo de conservación, Áreas Naturales Protegidas y Áreas de Valor Ambiental se cuentan por separado, cada denuncia en la zona que dio el cruce del formulario. Y el tablero y el mapa se filtran por año, con un cuadro de recibidas, en trámite y cerradas por año: los años salen de las denuncias, de modo que el que llegue aparece solo.
 
 ---
 

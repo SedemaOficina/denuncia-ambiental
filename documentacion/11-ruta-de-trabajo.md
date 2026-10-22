@@ -1457,3 +1457,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Lo pidió Liber. Antes de hacerlo se le advirtió que contradecía el documento 22, §7, condición 1, y la recomendación de MA-04; MA-04 es de la Oficina de la Secretaría y queda respondida, y las condiciones del §7 siguen pendientes de la Unidad de Transparencia. Para que se note que cada capturista ve sólo lo suyo, la DGIVA tiene dos capturistas de prueba y una denuncia capturada en la DGIVA se fue por su punto a la DGCORENADR. Se probó metiendo dos errores a propósito —capturista viendo todo lo capturado y directivos sin descarga con datos— y los atraparon las baterías 44 y 52.
 
 **Verificación de cierre.** Batería completa en verde: 1 886 comprobaciones en 54 baterías, 285 de ellas sobre la versión publicada.
+
+### 22 de octubre de 2026 · fuera las UGA, del formulario y del módulo (DEC-257)
+
+**Qué cambió.** El formulario ya no trae la malla de 1 624 celdas UGA, no asigna la celda al punto ni guarda la celda y la versión de la malla. En la maqueta del módulo, el mapa operativo dejó la cuenta por celda UGA y el expediente, la celda. Los generadores de catálogos tratan sólo las colonias. La batería 18 se renombró a `18-colonia-y-cp.py` y comprueba que no quede nada de la malla; la 24 y la 44 también lo vigilan. Documentos 01, 04, 20, 22 (versión 0.16) y LEEME al día; el 09 se regeneró sin los dos campos.
+
+**Por qué así.** Liber no va a usar las UGA. Un dato sin uso no se recaba, y la malla pesaba en el formulario sin servir a nadie. Para la persona que denuncia no cambia nada visible, así que el formulario sigue en la «Versión 37». Se probó metiendo un error a propósito —volver a guardar la celda— y lo atrapó la batería 18.
+
+**Verificación de cierre.** Batería completa en verde: 1 878 comprobaciones en 54 baterías, 281 de ellas sobre la versión publicada.

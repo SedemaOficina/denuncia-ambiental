@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Genera los dos catalogos que el prototipo lleva incrustados y que la
-persona no dibuja en el mapa: el de colonias y el de celdas UGA (DEC-117).
+"""Genera el catalogo de colonias que el prototipo lleva incrustado y que la
+persona no dibuja en el mapa (DEC-117). El de celdas UGA se retiro: nadie
+iba a usar la celda (DEC-257).
 
 Origenes, sin tocar, en capas/originales/:
   · colonias_iecm2022.geojson  IECM 2022, unidades territoriales (1 837):
                                colonias, pueblos, barrios y unidades
                                habitacionales, cada una con su demarcacion.
-  · UGA_CDMX.geojson           Malla hexagonal del SIA (1 624 celdas de
-                               ~1 km2), entregada el 22-09-2026.
   · alcaldias_cdmx.json        Marco geoestadistico, 16 alcaldias; es el
                                origen de capas/alcaldias.geojson.
 
@@ -22,12 +21,6 @@ Que se incrusta:
   · CATALOGO_COLONIAS  [nombre legible, indice de alcaldia, CVEUT, nombre IECM]
                        Sin geometria: la colonia la escribe la persona y el
                        catalogo solo sugiere. 1 837 poligonos pesarian 4 MB.
-  · CATALOGO_UGA       [clave, longitud del centro, latitud del centro]
-                       La malla es regular: todas las celdas son hexagonos
-                       completos del mismo tamano, de modo que la celda que
-                       contiene un punto es la de centro mas cercano, medida
-                       con la longitud corregida por la escala de la malla.
-                       validar_catalogos.py lo comprueba contra los poligonos.
 
 Uso:  python construccion/generar_catalogos.py
 """
@@ -189,39 +182,15 @@ claves = [r[2] for r in filas]
 if len(set(claves)) != len(claves):
     sys.exit('CVEUT repetida en el origen')
 
-# ------------------------------------------------------------------ UGA
-uga = json.load(open(os.path.join(ORIG, 'UGA_CDMX.geojson'), encoding='utf-8'))
-celdas, anchos, altos = [], [], []
-for f in uga['features']:
-    g = f['geometry']
-    anillo = g['coordinates'][0] if g['type'] == 'Polygon' else g['coordinates'][0][0]
-    pts = anillo[:-1] if anillo[0] == anillo[-1] else anillo
-    if len(pts) != 6:
-        sys.exit('La celda %s no es un hexagono completo: el metodo del centro mas cercano no aplica' % f['properties']['clave'])
-    xs = [q[0] for q in pts]; ys = [q[1] for q in pts]
-    anchos.append(max(xs) - min(xs)); altos.append(max(ys) - min(ys))
-    celdas.append([f['properties']['clave'], round(sum(xs) / 6, 6), round(sum(ys) / 6, 6)])
-celdas.sort(key=lambda c: c[0])
-ancho = sum(anchos) / len(anchos); alto = sum(altos) / len(altos)
-# En un hexagono regular de lados planos arriba y abajo, alto = ancho * raiz(3)/2.
-# La malla se trazo en metros; en grados el hexagono llega achatado. KX es el
-# factor que devuelve la longitud a la escala de la latitud.
-KX = round(alto / (ancho * 3 ** 0.5 / 2), 5)
-RADIO = round(alto / 2, 6)        # apotema: distancia del centro al lado
-
-meta = {'colonias': {'origen': 'IECM 2022, unidades territoriales', 'n': len(filas)},
-        'uga': {'origen': 'SIA, malla hexagonal entregada el 22-09-2026', 'version': 'sia-2026-09-22',
-                'n': len(celdas), 'kx': KX, 'apotema': RADIO}}
+meta = {'colonias': {'origen': 'IECM 2022, unidades territoriales', 'n': len(filas)}}
 
 bloque_col = ('var CATALOGO_COLONIAS = {meta:' + json.dumps(meta['colonias'], ensure_ascii=False) +
               ',\n  alcaldias:' + json.dumps(ALCALDIAS, ensure_ascii=False) +
               ',\n  filas:' + json.dumps(filas, ensure_ascii=False, separators=(',', ':')) + '};')
-bloque_uga = ('var CATALOGO_UGA = {meta:' + json.dumps(meta['uga'], ensure_ascii=False) +
-              ',\n  celdas:' + json.dumps(celdas, separators=(',', ':')) + '};')
 
 s = open(PROTO, encoding='utf-8').read()
 n0 = len(s)
-for nombre, bloque in (('CATALOGO_COLONIAS', bloque_col), ('CATALOGO_UGA', bloque_uga)):
+for nombre, bloque in (('CATALOGO_COLONIAS', bloque_col),):
     patron = re.compile(r'^var ' + nombre + r' = \{.*?\};$', re.S | re.M)
     if patron.search(s):
         s = patron.sub(lambda m: bloque, s, count=1)
@@ -233,5 +202,4 @@ for nombre, bloque in (('CATALOGO_COLONIAS', bloque_col), ('CATALOGO_UGA', bloqu
             sys.exit('No se encontro CAPAS_SUELO para insertar ' + nombre)
         s = s[:j + 1] + bloque + '\n' + s[j + 1:]
 open(PROTO, 'w', encoding='utf-8', newline='\n').write(s)
-print('colonias: %d (%d alcaldias) · UGA: %d celdas · KX=%s apotema=%s · prototipo %+d bytes'
-      % (len(filas), len(ALCALDIAS), len(celdas), KX, RADIO, len(s) - n0))
+print('colonias: %d (%d alcaldias) · prototipo %+d bytes' % (len(filas), len(ALCALDIAS), len(s) - n0))

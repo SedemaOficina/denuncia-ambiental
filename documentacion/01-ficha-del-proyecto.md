@@ -82,4 +82,3 @@ Los entregables se escriben directamente en esa carpeta. La documentación se ma
 | Manual de Identidad Gráfica Institucional 2024-2030 y set de iconos | Gobierno de la Ciudad de México | Identidad visual del formulario |
 | Ley Ambiental de la Ciudad de México, Gaceta Oficial 18 de julio de 2024 | Congreso de la Ciudad de México | Fundamento jurídico |
 | Colonias del IECM 2022 (1 837 unidades territoriales) | Sistema de Información Ambiental | Catálogo de colonias de la dirección y del domicilio |
-| Malla UGA (1 624 celdas de ~1 km², versión del 22-09-2026) | Sistema de Información Ambiental | Celda del punto, para operativos y estadística |

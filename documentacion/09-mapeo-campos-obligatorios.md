@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Mapeo de campos, obligatoriedad y uso declarado
 
-**Versión:** DEC-256 · 22 de octubre de 2026
+**Versión:** DEC-257 · 22 de octubre de 2026
 **Generado automáticamente** del catálogo `OBLIG` del prototipo, que es la única fuente de verdad: gobierna la marca de opcionalidad en pantalla, la validación y este documento. Si algo aquí no coincide con el formulario, el error está en el generador, no en los datos.
 
 **Para qué sirve.** Declara, campo por campo, **quién usa el dato y para qué**. Responde a la exigencia de minimización —no se recaba un dato para el que no exista un uso declarado— y es el insumo con el que la Unidad de Transparencia redacta el aviso de privacidad.
@@ -8,7 +8,7 @@
 | | |
 |---|---|
 | Campos que llena la persona | **63** |
-| Datos que viajan a la base sin verse en pantalla | **14** |
+| Datos que viajan a la base sin verse en pantalla | **12** |
 | Datos que calcula el formulario y se muestran | 17 |
 | Datos personales | **24** (38 %) |
 | De ellos, de terceros: de quien se señala como responsable | 2 |
@@ -31,7 +31,7 @@ Todo dato recabado o calculado sirve a una de estas finalidades. Ninguna otra.
 | **Identificación** | Determinar cómo se identifica quien denuncia y qué seguimiento admite | 1 |
 | **Contacto** | Identificar, notificar y dar seguimiento con la persona denunciante | 20 |
 | **Cumplimiento** | Dejar constancia del consentimiento y de la vía elegida | 2 |
-| **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 5 |
+| **Estadística** | Conocer quién denuncia, sin formar parte del expediente | 3 |
 
 ---
 
@@ -149,11 +149,9 @@ Los calcula el formulario: la persona no los escribe ni los ve, pero llegan al e
 |---|---|---|---|---|
 | Origen de la ubicación | `ubicacion_origen` | Lo pone el formulario al enviar, «punto» si la persona lo marcó o «dirección» si la Secretaría debe ubicar el lugar | No | Separa las denuncias que llegan con punto de las que hay que ubicar con la dirección antes de turnarlas; alimenta la bandeja «por ubicar» del módulo interno (DEC-123). |
 | Clave de la colonia (IECM) | `colonia_cve` | La pone el catálogo cuando la persona elige su colonia de la lista | No | Clave CVEUT de la unidad territorial del IECM 2022. Agrupa las denuncias por colonia sin depender de cómo se escribió el nombre. Queda vacía cuando la persona escribe una colonia que no está en el catálogo: el nombre se conserva igual (DEC-117). |
-| Celda UGA | `uga` | La asigna el punto del mapa | No | Celda de la malla hexagonal del Sistema de Información Ambiental (~1 km²) en la que cae el punto. No se muestra a la persona: queda en el expediente para la programación de operativos y la estadística territorial. Es provisional: el servidor la vuelve a derivar con la capa completa y guarda la versión de la malla (DEC-117). |
 | Clave del área que atiende | `dg` | Regla de turnado, a partir del tipo de zona | No | DGIVA o DGCORENADR: la unidad que recibe la denuncia y la enruta en el módulo interno. No forma parte del folio (DEC-151). |
 | Autoridad a la que se remite | `remite_a` | Regla de turnado, a partir del tipo de zona | No | «PROFEPA» cuando el punto cae en un Área Natural Protegida federal: la DGCORENADR la recibe y la remite (DEC-226, DEC-235). Vacío en lo demás. |
 | ANP federal coadministrada | `coadmin` | Catálogo del convenio CONANP-CDMX | No | Marca si la Secretaría coadministra el ANP federal del punto; cambia el texto del turnado. |
-| Versión de la malla UGA | `uga_version` | Catálogo UGA incrustado | No | Con qué versión de la malla se asignó la celda; el servidor la vuelve a derivar con la más reciente. |
 
 **Por cada foto adjunta**
 

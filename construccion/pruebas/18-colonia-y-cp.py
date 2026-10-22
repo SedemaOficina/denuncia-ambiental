@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""La alcaldía y la colonia de la dirección, el código postal y la celda UGA (DEC-117, DEC-118).
+"""La alcaldía y la colonia de la dirección y el código postal (DEC-117, DEC-118).
 
    Alcaldía y colonia. La alcaldía de la dirección se elige de un desplegable
    y la colonia sugiere sólo las de esa alcaldía, del catálogo del IECM 2022
@@ -15,13 +15,11 @@
    Código postal. Se escribe a mano. El del lugar tiene que ser de la Ciudad,
    del 01000 al 16999; el del domicilio de la persona, no.
 
-   UGA. La asigna el punto, no se muestra, y coincide con el polígono que lo
-   contiene en la capa completa del SIA."""
-import os, pathlib, sys, json, random
+   Sin UGA. El formulario ya no calcula ni guarda la celda UGA (DEC-257)."""
+import os, pathlib, sys
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
 RAIZ = AQUI.parent
 RUTA = pathlib.Path(os.environ.get('ARTEFACTO', RAIZ / 'artefacto.html'))
-UGA  = RAIZ.parent / 'capas' / 'originales' / 'UGA_CDMX.geojson'
 TMP  = AQUI / '_pagina18.html'
 CHROMIUM = os.environ.get('CHROMIUM')  # sin la variable, Playwright usa el Chromium que él mismo instala
 from playwright.sync_api import sync_playwright
@@ -202,39 +200,13 @@ with sync_playwright() as pw:
     afirma(cp('dom_cp', '55000')['mal'], 'el del domicilio de la persona también debe ser de la Ciudad (DEC-135)')
     pg.evaluate("() => { guarda('cp',''); guarda('dom_cp',''); }")
 
-    # ---------------- UGA ----------------
+    # ---------------- Sin UGA (DEC-257) ----------------
     pg.evaluate(PREP); pg.wait_for_timeout(300)
     pg.evaluate("([a,b]) => ponMarcador(a,b)", list(PUNTO)); pg.wait_for_timeout(300)
-    u = pg.evaluate("() => ({uga: val('uga'), ver: val('uga_version')})")
-    import re
-    afirma(re.match(r'^[A-Z]{3}-\d{3}$', u['uga'] or '') is not None and u['ver'], 'el punto asigna la celda UGA %s (%s)' % (u['uga'], u['ver']))
-    vis2 = pg.evaluate("(c) => document.body.innerText.indexOf(c) >= 0 || /\\bUGA\\b/.test(document.body.innerText)", u['uga'])
-    afirma(not vis2, 'la celda no se muestra en el paso 2')
-    pg.evaluate("() => { guarda('hechos','Tiran escombro en la esquina desde hace dos semanas, por las noches.'); guarda('identificacion','anonima'); irA(6); alternaDetalleRevision(); }")
-    pg.wait_for_timeout(300)
-    vis6 = pg.evaluate("(c) => document.body.innerText.indexOf(c) >= 0 || /\\bUGA\\b/.test(document.body.innerText)", u['uga'])
-    afirma(not vis6, 'ni en la revisión que ve la persona')
-    pg.evaluate("() => irA(2)"); pg.wait_for_timeout(300)
-    pg.evaluate("() => ponMarcador(19.6500, -99.4000)"); pg.wait_for_timeout(300)
-    afirma(pg.evaluate("() => val('uga')") == '', 'fuera de la Ciudad no hay celda')
-
-    if UGA.exists():
-        try:
-            from shapely.geometry import shape, Point
-            d = json.load(open(UGA, encoding='utf-8'))
-            polis = [(f['properties']['clave'], shape(f['geometry'])) for f in d['features']]
-            random.seed(7); pts = []
-            while len(pts) < 150:
-                cl, g = random.choice(polis)
-                x0, y0, x1, y1 = g.bounds
-                p = Point(random.uniform(x0, x1), random.uniform(y0, y1))
-                if g.contains(p) and g.exterior.distance(p) > 0.00002:   # a más de ~2 m del borde
-                    pts.append((p.y, p.x, cl))
-            js = pg.evaluate("(pts) => pts.map(p => celdaUga(p[0], p[1]))", pts)
-            buenos = sum(1 for a, b in zip(js, pts) if a == b[2])
-            afirma(buenos == len(pts), 'la celda coincide con el polígono de la capa completa en %d de %d puntos' % (buenos, len(pts)))
-        except ImportError:
-            notas.append('OK  (sin shapely: se omite el cotejo contra los polígonos)')
+    sin = pg.evaluate("""() => ({catalogo: typeof CATALOGO_UGA, funcion: typeof celdaUga, campos: ['uga', 'uga_version'].filter(k => k in OBLIG || k in DERIVADOS),
+      guardado: Object.keys(estado).filter(k => /^uga/.test(k))})""")
+    afirma(sin == {'catalogo': 'undefined', 'funcion': 'undefined', 'campos': [], 'guardado': []},
+           'el formulario ya no trae la malla UGA ni calcula ni guarda la celda: %s' % sin)
 
     # ---------------- teléfono: la lista no desborda ----------------
     pg.evaluate(PREP); pg.wait_for_timeout(300)

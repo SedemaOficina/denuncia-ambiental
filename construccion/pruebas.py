@@ -60,7 +60,7 @@ for f in archivos:
 # Leaflet y busca la direccion donde el artefacto usa el mapa vectorial
 # (auditoria del 20 de octubre, A1-01), y la de «Atras», que rehace el mapa
 # al volver al paso 2 (DEC-241).
-PASO2 = ['01-datos-del-lugar-y-ubicacion.py', '02-lugar-sin-calle.py', '07-codigo-plus.py', '18-colonia-cp-y-uga.py',
+PASO2 = ['01-datos-del-lugar-y-ubicacion.py', '02-lugar-sin-calle.py', '07-codigo-plus.py', '18-colonia-y-cp.py',
          '21-como-pegar-la-ubicacion.py', '22-punto-opcional-con-direccion.py', '31-manzana-y-lote-obligatoria.py',
          '32-campos-anidados-y-cp.py', '43-atras-del-navegador.py']
 print('\nVersión publicada (docs/index.html, con Leaflet local):')
