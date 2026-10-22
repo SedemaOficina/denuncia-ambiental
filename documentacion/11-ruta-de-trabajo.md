@@ -1417,3 +1417,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Liber lo pidió para llevar la plataforma año con año y sin fecha de término. Los años se leen de las denuncias, no de una lista escrita en el código, así que el año que llegue aparece solo; la batería 48 lo prueba metiendo una denuncia de 2031. Las de 2025 se recorrieron 52 semanas para caer en el mismo día de la semana y que sus plazos en días hábiles no cambien. La batería 48 se probó metiendo dos errores a propósito —quitar el Área de Valor Ambiental y contar mal las cerradas por año— y los atrapó.
 
 **Verificación de cierre.** Batería completa en verde: 1 853 comprobaciones en 52 baterías, 285 de ellas sobre la versión publicada.
+
+### 21 de octubre de 2026 · cada coordinación da de alta y de baja a su personal (DEC-252)
+
+**Qué cambió.** Pantalla nueva «Personal» en la maqueta, sólo de coordinación: da de alta a su personal con nombre, área de la que depende, cargo, correo institucional y perfil —captura, atención o coordinación—, y lo da de baja sin borrarlo. Administración ve al personal de las dos direcciones generales. La lista de personal de prueba pasó a ser una sola, con esos datos, y el generador toma de ahí a las personas de atención y de coordinación. Documento 22 a la versión 0.11, con el apartado 3.9 nuevo; SIA-23 actualizado. Batería 53 nueva; la 47 lee la lista nueva.
+
+**Por qué así.** Liber lo pidió para que cada dirección general dé acceso a su gente sin esperar al SIA; él decidió que la coordinación también puede nombrar coordinación, que se pida el correo institucional y que la baja no borre. Una dirección general no puede quedarse sin coordinación activa, porque nadie más podría dar altas en ella. La batería 53 se probó metiendo dos errores a propósito —dejar pasar el alta sin cargo y borrar a la persona al darla de baja— y los atrapó.
+
+**Verificación de cierre.** Batería completa en verde: 1 872 comprobaciones en 53 baterías, 285 de ellas sobre la versión publicada. La batería 52 buscaba la tabla de plazos por su posición en la pantalla de administración, y la tabla nueva de personal la recorrió; ahora la busca por su nombre.

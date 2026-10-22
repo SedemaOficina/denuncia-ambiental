@@ -49,9 +49,8 @@ NOMBRES = [('Fulana', 'de Tal', 'Ejemplo'), ('Mengano', 'Pérez', 'Prueba'), ('Z
            ('Perengano', 'Ruiz', 'Ejemplo'), ('Fulano', 'Gómez', 'Prueba'), ('Mengana', 'Díaz', 'Ficticia'),
            ('Zutano', 'Herrera', 'Ejemplo'), ('Perengana', 'Soto', 'Prueba')]
 NOMBRE_LARGO = ('Fulana de las Mercedes Guadalupe', 'de Tal y Ejemplo', 'Prueba Ficticia')
-# Las personas de atención viven en la maqueta (PERSONAL), que simula a una de
-# ellas en el perfil de atención; se leen de ahí más abajo.
-COORDINACION = {'DGIVA': 'Coordinación de prueba (DGIVA)', 'DGCORENADR': 'Coordinación de prueba (DGCORENADR)', '': 'Coordinación de prueba'}
+# Las personas de atención y de coordinación viven en la lista de personal de
+# la maqueta (PERSONAL, DEC-252); se leen de ahí más abajo.
 
 # Un relato por materia, para que lo que se lee concuerde con lo que se elige.
 HECHOS = {
@@ -302,7 +301,9 @@ with sync_playwright() as pw:
     estados_ids = pg.evaluate("() => ESTADOS.map(e => e.id)")
     CIERRAN = pg.evaluate("() => ESTADOS.filter(e => e.cierra).map(e => e.id)")
     marcas_ids = pg.evaluate("() => MARCAS.map(m => m.id)")
-    PERSONAL = pg.evaluate("() => PERSONAL")
+    personal = pg.evaluate("() => PERSONAL")
+    PERSONAL = {dg: [x['nombre'] for x in personal if x['dg'] == dg and x['perfil'] == 'atencion'] for dg in ('DGIVA', 'DGCORENADR')}
+    COORDINACION = {dg: next(x['nombre'] for x in personal if x['dg'] == dg and x['perfil'] == 'coordinacion') for dg in ('DGIVA', 'DGCORENADR')}
     pg.goto(TMP.as_uri()); pg.wait_for_timeout(600)
     MATERIAS_IDS = pg.evaluate("() => MATERIAS.map(m => m.id)")
     materias = pg.evaluate("() => MATERIAS.map(m => ({id: m.id, nom: m.nom}))")

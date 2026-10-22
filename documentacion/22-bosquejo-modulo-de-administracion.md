@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.10 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-251
+**Versión:** 0.11 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-252
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.10 a la 0.11** (cada coordinación da de alta a su personal, DEC-252): el apartado 2 dice quién da de alta a quién, y el 3.9, nuevo, describe la pantalla «Personal».
 
 **De la 0.9 a la 0.10** (el tablero se lleva por año, DEC-251): el apartado 5 filtra por año y mes, separa suelo de conservación, Áreas Naturales Protegidas y Áreas de Valor Ambiental, y ya no lleva los sitios con denuncia reiterada; el 3.5 dice que el mapa también se filtra por año.
 
@@ -62,17 +64,17 @@ Cinco perfiles. Los cuatro primeros estaban previstos en AD-01 y SIA-23; **el de
 |---|---|---|---|---|
 | **Captura** | Oficialía de Partes o la unidad que se designe (CP-2) | Lo que capturó y el aviso de denuncias cercanas | Registra denuncias recibidas por escrito, teléfono, correo o comparecencia | Sólo los de lo que captura |
 | **Atención** | Personal de la coordinación que sustancia, en cada dirección general | Las denuncias de su área | Analiza competencia, cambia estado, registra actuaciones y notificaciones | Sí, de su área |
-| **Coordinación** | Titular de cada coordinación o quien designe | Las de su área, con carga por persona | Asigna, reasigna, returna, remite, autoriza acumulación y conclusión | Sí, de su área |
+| **Coordinación** | Titular de cada coordinación o quien designe | Las de su área, con carga por persona | Asigna, reasigna, returna, remite, autoriza acumulación y conclusión; da de alta y de baja a su personal de captura, atención y coordinación | Sí, de su área |
 | **Consulta** | Oficina de la Secretaría, direcciones generales | Tablero, mapa y bandeja de toda la Secretaría | Filtra y exporta | **No**: ve el expediente sin nombre, contacto ni domicilio |
-| **Administración** | Sistema de Información Ambiental | Usuarios, catálogos, parámetros y bitácora | Da de alta cuentas, actualiza catálogos | No, salvo por requerimiento registrado |
+| **Administración** | Sistema de Información Ambiental | Usuarios, catálogos, parámetros y bitácora | Da de alta las cuentas de consulta, administración y la primera coordinación de cada dirección general; actualiza catálogos | No, salvo por requerimiento registrado |
 
-Reglas comunes: cuenta institucional nominal, nunca compartida; toda consulta de un expediente y todo cambio quedan en bitácora; el perfil y el área los asigna la Secretaría.
+Reglas comunes: cuenta institucional nominal, nunca compartida; toda consulta de un expediente y todo cambio quedan en bitácora; el perfil y el área los asigna la coordinación de cada dirección general a su personal, y el SIA a los demás (DEC-252).
 
 ---
 
 ## 3. Qué pantallas tiene
 
-Ocho pantallas. Las tres primeras son el trabajo diario; las demás se usan por semana o por mes.
+Nueve pantallas. Las tres primeras son el trabajo diario; las demás se usan por semana o por mes.
 
 ### 3.1 Inicio
 
@@ -147,6 +149,12 @@ Descarga en hoja de cálculo de la bandeja filtrada y de los indicadores. **La e
 Cuentas y perfiles; catálogos que el área puede actualizar sin tocar código —materias, giros (pendiente de OBS-0024), supuestos de otra autoridad, estados—; calendario de días inhábiles, sin el cual ningún plazo se cuenta bien; plazos y umbrales de los controles contra el abuso; plantilla del correo de notificación de la anónima; bitácora de accesos y cambios.
 
 **Lo que la maqueta propone (DEC-249).** Todo se consulta y nada se cambia. Los plazos y umbrales se leen de donde los usa la maqueta, con quién fija cada uno y cuáles son cifras de prueba. La bitácora registra también las consultas al expediente, con datos personales o sin ellos, y no sólo los cambios.
+
+### 3.9 Personal
+
+Alta y baja del personal de cada dirección general, a cargo de su coordinación (DEC-252): nombre completo, área de la que depende, cargo, correo institucional y perfil —captura, atención o coordinación—. Consulta, administración y la primera coordinación de cada dirección general las da de alta el SIA.
+
+**Lo que la maqueta propone (DEC-252).** Todo dato es obligatorio y dos personas activas no comparten correo, porque la cuenta es nominal. La baja no borra: la persona queda inactiva, ya no entra ni recibe asignaciones, y su nombre se conserva en lo que firmó y en la bitácora. Al dar de baja se avisa cuántas denuncias abiertas tenía asignadas, para reasignarlas, y una dirección general no puede quedarse sin coordinación activa. Administración ve al personal de las dos direcciones generales, sin cambiarlo.
 
 ---
 

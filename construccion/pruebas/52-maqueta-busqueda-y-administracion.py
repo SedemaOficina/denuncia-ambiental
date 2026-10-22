@@ -114,10 +114,10 @@ with sync_playwright() as pw:
     ve('coordinacion_dgiva', '#/expediente/2026-000101-9')
     ve('administracion', '#/administracion')
     adm = pg.evaluate("""() => ({texto: document.getElementById('pantalla').innerText,
-      perfiles: [...document.querySelectorAll('table')][0].querySelectorAll('tbody tr').length,
-      acciones: [...[...document.querySelectorAll('table')][0].querySelectorAll('tbody tr')].map(tr => +tr.querySelector('.num').textContent),
+      perfiles: document.querySelector('[aria-label="Perfiles"] table').querySelectorAll('tbody tr').length,
+      acciones: [...document.querySelector('[aria-label="Perfiles"] table').querySelectorAll('tbody tr')].map(tr => +tr.querySelector('.num').textContent),
       esperadas: PERFILES.map(p => ACCIONES.filter(a => a.roles.indexOf(p.rol) >= 0).length),
-      params: [...[...document.querySelectorAll('table')][1].querySelectorAll('tbody tr')].map(tr => tr.innerText.split('\\t')[1])})""")
+      params: [...document.querySelector('[aria-label="Plazos y umbrales"] table').querySelectorAll('tbody tr')].map(tr => tr.innerText.split('\\t')[1])})""")
     afirma(adm['perfiles'] == 7 and adm['acciones'] == adm['esperadas'], 'administración lista los siete perfiles con sus acciones')
     cat = pg.evaluate("() => Object.fromEntries([...document.querySelectorAll('.ficha > div')].map(x => [x.querySelector('dt').textContent, x.querySelector('dd').textContent]))")
     afirma(cat['Materias'].startswith('19,') and cat['Estados del trámite'].startswith('16:') and cat['Canales'].startswith('5:')

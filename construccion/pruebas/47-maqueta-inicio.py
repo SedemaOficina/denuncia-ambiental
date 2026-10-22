@@ -95,7 +95,7 @@ with sync_playwright() as pw:
                    'administración no tiene listas de denuncias: ve lo pendiente de configurar y la bitácora reciente')
             continue
         afirma([v['nom'] for v in vistas] == LISTAS[p['rol']], '%s ve sus listas: %s' % (p['id'], [v['nom'] for v in vistas]))
-        persona = cat['personal'][p['area']][0] if p['rol'] == 'atencion' else ''
+        persona = next(x['nombre'] for x in cat['personal'] if x['dg'] == p['area'] and x['perfil'] == 'atencion') if p['rol'] == 'atencion' else ''
         suyas = [x for x in datos if (not p.get('area') or x['tramite']['area_actual'] in (p['area'], ''))
                  and (not p.get('soloCapturadas') or x['canal'] != 'en_linea')]
         for v in vistas:

@@ -225,7 +225,9 @@ main{padding:24px 0 48px}
 .desliza{overflow-x:auto}
 
 /* ---------- Búsqueda y administración (bloque F) ---------- */
-.campo-folio,.campo-motivo{max-width:520px;margin:8px 0 10px}
+.campo-folio,.campo-motivo,.campo-alta{max-width:520px;margin:8px 0 10px}
+/* La ayuda de un campo va pegada a su etiqueta, no separada como una nota. */
+.campo-alta .nota-listado{margin:0 0 6px}
 .cuenta-inicio{font-size:var(--t-xl);color:var(--guinda);margin-right:4px}
 
 /* ---------- Pantallas angostas ---------- */
@@ -339,14 +341,25 @@ var MARCAS = [
    personal. Los de la captura son los del modo captura del formulario. */
 var CANALES = [{id:'en_linea', nom:'En línea'}].concat(CANALES_CAPTURA);
 
-/* Personas de atención de prueba, por área. El generador reparte entre ellas
-   las asignaciones, y el perfil de atención simula a la primera de su área. */
-var PERSONAL = {
-  DGIVA:      ['Persona de atención A (DGIVA)', 'Persona de atención B (DGIVA)'],
-  DGCORENADR: ['Persona de atención A (DGCORENADR)', 'Persona de atención B (DGCORENADR)']
-};
+/* El personal de las dos direcciones generales: nombre, dirección general,
+   área de la que depende, cargo, correo institucional y perfil. Cada
+   coordinación da de alta y de baja al suyo (DEC-252); la baja no borra, deja
+   a la persona inactiva. Son personas de prueba: el generador reparte entre
+   las de atención las asignaciones y toma de aquí a la coordinación que
+   turna, y el perfil de atención simula a la primera activa de su área. */
+var PERSONAL = [
+  {nombre:'Coordinación de prueba (DGIVA)',       dg:'DGIVA',      area:'Área de coordinación de prueba', cargo:'Cargo de coordinación de prueba', correo:'coordinacion.dgiva@ejemplo.local',  perfil:'coordinacion', activa:true},
+  {nombre:'Persona de atención A (DGIVA)',        dg:'DGIVA',      area:'Área de atención de prueba',     cargo:'Cargo de atención de prueba',     correo:'atencion.a.dgiva@ejemplo.local',    perfil:'atencion',     activa:true},
+  {nombre:'Persona de atención B (DGIVA)',        dg:'DGIVA',      area:'Área de atención de prueba',     cargo:'Cargo de atención de prueba',     correo:'atencion.b.dgiva@ejemplo.local',    perfil:'atencion',     activa:true},
+  {nombre:'Coordinación de prueba (DGCORENADR)',  dg:'DGCORENADR', area:'Área de coordinación de prueba', cargo:'Cargo de coordinación de prueba', correo:'coordinacion.dgcorenadr@ejemplo.local', perfil:'coordinacion', activa:true},
+  {nombre:'Persona de atención A (DGCORENADR)',   dg:'DGCORENADR', area:'Área de atención de prueba',     cargo:'Cargo de atención de prueba',     correo:'atencion.a.dgcorenadr@ejemplo.local',   perfil:'atencion',     activa:true},
+  {nombre:'Persona de atención B (DGCORENADR)',   dg:'DGCORENADR', area:'Área de atención de prueba',     cargo:'Cargo de atención de prueba',     correo:'atencion.b.dgcorenadr@ejemplo.local',   perfil:'atencion',     activa:true}
+];
+function activas(dg, rol){
+  return PERSONAL.filter(function(x){ return x.dg === dg && x.perfil === rol && x.activa; });
+}
 
-/* Las ocho pantallas del bosquejo (apartado 3). El expediente no va en el
+/* Las nueve pantallas del bosquejo (apartado 3). El expediente no va en el
    menú: se abre desde la bandeja. */
 var PANTALLAS = [
   {id:'inicio',        nom:'Inicio',                    resumen:'Lo que cada perfil debe atender hoy, en listas de trabajo —no son estados—: lo nuevo, lo asignado o por asignar, lo que está por vencer, lo vencido y lo resuelto que falta notificar.'},
@@ -356,6 +369,7 @@ var PANTALLAS = [
   {id:'mapa',          nom:'Mapa operativo',            resumen:'Las denuncias sobre las capas del SIA, por alcaldía, colonia y celda UGA.'},
   {id:'tablero',       nom:'Tablero',                   resumen:'Indicadores de operación, plazos, resultado, territorio y canal.'},
   {id:'busqueda',      nom:'Búsqueda y exportación',    resumen:'Descarga de la bandeja filtrada; con datos personales, sólo coordinación y con registro en bitácora.'},
+  {id:'personal',      nom:'Personal',                  resumen:'Alta y baja del personal de la dirección general: nombre, área de la que depende, cargo, correo institucional y perfil.'},
   {id:'administracion',nom:'Administración',            resumen:'Cuentas y perfiles, catálogos, calendario de días inhábiles, plazos y bitácora.'}
 ];
 
@@ -366,8 +380,8 @@ var PANTALLAS = [
 var PERFILES = [
   {id:'atencion_dgiva',          nom:'Atención · DGIVA',                    rol:'atencion',       area:'DGIVA',      datosPersonales:true,  pantallas:['inicio','bandeja','expediente','mapa','busqueda']},
   {id:'atencion_dgcorenadr',     nom:'Atención · DGCORENADR',               rol:'atencion',       area:'DGCORENADR', datosPersonales:true,  pantallas:['inicio','bandeja','expediente','mapa','busqueda']},
-  {id:'coordinacion_dgiva',      nom:'Coordinación · DGIVA',                rol:'coordinacion',   area:'DGIVA',      datosPersonales:true,  pantallas:['inicio','bandeja','expediente','mapa','tablero','busqueda']},
-  {id:'coordinacion_dgcorenadr', nom:'Coordinación · DGCORENADR',           rol:'coordinacion',   area:'DGCORENADR', datosPersonales:true,  pantallas:['inicio','bandeja','expediente','mapa','tablero','busqueda']},
+  {id:'coordinacion_dgiva',      nom:'Coordinación · DGIVA',                rol:'coordinacion',   area:'DGIVA',      datosPersonales:true,  pantallas:['inicio','bandeja','expediente','mapa','tablero','busqueda','personal']},
+  {id:'coordinacion_dgcorenadr', nom:'Coordinación · DGCORENADR',           rol:'coordinacion',   area:'DGCORENADR', datosPersonales:true,  pantallas:['inicio','bandeja','expediente','mapa','tablero','busqueda','personal']},
   {id:'captura',                 nom:'Captura · Oficialía de Partes',       rol:'captura',        soloCapturadas:true, datosPersonales:true, pantallas:['inicio','captura','bandeja','expediente']},
   {id:'consulta',                nom:'Consulta · Oficina de la Secretaría', rol:'consulta',       datosPersonales:false, pantallas:['bandeja','expediente','mapa','tablero','busqueda']},
   {id:'administracion',          nom:'Administración · SIA',                rol:'administracion', datosPersonales:false, pantallas:['inicio','administracion']}
@@ -542,7 +556,7 @@ var ACCIONES = [
    pide:'El estado nuevo y una nota que lo motive.',
    deja:'El cambio, con fecha, hora, persona y nota. Sin nota no hay cambio (documento 22, §4, regla 1).'},
   {nom:'Asignar o reasignar', roles:['coordinacion'],
-   pide:'La persona de atención de su área.',
+   pide:'Una persona de atención activa de su área.',
    deja:'Quién asignó a quién y cuándo; de ahí sale la carga por persona del tablero.'},
   {nom:'Returnar a la otra dirección general', roles:['coordinacion'],
    pide:'El motivo.',
@@ -772,8 +786,8 @@ function quitaFiltros(){
 
 /* ---------- Inicio (bloque D) ---------- */
 
-/* El perfil de atención simula a la primera persona de su área. */
-function personaDe(p){ return p.rol === 'atencion' ? PERSONAL[p.area][0] : ''; }
+/* El perfil de atención simula a la primera persona activa de su área. */
+function personaDe(p){ return p.rol === 'atencion' ? (activas(p.area, 'atencion')[0] || {nombre:''}).nombre : ''; }
 
 function pintaInicio(){
   var p = porId(PANTALLAS, 'inicio'), persona = personaDe(perfil);
@@ -1252,6 +1266,103 @@ function pintaBusqueda(){
     '<p class="nota-listado">El género y la edad no salen en ninguna descarga de denuncias: sólo en los indicadores, en agregado.</p></div>';
 }
 
+/* ---------- Personal (DEC-252) ---------- */
+
+/* Los perfiles que una coordinación da a su personal. Consulta,
+   administración y la primera coordinación de cada dirección general los da
+   el SIA (documento 22, §2). */
+var PERFILES_ALTA = [{id:'captura', nom:'Captura'}, {id:'atencion', nom:'Atención'}, {id:'coordinacion', nom:'Coordinación'}];
+/* Lo que se pide al dar de alta, en su orden. El correo es con el que la
+   persona entra a su cuenta, que es nominal (documento 22, §2). */
+var CAMPOS_ALTA = [
+  {id:'nombre', nom:'Nombre completo',        tipo:'text'},
+  {id:'area',   nom:'Área de la que depende', tipo:'text',  ayuda:'La unidad de la dirección general a la que está adscrita, como en su nombramiento.'},
+  {id:'cargo',  nom:'Cargo',                  tipo:'text'},
+  {id:'correo', nom:'Correo institucional',   tipo:'email', ayuda:'Con él entra a su cuenta, que es suya y no se comparte.'}
+];
+
+/* Coordinación ve el suyo, con la baja; administración, el de las dos
+   direcciones generales, sin cambiar nada. */
+function tablaPersonal(lista, deCoordinacion){
+  return '<div class="desliza" role="region" aria-label="Personal" tabindex="0"><table class="tabla-chica"><thead><tr><th scope="col">Nombre</th>'+
+    (deCoordinacion ? '' : '<th scope="col">Dirección general</th>')+
+    '<th scope="col">Área de la que depende</th><th scope="col">Cargo</th><th scope="col">Correo institucional</th><th scope="col">Perfil</th><th scope="col">Estado</th>'+
+    (deCoordinacion ? '<th scope="col">Baja</th>' : '')+'</tr></thead><tbody>'+
+    lista.map(function(x){
+      return '<tr><th scope="row">'+esc(x.nombre)+'</th>'+(deCoordinacion ? '' : '<td>'+esc(x.dg)+'</td>')+
+        '<td>'+esc(x.area)+'</td><td>'+esc(x.cargo)+'</td><td>'+esc(x.correo)+'</td><td>'+esc(porId(PERFILES_ALTA, x.perfil).nom)+'</td>'+
+        '<td>'+(x.activa ? 'Activa' : 'De baja')+'</td>'+
+        (deCoordinacion ? '<td>'+(x.activa ? '<button type="button" class="boton" onclick="bajaPersonal('+PERSONAL.indexOf(x)+')" aria-label="Dar de baja a '+esc(x.nombre)+'">Dar de baja</button>' : '')+'</td>' : '')+'</tr>';
+    }).join('')+'</tbody></table></div>';
+}
+
+function pintaPersonal(){
+  var p = porId(PANTALLAS, 'personal');
+  document.getElementById('pantalla').innerHTML =
+    '<div class="tarjeta"><h2 tabindex="-1">'+esc(p.nom)+'</h2><p class="resumen">'+esc(p.resumen)+'</p>'+
+    '<h3>Personal de la '+esc(perfil.area)+'</h3>'+tablaPersonal(PERSONAL.filter(function(x){ return x.dg === perfil.area; }), true)+
+    '<p class="nota-listado">La baja no borra: la persona ya no entra ni recibe asignaciones, y su nombre se conserva en lo que firmó y en la bitácora.</p>'+
+    '<h3>Dar de alta</h3>'+
+    CAMPOS_ALTA.map(function(c){
+      return '<div class="campo campo-alta"><label for="a-'+c.id+'">'+esc(c.nom)+'</label>'+
+        (c.ayuda ? '<p class="nota-listado" id="ay-'+c.id+'">'+esc(c.ayuda)+'</p>' : '')+
+        '<input id="a-'+c.id+'" type="'+c.tipo+'" maxlength="120" autocomplete="off"'+(c.ayuda ? ' aria-describedby="ay-'+c.id+'"' : '')+'></div>';
+    }).join('')+
+    '<div class="campo campo-alta"><label for="a-perfil">Perfil</label><select id="a-perfil"><option value="">Elige el perfil</option>'+
+      PERFILES_ALTA.map(function(x){ return '<option value="'+x.id+'">'+esc(x.nom)+'</option>'; }).join('')+'</select></div>'+
+    '<p><button type="button" class="boton" onclick="altaPersonal()">Dar de alta</button></p>'+
+    '<p class="conteo" id="aviso-personal" role="status"></p>'+
+    '<p class="nota-listado">Queda en la '+esc(perfil.area)+'. Consulta y administración las da de alta el SIA. En el sistema, la cuenta se activa con el correo institucional (SIA-23). En la maqueta, lo que se da de alta o de baja vive en la memoria de la página y se pierde al recargar.</p></div>';
+}
+function avisaPersonal(texto){ document.getElementById('aviso-personal').textContent = texto; }
+
+/* Todo dato es obligatorio y el correo debe parecer correo; dos personas
+   activas no comparten correo, porque la cuenta es nominal. */
+function altaPersonal(){
+  if(perfil.rol !== 'coordinacion') return;
+  var v = {}, falta = null;
+  CAMPOS_ALTA.concat([{id:'perfil', nom:'Perfil'}]).forEach(function(c){
+    var el = document.getElementById('a-'+c.id), mal;
+    v[c.id] = el.value.trim();
+    mal = !v[c.id] || !el.checkValidity();
+    el.setAttribute('aria-invalid', mal ? 'true' : 'false');
+    if(mal && !falta) falta = {el: el, c: c};
+  });
+  if(falta){
+    avisaPersonal(v[falta.c.id] ? 'El '+falta.c.nom.toLowerCase()+' no es válido.' : 'Falta «'+falta.c.nom+'».');
+    falta.el.focus();
+    return;
+  }
+  if(PERSONAL.some(function(x){ return x.activa && x.correo.toLowerCase() === v.correo.toLowerCase(); })){
+    avisaPersonal('Ya hay una persona activa con ese correo institucional: la cuenta es de una sola persona.');
+    document.getElementById('a-correo').focus();
+    return;
+  }
+  PERSONAL.push({nombre:v.nombre, dg:perfil.area, area:v.area, cargo:v.cargo, correo:v.correo, perfil:v.perfil, activa:true});
+  registra('Da de alta a '+v.nombre+' ('+porId(PERFILES_ALTA, v.perfil).nom+', '+perfil.area+')');
+  pintaPersonal();
+  avisaPersonal('Se dio de alta a '+v.nombre+' con el perfil de '+porId(PERFILES_ALTA, v.perfil).nom.toLowerCase()+'.');
+  document.getElementById('a-nombre').focus();
+}
+
+/* La baja deja a la persona inactiva. Una dirección general no se queda sin
+   coordinación activa, y lo que la persona tenía abierto se avisa para
+   reasignarlo. */
+function bajaPersonal(i){
+  var x = PERSONAL[i], abiertas;
+  if(perfil.rol !== 'coordinacion' || !x || x.dg !== perfil.area || !x.activa) return;
+  if(x.perfil === 'coordinacion' && activas(x.dg, 'coordinacion').length < 2){
+    avisaPersonal('No se puede dar de baja a '+x.nombre+': la '+x.dg+' se quedaría sin coordinación activa.');
+    return;
+  }
+  x.activa = false;
+  abiertas = DENUNCIAS.filter(function(d){ return !cerrada(d) && d.tramite.asignado === x.nombre; }).length;
+  registra('Da de baja a '+x.nombre+' ('+porId(PERFILES_ALTA, x.perfil).nom+', '+x.dg+')');
+  pintaPersonal();
+  avisaPersonal('Se dio de baja a '+x.nombre+'.'+(abiertas ? ' Tenía '+abiertas+(abiertas === 1 ? ' denuncia abierta asignada: hay que reasignarla.' : ' denuncias abiertas asignadas: hay que reasignarlas.') : ''));
+  document.querySelector('#pantalla .desliza').focus();
+}
+
 /* ---------- Administración (bloque F) ---------- */
 
 /* Los parámetros de la maqueta, con quién los fija: se leen de donde viven,
@@ -1298,6 +1409,8 @@ function pintaAdministracion(){
           '<td>'+esc(x.pantallas.map(function(s){ return porId(PANTALLAS, s).nom; }).join(', '))+'</td></tr>';
       }).join('')+'</tbody></table></div>'+
     '<p class="nota-listado">En el sistema, el perfil lo da la cuenta institucional (SIA-23). Perfiles y acciones son propuesta por acordar con las áreas.</p>'+
+    '<h3>Personal de las direcciones generales</h3>'+tablaPersonal(PERSONAL, false)+
+    '<p class="nota-listado">Cada coordinación da de alta y de baja a su personal de captura, atención y coordinación (DEC-252). El SIA da de alta consulta, administración y la primera coordinación de cada dirección general.</p>'+
     '<h3>Catálogos</h3><dl class="ficha">'+
       par('Materias', MATERIAS.length+', del formulario')+
       par('Estados del trámite', ESTADOS.length+': '+esc(ESTADOS.map(function(e){ return e.nom; }).join(', '))+'. Propuesta por acordar (MA-07, P-14)')+
@@ -1504,6 +1617,7 @@ function pintaPantalla(id, param){
   if(id === 'mapa') return pintaMapa();
   if(id === 'captura') return pintaCaptura();
   if(id === 'busqueda') return pintaBusqueda();
+  if(id === 'personal') return pintaPersonal();
   pintaAdministracion();
 }
 
