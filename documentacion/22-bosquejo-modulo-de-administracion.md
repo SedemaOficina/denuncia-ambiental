@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.16 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-257
+**Versión:** 0.17 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-258
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.16 a la 0.17** (limpiar filtros, DEC-258): el apartado 5 dice que los filtros se limpian con un botón siempre visible.
 
 **De la 0.15 a la 0.16** (sin UGA, DEC-257): los apartados 3.3, 3.5 y 5 dejan la celda UGA.
 
@@ -202,7 +204,7 @@ Cinco reglas del ciclo:
 
 ## 5. Tablero de indicadores
 
-Cinco grupos. Todos se filtran por año, mes, área, canal, materia y alcaldía. Los años salen de las denuncias registradas y no de una lista fija: el tablero se lleva año con año sin tocar el código (DEC-251).
+Cinco grupos. Todos se filtran por año, mes, área, canal, materia y alcaldía. Los años salen de las denuncias registradas y no de una lista fija: el tablero se lleva año con año sin tocar el código (DEC-251). La bandeja, el tablero y el mapa tienen al final de sus filtros un botón «Limpiar filtros», siempre visible (DEC-258).
 
 | Grupo | Indicador | Para qué sirve |
 |---|---|---|

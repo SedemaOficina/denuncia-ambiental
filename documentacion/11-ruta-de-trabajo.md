@@ -1465,3 +1465,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Liber no va a usar las UGA. Un dato sin uso no se recaba, y la malla pesaba en el formulario sin servir a nadie. Para la persona que denuncia no cambia nada visible, así que el formulario sigue en la «Versión 37». Se probó metiendo un error a propósito —volver a guardar la celda— y lo atrapó la batería 18.
 
 **Verificación de cierre.** Batería completa en verde: 1 878 comprobaciones en 54 baterías, 281 de ellas sobre la versión publicada.
+
+### 22 de octubre de 2026 · «Limpiar filtros» en la bandeja, el tablero y el mapa (DEC-258)
+
+**Qué cambió.** Las tres pantallas con filtros tienen al final un botón para limpiarlos, siempre visible. En la bandeja se llama «Limpiar filtros y búsqueda» y sustituye al que sólo aparecía con algún filtro puesto; en el mapa también quita el acercamiento a una alcaldía. Al limpiar, el foco vuelve al primer filtro. Baterías 45, 48 y 49 ajustadas; documento 22 a la versión 0.17.
+
+**Por qué así.** Liber no encontraba cómo limpiar los filtros: el botón de la bandeja se escondía cuando no había nada que limpiar, y las otras dos pantallas no tenían. Una sola función sirve a las tres, para que se comporten igual. Se probó metiendo dos errores a propósito —que el mapa no quite el acercamiento y que el foco no vuelva al primer filtro— y los atraparon las baterías 49 y 48.
+
+**Verificación de cierre.** Batería completa en verde: 1 880 comprobaciones en 54 baterías, 281 de ellas sobre la versión publicada.

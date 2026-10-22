@@ -180,7 +180,7 @@ with sync_playwright() as pw:
     opciones = pg.evaluate("() => [...document.querySelectorAll('#f-asignado option')].map(o => o.textContent)")
     afirma(opciones[0] == 'Todas' and 'Sin asignar' in opciones and len(opciones) == 1 + len({x['tramite']['asignado'] for x in datos}),
            '«Sin asignar» es una opción y no hay opciones que den cero')
-    pg.click('#quitar-filtros'); pg.wait_for_timeout(100)
+    pg.click('#pantalla .limpiar-filtros'); pg.wait_for_timeout(100)
     def busca(t):
         pg.fill('#f-texto', t)
         palabras = normaliza(t).split()
@@ -188,11 +188,12 @@ with sync_playwright() as pw:
     casos = {t: busca(t) for t in ('000105', 'Negocio Ficticio 7', 'chapultepec', 'JARDIN', 'basura negocio')}
     afirma(all(a == b and a > 0 for a, b in casos.values()), 'la búsqueda va por folio, establecimiento, calle y hechos, sin importar acentos ni mayúsculas: %s' % casos)
     busca('zzzz')
-    vacio = pg.evaluate("() => ({t: (document.querySelector('.sin-resultados') || {}).textContent || '', b: !document.getElementById('quitar-filtros').hidden})")
-    afirma('Ninguna denuncia cumple' in vacio['t'] and vacio['b'], 'sin resultados lo dice y ofrece quitar filtros')
-    pg.click('#quitar-filtros'); pg.wait_for_timeout(100)
-    q = pg.evaluate("() => ({n: document.querySelectorAll('.tabla-bandeja tbody tr').length, foco: document.activeElement.id, oculto: document.getElementById('quitar-filtros').hidden, t: document.getElementById('f-texto').value})")
-    afirma(q == {'n': 15, 'foco': 'f-texto', 'oculto': True, 't': ''}, 'quitar filtros regresa todo y lleva el foco a la búsqueda: %s' % q)
+    vacio = pg.evaluate("() => (document.querySelector('.sin-resultados') || {}).textContent || ''")
+    afirma('Ninguna denuncia cumple' in vacio, 'sin resultados lo dice')
+    pg.click('#pantalla .limpiar-filtros'); pg.wait_for_timeout(100)
+    q = pg.evaluate("() => ({n: document.querySelectorAll('.tabla-bandeja tbody tr').length, foco: document.activeElement.id, t: document.getElementById('f-texto').value, boton: document.querySelector('#pantalla .limpiar-filtros').textContent})")
+    afirma(q == {'n': 15, 'foco': 'f-texto', 't': '', 'boton': 'Limpiar filtros y búsqueda'},
+           '«Limpiar filtros y búsqueda» está siempre a la vista, regresa todo y lleva el foco a la búsqueda (DEC-258): %s' % q)
 
     # ---- 6. Orden y páginas ----
     primero = lambda: folio_de[filas()[0]['Folio'].split('\n')[0]]

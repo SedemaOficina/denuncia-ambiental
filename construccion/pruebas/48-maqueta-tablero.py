@@ -163,6 +163,10 @@ with sync_playwright() as pw:
         if pg.evaluate(LEE)['cifras']['Recibidas'] != por_mes[mes]: malos.append(mes)
     pg.select_option('#f-canal', 'telefono'); pg.wait_for_timeout(80)
     combinado = pg.evaluate(LEE)['cifras']['Recibidas']
+    pg.click('#pantalla .limpiar-filtros'); pg.wait_for_timeout(100)
+    limpio = pg.evaluate("() => ({n: tablero.filtros, valores: [...document.querySelectorAll('#pantalla .filtros select')].map(s => s.value), foco: document.activeElement.id})")
+    afirma(limpio['n'] == {} and set(limpio['valores']) == {'*'} and limpio['foco'] == 'f-anio' and pg.evaluate(LEE)['cifras']['Recibidas'] == len(datos),
+           '«Limpiar filtros» del tablero regresa a todas y el foco va al primer filtro (DEC-258): %s' % limpio)
     afirma(not malos and combinado == sum(x['canal'] == 'telefono' and recepcion(x)[:7] == sorted(por_mes)[-1] for x in datos),
            'los filtros de mes y canal se combinan y el tablero responde: %s' % malos)
     pg.evaluate("() => { tablero.filtros = {}; pintaTablero(); }"); pg.wait_for_timeout(80)

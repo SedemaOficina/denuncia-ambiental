@@ -94,7 +94,13 @@ with sync_playwright() as pw:
     n = len(pg.evaluate(PUNTOS.replace('SEL', "'#mapa-cuerpo'")))
     def recepcion(x): return x['datos'].get('fecha_recepcion_original') or x['datos']['fecha_acuse']
     afirma(n and n == sum(recepcion(x)[:4] == '2025' and bool(x['datos'].get('lat')) for x in datos), 'el filtro de año deja sólo los puntos de ese año: %d' % n)
-    pg.select_option('#f-anio', '*'); pg.select_option('#f-zona', 'Cuauhtémoc'); pg.wait_for_timeout(150)
+    pg.select_option('#f-materia', 'impacto'); pg.select_option('#f-zona', 'Cuauhtémoc'); pg.wait_for_timeout(100)
+    pg.click('#pantalla .limpiar-filtros'); pg.wait_for_timeout(150)
+    limpio = pg.evaluate("() => ({filtros: mapa.filtros, zona: mapa.zona, valores: [...document.querySelectorAll('#pantalla .filtros select')].map(s => s.value), foco: document.activeElement.id})")
+    afirma(limpio['filtros'] == {} and limpio['zona'] == '' and set(limpio['valores']) == {'*', ''} and limpio['foco'] == 'f-anio'
+           and len(pg.evaluate(PUNTOS.replace('SEL', "'#mapa-cuerpo'"))) == sum(bool(x['datos'].get('lat')) for x in datos),
+           '«Limpiar filtros» del mapa quita filtros y acercamiento, y el foco va al primer filtro (DEC-258): %s' % limpio)
+    pg.select_option('#f-zona', 'Cuauhtémoc'); pg.wait_for_timeout(150)
     vb = [float(v) for v in pg.get_attribute('#mapa-cuerpo svg', 'viewBox').split()]
     alc = next(a for a in capas['alcaldias'] if a['nombre'] == 'Cuauhtémoc')
     xs = [pt[0] * K for pol in ([alc['g']['coordinates']] if alc['g']['type'] == 'Polygon' else alc['g']['coordinates']) for pt in pol[0]]

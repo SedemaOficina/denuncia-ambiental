@@ -723,6 +723,24 @@ function campoFiltro(f, todas, elegidos, alCambiar){
     '</select></div>';
 }
 
+/* Limpiar filtros (DEC-258): la bandeja, el tablero y el mapa lo tienen
+   siempre a la vista, al final de sus filtros. Al limpiar se repinta la
+   pantalla y el foco vuelve al primer filtro, con los filtros abiertos
+   aunque en el teléfono empiecen plegados. */
+var LIMPIA = {
+  bandeja: function(){ bandeja.filtros = {}; bandeja.texto = ''; bandeja.pagina = 1; pintaBandeja(bandeja.vista); },
+  tablero: function(){ tablero.filtros = {}; pintaTablero(); },
+  mapa:    function(){ mapa.filtros = {}; mapa.zona = ''; pintaMapa(); }
+};
+function botonLimpiar(id, texto){
+  return '<div class="campo-ancho"><button type="button" class="boton limpiar-filtros" onclick="limpiaFiltros(\''+id+'\')">'+texto+'</button></div>';
+}
+function limpiaFiltros(id){
+  LIMPIA[id]();
+  document.querySelector('#pantalla .plegable').open = true;
+  document.querySelector('#pantalla .filtros input, #pantalla .filtros select').focus();
+}
+
 function pintaBandeja(param){
   var p = porId(PANTALLAS, 'bandeja'), v = porId(VISTAS, param) || VISTAS[0], todas = visibles();
   if(bandeja.vista !== v.id) bandeja.pagina = 1;
@@ -749,7 +767,7 @@ function pintaBandeja(param){
         '<div class="campo"><label for="f-orden">Orden</label><select id="f-orden" onchange="ordena(this)">'+
           '<option value="recientes"'+(bandeja.orden === 'recientes' ? ' selected' : '')+'>Más recientes primero</option>'+
           '<option value="antiguas"'+(bandeja.orden === 'antiguas' ? ' selected' : '')+'>Más antiguas primero</option></select></div>'+
-        '<div class="campo-ancho"><button type="button" class="boton" id="quitar-filtros" onclick="quitaFiltros()">Quitar filtros y búsqueda</button></div>'+
+        botonLimpiar('bandeja', 'Limpiar filtros y búsqueda')+
       '</div></details>'+
       '<h3 class="titulo-resultados" tabindex="-1"'+(param ? ' data-foco' : '')+'>'+esc(v.nom)+'</h3>'+
       '<p class="resumen">'+esc(v.que)+(v.origen ? ' <span class="origen">('+esc(v.origen)+')</span>' : '')+'</p>'+
@@ -780,7 +798,6 @@ function pintaResultados(){
   bandeja.pagina = Math.min(bandeja.pagina, paginas);
   document.getElementById('conteo').textContent = lista.length+(lista.length === 1 ? ' denuncia' : ' denuncias')+
     (activos ? ' con '+activos+(activos === 1 ? ' filtro' : ' filtros') : '')+(paginas > 1 ? '. Página '+bandeja.pagina+' de '+paginas : '')+'.';
-  document.getElementById('quitar-filtros').hidden = !activos;
   document.getElementById('resultados').innerHTML = !lista.length
     ? '<p class="sin-resultados">Ninguna denuncia cumple con esta vista'+(activos ? ' y estos filtros' : '')+'.</p>'
     : tablaBandeja(lista.slice((bandeja.pagina - 1) * POR_PAGINA, bandeja.pagina * POR_PAGINA))+
@@ -802,11 +819,6 @@ function ordena(sel){ bandeja.orden = sel.value; bandeja.pagina = 1; pintaResult
 /* Al cambiar de página el botón pulsado desaparece; el foco va al título del
    listado para que el teclado empiece arriba. */
 function paginaA(n){ bandeja.pagina = n; pintaResultados(); document.querySelector('#pantalla .titulo-resultados').focus(); }
-function quitaFiltros(){
-  bandeja.filtros = {}; bandeja.texto = ''; bandeja.pagina = 1;
-  pintaBandeja(bandeja.vista);
-  document.getElementById('f-texto').focus();
-}
 
 /* ---------- Inicio (bloque D) ---------- */
 
@@ -997,6 +1009,7 @@ function pintaTablero(){
     '<details class="plegable"'+(window.matchMedia('(min-width: 861px)').matches || Object.keys(tablero.filtros).length ? ' open' : '')+'><summary>Filtros</summary>'+
       '<div class="filtros" role="search" aria-label="Filtros del tablero">'+
         FILTROS_TABLERO.map(function(f){ return campoFiltro(f, base, tablero.filtros, 'filtraTablero'); }).join('')+
+        botonLimpiar('tablero', 'Limpiar filtros')+
       '</div></details>'+
     '<p class="conteo" id="conteo-tablero" role="status"></p><div id="indicadores"></div></div>';
   pintaIndicadores();
@@ -1106,6 +1119,7 @@ function pintaMapa(){
         '<div class="campo"><label for="f-zona">Acercar a</label><select id="f-zona" onchange="acercaMapa(this)"><option value="">Toda la Ciudad</option>'+
           CAPAS.alcaldias.map(function(a){ return '<option'+(mapa.zona === a.nombre ? ' selected' : '')+'>'+esc(a.nombre)+'</option>'; }).join('')+
         '</select></div>'+
+        botonLimpiar('mapa', 'Limpiar filtros')+
       '</div></details>'+
     '<p class="conteo" id="conteo-mapa" role="status"></p><div id="mapa-cuerpo"></div>'+
     '<p class="nota-listado">Capas del Sistema de Información Ambiental, sin calles de fondo, como la versión en línea del formulario. Cada punto abre su expediente; las cuentas de al lado son el mismo contenido sin mapa.</p></div>';
