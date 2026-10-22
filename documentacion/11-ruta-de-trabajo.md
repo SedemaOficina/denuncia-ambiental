@@ -1433,3 +1433,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Liber pidió que el personal la vea como la vería cualquier persona: abrir con un clic, sin leer huellas ni coordenadas. Lo técnico no se quita, porque sostiene la integridad de la prueba (DEC-121); sólo se pliega. El visor es un diálogo nativo del navegador: atrapa el foco, se cierra con Escape y devuelve el foco a la miniatura. Una foto de prueba tomada a unos tres kilómetros del lugar muestra el aviso de revisar si es el mismo sitio. La batería 54 se probó metiendo dos errores a propósito —mostrar las coordenadas a consulta y no llevar el foco al título del visor— y los atrapó.
 
 **Verificación de cierre.** Batería completa en verde: 1 884 comprobaciones en 54 baterías, 285 de ellas sobre la versión publicada.
+
+### 21 de octubre de 2026 · la evidencia sin datos del sistema; PDF, Word y Excel (DEC-254)
+
+**Qué cambió.** El visor de la evidencia ya no tiene «Detalles técnicos»: de cada archivo muestra su nombre y su tipo, y de las fotos, cuándo y dónde se tomaron. Las clases son ahora foto, video, PDF, Word y Excel, cada una con su dibujo y su nombre en la miniatura. Las denuncias de prueba suman un Word y un Excel. Se retiraron el estilo de la huella y la función que daba el peso, que ya nada usaba. Documento 22 a la versión 0.13. Baterías 54 y 46 ajustadas.
+
+**Por qué así.** Liber insistió en que peso, dimensiones, huella y coordenadas son datos del sistema, no de quien usa la plataforma. La huella se sigue guardando con el archivo (DEC-121): sirve si alguien impugna la prueba, no para revisarla. La batería 54 exige ahora que no aparezcan; se probó metiendo dos errores a propósito —volver a mostrar el peso y quitar la extensión del tipo— y los atrapó.
+
+**Verificación de cierre.** Batería completa en verde: 1 884 comprobaciones en 54 baterías, 285 de ellas sobre la versión publicada.

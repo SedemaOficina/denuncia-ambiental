@@ -134,7 +134,7 @@ with sync_playwright() as pw:
         if 'Datos estadísticos' in v['texto'] or re.search(r'\b(Mujer|Hombre|No binaria)\b|\d+ a \d+ años|Menor de 18|60 años o más', v['texto']):
             malos['genero'].append(f)
         ev = v['texto'][v['texto'].index('3. Evidencia'):v['texto'].index('4. Actuaciones')]
-        if len(x['archivos']) != len(re.findall(r'(?m)^(Foto|Video|Documento) \d+$', ev)):
+        if len(x['archivos']) != len(re.findall(r'(?m)^(Foto|Video|PDF|Word|Excel) \d+$', ev)):
             malos['evidencia'].append((f, len(x['archivos'])))
         if 'captura' in x and x['datos']['soporte'] not in ev: malos['evidencia'].append((f, 'soporte'))
         if v['actuaciones'] != [cat['estados'][h['estado']] for h in t['historial']]: malos['actuaciones'].append(f)

@@ -3593,6 +3593,10 @@
     "optimizada": true,
     "tipo": "image/jpeg",
     "fecha_captura": "2026-09-21T15:05:00"
+   },
+   {
+    "name": "acta-de-asamblea-vecinal.docx",
+    "size": 98304
    }
   ],
   "captura": {
@@ -3695,7 +3699,7 @@
      "filas": [
       [
        "Archivos adjuntos",
-       "evidencia-01.jpg\nevidencia-02.jpg"
+       "evidencia-01.jpg\nevidencia-02.jpg\nacta-de-asamblea-vecinal.docx"
       ],
       [
        "Otras pruebas",
@@ -4494,6 +4498,10 @@
     "optimizada": true,
     "tipo": "image/jpeg",
     "fecha_captura": "2026-09-16T09:33:00"
+   },
+   {
+    "name": "registro-de-quejas.xlsx",
+    "size": 61440
    }
   ],
   "acuse": {
@@ -4567,7 +4575,7 @@
      "filas": [
       [
        "Archivos adjuntos",
-       "evidencia-01.jpg\nevidencia-02.jpg"
+       "evidencia-01.jpg\nevidencia-02.jpg\nregistro-de-quejas.xlsx"
       ],
       [
        "Otras pruebas",

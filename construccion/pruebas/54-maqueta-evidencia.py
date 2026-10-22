@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 """Maqueta del módulo de administración: la evidencia del expediente, fácil
-   de revisar (DEC-253).
+   de revisar (DEC-253, DEC-254).
 
    1. Cada archivo es una miniatura con su nombre —«Foto 1», «Video 1»,
-      «Documento 1»— y, en las fotos, cuándo se tomó, en palabras. Toda
-      extensión que admite el formulario tiene su clase.
-   2. Un clic abre el visor: el archivo en grande, cuándo y dónde se tomó
-      —dónde, contra el lugar de la denuncia, en metros—, y lo técnico
-      plegado: nombre, peso, huella y coordenadas.
+      «PDF 1», «Word 1», «Excel 1»— y, en las fotos, cuándo se tomó, en
+      palabras; en lo demás, el nombre del archivo. Toda extensión que admite
+      el formulario tiene su clase, y los datos de prueba traen de todas.
+   2. Un clic abre el visor: el archivo en grande, su nombre y su tipo, y en
+      las fotos cuándo y dónde se tomaron —dónde, contra el lugar de la
+      denuncia, en metros—. Nada de datos del sistema: ni peso, ni
+      dimensiones, ni huella, ni coordenadas.
    3. «Anterior» y «Siguiente» recorren los archivos; Escape o «Cerrar»
       cierran y el foco vuelve a la miniatura.
-   4. Quien no ve datos personales no ve dónde se tomó la foto ni sus
-      coordenadas.
+   4. Quien no ve datos personales no ve dónde se tomó la foto.
    5. En teléfono, con el visor abierto, no hay desplazamiento horizontal; sin
       errores en consola."""
 import json, math, os, pathlib, re, sys
@@ -45,9 +46,10 @@ def donde(a, x):
 
 VISOR = """() => { const v = document.getElementById('visor');
   return {abierto: v.open, tit: v.querySelector('h4').textContent, foco: document.activeElement === v.querySelector('h4'),
-    pares: Object.fromEntries([...v.querySelectorAll(':scope > .ficha > div')].map(x => [x.querySelector('dt').textContent, x.querySelector('dd').textContent])),
-    tecnico: [...v.querySelectorAll('.detalle-tecnico .ficha > div')].map(x => [x.querySelector('dt').textContent, x.querySelector('dd').textContent]),
-    plegado: !v.querySelector('details').open, botones: [...v.querySelectorAll('.acciones-visor button')].map(b => b.textContent)}; }"""
+    pares: Object.fromEntries([...v.querySelectorAll('.ficha > div')].map(x => [x.querySelector('dt').textContent, x.querySelector('dd').textContent])),
+    texto: v.textContent, botones: [...v.querySelectorAll('.acciones-visor button')].map(b => b.textContent)}; }"""
+# Lo que es dato del sistema y no se muestra a quien usa la plataforma.
+DEL_SISTEMA = re.compile(r'SHA|huella|Huella|MB\b|píxeles|Coordenadas|Peso')
 
 with sync_playwright() as pw:
     nav = pw.chromium.launch(executable_path=CHROMIUM)
@@ -56,44 +58,48 @@ with sync_playwright() as pw:
     pg.on('console', lambda x: err.append(x.text) if x.type == 'error' and not (x.location or {}).get('url', '').startswith(TIPOGRAFIAS) else None)
     pg.on('pageerror', lambda e: err.append('pageerror: ' + str(e)))
     pg.goto(MAQUETA.as_uri()); pg.wait_for_timeout(500)
-    clases = pg.evaluate("() => CLASES_EVIDENCIA.map(c => [c.nom, c.exts])")
-    todas = [e for _, es in clases for e in es]
-    afirma(sorted(todas) == sorted(exts) and len(set(todas)) == len(todas), 'cada extensión que admite el formulario tiene una sola clase: %s' % clases)
+    clases = pg.evaluate("() => CLASES_EVIDENCIA.map(c => ({nom: c.nom, tipo: c.tipo, exts: c.exts}))")
+    todas = [e for c in clases for e in c['exts']]
+    afirma(sorted(todas) == sorted(exts) and len(set(todas)) == len(todas), 'cada extensión que admite el formulario tiene una sola clase: %s' % [(c['nom'], c['exts']) for c in clases])
+    meses = pg.evaluate("() => MESES")
     ids = pg.evaluate("() => DENUNCIAS.map(idDe)")
     vistas_clase = set()
 
+    def clase(a): return next(c for c in clases if a['name'].rsplit('.', 1)[1].lower() in c['exts'])
+    def tipo(a):
+        c = clase(a)
+        return c['tipo'] + (' (%s)' % a['name'].rsplit('.', 1)[1].upper() if len(c['exts']) > 1 else '')
     def abre(perfil, ident):
         pg.evaluate("([p, i]) => { const v = document.getElementById('visor'); if (v && v.open) v.close(); cambiaPerfil(p); location.hash = '#/expediente/' + i; }", [perfil, ident])
         pg.wait_for_timeout(60)
 
-    malos = {'galeria': [], 'visor': [], 'tecnico': []}
+    malos = {'galeria': [], 'visor': [], 'sistema': []}
     for x, ident in zip(datos, ids):
         abre('coordinacion_' + (x['tramite']['area_actual'] or 'DGIVA').lower(), ident)
         tarjetas = pg.evaluate("() => [...document.querySelectorAll('.galeria .archivo-ev')].map(b => [b.querySelector('.archivo-tit').textContent, b.querySelector('.dato-sec').textContent])")
         cuenta, esperado = {}, []
         for a in x['archivos']:
-            c = next(n for n, es in clases if a['name'].rsplit('.', 1)[1].lower() in es)
+            c = clase(a)['nom']
             cuenta[c] = cuenta.get(c, 0) + 1; vistas_clase.add(c)
-            cuando = (('Tomada el %d %s %s a las %s h, según la cámara' % (int(a['fecha_captura'][8:10]), pg.evaluate("() => MESES")[int(a['fecha_captura'][5:7]) - 1], a['fecha_captura'][:4], a['fecha_captura'][11:16]))
-                      if 'fecha_captura' in a else 'La foto no dice cuándo se tomó') if c == 'Foto' else None
-            esperado.append(['%s %d' % (c, cuenta[c]), cuando])
-        if [[t, d if e[1] else None] for (t, d), e in zip(tarjetas, esperado)] != esperado or (not x['archivos'] and 'Sin archivos adjuntos' not in pg.inner_text('#pantalla')):
+            segundo = (('Tomada el %d %s %s a las %s h, según la cámara' % (int(a['fecha_captura'][8:10]), meses[int(a['fecha_captura'][5:7]) - 1], a['fecha_captura'][:4], a['fecha_captura'][11:16]))
+                       if 'fecha_captura' in a else 'La foto no dice cuándo se tomó') if c == 'Foto' else a['name']
+            esperado.append(['%s %d' % (c, cuenta[c]), segundo])
+        ev = pg.evaluate("() => [...document.querySelectorAll('.seccion-exp')].find(s => s.querySelector('h3').textContent === '3. Evidencia').innerText")
+        if tarjetas != esperado or (not x['archivos'] and 'Sin archivos adjuntos' not in ev) or DEL_SISTEMA.search(ev):
             malos['galeria'].append((ident, tarjetas, esperado))
         for k, a in enumerate(x['archivos']):
             pg.evaluate("(k) => document.querySelectorAll('.galeria .archivo-ev')[k].click()", k); pg.wait_for_timeout(30)
             v = pg.evaluate(VISOR)
-            foto = esperado[k][1] is not None
-            if not v['abierto'] or v['tit'] != esperado[k][0] or not v['foco'] or not v['plegado'] or \
-               (foto and v['pares'] != {'Cuándo': esperado[k][1], 'Dónde': donde(a, x)}):
-                malos['visor'].append((ident, k, v['pares'], donde(a, x)))
-            tec = dict(v['tecnico'])
-            if tec.get('Archivo') != a['name'] or (a.get('sha256_original') and tec.get('Huella SHA-256 del original') != a['sha256_original']) \
-               or (('lat_captura' in a) != ('Coordenadas de la cámara' in tec)):
-                malos['tecnico'].append((ident, k))
-    afirma(vistas_clase == {'Foto', 'Video', 'Documento'}, 'los datos de prueba traen fotos, un video y un documento: %s' % sorted(vistas_clase))
-    afirma(not malos['galeria'], 'cada archivo es una miniatura con su nombre y, en las fotos, cuándo se tomó, en palabras: %s' % malos['galeria'][:1])
-    afirma(not malos['visor'], 'un clic abre el visor con el foco en su título, cuándo y dónde en palabras —dónde, contra el lugar de la denuncia— y lo técnico plegado: %s' % malos['visor'][:2])
-    afirma(not malos['tecnico'], 'lo técnico trae nombre, huella y coordenadas de la cámara cuando las hay: %s' % malos['tecnico'][:2])
+            pares = ({'Cuándo': esperado[k][1], 'Dónde': donde(a, x)} if clase(a)['nom'] == 'Foto' else {})
+            pares.update({'Archivo': a['name'], 'Tipo': tipo(a)})
+            if not v['abierto'] or v['tit'] != esperado[k][0] or not v['foco'] or v['pares'] != pares:
+                malos['visor'].append((ident, k, v['pares'], pares))
+            if DEL_SISTEMA.search(v['texto']) or a.get('sha256_original', '§') in v['texto'] or str(a.get('lat_captura', '§')) in v['texto']:
+                malos['sistema'].append((ident, k))
+    afirma(vistas_clase == {c['nom'] for c in clases}, 'los datos de prueba traen de cada clase: fotos, video, PDF, Word y Excel: %s' % sorted(vistas_clase))
+    afirma(not malos['galeria'], 'cada archivo es una miniatura con su nombre y, en las fotos, cuándo se tomó, en palabras; en lo demás, el nombre del archivo: %s' % malos['galeria'][:1])
+    afirma(not malos['visor'], 'un clic abre el visor con el foco en su título, el nombre y el tipo del archivo, y en las fotos cuándo y dónde, contra el lugar de la denuncia: %s' % malos['visor'][:2])
+    afirma(not malos['sistema'], 'ni la galería ni el visor muestran datos del sistema: peso, dimensiones, huella o coordenadas: %s' % malos['sistema'][:2])
     lejos = [donde(a, x) for x in datos for a in x['archivos'] if 'lat_captura' in a]
     afirma(any(s.startswith('En el lugar') for s in lejos) and any('conviene revisar' in s for s in lejos),
            'hay fotos tomadas en el lugar de la denuncia y una lejos, con el aviso de revisarla: %s' % sorted(set(lejos)))
@@ -120,10 +126,8 @@ with sync_playwright() as pw:
     x, ident = next((x, i) for x, i in zip(datos, ids) if any('lat_captura' in a for a in x['archivos']))
     abre('consulta', ident)
     pg.click('.galeria li:nth-child(1) .archivo-ev'); pg.wait_for_timeout(50)
-    v = pg.evaluate(VISOR); texto = pg.evaluate("() => document.getElementById('visor').textContent")
-    a = x['archivos'][0]
-    afirma(v['pares']['Dónde'].startswith('Este perfil no lo ve') and str(a['lat_captura']) not in texto and 'Coordenadas' not in texto,
-           'consulta no ve dónde se tomó la foto ni sus coordenadas')
+    v = pg.evaluate(VISOR)
+    afirma(v['pares']['Dónde'].startswith('Este perfil no lo ve'), 'consulta no ve dónde se tomó la foto')
     afirma(err == [], 'sin errores en consola: %s' % err[:2])
 
     # ---- 5. Teléfono ----
@@ -132,9 +136,8 @@ with sync_playwright() as pw:
     x, ident = next((x, i) for x, i in zip(datos, ids) if len(x['archivos']) >= 3)
     tel.evaluate("([p, i]) => { cambiaPerfil(p); location.hash = '#/expediente/' + i; }", ['coordinacion_' + (x['tramite']['area_actual'] or 'DGIVA').lower(), ident]); tel.wait_for_timeout(150)
     tel.click('.galeria li:nth-child(1) .archivo-ev'); tel.wait_for_timeout(80)
-    tel.click('.visor summary'); tel.wait_for_timeout(50)
     r = tel.evaluate("() => { const v = document.getElementById('visor'); return [document.documentElement.scrollWidth - innerWidth, v.scrollWidth - v.clientWidth, v.getBoundingClientRect().right <= innerWidth]; }")
-    afirma(r[0] <= 0 and r[1] <= 0 and r[2], 'a 360 px, con el visor abierto y lo técnico desplegado, nada se desplaza a lo ancho: %s' % r)
+    afirma(r[0] <= 0 and r[1] <= 0 and r[2], 'a 360 px, con el visor abierto, nada se desplaza a lo ancho: %s' % r)
     nav.close()
 
 print('\n'.join(notas)); print()

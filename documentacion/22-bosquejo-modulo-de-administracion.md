@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.12 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-253
+**Versión:** 0.13 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-254
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.12 a la 0.13** (la evidencia sin datos del sistema, DEC-254): el apartado 3.3 deja sólo el nombre y el tipo de cada archivo.
 
 **De la 0.11 a la 0.12** (la evidencia, fácil de revisar, DEC-253): el apartado 3.3 dice cómo se ve la evidencia en el expediente.
 
@@ -115,7 +117,7 @@ Una sola pantalla por denuncia. Encabezado fijo con folio, estado, área que rec
 
 1. **Denuncia.** Todo lo capturado, en el mismo orden del acuse, con la fecha y hora de recepción en hora de la Ciudad (DEC-235) y el fundamento que citó el acuse —el artículo del Reglamento Interior del área que recibe, y el 331 de la Ley Ambiental si se señaló a una autoridad— (DEC-232). La materia declarada y, aparte, la **materia confirmada** por quien analiza (D-20).
 2. **Ubicación.** Mapa con el punto y el polígono de la zona, resultado del cruce con su motivación, celda UGA, origen de la ubicación y la marca de discrepancia de alcaldía. Denuncias cercanas en un radio.
-3. **Evidencia.** Galería de miniaturas que se abren con un clic, con la fecha y el lugar de captura de cada fotografía dichos en palabras —el lugar, contra el de la denuncia—, y la huella SHA-256 del original y los demás datos técnicos plegados aparte (DEC-121, DEC-253). En captura por personal, el escrito o la nota de soporte.
+3. **Evidencia.** Galería de miniaturas —fotos, videos, PDF, Word y Excel— que se abren con un clic, con el nombre y el tipo de cada archivo y, en las fotografías, la fecha y el lugar de captura dichos en palabras —el lugar, contra el de la denuncia— (DEC-253, DEC-254). Peso, huella y coordenadas son datos del sistema: se guardan (DEC-121), pero no se muestran. En captura por personal, el escrito o la nota de soporte.
 4. **Actuaciones.** Línea de tiempo: cada cambio de estado, turnado, asignación y nota, con fecha, hora y persona. No se edita ni se borra.
 5. **Contacto y notificación.** Registro de cada comunicación con quien denuncia y de la información adicional recibida, y de la **notificación del resultado**: en el domicilio que registró o, en la anónima, en su correo (DEC-233). El correo lo envía el servidor y el envío y su resultado quedan aquí (SIA-29). Una aclaración pedida a la persona anónima que no conteste no detiene el trámite (RN-21). Sólo perfiles de atención y coordinación.
 6. **Vínculos.** Expedientes acumulados, número del expediente administrativo si se abre, y oficio de remisión cuando sale de la Secretaría.

@@ -91,12 +91,14 @@ DUPLICA = {1: 0}
 HECHOS_DUPLICADO = 'En el predio de junto levantan varios pisos sin ningún permiso a la vista; ya lo habían reportado otros vecinos.'
 # Marcas que el servidor pondría al recibir (documento 15; SIA-15, SIA-26).
 MARCA = {6: 'humanidad', 7: 'rafaga', 11: 'completitud'}
-# Además de fotos, el formulario admite videos y documentos (DEC-120): uno de
-# cada uno, para que el expediente muestre las tres clases de evidencia.
+# Además de fotos, el formulario admite videos, PDF, Word y Excel (DEC-120):
+# uno de cada uno, para que el expediente muestre todas las clases de
+# evidencia (DEC-254).
 # Y una foto tomada a unos tres kilómetros del lugar: el expediente avisa que
 # conviene revisar si es el mismo sitio (DEC-253).
 FOTO_LEJOS = 12
-OTROS_ARCHIVOS = {2: {'name': 'video-del-lugar.mp4', 'size': 18350080}, 9: {'name': 'escrito-de-vecinos.pdf', 'size': 412160}}
+OTROS_ARCHIVOS = {2: {'name': 'video-del-lugar.mp4', 'size': 18350080}, 9: {'name': 'escrito-de-vecinos.pdf', 'size': 412160},
+                  16: {'name': 'acta-de-asamblea-vecinal.docx', 'size': 98304}, 20: {'name': 'registro-de-quejas.xlsx', 'size': 61440}}
 # Cinco de las más antiguas, todas cerradas, llegaron el año anterior: el
 # tablero y el mapa tienen así dos años que comparar (DEC-251). Se recorren
 # 52 semanas, que caen en el mismo día de la semana, para que los días
