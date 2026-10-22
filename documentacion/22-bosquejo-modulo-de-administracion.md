@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.13 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-254
+**Versión:** 0.14 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-255
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.13 a la 0.14** (el pase de diseño, DEC-255): el apartado 9 suma el paso 5, el pase de diseño de la maqueta, después de la sesión con las áreas; la construcción pasa a ser el paso 6.
 
 **De la 0.12 a la 0.13** (la evidencia sin datos del sistema, DEC-254): el apartado 3.3 deja sólo el nombre y el tipo de cada archivo.
 
@@ -278,7 +280,8 @@ Mismo método que el formulario: primero maqueta, después servidor.
 | 2 | Maqueta navegable del módulo con datos ficticios —los escenarios del panel de validación convertidos en unas cuarenta denuncias de prueba—: bandeja, expediente y tablero. No guarda nada. **Hecha (DEC-242 a DEC-249)** y publicada en https://sedemaoficina.github.io/denuncia-ambiental/administracion/ (DEC-250): bloques A, cascarón y datos de prueba (DEC-242), B, bandeja (DEC-243), C, expediente (DEC-244), D, Inicio, tablero y mapa (DEC-245 a DEC-247), E, captura por personal (DEC-248), y F, búsqueda, exportación y administración (DEC-249) | Ahora: el acta ya se firmó (DEC-230) y una maqueta sin persistencia no choca con el documento 11, §6. Los estados son los de la propuesta del apartado 4 hasta que se resuelva P-14 |
 | 3 | Variante «modo captura» del prototipo del formulario (AD-03) | **Hecho:** «Versión 37» (DEC-248) |
 | 4 | Sesión con la DGIVA y con la DGCORENADR sobre estados, perfiles y vistas, con la maqueta a la vista | En cuanto exista la maqueta |
-| 5 | Construcción: captura por personal, después bandeja y expediente, después tablero y mapa | Fase 5 (documento 11), sobre el contrato de la fase 2 |
+| 5 | Pase de diseño de la maqueta, pantalla por pantalla —jerarquía, espacios, gráficas, que cada pantalla se entienda a primera vista—, con capturas de antes y después para que Liber Saltijeral decida. La identidad gráfica no cambia: viene del formulario | Después del paso 4, con el contenido acordado (DEC-255) |
+| 6 | Construcción: captura por personal, después bandeja y expediente, después tablero y mapa | Fase 5 (documento 11), sobre el contrato de la fase 2 |
 
 ---
 

@@ -1441,3 +1441,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Liber insistió en que peso, dimensiones, huella y coordenadas son datos del sistema, no de quien usa la plataforma. La huella se sigue guardando con el archivo (DEC-121): sirve si alguien impugna la prueba, no para revisarla. La batería 54 exige ahora que no aparezcan; se probó metiendo dos errores a propósito —volver a mostrar el peso y quitar la extensión del tipo— y los atrapó.
 
 **Verificación de cierre.** Batería completa en verde: 1 884 comprobaciones en 54 baterías, 285 de ellas sobre la versión publicada.
+
+### 21 de octubre de 2026 · el pase de diseño de la maqueta va después de la sesión con las áreas (DEC-255)
+
+**Qué cambió.** El documento 22, §9, suma el paso 5: el pase de diseño de la maqueta, pantalla por pantalla, con capturas de antes y después. La construcción pasa a ser el paso 6. Documento 22 a la versión 0.14. Sin cambios en la maqueta ni en el formulario.
+
+**Por qué así.** Liber preguntó si la maqueta ya tenía el diseño final. La identidad gráfica sí, porque viene del formulario validado; el contenido es propuesta hasta la sesión con la DGIVA y la DGCORENADR, y pulir pantallas que pueden cambiar sería trabajo doble. Liber decidió hacer el pase después de la sesión.
+
+**Verificación de cierre.** Batería completa en verde: 1 884 comprobaciones en 54 baterías, 285 de ellas sobre la versión publicada. En la corrida completa, la batería 40 se quedó sin tiempo al recargar la página; corrida sola, dos veces, pasó sus 17 comprobaciones.
