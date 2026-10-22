@@ -1481,3 +1481,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Lo pidió Liber. Las cinco se leen de la clase y la categoría que da el cruce del formulario, en un solo catálogo, así que cada denuncia cuenta en una sola y no hay una lista de zonas que se pueda quedar atrás. El punto de la barranca no se escribió a mano: se busca dentro del polígono con el mismo cruce del formulario. Se probó metiendo dos errores a propósito —una categoría mal escrita y una regla que contaba de más— y los atrapó la batería 48.
 
 **Verificación de cierre.** Batería completa en verde: 1 881 comprobaciones en 54 baterías, 281 de ellas sobre la versión publicada.
+
+### 22 de octubre de 2026 · la cuenta, en la esquina de arriba a la derecha (DEC-260)
+
+**Qué cambió.** El encabezado de la maqueta lleva en la esquina derecha la foto de la cuenta; al abrirla se ven nombre, correo, perfil, dirección general, área de la que depende y cargo. Las cuentas de prueba no tienen foto, así que van las iniciales. El personal de prueba suma una persona de directivos y una de administración, para que cada perfil tenga su cuenta. Batería 55 nueva; la 53 ajustada; documento 22 a la versión 0.19.
+
+**Por qué así.** Lo pidió Liber. Los datos salen del personal registrado, el mismo que da de alta cada coordinación, y no de una segunda lista. Primero el botón llevaba también el nombre y no cabía junto al título: en escritorio caía debajo. Quedó sólo la foto en la esquina, con el nombre al abrirla y para el lector de pantalla; la batería 55 vigila que esté en la esquina y no se encime al título. Se probó metiendo dos errores a propósito —que Escape no la cierre y que el panel muestre otro perfil— y los atrapó.
+
+**Verificación de cierre.** Batería completa en verde: 1 888 comprobaciones en 55 baterías, 281 de ellas sobre la versión publicada.

@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.18 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-259
+**Versión:** 0.19 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-260
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.18 a la 0.19** (la cuenta, DEC-260): el apartado 3 dice que la cuenta está en la esquina de arriba a la derecha, con sus datos.
 
 **De la 0.17 a la 0.18** (zonas protegidas desagregadas, DEC-259): el apartado 5 separa las ANP en locales y federales, y las AVA en bosques urbanos y barrancas.
 
@@ -88,7 +90,7 @@ Reglas comunes: cuenta institucional nominal, nunca compartida; toda consulta de
 
 ## 3. Qué pantallas tiene
 
-Nueve pantallas. Las tres primeras son el trabajo diario; las demás se usan por semana o por mes.
+Nueve pantallas, y en la esquina de arriba a la derecha de todas, la cuenta con la que se entró: su foto y, al abrirla, nombre, correo, perfil, dirección general, área y cargo (DEC-260). Las tres primeras son el trabajo diario; las demás se usan por semana o por mes.
 
 ### 3.1 Inicio
 

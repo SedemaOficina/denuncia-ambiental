@@ -81,10 +81,21 @@ a{color:var(--azul)}
 .franja-maqueta{background:repeating-linear-gradient(135deg,var(--gris) 0 14px,var(--gris-cl) 14px 28px);color:var(--blanco);font-size:var(--t-md);padding:10px 20px}
 .franja-maqueta p{max-width:1180px;margin:0 auto}
 header.titulo{background:var(--beige);border-bottom:3px solid var(--dorado);padding:16px 0}
-header.titulo .contenedor{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px}
+header.titulo .contenedor{display:flex;flex-wrap:wrap;align-items:center;gap:12px 28px;position:relative;padding-right:76px}
 .logo-inst{display:block;width:auto;height:auto;max-width:100%;max-height:52px}
 .titulo-txt h1{font-size:var(--t-xl);color:var(--guinda)}
 .titulo-txt p{font-size:var(--t-md);color:var(--gris)}
+/* La cuenta, en la esquina de arriba a la derecha (DEC-260): sólo la foto;
+   el nombre, al abrirla y para el lector de pantalla. */
+.usuario{position:absolute;top:0;right:20px}
+.usuario-boton{display:flex;padding:3px;border:1px solid var(--borde);border-radius:50%;background:var(--blanco);cursor:pointer}
+.usuario-boton:hover{background:var(--azul-cl)}
+.avatar{display:inline-flex;align-items:center;justify-content:center;flex:none;width:36px;height:36px;border-radius:50%;background:var(--guinda);color:var(--blanco);font-weight:700;font-size:var(--t-sm)}
+.avatar-grande{width:56px;height:56px;font-size:var(--t-lg)}
+.usuario-panel{position:absolute;right:0;top:calc(100% + 8px);z-index:10;width:min(360px,calc(100vw - 32px));padding:16px;background:var(--blanco);border:1px solid var(--borde);border-radius:var(--r-caja)}
+.usuario-cabeza{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.usuario-titulo{font-weight:700}
+.usuario-panel .ficha{grid-template-columns:minmax(0,9em) minmax(0,1fr)}
 .barra-perfil{background:var(--blanco);border-bottom:1px solid var(--linea);padding:10px 0}
 .barra-perfil .contenedor{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
 .barra-perfil label{font-weight:600;font-size:var(--t-md)}
@@ -281,6 +292,7 @@ main{padding:24px 0 48px}
       <h1>Módulo de administración y seguimiento</h1>
       <p>Denuncia Ambiental Ciudadana · Secretaría del Medio Ambiente</p>
     </div>
+    <div class="usuario" id="usuario"></div>
   </div>
 </header>
 
@@ -370,14 +382,18 @@ var PERSONAL = [
   {nombre:'Coordinación de prueba (DGCORENADR)',  dg:'DGCORENADR', area:'Área de coordinación de prueba', cargo:'Cargo de coordinación de prueba', correo:'coordinacion.dgcorenadr@ejemplo.local', perfil:'coordinacion', activa:true},
   {nombre:'Persona de atención A (DGCORENADR)',   dg:'DGCORENADR', area:'Área de atención de prueba',     cargo:'Cargo de atención de prueba',     correo:'atencion.a.dgcorenadr@ejemplo.local',   perfil:'atencion',     activa:true},
   {nombre:'Capturista A (DGCORENADR)',            dg:'DGCORENADR', area:'Área de captura de prueba',      cargo:'Cargo de captura de prueba',      correo:'capturista.a.dgcorenadr@ejemplo.local', perfil:'capturista', activa:true},
+  {nombre:'Directivo de prueba',                  dg:'',           area:'Oficina de la Secretaría',       cargo:'Cargo directivo de prueba',       correo:'directivo@ejemplo.local',           perfil:'directivos',     activa:true},
+  {nombre:'Administración de prueba',             dg:'',           area:'Sistema de Información Ambiental', cargo:'Cargo de administración de prueba', correo:'administracion.sia@ejemplo.local', perfil:'administracion', activa:true},
   {nombre:'Persona de atención B (DGCORENADR)',   dg:'DGCORENADR', area:'Área de atención de prueba',     cargo:'Cargo de atención de prueba',     correo:'atencion.b.dgcorenadr@ejemplo.local',   perfil:'atencion',     activa:true}
 ];
 function activas(dg, rol){
   return PERSONAL.filter(function(x){ return x.dg === dg && x.perfil === rol && x.activa; });
 }
-/* El perfil de capturista simula a la primera persona capturista activa de su
-   área, y ve sólo lo que ella capturó (DEC-256). */
-function capturistaDe(p){ return (activas(p.area, 'capturista')[0] || {nombre:''}).nombre; }
+/* Cada perfil simula la cuenta de la primera persona activa con ese perfil
+   en su área —directivos y administración no tienen área—. */
+function cuentaDe(p){ return activas(p.area || '', p.rol)[0]; }
+/* El perfil de capturista ve sólo lo que capturó esa persona (DEC-256). */
+function capturistaDe(p){ return (cuentaDe(p) || {nombre:''}).nombre; }
 
 /* Las nueve pantallas del bosquejo (apartado 3). El expediente no va en el
    menú: se abre desde la bandeja. */
@@ -823,7 +839,7 @@ function paginaA(n){ bandeja.pagina = n; pintaResultados(); document.querySelect
 /* ---------- Inicio (bloque D) ---------- */
 
 /* El perfil de atención simula a la primera persona activa de su área. */
-function personaDe(p){ return p.rol === 'atencion' ? (activas(p.area, 'atencion')[0] || {nombre:''}).nombre : ''; }
+function personaDe(p){ return p.rol === 'atencion' ? (cuentaDe(p) || {nombre:''}).nombre : ''; }
 
 function pintaInicio(){
   var p = porId(PANTALLAS, 'inicio'), persona = personaDe(perfil);
@@ -1321,8 +1337,11 @@ function pintaBusqueda(){
 
 /* Los perfiles que una coordinación da a su personal. Directivos,
    administración y la primera coordinación de cada dirección general los da
-   el SIA (documento 22, §2). */
-var PERFILES_ALTA = [{id:'capturista', nom:'Capturista'}, {id:'atencion', nom:'Atención'}, {id:'coordinacion', nom:'Coordinación'}];
+   el SIA (documento 22, §2). ROLES nombra los cinco perfiles; «alta», los que
+   da una coordinación. */
+var ROLES = [{id:'capturista', nom:'Capturista', alta:true}, {id:'atencion', nom:'Atención', alta:true}, {id:'coordinacion', nom:'Coordinación', alta:true},
+             {id:'directivos', nom:'Directivos'}, {id:'administracion', nom:'Administración'}];
+var PERFILES_ALTA = ROLES.filter(function(r){ return r.alta; });
 /* Lo que se pide al dar de alta, en su orden. El correo es con el que la
    persona entra a su cuenta, que es nominal (documento 22, §2). */
 var CAMPOS_ALTA = [
@@ -1340,8 +1359,8 @@ function tablaPersonal(lista, deCoordinacion){
     '<th scope="col">Área de la que depende</th><th scope="col">Cargo</th><th scope="col">Correo institucional</th><th scope="col">Perfil</th><th scope="col">Estado</th>'+
     (deCoordinacion ? '<th scope="col">Baja</th>' : '')+'</tr></thead><tbody>'+
     lista.map(function(x){
-      return '<tr><th scope="row">'+esc(x.nombre)+'</th>'+(deCoordinacion ? '' : '<td>'+esc(x.dg)+'</td>')+
-        '<td>'+esc(x.area)+'</td><td>'+esc(x.cargo)+'</td><td>'+esc(x.correo)+'</td><td>'+esc(porId(PERFILES_ALTA, x.perfil).nom)+'</td>'+
+      return '<tr><th scope="row">'+esc(x.nombre)+'</th>'+(deCoordinacion ? '' : '<td>'+esc(x.dg || 'Toda la Secretaría')+'</td>')+
+        '<td>'+esc(x.area)+'</td><td>'+esc(x.cargo)+'</td><td>'+esc(x.correo)+'</td><td>'+esc(porId(ROLES, x.perfil).nom)+'</td>'+
         '<td>'+(x.activa ? 'Activa' : 'De baja')+'</td>'+
         (deCoordinacion ? '<td>'+(x.activa ? '<button type="button" class="boton" onclick="bajaPersonal('+PERSONAL.indexOf(x)+')" aria-label="Dar de baja a '+esc(x.nombre)+'">Dar de baja</button>' : '')+'</td>' : '')+'</tr>';
     }).join('')+'</tbody></table></div>';
@@ -1414,6 +1433,40 @@ function bajaPersonal(i){
   document.querySelector('#pantalla .desliza').focus();
 }
 
+/* ---------- Cuenta (DEC-260) ---------- */
+
+/* Arriba a la derecha, la cuenta con la que se entró: su foto y, al abrirla,
+   sus datos. Las cuentas de prueba no tienen foto: las iniciales ocupan su
+   lugar, como hace cualquier sistema cuando falta. En el sistema, la foto y
+   los datos vienen de la cuenta institucional (SIA-23). */
+function iniciales(nombre){
+  return nombre.split(/\s+/).filter(function(w){ return /^[A-ZÁÉÍÓÚÑ]/.test(w); }).slice(0, 2).map(function(w){ return w[0]; }).join('');
+}
+function pintaUsuario(){
+  var c = cuentaDe(perfil) || {nombre:'Sin cuenta activa', dg:'', area:'', cargo:'', correo:''};
+  document.getElementById('usuario').innerHTML =
+    '<button type="button" class="usuario-boton" aria-expanded="false" aria-controls="usuario-panel" aria-label="Cuenta: '+esc(c.nombre)+'" title="'+esc(c.nombre)+'" onclick="alternaUsuario()">'+
+      '<span class="avatar" aria-hidden="true">'+esc(iniciales(c.nombre))+'</span></button>'+
+    '<div class="usuario-panel" id="usuario-panel" hidden>'+
+      '<div class="usuario-cabeza"><span class="avatar avatar-grande" aria-hidden="true">'+esc(iniciales(c.nombre))+'</span>'+
+        '<div><p class="usuario-titulo">'+esc(c.nombre)+'</p><p class="dato-sec">'+esc(c.correo)+'</p></div></div>'+
+      '<dl class="ficha">'+par('Perfil', esc(perfil.nom))+par('Dirección general', esc(c.dg || 'Toda la Secretaría'))+
+        par('Área de la que depende', esc(c.area))+par('Cargo', esc(c.cargo))+'</dl>'+
+      '<p class="nota-listado">En la maqueta, las iniciales ocupan el lugar de la foto. En el sistema, la foto y los datos vienen de la cuenta institucional (SIA-23), y los cambia la coordinación o el SIA (DEC-252).</p>'+
+    '</div>';
+}
+/* Se abre y se cierra con el botón; Escape o un clic fuera la cierran. */
+function alternaUsuario(abrir){
+  var b = document.querySelector('.usuario-boton'), p = document.getElementById('usuario-panel');
+  var abierta = abrir === undefined ? p.hidden : abrir;
+  p.hidden = !abierta;
+  b.setAttribute('aria-expanded', abierta ? 'true' : 'false');
+}
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape' && !document.getElementById('usuario-panel').hidden){ alternaUsuario(false); document.querySelector('.usuario-boton').focus(); }
+});
+document.addEventListener('click', function(e){ if(!document.getElementById('usuario').contains(e.target)) alternaUsuario(false); });
+
 /* ---------- Administración (bloque F) ---------- */
 
 /* Los parámetros de la maqueta, con quién los fija: se leen de donde viven,
@@ -1460,7 +1513,7 @@ function pintaAdministracion(){
           '<td>'+esc(x.pantallas.map(function(s){ return porId(PANTALLAS, s).nom; }).join(', '))+'</td></tr>';
       }).join('')+'</tbody></table></div>'+
     '<p class="nota-listado">En el sistema, el perfil lo da la cuenta institucional (SIA-23). Perfiles y acciones son propuesta por acordar con las áreas.</p>'+
-    '<h3>Personal de las direcciones generales</h3>'+tablaPersonal(PERSONAL, false)+
+    '<h3>Personal registrado</h3>'+tablaPersonal(PERSONAL, false)+
     '<p class="nota-listado">Cada coordinación da de alta y de baja a su personal: capturistas, atención y coordinación (DEC-252). El SIA da de alta directivos, administración y la primera coordinación de cada dirección general.</p>'+
     '<h3>Catálogos</h3><dl class="ficha">'+
       par('Materias', MATERIAS.length+', del formulario')+
@@ -1761,6 +1814,7 @@ function cambiaPerfil(id){
   perfil = porId(PERFILES, id) || PERFILES[0];
   registra('Entra con este perfil');
   bandeja.filtros = {}; bandeja.texto = ''; bandeja.pagina = 1; tablero.filtros = {}; mapa.filtros = {};
+  pintaUsuario();
   muestra(false);
 }
 
@@ -1768,6 +1822,7 @@ document.getElementById('perfil').innerHTML = PERFILES.map(function(p){
   return '<option value="'+p.id+'">'+esc(p.nom)+'</option>';
 }).join('');
 window.addEventListener('hashchange', function(){ muestra(true); });
+pintaUsuario();
 muestra(false);
 </script>
 </body>

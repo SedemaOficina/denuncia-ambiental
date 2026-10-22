@@ -141,12 +141,12 @@ with sync_playwright() as pw:
 
     # ---- 1. Administración ve todo, sin cambiar nada ----
     pg.evaluate("() => { cambiaPerfil('administracion'); location.hash = '#/administracion'; }"); pg.wait_for_timeout(150)
-    adm = pg.evaluate("""() => { const h = [...document.querySelectorAll('#pantalla h3')].find(x => x.textContent === 'Personal de las direcciones generales');
+    adm = pg.evaluate("""() => { const h = [...document.querySelectorAll('#pantalla h3')].find(x => x.textContent === 'Personal registrado');
       const t = h.nextElementSibling; return {filas: [...t.querySelectorAll('tbody tr')].map(tr => [...tr.children].map(c => c.innerText.trim())),
       botones: t.querySelectorAll('button').length}; }""")
     afirma(len(adm['filas']) == pg.evaluate("() => PERSONAL.length") and adm['botones'] == 0
            and ['Fulana de Prueba Alta', 'DGIVA', 'Área de prueba nueva', 'Cargo de prueba nuevo', 'fulana.alta@ejemplo.local', 'Atención', 'Activa'] in adm['filas'],
-           'administración ve al personal de las dos direcciones generales, con lo dado de alta, y sin botones')
+           'administración ve al personal registrado, con lo dado de alta, y sin botones')
     afirma(err == [], 'sin errores en consola: %s' % err[:2])
 
     # ---- 6. Teléfono ----
