@@ -1425,3 +1425,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Liber lo pidió para que cada dirección general dé acceso a su gente sin esperar al SIA; él decidió que la coordinación también puede nombrar coordinación, que se pida el correo institucional y que la baja no borre. Una dirección general no puede quedarse sin coordinación activa, porque nadie más podría dar altas en ella. La batería 53 se probó metiendo dos errores a propósito —dejar pasar el alta sin cargo y borrar a la persona al darla de baja— y los atrapó.
 
 **Verificación de cierre.** Batería completa en verde: 1 872 comprobaciones en 53 baterías, 285 de ellas sobre la versión publicada. La batería 52 buscaba la tabla de plazos por su posición en la pantalla de administración, y la tabla nueva de personal la recorrió; ahora la busca por su nombre.
+
+### 21 de octubre de 2026 · la evidencia del expediente, fácil de revisar (DEC-253)
+
+**Qué cambió.** La sección «Evidencia» del expediente dejó de ser una lista técnica. Ahora es una galería: una miniatura por archivo —«Foto 1», «Video 1», «Documento 1»— que se abre en un visor con el archivo en grande, cuándo se tomó la foto y dónde, contra el lugar de la denuncia, en metros. El peso, la huella y las coordenadas quedan en «Detalles técnicos», plegados. Dos denuncias de prueba suman un video y un documento, y una foto de prueba se tomó lejos del lugar. Documento 22 a la versión 0.12. Batería 54 nueva; la 46 revisa las miniaturas.
+
+**Por qué así.** Liber pidió que el personal la vea como la vería cualquier persona: abrir con un clic, sin leer huellas ni coordenadas. Lo técnico no se quita, porque sostiene la integridad de la prueba (DEC-121); sólo se pliega. El visor es un diálogo nativo del navegador: atrapa el foco, se cierra con Escape y devuelve el foco a la miniatura. Una foto de prueba tomada a unos tres kilómetros del lugar muestra el aviso de revisar si es el mismo sitio. La batería 54 se probó metiendo dos errores a propósito —mostrar las coordenadas a consulta y no llevar el foco al título del visor— y los atrapó.
+
+**Verificación de cierre.** Batería completa en verde: 1 884 comprobaciones en 54 baterías, 285 de ellas sobre la versión publicada.

@@ -534,6 +534,10 @@
     "optimizada": true,
     "tipo": "image/jpeg",
     "fecha_captura": "2026-10-09T11:27:00"
+   },
+   {
+    "name": "video-del-lugar.mp4",
+    "size": 18350080
    }
   ],
   "captura": {
@@ -636,7 +640,7 @@
      "filas": [
       [
        "Archivos adjuntos",
-       "evidencia-01.jpg\nevidencia-02.jpg"
+       "evidencia-01.jpg\nevidencia-02.jpg\nvideo-del-lugar.mp4"
       ],
       [
        "Otras pruebas",
@@ -2032,6 +2036,10 @@
     "optimizada": true,
     "tipo": "image/jpeg",
     "fecha_captura": "2026-10-01T08:16:00"
+   },
+   {
+    "name": "escrito-de-vecinos.pdf",
+    "size": 412160
    }
   ],
   "captura": {
@@ -2138,7 +2146,7 @@
      "filas": [
       [
        "Archivos adjuntos",
-       "evidencia-01.jpg\nevidencia-02.jpg"
+       "evidencia-01.jpg\nevidencia-02.jpg\nescrito-de-vecinos.pdf"
       ],
       [
        "Otras pruebas",
@@ -2674,7 +2682,7 @@
     "optimizada": true,
     "tipo": "image/jpeg",
     "fecha_captura": "2026-10-01T10:24:00",
-    "lat_captura": 19.4315,
+    "lat_captura": 19.4614,
     "lon_captura": -99.1309
    },
    {

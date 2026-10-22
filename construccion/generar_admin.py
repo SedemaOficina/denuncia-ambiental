@@ -91,6 +91,12 @@ DUPLICA = {1: 0}
 HECHOS_DUPLICADO = 'En el predio de junto levantan varios pisos sin ningún permiso a la vista; ya lo habían reportado otros vecinos.'
 # Marcas que el servidor pondría al recibir (documento 15; SIA-15, SIA-26).
 MARCA = {6: 'humanidad', 7: 'rafaga', 11: 'completitud'}
+# Además de fotos, el formulario admite videos y documentos (DEC-120): uno de
+# cada uno, para que el expediente muestre las tres clases de evidencia.
+# Y una foto tomada a unos tres kilómetros del lugar: el expediente avisa que
+# conviene revisar si es el mismo sitio (DEC-253).
+FOTO_LEJOS = 12
+OTROS_ARCHIVOS = {2: {'name': 'video-del-lugar.mp4', 'size': 18350080}, 9: {'name': 'escrito-de-vecinos.pdf', 'size': 412160}}
 # Cinco de las más antiguas, todas cerradas, llegaron el año anterior: el
 # tablero y el mapa tienen así dos años que comparar (DEC-251). Se recorren
 # 52 semanas, que caen en el mismo día de la semana, para que los días
@@ -123,7 +129,7 @@ def plan():
                   'anonima': anonima, 'nombre': NOMBRE_LARGO if i == LARGO else NOMBRES[i % len(NOMBRES)],
                   'establecimiento': m in CON_ESTABLECIMIENTO, 'otro_giro': i == 26, 'responsable': resp,
                   'fecha_ms': int((HOY - corre - datetime.timedelta(days=round(i * 1.3, 2), hours=i % 7)).timestamp() * 1000),
-                  'consecutivo': 101 + i, 'archivos': i % SIN_ARCHIVOS_CADA != 5})
+                  'consecutivo': 101 + i, 'archivos': i % SIN_ARCHIVOS_CADA != 5, 'otro_archivo': OTROS_ARCHIVOS.get(i)})
     return p
 
 ARMA = r"""(plan) => {
@@ -132,6 +138,7 @@ ARMA = r"""(plan) => {
     cargaEscenario(r.base); cfg.validar = true;
     const g = (k, v) => guarda(k, v);
     g('materia', r.materia); g('hechos', r.hechos);
+    if (r.otro_archivo) archivos = archivos.concat([r.otro_archivo]);
     if (r.materia !== 'vehiculo') g('veh_servicio', ''); else g('veh_servicio', 'carga');
     /* Establecimiento y responsable, coherentes con la materia. */
     if (r.establecimiento) {
@@ -224,7 +231,7 @@ def foto(i, datos, j, a):
     if ext != 'png' and datos.get('fecha_hecho'):
         a['fecha_captura'] = '%sT%02d:%02d:00' % (datos['fecha_hecho'], 8 + (i + j) % 10, (i * 7 + j * 13) % 60)
         if j == 0 and datos.get('lat'):
-            a['lat_captura'] = round(float(datos['lat']) + 0.0001, 6)
+            a['lat_captura'] = round(float(datos['lat']) + (0.03 if i == FOTO_LEJOS else 0.0001), 6)
             a['lon_captura'] = round(float(datos['lon']) - 0.0001, 6)
     return a
 

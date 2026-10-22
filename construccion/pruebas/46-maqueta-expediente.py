@@ -13,7 +13,8 @@
    4. El género y la edad no aparecen por denuncia (documento 22, §7).
    5. Consulta no ve nombre, contacto, domicilio ni lugar de captura de las
       fotos, ni la sección de contacto; captura tampoco ve esa sección.
-   6. Evidencia con la huella de cada foto; actuaciones en orden; vínculos de
+   6. Evidencia con una miniatura por archivo (el visor lo revisa la 54);
+      actuaciones en orden; vínculos de
       acumulación en los dos sentidos; denuncias cercanas en el radio.
    7. Acciones según el perfil; ninguna se ejecuta.
    8. Una denuncia de otra área no se abre aunque se escriba su folio.
@@ -133,9 +134,8 @@ with sync_playwright() as pw:
         if 'Datos estadísticos' in v['texto'] or re.search(r'\b(Mujer|Hombre|No binaria)\b|\d+ a \d+ años|Menor de 18|60 años o más', v['texto']):
             malos['genero'].append(f)
         ev = v['texto'][v['texto'].index('3. Evidencia'):v['texto'].index('4. Actuaciones')]
-        for a in x['archivos']:
-            if a['name'] not in ev or a.get('sha256_original', a['name']) not in ev or ('lat_captura' in a and str(a['lat_captura']) not in ev):
-                malos['evidencia'].append((f, a['name']))
+        if len(x['archivos']) != len(re.findall(r'(?m)^(Foto|Video|Documento) \d+$', ev)):
+            malos['evidencia'].append((f, len(x['archivos'])))
         if 'captura' in x and x['datos']['soporte'] not in ev: malos['evidencia'].append((f, 'soporte'))
         if v['actuaciones'] != [cat['estados'][h['estado']] for h in t['historial']]: malos['actuaciones'].append(f)
         vin = dict(v['fichas']['6. Vínculos'])
@@ -153,7 +153,7 @@ with sync_playwright() as pw:
     afirma(not malos['acuse'], 'la sección «Denuncia» trae todo lo capturado, en el orden del acuse: %s' % malos['acuse'][:3])
     afirma(not malos['fundamento'], 'el fundamento que citó el acuse es el de DEC-232 en cada ruta: %s' % malos['fundamento'][:3])
     afirma(not malos['genero'], 'el género y la edad no aparecen por denuncia (documento 22, §7): %s' % malos['genero'][:3])
-    afirma(not malos['evidencia'], 'la evidencia trae cada archivo con su huella y su lugar de captura, y el soporte de lo capturado: %s' % malos['evidencia'][:3])
+    afirma(not malos['evidencia'], 'la evidencia trae una miniatura por archivo, y el soporte de lo capturado: %s' % malos['evidencia'][:3])
     afirma(not malos['actuaciones'], 'las actuaciones son el historial completo, en orden: %s' % malos['actuaciones'][:3])
     afirma(not malos['vinculos'] and any(o['tramite']['acumulada_en'] for o in datos), 'la acumulación se ve en los dos expedientes: %s' % malos['vinculos'][:3])
     afirma(not malos['cercanas'], 'las denuncias cercanas son las que caen en el radio: %s' % malos['cercanas'][:3])
