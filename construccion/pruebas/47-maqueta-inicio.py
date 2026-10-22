@@ -36,7 +36,7 @@ PLAZOS = {'recibida': 3, 'por_ubicar': 3, 'turnada': 10, 'en_analisis': 10, 'ret
 CIERRAN = {'remitida', 'concluida', 'acumulada', 'sin_materia', 'recomendacion'}
 LISTAS = {'atencion': ['Nuevas', 'Asignadas', 'Por vencer', 'Vencidas', 'Por notificar'],
           'coordinacion': ['Nuevas', 'Por asignar', 'Por vencer', 'Vencidas', 'Por notificar'],
-          'captura': ['Capturadas', 'Con posible duplicado']}
+          'capturista': ['Capturadas', 'Con posible duplicado']}
 
 def recepcion(x): return x['datos'].get('fecha_recepcion_original') or x['datos']['fecha_acuse']
 def dia(iso): return datetime.date(int(iso[:4]), int(iso[5:7]), int(iso[8:10]))
@@ -96,8 +96,9 @@ with sync_playwright() as pw:
             continue
         afirma([v['nom'] for v in vistas] == LISTAS[p['rol']], '%s ve sus listas: %s' % (p['id'], [v['nom'] for v in vistas]))
         persona = next(x['nombre'] for x in cat['personal'] if x['dg'] == p['area'] and x['perfil'] == 'atencion') if p['rol'] == 'atencion' else ''
-        suyas = [x for x in datos if (not p.get('area') or x['tramite']['area_actual'] in (p['area'], ''))
-                 and (not p.get('soloCapturadas') or x['canal'] != 'en_linea')]
+        quien = pg.evaluate("(id) => capturistaDe(porId(PERFILES, id))", p['id'])
+        suyas = [x for x in datos if ((x['canal'] != 'en_linea' and x['captura']['capturo'] == quien) if p.get('soloCapturadas')
+                 else (not p.get('area') or x['tramite']['area_actual'] in (p['area'], '')))]
         for v in vistas:
             esperado = {x['datos']['folio'] for x in suyas if REGLA[v['nom']](x) and (v['nom'] == 'Nuevas' or not persona or x['tramite']['asignado'] == persona)}
             if set(v['folios']) != esperado or v['cuenta'] != len(esperado): malos.append((p['id'], v['nom'], sorted(v['folios']), sorted(esperado)))
@@ -115,7 +116,7 @@ with sync_playwright() as pw:
     tel = nav.new_context(viewport={'width':360,'height':760}).new_page()
     tel.goto(MAQUETA.as_uri() + '#/inicio'); tel.wait_for_timeout(500)
     anchos = []
-    for pid in ('atencion_dgiva', 'coordinacion_dgiva', 'captura'):
+    for pid in ('atencion_dgiva', 'coordinacion_dgiva', 'capturista_dgiva'):
         tel.evaluate("(id) => { cambiaPerfil(id); location.hash = '#/inicio'; }", pid); tel.wait_for_timeout(100)
         anchos.append(tel.evaluate("() => document.documentElement.scrollWidth - innerWidth"))
     afirma(max(anchos) <= 0, 'a 360 px no hay desplazamiento horizontal: %s' % anchos)

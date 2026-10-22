@@ -11,8 +11,8 @@
    3. Denuncia: todo lo capturado en el orden del acuse y el fundamento que
       citó el acuse, que es el de DEC-232.
    4. El género y la edad no aparecen por denuncia (documento 22, §7).
-   5. Consulta no ve nombre, contacto, domicilio ni lugar de captura de las
-      fotos, ni la sección de contacto; captura tampoco ve esa sección.
+   5. Directivos ve los datos de quien denuncia (DEC-256), pero no la sección
+      de contacto; capturista, tampoco esa sección.
    6. Evidencia con una miniatura por archivo (el visor lo revisa la 54);
       actuaciones en orden; vínculos de
       acumulación en los dos sentidos; denuncias cercanas en el radio.
@@ -54,8 +54,8 @@ TODAS = ['Cambiar el estado', 'Asignar o reasignar', 'Returnar a la otra direcci
          'Descargar la ficha en PDF']
 ACCIONES = {'coordinacion': TODAS,
             'atencion': ['Cambiar el estado', 'Corregir el punto del mapa', 'Registrar la notificación', 'Agregar nota o documento', 'Descargar la ficha en PDF'],
-            'captura': ['Agregar nota o documento', 'Descargar la ficha en PDF'],
-            'consulta': ['Descargar la ficha en PDF']}
+            'capturista': ['Agregar nota o documento', 'Descargar la ficha en PDF'],
+            'directivos': ['Descargar la ficha en PDF']}
 
 def recepcion(x): return x['datos'].get('fecha_recepcion_original') or x['datos']['fecha_acuse']
 def dia(iso): return datetime.date(int(iso[:4]), int(iso[5:7]), int(iso[8:10]))
@@ -161,22 +161,22 @@ with sync_playwright() as pw:
 
     # ---- 5. Datos personales por perfil ----
     personales = {x['datos']['folio']: [x['datos'][k] for k in ('nombre', 'apellido_paterno', 'correo', 'telefono', 'dom_calle') if x['datos'].get(k)] for x in datos}
+    simulada = pg.evaluate("() => Object.fromEntries(PERFILES.filter(p => p.soloCapturadas).map(p => [capturistaDe(p), p.id]))")
     malos_c, malos_k = [], []
     for x, ident in zip(datos, cat['ids']):
         f = x['datos']['folio']
-        v = abre('consulta', ident)
-        lugares = [str(a['lat_captura']) for a in x['archivos'] if 'lat_captura' in a]
-        if any(re.search(r'(?<!\w)' + re.escape(p) + r'(?!\w)', v['texto']) for p in personales[f] + lugares) \
-           or 'Este perfil no ve nombre, contacto ni domicilio' not in v['texto'] or 'Sólo la ven atención y coordinación' not in v['texto'] \
-           or v['acciones'] != ACCIONES['consulta']:
+        v = abre('directivos', ident)
+        if any(p not in v['texto'] for p in personales[f] if p != x['datos'].get('correo')) \
+           or 'Sólo la ven atención y coordinación' not in v['texto'] or v['acciones'] != ACCIONES['directivos']:
             malos_c.append(f)
-        if 'captura' in x:
-            v = abre('captura', ident)
-            if 'Sólo la ven atención y coordinación' not in v['texto'] or v['acciones'] != ACCIONES['captura'] \
+        # Sólo lo de quien cada perfil de capturista simula: lo de las demás no lo abre.
+        if 'captura' in x and x['captura']['capturo'] in simulada:
+            v = abre(simulada[x['captura']['capturo']], ident)
+            if 'Sólo la ven atención y coordinación' not in v['texto'] or v['acciones'] != ACCIONES['capturista'] \
                or (x['datos']['identificacion'] == 'nombre' and x['datos']['nombre'] not in v['texto']):
                 malos_k.append(f)
-    afirma(not malos_c, 'consulta no ve nombre, contacto, domicilio ni lugar de captura, ni la sección de contacto; sólo descarga la ficha: %s' % malos_c[:3])
-    afirma(not malos_k, 'captura ve los datos de lo que capturó, no la sección de contacto, y sólo agrega notas o descarga: %s' % malos_k[:3])
+    afirma(not malos_c, 'directivos ve nombre, teléfono y domicilio de quien denuncia, no la sección de contacto, y sólo descarga la ficha: %s' % malos_c[:3])
+    afirma(not malos_k, 'capturista ve los datos de lo que capturó, no la sección de contacto, y sólo agrega notas o descarga: %s' % malos_k[:3])
     x = next(o for o in datos if o['tramite']['area_actual'] == 'DGIVA')
     v = abre('atencion_dgiva', cat['ids'][datos.index(x)])
     afirma(v['acciones'] == ACCIONES['atencion'] and '5. Contacto y notificación' in v['fichas'] and v['fichas']['5. Contacto y notificación'],

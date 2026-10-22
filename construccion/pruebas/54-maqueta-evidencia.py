@@ -12,7 +12,7 @@
       dimensiones, ni huella, ni coordenadas.
    3. «Anterior» y «Siguiente» recorren los archivos; Escape o «Cerrar»
       cierran y el foco vuelve a la miniatura.
-   4. Quien no ve datos personales no ve dónde se tomó la foto.
+   4. Directivos ve también dónde se tomó la foto (DEC-256).
    5. En teléfono, con el visor abierto, no hay desplazamiento horizontal; sin
       errores en consola."""
 import json, math, os, pathlib, re, sys
@@ -124,10 +124,10 @@ with sync_playwright() as pw:
 
     # ---- 4. Sin datos personales ----
     x, ident = next((x, i) for x, i in zip(datos, ids) if any('lat_captura' in a for a in x['archivos']))
-    abre('consulta', ident)
+    abre('directivos', ident)
     pg.click('.galeria li:nth-child(1) .archivo-ev'); pg.wait_for_timeout(50)
     v = pg.evaluate(VISOR)
-    afirma(v['pares']['Dónde'].startswith('Este perfil no lo ve'), 'consulta no ve dónde se tomó la foto')
+    afirma(v['pares']['Dónde'] == donde(x['archivos'][0], x), 'directivos ve dónde se tomó la foto, contra el lugar de la denuncia (DEC-256)')
     afirma(err == [], 'sin errores en consola: %s' % err[:2])
 
     # ---- 5. Teléfono ----

@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Variantes del formulario
 
-**Versión:** 2.0 · 21 de octubre de 2026
+**Versión:** 2.0 · 22 de octubre de 2026
 **Generado automáticamente** de las estructuras `BIFURCACIONES` y `ESCENARIOS` del prototipo, que son las mismas que gobiernan el panel de validación. Documento y comportamiento no pueden discrepar.
 
 El formulario no es un camino único: hay **dieciocho puntos donde cambia de forma** según lo que se responde. Este documento los enumera y describe los doce escenarios que el panel de validación carga con un toque, para recorrer cada rama sin capturar todo a mano.

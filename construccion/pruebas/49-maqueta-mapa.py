@@ -65,7 +65,7 @@ with sync_playwright() as pw:
     K = math.cos((capas['bbox'][1] + capas['bbox'][3]) / 2 * math.pi / 180)
 
     # ---- 2. Mapa operativo ----
-    pg.evaluate("() => { cambiaPerfil('consulta'); location.hash = '#/mapa'; }"); pg.wait_for_timeout(250)
+    pg.evaluate("() => { cambiaPerfil('directivos'); location.hash = '#/mapa'; }"); pg.wait_for_timeout(250)
     pts = pg.evaluate(PUNTOS.replace('SEL', "'#mapa-cuerpo'"))
     con_punto = [x for x in datos if x['datos'].get('lat')]
     por_href = {q['href']: q for q in pts}
@@ -122,7 +122,7 @@ with sync_playwright() as pw:
     afirma(not malos, 'cada expediente con punto lleva su mapa con la denuncia resaltada, sus cercanas y su zona protegida; sin punto no hay mapa: %s' % malos[:2])
 
     # ---- 5. Red y teclado ----
-    pg.evaluate("() => { cambiaPerfil('consulta'); location.hash = '#/mapa'; }"); pg.wait_for_timeout(200)
+    pg.evaluate("() => { cambiaPerfil('directivos'); location.hash = '#/mapa'; }"); pg.wait_for_timeout(200)
     pg.focus('#mapa-cuerpo .m-liga >> nth=0'); pg.keyboard.press('Enter'); pg.wait_for_timeout(150)
     afirma(pg.evaluate("() => location.hash").startswith('#/expediente/'), 'con teclado, un punto del mapa abre su expediente')
     afirma(not red, 'el mapa no pide nada a internet salvo las tipografías: %s' % red[:3])

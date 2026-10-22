@@ -88,6 +88,10 @@ SIN_PUNTO, ALCALDIA_DISTINTA, LARGO, SIN_ARCHIVOS_CADA = 3, 7, 13, 6
 # materia de la 0, a unos treinta metros y dos días antes, para que la vista
 # «Posible duplicado» de la bandeja tenga qué mostrar.
 DUPLICA = {1: 0}
+# Lo captura una capturista de la dirección general del lugar —en la DGIVA,
+# alternando entre las dos—, salvo la 16: la capturó la DGIVA y, por el punto,
+# se fue a la DGCORENADR. Quien la capturó la sigue viendo (DEC-256).
+CAPTURA_DE_OTRA = {16: 'DGIVA'}
 HECHOS_DUPLICADO = 'En el predio de junto levantan varios pisos sin ningún permiso a la vista; ya lo habían reportado otros vecinos.'
 # Marcas que el servidor pondría al recibir (documento 15; SIA-15, SIA-26).
 MARCA = {6: 'humanidad', 7: 'rafaga', 11: 'completitud'}
@@ -313,6 +317,7 @@ with sync_playwright() as pw:
     personal = pg.evaluate("() => PERSONAL")
     PERSONAL = {dg: [x['nombre'] for x in personal if x['dg'] == dg and x['perfil'] == 'atencion'] for dg in ('DGIVA', 'DGCORENADR')}
     COORDINACION = {dg: next(x['nombre'] for x in personal if x['dg'] == dg and x['perfil'] == 'coordinacion') for dg in ('DGIVA', 'DGCORENADR')}
+    CAPTURISTAS = {dg: [x['nombre'] for x in personal if x['dg'] == dg and x['perfil'] == 'capturista'] for dg in ('DGIVA', 'DGCORENADR')}
     pg.goto(TMP.as_uri()); pg.wait_for_timeout(600)
     MATERIAS_IDS = pg.evaluate("() => MATERIAS.map(m => m.id)")
     materias = pg.evaluate("() => MATERIAS.map(m => ({id: m.id, nom: m.nom}))")
@@ -357,7 +362,8 @@ for s in hecho['salida']:
         # Canal, recepción original, folio de origen, quién recibió y soporte
         # vienen en los datos, como los guarda el formulario; quién capturó lo
         # da la cuenta del módulo (AD-03).
-        d['captura'] = {'capturo': 'Persona de captura de prueba'}
+        quienes = CAPTURISTAS[CAPTURA_DE_OTRA.get(r['i'], s['datos']['dg'])]
+        d['captura'] = {'capturo': quienes[r['i'] % len(quienes)]}
     d['acuse'] = s['acuse']
     d['tramite'] = tramite(r, s['datos'], estados_ids)
     denuncias.append(d)

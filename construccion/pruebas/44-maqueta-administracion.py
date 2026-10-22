@@ -12,8 +12,9 @@ prueba (DEC-242).
       tipos de zona, anónimas, autoridad señalada, sin punto, alcaldía que no
       coincide, sin archivos y nombre larguísimo.
    4. Se navega por el menú, con teclado y con «Atrás»; el foco va al título.
-   5. Cada perfil ve sus pantallas y sus denuncias; consulta, sin datos
-      personales; una pantalla ajena lleva a la primera propia.
+   5. Cada perfil ve sus pantallas y sus denuncias; cada capturista, sólo lo
+      que esa persona capturó; directivos, todo (DEC-256); una pantalla ajena
+      lleva a la primera propia.
    6. En teléfono no hay desplazamiento horizontal."""
 import json, os, pathlib, re, sys
 AQUI = pathlib.Path(os.path.abspath(__file__)).parent
@@ -126,13 +127,22 @@ with sync_playwright() as pw:
     # El menú sigue siempre el orden de PANTALLAS; lo que cambia es cuáles.
     afirma(all(set(x['menu']) == set(x['esperado']) for x in perf), 'cada perfil ve en el menú sus pantallas, y sólo ésas')
     cuenta = {x['id']: x['cifra'] for x in perf}
+    quien = pg.evaluate("() => Object.fromEntries(PERFILES.filter(p => p.soloCapturadas).map(p => [p.id, capturistaDe(p)]))")
+    personal = pg.evaluate("() => PERSONAL")
     # Sin punto no hay área todavía: la ven las dos direcciones generales.
     afirma(cuenta['atencion_dgiva'] == sum(t['area_actual'] in ('DGIVA', '') for t in T)
            and cuenta['atencion_dgcorenadr'] == sum(t['area_actual'] in ('DGCORENADR', '') for t in T)
-           and cuenta['captura'] == sum(x['canal'] != 'en_linea' for x in datos) and cuenta['consulta'] == 40,
+           and all(cuenta[k] == sum(x['canal'] != 'en_linea' and x['captura']['capturo'] == q for x in datos) for k, q in quien.items())
+           and cuenta['directivos'] == 40,
            'cada perfil cuenta sus denuncias, y las que no tienen punto las ven las dos direcciones generales: %s' % cuenta)
-    afirma('sin nombre, contacto ni domicilio' in next(x for x in perf if x['id'] == 'consulta')['texto'],
-           'consulta lo ve sin datos personales de quien denuncia')
+    afirma(('simula a %s y ve sólo lo que capturó' % quien['capturista_dgiva']) in next(x for x in perf if x['id'] == 'capturista_dgiva')['texto']
+           and 'Ve todas las denuncias de la Secretaría.' in next(x for x in perf if x['id'] == 'directivos')['texto'],
+           'cada capturista dice a quién simula y que ve sólo lo que capturó; directivos, que ve todas')
+    dg_de = {x['nombre']: x['dg'] for x in personal}
+    por_persona = {q: sum(x['canal'] != 'en_linea' and x['captura']['capturo'] == q for x in datos) for q in dg_de if q.startswith('Capturista')}
+    afirma(any(dg_de[x['captura']['capturo']] != x['tramite']['area_actual'] for x in datos if 'captura' in x)
+           and sum(n > 0 for q, n in por_persona.items() if dg_de[q] == 'DGIVA') == 2,
+           'dos capturistas de la DGIVA capturaron, cada quien lo suyo, y una denuncia capturada en la DGIVA fue a dar por su punto a la DGCORENADR: %s' % por_persona)
     pg.evaluate("() => { cambiaPerfil('atencion_dgiva'); location.hash = '#/administracion'; }"); pg.wait_for_timeout(150)
     afirma(donde()['h2'] == 'Inicio', 'una pantalla que el perfil no tiene lleva a la primera que sí')
 

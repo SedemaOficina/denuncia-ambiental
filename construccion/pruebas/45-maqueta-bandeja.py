@@ -84,9 +84,8 @@ def reglas(umbral):
       'por_notificar': lambda x: x['tramite']['estado'] == 'resuelta'}, parecidas
 
 def ve(perfil, x):
-    if perfil.get('area') and x['tramite']['area_actual'] not in (perfil['area'], ''): return False
-    if perfil.get('soloCapturadas') and x['canal'] == 'en_linea': return False
-    return True
+    if perfil.get('soloCapturadas'): return x['canal'] != 'en_linea' and x['captura']['capturo'] == perfil['quien']
+    return not perfil.get('area') or x['tramite']['area_actual'] in (perfil['area'], '')
 
 with sync_playwright() as pw:
     nav = pw.chromium.launch(executable_path=CHROMIUM)
@@ -95,8 +94,8 @@ with sync_playwright() as pw:
     pg.on('console', lambda x: err.append(x.text) if x.type == 'error' and not (x.location or {}).get('url', '').startswith(TIPOGRAFIAS) else None)
     pg.on('pageerror', lambda e: err.append('pageerror: ' + str(e)))
     pg.goto(MAQUETA.as_uri() + '#/bandeja'); pg.wait_for_timeout(600)
-    pg.evaluate("() => { document.getElementById('perfil').value = 'consulta'; cambiaPerfil('consulta'); }")
-    cat = pg.evaluate("""() => ({hoy: HOY, umbral: UMBRAL_DUPLICADO, perfiles: PERFILES, vistas: VISTAS.map(v => ({id: v.id, nom: v.nom})),
+    pg.evaluate("() => { document.getElementById('perfil').value = 'directivos'; cambiaPerfil('directivos'); }")
+    cat = pg.evaluate("""() => ({hoy: HOY, umbral: UMBRAL_DUPLICADO, perfiles: PERFILES.map(p => Object.assign({quien: capturistaDe(p)}, p)), vistas: VISTAS.map(v => ({id: v.id, nom: v.nom})),
       cierran: ESTADOS.filter(e => e.cierra).map(e => e.id)})""")
     REGLA, parecidas = reglas(cat['umbral'])
     folio_de = {x['datos']['folio']: x for x in datos}
@@ -132,7 +131,7 @@ with sync_playwright() as pw:
             pg.click('.paginacion button:has-text("Siguiente")'); out += filas()
         return out
 
-    pg.evaluate("() => cambiaPerfil('consulta')")
+    pg.evaluate("() => cambiaPerfil('directivos')")
     pg.evaluate("() => { location.hash = '#/bandeja/todas'; }"); pg.wait_for_timeout(150)
     paginas = pg.evaluate("() => document.querySelectorAll('.tabla-bandeja tbody tr').length")
     def rebasa(): return pg.evaluate("() => { const m = document.querySelector('.tabla-marco'); return m.scrollWidth - m.clientWidth; }")

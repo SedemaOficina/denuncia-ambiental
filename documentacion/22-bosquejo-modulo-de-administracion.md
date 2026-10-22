@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.14 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-255
+**Versión:** 0.15 · 22 de octubre de 2026 · al día con las decisiones hasta DEC-256
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.14 a la 0.15** (capturista y directivos, DEC-256): los apartados 2, 3.7, 3.9 y 7 y la pregunta MA-04 dicen que captura se llama capturista —uno por dirección general, que ve sólo lo que capturó— y consulta, directivos, con datos personales.
 
 **De la 0.13 a la 0.14** (el pase de diseño, DEC-255): el apartado 9 suma el paso 5, el pase de diseño de la maqueta, después de la sesión con las áreas; la construcción pasa a ser el paso 6.
 
@@ -64,15 +66,15 @@ El formulario termina en el acuse. Lo que ocurre después hoy vive en una hoja d
 
 ## 2. Quién lo usa
 
-Cinco perfiles. Los cuatro primeros estaban previstos en AD-01 y SIA-23; **el de coordinación es una propuesta de este bosquejo**, porque alguien tiene que asignar y returnar.
+Cinco perfiles. Los cuatro primeros estaban previstos en AD-01 y SIA-23; **el de coordinación es una propuesta de este bosquejo**, porque alguien tiene que asignar y returnar. Captura y consulta se llaman ahora capturista y directivos (DEC-256).
 
 | Perfil | Quién | Ve | Hace | Datos personales de quien denuncia |
 |---|---|---|---|---|
-| **Captura** | Oficialía de Partes o la unidad que se designe (CP-2) | Lo que capturó y el aviso de denuncias cercanas | Registra denuncias recibidas por escrito, teléfono, correo o comparecencia | Sólo los de lo que captura |
+| **Capturista** | Personal de cada dirección general que recibe denuncias; uno o más en cada una (DEC-256) | Sólo lo que esa persona capturó, aunque por su punto vaya a la otra dirección general, y el aviso de denuncias cercanas | Registra denuncias recibidas por escrito, teléfono, correo o comparecencia | Sólo los de lo que captura |
 | **Atención** | Personal de la coordinación que sustancia, en cada dirección general | Las denuncias de su área | Analiza competencia, cambia estado, registra actuaciones y notificaciones | Sí, de su área |
 | **Coordinación** | Titular de cada coordinación o quien designe | Las de su área, con carga por persona | Asigna, reasigna, returna, remite, autoriza acumulación y conclusión; da de alta y de baja a su personal de captura, atención y coordinación | Sí, de su área |
-| **Consulta** | Oficina de la Secretaría, direcciones generales | Tablero, mapa y bandeja de toda la Secretaría | Filtra y exporta | **No**: ve el expediente sin nombre, contacto ni domicilio |
-| **Administración** | Sistema de Información Ambiental | Usuarios, catálogos, parámetros y bitácora | Da de alta las cuentas de consulta, administración y la primera coordinación de cada dirección general; actualiza catálogos | No, salvo por requerimiento registrado |
+| **Directivos** | Oficina de la Secretaría, direcciones generales | Tablero, mapa y bandeja de toda la Secretaría | Filtra y exporta, también con datos personales, con motivo y registro en bitácora | **Sí**, de toda la Secretaría (DEC-256) |
+| **Administración** | Sistema de Información Ambiental | Usuarios, catálogos, parámetros y bitácora | Da de alta las cuentas de directivos, administración y la primera coordinación de cada dirección general; actualiza catálogos | No, salvo por requerimiento registrado |
 
 Reglas comunes: cuenta institucional nominal, nunca compartida; toda consulta de un expediente y todo cambio quedan en bitácora; el perfil y el área los asigna la coordinación de cada dirección general a su personal, y el SIA a los demás (DEC-252).
 
@@ -126,7 +128,7 @@ Una sola pantalla por denuncia. Encabezado fijo con folio, estado, área que rec
 
 **Acciones**, según perfil: cambiar estado, asignar, returnar a la otra dirección general, remitir a otra autoridad, acumular, corregir el punto —con la ubicación original conservada—, registrar la notificación, agregar nota o documento, descargar ficha en PDF.
 
-**Lo que la maqueta propone, por acordar (DEC-244).** El plazo vigente del encabezado es el del estado en que va la denuncia, contado desde la recepción original; el del procedimiento completo se lee del área que recibe —93 días hábiles en la DGIVA y 90 en la DGCORENADR—, porque el reparto de competencias sigue el tipo de suelo (DEC-84). El género y la edad no se muestran por denuncia, y consulta tampoco ve el lugar donde se tomó cada foto. Las denuncias cercanas usan un radio de prueba de 500 metros. Las acciones se reparten así: coordinación, todas; atención, cambiar estado, corregir el punto —lo propone y coordinación lo autoriza (MA-10)—, registrar la notificación, agregar nota y descargar la ficha; captura, agregar nota y descargar; consulta, descargar.
+**Lo que la maqueta propone, por acordar (DEC-244).** El plazo vigente del encabezado es el del estado en que va la denuncia, contado desde la recepción original; el del procedimiento completo se lee del área que recibe —93 días hábiles en la DGIVA y 90 en la DGCORENADR—, porque el reparto de competencias sigue el tipo de suelo (DEC-84). El género y la edad no se muestran por denuncia, y, hasta DEC-256, consulta tampoco veía el lugar donde se tomó cada foto. Las denuncias cercanas usan un radio de prueba de 500 metros. Las acciones se reparten así: coordinación, todas; atención, cambiar estado, corregir el punto —lo propone y coordinación lo autoriza (MA-10)—, registrar la notificación, agregar nota y descargar la ficha; captura, agregar nota y descargar; consulta, descargar.
 
 ### 3.4 Captura por personal
 
@@ -146,9 +148,9 @@ Ver apartado 5.
 
 ### 3.7 Búsqueda y exportación
 
-Descarga en hoja de cálculo de la bandeja filtrada y de los indicadores. **La exportación con datos personales queda limitada a coordinación y se registra en bitácora**; la del perfil de consulta sale sin ellos.
+Descarga en hoja de cálculo de la bandeja filtrada y de los indicadores. **La exportación con datos personales queda limitada a coordinación y directivos (DEC-256) y se registra en bitácora**; la de atención sale sin ellos.
 
-**Lo que la maqueta propone (DEC-249).** Además de descargar, se abre un expediente por folio, consecutivo o folio de origen. La descarga con datos personales pide un motivo, que queda en la bitácora con quién y cuántas; atención y consulta descargan sin ellos. Género y edad no salen por denuncia en ninguna descarga.
+**Lo que la maqueta propone (DEC-249).** Además de descargar, se abre un expediente por folio, consecutivo o folio de origen. La descarga con datos personales pide un motivo, que queda en la bitácora con quién y cuántas; atención descarga sin ellos; directivos, con ellos, desde DEC-256. Género y edad no salen por denuncia en ninguna descarga.
 
 ### 3.8 Administración
 
@@ -158,7 +160,7 @@ Cuentas y perfiles; catálogos que el área puede actualizar sin tocar código �
 
 ### 3.9 Personal
 
-Alta y baja del personal de cada dirección general, a cargo de su coordinación (DEC-252): nombre completo, área de la que depende, cargo, correo institucional y perfil —captura, atención o coordinación—. Consulta, administración y la primera coordinación de cada dirección general las da de alta el SIA.
+Alta y baja del personal de cada dirección general, a cargo de su coordinación (DEC-252): nombre completo, área de la que depende, cargo, correo institucional y perfil —capturista, atención o coordinación—. Directivos, administración y la primera coordinación de cada dirección general las da de alta el SIA.
 
 **Lo que la maqueta propone (DEC-252).** Todo dato es obligatorio y dos personas activas no comparten correo, porque la cuenta es nominal. La baja no borra: la persona queda inactiva, ya no entra ni recibe asignaciones, y su nombre se conserva en lo que firmó y en la bitácora. Al dar de baja se avisa cuántas denuncias abiertas tenía asignadas, para reasignarlas, y una dirección general no puede quedarse sin coordinación activa. Administración ve al personal de las dos direcciones generales, sin cambiarlo.
 
@@ -248,10 +250,10 @@ Las fechas van en ISO 8601 con la zona de la Ciudad, como la de recepción (DEC-
 
 El módulo concentra datos personales de quien denuncia y señalamientos sobre terceros. Siete condiciones de diseño, a confirmar con la Unidad de Transparencia (SIA-20):
 
-1. Acceso por perfil y por área; el perfil de consulta nunca ve datos personales.
+1. Acceso por perfil y por área. Directivos ve los datos personales de toda la Secretaría, y cada capturista sólo los de lo que capturó (DEC-256, que responde MA-04 y cambia lo que aquí se proponía: que el perfil de consulta nunca los viera).
 2. Bitácora de consultas, no sólo de cambios.
 3. La identidad de quien denuncia no aparece en ningún documento que el módulo genere para la persona denunciada (RN-19).
-4. Exportación con datos personales restringida y registrada.
+4. Exportación con datos personales restringida a coordinación y directivos, con motivo, y registrada.
 5. Política de conservación y supresión definida antes del primer dato real.
 6. El correo de la denuncia anónima es su única vía de contacto y el medio de notificación (DEC-233): el mensaje no lleva datos de la persona denunciada ni de terceros (SIA-29).
 7. El género es dato sensible; se trata con el consentimiento general del aviso de privacidad (DEC-234), que la Unidad de Transparencia debe confirmar frente al artículo 14 de la Ley de datos personales (P-02). En el módulo sólo aparece en agregado.
@@ -287,14 +289,14 @@ Mismo método que el formulario: primero maqueta, después servidor.
 
 ## 10. Preguntas que abre
 
-Clave `MA-NN`. Las seis primeras puede resolverlas la Oficina de la Secretaría; las demás son de las áreas. Ninguna se ha respondido todavía.
+Clave `MA-NN`. Las seis primeras puede resolverlas la Oficina de la Secretaría; las demás son de las áreas. Sólo MA-04 está respondida (DEC-256).
 
 | Clave | Pregunta | Recomendación |
 |---|---|---|
 | **MA-01** | ¿El módulo va en la misma dirección web que el formulario o en otra? | **Otra**, dentro del SIA y con el mismo control de acceso del tablero del SIA. Separa lo público de lo interno y evita exponer la entrada del personal en el sitio ciudadano |
 | **MA-02** | ¿Dónde vive la versión funcional de la etapa 2: en el servidor del SIA o en una solución provisional con hojas de cálculo? | **Servidor del SIA.** Una hoja de cálculo no da acceso por perfil ni bitácora de consultas, y son datos personales. La maqueta no depende de esta decisión |
 | **MA-03** | ¿Hasta dónde llega el registro: hasta el turnado y la visita, o hasta la resolución? | Hasta la resolución y su notificación, **como hitos con fecha**, sin gestionar los documentos del procedimiento |
-| **MA-04** | ¿La Oficina de la Secretaría consulta con o sin datos personales? | Sin ellos, salvo requerimiento registrado |
+| **MA-04** | ¿La Oficina de la Secretaría consulta con o sin datos personales? | **Respondida (DEC-256): con ellos.** Directivos los ve y los descarga, con motivo y registro en bitácora. La recomendación era «sin ellos, salvo requerimiento registrado»; falta que la Unidad de Transparencia lo confirme (SIA-20) |
 | **MA-05** | ¿Se agrega el perfil de coordinación? | Sí: sin quien asigne, la bandeja no reparte trabajo |
 | **MA-06** | ¿El tablero tendrá una versión pública? | No en esta etapa; decidirlo junto con PB-20 |
 | **MA-07** | ¿Qué estados reconoce cada dirección general, y cuáles puede ver la ciudadanía? | Partir de la tabla del apartado 4 (P-14, PB-15) |

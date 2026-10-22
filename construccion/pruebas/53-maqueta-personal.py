@@ -77,7 +77,7 @@ with sync_playwright() as pw:
     afirma(etiquetas == ['Nombre completo', 'Área de la que depende', 'Cargo', 'Correo institucional', 'Perfil'],
            'pide nombre, área de la que depende, cargo, correo institucional y perfil, cada uno con su etiqueta: %s' % etiquetas)
     perfiles = pg.evaluate("() => [...document.querySelectorAll('#a-perfil option')].filter(o => o.value).map(o => o.value)")
-    afirma(perfiles == ['captura', 'atencion', 'coordinacion'], 'da perfiles de captura, atención y coordinación, ni consulta ni administración: %s' % perfiles)
+    afirma(perfiles == ['capturista', 'atencion', 'coordinacion'], 'da perfiles de capturista, atención y coordinación, ni directivos ni administración: %s' % perfiles)
 
     # ---- 3. Sin un dato no hay alta ----
     malos = []

@@ -54,7 +54,7 @@ with sync_playwright() as pw:
     afirma(pend == [], 'ninguna pantalla de ningún perfil queda «por construir»: %s' % pend)
 
     # ---- 2. Descarga de la bandeja ----
-    ve('consulta', '#/bandeja/por_turnar'); ve('consulta', '#/busqueda')
+    ve('directivos', '#/bandeja/por_turnar'); ve('directivos', '#/busqueda')
     filas = baja('Descargar sin datos personales (CSV)')
     esperado = [x['datos']['folio'] for x in datos if x['tramite']['estado'] == 'recibida']
     nombres = [x['datos'][k] for x in datos for k in ('nombre', 'correo', 'telefono', 'dom_calle') if x['datos'].get(k)]
@@ -63,7 +63,7 @@ with sync_playwright() as pw:
            'la descarga sale con las columnas de la bandeja y sólo con lo que la bandeja tiene: %d denuncias' % (len(filas) - 1))
     afirma(not any(n in texto for n in nombres) and 'Género' not in filas[0] and not any(o in texto for o in ('Mujer', 'Hombre', 'años')),
            'sin nombre, correo, teléfono ni domicilio de quien denuncia, y sin género ni edad')
-    afirma('sólo de coordinación' in pg.inner_text('#pantalla') and not pg.locator('#f-motivo').count(), 'consulta no puede descargar datos personales')
+    afirma(pg.locator('#f-motivo').count() == 1, 'directivos también descarga con datos personales, con motivo (DEC-256)')
     ve('atencion_dgiva', '#/busqueda')
     afirma(not pg.locator('#f-motivo').count() and not pg.locator('text=Descargar los indicadores (CSV)').count(),
            'atención tampoco, y no descarga indicadores porque no tiene tablero')
@@ -89,7 +89,7 @@ with sync_playwright() as pw:
            'un valor que empieza como fórmula sale como texto')
 
     # ---- 4. Indicadores ----
-    ve('consulta', '#/busqueda')
+    ve('directivos', '#/busqueda')
     filas = baja('Descargar los indicadores (CSV)')
     resumen = {f[2]: f[3] for f in filas if f[0] == 'Resumen'}
     cifras = pg.evaluate("() => Object.fromEntries(cifrasTablero(conjuntoTablero()).map(x => [x[0], String(x[1])]))")
@@ -102,7 +102,7 @@ with sync_playwright() as pw:
     # ---- 5. Abrir por folio ----
     def abre(q):
         pg.fill('#f-folio', q); pg.click('text=Abrir el expediente'); pg.wait_for_timeout(150)
-        h = pg.evaluate("() => location.hash"); ve('consulta', '#/busqueda'); return h
+        h = pg.evaluate("() => location.hash"); ve('directivos', '#/busqueda'); return h
     origen = next(x for x in datos if x['datos'].get('folio_origen'))
     r = [abre('000105'), abre('SEDEMA/DEN/2026/000101-9'), abre(origen['datos']['folio_origen'])]
     pg.fill('#f-folio', '999999'); pg.click('text=Abrir el expediente'); pg.wait_for_timeout(150)
@@ -118,7 +118,7 @@ with sync_playwright() as pw:
       acciones: [...document.querySelector('[aria-label="Perfiles"] table').querySelectorAll('tbody tr')].map(tr => +tr.querySelector('.num').textContent),
       esperadas: PERFILES.map(p => ACCIONES.filter(a => a.roles.indexOf(p.rol) >= 0).length),
       params: [...document.querySelector('[aria-label="Plazos y umbrales"] table').querySelectorAll('tbody tr')].map(tr => tr.innerText.split('\\t')[1])})""")
-    afirma(adm['perfiles'] == 7 and adm['acciones'] == adm['esperadas'], 'administración lista los siete perfiles con sus acciones')
+    afirma(adm['perfiles'] == 8 and adm['acciones'] == adm['esperadas'], 'administración lista los ocho perfiles con sus acciones')
     cat = pg.evaluate("() => Object.fromEntries([...document.querySelectorAll('.ficha > div')].map(x => [x.querySelector('dt').textContent, x.querySelector('dd').textContent]))")
     afirma(cat['Materias'].startswith('19,') and cat['Estados del trámite'].startswith('16:') and cat['Canales'].startswith('5:')
            and cat['Marcas de revisión'].startswith('3:') and 'OBS-0024' in cat['Giros y supuestos de otra autoridad'],

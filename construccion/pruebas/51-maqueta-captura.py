@@ -31,7 +31,8 @@ p = PROTO.read_text(encoding='utf-8')
 bloque = p[p.index('var CANALES_CAPTURA = ['):]
 bloque = bloque[:bloque.index('\n];')]
 del_formulario = [{'id': i, 'nom': n} for i, n in re.findall(r"\{id:'([a-z_]+)',\s*nom:'([^']+)'", bloque)]
-capturadas = [x for x in datos if x['canal'] != 'en_linea']
+# El perfil de capturista ve sólo lo que capturó la persona que simula (DEC-256).
+capturadas = [x for x in datos if x['canal'] != 'en_linea' and x['captura']['capturo'] == 'Capturista A (DGIVA)']
 
 with sync_playwright() as pw:
     nav = pw.chromium.launch(executable_path=CHROMIUM)
@@ -40,7 +41,7 @@ with sync_playwright() as pw:
     pg.on('console', lambda x: err.append(x.text) if x.type == 'error' and not (x.location or {}).get('url', '').startswith(TIPOGRAFIAS) else None)
     pg.on('pageerror', lambda e: err.append('pageerror: ' + str(e)))
     pg.goto(MAQUETA.as_uri() + '#/bandeja'); pg.wait_for_timeout(500)
-    pg.evaluate("() => { document.getElementById('perfil').value = 'captura'; cambiaPerfil('captura'); location.hash = '#/captura'; }"); pg.wait_for_timeout(200)
+    pg.evaluate("() => { document.getElementById('perfil').value = 'capturista_dgiva'; cambiaPerfil('capturista_dgiva'); location.hash = '#/captura'; }"); pg.wait_for_timeout(200)
 
     # ---- 1. La liga al modo captura ----
     href = pg.get_attribute('.acciones-captura .boton', 'href')
@@ -72,7 +73,7 @@ with sync_playwright() as pw:
 
     tel = nav.new_context(viewport={'width':360,'height':760}).new_page()
     tel.goto(MAQUETA.as_uri() + '#/bandeja'); tel.wait_for_timeout(400)
-    tel.evaluate("() => { cambiaPerfil('captura'); location.hash = '#/captura'; }"); tel.wait_for_timeout(200)
+    tel.evaluate("() => { cambiaPerfil('capturista_dgiva'); location.hash = '#/captura'; }"); tel.wait_for_timeout(200)
     afirma(tel.evaluate("() => document.documentElement.scrollWidth - innerWidth") <= 0, 'a 360 px no hay desplazamiento horizontal')
     nav.close()
 

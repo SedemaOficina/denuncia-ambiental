@@ -87,7 +87,7 @@ with sync_playwright() as pw:
         pg.evaluate("(p) => { cambiaPerfil(p); location.hash = '#/tablero'; }", perfil); pg.wait_for_timeout(150)
         return pg.evaluate(LEE)
 
-    t = abre('consulta')
+    t = abre('directivos')
     afirma(len(GRUPOS) == 5 and t['grupos'] == GRUPOS, 'los cinco grupos del bosquejo, en su orden: %s' % t['grupos'])
     esperado = {'Recibidas': 40, 'En trámite': sum(map(abierta, datos)), 'Cerradas': 40 - sum(map(abierta, datos)),
                 'Con el plazo vencido': sum(map(vencida, datos))}
@@ -104,7 +104,7 @@ with sync_playwright() as pw:
     afirma(len(por_anio) > 1 and [(a, int(n), int(c)) for a, n, _, c in anios] == [(a, por_anio[a], sum(not abierta(x) for x in datos if recepcion(x)[:4] == a)) for a in sorted(por_anio)],
            'por año: recibidas y cerradas de cada año, en orden: %s' % anios)
     afirma('Sólo la ve coordinación' in i['Carga por persona asignada']['texto'] and not i['Carga por persona asignada']['barras'],
-           'consulta no ve la carga por persona')
+           'directivos no ve la carga por persona')
 
     # ---- 5. Plazos ----
     turnadas = [x for x in datos if fecha(x, 'turnada')]
@@ -191,7 +191,7 @@ with sync_playwright() as pw:
 
     tel = nav.new_context(viewport={'width':360,'height':760}).new_page()
     tel.goto(MAQUETA.as_uri() + '#/bandeja'); tel.wait_for_timeout(400)
-    tel.evaluate("() => { cambiaPerfil('consulta'); location.hash = '#/tablero'; }"); tel.wait_for_timeout(200)
+    tel.evaluate("() => { cambiaPerfil('directivos'); location.hash = '#/tablero'; }"); tel.wait_for_timeout(200)
     r = tel.evaluate("() => [document.documentElement.scrollWidth - innerWidth, document.querySelector('.plegable').open]")
     afirma(r[0] <= 0 and r[1] is False, 'a 360 px no hay desplazamiento horizontal y los filtros empiezan plegados: %s' % r)
     nav.close()

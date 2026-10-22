@@ -1449,3 +1449,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Liber preguntó si la maqueta ya tenía el diseño final. La identidad gráfica sí, porque viene del formulario validado; el contenido es propuesta hasta la sesión con la DGIVA y la DGCORENADR, y pulir pantallas que pueden cambiar sería trabajo doble. Liber decidió hacer el pase después de la sesión.
 
 **Verificación de cierre.** Batería completa en verde: 1 884 comprobaciones en 54 baterías, 285 de ellas sobre la versión publicada. En la corrida completa, la batería 40 se quedó sin tiempo al recargar la página; corrida sola, dos veces, pasó sus 17 comprobaciones.
+
+### 22 de octubre de 2026 · capturista y directivos (DEC-256)
+
+**Qué cambió.** «Captura · Oficialía de Partes» se volvió «Capturista», uno en la DGIVA y otro en la DGCORENADR, y cada capturista ve sólo lo que esa persona capturó. «Consulta · Oficina de la Secretaría» se llama «Directivos», ve los datos personales de quien denuncia y descarga con ellos, con motivo y bitácora. Se retiró de la maqueta lo que ocultaba los datos personales, porque ya ningún perfil que ve denuncias lo usaba. Documento 22 a la versión 0.15; SIA-23 actualizado. Baterías 44 a 47 y 51 a 54 ajustadas.
+
+**Por qué así.** Lo pidió Liber. Antes de hacerlo se le advirtió que contradecía el documento 22, §7, condición 1, y la recomendación de MA-04; MA-04 es de la Oficina de la Secretaría y queda respondida, y las condiciones del §7 siguen pendientes de la Unidad de Transparencia. Para que se note que cada capturista ve sólo lo suyo, la DGIVA tiene dos capturistas de prueba y una denuncia capturada en la DGIVA se fue por su punto a la DGCORENADR. Se probó metiendo dos errores a propósito —capturista viendo todo lo capturado y directivos sin descarga con datos— y los atraparon las baterías 44 y 52.
+
+**Verificación de cierre.** Batería completa en verde: 1 886 comprobaciones en 54 baterías, 285 de ellas sobre la versión publicada.
