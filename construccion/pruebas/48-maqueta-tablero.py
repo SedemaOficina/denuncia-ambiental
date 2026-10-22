@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Maqueta del módulo de administración, bloque D, segunda parte: el tablero
-   (DEC-246).
+   (DEC-246, DEC-251).
 
    Cada indicador se calcula aquí, aparte de la maqueta, sobre el archivo de
    datos y con las reglas del bosquejo (documento 22, §4 y §5).
@@ -8,16 +8,18 @@
    1. Los cinco grupos del bosquejo, con sus nombres y en su orden.
    2. Las cuatro cifras de arriba: recibidas, en trámite, cerradas y con el
       plazo vencido.
-   3. Los filtros —mes, área, canal, materia, alcaldía— se combinan y todo el
-      tablero responde a ellos.
-   4. Operación: por mes, por canal y carga por persona, que sólo ve
+   3. Los filtros —año, mes, área, canal, materia, alcaldía— se combinan y
+      todo el tablero responde a ellos. Los años salen de las denuncias: uno
+      nuevo aparece solo, sin tocar el código.
+   4. Operación: por año, por mes, por canal y carga por persona, que sólo ve
       coordinación.
    5. Plazos: turnado en 3 días hábiles, primera valoración en 10,
       procedimiento en 93 o 90.
    6. Resultado: visita practicada por materia; remitidas y returnadas por
       separado; sin materia y acumuladas.
-   7. Territorio: por alcaldía, por tipo de zona, celdas con denuncia
-      reiterada y proporción en conservación o Área Natural Protegida.
+   7. Territorio: por alcaldía y por tipo de zona; suelo de conservación,
+      Área Natural Protegida y Área de Valor Ambiental, cada una con su
+      proporción; ya no las celdas UGA con denuncia reiterada.
    8. Canal: anónimas, notificación por correo, punto y evidencia; género y
       edad sólo en agregado, sin mostrar una cifra menor que el mínimo.
    9. En teléfono, sin desplazamiento horizontal y con los filtros plegados."""
@@ -97,6 +99,10 @@ with sync_playwright() as pw:
     por_mes = Counter(recepcion(x)[:7] for x in datos)
     afirma(sum(int(m[1]) for m in meses) == 40 and len(meses) == len(por_mes) and all(int(m[1]) == int(m[2]) + int(m[3]) for m in meses),
            'por mes: cada mes suma en trámite y cerradas, y el total es 40: %s' % meses)
+    anios = re.findall(r'(?m)^(\d{4})\t(\d+)\t(\d+)\t(\d+)$', i['Recibidas, en trámite y cerradas, por año']['texto'])
+    por_anio = Counter(recepcion(x)[:4] for x in datos)
+    afirma(len(por_anio) > 1 and [(a, int(n), int(c)) for a, n, _, c in anios] == [(a, por_anio[a], sum(not abierta(x) for x in datos if recepcion(x)[:4] == a)) for a in sorted(por_anio)],
+           'por año: recibidas y cerradas de cada año, en orden: %s' % anios)
     afirma('Sólo la ve coordinación' in i['Carga por persona asignada']['texto'] and not i['Carga por persona asignada']['barras'],
            'consulta no ve la carga por persona')
 
@@ -127,11 +133,11 @@ with sync_playwright() as pw:
     afirma({b[0]: int(b[1]) for b in i['Por alcaldía']['barras']} == dict(alc), 'por alcaldía')
     zona = Counter(x['datos'].get('capa_clase') or 'Sin ubicar' for x in datos)
     afirma({b[0]: int(b[1]) for b in i['Por tipo de zona']['barras']} == dict(zona), 'por tipo de zona')
-    celdas = {c: n for c, n in Counter(x['datos']['uga'] for x in datos if x['datos'].get('lat')).items() if n > 1}
-    afirma({b[0]: int(b[1]) for b in i['Celdas UGA con denuncia reiterada']['barras']} == celdas and celdas, 'celdas UGA con denuncia reiterada: %d' % len(celdas))
-    cons = sum(x['datos'].get('capa_clase') in ('Suelo de conservación', 'Área Natural Protegida') for x in datos)
-    afirma(i['En suelo de conservación o Área Natural Protegida']['pares']['Proporción'].startswith('%d de 40' % cons) and '4.3 %' in i['En suelo de conservación o Área Natural Protegida']['texto'],
-           'proporción en conservación o ANP, con la línea base de 4.3 %')
+    afirma(not any('UGA' in k for k in i), 'el tablero ya no reporta las celdas UGA con denuncia reiterada')
+    TRES = ('Suelo de conservación', 'Área Natural Protegida', 'Área de Valor Ambiental')
+    zonas = i['En suelo de conservación, Área Natural Protegida y Área de Valor Ambiental']
+    afirma(zonas['pares'] == {z: '%d de 40 (%.1f %%)' % (zona[z], 100 * zona[z] / 40) for z in TRES} and all(zona[z] for z in TRES) and '4.3 %' in zonas['texto'],
+           'suelo de conservación, ANP y AVA por separado, cada una con su proporción, y la línea base de 4.3 %%: %s' % zonas['pares'])
 
     # ---- 8. Canal ----
     anon = [x for x in datos if x['datos']['identificacion'] == 'anonima']
@@ -159,6 +165,21 @@ with sync_playwright() as pw:
     combinado = pg.evaluate(LEE)['cifras']['Recibidas']
     afirma(not malos and combinado == sum(x['canal'] == 'telefono' and recepcion(x)[:7] == sorted(por_mes)[-1] for x in datos),
            'los filtros de mes y canal se combinan y el tablero responde: %s' % malos)
+    pg.evaluate("() => { tablero.filtros = {}; pintaTablero(); }"); pg.wait_for_timeout(80)
+    opciones = lambda: pg.evaluate("() => [...document.querySelectorAll('#f-anio option')].map(o => o.value).slice(1)")
+    vistos = {}
+    for a in opciones():
+        pg.select_option('#f-anio', a); pg.wait_for_timeout(80)
+        vistos[a] = pg.evaluate(LEE)['cifras']['Recibidas']
+    afirma(vistos == dict(por_anio), 'el filtro de año ofrece los años de las denuncias y el tablero responde: %s' % vistos)
+    # Una denuncia de un año que no está en los datos: el filtro lo ofrece sin
+    # tocar el código, y el cuadro por año lo cuenta.
+    nuevo = pg.evaluate("""() => { const x = JSON.parse(JSON.stringify(DENUNCIAS[0])); x.datos.fecha_acuse = '2031-03-04T10:00:00-06:00';
+      DENUNCIAS.push(x); tablero.filtros = {}; pintaTablero();
+      const r = {op: [...document.querySelectorAll('#f-anio option')].map(o => o.value).slice(1),
+                 fila: [...document.querySelectorAll('.indicador')].find(s => s.querySelector('h4').textContent.endsWith('por año')).innerText.includes('2031\t1\t')};
+      DENUNCIAS.pop(); pintaTablero(); return r; }""")
+    afirma(nuevo['op'] == sorted(por_anio) + ['2031'] and nuevo['fila'], 'un año nuevo en los datos aparece solo en el filtro y en el cuadro por año: %s' % nuevo)
 
     # ---- 4. Coordinación ----
     t = abre('coordinacion_dgiva')

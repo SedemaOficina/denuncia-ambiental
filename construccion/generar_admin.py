@@ -92,6 +92,12 @@ DUPLICA = {1: 0}
 HECHOS_DUPLICADO = 'En el predio de junto levantan varios pisos sin ningún permiso a la vista; ya lo habían reportado otros vecinos.'
 # Marcas que el servidor pondría al recibir (documento 15; SIA-15, SIA-26).
 MARCA = {6: 'humanidad', 7: 'rafaga', 11: 'completitud'}
+# Cinco de las más antiguas, todas cerradas, llegaron el año anterior: el
+# tablero y el mapa tienen así dos años que comparar (DEC-251). Se recorren
+# 52 semanas, que caen en el mismo día de la semana, para que los días
+# hábiles se cuenten igual que si fueran de este año.
+ANIO_ANTERIOR = {32, 34, 36, 38, 39}
+UN_ANIO = datetime.timedelta(weeks=52)
 
 def plan():
     """Una especificacion por denuncia, en el orden de los folios."""
@@ -111,12 +117,13 @@ def plan():
             otra = p[DUPLICA[i]]
             m, base, d = otra['materia'], otra['base'], (otra['desplaza'][0] + 0.0002, otra['desplaza'][1] + 0.0002)
         anonima = i % 5 == 4
+        corre = UN_ANIO if i in ANIO_ANTERIOR else datetime.timedelta(0)
         resp = 'gobierno' if base == 'gobierno' else ('empresa' if m in CON_ESTABLECIMIENTO else ('nose' if i % 3 == 0 else 'particular'))
         p.append({'i': i, 'base': base, 'materia': m, 'hechos': HECHOS_DUPLICADO if i in DUPLICA else HECHOS[m], 'desplaza': d,
                   'sin_punto': i == SIN_PUNTO, 'punto_otra_alcaldia': i == ALCALDIA_DISTINTA,
                   'anonima': anonima, 'nombre': NOMBRE_LARGO if i == LARGO else NOMBRES[i % len(NOMBRES)],
                   'establecimiento': m in CON_ESTABLECIMIENTO, 'otro_giro': i == 26, 'responsable': resp,
-                  'fecha_ms': int((HOY - datetime.timedelta(days=round(i * 1.3, 2), hours=i % 7)).timestamp() * 1000),
+                  'fecha_ms': int((HOY - corre - datetime.timedelta(days=round(i * 1.3, 2), hours=i % 7)).timestamp() * 1000),
                   'consecutivo': 101 + i, 'archivos': i % SIN_ARCHIVOS_CADA != 5})
     return p
 
@@ -246,13 +253,15 @@ def tramite(r, datos, estados_ids):
     else: final = camino[min(len(camino) - 1, i // 4)]
     if final not in estados_ids:
         sys.exit('ERROR: el estado «%s» no existe en ESTADOS de la maqueta.' % final)
+    if i in ANIO_ANTERIOR and final not in CIERRAN:
+        sys.exit('ERROR: la denuncia %d llega el año anterior y no está cerrada («%s»).' % (i, final))
     if final == 'por_ubicar': pasos = ['recibida', 'por_ubicar']
     elif final in camino: pasos = camino[:camino.index(final) + 1]
     else: pasos = ['recibida', 'turnada', 'en_analisis', final]   # salidas laterales del ciclo
     area = dg
     if final == 'returnada': area = 'DGCORENADR' if dg == 'DGIVA' else 'DGIVA'
     recibida = datetime.datetime.fromisoformat(datos['fecha_acuse'])
-    hueco = (HOY - recibida) / max(1, len(pasos))
+    hueco = (HOY - (UN_ANIO if i in ANIO_ANTERIOR else datetime.timedelta(0)) - recibida) / max(1, len(pasos))
     historial = []
     for n, e in enumerate(pasos):
         quien = 'Sistema' if e in ('recibida', 'por_ubicar') else COORDINACION[dg] if e in ('turnada', 'returnada', 'remitida', 'acumulada') \
@@ -291,6 +300,7 @@ with sync_playwright() as pw:
     pg = nav.new_page()
     pg.goto(MAQUETA.as_uri()); pg.wait_for_timeout(300)
     estados_ids = pg.evaluate("() => ESTADOS.map(e => e.id)")
+    CIERRAN = pg.evaluate("() => ESTADOS.filter(e => e.cierra).map(e => e.id)")
     marcas_ids = pg.evaluate("() => MARCAS.map(m => m.id)")
     PERSONAL = pg.evaluate("() => PERSONAL")
     pg.goto(TMP.as_uri()); pg.wait_for_timeout(600)
@@ -308,7 +318,7 @@ with sync_playwright() as pw:
             recibida = datetime.datetime.fromtimestamp(r['fecha_ms'] / 1000, HOY.tzinfo)
             original = (recibida - datetime.timedelta(days=1)).replace(hour=9 + r['i'] % 8, minute=(r['i'] * 7) % 60)
             r['captura'] = {'fecha': original.strftime('%Y-%m-%d'), 'hora': original.strftime('%H:%M'),
-                            'folio_origen': 'OP-2026-%04d' % (500 + r['i']), 'recibio': 'Persona de Oficialía de prueba',
+                            'folio_origen': 'OP-%d-%04d' % (original.year, 500 + r['i']), 'recibio': 'Persona de Oficialía de prueba',
                             'soporte': SOPORTE[r['canal']]}
     hecho = pg.evaluate(ARMA, P)
     # Las opciones de género y edad, como las ofrece el paso 5 del formulario,

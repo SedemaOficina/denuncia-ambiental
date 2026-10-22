@@ -1409,3 +1409,11 @@ Ocho pruebas fijaban el comportamiento anterior (06, 14, 17, 19, 20, 22, 29 y 32
 **Por qué así.** Liber la quiere ver desde el teléfono y compartirla para la sesión con las áreas. La copia no se edita: se genera en la cadena, como la del formulario. Modifica DEC-242, que la dejaba sin publicar.
 
 **Verificación de cierre.** Batería completa en verde: 1 849 comprobaciones en 52 baterías, 285 de ellas sobre la versión publicada. La batería 44 detecta una copia publicada que se separe de la maqueta.
+
+### 21 de octubre de 2026 · el tablero se lleva por año; zonas por separado; sin celdas UGA reiteradas (DEC-251)
+
+**Qué cambió.** El tablero y el mapa operativo se filtran por año, además del mes, y el grupo Operación lleva un cuadro de recibidas, en trámite y cerradas por año. «En suelo de conservación o Área Natural Protegida» se partió en tres cifras: suelo de conservación, Área Natural Protegida y Área de Valor Ambiental. Se quitó «Celdas UGA con denuncia reiterada». Cinco denuncias de prueba cerradas pasaron a 2025. Baterías 48 y 49 ajustadas; documento 22 a la versión 0.10.
+
+**Por qué así.** Liber lo pidió para llevar la plataforma año con año y sin fecha de término. Los años se leen de las denuncias, no de una lista escrita en el código, así que el año que llegue aparece solo; la batería 48 lo prueba metiendo una denuncia de 2031. Las de 2025 se recorrieron 52 semanas para caer en el mismo día de la semana y que sus plazos en días hábiles no cambien. La batería 48 se probó metiendo dos errores a propósito —quitar el Área de Valor Ambiental y contar mal las cerradas por año— y los atrapó.
+
+**Verificación de cierre.** Batería completa en verde: 1 853 comprobaciones en 52 baterías, 285 de ellas sobre la versión publicada.

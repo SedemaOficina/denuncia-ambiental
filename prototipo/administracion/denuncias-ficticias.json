@@ -7299,9 +7299,9 @@
    "dom_tiene_mz_lote": "no",
    "edad_rango": "30-44",
    "es_estab": "no",
-   "fecha_acuse": "2026-09-09T15:36:00-06:00",
-   "fecha_hecho": "2026-09-01",
-   "folio": "SEDEMA/DEN/2026/000133-2",
+   "fecha_acuse": "2025-09-10T15:36:00-06:00",
+   "fecha_hecho": "2025-09-01",
+   "folio": "SEDEMA/DEN/2025/000133-4",
    "hechos": "Derriban encinos con motosierra dentro del bosque y sacan la madera en camionetas.",
    "identificacion": "nombre",
    "lat": "19.306780",
@@ -7329,11 +7329,11 @@
     "name": "evidencia-01.jpg",
     "size": 2411724,
     "size_original": 9728816,
-    "sha256_original": "1b4283105d6d8221b918ec2d3b24065148153fd697bfeaa4f080c19d48153242",
+    "sha256_original": "0e7e987527c65cf43bfee821e71e0b682fd75084c53f9a51666afc293a26f442",
     "dimensiones": "2048x1536",
     "optimizada": true,
     "tipo": "image/jpeg",
-    "fecha_captura": "2026-09-01T10:44:00",
+    "fecha_captura": "2025-09-01T10:44:00",
     "lat_captura": 19.30688,
     "lon_captura": -99.31107
    },
@@ -7341,11 +7341,11 @@
     "name": "evidencia-02.jpg",
     "size": 1874509,
     "size_original": 7661876,
-    "sha256_original": "8622c243004ae060d9804b5492fb82fbbc88b01c556653b93af207bd118fc3c6",
+    "sha256_original": "0263f80f49663a4f0b242eb2b9ef6373b3f27f9e76fefddb4193186b4420e842",
     "dimensiones": "2048x1536",
     "optimizada": true,
     "tipo": "image/jpeg",
-    "fecha_captura": "2026-09-01T11:57:00"
+    "fecha_captura": "2025-09-01T11:57:00"
    }
   ],
   "acuse": {
@@ -7401,7 +7401,7 @@
       ],
       [
        "Temporalidad",
-       "Ocurre de forma repetida · 2026-09-01"
+       "Ocurre de forma repetida · 2025-09-01"
       ],
       [
        "A quién se denuncia",
@@ -7450,25 +7450,25 @@
    "historial": [
     {
      "estado": "recibida",
-     "fecha": "2026-09-09T15:36:00-06:00",
+     "fecha": "2025-09-10T15:36:00-06:00",
      "persona": "Sistema",
      "nota": "Ingresó por el formulario en línea."
     },
     {
      "estado": "turnada",
-     "fecha": "2026-09-20T02:12:00-06:00",
+     "fecha": "2025-09-21T02:12:00-06:00",
      "persona": "Coordinación de prueba (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "en_analisis",
-     "fecha": "2026-09-30T12:48:00-06:00",
+     "fecha": "2025-10-01T12:48:00-06:00",
      "persona": "Persona de atención A (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "remitida",
-     "fecha": "2026-10-10T23:24:00-06:00",
+     "fecha": "2025-10-11T23:24:00-06:00",
      "persona": "Coordinación de prueba (DGCORENADR)",
      "nota": "Movimiento de prueba."
     }
@@ -7799,9 +7799,9 @@
    "edad_rango": "18-29",
    "entre_calles": "Fresno y Encino",
    "es_estab": "no",
-   "fecha_acuse": "2026-09-06T23:12:00-06:00",
-   "fecha_hecho": "2026-09-01",
-   "folio": "SEDEMA/DEN/2026/000135-7",
+   "fecha_acuse": "2025-09-07T23:12:00-06:00",
+   "fecha_hecho": "2025-09-01",
+   "folio": "SEDEMA/DEN/2025/000135-9",
    "gestiones": "Lo reporté a la alcaldía Coyoacán el 14 de septiembre y no hubo respuesta.",
    "hechos": "Levantan casas de block en una zona que antes era bosque; cada semana aparece una nueva.",
    "identificacion": "anonima",
@@ -7829,11 +7829,11 @@
     "name": "evidencia-01.jpg",
     "size": 2411724,
     "size_original": 9728816,
-    "sha256_original": "c6c5ec067550aa9752ce605c416c8345d65473ccd57666ab75a9791456b86212",
+    "sha256_original": "457acbb84e08e77a660dc9d05f7f23f796d834d245221a67feef2d41d4d6df9a",
     "dimensiones": "2048x1536",
     "optimizada": true,
     "tipo": "image/jpeg",
-    "fecha_captura": "2026-09-01T12:58:00",
+    "fecha_captura": "2025-09-01T12:58:00",
     "lat_captura": 19.35445,
     "lon_captura": -99.17171
    },
@@ -7841,11 +7841,11 @@
     "name": "evidencia-02.jpg",
     "size": 1874509,
     "size_original": 7661876,
-    "sha256_original": "3e63ce4f15c22772cb54b1270ff12db9b463030f9f4afee8e31939cf3b804f54",
+    "sha256_original": "20f0a2f228c932f77a7ad95ccf590d7ec634347571e48387968c54e0f68b8ff7",
     "dimensiones": "2048x1536",
     "optimizada": true,
     "tipo": "image/jpeg",
-    "fecha_captura": "2026-09-01T13:11:00"
+    "fecha_captura": "2025-09-01T13:11:00"
    }
   ],
   "acuse": {
@@ -7905,7 +7905,7 @@
       ],
       [
        "Temporalidad",
-       "Ocurre de forma repetida · 2026-09-01"
+       "Ocurre de forma repetida · 2025-09-01"
       ],
       [
        "A quién se denuncia",
@@ -7954,25 +7954,25 @@
    "historial": [
     {
      "estado": "recibida",
-     "fecha": "2026-09-06T23:12:00-06:00",
+     "fecha": "2025-09-07T23:12:00-06:00",
      "persona": "Sistema",
      "nota": "Ingresó por el formulario en línea."
     },
     {
      "estado": "turnada",
-     "fecha": "2026-09-18T01:54:00-06:00",
+     "fecha": "2025-09-19T01:54:00-06:00",
      "persona": "Coordinación de prueba (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "en_analisis",
-     "fecha": "2026-09-29T04:36:00-06:00",
+     "fecha": "2025-09-30T04:36:00-06:00",
      "persona": "Persona de atención A (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "remitida",
-     "fecha": "2026-10-10T07:18:00-06:00",
+     "fecha": "2025-10-11T07:18:00-06:00",
      "persona": "Coordinación de prueba (DGCORENADR)",
      "nota": "Movimiento de prueba."
     }
@@ -8229,9 +8229,9 @@
    "edad_rango": "30-44",
    "entre_calles": "Juárez y Morelos",
    "es_estab": "no",
-   "fecha_acuse": "2026-09-04T13:48:00-06:00",
-   "fecha_hecho": "2026-09-01",
-   "folio": "SEDEMA/DEN/2026/000137-3",
+   "fecha_acuse": "2025-09-05T13:48:00-06:00",
+   "fecha_hecho": "2025-09-01",
+   "folio": "SEDEMA/DEN/2025/000137-5",
    "hechos": "En las parcelas rocían un plaguicida de olor muy fuerte que mata a los peces del canal.",
    "identificacion": "nombre",
    "lat": "19.205200",
@@ -8260,11 +8260,11 @@
     "name": "evidencia-01.jpg",
     "size": 2411724,
     "size_original": 9728816,
-    "sha256_original": "3bfb03da6d931993528fc1523baeed71c44ab73ce4c98f95866fb94c49ac7b2d",
+    "sha256_original": "2cff6a4b95b24fa971842ef516967222b73dbfd0e146f3feebab476d1062ae58",
     "dimensiones": "2048x1536",
     "optimizada": true,
     "tipo": "image/jpeg",
-    "fecha_captura": "2026-09-01T14:12:00",
+    "fecha_captura": "2025-09-01T14:12:00",
     "lat_captura": 19.2053,
     "lon_captura": -98.9999
    },
@@ -8272,11 +8272,11 @@
     "name": "evidencia-02.jpg",
     "size": 1874509,
     "size_original": 7661876,
-    "sha256_original": "27911a044de5d28aa80c328d845d92323e105331efd4a056aaf971ef1cbd8e4c",
+    "sha256_original": "7c87e70c2aacaa985ca82a1e621d1ab6d17cdf55b16b00f796e9a2f3b7cc0711",
     "dimensiones": "2048x1536",
     "optimizada": true,
     "tipo": "image/jpeg",
-    "fecha_captura": "2026-09-01T15:25:00"
+    "fecha_captura": "2025-09-01T15:25:00"
    }
   ],
   "acuse": {
@@ -8336,7 +8336,7 @@
       ],
       [
        "Temporalidad",
-       "Es permanente o continuo · 2026-09-01"
+       "Es permanente o continuo · 2025-09-01"
       ],
       [
        "A quién se denuncia",
@@ -8389,61 +8389,61 @@
    "historial": [
     {
      "estado": "recibida",
-     "fecha": "2026-09-04T13:48:00-06:00",
+     "fecha": "2025-09-05T13:48:00-06:00",
      "persona": "Sistema",
      "nota": "Ingresó por el formulario en línea."
     },
     {
      "estado": "turnada",
-     "fecha": "2026-09-09T06:13:12-06:00",
+     "fecha": "2025-09-10T06:13:12-06:00",
      "persona": "Coordinación de prueba (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "en_analisis",
-     "fecha": "2026-09-13T22:38:24-06:00",
+     "fecha": "2025-09-14T22:38:24-06:00",
      "persona": "Persona de atención A (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "admitida",
-     "fecha": "2026-09-18T15:03:36-06:00",
+     "fecha": "2025-09-19T15:03:36-06:00",
      "persona": "Persona de atención A (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "visita_programada",
-     "fecha": "2026-09-23T07:28:48-06:00",
+     "fecha": "2025-09-24T07:28:48-06:00",
      "persona": "Persona de atención A (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "visita_practicada",
-     "fecha": "2026-09-27T23:54:00-06:00",
+     "fecha": "2025-09-28T23:54:00-06:00",
      "persona": "Persona de atención A (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "en_procedimiento",
-     "fecha": "2026-10-02T16:19:12-06:00",
+     "fecha": "2025-10-03T16:19:12-06:00",
      "persona": "Persona de atención A (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "resuelta",
-     "fecha": "2026-10-07T08:44:24-06:00",
+     "fecha": "2025-10-08T08:44:24-06:00",
      "persona": "Persona de atención A (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "notificada",
-     "fecha": "2026-10-12T01:09:36-06:00",
+     "fecha": "2025-10-13T01:09:36-06:00",
      "persona": "Persona de atención A (DGCORENADR)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "concluida",
-     "fecha": "2026-10-16T17:34:48-06:00",
+     "fecha": "2025-10-17T17:34:48-06:00",
      "persona": "Persona de atención A (DGCORENADR)",
      "nota": "Movimiento de prueba."
     }
@@ -8451,7 +8451,7 @@
    "materia_confirmada": "agroquimicos",
    "notificacion": {
     "medio": "domicilio",
-    "fecha": "2026-10-16T17:34:48-06:00",
+    "fecha": "2025-10-17T17:34:48-06:00",
     "resultado": "entregado"
    },
    "acumulada_en": null,
@@ -8720,9 +8720,9 @@
    "edad_rango": "45-59",
    "entre_calles": "Entre la calle 4 y la calle 6",
    "es_estab": "no",
-   "fecha_acuse": "2026-09-01T21:24:00-06:00",
-   "fecha_hecho": "2026-09-01",
-   "folio": "SEDEMA/DEN/2026/000139-9",
+   "fecha_acuse": "2025-09-02T21:24:00-06:00",
+   "fecha_hecho": "2025-09-01",
+   "folio": "SEDEMA/DEN/2025/000139-1",
    "hechos": "Construyen un edificio de cinco pisos en un predio que era jardín y no hay letrero de autorización ambiental a la vista.",
    "identificacion": "nombre",
    "lat": "19.391200",
@@ -8750,11 +8750,11 @@
     "name": "evidencia-01.jpg",
     "size": 2411724,
     "size_original": 9728816,
-    "sha256_original": "83b2418b5f8738207877c087f64f0c2e1360f9b95cd34916a55081448e2ef26b",
+    "sha256_original": "a9e6b0d421c934a55387f81acf4ce02b3ae0b97f26e3555decc57a89d1b7643c",
     "dimensiones": "2048x1536",
     "optimizada": true,
     "tipo": "image/jpeg",
-    "fecha_captura": "2026-09-01T16:26:00",
+    "fecha_captura": "2025-09-01T16:26:00",
     "lat_captura": 19.3913,
     "lon_captura": -99.0637
    },
@@ -8762,11 +8762,11 @@
     "name": "evidencia-02.jpg",
     "size": 1874509,
     "size_original": 7661876,
-    "sha256_original": "428986d9f47dae87f6132ecf4688efc7d20ede8f28350952d507ab8b376845fc",
+    "sha256_original": "7e216a8f508414764f9c0ffbdc6ec4f60ea6cfdedcce6612e187644f61962da3",
     "dimensiones": "2048x1536",
     "optimizada": true,
     "tipo": "image/jpeg",
-    "fecha_captura": "2026-09-01T17:39:00"
+    "fecha_captura": "2025-09-01T17:39:00"
    }
   ],
   "acuse": {
@@ -8826,7 +8826,7 @@
       ],
       [
        "Temporalidad",
-       "Ocurre de forma repetida · 2026-09-01"
+       "Ocurre de forma repetida · 2025-09-01"
       ],
       [
        "A quién se denuncia",
@@ -8875,61 +8875,61 @@
    "historial": [
     {
      "estado": "recibida",
-     "fecha": "2026-09-01T21:24:00-06:00",
+     "fecha": "2025-09-02T21:24:00-06:00",
      "persona": "Sistema",
      "nota": "Ingresó por el formulario en línea."
     },
     {
      "estado": "turnada",
-     "fecha": "2026-09-06T20:15:36-06:00",
+     "fecha": "2025-09-07T20:15:36-06:00",
      "persona": "Coordinación de prueba (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "en_analisis",
-     "fecha": "2026-09-11T19:07:12-06:00",
+     "fecha": "2025-09-12T19:07:12-06:00",
      "persona": "Persona de atención A (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "admitida",
-     "fecha": "2026-09-16T17:58:48-06:00",
+     "fecha": "2025-09-17T17:58:48-06:00",
      "persona": "Persona de atención A (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "visita_programada",
-     "fecha": "2026-09-21T16:50:24-06:00",
+     "fecha": "2025-09-22T16:50:24-06:00",
      "persona": "Persona de atención A (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "visita_practicada",
-     "fecha": "2026-09-26T15:42:00-06:00",
+     "fecha": "2025-09-27T15:42:00-06:00",
      "persona": "Persona de atención A (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "en_procedimiento",
-     "fecha": "2026-10-01T14:33:36-06:00",
+     "fecha": "2025-10-02T14:33:36-06:00",
      "persona": "Persona de atención A (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "resuelta",
-     "fecha": "2026-10-06T13:25:12-06:00",
+     "fecha": "2025-10-07T13:25:12-06:00",
      "persona": "Persona de atención A (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "notificada",
-     "fecha": "2026-10-11T12:16:48-06:00",
+     "fecha": "2025-10-12T12:16:48-06:00",
      "persona": "Persona de atención A (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "concluida",
-     "fecha": "2026-10-16T11:08:24-06:00",
+     "fecha": "2025-10-17T11:08:24-06:00",
      "persona": "Persona de atención A (DGIVA)",
      "nota": "Movimiento de prueba."
     }
@@ -8937,7 +8937,7 @@
    "materia_confirmada": "impacto",
    "notificacion": {
     "medio": "domicilio",
-    "fecha": "2026-10-16T11:08:24-06:00",
+    "fecha": "2025-10-17T11:08:24-06:00",
     "resultado": "entregado"
    },
    "acumulada_en": null,
@@ -8966,11 +8966,11 @@
    "edad_rango": "45-59",
    "entre_calles": "Entre la calle Morelos y la calle Hidalgo",
    "es_estab": "si",
-   "fecha_acuse": "2026-08-31T13:12:00-06:00",
-   "fecha_hecho": "2026-08-22",
-   "fecha_recepcion_original": "2026-08-30T16:33:00-06:00",
-   "folio": "SEDEMA/DEN/2026/000140-7",
-   "folio_origen": "OP-2026-0539",
+   "fecha_acuse": "2025-09-01T13:12:00-06:00",
+   "fecha_hecho": "2025-09-01",
+   "fecha_recepcion_original": "2025-08-31T16:33:00-06:00",
+   "folio": "SEDEMA/DEN/2025/000140-9",
+   "folio_origen": "OP-2025-0539",
    "gestiones": "Lo reporté por teléfono a la alcaldía Cuauhtémoc en agosto. Me dieron número de reporte, pero nadie vino.",
    "hechos": "De la chimenea del negocio sale humo gris todas las tardes y el olor llega a las casas de la cuadra.",
    "identificacion": "anonima",
@@ -8981,7 +8981,7 @@
    "num_ext": "440",
    "otras_pruebas": "Los vecinos de los dos edificios pueden dar testimonio.",
    "privacidad": "si",
-   "recepcion_fecha": "2026-08-30",
+   "recepcion_fecha": "2025-08-31",
    "recepcion_hora": "16:33",
    "recibio": "Persona de Oficialía de prueba",
    "referencias": "Portón gris con letrero rojo. Los coches que pintan quedan estacionados sobre la banqueta.",
@@ -9002,11 +9002,11 @@
     "name": "evidencia-01.jpg",
     "size": 2411724,
     "size_original": 9728816,
-    "sha256_original": "fbcb5ead966ec663fe62be9f37ff96bffbec2f4c912a0cfca761a29479161bce",
+    "sha256_original": "23c8ac3dd39bf662623f408ce55a0eb940d6ca50e4b530f2c00bc09325f70ff2",
     "dimensiones": "2048x1536",
     "optimizada": true,
     "tipo": "image/jpeg",
-    "fecha_captura": "2026-08-22T17:33:00",
+    "fecha_captura": "2025-09-01T17:33:00",
     "lat_captura": 19.4315,
     "lon_captura": -99.1309
    },
@@ -9014,11 +9014,11 @@
     "name": "evidencia-02.jpg",
     "size": 1874509,
     "size_original": 7661876,
-    "sha256_original": "dd44e8ba3f8ad65c4eb9388be573f1d832b736316933d806e30bccaf2ccc64ed",
+    "sha256_original": "038e7b8bdf646a65adcdc7269ccb8987f792c96f59735a952b11441f67673ad0",
     "dimensiones": "2048x1536",
     "optimizada": true,
     "tipo": "image/jpeg",
-    "fecha_captura": "2026-08-22T08:46:00"
+    "fecha_captura": "2025-09-01T08:46:00"
    }
   ],
   "captura": {
@@ -9037,11 +9037,11 @@
       ],
       [
        "Recepción original",
-       "2026-08-30 · 16:33"
+       "2025-08-31 · 16:33"
       ],
       [
        "Folio de origen",
-       "OP-2026-0539"
+       "OP-2025-0539"
       ],
       [
        "Quién recibió",
@@ -9107,7 +9107,7 @@
       ],
       [
        "Temporalidad",
-       "Ocurre de forma repetida · 2026-08-22"
+       "Ocurre de forma repetida · 2025-09-01"
       ],
       [
        "A quién se denuncia",
@@ -9156,61 +9156,61 @@
    "historial": [
     {
      "estado": "recibida",
-     "fecha": "2026-08-31T13:12:00-06:00",
+     "fecha": "2025-09-01T13:12:00-06:00",
      "persona": "Sistema",
      "nota": "Ingresó por captura por personal."
     },
     {
      "estado": "turnada",
-     "fecha": "2026-09-05T15:16:48-06:00",
+     "fecha": "2025-09-06T15:16:48-06:00",
      "persona": "Coordinación de prueba (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "en_analisis",
-     "fecha": "2026-09-10T17:21:36-06:00",
+     "fecha": "2025-09-11T17:21:36-06:00",
      "persona": "Persona de atención B (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "admitida",
-     "fecha": "2026-09-15T19:26:24-06:00",
+     "fecha": "2025-09-16T19:26:24-06:00",
      "persona": "Persona de atención B (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "visita_programada",
-     "fecha": "2026-09-20T21:31:12-06:00",
+     "fecha": "2025-09-21T21:31:12-06:00",
      "persona": "Persona de atención B (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "visita_practicada",
-     "fecha": "2026-09-25T23:36:00-06:00",
+     "fecha": "2025-09-26T23:36:00-06:00",
      "persona": "Persona de atención B (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "en_procedimiento",
-     "fecha": "2026-10-01T01:40:48-06:00",
+     "fecha": "2025-10-02T01:40:48-06:00",
      "persona": "Persona de atención B (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "resuelta",
-     "fecha": "2026-10-06T03:45:36-06:00",
+     "fecha": "2025-10-07T03:45:36-06:00",
      "persona": "Persona de atención B (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "notificada",
-     "fecha": "2026-10-11T05:50:24-06:00",
+     "fecha": "2025-10-12T05:50:24-06:00",
      "persona": "Persona de atención B (DGIVA)",
      "nota": "Movimiento de prueba."
     },
     {
      "estado": "concluida",
-     "fecha": "2026-10-16T07:55:12-06:00",
+     "fecha": "2025-10-17T07:55:12-06:00",
      "persona": "Persona de atención B (DGIVA)",
      "nota": "Movimiento de prueba."
     }
@@ -9218,7 +9218,7 @@
    "materia_confirmada": "emisiones",
    "notificacion": {
     "medio": "correo",
-    "fecha": "2026-10-16T07:55:12-06:00",
+    "fecha": "2025-10-17T07:55:12-06:00",
     "resultado": "rebotado"
    },
    "acumulada_en": null,

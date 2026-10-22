@@ -1,6 +1,6 @@
 # Formulario web de Denuncia Ambiental · Bosquejo del módulo de administración y seguimiento
 
-**Versión:** 0.9 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-249
+**Versión:** 0.10 · 21 de octubre de 2026 · al día con las decisiones hasta DEC-251
 **Estado:** bosquejo para discusión. **No abre la construcción del módulo.**
 **Para qué sirve este documento.** Reúne en un solo lugar lo que tendría que tener el módulo interno de la Secretaría —captura por personal (AD-03), bandeja, expediente, tablero y administración (AD-01)—, para llegar a la fase 5 con el módulo ya pensado y acordado con las áreas. Desarrolla lo que el documento 05 dejó enunciado en la Parte V y lo que el documento 20 lista como SIA-23 a SIA-29.
 
@@ -9,6 +9,8 @@
 ---
 
 ## Qué cambió en esta versión
+
+**De la 0.9 a la 0.10** (el tablero se lleva por año, DEC-251): el apartado 5 filtra por año y mes, separa suelo de conservación, Áreas Naturales Protegidas y Áreas de Valor Ambiental, y ya no lleva los sitios con denuncia reiterada; el 3.5 dice que el mapa también se filtra por año.
 
 **De la 0.8 a la 0.9** (búsqueda, exportación y administración, DEC-249): los apartados 3.7 y 3.8 dicen lo que propone la maqueta, y el paso 2 del apartado 9 está hecho.
 
@@ -126,7 +128,7 @@ El mismo formulario, con las diferencias ya descritas en AD-03: primer paso con 
 
 ### 3.5 Mapa operativo
 
-Las denuncias sobre las capas del Sistema de Información Ambiental, filtrables por materia, estado, área y periodo; agregación por alcaldía, colonia y celda UGA. Es el insumo para programar operativos: sitios con denuncia reiterada y zonas con concentración.
+Las denuncias sobre las capas del Sistema de Información Ambiental, filtrables por materia, estado, área y periodo —año y mes—; agregación por alcaldía, colonia y celda UGA. Es el insumo para programar operativos: sitios con denuncia reiterada y zonas con concentración.
 
 **Lo que la maqueta propone (DEC-247).** El mapa se dibuja con las capas del mapa vectorial del formulario, sin calles de fondo ni servicios externos. Abiertas y cerradas se distinguen por la forma, no sólo por el color, y junto al mapa van las mismas cuentas en tablas, porque el mapa no puede ser el único camino. En el expediente, el mapa enseña la zona protegida completa si el punto cae en una y, si no, la alcaldía.
 
@@ -182,11 +184,11 @@ Cinco reglas del ciclo:
 
 ## 5. Tablero de indicadores
 
-Cinco grupos. Todos se filtran por periodo, área, canal, materia y alcaldía.
+Cinco grupos. Todos se filtran por año, mes, área, canal, materia y alcaldía. Los años salen de las denuncias registradas y no de una lista fija: el tablero se lleva año con año sin tocar el código (DEC-251).
 
 | Grupo | Indicador | Para qué sirve |
 |---|---|---|
-| **Operación** | Recibidas, en trámite y concluidas, por periodo | Carga de trabajo |
+| **Operación** | Recibidas, en trámite y concluidas, por año y por mes | Carga de trabajo; comparar un año con otro |
 | | Recibidas por canal y por origen | Comparar con la serie histórica (D-19) |
 | | Carga por persona asignada | Repartir trabajo; sólo coordinación |
 | **Plazos** | Días hábiles hasta el turnado, contra el plazo de 3 | Cumplimiento del Manual |
@@ -199,14 +201,15 @@ Cinco grupos. Todos se filtran por periodo, área, canal, materia y alcaldía.
 | | Concluidas sin materia y acumuladas por duplicado | Calidad de lo que entra; documento 15, §6 |
 | | Materia declarada frente a materia confirmada | Mide si el paso 1 se entiende; alimenta D-2 |
 | **Territorio** | Denuncias por alcaldía, colonia, tipo de zona y celda UGA | Programación de operativos |
-| | Sitios con denuncia reiterada | Barrancas y predios recurrentes (documento 17, apartado 7) |
-| | Proporción en suelo de conservación y Áreas Naturales Protegidas | Línea base: 4.3 %; 0.2 % en Milpa Alta (D-18) |
+| | Proporción en suelo de conservación, en Áreas Naturales Protegidas y en Áreas de Valor Ambiental, cada una por separado | Línea base de las dos primeras, juntas: 4.3 %; 0.2 % en Milpa Alta (D-18) |
 | **Canal** | Denuncias anónimas y con datos | Seguimiento de DEC-03 |
 | | Notificaciones por correo enviadas y fallidas, en anónimas | Seguimiento de DEC-233 y SIA-29 |
 | | Con punto y sin punto; con evidencia y sin ella | Calidad de la captura |
 | | Género y rango de edad, sólo en agregado | P-20 resuelta (DEC-225, DEC-234); falta que el SIA asuma publicar la desagregación |
 
-**Lo que la maqueta propone, por acordar (DEC-246).** El turnado y la primera valoración se cuentan en días hábiles desde la recepción original; la primera valoración es la primera vez que la denuncia se admite, returna, remite, recomienda o concluye. «Sitios con denuncia reiterada» se aproxima con las celdas UGA que tienen dos o más denuncias. El género y la edad sólo van en agregado, y una cifra menor que 3 se muestra como «menos de 3», porque con los filtros podría señalar a una persona; la cifra la fija la Unidad de Transparencia.
+**Lo que la maqueta propone, por acordar (DEC-246).** El turnado y la primera valoración se cuentan en días hábiles desde la recepción original; la primera valoración es la primera vez que la denuncia se admite, returna, remite, recomienda o concluye. El género y la edad sólo van en agregado, y una cifra menor que 3 se muestra como «menos de 3», porque con los filtros podría señalar a una persona; la cifra la fija la Unidad de Transparencia.
+
+**Lo que cambió (DEC-251).** Por instrucción de Liber Saltijeral, el tablero ya no reporta las celdas UGA con denuncia reiterada; el mapa operativo conserva su cuenta por celda UGA. Suelo de conservación, Áreas Naturales Protegidas y Áreas de Valor Ambiental se cuentan por separado, cada denuncia en la zona que dio el cruce del formulario. Y el tablero y el mapa se filtran por año, con un cuadro de recibidas, en trámite y cerradas por año: los años salen de las denuncias, de modo que el que llegue aparece solo.
 
 ---
 

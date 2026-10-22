@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """Maqueta del módulo de administración, bloque D, tercera parte: el mapa
-   operativo y el mapa del expediente (DEC-247).
+   operativo y el mapa del expediente (DEC-247, DEC-251).
 
    1. Las capas son las del mapa vectorial del formulario, sin copiarlas a
       mano: contorno, alcaldías y suelo de conservación completos; de las
@@ -8,7 +8,7 @@
    2. Cada denuncia con punto está en el mapa, en sus coordenadas, y abre su
       expediente; las que no tienen punto se listan aparte. Abiertas y
       cerradas se distinguen también por la forma, no sólo por el color.
-   3. Los filtros —mes, materia, estado, área— y el acercamiento a una
+   3. Los filtros —año, mes, materia, estado, área— y el acercamiento a una
       alcaldía funcionan; junto al mapa van las mismas cuentas sin mapa.
    4. El expediente lleva su mapa: la denuncia resaltada, su zona protegida
       si cae en una, y las cercanas; sin punto, no hay mapa.
@@ -90,7 +90,11 @@ with sync_playwright() as pw:
     pg.select_option('#f-materia', 'impacto'); pg.wait_for_timeout(150)
     n = len(pg.evaluate(PUNTOS.replace('SEL', "'#mapa-cuerpo'")))
     afirma(n == sum(x['datos']['materia'] == 'impacto' and bool(x['datos'].get('lat')) for x in datos), 'el filtro de materia deja sólo sus puntos: %d' % n)
-    pg.select_option('#f-materia', '*'); pg.select_option('#f-zona', 'Cuauhtémoc'); pg.wait_for_timeout(150)
+    pg.select_option('#f-materia', '*'); pg.select_option('#f-anio', '2025'); pg.wait_for_timeout(150)
+    n = len(pg.evaluate(PUNTOS.replace('SEL', "'#mapa-cuerpo'")))
+    def recepcion(x): return x['datos'].get('fecha_recepcion_original') or x['datos']['fecha_acuse']
+    afirma(n and n == sum(recepcion(x)[:4] == '2025' and bool(x['datos'].get('lat')) for x in datos), 'el filtro de año deja sólo los puntos de ese año: %d' % n)
+    pg.select_option('#f-anio', '*'); pg.select_option('#f-zona', 'Cuauhtémoc'); pg.wait_for_timeout(150)
     vb = [float(v) for v in pg.get_attribute('#mapa-cuerpo svg', 'viewBox').split()]
     alc = next(a for a in capas['alcaldias'] if a['nombre'] == 'Cuauhtémoc')
     xs = [pt[0] * K for pol in ([alc['g']['coordinates']] if alc['g']['type'] == 'Polygon' else alc['g']['coordinates']) for pt in pol[0]]
